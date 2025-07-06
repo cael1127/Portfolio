@@ -3545,6 +3545,14 @@ function App() {
       case 'cybersecurity':
       case 'ai':
       case 'data':
+      case 'devops':
+      case 'blockchain':
+      case 'enterprise':
+      case 'fintech':
+      case 'healthcare':
+      case 'iot':
+      case 'modern':
+      case 'security':
         return (
           <section className="animate-fade-in">
             <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">
@@ -3731,7 +3739,7 @@ function App() {
           <div className="px-4 py-3 border-t border-gray-700">
             <div className="text-center text-xs text-gray-400">
               <p>Portfolio v2.0</p>
-              <p className="mt-0.5">6 Projects • 2 Categories</p>
+              <p className="mt-0.5">20+ Projects • 10 Categories</p>
             </div>
           </div>
         </div>
