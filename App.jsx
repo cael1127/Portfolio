@@ -4163,6 +4163,30 @@ function App() {
           </section>
         );
       default:
+        // Fallback for unknown demo pages
+        if (
+          Object.values(projects)
+            .flat()
+            .some((proj) => proj.demo === currentPage)
+        ) {
+          const proj = Object.values(projects)
+            .flat()
+            .find((proj) => proj.demo === currentPage);
+          return (
+            <section className="animate-fade-in flex flex-col items-center justify-center min-h-[60vh]">
+              <h2 className="text-3xl font-bold text-white mb-4">Live Demo Coming Soon</h2>
+              <p className="text-gray-300 mb-8">This project demo is not yet implemented in the portfolio UI.</p>
+              <a
+                href={proj.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+              >
+                View on GitHub
+              </a>
+            </section>
+          );
+        }
         return null;
     }
   };
