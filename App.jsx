@@ -27,30 +27,6 @@ function App() {
       category: 'projects'
     },
     { 
-      name: 'IT Infrastructure', 
-      page: 'it', 
-      icon: '🔧',
-      category: 'projects'
-    },
-    { 
-      name: 'Cybersecurity', 
-      page: 'cybersecurity', 
-      icon: '🔒',
-      category: 'projects'
-    },
-    { 
-      name: 'AI Development', 
-      page: 'ai', 
-      icon: '🤖',
-      category: 'projects'
-    },
-    { 
-      name: 'Data Analysis', 
-      page: 'data', 
-      icon: '📊',
-      category: 'projects'
-    },
-    { 
       name: 'DevOps & Infrastructure', 
       page: 'devops', 
       icon: '⚙️',
@@ -1624,8 +1600,11 @@ function App() {
     setTimeout(() => setIsLoading(false), 1500);
   }, []);
 
-  const renderProjects = (category) =>
-    projects[category].map((project, index) => (
+  const renderProjects = (category) => {
+    if (!projects[category] || !Array.isArray(projects[category]) || projects[category].length === 0) {
+      return <div className="text-white">No projects found for this category.</div>;
+    }
+    return projects[category].map((project, index) => (
       <div
         key={project.id}
         className="bg-gray-800 p-6 rounded-xl shadow-lg card-hover cursor-pointer animate-slide-up border border-gray-700"
@@ -1645,10 +1624,8 @@ function App() {
             {project.status}
           </div>
         </div>
-        
         <h3 className="text-xl font-bold text-white mb-2 leading-tight min-h-[1.5rem]">{project.title}</h3>
         <p className="text-gray-300 mb-4 line-clamp-3">{project.description}</p>
-        
         <div className="flex flex-wrap gap-2 mb-4">
           {project.tech.map((tech, i) => (
             <span key={i} className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium border border-teal-500">
@@ -1656,7 +1633,6 @@ function App() {
             </span>
           ))}
         </div>
-        
         <div className="flex gap-2">
           <button
             onClick={(e) => {
@@ -1679,6 +1655,7 @@ function App() {
         </div>
       </div>
     ));
+  };
 
   const renderProjectDetail = () => {
     if (!projectPage) return null;
