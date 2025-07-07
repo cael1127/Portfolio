@@ -4424,21 +4424,21 @@ function App() {
           </section>
         );
       case 'live-data':
-        return <LiveDataDemo />;
+        return <AquacultureDemo />;
       case 'cloud-migration':
-        return <CloudMigrationToolset />;
+        return <CloudMigrationDemo />;
       case 'helpdesk':
-        return <HelpdeskPortal />;
+        return <HelpdeskDemo />;
       case 'scanner':
-        return <NetworkVulnerabilityScanner />;
+        return <ScannerDemo />;
       case 'zero-trust':
-        return <ZeroTrustAuth />;
+        return <ZeroTrustDemo />;
       case 'chatbot':
-        return <CustomerChatbot />;
+        return <CustomerChatbotDemo />;
       case 'maintenance':
-        return <PredictiveMaintenanceAI />;
+        return <PredictiveMaintenanceDemo />;
       case 'forecast':
-        return <SalesForecastingModel />;
+        return <SalesForecastingDemo />;
       case 'environment':
         return <EnvironmentalImpactDashboard />;
       case 'freelancing':
