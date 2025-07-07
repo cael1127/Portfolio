@@ -1624,17 +1624,8 @@ function App() {
     setTimeout(() => setIsLoading(false), 1500);
   }, []);
 
-  const renderProjects = (category) => {
-    console.log('Rendering projects for category:', category);
-    console.log('Available projects:', Object.keys(projects));
-    console.log('Projects in category:', projects[category]);
-    
-    if (!projects[category] || !Array.isArray(projects[category])) {
-      console.error('No projects found for category:', category);
-      return <div className="text-white">No projects found for this category.</div>;
-    }
-    
-    return projects[category].map((project, index) => (
+  const renderProjects = (category) =>
+    projects[category].map((project, index) => (
       <div
         key={project.id}
         className="bg-gray-800 p-6 rounded-xl shadow-lg card-hover cursor-pointer animate-slide-up border border-gray-700"
@@ -1688,7 +1679,6 @@ function App() {
         </div>
       </div>
     ));
-  };
 
   const renderProjectDetail = () => {
     if (!projectPage) return null;
