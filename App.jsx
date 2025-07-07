@@ -108,9 +108,9 @@ function App() {
   ];
 
   const contactInfo = {
-    email: 'cael.findley@example.com',
-    phone: '+1 (555) 123-4567',
-    github: 'https://github.com/caelfindley',
+    email: 'caelfindley@gmail.com',
+    phone: '+1 (361) 920-6493',
+    github: 'https://github.com/cael1127',
     linkedin: 'https://linkedin.com/in/caelfindley',
   };
 
@@ -3973,6 +3973,354 @@ function App() {
     );
   }
 
+  // Generic ProjectDemo component for all new projects
+  function ProjectDemo({ project, onBack }) {
+    // Utility: Load Chart.js from CDN if needed
+    const [chartLoaded, setChartLoaded] = React.useState(false);
+    React.useEffect(() => {
+      if ((project.demo.includes('chart') || project.demo.includes('analytics') || project.demo.includes('trading') || project.demo.includes('forecast') || project.demo.includes('monitor') || project.demo.includes('dashboard')) && !window.Chart) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        script.onload = () => setChartLoaded(true);
+        document.body.appendChild(script);
+        return () => document.body.removeChild(script);
+      } else {
+        setChartLoaded(true);
+      }
+    }, [project.demo]);
+
+    // Interactive content by project type
+    let interactive = null;
+
+    // Chart-based demos
+    if ([
+      'ai-trading-bot', 'predictive-analytics', 'forecast', 'analytics', 'healthcare-analytics', 'sales-forecasting', 'real-time-analytics', 'observability', 'risk', 'trading', 'serverless', 'event-driven', 'environment', 'dashboard', 'monitor', 'ci-cd', 'containers', 'infrastructure', 'microservices', 'serverless', 'event-driven', 'bi'
+    ].includes(project.demo)) {
+      interactive = <LiveChart title={project.title} />;
+    }
+    // NFT marketplace/e-commerce/gallery
+    else if ([
+      'nft-marketplace', 'ecommerce', 'smart-home', 'gallery', 'marketplace', 'crypto-exchange'
+    ].includes(project.demo)) {
+      interactive = <GalleryDemo title={project.title} />;
+    }
+    // CRM/ERP/BI: data table
+    else if ([
+      'crm', 'erp', 'business-intelligence', 'bi', 'enterprise', 'customer', 'supply-chain', 'blockchain', 'blockchain-supply-chain'
+    ].includes(project.demo)) {
+      interactive = <DataTableDemo title={project.title} />;
+    }
+    // Chatbot
+    else if ([
+      'chatbot', 'ai-content', 'customer-chatbot'
+    ].includes(project.demo)) {
+      interactive = <ChatbotDemo title={project.title} />;
+    }
+    // Auth/login
+    else if ([
+      'zero-trust', 'blockchain-identity', 'auth', 'login', 'identity'
+    ].includes(project.demo)) {
+      interactive = <LoginDemo title={project.title} />;
+    }
+    // IoT/monitoring
+    else if ([
+      'industrial-iot', 'iot', 'environment', 'smart-city', 'agricultural-iot', 'maintenance', 'predictive-maintenance', 'sensor', 'monitoring'
+    ].includes(project.demo)) {
+      interactive = <IoTDemo title={project.title} />;
+    }
+    // DevOps/serverless/deployment
+    else if ([
+      'ci-cd', 'infrastructure', 'serverless', 'deployment', 'devops'
+    ].includes(project.demo)) {
+      interactive = <DevOpsDemo title={project.title} />;
+    }
+    // Default fallback
+    else {
+      interactive = (
+        <div className="w-full h-48 flex items-center justify-center text-gray-400 bg-gray-800 rounded-lg border border-gray-600">
+          [ Interactive demo or chart coming soon ]
+        </div>
+      );
+    }
+
+    return (
+      <section className="animate-fade-in">
+        <button
+          onClick={onBack}
+          className="mb-6 text-teal-400 hover:text-teal-300 underline flex items-center gap-2 transition-colors"
+        >
+          <span>←</span> Back to Projects
+        </button>
+        <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
+          <img src={project.image} alt={project.title} className="w-full h-64 object-cover" />
+          <div className="p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-4xl font-bold gradient-text leading-tight">{project.title}</h2>
+              <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                {project.status}
+              </span>
+            </div>
+            <p className="text-lg text-gray-300 mb-6 leading-relaxed">{project.description}</p>
+            {project.impact && (
+              <div className="bg-gray-700 border border-gray-600 rounded-lg p-6 mb-8">
+                <h3 className="text-xl font-semibold text-white mb-3">Business Impact</h3>
+                <p className="text-gray-300 font-medium">{project.impact}</p>
+              </div>
+            )}
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div>
+                <h3 className="text-2xl font-semibold text-white mb-4">Technologies Used</h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech, i) => (
+                    <span key={i} className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium border border-teal-500">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold text-white mb-4">Key Features</h3>
+                <ul className="space-y-2 text-gray-300">
+                  {project.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-teal-400 mt-1">✓</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            {/* Interactive content */}
+            <div className="bg-gray-700 border border-gray-600 rounded-lg p-8 mb-8 flex flex-col items-center">
+              <h3 className="text-xl font-semibold text-white mb-4">Live Demo</h3>
+              {interactive}
+            </div>
+            <div className="flex gap-4 mt-8">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+              >
+                View on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // --- Interactive Demo Components ---
+  // Chart.js live-updating chart
+  function LiveChart({ title }) {
+    const chartRef = React.useRef(null);
+    React.useEffect(() => {
+      if (!window.Chart) return;
+      const ctx = chartRef.current.getContext('2d');
+      let chart;
+      let data = Array.from({ length: 20 }, () => Math.random() * 100);
+      chart = new window.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: 20 }, (_, i) => i + 1),
+          datasets: [{
+            label: title + ' (Simulated)',
+            data: data,
+            borderColor: '#14b8a6',
+            backgroundColor: 'rgba(20,184,166,0.2)',
+            tension: 0.3,
+          }],
+        },
+        options: {
+          animation: false,
+          plugins: { legend: { labels: { color: '#fff' } } },
+          scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } },
+        },
+      });
+      const interval = setInterval(() => {
+        data.push(Math.random() * 100);
+        data.shift();
+        chart.data.datasets[0].data = data;
+        chart.update();
+      }, 1000);
+      return () => { chart.destroy(); clearInterval(interval); };
+    }, [title, window.Chart]);
+    return <canvas ref={chartRef} width={600} height={200} />;
+  }
+
+  // Gallery demo (NFT, e-commerce, etc.)
+  function GalleryDemo({ title }) {
+    const [filter, setFilter] = React.useState('all');
+    const items = Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      name: title + ' Item #' + (i + 1),
+      img: `https://placehold.co/200x200/14b8a6/fff?text=${encodeURIComponent(title.charAt(0))}${i + 1}`,
+      type: i % 2 === 0 ? 'Type A' : 'Type B',
+    }));
+    const filtered = filter === 'all' ? items : items.filter(x => x.type === filter);
+    return (
+      <div className="w-full">
+        <div className="mb-4 flex gap-2">
+          <button className={`px-3 py-1 rounded ${filter === 'all' ? 'bg-teal-600 text-white' : 'bg-gray-800 text-gray-300'}`} onClick={() => setFilter('all')}>All</button>
+          <button className={`px-3 py-1 rounded ${filter === 'Type A' ? 'bg-teal-600 text-white' : 'bg-gray-800 text-gray-300'}`} onClick={() => setFilter('Type A')}>Type A</button>
+          <button className={`px-3 py-1 rounded ${filter === 'Type B' ? 'bg-teal-600 text-white' : 'bg-gray-800 text-gray-300'}`} onClick={() => setFilter('Type B')}>Type B</button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {filtered.map(item => (
+            <div key={item.id} className="bg-gray-800 border border-gray-600 rounded-lg p-2 flex flex-col items-center">
+              <img src={item.img} alt={item.name} className="rounded mb-2" />
+              <div className="text-white text-sm font-medium mb-1">{item.name}</div>
+              <div className="text-xs text-gray-400">{item.type}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Data table demo (CRM, ERP, BI)
+  function DataTableDemo({ title }) {
+    const [query, setQuery] = React.useState('');
+    const data = Array.from({ length: 12 }, (_, i) => ({
+      id: i + 1,
+      name: title + ' User ' + (i + 1),
+      email: `user${i + 1}@example.com`,
+      status: i % 3 === 0 ? 'Active' : 'Inactive',
+    }));
+    const filtered = data.filter(row => row.name.toLowerCase().includes(query.toLowerCase()) || row.email.toLowerCase().includes(query.toLowerCase()));
+    return (
+      <div className="w-full">
+        <input
+          className="mb-4 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white w-full"
+          placeholder="Search users..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm text-left">
+            <thead>
+              <tr className="bg-gray-700 text-white">
+                <th className="px-4 py-2">ID</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Email</th>
+                <th className="px-4 py-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(row => (
+                <tr key={row.id} className="border-b border-gray-700">
+                  <td className="px-4 py-2">{row.id}</td>
+                  <td className="px-4 py-2">{row.name}</td>
+                  <td className="px-4 py-2">{row.email}</td>
+                  <td className="px-4 py-2">{row.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Chatbot demo
+  function ChatbotDemo({ title }) {
+    const [messages, setMessages] = React.useState([
+      { from: 'bot', text: `Welcome to the ${title} demo!` }
+    ]);
+    const [input, setInput] = React.useState('');
+    function send() {
+      if (!input.trim()) return;
+      setMessages(msgs => [...msgs, { from: 'user', text: input }, { from: 'bot', text: `You said: ${input}` }]);
+      setInput('');
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 h-64 overflow-y-auto mb-2 flex flex-col">
+          {messages.map((msg, i) => (
+            <div key={i} className={`mb-2 ${msg.from === 'bot' ? 'text-teal-400' : 'text-white text-right'}`}>{msg.text}</div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <input
+            className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white"
+            placeholder="Type a message..."
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') send(); }}
+          />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={send}>Send</button>
+        </div>
+      </div>
+    );
+  }
+
+  // Login demo
+  function LoginDemo({ title }) {
+    const [email, setEmail] = React.useState('');
+    const [pass, setPass] = React.useState('');
+    const [msg, setMsg] = React.useState('');
+    function login(e) {
+      e.preventDefault();
+      if (email === 'user@example.com' && pass === 'password') {
+        setMsg('Login successful!');
+      } else {
+        setMsg('Invalid credentials. Try user@example.com / password');
+      }
+    }
+    return (
+      <form className="w-full max-w-xs mx-auto" onSubmit={login}>
+        <div className="mb-4">
+          <label className="block text-white mb-1">Email</label>
+          <input className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" value={email} onChange={e => setEmail(e.target.value)} />
+        </div>
+        <div className="mb-4">
+          <label className="block text-white mb-1">Password</label>
+          <input type="password" className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" value={pass} onChange={e => setPass(e.target.value)} />
+        </div>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" type="submit">Login</button>
+        {msg && <div className="mt-3 text-center text-teal-400">{msg}</div>}
+      </form>
+    );
+  }
+
+  // IoT/monitoring demo
+  function IoTDemo({ title }) {
+    const [value, setValue] = React.useState(Math.random() * 100);
+    React.useEffect(() => {
+      const interval = setInterval(() => setValue(Math.random() * 100), 1500);
+      return () => clearInterval(interval);
+    }, []);
+    return (
+      <div className="w-full flex flex-col items-center">
+        <div className="text-5xl font-bold text-teal-400 mb-2">{value.toFixed(1)}</div>
+        <div className="text-white mb-2">{title} Sensor Value</div>
+        <div className="w-full h-2 bg-gray-700 rounded">
+          <div className="h-2 bg-teal-500 rounded" style={{ width: `${Math.min(100, value)}%` }}></div>
+        </div>
+      </div>
+    );
+  }
+
+  // DevOps/serverless demo
+  function DevOpsDemo({ title }) {
+    const [progress, setProgress] = React.useState(0);
+    React.useEffect(() => {
+      if (progress >= 100) return;
+      const interval = setInterval(() => setProgress(p => Math.min(100, p + Math.random() * 10)), 700);
+      return () => clearInterval(interval);
+    }, [progress]);
+    return (
+      <div className="w-full flex flex-col items-center">
+        <div className="text-white mb-2">{title} Deployment Progress</div>
+        <div className="w-full h-4 bg-gray-700 rounded mb-2">
+          <div className="h-4 bg-teal-500 rounded" style={{ width: `${progress}%` }}></div>
+        </div>
+        <div className="text-teal-400 font-bold">{progress < 100 ? `${progress.toFixed(0)}%` : 'Complete!'}</div>
+      </div>
+    );
+  }
+
   // Add the environmental dashboard to the main content
   const renderContent = () => {
     switch (currentPage) {
@@ -4162,6 +4510,47 @@ function App() {
             </div>
           </section>
         );
+      case 'ci-cd':
+      case 'observability':
+      case 'infrastructure':
+      case 'containers':
+      case 'blockchain':
+      case 'ai-optimization':
+      case 'defi':
+      case 'ai-research':
+      case 'nft-marketplace':
+      case 'ai-trading-bot':
+      case 'blockchain-identity':
+      case 'ai-content':
+      case 'dao-governance':
+      case 'predictive-analytics':
+      case 'erp':
+      case 'ecommerce':
+      case 'crm':
+      case 'bi':
+      case 'payment':
+      case 'risk':
+      case 'trading':
+      case 'crypto-exchange':
+      case 'telemedicine':
+      case 'clinical':
+      case 'healthcare-analytics':
+      case 'medical-imaging':
+      case 'smart-city':
+      case 'industrial-iot':
+      case 'smart-home':
+      case 'agricultural-iot':
+      case 'microservices':
+      case 'analytics':
+      case 'serverless':
+      case 'event-driven':
+      case 'soc':
+        // Find the project by demo key
+        const project = Object.values(projects).flat().find(p => p.demo === currentPage);
+        if (project) {
+          return <ProjectDemo project={project} onBack={() => { setCurrentPage(project.category || 'software'); setProjectPage(null); }} />;
+        }
+        break;
       default:
         // Fallback for unknown demo pages
         if (
