@@ -16,9 +16,9 @@ function App() {
   ];
 
   const contactInfo = {
-    email: 'cael.findley@example.com',
-    phone: '+1 (555) 123-4567',
-    github: 'https://github.com/caelfindley ',
+    email: 'caelfindleygmail.com',
+    phone: '+1 (361) 920-6493',
+    github: 'https://github.com/cael1127',
     linkedin: 'https://linkedin.com/in/caelfindley ',
   };
 

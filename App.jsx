@@ -4321,463 +4321,928 @@ function App() {
     );
   }
 
-  // Add the environmental dashboard to the main content
-  const renderContent = () => {
-    switch (currentPage) {
-      case 'home':
-        return (
-          <section className="animate-fade-in">
-            <div className="text-center mb-12">
-              <h1 className="text-6xl font-bold gradient-text mb-4">Cael Findley</h1>
-              <p className="text-xl text-gray-300 mb-6">Software Engineer at Three Sisters Oyster Company</p>
-              <div className="flex justify-center gap-4">
-                <a href={`mailto:${contactInfo.email}`} className="text-teal-400 hover:text-teal-300 transition-colors">
-                  {contactInfo.email}
-                </a>
-                <span className="text-gray-500">|</span>
-                <a href={contactInfo.github} target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors">
-                  GitHub
-                </a>
-                <span className="text-gray-500">|</span>
-                <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors">
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-                          <div className="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
-              <h2 className="text-3xl font-bold text-white mb-4">About Me</h2>
-              <p className="text-gray-300 mb-4 leading-relaxed">
-                  I'm a passionate software engineer with expertise in full-stack development, 
-                  cloud infrastructure, and data analysis. Currently working at Three Sisters 
-                  Oyster Company, I develop innovative solutions for aquaculture technology.
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-teal-400">🏢</span>
-                    <span className="text-white"><strong>{experience.role}</strong> at {experience.company}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-teal-400">📅</span>
-                    <span className="text-white">Since {experience.since}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
-                <h2 className="text-3xl font-bold text-white mb-4">Key Achievements</h2>
-                <ul className="space-y-3">
-                  {experience.achievements.map((achievement, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-teal-400 mt-1">✓</span>
-                      <span className="text-gray-300">{achievement}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-gray-800 rounded-xl shadow-lg p-8 mb-12 border border-gray-700">
-              <h2 className="text-3xl font-bold text-white mb-6">Certifications</h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                {certifications.map((cert, index) => (
-                  <div key={index} className="text-center p-4 border border-gray-600 rounded-lg hover:shadow-md transition-shadow bg-gray-700">
-                    <div className="text-3xl mb-2">{cert.icon}</div>
-                    <h3 className="font-semibold text-white mb-1">{cert.name}</h3>
-                    <p className="text-gray-300">{cert.year}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
-              <h2 className="text-3xl font-bold text-white mb-6">Featured Projects</h2>
-                      <div className="grid md:grid-cols-2 gap-6">
-          {projects.software.slice(0, 2).map((project, index) => (
-            <div key={index} className="border border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-gray-700">
-              <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-                <div className="flex gap-2 mb-4">
-                  {project.tech.slice(0, 3).map((tech, i) => (
-                    <span key={i} className="bg-teal-600 text-white px-2 py-1 rounded text-sm border border-teal-500">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                      <button
-                        onClick={() => {
-                          setProjectPage(project);
-                          setCurrentPage('project-detail');
-                        }}
-                        className="text-teal-400 hover:text-teal-300 font-medium"
-                      >
-                        Learn More →
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        );
-      case 'live-data':
-        return <AquacultureDemo />;
-      case 'cloud-migration':
-        return <CloudMigrationDemo />;
-      case 'helpdesk':
-        return <HelpdeskDemo />;
-      case 'scanner':
-        return <ScannerDemo />;
-      case 'zero-trust':
-        return <ZeroTrustDemo />;
-      case 'chatbot':
-        return <CustomerChatbotDemo />;
-      case 'maintenance':
-        return <PredictiveMaintenanceDemo />;
-      case 'forecast':
-        return <SalesForecastingDemo />;
-      case 'environment':
-        return <EnvironmentalImpactDashboard />;
-      case 'freelancing':
-        return <FreelancingPage />;
-      case 'project-detail':
-        return renderProjectDetail();
-      case 'software':
-      case 'it':
-      case 'cybersecurity':
-      case 'ai':
-      case 'data':
-      case 'devops':
-      case 'blockchain':
-      case 'enterprise':
-      case 'fintech':
-      case 'healthcare':
-      case 'iot':
-      case 'modern':
-      case 'security':
-        return (
-          <section className="animate-fade-in">
-            <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">
-              {currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} Projects
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {renderProjects(currentPage)}
-            </div>
-          </section>
-        );
-      case 'experience':
-        return (
-          <section className="animate-fade-in">
-            <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Experience & Certifications</h2>
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <div className="bg-gray-800 rounded-xl shadow-lg p-8">
-                <h3 className="text-2xl font-semibold text-teal-400 mb-4">Current Role</h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="text-xl font-semibold text-white">{experience.role}</h4>
-                    <p className="text-teal-400 font-medium">{experience.company}</p>
-                    <p className="text-gray-300">Since {experience.since}</p>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed">{experience.description}</p>
-                </div>
-              </div>
-              <div className="bg-gray-800 rounded-xl shadow-lg p-8">
-                <h3 className="text-2xl font-semibold text-teal-400 mb-4">Key Achievements</h3>
-                <ul className="space-y-3">
-                  {experience.achievements.map((achievement, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-teal-400 mt-1">✓</span>
-                      <span className="text-gray-300">{achievement}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="bg-gray-800 rounded-xl shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-teal-400 mb-6">Certifications</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                {certifications.map((cert, index) => (
-                  <div key={index} className="text-center p-4 border border-gray-600 rounded-lg hover:shadow-md transition-shadow bg-gray-700">
-                    <div className="text-3xl mb-2">{cert.icon}</div>
-                    <h4 className="font-semibold text-white mb-1">{cert.name}</h4>
-                    <p className="text-gray-300">{cert.year}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        );
-      case 'ci-cd':
-      case 'observability':
-      case 'infrastructure':
-      case 'containers':
-      case 'blockchain':
-      case 'ai-optimization':
-      case 'defi':
-      case 'ai-research':
-      case 'nft-marketplace':
-      case 'ai-trading-bot':
-      case 'blockchain-identity':
-      case 'ai-content':
-      case 'dao-governance':
-      case 'predictive-analytics':
-      case 'erp':
-      case 'ecommerce':
-      case 'crm':
-      case 'bi':
-      case 'payment':
-      case 'risk':
-      case 'trading':
-      case 'crypto-exchange':
-      case 'telemedicine':
-      case 'clinical':
-      case 'healthcare-analytics':
-      case 'medical-imaging':
-      case 'smart-city':
-      case 'industrial-iot':
-      case 'smart-home':
-      case 'agricultural-iot':
-      case 'microservices':
-      case 'analytics':
-      case 'serverless':
-      case 'event-driven':
-      case 'soc':
-        // Find the project by demo key
-        const project = Object.values(projects).flat().find(p => p.demo === currentPage);
-        if (project) {
-          return <ProjectDemo project={project} onBack={() => { setCurrentPage(project.category || 'software'); setProjectPage(null); }} />;
-        }
-        break;
-      default:
-        // Fallback for unknown demo pages
-        if (
-          Object.values(projects)
-            .flat()
-            .some((proj) => proj.demo === currentPage)
-        ) {
-          const proj = Object.values(projects)
-            .flat()
-            .find((proj) => proj.demo === currentPage);
-          return (
-            <section className="animate-fade-in flex flex-col items-center justify-center min-h-[60vh]">
-              <h2 className="text-3xl font-bold text-white mb-4">Live Demo Coming Soon</h2>
-              <p className="text-gray-300 mb-8">This project demo is not yet implemented in the portfolio UI.</p>
-              <a
-                href={proj.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
-              >
-                View on GitHub
-              </a>
-            </section>
-          );
-        }
-        return null;
+  // --- Blockchain & AI Interactive Demo Components ---
+  function BlockchainDemo() {
+    const [block, setBlock] = React.useState('');
+    const [result, setResult] = React.useState(null);
+    function search() {
+      setResult({
+        block: block || Math.floor(Math.random() * 10000),
+        txs: Array.from({ length: 3 + Math.floor(Math.random() * 3) }, (_, i) => ({
+          hash: Math.random().toString(36).slice(2, 10),
+          value: (Math.random() * 2).toFixed(3) + ' ETH',
+        })),
+      });
     }
-  };
-
-  // Main App component return
-  return (
-    <div className="min-h-screen bg-gray-900 flex no-refresh">
-      {/* Modern Sidebar Navigation */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-80 bg-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      } lg:translate-x-0 lg:static lg:inset-0`}>
-        <div className="flex flex-col h-full">
-          {/* Sidebar Header - Compact */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-700">
-            <button
-              onClick={() => setCurrentPage('home')}
-              className="text-xl font-bold gradient-text hover:opacity-80 transition-opacity"
-            >
-              Cael Findley
-            </button>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-400 hover:text-gray-200 p-1"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Blockchain Explorer</h3>
+        <div className="flex gap-2 mb-4">
+          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Block #" value={block} onChange={e => setBlock(e.target.value)} />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={search}>Search</button>
+        </div>
+        {result && (
+          <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+            <div className="text-white mb-2">Block: <span className="font-bold text-teal-400">{result.block}</span></div>
+            <div className="text-white mb-2">Transactions:</div>
+            <ul>
+              {result.txs.map((tx, i) => (
+                <li key={i} className="text-gray-300 text-sm mb-1">Hash: <span className="text-teal-400">{tx.hash}</span> — Value: {tx.value}</li>
+              ))}
+            </ul>
           </div>
+        )}
+      </div>
+    );
+  }
 
-          {/* Search Bar - Compact */}
-          <div className="px-4 py-3 border-b border-gray-700">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input w-full pl-8 pr-3 py-1.5 text-sm border border-gray-600 rounded-md focus:ring-1 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-gray-100 placeholder-gray-400"
-              />
-              <svg className="absolute left-2.5 top-2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+  function AIOptimizationDemo() {
+    const [param, setParam] = React.useState(50);
+    const [result, setResult] = React.useState(null);
+    function optimize() {
+      setResult(100 - Math.abs(param - 70) + Math.random() * 10);
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">AI Optimization Dashboard</h3>
+        <div className="mb-4">Parameter: <input type="range" min="0" max="100" value={param} onChange={e => setParam(Number(e.target.value))} className="w-2/3" /> <span className="text-teal-400 font-bold">{param}</span></div>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={optimize}>Optimize</button>
+        {result && <div className="text-white">Optimization Score: <span className="text-teal-400 font-bold">{result.toFixed(2)}</span></div>}
+      </div>
+    );
+  }
+
+  function DeFiDemo() {
+    const [deposit, setDeposit] = React.useState('');
+    const [borrow, setBorrow] = React.useState('');
+    const [rate, setRate] = React.useState(2.5 + Math.random() * 2);
+    const [result, setResult] = React.useState(null);
+    function simulate() {
+      setResult({
+        deposit: Number(deposit),
+        borrow: Number(borrow),
+        rate,
+        health: 100 - Number(borrow) / (Number(deposit) + 1) * 100,
+      });
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">DeFi Lending Simulator</h3>
+        <div className="mb-2">Deposit: <input className="px-2 py-1 rounded bg-gray-800 border border-gray-600 text-white w-24" value={deposit} onChange={e => setDeposit(e.target.value)} /></div>
+        <div className="mb-2">Borrow: <input className="px-2 py-1 rounded bg-gray-800 border border-gray-600 text-white w-24" value={borrow} onChange={e => setBorrow(e.target.value)} /></div>
+        <div className="mb-2">Interest Rate: <span className="text-teal-400 font-bold">{rate.toFixed(2)}%</span></div>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={simulate}>Simulate</button>
+        {result && <div className="text-white">Health Factor: <span className={`font-bold ${result.health < 50 ? 'text-red-400' : 'text-green-400'}`}>{result.health.toFixed(1)}</span></div>}
+      </div>
+    );
+  }
+
+  function AIResearchDemo() {
+    const [experiments, setExperiments] = React.useState([]);
+    const [name, setName] = React.useState('');
+    function add() {
+      if (!name.trim()) return;
+      setExperiments(exps => [...exps, { name, acc: (80 + Math.random() * 20).toFixed(2) + '%' }]);
+      setName('');
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">ML Experiment Tracker</h3>
+        <div className="flex gap-2 mb-4">
+          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Experiment Name" value={name} onChange={e => setName(e.target.value)} />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={add}>Add</button>
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          {experiments.length === 0 && <div className="text-gray-400">No experiments yet.</div>}
+          {experiments.map((exp, i) => (
+            <div key={i} className="flex items-center justify-between mb-2">
+              <div className="text-white">{exp.name}</div>
+              <div className="text-teal-400 font-bold">{exp.acc}</div>
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
-          {/* Category Filters - Compact */}
-          <div className="px-4 py-3 border-b border-gray-700">
-            <div className="flex gap-1">
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`category-filter flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-colors ${
-                    activeCategory === category.id
-                      ? 'bg-teal-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                  title={category.name}
-                >
-                  <span>{category.icon}</span>
-                  <span className="hidden sm:inline">{category.name}</span>
-                </button>
+  function NFTMarketplaceDemo() {
+    const [nfts, setNfts] = React.useState(Array.from({ length: 6 }, (_, i) => ({ id: i, name: `NFT #${i + 1}`, owner: 'You', img: `https://placehold.co/200x200/14b8a6/fff?text=NFT${i + 1}` })));
+    const [minting, setMinting] = React.useState(false);
+    function mint() {
+      setMinting(true);
+      setTimeout(() => {
+        setNfts(nfts => [...nfts, { id: nfts.length, name: `NFT #${nfts.length + 1}`, owner: 'You', img: `https://placehold.co/200x200/14b8a6/fff?text=NFT${nfts.length + 1}` }]);
+        setMinting(false);
+      }, 1200);
+    }
+    return (
+      <div className="w-full max-w-xl mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">NFT Marketplace</h3>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={mint} disabled={minting}>{minting ? 'Minting...' : 'Mint NFT'}</button>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {nfts.map(nft => (
+            <div key={nft.id} className="bg-gray-800 border border-gray-600 rounded-lg p-2 flex flex-col items-center">
+              <img src={nft.img} alt={nft.name} className="rounded mb-2" />
+              <div className="text-white text-sm font-medium mb-1">{nft.name}</div>
+              <div className="text-xs text-gray-400">Owner: {nft.owner}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function AITradingBotDemo() {
+    const [running, setRunning] = React.useState(false);
+    const [profit, setProfit] = React.useState(0);
+    function run() {
+      setRunning(true);
+      setProfit(0);
+      let p = 0;
+      let i = 0;
+      const interval = setInterval(() => {
+        p += (Math.random() - 0.45) * 100;
+        setProfit(p);
+        i++;
+        if (i > 20) { setRunning(false); clearInterval(interval); }
+      }, 500);
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">AI Trading Bot Simulator</h3>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={run} disabled={running}>{running ? 'Running...' : 'Run Bot'}</button>
+        <div className="text-white mb-2">Profit: <span className={`font-bold ${profit >= 0 ? 'text-green-400' : 'text-red-400'}`}>{profit.toFixed(2)} USD</span></div>
+        <LiveChart title="Simulated Trading" />
+      </div>
+    );
+  }
+
+  function BlockchainIdentityDemo() {
+    const [step, setStep] = React.useState(0);
+    const [name, setName] = React.useState('');
+    const [verified, setVerified] = React.useState(false);
+    function next() {
+      if (step === 0 && name.trim()) setStep(1);
+      else if (step === 1) { setVerified(true); setStep(2); }
+    }
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Decentralized Identity Verification</h3>
+        {step === 0 && (
+          <>
+            <input className="w-full mb-3 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} />
+            <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={next}>Next</button>
+          </>
+        )}
+        {step === 1 && (
+          <>
+            <p className="text-white">Verifying identity...</p>
+            <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={next}>Verify</button>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <p className="text-white">Identity verified!</p>
+            <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={next}>Done</button>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  function AIContentGenerationDemo() {
+    const [content, setContent] = React.useState('');
+    const [generated, setGenerated] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+
+    const generateContent = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('http://localhost:4000/api/generate-content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: content })
+        });
+        const data = await res.json();
+        setGenerated(data.content);
+      } catch (err) {
+        console.error('Failed to generate content:', err);
+      }
+      setLoading(false);
+    };
+
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">AI Content Generation</h3>
+        <textarea
+          className="w-full px-3 py-2 rounded bg-gray-800 text-white mb-4"
+          placeholder="Enter your prompt..."
+          value={content}
+          onChange={e => setContent(e.target.value)}
+          rows="4"
+        />
+        <button
+          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+          onClick={generateContent}
+          disabled={loading}
+        >
+          {loading ? 'Generating...' : 'Generate Content'}
+        </button>
+        {generated && (
+          <div className="mt-4 p-4 bg-gray-700 rounded text-white">
+            <h4 className="text-lg font-semibold mb-2">Generated Content</h4>
+            <pre>{generated}</pre>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function BlockchainGovernanceDemo() {
+    const [proposal, setProposal] = React.useState('');
+    const [voting, setVoting] = React.useState(false);
+    const [result, setResult] = React.useState(null);
+
+    const submitProposal = async () => {
+      setVoting(true);
+      try {
+        const res = await fetch('http://localhost:4000/api/submit-proposal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ proposal })
+        });
+        const data = await res.json();
+        setResult(data);
+      } catch (err) {
+        console.error('Failed to submit proposal:', err);
+      }
+      setVoting(false);
+    };
+
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">DAO Proposal Submission</h3>
+        <textarea
+          className="w-full px-3 py-2 rounded bg-gray-800 text-white mb-4"
+          placeholder="Enter your proposal..."
+          value={proposal}
+          onChange={e => setProposal(e.target.value)}
+          rows="4"
+        />
+        <button
+          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+          onClick={submitProposal}
+          disabled={voting}
+        >
+          {voting ? 'Submitting...' : 'Submit Proposal'}
+        </button>
+        {result && (
+          <div className="mt-4 p-4 bg-gray-700 rounded text-white">
+            <h4 className="text-lg font-semibold mb-2">Proposal Result</h4>
+            <p>{result.message}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function AIPredictiveAnalyticsDemo() {
+    const [forecast, setForecast] = React.useState('');
+    const [forecastResult, setForecastResult] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
+
+    const predict = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('http://localhost:4000/api/predict-sales', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ forecast })
+        });
+        const data = await res.json();
+        setForecastResult(data);
+      } catch (err) {
+        console.error('Failed to predict sales:', err);
+      }
+      setLoading(false);
+    };
+
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Sales Forecast Prediction</h3>
+        <input
+          className="w-full px-3 py-2 rounded bg-gray-800 text-white mb-4"
+          placeholder="Enter your forecast..."
+          value={forecast}
+          onChange={e => setForecast(e.target.value)}
+        />
+        <button
+          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+          onClick={predict}
+          disabled={loading}
+        >
+          {loading ? 'Predicting...' : 'Predict Sales'}
+        </button>
+        {forecastResult && (
+          <div className="mt-4 p-4 bg-gray-700 rounded text-white">
+            <h4 className="text-lg font-semibold mb-2">Predicted Sales</h4>
+            <p>{forecastResult.prediction}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // --- Enterprise, FinTech, Healthcare Interactive Demo Components ---
+  function ERPDemo() {
+    const modules = ['Finance', 'HR', 'Inventory', 'Sales'];
+    const kpis = [
+      { label: 'Revenue', value: '$1.2M' },
+      { label: 'Orders', value: '3,200' },
+      { label: 'Inventory', value: '1,150' },
+      { label: 'Employees', value: '87' },
+    ];
+    return (
+      <div className="w-full max-w-2xl mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">ERP Dashboard</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          {kpis.map((kpi, i) => (
+            <div key={i} className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-center">
+              <div className="text-teal-400 text-lg font-bold mb-1">{kpi.value}</div>
+              <div className="text-gray-300 text-xs uppercase">{kpi.label}</div>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-4 justify-center">
+          {modules.map((mod, i) => (
+            <button key={i} className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">{mod}</button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function EcommerceDemo() {
+    const [cart, setCart] = React.useState([]);
+    const products = [
+      { id: 1, name: 'Smart Watch', price: 199 },
+      { id: 2, name: 'Wireless Earbuds', price: 99 },
+      { id: 3, name: 'Fitness Tracker', price: 79 },
+    ];
+    function addToCart(p) {
+      setCart(c => [...c, p]);
+    }
+    function checkout() {
+      setCart([]);
+      alert('Order placed!');
+    }
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">E-commerce Demo</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {products.map(p => (
+            <div key={p.id} className="bg-gray-800 border border-gray-600 rounded-lg p-4 flex flex-col items-center">
+              <div className="text-white font-medium mb-2">{p.name}</div>
+              <div className="text-teal-400 font-bold mb-2">${p.price}</div>
+              <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => addToCart(p)}>Add to Cart</button>
+            </div>
+          ))}
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 mt-4">
+          <div className="text-white mb-2">Cart: {cart.length} item(s)</div>
+          {cart.length > 0 && <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={checkout}>Checkout</button>}
+        </div>
+      </div>
+    );
+  }
+
+  function CRMDemo() {
+    const [leads, setLeads] = React.useState([
+      { id: 1, name: 'Acme Corp', stage: 0 },
+      { id: 2, name: 'Beta LLC', stage: 0 },
+      { id: 3, name: 'Gamma Inc', stage: 0 },
+    ]);
+    const stages = ['Lead', 'Contacted', 'Proposal', 'Won'];
+    function advance(id) {
+      setLeads(ls => ls.map(l => l.id === id && l.stage < stages.length - 1 ? { ...l, stage: l.stage + 1 } : l));
+    }
+    return (
+      <div className="w-full max-w-2xl mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">CRM Pipeline</h3>
+        <div className="grid grid-cols-4 gap-4">
+          {stages.map((stage, i) => (
+            <div key={i} className="bg-gray-800 border border-gray-600 rounded-lg p-2 min-h-[120px]">
+              <div className="text-teal-400 font-bold mb-2 text-center">{stage}</div>
+              {leads.filter(l => l.stage === i).map(l => (
+                <div key={l.id} className="bg-gray-700 rounded p-2 mb-2 flex items-center justify-between">
+                  <span className="text-white text-sm">{l.name}</span>
+                  {i < stages.length - 1 && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => advance(l.id)}>→</button>}
+                </div>
               ))}
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
-          {/* Navigation Links - Organized by Category */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar">
-            <nav className="p-4 space-y-6">
-              {filteredNavLinks.length > 0 ? (
-                Object.entries(groupedNavLinks).map(([category, links]) => {
-                  const categoryInfo = categories.find(c => c.id === category);
-                  if (!categoryInfo) return null;
-                  
-                  return (
-                    <div key={category} className="space-y-2">
-                      {/* Category Header */}
-                      <div className="flex items-center gap-2 px-2 py-1">
-                        <span className="text-lg">{categoryInfo.icon}</span>
-                                              <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wide">
-                        {categoryInfo.name}
-                      </h3>
-                      </div>
-                      
-                      {/* Category Items */}
-                      <div className="space-y-1">
-                        {links.filter(link => 
-                          link.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-                          (activeCategory === 'all' || link.category === activeCategory)
-                        ).map((link) => (
-                          <button
-                            key={link.page}
-                            onClick={() => {
-                              setCurrentPage(link.page);
-                              setSidebarOpen(false);
-                              setProjectPage(null);
-                            }}
-                            className={`nav-item w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                              currentPage === link.page
-                                ? 'bg-teal-600 text-white border-l-2 border-teal-400'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-teal-400'
-                            }`}
-                          >
-                            <span className="text-lg">{link.icon}</span>
-                            <span className="text-left flex-1 truncate">{link.name}</span>
-                            {link.category === 'demos' && (
-                              <span className="live-badge text-xs bg-teal-600 text-white px-1.5 py-0.5 rounded-full flex-shrink-0">
-                                Live
-                              </span>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="text-center py-8 text-gray-400">
-                  <svg className="w-12 h-12 mx-auto mb-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <p>No projects found</p>
-                  <p className="text-sm">Try adjusting your search or filters</p>
-                </div>
-              )}
-            </nav>
+  function BIDemo() {
+    const [filter, setFilter] = React.useState('All');
+    const data = [
+      { label: 'Q1', value: 120 },
+      { label: 'Q2', value: 150 },
+      { label: 'Q3', value: 90 },
+      { label: 'Q4', value: 180 },
+    ];
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">BI Dashboard</h3>
+        <div className="mb-4">
+          <select className="bg-gray-800 text-white rounded px-2 py-1" value={filter} onChange={e => setFilter(e.target.value)}>
+            <option>All</option>
+            <option>Q1</option>
+            <option>Q2</option>
+            <option>Q3</option>
+            <option>Q4</option>
+          </select>
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          <div className="flex gap-2 items-end h-32">
+            {data.filter(d => filter === 'All' || d.label === filter).map((d, i) => (
+              <div key={i} className="flex flex-col items-center flex-1">
+                <div className="bg-teal-400 w-8" style={{ height: `${d.value}px` }}></div>
+                <div className="text-white text-xs mt-1">{d.label}</div>
+              </div>
+            ))}
           </div>
+        </div>
+      </div>
+    );
+  }
 
-          {/* Sidebar Footer - Compact */}
-          <div className="px-4 py-3 border-t border-gray-700">
-            <div className="text-center text-xs text-gray-400">
-              <p>Portfolio v2.0</p>
-              <p className="mt-0.5">20+ Projects • 10 Categories</p>
+  function PaymentDemo() {
+    const [amount, setAmount] = React.useState('');
+    const [paid, setPaid] = React.useState(false);
+    function pay() {
+      setPaid(true);
+      setTimeout(() => setPaid(false), 1500);
+    }
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Payment Gateway</h3>
+        <input className="w-full mb-3 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Amount" value={amount} onChange={e => setAmount(e.target.value)} />
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" onClick={pay} disabled={!amount || paid}>{paid ? 'Paid!' : 'Pay'}</button>
+      </div>
+    );
+  }
+
+  function RiskDemo() {
+    const grid = Array.from({ length: 5 }, (_, r) => Array.from({ length: 5 }, (_, c) => Math.random()));
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Risk Analytics Heatmap</h3>
+        <div className="grid grid-cols-5 gap-1">
+          {grid.flat().map((v, i) => (
+            <div key={i} className="w-12 h-12 flex items-center justify-center rounded" style={{ background: `rgba(20,184,166,${0.2 + v * 0.8})` }}>
+              <span className="text-white font-bold">{Math.round(v * 100)}</span>
             </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function TradingDemo() {
+    const [price, setPrice] = React.useState(1000 + Math.random() * 1000);
+    const [qty, setQty] = React.useState('');
+    const [orders, setOrders] = React.useState([]);
+    function placeOrder() {
+      setOrders(o => [...o, { price, qty }]);
+      setQty('');
+    }
+    React.useEffect(() => {
+      const interval = setInterval(() => setPrice(p => p + (Math.random() - 0.5) * 10), 1000);
+      return () => clearInterval(interval);
+    }, []);
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Trading Platform</h3>
+        <div className="mb-2">Live Price: <span className="text-teal-400 font-bold">${price.toFixed(2)}</span></div>
+        <div className="flex gap-2 mb-4">
+          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Qty" value={qty} onChange={e => setQty(e.target.value)} />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={placeOrder} disabled={!qty}>Buy</button>
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          <div className="text-white mb-2">Orders:</div>
+          <ul>
+            {orders.map((o, i) => (
+              <li key={i} className="text-gray-300 text-sm mb-1">Qty: {o.qty} @ ${o.price.toFixed(2)}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  function CryptoExchangeDemo() {
+    const [orders, setOrders] = React.useState([
+      { price: 1000, qty: 2, side: 'buy' },
+      { price: 1010, qty: 1, side: 'sell' },
+    ]);
+    const [side, setSide] = React.useState('buy');
+    const [qty, setQty] = React.useState('');
+    function placeOrder() {
+      setOrders(o => [...o, { price: 1000 + Math.random() * 50, qty: Number(qty), side }]);
+      setQty('');
+    }
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Crypto Exchange Orderbook</h3>
+        <div className="flex gap-2 mb-4">
+          <select className="bg-gray-800 text-white rounded px-2 py-1" value={side} onChange={e => setSide(e.target.value)}><option>buy</option><option>sell</option></select>
+          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Qty" value={qty} onChange={e => setQty(e.target.value)} />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={placeOrder} disabled={!qty}>Place</button>
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          <div className="text-white mb-2">Orderbook:</div>
+          <ul>
+            {orders.map((o, i) => (
+              <li key={i} className={`text-sm mb-1 ${o.side === 'buy' ? 'text-green-400' : 'text-red-400'}`}>{o.side.toUpperCase()} {o.qty} @ ${o.price.toFixed(2)}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  function TelemedicineDemo() {
+    const [msg, setMsg] = React.useState('');
+    const [chat, setChat] = React.useState([
+      { from: 'Doctor', text: 'Hello, how can I help you today?' },
+    ]);
+    function send() {
+      if (!msg.trim()) return;
+      setChat(c => [...c, { from: 'You', text: msg }]);
+      setMsg('');
+      setTimeout(() => setChat(c => [...c, { from: 'Doctor', text: 'I recommend a video consultation.' }]), 1000);
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Telemedicine Chat</h3>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 mb-2 h-48 overflow-y-auto">
+          {chat.map((m, i) => (
+            <div key={i} className={`mb-2 ${m.from === 'You' ? 'text-right' : 'text-left'}`}><span className={m.from === 'You' ? 'text-teal-400' : 'text-white'}>{m.from}:</span> <span className="text-gray-300">{m.text}</span></div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Type a message..." value={msg} onChange={e => setMsg(e.target.value)} />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={send}>Send</button>
+        </div>
+      </div>
+    );
+  }
+
+  function ClinicalDemo() {
+    const [patients, setPatients] = React.useState([
+      { id: 1, name: 'John Doe', status: 'Admitted' },
+      { id: 2, name: 'Jane Smith', status: 'Discharged' },
+    ]);
+    function updateStatus(id) {
+      setPatients(ps => ps.map(p => p.id === id ? { ...p, status: p.status === 'Admitted' ? 'Discharged' : 'Admitted' } : p));
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Clinical Workflow</h3>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          {patients.map(p => (
+            <div key={p.id} className="flex items-center justify-between mb-2">
+              <div className="text-white">{p.name}</div>
+              <div className="text-teal-400 font-bold">{p.status}</div>
+              <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => updateStatus(p.id)}>Toggle</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function HealthcareAnalyticsDemo() {
+    const [metric, setMetric] = React.useState('Admissions');
+    const metrics = ['Admissions', 'Discharges', 'Avg Stay'];
+    const values = { Admissions: 120, Discharges: 110, 'Avg Stay': 4.2 };
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Healthcare Analytics</h3>
+        <div className="mb-4">
+          <select className="bg-gray-800 text-white rounded px-2 py-1" value={metric} onChange={e => setMetric(e.target.value)}>
+            {metrics.map(m => <option key={m}>{m}</option>)}
+          </select>
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-center">
+          <div className="text-teal-400 text-3xl font-bold mb-2">{values[metric]}</div>
+          <div className="text-white text-lg">{metric}</div>
+        </div>
+      </div>
+    );
+  }
+
+  function MedicalImagingDemo() {
+    const [zoom, setZoom] = React.useState(1);
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Medical Imaging Viewer</h3>
+        <div className="flex flex-col items-center">
+          <img src="https://placehold.co/320x200/222/fff?text=CT+Scan" alt="CT Scan" style={{ transform: `scale(${zoom})` }} className="rounded border border-gray-600 mb-4" />
+          <div className="flex gap-2">
+            <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => setZoom(z => Math.max(0.5, z - 0.1))}>-</button>
+            <span className="text-white font-bold">Zoom: {zoom.toFixed(1)}x</span>
+            <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => setZoom(z => Math.min(2, z + 0.1))}>+</button>
           </div>
         </div>
       </div>
+    );
+  }
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <header className="bg-gray-800 shadow-sm border-b border-gray-700 lg:hidden">
-          <div className="flex items-center justify-between px-4 py-3">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="text-gray-300 hover:text-teal-400 transition-colors"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <h1 className="text-lg font-semibold text-white">Portfolio</h1>
-            <div className="w-6"></div> {/* Spacer for centering */}
-          </div>
-        </header>
+  // ... existing code ...
+  // In renderContent, add cases for each new demo:
+      case 'erp':
+        return <ERPDemo />;
+      case 'ecommerce':
+        return <EcommerceDemo />;
+      case 'crm':
+        return <CRMDemo />;
+      case 'bi':
+        return <BIDemo />;
+      case 'payment':
+        return <PaymentDemo />;
+      case 'risk':
+        return <RiskDemo />;
+      case 'trading':
+        return <TradingDemo />;
+      case 'crypto-exchange':
+        return <CryptoExchangeDemo />;
+      case 'telemedicine':
+        return <TelemedicineDemo />;
+      case 'clinical':
+        return <ClinicalDemo />;
+      case 'healthcare-analytics':
+        return <HealthcareAnalyticsDemo />;
+      case 'medical-imaging':
+        return <MedicalImagingDemo />;
+  // ... existing code ...
 
-                 {/* Breadcrumb Navigation */}
-         <div className="bg-gray-800 border-b border-gray-700 px-4 py-3">
-           <nav className="flex items-center space-x-2 text-sm text-gray-300">
-             <button
-               onClick={() => setCurrentPage('home')}
-               className="breadcrumb-item hover:text-teal-400 transition-colors"
-             >
-               Home
-             </button>
-             {currentPage !== 'home' && (
-               <>
-                 <span>/</span>
-                 <span className="text-white font-medium capitalize">
-                   {currentPage.replace('-', ' ')}
-                 </span>
-               </>
-             )}
-           </nav>
-         </div>
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto bg-gray-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {renderContent()}
-          </div>
-        </main>
-      </div>
-
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Loading Spinner */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="loading-spinner"></div>
+  // --- IoT, Modern Architecture, Cybersecurity Interactive Demo Components ---
+  function SmartCityDemo() {
+    const sensors = [
+      { id: 1, type: 'Air Quality', value: 42, unit: 'AQI' },
+      { id: 2, type: 'Traffic', value: 78, unit: '%' },
+      { id: 3, type: 'Noise', value: 55, unit: 'dB' },
+      { id: 4, type: 'Water', value: 98, unit: '%' },
+    ];
+    return (
+      <div className="w-full max-w-xl mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Smart City IoT Dashboard</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {sensors.map(s => (
+            <div key={s.id} className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-center">
+              <div className="text-teal-400 text-lg font-bold mb-1">{s.value} {s.unit}</div>
+              <div className="text-gray-300 text-xs uppercase">{s.type}</div>
+            </div>
+          ))}
         </div>
-      )}
-    </div>
-  );
-}
+      </div>
+    );
+  }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />); 
+  function IndustrialIoTDemo() {
+    const [alerts, setAlerts] = React.useState([
+      { id: 1, sensor: 'Temp', value: 85, status: 'OK' },
+      { id: 2, sensor: 'Pressure', value: 120, status: 'ALERT' },
+      { id: 3, sensor: 'Humidity', value: 40, status: 'OK' },
+    ]);
+    function ack(id) {
+      setAlerts(a => a.map(al => al.id === id ? { ...al, status: 'OK' } : al));
+    }
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Industrial IoT Alerts</h3>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          {alerts.map(a => (
+            <div key={a.id} className="flex items-center justify-between mb-2">
+              <div className="text-white">{a.sensor}: {a.value}</div>
+              <div className={`font-bold ${a.status === 'ALERT' ? 'text-red-400' : 'text-green-400'}`}>{a.status}</div>
+              {a.status === 'ALERT' && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => ack(a.id)}>Acknowledge</button>}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function SmartHomeDemo() {
+    const [lights, setLights] = React.useState(false);
+    const [temp, setTemp] = React.useState(72);
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Smart Home Panel</h3>
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-white">Lights</span>
+          <button className={`px-4 py-2 rounded ${lights ? 'bg-teal-600' : 'bg-gray-700'} text-white`} onClick={() => setLights(l => !l)}>{lights ? 'On' : 'Off'}</button>
+        </div>
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-white">Temperature</span>
+          <div className="flex items-center gap-2">
+            <button className="bg-teal-600 text-white px-2 py-1 rounded" onClick={() => setTemp(t => t - 1)}>-</button>
+            <span className="text-teal-400 font-bold">{temp}°F</span>
+            <button className="bg-teal-600 text-white px-2 py-1 rounded" onClick={() => setTemp(t => t + 1)}>+</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function AgriculturalIoTDemo() {
+    const [moisture, setMoisture] = React.useState(45);
+    const [ph, setPh] = React.useState(6.8);
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Agricultural IoT Dashboard</h3>
+        <div className="mb-4">Soil Moisture: <span className="text-teal-400 font-bold">{moisture}%</span></div>
+        <div className="mb-4">Soil pH: <span className="text-teal-400 font-bold">{ph.toFixed(1)}</span></div>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={() => { setMoisture(m => m + (Math.random() * 10 - 5)); setPh(p => p + (Math.random() - 0.5) * 0.2); }}>Refresh</button>
+      </div>
+    );
+  }
+
+  function MicroservicesDemo() {
+    const services = [
+      { name: 'Auth', deps: ['API', 'DB'] },
+      { name: 'API', deps: ['DB'] },
+      { name: 'DB', deps: [] },
+      { name: 'Frontend', deps: ['API'] },
+    ];
+    return (
+      <div className="w-full max-w-xl mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Microservices Mesh Visualizer</h3>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {services.map(s => (
+            <div key={s.name} className="bg-gray-800 border border-gray-600 rounded-lg p-4 min-w-[120px] text-center">
+              <div className="text-teal-400 font-bold mb-2">{s.name}</div>
+              <div className="text-gray-300 text-xs">Depends on: {s.deps.length ? s.deps.join(', ') : 'None'}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function AnalyticsDemo() {
+    const [data, setData] = React.useState([10, 20, 15, 30, 25]);
+    React.useEffect(() => {
+      const interval = setInterval(() => setData(d => [...d.slice(1), 10 + Math.random() * 30]), 1000);
+      return () => clearInterval(interval);
+    }, []);
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Real-Time Analytics Stream</h3>
+        <div className="flex gap-2 items-end h-32">
+          {data.map((v, i) => (
+            <div key={i} className="flex flex-col items-center flex-1">
+              <div className="bg-teal-400 w-8" style={{ height: `${v * 2}px` }}></div>
+              <div className="text-white text-xs mt-1">{v.toFixed(0)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function ServerlessDemo() {
+    const [triggered, setTriggered] = React.useState(false);
+    function trigger() {
+      setTriggered(true);
+      setTimeout(() => setTriggered(false), 1200);
+    }
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Serverless Function Trigger</h3>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" onClick={trigger} disabled={triggered}>{triggered ? 'Triggered!' : 'Trigger Function'}</button>
+      </div>
+    );
+  }
+
+  function EventDrivenDemo() {
+    const [events, setEvents] = React.useState([
+      { id: 1, type: 'UserSignup', time: '09:01' },
+      { id: 2, type: 'OrderPlaced', time: '09:03' },
+    ]);
+    function addEvent() {
+      const types = ['UserSignup', 'OrderPlaced', 'Payment', 'EmailSent'];
+      setEvents(e => [...e, { id: e.length + 1, type: types[Math.floor(Math.random() * types.length)], time: new Date().toLocaleTimeString() }]);
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Event Bus Visualizer</h3>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={addEvent}>Add Event</button>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 h-40 overflow-y-auto">
+          {events.map(e => (
+            <div key={e.id} className="text-white text-sm mb-1">[{e.time}] {e.type}</div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function SOCDemo() {
+    const [incidents, setIncidents] = React.useState([
+      { id: 1, type: 'Phishing', status: 'Open' },
+      { id: 2, type: 'Malware', status: 'Investigating' },
+    ]);
+    function resolve(id) {
+      setIncidents(incs => incs.map(i => i.id === id ? { ...i, status: 'Resolved' } : i));
+    }
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">SOC Dashboard</h3>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          {incidents.map(i => (
+            <div key={i.id} className="flex items-center justify-between mb-2">
+              <div className="text-white">{i.type}</div>
+              <div className={`font-bold ${i.status === 'Resolved' ? 'text-green-400' : 'text-yellow-400'}`}>{i.status}</div>
+              {i.status !== 'Resolved' && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => resolve(i.id)}>Resolve</button>}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function ZeroTrustDemo() {
+    const [access, setAccess] = React.useState(false);
+    function requestAccess() {
+      setAccess(true);
+      setTimeout(() => setAccess(false), 1500);
+    }
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Zero Trust Access</h3>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" onClick={requestAccess} disabled={access}>{access ? 'Access Granted' : 'Request Access'}</button>
+      </div>
+    );
+  }
+
+  function ScannerDemo() {
+    const [scanning, setScanning] = React.useState(false);
+    const [result, setResult] = React.useState(null);
+    function scan() {
+      setScanning(true);
+      setTimeout(() => {
+        setResult({ issues: Math.floor(Math.random() * 5), time: new Date().toLocaleTimeString() });
+        setScanning(false);
+      }, 1200);
+    }
+    return (
+      <div className="w-full max-w-xs mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Vulnerability Scanner</h3>
+        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full mb-4" onClick={scan} disabled={scanning}>{scanning ? 'Scanning...' : 'Start Scan'}</button>
+        {result && <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-white">Scan complete at {result.time}. Issues found: <span className={result.issues ? 'text-red-400 font-bold' : 'text-green-400 font-bold'}>{result.issues}</span></div>}
+      </div>
+    );
+  }
+
+  function HelpdeskDemo() {
+    const [tickets, setTickets] = React.useState([
+      { id: 1, subject: 'Phishing email', status: 'Open' },
+      { id: 2, subject: 'VPN issue', status: 'Closed' },
+    ]);
+    const [subject, setSubject] = React.useState('');
+    function submit() {
+      if (!subject.trim()) return;
+      setTickets(ts => [...ts, { id: ts.length + 1, subject, status: 'Open' }]);
+      setSubject('');
+    }
+    function close(id) {
+      setTickets(ts => ts.map(t => t.id === id ? { ...t, status: 'Closed' } : t));
+    }
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <h3 className="text-2xl font-bold text-white mb-4">Security Helpdesk</h3>
+        <div className="flex gap-2 mb-4">
+          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Ticket subject..." value={subject} onChange={e => setSubject(e.target.value)} />
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={submit}>Submit</button>
+        </div>
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+          {tickets.map(t => (
+            <div key={t.id} className="flex items-center justify-between mb-2">
+              <div className="text-white">{t.subject}</div>
+              <div className={`font-bold ${t.status === 'Closed' ? 'text-green-400' : 'text-yellow-400'}`}>{t.status}</div>
+              {t.status !== 'Closed' && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => close(t.id)}>Close</button>}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />); 
