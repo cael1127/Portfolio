@@ -558,22 +558,27 @@ function App() {
             </div>
 
             <div className="flex gap-4 mt-8">
-              <a 
-                href={projectPage.demo} 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (projectPage.demo) {
+                    setCurrentPage(projectPage.demo);
+                  }
+                }}
                 className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
               >
                 View Live Demo
-              </a>
-              <a 
-                href={projectPage.github} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="bg-gray-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
-              >
-                View on GitHub
-              </a>
+              </button>
+              {projectPage.github && (
+                <a 
+                  href={projectPage.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-gray-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+                >
+                  View on GitHub
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -584,6 +589,60 @@ function App() {
   const renderContent = () => {
     if (projectPage) {
       return renderProjectDetail();
+    }
+
+    // Handle demo components
+    const demoComponents = {
+      'blockchain': BlockchainDemo,
+      'ai-optimization': AIOptimizationDemo,
+      'defi': DeFiDemo,
+      'ai-research': AIResearchDemo,
+      'nft-marketplace': NFTMarketplaceDemo,
+      'ai-trading-bot': AITradingBotDemo,
+      'blockchain-identity': BlockchainIdentityDemo,
+      'ai-content-generation': AIContentGenerationDemo,
+      'blockchain-governance': BlockchainGovernanceDemo,
+      'ai-predictive-analytics': AIPredictiveAnalyticsDemo,
+      'erp': ERPDemo,
+      'ecommerce': EcommerceDemo,
+      'crm': CRMDemo,
+      'bi': BIDemo,
+      'payment': PaymentDemo,
+      'risk': RiskDemo,
+      'trading': TradingDemo,
+      'crypto-exchange': CryptoExchangeDemo,
+      'telemedicine': TelemedicineDemo,
+      'clinical': ClinicalDemo,
+      'healthcare-analytics': HealthcareAnalyticsDemo,
+      'medical-imaging': MedicalImagingDemo,
+      'smart-city': SmartCityDemo,
+      'industrial-iot': IndustrialIoTDemo,
+      'smart-home': SmartHomeDemo,
+      'agricultural-iot': AgriculturalIoTDemo,
+      'microservices': MicroservicesDemo,
+      'analytics': AnalyticsDemo,
+      'serverless': ServerlessDemo,
+      'event-driven': EventDrivenDemo,
+      'soc': SOCDemo,
+      'zero-trust': ZeroTrustDemo,
+      'scanner': ScannerDemo,
+      'helpdesk': HelpdeskDemo
+    };
+
+    // If currentPage is a demo component, render it
+    if (demoComponents[currentPage]) {
+      const DemoComponent = demoComponents[currentPage];
+      return (
+        <div className="animate-fade-in">
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="mb-6 text-teal-400 hover:text-teal-300 underline flex items-center gap-2 transition-colors"
+          >
+            <span>←</span> Back to Home
+          </button>
+          <DemoComponent />
+        </div>
+      );
     }
 
     switch (currentPage) {
