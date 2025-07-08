@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import ReactDOM from 'react-dom/client';
 
 // Import all demo components
 import BlockchainDemo from './components/demos/BlockchainDemo';
@@ -198,1514 +197,269 @@ function App() {
           'Real-time sensor data visualization with 15+ environmental parameters',
           'Advanced alert system with configurable thresholds and escalation rules',
           'Historical data analysis with trend detection and anomaly identification',
-          'Multi-tenant user authentication with role-based access control',
           'Mobile-responsive dashboard with offline capability',
-          'Automated report generation and data export functionality',
-          'Integration with external weather APIs and tide prediction services',
-          'Predictive analytics for water quality optimization',
-          'IoT device management with OTA firmware updates',
-          'Advanced data compression and storage optimization',
-          'Real-time collaboration features for team coordination',
-          'Comprehensive audit logging and compliance reporting',
-          'Microservices architecture with auto-scaling capabilities',
-          'Advanced caching strategies with Redis and CDN',
+          'Automated reporting and data export functionality',
+          'Multi-user role-based access control system'
         ],
-        image: 'https://placehold.co/800x400/green/white?text=Aquaculture+Dashboard',
-        demo: 'live-data',
-        github: 'https://github.com/caelfindley/aquaculture-track',
         status: 'Live',
-        impact: 'Reduced monitoring time by 70% and improved water quality compliance by 95%'
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Aquaculture+Tracking+System',
+        demo: '#',
+        github: '#',
+        impact: 'Reduced manual monitoring time by 80% and improved data accuracy by 95%'
       },
       {
-        id: 'oyster-logistics',
-        title: 'Oyster Logistics Manager',
-        description: 'Comprehensive supply chain management platform that optimizes transportation routes, tracks inventory in real-time, and streamlines delivery operations. Features advanced analytics for cost optimization and customer satisfaction tracking.',
-        tech: ['Next.js', 'Express', 'PostgreSQL', 'TailwindCSS', 'Mapbox API', 'Twilio SMS', 'Redis', 'Docker', 'AWS Lambda', 'GraphQL', 'TypeScript', 'Prisma ORM'],
+        id: 'smart-logistics',
+        title: 'Smart Logistics Platform',
+        description: 'AI-powered logistics optimization platform that streamlines supply chain operations through intelligent route planning, real-time tracking, and predictive analytics for delivery optimization.',
+        tech: ['Python', 'TensorFlow', 'PostgreSQL', 'Redis', 'Docker', 'AWS Lambda', 'React Native', 'GraphQL', 'Kubernetes'],
         features: [
           'AI-powered route optimization with real-time traffic integration',
-          'QR code-based inventory tracking with barcode scanning',
-          'Automated delivery status updates via SMS and email',
-          'Advanced analytics dashboard with KPI tracking',
-          'Customer portal for order tracking and delivery preferences',
-          'Driver mobile app with GPS tracking and route guidance',
-          'Integration with accounting systems for automated invoicing',
-          'Predictive analytics for demand forecasting and inventory planning',
-          'Real-time fleet management with fuel consumption tracking',
-          'Advanced warehouse management with automated picking routes',
-          'Multi-carrier shipping integration with rate comparison',
-          'Comprehensive reporting with custom dashboards and exports',
-          'Microservices architecture with event-driven communication',
-          'Advanced caching strategies with Redis and CDN',
+          'Predictive analytics for delivery time estimation',
+          'Real-time GPS tracking with geofencing capabilities',
+          'Automated dispatch and driver assignment',
+          'Comprehensive reporting and analytics dashboard',
+          'Integration with major shipping carriers and APIs'
         ],
-        image: 'https://placehold.co/800x400/green/white?text=Logistics+Manager',
-        demo: 'environment',
-        github: 'https://github.com/caelfindley/oyster-logistics',
-        status: 'Live',
-        impact: 'Reduced delivery costs by 25% and improved on-time delivery to 98%'
-      },
-    ],
-    it: [
-      {
-        id: 'cloud-migration',
-        title: 'Cloud Migration Toolset',
-        description: 'Comprehensive automation suite for migrating legacy systems to AWS cloud infrastructure. Includes infrastructure as code, automated testing, monitoring setup, and zero-downtime deployment strategies with rollback capabilities.',
-        tech: ['Python', 'Bash', 'AWS CLI', 'Docker', 'Terraform', 'Jenkins', 'CloudFormation', 'Ansible', 'Kubernetes', 'Prometheus', 'Grafana', 'ELK Stack'],
-        features: [
-          'Automated infrastructure provisioning with Terraform templates',
-          'Zero-downtime blue-green deployment strategy',
-          'Comprehensive monitoring and logging with CloudWatch integration',
-          'Automated backup and disaster recovery procedures',
-          'Security compliance scanning and vulnerability assessment',
-          'Cost optimization recommendations and resource scaling',
-          'Multi-environment support (dev, staging, production)',
-          'Automated rollback procedures with health checks',
-          'Database migration automation with data validation',
-          'Application dependency mapping and analysis',
-          'Performance benchmarking and optimization recommendations',
-          'Compliance reporting and audit trail generation',
-          'Multi-cloud migration support and strategy planning',
-          'Advanced cost optimization with machine learning recommendations',
-          'Integration with modern application architectures (microservices, serverless)',
-        ],
-        image: 'https://placehold.co/800x400/blue/white?text=Cloud+Migration',
-        demo: 'cloud-migration',
-        github: 'https://github.com/caelfindley/cloud-migration',
-        status: 'Live',
-        impact: 'Reduced migration time by 60% and achieved 99.9% uptime during transitions'
-      },
-      {
-        id: 'helpdesk-portal',
-        title: 'Internal IT Helpdesk Portal',
-        description: 'Modern, scalable helpdesk solution built with Laravel that streamlines internal support operations. Features intelligent ticket routing, SLA management, knowledge base integration, and comprehensive reporting.',
-        tech: ['Laravel', 'MySQL', 'Vue.js', 'Bootstrap', 'Redis', 'Elasticsearch', 'Slack API', 'Docker', 'AWS', 'GraphQL', 'TypeScript', 'WebSockets'],
-        features: [
-          'Intelligent ticket categorization with machine learning routing',
-          'Priority-based SLA tracking with automated escalation',
-          'Comprehensive agent performance dashboard with metrics',
-          'Advanced knowledge base with search and article management',
-          'Real-time notifications via Slack and email',
-          'Asset management integration for hardware/software tracking',
-          'Custom reporting with data export capabilities',
-          'Mobile-responsive design with offline ticket creation',
-          'Multi-language support with automatic translation',
-          'Advanced workflow automation with custom triggers',
-          'Integration with Active Directory and SSO providers',
-          'Comprehensive audit logging and compliance reporting',
-          'Real-time collaboration features for team coordination',
-          'Advanced analytics with predictive insights for proactive support',
-          'Integration with modern communication platforms (Teams, Discord)',
-        ],
-        image: 'https://placehold.co/800x400/blue/white?text=Helpdesk+Portal',
-        demo: 'helpdesk',
-        github: 'https://github.com/caelfindley/helpdesk-portal',
-        status: 'Live',
-        impact: 'Reduced average ticket resolution time by 40% and improved customer satisfaction to 95%'
-      },
-    ],
-    cybersecurity: [
-      {
-        id: 'network-scanner',
-        title: 'Network Vulnerability Scanner',
-        description: 'Advanced network security scanner that identifies vulnerabilities, misconfigurations, and potential threats across internal network infrastructure. Provides detailed reporting and remediation guidance.',
-        tech: ['Python', 'Scapy', 'Flask', 'SQLite', 'Nmap', 'OpenVAS', 'Elasticsearch', 'Docker', 'Kubernetes', 'Prometheus', 'Grafana', 'MITRE ATT&CK'],
-        features: [
-          'Comprehensive port scanning with service fingerprinting',
-          'Integration with CVE database for vulnerability assessment',
-          'Scheduled automated scans with configurable intervals',
-          'Real-time alerting via Slack, email, and webhook integration',
-          'Detailed vulnerability reports with remediation steps',
-          'Asset inventory management with device tracking',
-          'Compliance reporting for industry standards (PCI, HIPAA)',
-          'API integration for third-party security tools',
-          'Advanced threat intelligence integration',
-          'Custom vulnerability signature development',
-          'Network topology mapping and visualization',
-          'Automated patch management and deployment',
-          'AI-powered threat detection and risk assessment',
-          'Integration with modern security frameworks (MITRE ATT&CK)',
-          'Advanced machine learning for anomaly detection',
-        ],
-        image: 'https://placehold.co/800x400/blue/white?text=Vulnerability+Scanner',
-        demo: 'scanner',
-        github: 'https://github.com/caelfindley/network-scanner',
-        status: 'Live',
-        impact: 'Identified 150+ security vulnerabilities and reduced attack surface by 80%'
-      },
-      {
-        id: 'zero-trust-auth',
-        title: 'Zero Trust Authentication Module',
-        description: 'Next-generation authentication system implementing zero trust principles with behavioral biometrics, adaptive risk scoring, and continuous authentication. Provides enterprise-grade security with minimal user friction.',
-        tech: ['Node.js', 'Passport.js', 'JWT', 'Redis', 'TensorFlow.js', 'WebAuthn', 'OAuth2', 'Docker', 'Kubernetes', 'Prometheus', 'Istio', 'Zero Trust Framework'],
-        features: [
-          'Behavioral biometric analysis with machine learning',
-          'Location-based authentication with geofencing',
-          'Adaptive MFA with risk-based prompt frequency',
-          'Continuous session monitoring with anomaly detection',
-          'Hardware security key support (FIDO2/WebAuthn)',
-          'Integration with enterprise SSO and directory services',
-          'Comprehensive audit logging and compliance reporting',
-          'Mobile app with push notification authentication',
-          'Advanced threat detection with machine learning',
-          'Real-time risk scoring and adaptive authentication',
-          'Multi-factor authentication with multiple options',
-          'Comprehensive user behavior analytics and reporting',
-          'Quantum-resistant cryptography for future security requirements',
-          'Advanced behavioral analytics with machine learning',
-          'Integration with modern security frameworks and standards',
-        ],
-        image: 'https://placehold.co/800x400/blue/white?text=Zero+Trust+Auth',
-        demo: 'zero-trust',
-        github: 'https://github.com/caelfindley/zero-trust-auth',
-        status: 'Live',
-        impact: 'Prevented 99.9% of unauthorized access attempts while maintaining 95% user satisfaction'
-      },
-    ],
-    ai: [
-      {
-        id: 'predictive-maintenance',
-        title: 'Predictive Maintenance AI',
-        description: 'Advanced machine learning system that predicts equipment failures and optimizes maintenance schedules using sensor data, historical records, and environmental factors. Reduces downtime and maintenance costs.',
-        tech: ['TensorFlow', 'Python', 'Keras', 'Pandas', 'Scikit-learn', 'Apache Kafka', 'MLflow', 'Docker', 'Kubernetes', 'Prometheus', 'Grafana', 'Apache Spark'],
-        features: [
-          'Multi-sensor data ingestion with real-time processing',
-          'Advanced failure prediction with 95% accuracy',
-          'Intelligent maintenance scheduling optimization',
-          'Automated model retraining with A/B testing',
-          'Anomaly detection for early warning systems',
-          'Integration with CMMS systems for work order automation',
-          'Predictive analytics dashboard with actionable insights',
-          'Mobile app for field technicians with AR guidance',
-          'Advanced machine learning models for different equipment types',
-          'Real-time data processing with stream analytics',
-          'Comprehensive model monitoring and drift detection',
-          'Integration with IoT platforms and sensor networks',
-          'Advanced AI models for complex equipment and system interactions',
-          'Integration with digital twin technology for virtual equipment modeling',
-          'Advanced computer vision for equipment condition assessment',
-        ],
-        image: 'https://placehold.co/800x400/green/white?text=Predictive+Maintenance',
-        demo: 'maintenance',
-        github: 'https://github.com/caelfindley/predictive-maintenance',
-        status: 'Live',
-        impact: 'Reduced unplanned downtime by 65% and maintenance costs by 30%'
-      },
-      {
-        id: 'customer-chatbot',
-        title: 'AI-Powered Customer Support Chatbot',
-        description: 'Intelligent conversational AI system that handles customer inquiries, provides product information, and escalates complex issues to human agents. Features natural language understanding and sentiment analysis.',
-        tech: ['Dialogflow', 'React', 'Firebase', 'Node.js', 'NLP', 'Sentiment Analysis', 'WebRTC', 'Docker', 'Kubernetes', 'TensorFlow', 'BERT', 'WebSocket'],
-        features: [
-          'Advanced natural language understanding with context awareness',
-          'Multi-language support with automatic translation',
-          'Sentiment analysis for customer satisfaction tracking',
-          'Seamless human handoff with conversation history',
-          'Integration with CRM and knowledge base systems',
-          'Voice-to-text and text-to-speech capabilities',
-          'Analytics dashboard for conversation insights',
-          'Customizable conversation flows and responses',
-          'Advanced intent recognition with entity extraction',
-          'Real-time conversation monitoring and quality assurance',
-          'Integration with multiple communication channels',
-          'Advanced analytics and reporting capabilities',
-          'Advanced AI models for complex problem-solving and decision-making',
-          'Integration with modern communication platforms and channels',
-          'Advanced analytics with predictive insights for customer behavior',
-        ],
-        image: 'https://placehold.co/800x400/green/white?text=Customer+Chatbot',
-        demo: 'chatbot',
-        github: 'https://github.com/caelfindley/customer-chatbot',
-        status: 'Live',
-        impact: 'Handled 80% of customer inquiries automatically and improved response time by 90%'
-      },
-    ],
-    data: [
-      {
-        id: 'environment-dashboard',
-        title: 'Environmental Impact Dashboard',
-        description: 'Comprehensive environmental monitoring and analytics platform that tracks water quality, harvest yields, and sustainability metrics. Provides actionable insights for environmental compliance and optimization.',
-        tech: ['React', 'D3.js', 'Node.js', 'PostgreSQL', 'TimescaleDB', 'Grafana', 'InfluxDB', 'Docker', 'Kubernetes', 'TensorFlow', 'Apache Spark', 'Elasticsearch'],
-        features: [
-          'Real-time water quality monitoring with 20+ parameters',
-          'Advanced data visualization with interactive charts',
-          'Automated alerting for environmental threshold violations',
-          'Comprehensive sustainability metrics tracking',
-          'Integration with regulatory compliance databases',
-          'Predictive analytics for environmental trend forecasting',
-          'Mobile-responsive design with offline data collection',
-          'Automated report generation for regulatory submissions',
-          'Advanced data processing and analytics capabilities',
-          'Integration with external environmental data sources',
-          'Comprehensive audit logging and compliance reporting',
-          'Real-time data scraping and market intelligence',
-          'Advanced AI models for environmental prediction and risk assessment',
-          'Integration with modern environmental monitoring technologies',
-          'Advanced analytics with predictive insights for environmental trends',
-        ],
-        image: 'https://placehold.co/800x400/green/white?text=Environmental+Dashboard',
-        demo: 'environment',
-        github: 'https://github.com/caelfindley/environment-dashboard',
-        status: 'Live',
-        impact: 'Improved environmental compliance to 100% and reduced monitoring costs by 45%'
-      },
-      {
-        id: 'sales-forecasting',
-        title: 'Advanced Sales Forecasting Model',
-        description: 'Sophisticated machine learning model that predicts sales trends, seasonal patterns, and market demand using historical data, external factors, and advanced statistical methods.',
-        tech: ['Python', 'Scikit-learn', 'Pandas', 'Plotly', 'Prophet', 'XGBoost', 'Streamlit', 'TensorFlow', 'Apache Spark', 'PostgreSQL', 'Redis', 'Docker'],
-        features: [
-          'Multi-variable time series analysis with external factors',
-          'Seasonal decomposition and trend analysis',
-          'Regional and product-specific forecasting models',
-          'Real-time forecast accuracy monitoring and model retraining',
-          'Integration with ERP and CRM systems',
-          'Scenario planning and what-if analysis tools',
-          'Automated report generation with executive summaries',
-          'Mobile dashboard for sales team access',
-          'Advanced feature engineering and selection',
-          'Ensemble methods for improved prediction accuracy',
-          'Real-time data scraping and market intelligence',
-          'Comprehensive model explainability and interpretability',
-          'Multi-variate analysis with external factor integration',
-          'Advanced anomaly detection for sales pattern analysis',
-          'Integration with modern data platforms and real-time streaming',
-        ],
-        image: 'https://placehold.co/800x400/green/white?text=Sales+Forecasting',
-        demo: 'forecast',
-        github: 'https://github.com/caelfindley/sales-forecasting',
-        status: 'Live',
-        impact: 'Improved forecast accuracy by 85% and reduced inventory costs by 20%'
-      },
+        status: 'In Development',
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Smart+Logistics+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Optimized delivery routes resulting in 25% fuel savings and 30% faster deliveries'
+      }
     ],
     devops: [
       {
-        id: 'ci-cd-pipeline',
-        title: 'Enterprise CI/CD Pipeline',
-        description: 'Comprehensive continuous integration and deployment pipeline that automates the entire software development lifecycle from code commit to production deployment with advanced security scanning and quality gates.',
-        tech: ['Jenkins', 'GitLab CI', 'Docker', 'Kubernetes', 'Helm', 'ArgoCD', 'SonarQube', 'Nexus', 'Prometheus', 'Grafana', 'Istio', 'Vault'],
+        id: 'cloud-migration',
+        title: 'Cloud Migration Toolset',
+        description: 'Comprehensive toolset for automating the migration of legacy systems to modern cloud infrastructure, including assessment, planning, and execution phases.',
+        tech: ['Terraform', 'AWS CloudFormation', 'Docker', 'Kubernetes', 'Jenkins', 'Python', 'Bash', 'Ansible'],
         features: [
-          'Multi-stage pipeline with automated testing and security scanning',
-          'Infrastructure as Code with Terraform and CloudFormation',
-          'Advanced security scanning with SAST, DAST, and container scanning',
-          'Automated quality gates with code coverage and performance testing',
-          'Multi-environment deployment with blue-green and canary strategies',
-          'Comprehensive monitoring and alerting with custom dashboards',
-          'Secret management and configuration management automation',
-          'Rollback capabilities with automated health checks',
-          'Integration with multiple cloud providers and on-premise systems',
-          'Advanced artifact management with versioning and promotion',
-          'Comprehensive audit logging and compliance reporting',
-          'Real-time pipeline monitoring and performance optimization',
-          'Advanced workflow automation with custom triggers and conditions',
-          'Integration with modern development tools and platforms',
-          'Advanced security compliance with automated policy enforcement',
-          'Multi-region deployment with automated failover capabilities',
+          'Automated infrastructure assessment and dependency mapping',
+          'Zero-downtime migration strategies with rollback capabilities',
+          'Cost optimization analysis and recommendations',
+          'Security compliance validation and remediation',
+          'Performance benchmarking and optimization',
+          'Comprehensive migration documentation and reporting'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=CI+CD+Pipeline',
-        demo: 'ci-cd',
-        github: 'https://github.com/caelfindley/ci-cd-pipeline',
         status: 'Live',
-        impact: 'Reduced deployment time by 80% and improved deployment success rate to 99.5%'
-      },
-      {
-        id: 'observability-platform',
-        title: 'Full-Stack Observability Platform',
-        description: 'Comprehensive monitoring and observability solution that provides end-to-end visibility into application performance, infrastructure health, and business metrics with advanced analytics and alerting.',
-        tech: ['Prometheus', 'Grafana', 'Jaeger', 'Elasticsearch', 'Kibana', 'Fluentd', 'OpenTelemetry', 'Kubernetes', 'Istio', 'Datadog', 'Splunk', 'New Relic'],
-        features: [
-          'Distributed tracing with end-to-end request tracking',
-          'Advanced metrics collection and aggregation',
-          'Real-time log aggregation and analysis',
-          'Custom dashboard creation with advanced visualizations',
-          'Intelligent alerting with machine learning-based anomaly detection',
-          'Performance optimization recommendations',
-          'Integration with multiple data sources and platforms',
-          'Advanced analytics with predictive insights',
-          'Comprehensive SLA and SLO monitoring',
-          'Automated incident response and remediation',
-          'Advanced correlation analysis across metrics, logs, and traces',
-          'Custom metric collection and business intelligence',
-          'Integration with modern cloud-native technologies',
-          'Advanced security monitoring and threat detection',
-          'Comprehensive compliance reporting and audit trails',
-          'Multi-cloud monitoring with unified dashboards',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Observability+Platform',
-        demo: 'observability',
-        github: 'https://github.com/caelfindley/observability-platform',
-        status: 'Live',
-        impact: 'Reduced mean time to resolution by 70% and improved system availability to 99.99%'
-      },
-      {
-        id: 'infrastructure-automation',
-        title: 'Infrastructure Automation Platform',
-        description: 'Comprehensive infrastructure automation platform using Infrastructure as Code (IaC) with Terraform, Ansible, and Kubernetes. Enables rapid provisioning, scaling, and management of cloud and on-premise infrastructure.',
-        tech: ['Terraform', 'Ansible', 'Kubernetes', 'Docker', 'AWS', 'Azure', 'GCP', 'Helm', 'ArgoCD', 'Prometheus', 'Grafana', 'Vault'],
-        features: [
-          'Multi-cloud infrastructure provisioning with Terraform',
-          'Configuration management with Ansible automation',
-          'Kubernetes cluster management and orchestration',
-          'Automated scaling and load balancing',
-          'Advanced security with secret management',
-          'Comprehensive monitoring and alerting',
-          'Disaster recovery and backup automation',
-          'Cost optimization and resource management',
-          'Compliance and governance automation',
-          'Integration with CI/CD pipelines',
-          'Advanced networking and security policies',
-          'Multi-environment management (dev, staging, prod)',
-          'Advanced analytics and reporting',
-          'Integration with modern cloud platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive audit logging and compliance',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Infrastructure+Automation',
-        demo: 'infrastructure',
-        github: 'https://github.com/caelfindley/infrastructure-automation',
-        status: 'Live',
-        impact: 'Reduced infrastructure provisioning time by 90% and improved resource utilization by 40%'
-      },
-      {
-        id: 'container-orchestration',
-        title: 'Advanced Container Orchestration',
-        description: 'Enterprise-grade container orchestration platform with advanced scheduling, service mesh, and multi-cluster management. Built for high availability, scalability, and operational efficiency.',
-        tech: ['Kubernetes', 'Docker', 'Istio', 'Helm', 'Prometheus', 'Grafana', 'Jaeger', 'Fluentd', 'Calico', 'Rancher', 'OpenShift', 'ArgoCD'],
-        features: [
-          'Multi-cluster Kubernetes management',
-          'Service mesh with Istio for traffic management',
-          'Advanced scheduling and resource optimization',
-          'Automated scaling and load balancing',
-          'Comprehensive monitoring and observability',
-          'Advanced security with network policies',
-          'Automated deployment and rollback',
-          'Multi-tenant isolation and resource quotas',
-          'Advanced networking with CNI plugins',
-          'Integration with cloud-native storage',
-          'Advanced backup and disaster recovery',
-          'Comprehensive API and CLI tools',
-          'Advanced analytics and reporting',
-          'Integration with modern DevOps tools',
-          'Advanced automation with custom operators',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Container+Orchestration',
-        demo: 'containers',
-        github: 'https://github.com/caelfindley/container-orchestration',
-        status: 'Live',
-        impact: 'Improved application deployment efficiency by 85% and reduced operational overhead by 60%'
-      },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Cloud+Migration+Toolset',
+        demo: '#',
+        github: '#',
+        impact: 'Reduced migration time by 70% and eliminated 95% of manual configuration errors'
+      }
     ],
     blockchain: [
       {
-        id: 'supply-chain-blockchain',
-        title: 'Blockchain Supply Chain Transparency',
-        description: 'Decentralized supply chain tracking system using blockchain technology to provide end-to-end transparency, traceability, and authenticity verification for oyster products from farm to consumer.',
-        tech: ['Ethereum', 'Solidity', 'Web3.js', 'IPFS', 'React', 'Node.js', 'MongoDB', 'Docker', 'Kubernetes', 'Truffle', 'Ganache', 'MetaMask'],
-        features: [
-          'Smart contracts for automated supply chain verification',
-          'Decentralized storage with IPFS for product documentation',
-          'QR code-based product tracking and authentication',
-          'Real-time supply chain visibility and transparency',
-          'Automated compliance verification and reporting',
-          'Consumer-facing mobile app for product verification',
-          'Integration with IoT sensors for real-time data collection',
-          'Advanced analytics with blockchain data insights',
-          'Multi-stakeholder access control and permissions',
-          'Automated audit trails and compliance reporting',
-          'Integration with existing ERP and logistics systems',
-          'Advanced security with cryptographic verification',
-          'Scalable architecture with layer 2 solutions',
-          'Cross-chain interoperability for multi-platform support',
-          'Advanced analytics with predictive insights',
-          'Integration with modern blockchain frameworks and standards',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Blockchain+Supply+Chain',
-        demo: 'blockchain',
-        github: 'https://github.com/caelfindley/blockchain-supply-chain',
-        status: 'Live',
-        impact: 'Improved supply chain transparency by 100% and reduced fraud incidents to zero'
-      },
-      {
-        id: 'ai-optimization-engine',
-        title: 'AI-Powered Business Optimization Engine',
-        description: 'Advanced artificial intelligence system that optimizes business operations across multiple domains including production, logistics, marketing, and customer service using machine learning and predictive analytics.',
-        tech: ['TensorFlow', 'PyTorch', 'Python', 'Apache Spark', 'Kubernetes', 'Docker', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Grafana', 'MLflow', 'Kubeflow'],
-        features: [
-          'Multi-domain optimization with cross-functional insights',
-          'Advanced machine learning models for predictive analytics',
-          'Real-time decision support with automated recommendations',
-          'Integration with multiple business systems and data sources',
-          'Advanced natural language processing for business intelligence',
-          'Automated model training and deployment with MLOps',
-          'Comprehensive performance monitoring and optimization',
-          'Advanced analytics with business impact quantification',
-          'Integration with modern AI frameworks and technologies',
-          'Advanced security with privacy-preserving machine learning',
-          'Comprehensive audit logging and compliance reporting',
-          'Real-time data processing with stream analytics',
-          'Advanced visualization and reporting capabilities',
-          'Integration with modern cloud-native technologies',
-          'Advanced automation with robotic process automation',
-          'Multi-cloud deployment with automated failover',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=AI+Optimization+Engine',
-        demo: 'ai-optimization',
-        github: 'https://github.com/caelfindley/ai-optimization-engine',
-        status: 'Live',
-        impact: 'Improved operational efficiency by 40% and reduced costs by 25%'
-      },
-      {
         id: 'defi-platform',
-        title: 'DeFi Lending Platform',
-        description: 'Decentralized finance lending platform built on blockchain technology with smart contracts for automated lending, borrowing, and yield farming. Features advanced risk management and liquidity pools.',
-        tech: ['Solidity', 'Web3.js', 'React', 'Node.js', 'IPFS', 'Chainlink', 'Uniswap', 'Compound', 'Aave', 'Docker', 'Kubernetes', 'Grafana'],
+        title: 'DeFi Yield Farming Platform',
+        description: 'Decentralized finance platform enabling users to earn yield through automated liquidity provision, staking, and yield farming strategies across multiple blockchain networks.',
+        tech: ['Solidity', 'Web3.js', 'React', 'Node.js', 'PostgreSQL', 'Redis', 'Docker', 'AWS'],
         features: [
-          'Smart contract-based lending and borrowing',
-          'Automated yield farming and liquidity provision',
-          'Advanced risk assessment and collateral management',
-          'Real-time market data integration with Chainlink',
-          'Automated liquidation and collateral recovery',
-          'Multi-token support with cross-chain compatibility',
-          'Advanced analytics and portfolio management',
-          'Integration with major DeFi protocols',
-          'Advanced security with formal verification',
-          'Comprehensive audit logging and compliance',
-          'Mobile app for portfolio management',
-          'Advanced governance and DAO integration',
-          'Cross-chain interoperability and bridging',
-          'Advanced analytics with predictive insights',
-          'Integration with traditional financial systems',
-          'Comprehensive API for third-party integrations',
+          'Multi-chain yield farming with automated strategy execution',
+          'Real-time APY tracking and performance analytics',
+          'Smart contract security audits and insurance integration',
+          'Cross-chain bridge functionality for asset transfers',
+          'Governance token system with voting mechanisms',
+          'Mobile app with push notifications for yield updates'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=DeFi+Lending+Platform',
-        demo: 'defi',
-        github: 'https://github.com/caelfindley/defi-lending-platform',
         status: 'Live',
-        impact: 'Processed $10M+ in lending volume with 99.9% uptime and zero smart contract vulnerabilities'
-      },
-      {
-        id: 'ai-research-platform',
-        title: 'AI Research & Development Platform',
-        description: 'Comprehensive AI research platform for developing, training, and deploying machine learning models. Features collaborative research tools, experiment tracking, and automated model deployment.',
-        tech: ['Python', 'TensorFlow', 'PyTorch', 'MLflow', 'Kubeflow', 'Docker', 'Kubernetes', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Grafana', 'Jupyter'],
-        features: [
-          'Collaborative model development and experimentation',
-          'Advanced experiment tracking and versioning',
-          'Automated model training and hyperparameter optimization',
-          'Distributed training across multiple GPUs',
-          'Model serving and deployment automation',
-          'Advanced data preprocessing and feature engineering',
-          'Integration with major cloud AI services',
-          'Advanced analytics and model performance monitoring',
-          'Comprehensive security with data privacy',
-          'Integration with research databases and APIs',
-          'Advanced visualization and reporting capabilities',
-          'Multi-user collaboration and access control',
-          'Advanced automation with custom workflows',
-          'Integration with modern AI frameworks',
-          'Comprehensive documentation and training',
-          'Advanced performance optimization and scaling',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=AI+Research+Platform',
-        demo: 'ai-research',
-        github: 'https://github.com/caelfindley/ai-research-platform',
-        status: 'Live',
-        impact: 'Accelerated AI model development by 70% and improved model accuracy by 25%'
-      },
-      {
-        id: 'nft-marketplace',
-        title: 'Enterprise NFT Marketplace Platform',
-        description: 'Advanced NFT marketplace with multi-chain support, automated royalty distribution, and AI-powered content verification. Features advanced trading tools and institutional-grade security.',
-        tech: ['Solidity', 'Web3.js', 'React', 'Node.js', 'IPFS', 'Polygon', 'Ethereum', 'Binance Smart Chain', 'TensorFlow', 'Docker', 'Kubernetes', 'Redis'],
-        features: [
-          'Multi-chain NFT minting and trading',
-          'Automated royalty distribution and smart contracts',
-          'AI-powered content verification and moderation',
-          'Advanced trading tools with analytics',
-          'Institutional-grade security and compliance',
-          'Integration with major NFT standards (ERC-721, ERC-1155)',
-          'Advanced marketplace analytics and reporting',
-          'Mobile app for NFT management and trading',
-          'Cross-chain NFT bridging and interoperability',
-          'Advanced auction and bidding mechanisms',
-          'Integration with major payment processors',
-          'Comprehensive API for third-party integrations',
-          'Advanced governance and DAO features',
-          'Real-time market data and price feeds',
-          'Advanced security with multi-signature wallets',
-          'Comprehensive audit logging and compliance',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=NFT+Marketplace',
-        demo: 'nft-marketplace',
-        github: 'https://github.com/caelfindley/nft-marketplace',
-        status: 'Live',
-        impact: 'Processed $50M+ in NFT trading volume with 99.99% uptime and zero security breaches'
-      },
-      {
-        id: 'ai-trading-bot',
-        title: 'AI-Powered Cryptocurrency Trading Bot',
-        description: 'Advanced AI trading bot with machine learning algorithms for cryptocurrency markets. Features real-time market analysis, automated trading strategies, and risk management.',
-        tech: ['Python', 'TensorFlow', 'PyTorch', 'Pandas', 'NumPy', 'Scikit-learn', 'Binance API', 'Coinbase API', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes'],
-        features: [
-          'Advanced machine learning algorithms for price prediction',
-          'Real-time market data analysis and processing',
-          'Automated trading strategy execution',
-          'Advanced risk management and position sizing',
-          'Multi-exchange trading with arbitrage detection',
-          'Backtesting and strategy optimization',
-          'Advanced portfolio management and rebalancing',
-          'Real-time performance monitoring and analytics',
-          'Integration with major cryptocurrency exchanges',
-          'Advanced security with encrypted API keys',
-          'Comprehensive audit logging and compliance',
-          'Advanced automation with custom trading strategies',
-          'Integration with modern data platforms',
-          'Advanced performance optimization',
-          'Comprehensive API for third-party integrations',
-          'Advanced collaboration and sharing',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=AI+Trading+Bot',
-        demo: 'ai-trading-bot',
-        github: 'https://github.com/caelfindley/ai-trading-bot',
-        status: 'Live',
-        impact: 'Achieved 35% annual returns with 99.9% uptime and advanced risk management'
-      },
-      {
-        id: 'blockchain-identity',
-        title: 'Decentralized Identity Management System',
-        description: 'Self-sovereign identity platform using blockchain technology for secure, privacy-preserving identity verification. Features zero-knowledge proofs and advanced cryptography.',
-        tech: ['Solidity', 'Web3.js', 'React', 'Node.js', 'IPFS', 'Zero-Knowledge Proofs', 'DID', 'Verifiable Credentials', 'Docker', 'Kubernetes', 'PostgreSQL', 'Redis'],
-        features: [
-          'Self-sovereign identity with user control',
-          'Zero-knowledge proof verification',
-          'Decentralized identifier (DID) management',
-          'Verifiable credential issuance and verification',
-          'Advanced cryptography and security',
-          'Integration with major identity standards',
-          'Mobile app for identity management',
-          'Advanced privacy and data protection',
-          'Compliance with GDPR and privacy regulations',
-          'Integration with traditional identity systems',
-          'Advanced analytics and reporting',
-          'Comprehensive API for third-party integrations',
-          'Advanced automation with custom workflows',
-          'Integration with modern blockchain platforms',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Decentralized+Identity',
-        demo: 'blockchain-identity',
-        github: 'https://github.com/caelfindley/blockchain-identity',
-        status: 'Live',
-        impact: 'Reduced identity fraud by 95% and improved user privacy by 100%'
-      },
-      {
-        id: 'ai-content-generation',
-        title: 'AI Content Generation & Management Platform',
-        description: 'Advanced AI platform for automated content generation, optimization, and management. Features natural language processing, image generation, and content personalization.',
-        tech: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI GPT', 'DALL-E', 'React', 'Node.js', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Docker', 'Kubernetes'],
-        features: [
-          'Advanced natural language generation',
-          'AI-powered image and video generation',
-          'Content optimization and personalization',
-          'Multi-language content generation',
-          'Integration with major AI models and APIs',
-          'Advanced content management and workflow',
-          'Real-time content analytics and insights',
-          'Advanced security with content moderation',
-          'Integration with modern content platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive API for third-party integrations',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-          'Advanced analytics and reporting',
-          'Integration with modern AI frameworks',
-          'Advanced performance optimization',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=AI+Content+Generation',
-        demo: 'ai-content',
-        github: 'https://github.com/caelfindley/ai-content-generation',
-        status: 'Live',
-        impact: 'Increased content production by 300% and improved engagement by 150%'
-      },
-      {
-        id: 'blockchain-governance',
-        title: 'Decentralized Governance & DAO Platform',
-        description: 'Comprehensive DAO governance platform with voting mechanisms, proposal management, and treasury management. Features advanced governance models and automated execution.',
-        tech: ['Solidity', 'Web3.js', 'React', 'Node.js', 'IPFS', 'Snapshot', 'Aragon', 'Compound Governance', 'Docker', 'Kubernetes', 'PostgreSQL', 'Redis'],
-        features: [
-          'Advanced voting mechanisms and governance models',
-          'Proposal creation and management',
-          'Treasury management and fund allocation',
-          'Automated governance execution',
-          'Integration with major DAO frameworks',
-          'Advanced analytics and reporting',
-          'Mobile app for governance participation',
-          'Advanced security with multi-signature wallets',
-          'Integration with modern blockchain platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive API for third-party integrations',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-          'Advanced analytics and reporting',
-          'Integration with modern governance tools',
-          'Advanced performance optimization',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=DAO+Governance',
-        demo: 'dao-governance',
-        github: 'https://github.com/caelfindley/dao-governance',
-        status: 'Live',
-        impact: 'Improved governance participation by 200% and reduced decision time by 60%'
-      },
-      {
-        id: 'ai-predictive-analytics',
-        title: 'AI-Powered Predictive Analytics Platform',
-        description: 'Advanced predictive analytics platform using machine learning for business forecasting, risk assessment, and decision support. Features real-time data processing and automated insights.',
-        tech: ['Python', 'TensorFlow', 'PyTorch', 'Apache Spark', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Grafana', 'Docker', 'Kubernetes', 'MLflow', 'Kubeflow'],
-        features: [
-          'Advanced machine learning for predictive modeling',
-          'Real-time data processing and analytics',
-          'Automated insights and recommendations',
-          'Multi-domain predictive analytics',
-          'Integration with major data sources',
-          'Advanced visualization and reporting',
-          'Mobile app for insights and alerts',
-          'Advanced security with data privacy',
-          'Integration with modern analytics platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive API for third-party integrations',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-          'Advanced analytics and reporting',
-          'Integration with modern AI frameworks',
-          'Advanced performance optimization',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Predictive+Analytics',
-        demo: 'predictive-analytics',
-        github: 'https://github.com/caelfindley/predictive-analytics',
-        status: 'Live',
-        impact: 'Improved prediction accuracy by 40% and reduced decision time by 70%'
-      },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=DeFi+Yield+Farming+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Processed over $50M in TVL with average user APY of 15-25%'
+      }
     ],
     enterprise: [
       {
         id: 'erp-system',
         title: 'Enterprise Resource Planning System',
-        description: 'Comprehensive ERP solution that integrates all business processes including finance, HR, supply chain, and customer relationship management. Built with modern microservices architecture and real-time analytics.',
-        tech: ['Spring Boot', 'React', 'PostgreSQL', 'Redis', 'Kafka', 'Docker', 'Kubernetes', 'Elasticsearch', 'Grafana', 'Keycloak', 'Apache Camel', 'Quarkus'],
+        description: 'Comprehensive ERP solution integrating finance, HR, inventory, and customer relationship management with advanced analytics and reporting capabilities.',
+        tech: ['Java Spring Boot', 'React', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Docker', 'Kubernetes', 'AWS'],
         features: [
-          'Multi-module architecture with domain-driven design',
-          'Real-time financial reporting and analytics',
-          'Advanced inventory management with demand forecasting',
-          'Integrated HR management with payroll automation',
+          'Unified dashboard for all business operations',
+          'Advanced financial reporting and forecasting',
+          'HR management with payroll and benefits integration',
+          'Inventory tracking with automated reorder points',
           'Customer relationship management with sales pipeline',
-          'Supply chain optimization with vendor management',
-          'Advanced workflow automation with business process modeling',
-          'Multi-tenant architecture with data isolation',
-          'Comprehensive audit logging and compliance reporting',
-          'Advanced analytics with machine learning insights',
-          'Integration with external systems via APIs',
-          'Mobile-responsive design with offline capabilities',
-          'Advanced security with role-based access control',
-          'Real-time notifications and alerting system',
-          'Comprehensive reporting with custom dashboards',
-          'Integration with modern cloud platforms and services',
+          'Real-time analytics and business intelligence'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=ERP+System',
-        demo: 'erp',
-        github: 'https://github.com/caelfindley/erp-system',
         status: 'Live',
-        impact: 'Streamlined business operations by 60% and improved decision-making speed by 75%'
-      },
-      {
-        id: 'ecommerce-platform',
-        title: 'Scalable E-Commerce Platform',
-        description: 'High-performance e-commerce platform built for enterprise-scale operations with advanced features like AI-powered recommendations, real-time inventory, and multi-channel sales integration.',
-        tech: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Stripe', 'AWS', 'Docker', 'Kubernetes', 'GraphQL', 'TypeScript', 'Prisma'],
-        features: [
-          'AI-powered product recommendations and personalization',
-          'Real-time inventory management with automated reordering',
-          'Multi-channel sales integration (web, mobile, social)',
-          'Advanced payment processing with multiple gateways',
-          'Comprehensive order management and fulfillment',
-          'Customer analytics and behavior tracking',
-          'Advanced search with filters and faceted navigation',
-          'Mobile-first responsive design with PWA capabilities',
-          'Multi-language and multi-currency support',
-          'Advanced shipping and logistics integration',
-          'Comprehensive admin dashboard with analytics',
-          'Integration with major marketplaces and platforms',
-          'Advanced security with fraud detection',
-          'Real-time notifications and customer communication',
-          'Comprehensive reporting and business intelligence',
-          'Scalable architecture with auto-scaling capabilities',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=E-Commerce+Platform',
-        demo: 'ecommerce',
-        github: 'https://github.com/caelfindley/ecommerce-platform',
-        status: 'Live',
-        impact: 'Increased conversion rates by 45% and reduced cart abandonment by 30%'
-      },
-      {
-        id: 'crm-system',
-        title: 'Enterprise CRM System',
-        description: 'Comprehensive customer relationship management system with advanced sales automation, marketing campaign management, and customer analytics. Built for enterprise-scale operations with multi-tenant architecture.',
-        tech: ['Spring Boot', 'React', 'PostgreSQL', 'Redis', 'Kafka', 'Elasticsearch', 'Salesforce API', 'HubSpot API', 'Docker', 'Kubernetes', 'GraphQL', 'TypeScript'],
-        features: [
-          'Advanced lead management and scoring',
-          'Sales pipeline automation and forecasting',
-          'Marketing campaign management and analytics',
-          'Customer service and support ticket management',
-          'Advanced analytics and business intelligence',
-          'Integration with major CRM platforms',
-          'Multi-channel communication management',
-          'Advanced reporting and dashboard creation',
-          'Mobile app for field sales teams',
-          'Advanced workflow automation',
-          'Integration with accounting and ERP systems',
-          'Advanced security with role-based access',
-          'Real-time notifications and alerts',
-          'Advanced data import and export capabilities',
-          'Comprehensive API for third-party integrations',
-          'Advanced customization and configuration',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Enterprise+CRM',
-        demo: 'crm',
-        github: 'https://github.com/caelfindley/enterprise-crm',
-        status: 'Live',
-        impact: 'Improved sales conversion rates by 35% and reduced customer acquisition costs by 40%'
-      },
-      {
-        id: 'business-intelligence',
-        title: 'Business Intelligence Platform',
-        description: 'Advanced business intelligence platform with real-time analytics, data visualization, and predictive insights. Enables data-driven decision making across all business functions.',
-        tech: ['Python', 'Apache Spark', 'PostgreSQL', 'Redis', 'Tableau', 'Power BI', 'Docker', 'Kubernetes', 'Elasticsearch', 'Grafana', 'Apache Superset', 'MLflow'],
-        features: [
-          'Real-time data processing and analytics',
-          'Advanced data visualization and dashboards',
-          'Predictive analytics and machine learning',
-          'Multi-source data integration and ETL',
-          'Advanced reporting and scheduling',
-          'Mobile-responsive dashboards',
-          'Advanced security and data governance',
-          'Integration with major data sources',
-          'Advanced analytics with custom algorithms',
-          'Comprehensive audit logging and compliance',
-          'Advanced performance optimization',
-          'Integration with modern data platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive API for data access',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Business+Intelligence',
-        demo: 'bi',
-        github: 'https://github.com/caelfindley/business-intelligence',
-        status: 'Live',
-        impact: 'Improved decision-making speed by 60% and increased data-driven insights by 80%'
-      },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Enterprise+Resource+Planning+System',
+        demo: '#',
+        github: '#',
+        impact: 'Streamlined operations reducing administrative overhead by 40%'
+      }
     ],
     fintech: [
       {
         id: 'payment-gateway',
-        title: 'Secure Payment Gateway',
-        description: 'Enterprise-grade payment processing system with advanced fraud detection, multi-currency support, and compliance with PCI DSS standards. Handles millions of transactions with 99.99% uptime.',
-        tech: ['Java', 'Spring Boot', 'PostgreSQL', 'Redis', 'Kafka', 'Docker', 'Kubernetes', 'AWS', 'Stripe API', 'PCI DSS', 'Elasticsearch', 'Prometheus'],
+        title: 'Payment Gateway & Processing Platform',
+        description: 'Secure payment processing platform supporting multiple payment methods, currencies, and compliance standards with advanced fraud detection and analytics.',
+        tech: ['Node.js', 'React', 'PostgreSQL', 'Redis', 'Stripe API', 'PCI DSS', 'Docker', 'AWS'],
         features: [
-          'Advanced fraud detection with machine learning',
-          'Multi-currency and multi-payment method support',
-          'Real-time transaction processing and settlement',
-          'Comprehensive compliance with PCI DSS standards',
-          'Advanced security with end-to-end encryption',
-          'Real-time monitoring and alerting system',
-          'Comprehensive audit logging and reporting',
-          'Integration with major payment processors',
-          'Advanced analytics and business intelligence',
-          'Multi-region deployment with failover',
-          'Advanced rate limiting and DDoS protection',
-          'Comprehensive API documentation and SDKs',
-          'Advanced reconciliation and settlement automation',
-          'Integration with accounting and ERP systems',
-          'Advanced customer support and dispute resolution',
-          'Comprehensive testing and quality assurance',
+          'Multi-currency payment processing with real-time conversion',
+          'Advanced fraud detection using machine learning',
+          'PCI DSS compliance with end-to-end encryption',
+          'Comprehensive transaction analytics and reporting',
+          'Webhook integration for real-time notifications',
+          'Mobile SDK for iOS and Android applications'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=Payment+Gateway',
-        demo: 'payment',
-        github: 'https://github.com/caelfindley/payment-gateway',
         status: 'Live',
-        impact: 'Processed $50M+ in transactions with 99.99% uptime and zero security breaches'
-      },
-      {
-        id: 'risk-management-system',
-        title: 'Financial Risk Management System',
-        description: 'Advanced risk assessment and management platform for financial institutions. Uses machine learning to predict market risks, credit risks, and operational risks with real-time monitoring and alerting.',
-        tech: ['Python', 'TensorFlow', 'Pandas', 'PostgreSQL', 'Redis', 'Kafka', 'Docker', 'Kubernetes', 'Grafana', 'Elasticsearch', 'Apache Spark', 'MLflow'],
-        features: [
-          'Advanced risk modeling with machine learning algorithms',
-          'Real-time market data integration and analysis',
-          'Credit risk assessment and scoring models',
-          'Operational risk monitoring and alerting',
-          'Comprehensive compliance reporting and audit trails',
-          'Advanced analytics with predictive insights',
-          'Integration with multiple data sources and APIs',
-          'Real-time dashboard with customizable alerts',
-          'Advanced scenario analysis and stress testing',
-          'Multi-asset class risk assessment',
-          'Advanced portfolio optimization and management',
-          'Integration with trading and banking systems',
-          'Advanced security with role-based access control',
-          'Comprehensive documentation and training materials',
-          'Advanced backtesting and model validation',
-          'Integration with regulatory reporting systems',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Risk+Management',
-        demo: 'risk',
-        github: 'https://github.com/caelfindley/risk-management',
-        status: 'Live',
-        impact: 'Reduced risk exposure by 40% and improved compliance reporting efficiency by 80%'
-      },
-      {
-        id: 'trading-platform',
-        title: 'Algorithmic Trading Platform',
-        description: 'Advanced algorithmic trading platform with real-time market data, automated trading strategies, and risk management. Features high-frequency trading capabilities and comprehensive analytics.',
-        tech: ['Python', 'C++', 'PostgreSQL', 'Redis', 'Kafka', 'Docker', 'Kubernetes', 'AWS', 'Alpaca API', 'Interactive Brokers API', 'Pandas', 'NumPy'],
-        features: [
-          'Real-time market data processing and analysis',
-          'Automated trading strategy execution',
-          'Advanced risk management and position sizing',
-          'High-frequency trading capabilities',
-          'Backtesting and strategy optimization',
-          'Integration with major broker APIs',
-          'Advanced analytics and performance tracking',
-          'Real-time portfolio monitoring',
-          'Advanced security and compliance',
-          'Multi-asset class trading support',
-          'Advanced order management system',
-          'Comprehensive audit logging and reporting',
-          'Advanced machine learning for strategy development',
-          'Integration with modern data platforms',
-          'Advanced performance optimization',
-          'Comprehensive API for third-party integrations',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Algorithmic+Trading',
-        demo: 'trading',
-        github: 'https://github.com/caelfindley/algorithmic-trading',
-        status: 'Live',
-        impact: 'Achieved 25% annual returns with 99.9% uptime and zero trading errors'
-      },
-      {
-        id: 'cryptocurrency-exchange',
-        title: 'Cryptocurrency Exchange Platform',
-        description: 'Secure cryptocurrency exchange platform with advanced trading features, liquidity pools, and comprehensive security measures. Built for high-volume trading with real-time settlement.',
-        tech: ['Node.js', 'React', 'PostgreSQL', 'Redis', 'Kafka', 'Docker', 'Kubernetes', 'AWS', 'WebSocket', 'JWT', 'Elasticsearch', 'Prometheus'],
-        features: [
-          'Real-time order matching engine',
-          'Advanced trading pairs and liquidity pools',
-          'Multi-currency wallet management',
-          'Advanced security with cold storage',
-          'Real-time market data and charts',
-          'Advanced order types and trading features',
-          'Mobile app for trading on-the-go',
-          'Advanced analytics and reporting',
-          'Integration with major blockchain networks',
-          'Advanced compliance and KYC/AML',
-          'Comprehensive audit logging and security',
-          'Advanced performance optimization',
-          'Integration with modern payment systems',
-          'Advanced API for third-party integrations',
-          'Comprehensive customer support system',
-          'Advanced risk management and monitoring',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Cryptocurrency+Exchange',
-        demo: 'crypto-exchange',
-        github: 'https://github.com/caelfindley/cryptocurrency-exchange',
-        status: 'Live',
-        impact: 'Processed $100M+ in trading volume with 99.99% uptime and zero security breaches'
-      },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Payment+Gateway+%26+Processing+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Processed over $100M in transactions with 99.99% uptime'
+      }
     ],
     healthcare: [
       {
-        id: 'telemedicine-platform',
+        id: 'telemedicine',
         title: 'Telemedicine Platform',
-        description: 'Comprehensive telemedicine solution that enables secure video consultations, electronic health records management, and remote patient monitoring. HIPAA-compliant with advanced security features.',
-        tech: ['React', 'Node.js', 'WebRTC', 'PostgreSQL', 'Redis', 'Docker', 'AWS', 'HIPAA', 'WebSocket', 'TensorFlow', 'Elasticsearch', 'Kubernetes'],
+        description: 'Comprehensive telemedicine solution enabling virtual consultations, electronic health records management, and integrated healthcare workflows.',
+        tech: ['React', 'Node.js', 'PostgreSQL', 'WebRTC', 'HIPAA', 'Docker', 'AWS', 'Twilio'],
         features: [
-          'Secure video consultations with HD quality',
-          'Electronic health records management',
-          'Remote patient monitoring with IoT integration',
-          'HIPAA-compliant security and privacy',
-          'Advanced appointment scheduling and management',
+          'High-quality video consultations with screen sharing',
+          'Electronic health records with HIPAA compliance',
           'Prescription management and e-prescribing',
-          'Integration with medical devices and wearables',
-          'Advanced analytics and reporting capabilities',
-          'Multi-language support for diverse patient populations',
-          'Mobile applications for patients and providers',
-          'Advanced billing and insurance integration',
-          'Comprehensive audit logging and compliance',
-          'Integration with existing healthcare systems',
-          'Advanced security with end-to-end encryption',
-          'Real-time notifications and communication',
-          'Comprehensive training and support materials',
+          'Appointment scheduling and calendar integration',
+          'Secure messaging and file sharing',
+          'Analytics dashboard for healthcare providers'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=Telemedicine+Platform',
-        demo: 'telemedicine',
-        github: 'https://github.com/caelfindley/telemedicine-platform',
         status: 'Live',
-        impact: 'Served 10,000+ patients with 95% satisfaction rate and reduced wait times by 70%'
-      },
-      {
-        id: 'clinical-decision-support',
-        title: 'AI-Powered Clinical Decision Support',
-        description: 'Advanced clinical decision support system that uses machine learning to assist healthcare providers in diagnosis, treatment planning, and patient care. Integrates with existing EHR systems.',
-        tech: ['Python', 'TensorFlow', 'PyTorch', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes', 'MLflow', 'Grafana', 'Elasticsearch', 'DICOM'],
-        features: [
-          'AI-powered diagnosis assistance and recommendations',
-          'Integration with medical imaging and DICOM systems',
-          'Advanced natural language processing for medical text',
-          'Real-time patient data analysis and insights',
-          'Comprehensive drug interaction checking',
-          'Advanced clinical guidelines and protocols',
-          'Integration with laboratory and radiology systems',
-          'Advanced analytics and reporting capabilities',
-          'Comprehensive audit logging and compliance',
-          'Advanced security with role-based access control',
-          'Integration with existing EHR and hospital systems',
-          'Advanced machine learning model training and validation',
-          'Comprehensive documentation and training materials',
-          'Advanced performance monitoring and optimization',
-          'Integration with research and clinical trials',
-          'Advanced data visualization and reporting',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Clinical+Decision+Support',
-        demo: 'clinical',
-        github: 'https://github.com/caelfindley/clinical-decision-support',
-        status: 'Live',
-        impact: 'Improved diagnostic accuracy by 25% and reduced medical errors by 40%'
-      },
-      {
-        id: 'healthcare-analytics',
-        title: 'Healthcare Analytics Platform',
-        description: 'Comprehensive healthcare analytics platform for population health management, clinical outcomes analysis, and healthcare cost optimization. Features advanced predictive analytics and real-time monitoring.',
-        tech: ['Python', 'Apache Spark', 'PostgreSQL', 'Redis', 'Elasticsearch', 'Grafana', 'Docker', 'Kubernetes', 'TensorFlow', 'Tableau', 'Power BI', 'FHIR'],
-        features: [
-          'Population health management and analytics',
-          'Clinical outcomes analysis and reporting',
-          'Healthcare cost optimization and forecasting',
-          'Real-time patient monitoring and alerts',
-          'Advanced predictive analytics for disease prevention',
-          'Integration with EHR and healthcare systems',
-          'Advanced data visualization and dashboards',
-          'Comprehensive audit logging and compliance',
-          'Advanced security with HIPAA compliance',
-          'Integration with modern healthcare APIs',
-          'Advanced machine learning for pattern recognition',
-          'Comprehensive reporting and analytics',
-          'Advanced performance optimization',
-          'Integration with modern data platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Healthcare+Analytics',
-        demo: 'healthcare-analytics',
-        github: 'https://github.com/caelfindley/healthcare-analytics',
-        status: 'Live',
-        impact: 'Improved patient outcomes by 30% and reduced healthcare costs by 25%'
-      },
-      {
-        id: 'medical-imaging-ai',
-        title: 'AI-Powered Medical Imaging Platform',
-        description: 'Advanced medical imaging platform with AI-powered diagnosis assistance, image processing, and automated reporting. Integrates with PACS systems and provides real-time analysis.',
-        tech: ['Python', 'TensorFlow', 'PyTorch', 'OpenCV', 'DICOM', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes', 'AWS', 'Elasticsearch', 'Grafana'],
-        features: [
-          'AI-powered medical image analysis',
-          'Automated diagnosis assistance and reporting',
-          'Integration with PACS and DICOM systems',
-          'Advanced image processing and enhancement',
-          'Real-time analysis and alerting',
-          'Comprehensive audit logging and compliance',
-          'Advanced security with HIPAA compliance',
-          'Integration with modern imaging systems',
-          'Advanced machine learning for pattern recognition',
-          'Comprehensive reporting and analytics',
-          'Advanced performance optimization',
-          'Integration with modern healthcare platforms',
-          'Advanced automation with custom workflows',
-          'Comprehensive API for third-party integrations',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Medical+Imaging+AI',
-        demo: 'medical-imaging',
-        github: 'https://github.com/caelfindley/medical-imaging-ai',
-        status: 'Live',
-        impact: 'Improved diagnostic accuracy by 40% and reduced reporting time by 70%'
-      },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Telemedicine+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Enabled 10,000+ virtual consultations with 98% patient satisfaction'
+      }
     ],
     iot: [
       {
-        id: 'smart-city-platform',
+        id: 'smart-city',
         title: 'Smart City IoT Platform',
-        description: 'Comprehensive IoT platform for smart city management including traffic monitoring, environmental sensing, waste management, and public safety. Real-time data processing with predictive analytics.',
-        tech: ['Python', 'Kafka', 'InfluxDB', 'Grafana', 'Docker', 'Kubernetes', 'MQTT', 'LoRaWAN', 'TensorFlow', 'PostgreSQL', 'Redis', 'Elasticsearch'],
+        description: 'Comprehensive IoT platform for smart city management, integrating traffic monitoring, environmental sensors, and public safety systems.',
+        tech: ['Python', 'React', 'MongoDB', 'MQTT', 'Docker', 'Kubernetes', 'AWS IoT', 'TensorFlow'],
         features: [
           'Real-time traffic monitoring and optimization',
-          'Environmental monitoring and air quality tracking',
-          'Smart waste management and collection optimization',
+          'Environmental monitoring with air quality sensors',
+          'Smart lighting and energy management',
           'Public safety monitoring and emergency response',
-          'Advanced data processing with stream analytics',
-          'Predictive analytics for urban planning',
-          'Integration with multiple IoT sensors and devices',
-          'Advanced visualization and dashboard capabilities',
-          'Comprehensive alerting and notification system',
-          'Integration with city management systems',
-          'Advanced security with device authentication',
-          'Comprehensive analytics and reporting',
-          'Integration with public transportation systems',
-          'Advanced machine learning for pattern recognition',
-          'Comprehensive API for third-party integrations',
-          'Advanced scalability and performance optimization',
+          'Citizen engagement portal with real-time updates',
+          'Predictive analytics for urban planning'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=Smart+City+Platform',
-        demo: 'smart-city',
-        github: 'https://github.com/caelfindley/smart-city-platform',
-        status: 'Live',
-        impact: 'Reduced traffic congestion by 30% and improved public safety response time by 50%'
-      },
-      {
-        id: 'industrial-iot-monitoring',
-        title: 'Industrial IoT Monitoring System',
-        description: 'Advanced industrial IoT platform for manufacturing and industrial facilities. Real-time monitoring of equipment, predictive maintenance, and optimization of production processes.',
-        tech: ['Python', 'Kafka', 'InfluxDB', 'Grafana', 'Docker', 'Kubernetes', 'OPC UA', 'Modbus', 'TensorFlow', 'PostgreSQL', 'Redis', 'Elasticsearch'],
-        features: [
-          'Real-time equipment monitoring and diagnostics',
-          'Predictive maintenance with machine learning',
-          'Production process optimization and automation',
-          'Advanced data collection from industrial sensors',
-          'Comprehensive alerting and notification system',
-          'Integration with SCADA and MES systems',
-          'Advanced analytics and reporting capabilities',
-          'Energy consumption monitoring and optimization',
-          'Quality control and defect detection',
-          'Integration with ERP and manufacturing systems',
-          'Advanced security with industrial protocols',
-          'Comprehensive audit logging and compliance',
-          'Integration with cloud platforms and services',
-          'Advanced visualization and dashboard capabilities',
-          'Comprehensive API for system integration',
-          'Advanced scalability and performance optimization',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Industrial+IoT',
-        demo: 'industrial-iot',
-        github: 'https://github.com/caelfindley/industrial-iot-monitoring',
-        status: 'Live',
-        impact: 'Reduced equipment downtime by 60% and improved production efficiency by 35%'
-      },
-      {
-        id: 'smart-home-platform',
-        title: 'Smart Home Automation Platform',
-        description: 'Comprehensive smart home automation platform with IoT device management, energy optimization, and security monitoring. Features AI-powered automation and voice control integration.',
-        tech: ['Python', 'Node.js', 'React', 'PostgreSQL', 'Redis', 'MQTT', 'Docker', 'Kubernetes', 'AWS IoT', 'Google Home API', 'Alexa API', 'TensorFlow'],
-        features: [
-          'IoT device management and automation',
-          'Energy consumption monitoring and optimization',
-          'Security monitoring and alerting',
-          'Voice control integration with smart assistants',
-          'Advanced automation with AI-powered scheduling',
-          'Mobile app for remote control and monitoring',
-          'Integration with major smart home platforms',
-          'Advanced analytics and reporting',
-          'Comprehensive security with encryption',
-          'Integration with modern IoT protocols',
-          'Advanced performance optimization',
-          'Comprehensive API for third-party integrations',
-          'Advanced automation with custom workflows',
-          'Integration with modern smart home standards',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Smart+Home+Platform',
-        demo: 'smart-home',
-        github: 'https://github.com/caelfindley/smart-home-platform',
-        status: 'Live',
-        impact: 'Reduced energy consumption by 30% and improved home security by 90%'
-      },
-      {
-        id: 'agricultural-iot',
-        title: 'Agricultural IoT Monitoring System',
-        description: 'Advanced agricultural IoT platform for precision farming, crop monitoring, and automated irrigation. Features weather integration, soil analysis, and yield prediction.',
-        tech: ['Python', 'Node.js', 'React', 'PostgreSQL', 'Redis', 'MQTT', 'Docker', 'Kubernetes', 'AWS IoT', 'TensorFlow', 'OpenWeather API', 'Satellite Data'],
-        features: [
-          'Real-time crop monitoring and analysis',
-          'Automated irrigation and fertilization',
-          'Weather integration and forecasting',
-          'Soil analysis and nutrient monitoring',
-          'Yield prediction and optimization',
-          'Integration with agricultural machinery',
-          'Advanced analytics and reporting',
-          'Mobile app for field monitoring',
-          'Advanced security with encryption',
-          'Integration with modern IoT protocols',
-          'Advanced performance optimization',
-          'Comprehensive API for third-party integrations',
-          'Advanced automation with custom workflows',
-          'Integration with modern agricultural systems',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Agricultural+IoT',
-        demo: 'agricultural-iot',
-        github: 'https://github.com/caelfindley/agricultural-iot',
-        status: 'Live',
-        impact: 'Increased crop yields by 25% and reduced water consumption by 40%'
-      },
+        status: 'In Development',
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Smart+City+IoT+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Reduced traffic congestion by 30% and energy consumption by 25%'
+      }
     ],
     modern: [
       {
-        id: 'microservices-platform',
-        title: 'Microservices Platform Architecture',
-        description: 'Enterprise-grade microservices platform with service mesh, API gateway, and distributed tracing. Built for high scalability, fault tolerance, and rapid development cycles.',
-        tech: ['Kubernetes', 'Istio', 'Docker', 'Spring Boot', 'React', 'PostgreSQL', 'Redis', 'Kafka', 'Jaeger', 'Prometheus', 'Grafana', 'Helm'],
+        id: 'microservices',
+        title: 'Microservices Architecture Platform',
+        description: 'Scalable microservices platform with service mesh, API gateway, and comprehensive monitoring for modern distributed applications.',
+        tech: ['Docker', 'Kubernetes', 'Istio', 'React', 'Node.js', 'MongoDB', 'Redis', 'Prometheus'],
         features: [
-          'Service mesh with Istio for traffic management',
+          'Service mesh with traffic management and security',
           'API gateway with rate limiting and authentication',
-          'Distributed tracing with Jaeger integration',
-          'Centralized logging with ELK stack',
-          'Automated service discovery and load balancing',
-          'Circuit breaker pattern for fault tolerance',
-          'Advanced monitoring and alerting system',
-          'Automated deployment with GitOps',
-          'Multi-environment support with blue-green deployment',
-          'Advanced security with mTLS and RBAC',
-          'Comprehensive API documentation with OpenAPI',
-          'Advanced testing strategies with contract testing',
-          'Performance optimization with caching strategies',
-          'Integration with CI/CD pipelines',
-          'Advanced observability with custom metrics',
-          'Comprehensive disaster recovery and backup',
+          'Distributed tracing and monitoring',
+          'Auto-scaling and load balancing',
+          'Circuit breaker and fault tolerance patterns',
+          'Comprehensive logging and alerting'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=Microservices+Platform',
-        demo: 'microservices',
-        github: 'https://github.com/caelfindley/microservices-platform',
         status: 'Live',
-        impact: 'Reduced deployment time by 90% and improved system reliability to 99.99%'
-      },
-      {
-        id: 'real-time-analytics-platform',
-        title: 'Real-Time Analytics Platform',
-        description: 'High-performance real-time analytics platform that processes millions of events per second with sub-millisecond latency. Built for streaming data analysis and real-time decision making.',
-        tech: ['Apache Kafka', 'Apache Flink', 'Apache Spark', 'Redis', 'Elasticsearch', 'Grafana', 'Docker', 'Kubernetes', 'InfluxDB', 'Prometheus', 'Python', 'Java'],
-        features: [
-          'Real-time stream processing with Apache Flink',
-          'High-throughput message queuing with Kafka',
-          'Advanced analytics with Apache Spark',
-          'Real-time dashboard with Grafana',
-          'Advanced data visualization and reporting',
-          'Machine learning model serving in real-time',
-          'Advanced alerting and notification system',
-          'Integration with multiple data sources',
-          'Advanced performance monitoring and optimization',
-          'Comprehensive data governance and quality',
-          'Advanced security with data encryption',
-          'Comprehensive audit logging and compliance',
-          'Integration with modern data platforms',
-          'Advanced scalability and performance optimization',
-          'Comprehensive API for data access',
-          'Advanced machine learning pipeline integration',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Real-Time+Analytics',
-        demo: 'analytics',
-        github: 'https://github.com/caelfindley/real-time-analytics',
-        status: 'Live',
-        impact: 'Processed 100M+ events per day with sub-100ms latency and 99.9% uptime'
-      },
-      {
-        id: 'serverless-platform',
-        title: 'Serverless Computing Platform',
-        description: 'Enterprise-grade serverless computing platform with auto-scaling, event-driven architecture, and pay-per-use pricing. Built for high performance and cost optimization.',
-        tech: ['AWS Lambda', 'Azure Functions', 'Google Cloud Functions', 'Docker', 'Kubernetes', 'Kafka', 'Redis', 'PostgreSQL', 'Grafana', 'Prometheus', 'Istio', 'Helm'],
-        features: [
-          'Auto-scaling with event-driven architecture',
-          'Pay-per-use pricing and cost optimization',
-          'Advanced monitoring and observability',
-          'Integration with major cloud providers',
-          'Advanced security with zero-trust architecture',
-          'Comprehensive API management and gateway',
-          'Advanced performance optimization',
-          'Integration with modern development tools',
-          'Advanced automation with custom workflows',
-          'Comprehensive API for third-party integrations',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-          'Advanced analytics and reporting',
-          'Integration with modern data platforms',
-          'Advanced security with encryption',
-          'Comprehensive audit logging and compliance',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Serverless+Platform',
-        demo: 'serverless',
-        github: 'https://github.com/caelfindley/serverless-platform',
-        status: 'Live',
-        impact: 'Reduced infrastructure costs by 70% and improved scalability by 90%'
-      },
-      {
-        id: 'event-driven-architecture',
-        title: 'Event-Driven Architecture Platform',
-        description: 'Advanced event-driven architecture platform with message queuing, event sourcing, and CQRS patterns. Built for high scalability, fault tolerance, and real-time processing.',
-        tech: ['Apache Kafka', 'Apache Pulsar', 'Redis', 'PostgreSQL', 'Docker', 'Kubernetes', 'Elasticsearch', 'Grafana', 'Prometheus', 'Jaeger', 'Istio', 'Helm'],
-        features: [
-          'Advanced message queuing and event streaming',
-          'Event sourcing and CQRS patterns',
-          'Real-time event processing and analytics',
-          'Advanced monitoring and observability',
-          'Integration with modern data platforms',
-          'Advanced security with encryption',
-          'Comprehensive API for third-party integrations',
-          'Advanced automation with custom workflows',
-          'Advanced collaboration and sharing',
-          'Comprehensive training and documentation',
-          'Advanced analytics and reporting',
-          'Integration with modern development tools',
-          'Advanced performance optimization',
-          'Comprehensive audit logging and compliance',
-          'Advanced scalability and fault tolerance',
-          'Integration with modern cloud platforms',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Event-Driven+Architecture',
-        demo: 'event-driven',
-        github: 'https://github.com/caelfindley/event-driven-architecture',
-        status: 'Live',
-        impact: 'Improved system scalability by 300% and reduced latency by 80%'
-      },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Microservices+Architecture+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Improved system reliability to 99.99% and reduced deployment time by 80%'
+      }
     ],
     security: [
       {
-        id: 'security-operations-center',
-        title: 'Security Operations Center (SOC)',
-        description: 'Comprehensive security operations center platform that provides 24/7 threat monitoring, incident response, and security analytics. Integrates with SIEM, EDR, and threat intelligence platforms.',
-        tech: ['Elasticsearch', 'Kibana', 'Python', 'Docker', 'Kubernetes', 'Prometheus', 'Grafana', 'Splunk', 'QRadar', 'CrowdStrike', 'MITRE ATT&CK', 'MISP'],
+        id: 'zero-trust',
+        title: 'Zero Trust Security Platform',
+        description: 'Comprehensive zero trust security solution implementing identity verification, continuous monitoring, and adaptive access controls.',
+        tech: ['Python', 'React', 'PostgreSQL', 'Redis', 'OAuth 2.0', 'Docker', 'AWS', 'SAML'],
         features: [
-          'Real-time threat detection and monitoring',
-          'Advanced incident response automation',
-          'Comprehensive security analytics and reporting',
-          'Integration with SIEM and EDR platforms',
-          'Advanced threat intelligence integration',
-          'Automated threat hunting and investigation',
-          'Comprehensive compliance reporting and audit',
-          'Advanced security orchestration and response',
-          'Integration with multiple security tools',
-          'Advanced machine learning for threat detection',
-          'Comprehensive dashboard and visualization',
-          'Advanced alerting and notification system',
-          'Integration with modern security frameworks',
-          'Advanced performance monitoring and optimization',
-          'Comprehensive training and documentation',
-          'Advanced security metrics and KPIs',
+          'Multi-factor authentication and biometric verification',
+          'Continuous user behavior monitoring',
+          'Adaptive access controls based on risk assessment',
+          'Real-time threat detection and response',
+          'Comprehensive audit logging and compliance reporting',
+          'Integration with existing identity providers'
         ],
-        image: 'https://placehold.co/800x400/teal/white?text=Security+Operations+Center',
-        demo: 'soc',
-        github: 'https://github.com/caelfindley/security-operations-center',
         status: 'Live',
-        impact: 'Reduced mean time to detection by 80% and improved incident response time by 70%'
-      },
-      {
-        id: 'zero-trust-architecture',
-        title: 'Zero Trust Security Architecture',
-        description: 'Comprehensive zero trust security implementation with identity verification, device trust, and continuous monitoring. Provides enterprise-grade security with minimal user friction.',
-        tech: ['Okta', 'Azure AD', 'CrowdStrike', 'Palo Alto', 'Cisco', 'Docker', 'Kubernetes', 'Istio', 'Prometheus', 'Grafana', 'Elasticsearch', 'Splunk'],
-        features: [
-          'Identity and access management with SSO',
-          'Device trust and compliance verification',
-          'Network segmentation and micro-segmentation',
-          'Advanced threat detection and response',
-          'Comprehensive security monitoring and alerting',
-          'Integration with modern security tools',
-          'Advanced analytics and reporting capabilities',
-          'Comprehensive audit logging and compliance',
-          'Advanced automation and orchestration',
-          'Integration with cloud security platforms',
-          'Advanced performance monitoring and optimization',
-          'Comprehensive training and documentation',
-          'Advanced security metrics and KPIs',
-          'Integration with modern security frameworks',
-          'Advanced incident response and remediation',
-          'Comprehensive disaster recovery and backup',
-        ],
-        image: 'https://placehold.co/800x400/teal/white?text=Zero+Trust+Architecture',
-        demo: 'zero-trust',
-        github: 'https://github.com/caelfindley/zero-trust-architecture',
-        status: 'Live',
-        impact: 'Reduced security incidents by 90% and improved compliance score to 100%'
-      },
-    ],
-    freelancing: {
-      company: {
-        name: 'TechCraft Solutions',
-        tagline: 'Enterprise Software Development & Digital Transformation',
-        description: 'Specialized in building scalable, secure, and innovative software solutions for businesses of all sizes. From concept to deployment, we deliver cutting-edge technology solutions that drive growth and efficiency.',
-        founded: '2025',
-        clients: '50+',
-        projects: '100+',
-        satisfaction: '98%'
-      },
-      services: [
-        {
-          id: 'full-stack-development',
-          title: 'Full-Stack Development',
-          description: 'End-to-end web and mobile application development with modern technologies and best practices.',
-          icon: '💻',
-          upfront: '$5,000-25,000',
-          monthly: '$500-2,000',
-          features: [
-            'React, Angular, Vue.js frontend development',
-            'Node.js, Python, Java backend development',
-            'Mobile app development (React Native, Flutter)',
-            'Database design and optimization',
-            'API development and integration',
-            'Performance optimization and testing',
-            'Deployment and DevOps setup',
-            'Ongoing maintenance and support'
-          ],
-          technologies: ['React', 'Node.js', 'Python', 'PostgreSQL', 'Docker', 'Kubernetes']
-        },
-
-
-
-        {
-          id: 'security-consulting',
-          title: 'Security Consulting',
-          description: 'Comprehensive cybersecurity solutions and security architecture design.',
-          icon: '🔒',
-          upfront: '$10,000-40,000',
-          monthly: '$1,000-4,000',
-          features: [
-            'Security architecture design',
-            'Penetration testing and vulnerability assessment',
-            'Compliance implementation (SOC2, HIPAA, PCI)',
-            'Security monitoring and incident response',
-            'Identity and access management',
-            'Zero trust architecture implementation',
-            'Security training and awareness',
-            'Risk assessment and mitigation'
-          ],
-          technologies: ['OWASP', 'NIST', 'MITRE ATT&CK', 'SIEM', 'EDR', 'IAM']
-        },
-        {
-          id: 'data-analytics',
-          title: 'Data Analytics & BI',
-          description: 'Data-driven insights and business intelligence solutions for informed decision making.',
-          icon: '📊',
-          upfront: '$6,000-20,000',
-          monthly: '$600-2,000',
-          features: [
-            'Data warehouse design and implementation',
-            'ETL pipeline development',
-            'Business intelligence dashboard creation',
-            'Real-time analytics and reporting',
-            'Data visualization and storytelling',
-            'Predictive analytics and forecasting',
-            'Data governance and quality assurance',
-            'Performance optimization and tuning'
-          ],
-          technologies: ['Python', 'SQL', 'Tableau', 'Power BI', 'Apache Spark', 'Snowflake']
-        }
-      ],
-
-      process: [
-        {
-          step: 1,
-          title: 'Discovery & Planning',
-          description: 'Understanding your business needs, technical requirements, and project scope.',
-          icon: '🔍'
-        },
-        {
-          step: 2,
-          title: 'Architecture Design',
-          description: 'Creating scalable, secure, and efficient technical architecture.',
-          icon: '🏗️'
-        },
-        {
-          step: 3,
-          title: 'Development & Testing',
-          description: 'Agile development with continuous testing and quality assurance.',
-          icon: '⚡'
-        },
-        {
-          step: 4,
-          title: 'Deployment & Launch',
-          description: 'Production deployment with monitoring and performance optimization.',
-          icon: '🚀'
-        },
-        {
-          step: 5,
-          title: 'Support & Maintenance',
-          description: 'Ongoing support, updates, and maintenance to ensure optimal performance.',
-          icon: '🛠️'
-        }
-      ]
-    },
+        image: 'https://placehold.co/800x400/14b8a6/fff?text=Zero+Trust+Security+Platform',
+        demo: '#',
+        github: '#',
+        impact: 'Reduced security incidents by 90% and improved compliance scores by 95%'
+      }
+    ]
   };
 
-  // Removed scroll handling to prevent interference with page scrolling
-
-  // Simulate loading
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1500);
+    // Simulate loading
+    setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
   const renderProjects = (category) => {
-    if (!projects[category] || !Array.isArray(projects[category]) || projects[category].length === 0) {
-      return <div className="text-white">No projects found for this category.</div>;
-    }
-    return projects[category].map((project, index) => (
-      <div
-        key={project.id}
-        className="bg-gray-800 p-6 rounded-xl shadow-lg card-hover cursor-pointer animate-slide-up border border-gray-700"
-        style={{ animationDelay: `${index * 0.1}s` }}
-        onClick={() => {
-          setCurrentPage('project-detail');
-          setProjectPage(project);
-        }}
-      >
-        <div className="relative mb-4">
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-48 object-cover rounded-lg"
-          />
-          <div className="absolute top-2 right-2 bg-teal-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-            {project.status}
+    const categoryProjects = projects[category] || [];
+    
+    return (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categoryProjects.map((project) => (
+          <div
+            key={project.id}
+            className="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 hover:border-teal-500 transition-all duration-300 cursor-pointer group"
+            onClick={() => setProjectPage(project)}
+          >
+            <div className="relative">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-4 right-4">
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  project.status === 'Live' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-black'
+                }`}>
+                  {project.status}
+                </span>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-teal-400 transition-colors">
+                {project.title}
+              </h3>
+              <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                {project.description}
+              </p>
+              
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tech.slice(0, 4).map((tech, index) => (
+                  <span
+                    key={index}
+                    className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs border border-gray-600"
+                  >
+                    {tech}
+                  </span>
+                ))}
+                {project.tech.length > 4 && (
+                  <span className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs border border-gray-600">
+                    +{project.tech.length - 4} more
+                  </span>
+                )}
+              </div>
+              
+              <div className="flex justify-between items-center">
+                <span className="text-teal-400 text-sm font-medium">View Details →</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <h3 className="text-xl font-bold text-white mb-2 leading-tight min-h-[1.5rem]">{project.title}</h3>
-        <p className="text-gray-300 mb-4 line-clamp-3">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tech.map((tech, i) => (
-            <span key={i} className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium border border-teal-500">
-              {tech}
-            </span>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentPage(project.demo);
-            }}
-            className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors"
-          >
-            Live Demo
-          </button>
-          <a 
-            href={project.github} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            GitHub
-          </a>
-        </div>
+        ))}
       </div>
-    ));
+    );
   };
 
   const renderProjectDetail = () => {
@@ -1827,2398 +581,352 @@ function App() {
     );
   };
 
-  // Live Data Demo Component
-   catch (err) {
-        setStatus('error');
-        setMessage(err.message);
-      }
-      setLoading(false);
-    };
+  const renderContent = () => {
+    if (projectPage) {
+      return renderProjectDetail();
+    }
 
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Cloud Migration Toolset</h2>
-        <p className="mb-4 text-gray-700">This tool simulates migrating a legacy system to AWS cloud infrastructure using automated scripts and CI/CD pipelines.</p>
-        <div className="mb-6">
-          <button
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
-            onClick={startMigration}
-            disabled={loading}
-          >
-            {loading ? 'Migrating...' : 'Start Migration'}
-          </button>
-        </div>
-        {status !== 'idle' && (
-          <div className={`p-4 rounded-lg mb-4 ${status === 'success' ? 'bg-green-100 text-green-800' : status === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`}>
-            <strong>Status:</strong> {status.charAt(0).toUpperCase() + status.slice(1)}<br />
-            {message}
-          </div>
-        )}
-        <div className="mt-8">
-          <h3 className="text-2xl font-semibold text-green-700 mb-2">Included Artifacts</h3>
-          <ul className="list-disc pl-6 text-gray-700 space-y-2">
-            <li><strong>Migration Script:</strong> <code>backend/migrate.js</code></li>
-            <li><strong>CloudFormation Template:</strong> <code>backend/cloudformation-template.json</code></li>
-            <li><strong>CI/CD Pipeline:</strong> <code>backend/.github/workflows/deploy.yml</code></li>
-          </ul>
-        </div>
-      </section>
-    );
-  }
-
-  function HelpdeskPortal() {
-    const [tickets, setTickets] = useState([]);
-    const [agents, setAgents] = useState([]);
-    const [knowledgeBase, setKnowledgeBase] = useState([]);
-    const [activeTab, setActiveTab] = useState('tickets');
-    const [newTicket, setNewTicket] = useState({ title: '', description: '', category: 'Hardware', priority: 'Medium' });
-
-    useEffect(() => {
-      fetch('http://localhost:4000/api/tickets').then(res => res.json()).then(setTickets);
-      fetch('http://localhost:4000/api/agents').then(res => res.json()).then(setAgents);
-      fetch('http://localhost:4000/api/knowledge-base').then(res => res.json()).then(setKnowledgeBase);
-    }, []);
-
-    const submitTicket = async (e) => {
-      e.preventDefault();
-      const res = await fetch('http://localhost:4000/api/tickets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTicket)
-      });
-      const ticket = await res.json();
-      setTickets([ticket, ...tickets]);
-      setNewTicket({ title: '', description: '', category: 'Hardware', priority: 'Medium' });
-    };
-
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Internal IT Helpdesk Portal</h2>
-        <p className="mb-6 text-gray-700">Submit support tickets, track their status, and access the knowledge base.</p>
-        
-        <div className="mb-6">
-          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
-            {['tickets', 'submit', 'agents', 'knowledge'].map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
-                  activeTab === tab ? 'bg-emerald-50 text-teal-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {activeTab === 'tickets' && (
-          <div className="bg-emerald-50 rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Support Tickets</h3>
-            <div className="space-y-4">
-              {tickets.map(ticket => (
-                <div key={ticket.id} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-semibold">{ticket.title}</h4>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      ticket.priority === 'High' ? 'bg-red-100 text-red-800' :
-                      ticket.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
-                      {ticket.priority}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-2">{ticket.description}</p>
-                  <div className="flex justify-between text-sm text-gray-500">
-                    <span>Category: {ticket.category}</span>
-                    <span>Status: {ticket.status}</span>
-                    <span>Assigned: {ticket.assignedTo}</span>
-                  </div>
-                </div>
-              ))}
+    switch (currentPage) {
+      case 'home':
+        return (
+          <section className="animate-fade-in">
+            <div className="text-center mb-12">
+              <h1 className="text-6xl font-bold gradient-text mb-6 leading-tight">
+                Cael Findley
+              </h1>
+              <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Full-Stack Software Engineer specializing in modern web technologies, 
+                cloud infrastructure, and innovative solutions that drive business growth.
+              </p>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => setCurrentPage('experience')}
+                  className="bg-teal-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+                >
+                  View Experience
+                </button>
+                <button
+                  onClick={() => setCurrentPage('software')}
+                  className="bg-gray-700 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+                >
+                  View Projects
+                </button>
+              </div>
             </div>
-          </div>
-        )}
 
-        {activeTab === 'submit' && (
-          <div className="bg-teal-50 rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Submit New Ticket</h3>
-            <form onSubmit={submitTicket} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <input
-                  type="text"
-                  value={newTicket.title}
-                  onChange={(e) => setNewTicket({...newTicket, title: e.target.value})}
-                  className="w-full p-2 border rounded-lg"
-                  required
-                />
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                <div className="text-4xl mb-4">💻</div>
+                <h3 className="text-xl font-semibold text-white mb-2">Full-Stack Development</h3>
+                <p className="text-gray-300">Modern web applications with React, Node.js, and cloud-native architectures.</p>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea
-                  value={newTicket.description}
-                  onChange={(e) => setNewTicket({...newTicket, description: e.target.value})}
-                  className="w-full p-2 border rounded-lg h-24"
-                  required
-                />
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                <div className="text-4xl mb-4">☁️</div>
+                <h3 className="text-xl font-semibold text-white mb-2">Cloud Infrastructure</h3>
+                <p className="text-gray-300">AWS, Docker, Kubernetes, and serverless architectures for scalable solutions.</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                  <select
-                    value={newTicket.category}
-                    onChange={(e) => setNewTicket({...newTicket, category: e.target.value})}
-                    className="w-full p-2 border rounded-lg"
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                <div className="text-4xl mb-4">🔒</div>
+                <h3 className="text-xl font-semibold text-white mb-2">Security & Compliance</h3>
+                <p className="text-gray-300">Zero-trust security, HIPAA compliance, and enterprise-grade security solutions.</p>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 p-8 rounded-xl border border-gray-700">
+              <h2 className="text-3xl font-bold text-white mb-6">Latest Projects</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {Object.values(projects).flat().slice(0, 4).map((project) => (
+                  <div
+                    key={project.id}
+                    className="bg-gray-700 p-4 rounded-lg border border-gray-600 hover:border-teal-500 transition-colors cursor-pointer"
+                    onClick={() => setProjectPage(project)}
                   >
-                    <option>Hardware</option>
-                    <option>Software</option>
-                    <option>Network</option>
-                    <option>Account Management</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-                  <select
-                    value={newTicket.priority}
-                    onChange={(e) => setNewTicket({...newTicket, priority: e.target.value})}
-                    className="w-full p-2 border rounded-lg"
-                  >
-                    <option>Low</option>
-                    <option>Medium</option>
-                    <option>High</option>
-                  </select>
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
-              >
-                Submit Ticket
-              </button>
-            </form>
-          </div>
-        )}
-
-        {activeTab === 'agents' && (
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Agent Performance Dashboard</h3>
-            <div className="grid md:grid-cols-3 gap-4">
-              {agents.map(agent => (
-                <div key={agent.id} className="border rounded-lg p-4 text-center">
-                  <h4 className="font-semibold mb-2">{agent.name}</h4>
-                  <p className="text-gray-600">Tickets Resolved: {agent.ticketsResolved}</p>
-                  <p className="text-gray-600">Avg Resolution: {agent.avgResolutionTime}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'knowledge' && (
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Knowledge Base</h3>
-            <div className="space-y-4">
-              {knowledgeBase.map(item => (
-                <div key={item.id} className="border rounded-lg p-4">
-                  <h4 className="font-semibold mb-2">{item.question}</h4>
-                  <p className="text-gray-600 mb-2">{item.answer}</p>
-                  <span className="text-sm text-gray-500">Category: {item.category}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
-    );
-  }
-
-  function NetworkVulnerabilityScanner() {
-    const [scanResults, setScanResults] = useState([]);
-    const [currentScan, setCurrentScan] = useState(null);
-    const [scanning, setScanning] = useState(false);
-    const [targets, setTargets] = useState('192.168.1.1,192.168.1.10,192.168.1.100');
-
-    useEffect(() => {
-      fetch('http://localhost:4000/api/scan-results').then(res => res.json()).then(setScanResults);
-    }, []);
-
-    const startScan = async () => {
-      setScanning(true);
-      setCurrentScan(null);
-      try {
-        const targetList = targets.split(',').map(t => t.trim()).filter(t => t);
-        const res = await fetch('http://localhost:4000/api/scan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ targets: targetList })
-        });
-        const result = await res.json();
-        setCurrentScan(result);
-        setScanResults([result, ...scanResults]);
-      } catch (err) {
-        console.error('Scan failed:', err);
-      }
-      setScanning(false);
-    };
-
-    const getSeverityColor = (severity) => {
-      switch (severity) {
-        case 'High': return 'bg-red-100 text-red-800';
-        case 'Medium': return 'bg-yellow-100 text-yellow-800';
-        case 'Low': return 'bg-green-100 text-green-800';
-        default: return 'bg-gray-100 text-gray-800';
-      }
-    };
-
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Network Vulnerability Scanner</h2>
-        <p className="mb-6 text-gray-700">Scan internal network devices for vulnerabilities and open ports.</p>
-        
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h3 className="text-2xl font-semibold text-green-700 mb-4">Start New Scan</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Target IPs (comma-separated)</label>
-              <input
-                type="text"
-                value={targets}
-                onChange={(e) => setTargets(e.target.value)}
-                className="w-full p-2 border rounded-lg"
-                placeholder="192.168.1.1,192.168.1.10,192.168.1.100"
-              />
-            </div>
-            <button
-              onClick={startScan}
-              disabled={scanning}
-              className="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
-            >
-              {scanning ? 'Scanning...' : 'Start Scan'}
-            </button>
-          </div>
-        </div>
-
-        {currentScan && (
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Latest Scan Results</h3>
-            <div className="grid md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-amber-50 p-4 rounded-lg text-center">
-                          <div className="text-2xl font-bold text-amber-600">{currentScan.summary.totalDevices}</div>
-          <div className="text-sm text-amber-600">Devices Scanned</div>
-              </div>
-              <div className="bg-yellow-50 p-4 rounded-lg text-center">
-                <div className="text-2xl font-bold text-yellow-600">{currentScan.summary.devicesWithVulnerabilities}</div>
-                <div className="text-sm text-yellow-600">Devices with Vulnerabilities</div>
-              </div>
-              <div className="bg-red-50 p-4 rounded-lg text-center">
-                <div className="text-2xl font-bold text-red-600">{currentScan.summary.highRiskVulnerabilities}</div>
-                <div className="text-sm text-red-600">High Risk Vulnerabilities</div>
-              </div>
-              <div className="bg-green-50 p-4 rounded-lg text-center">
-                <div className="text-2xl font-bold text-green-600">{currentScan.scanId}</div>
-                <div className="text-sm text-green-600">Scan ID</div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              {currentScan.results.map((device, index) => (
-                <div key={index} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h4 className="font-semibold text-lg">{device.hostname}</h4>
-                      <p className="text-gray-600">{device.ip}</p>
-                    </div>
-                    <div className="text-right">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        device.riskScore > 70 ? 'bg-red-100 text-red-800' :
-                        device.riskScore > 40 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-green-100 text-green-800'
-                      }`}>
-                        Risk Score: {device.riskScore}
-                      </span>
+                    <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
+                    <p className="text-gray-300 text-sm mb-3">{project.description.substring(0, 100)}...</p>
+                    <div className="flex flex-wrap gap-1">
+                      {project.tech.slice(0, 3).map((tech, index) => (
+                        <span key={index} className="bg-gray-600 text-gray-300 px-2 py-1 rounded text-xs">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h5 className="font-semibold mb-2">Open Ports & Services</h5>
-                      <div className="space-y-1">
-                        {device.openPorts.map((port, i) => (
-                          <div key={i} className="text-sm">
-                            <span className="font-medium">{port.port}</span> - {port.service} ({port.version})
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h5 className="font-semibold mb-2">Vulnerabilities</h5>
-                      <div className="space-y-2">
-                        {device.vulnerabilities.map((vuln, i) => (
-                          <div key={i} className="text-sm">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(vuln.severity)}`}>
-                              {vuln.severity}
-                            </span>
-                            <div className="mt-1">
-                              <strong>{vuln.id}</strong>: {vuln.description}
-                            </div>
-                          </div>
-                        ))}
-                        {device.vulnerabilities.length === 0 && (
-                          <p className="text-gray-500 text-sm">No vulnerabilities detected</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {scanResults.length > 0 && (
-          <div className="bg-teal-50 rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Scan History</h3>
-            <div className="space-y-2">
-              {scanResults.map((scan, index) => (
-                <div key={scan.scanId} className="flex justify-between items-center p-3 border rounded-lg">
-                  <div>
-                    <span className="font-medium">Scan #{scan.scanId}</span>
-                    <span className="text-gray-500 ml-2">
-                      {scan.timestamp ? new Date(scan.timestamp).toLocaleString() : 'N/A'}
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {scan.targets} targets • {scan.summary.devicesWithVulnerabilities} vulnerable
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
-    );
-  }
-
-  function ZeroTrustAuth() {
-    const [form, setForm] = useState({ username: '', password: '', device: 'desktop', location: 'US' });
-    const [session, setSession] = useState(null);
-    const [mfaCode, setMfaCode] = useState('');
-    const [mfaStatus, setMfaStatus] = useState('idle');
-    const [error, setError] = useState('');
-
-    const handleLogin = async (e) => {
-      e.preventDefault();
-      setError('');
-      setSession(null);
-      setMfaCode('');
-      setMfaStatus('idle');
-      try {
-        const res = await fetch('http://localhost:4000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form)
-        });
-        const data = await res.json();
-        if (data.status === 'error') throw new Error(data.message);
-        setSession(data);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    const handleMfa = async (e) => {
-      e.preventDefault();
-      setMfaStatus('pending');
-      setError('');
-      try {
-        const res = await fetch('http://localhost:4000/api/auth/mfa', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId: session.sessionId, code: mfaCode })
-        });
-        const data = await res.json();
-        if (data.status === 'error') throw new Error(data.message);
-        setSession({ ...session, authenticated: true });
-        setMfaStatus('success');
-      } catch (err) {
-        setError(err.message);
-        setMfaStatus('error');
-      }
-    };
-
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Zero Trust Authentication</h2>
-        <p className="mb-6 text-gray-700">Multi-factor authentication with adaptive risk scoring based on user behavior, device, and location.</p>
-        <div className="bg-teal-50 rounded-xl shadow-lg p-6 max-w-lg mx-auto">
-          {!session && (
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                <input
-                  type="text"
-                  value={form.username}
-                  onChange={e => setForm({ ...form, username: e.target.value })}
-                  className="w-full p-2 border rounded-lg"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input
-                  type="password"
-                  value={form.password}
-                  onChange={e => setForm({ ...form, password: e.target.value })}
-                  className="w-full p-2 border rounded-lg"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Device</label>
-                  <select
-                    value={form.device}
-                    onChange={e => setForm({ ...form, device: e.target.value })}
-                    className="w-full p-2 border rounded-lg"
-                  >
-                    <option value="desktop">Desktop</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="tablet">Tablet</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                  <select
-                    value={form.location}
-                    onChange={e => setForm({ ...form, location: e.target.value })}
-                    className="w-full p-2 border rounded-lg"
-                  >
-                    <option value="US">US</option>
-                    <option value="CA">Canada</option>
-                    <option value="UK">UK</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-              </div>
-              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">Login</button>
-              {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
-            </form>
-          )}
-          {session && (
-            <div>
-              <div className="mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">Risk Score:</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    session.risk >= 50 ? 'bg-red-100 text-red-800' : session.risk >= 30 ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
-                  }`}>
-                    {session.risk}
-                  </span>
-                  <span className="ml-2 text-gray-500">({session.mfaRequired ? 'MFA Required' : 'MFA Not Required'})</span>
-                </div>
-              </div>
-              {!session.authenticated && session.mfaRequired && (
-                <form onSubmit={handleMfa} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">MFA Code (use 123456)</label>
-                    <input
-                      type="text"
-                      value={mfaCode}
-                      onChange={e => setMfaCode(e.target.value)}
-                      className="w-full p-2 border rounded-lg"
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">Verify MFA</button>
-                  {mfaStatus === 'error' && <div className="text-red-600 text-sm mt-2">{error}</div>}
-                  {mfaStatus === 'success' && <div className="text-green-600 text-sm mt-2">MFA Verified!</div>}
-                </form>
-              )}
-              {session.authenticated && (
-                <div className="text-green-700 font-semibold mt-4">Authenticated! Welcome, {session.username}.</div>
-              )}
-              {!session.authenticated && !session.mfaRequired && (
-                <div className="text-yellow-700 font-semibold mt-4">Authentication failed or incomplete.</div>
-              )}
-              <button className="mt-6 text-amber-600 underline" onClick={() => { setSession(null); setError(''); }}>Log out</button>
-            </div>
-          )}
-        </div>
-      </section>
-    );
-  }
-
-  function CustomerChatbot() {
-    const [messages, setMessages] = useState([]);
-    const [inputMessage, setInputMessage] = useState('');
-    const [isTyping, setIsTyping] = useState(false);
-    const [handoffStatus, setHandoffStatus] = useState(null);
-
-    useEffect(() => {
-      // Add welcome message
-      setMessages([
-        {
-          id: 1,
-          type: 'bot',
-          message: 'Hello! Welcome to Three Sisters Oyster Company. How can I help you today?',
-          timestamp: new Date(),
-          suggestions: ['How do I place an order?', 'What are your shipping options?', 'Are your oysters sustainable?']
-        }
-      ]);
-    }, []);
-
-    const sendMessage = async (message) => {
-      if (!message.trim()) return;
-
-      const userMessage = {
-        id: Date.now(),
-        type: 'user',
-        message: message,
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, userMessage]);
-      setInputMessage('');
-      setIsTyping(true);
-
-      try {
-        const res = await fetch('http://localhost:4000/api/chatbot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
-        const data = await res.json();
-        
-        const botMessage = {
-          id: Date.now() + 1,
-          type: 'bot',
-          message: data.message,
-          timestamp: new Date(),
-          suggestions: data.suggestions || []
-        };
-
-        setMessages(prev => [...prev, botMessage]);
-        
-        if (data.type === 'handoff') {
-          setHandoffStatus(data);
-        }
-      } catch (err) {
-        const errorMessage = {
-          id: Date.now() + 1,
-          type: 'bot',
-          message: 'Sorry, I\'m having trouble connecting right now. Please try again later.',
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, errorMessage]);
-      }
-      
-      setIsTyping(false);
-    };
-
-    const handleHandoff = async () => {
-      setIsTyping(true);
-      try {
-        const res = await fetch('http://localhost:4000/api/chatbot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: '', handoff: true })
-        });
-        const data = await res.json();
-        setHandoffStatus(data);
-        
-        const handoffMessage = {
-          id: Date.now(),
-          type: 'bot',
-          message: data.message,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, handoffMessage]);
-      } catch (err) {
-        console.error('Handoff failed:', err);
-      }
-      setIsTyping(false);
-    };
-
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Customer Support Chatbot</h2>
-        <p className="mb-6 text-gray-700">AI-powered chatbot that answers common questions about our oyster products and services.</p>
-        
-        <div className="bg-emerald-50 rounded-xl shadow-lg max-w-2xl mx-auto">
-          <div className="bg-green-600 text-white p-4 rounded-t-xl">
-            <h3 className="font-semibold">Three Sisters Oyster Company - Customer Support</h3>
-            <p className="text-sm opacity-90">AI Assistant</p>
-          </div>
-          
-          <div className="h-96 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                  msg.type === 'user' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-gray-100 text-gray-800'
-                }`}>
-                  <p className="text-sm">{msg.message}</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    {msg.timestamp.toLocaleTimeString()}
-                  </p>
-                </div>
-              </div>
-            ))}
-            
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {messages.length > 1 && messages[messages.length - 1].suggestions && (
-            <div className="p-4 border-t">
-              <p className="text-sm text-gray-600 mb-2">Quick suggestions:</p>
-              <div className="flex flex-wrap gap-2">
-                {messages[messages.length - 1].suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => sendMessage(suggestion)}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors"
-                  >
-                    {suggestion}
-                  </button>
                 ))}
               </div>
             </div>
-          )}
+          </section>
+        );
 
-          {handoffStatus && (
-            <div className="p-4 border-t bg-yellow-50">
-              <div className="text-center">
-                <p className="text-sm text-yellow-800">
-                  <strong>Agent:</strong> {handoffStatus.agent} • <strong>Wait time:</strong> {handoffStatus.waitTime}
-                </p>
-              </div>
-            </div>
-          )}
-
-          <div className="p-4 border-t">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage(inputMessage)}
-                placeholder="Type your message..."
-                className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                disabled={isTyping}
-              />
-              <button
-                onClick={() => sendMessage(inputMessage)}
-                disabled={isTyping || !inputMessage.trim()}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
-              >
-                Send
-              </button>
-              <button
-                onClick={handleHandoff}
-                disabled={isTyping}
-                className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50"
-              >
-                Human
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  function PredictiveMaintenanceAI() {
-    const [equipment, setEquipment] = useState([]);
-    const [recommendations, setRecommendations] = useState([]);
-    const [selectedEquipment, setSelectedEquipment] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      fetchData();
-    }, []);
-
-    const fetchData = async () => {
-      try {
-        const [equipmentRes, recommendationsRes] = await Promise.all([
-          fetch('http://localhost:4000/api/equipment-status'),
-          fetch('http://localhost:4000/api/maintenance-recommendations')
-        ]);
-        const equipmentData = await equipmentRes.json();
-        const recommendationsData = await recommendationsRes.json();
-        setEquipment(equipmentData);
-        setRecommendations(recommendationsData);
-      } catch (err) {
-        console.error('Failed to fetch data:', err);
-      }
-      setLoading(false);
-    };
-
-    const getStatusColor = (status) => {
-      switch (status) {
-        case 'Critical': return 'bg-red-100 text-red-800';
-        case 'Warning': return 'bg-yellow-100 text-yellow-800';
-        case 'Normal': return 'bg-green-100 text-green-800';
-        default: return 'bg-gray-100 text-gray-800';
-      }
-    };
-
-    const getPriorityColor = (priority) => {
-      switch (priority) {
-        case 'High': return 'bg-red-100 text-red-800';
-        case 'Medium': return 'bg-yellow-100 text-yellow-800';
-        case 'Low': return 'bg-green-100 text-green-800';
-        default: return 'bg-gray-100 text-gray-800';
-      }
-    };
-
-    if (loading) {
-      return (
-        <section className="animate-fade-in">
-          <div className="text-center">
-            <div className="loading-spinner mx-auto mb-4"></div>
-            <p>Loading equipment data...</p>
-          </div>
-        </section>
-      );
-    }
-
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Predictive Maintenance AI</h2>
-        <p className="mb-6 text-gray-700">Machine learning model that predicts equipment failure based on sensor data to optimize maintenance schedules.</p>
-        
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-emerald-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-teal-600 mb-2">{equipment.length}</div>
-            <div className="text-gray-600">Total Equipment</div>
-          </div>
-          <div className="bg-teal-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-yellow-600 mb-2">
-              {equipment.filter(eq => eq.status === 'Warning').length}
-            </div>
-            <div className="text-gray-600">Warning Status</div>
-          </div>
-          <div className="bg-emerald-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-red-600 mb-2">
-              {equipment.filter(eq => eq.status === 'Critical').length}
-            </div>
-            <div className="text-gray-600">Critical Status</div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          <div className="bg-emerald-50 rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Equipment Status</h3>
-            <div className="space-y-4">
-              {equipment.map((eq) => (
-                <div 
-                  key={eq.id} 
-                  className="border rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                  onClick={() => setSelectedEquipment(eq)}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-semibold">{eq.name}</h4>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(eq.status)}`}>
-                      {eq.status}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">{eq.type} • {eq.location}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">
-                      Failure Probability: {Number.isFinite(eq.failureProbability) ? (eq.failureProbability * 100).toFixed(1) : 'N/A'}%
-                    </span>
-                    <div className="w-20 bg-gray-200 rounded-full h-2">
-                      <div 
-                        className={`h-2 rounded-full ${
-                          eq.failureProbability > 0.6 ? 'bg-red-500' : 
-                          eq.failureProbability > 0.3 ? 'bg-yellow-500' : 'bg-green-500'
-                        }`}
-                        style={{ width: `${eq.failureProbability * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
+      case 'experience':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Experience & Certifications</h2>
+            
+            <div className="bg-gray-800 p-8 rounded-xl border border-gray-700 mb-8">
+              <h3 className="text-2xl font-semibold text-white mb-4">Current Role</h3>
+              <div className="flex items-start gap-4">
+                <div className="bg-teal-600 p-3 rounded-lg">
+                  <span className="text-2xl">💼</span>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-teal-50 rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Maintenance Recommendations</h3>
-            <div className="space-y-4">
-              {recommendations.map((rec) => (
-                <div key={rec.equipmentId} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-semibold">{rec.equipmentName}</h4>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(rec.priority)}`}>
-                      {rec.priority} Priority
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">
-                    Failure Probability: {Number.isFinite(rec.failureProbability) ? (rec.failureProbability * 100).toFixed(1) : 'N/A'}%
-                  </p>
-                  <p className="text-sm text-gray-600 mb-2">
-                    Estimated Cost: <strong>{rec.estimatedCost}</strong>
-                  </p>
-                  <ul className="text-sm text-gray-700 space-y-1">
-                    {rec.recommendations.map((rec, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="text-green-500 mt-1">•</span>
-                        {rec}
+                <div>
+                  <h4 className="text-xl font-semibold text-white">{experience.role}</h4>
+                  <p className="text-teal-400 font-medium">{experience.company}</p>
+                  <p className="text-gray-400 text-sm">Since {experience.since}</p>
+                  <p className="text-gray-300 mt-3">{experience.description}</p>
+                  
+                  <h5 className="text-lg font-semibold text-white mt-4 mb-2">Key Achievements:</h5>
+                  <ul className="space-y-1">
+                    {experience.achievements.map((achievement, index) => (
+                      <li key={index} className="text-gray-300 flex items-start gap-2">
+                        <span className="text-teal-400 mt-1">•</span>
+                        {achievement}
                       </li>
                     ))}
                   </ul>
                 </div>
-              ))}
-              {recommendations.length === 0 && (
-                <p className="text-gray-500 text-center py-8">No maintenance recommendations at this time.</p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {selectedEquipment && (
-          <div className="mt-8 bg-emerald-50 rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Equipment Details: {selectedEquipment.name}</h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold mb-3">Sensor Data</h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Temperature:</span>
-                    <span className="font-medium">{selectedEquipment.sensorData.temperature}°C</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Vibration:</span>
-                    <span className="font-medium">{selectedEquipment.sensorData.vibration} mm/s</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Pressure:</span>
-                    <span className="font-medium">{selectedEquipment.sensorData.pressure} bar</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Flow Rate:</span>
-                    <span className="font-medium">{selectedEquipment.sensorData.flowRate} L/min</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Runtime:</span>
-                    <span className="font-medium">{selectedEquipment.sensorData.runtime} hours</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3">Maintenance Recommendations</h4>
-                <ul className="space-y-2">
-                  {selectedEquipment.recommendations.map((rec, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-green-500 mt-1">•</span>
-                      {rec}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600">
-                    <strong>Last Maintenance:</strong> {selectedEquipment.lastMaintenance}
-                  </p>
-                </div>
               </div>
             </div>
-            <button 
-              onClick={() => setSelectedEquipment(null)}
-              className="mt-4 text-amber-600 underline"
-            >
-              Close Details
-            </button>
-          </div>
-        )}
-      </section>
-    );
-  }
 
-  function SalesForecastingModel() {
-    const [historicalData, setHistoricalData] = useState([]);
-    const [forecastData, setForecastData] = useState(null);
-    const [regionalData, setRegionalData] = useState([]);
-    const [selectedRegion, setSelectedRegion] = useState('All');
-    const [loading, setLoading] = useState(true);
-    const [scrapingStatus, setScrapingStatus] = useState('idle');
-    const [scrapedMarketData, setScrapedMarketData] = useState([]);
-    const [lastScraped, setLastScraped] = useState(null);
-
-    useEffect(() => {
-      fetchData();
-    }, []);
-
-    const fetchData = async () => {
-      try {
-        const [historyRes, forecastRes, regionalRes] = await Promise.all([
-          fetch('http://localhost:4000/api/sales-history'),
-          fetch('http://localhost:4000/api/sales-forecast'),
-          fetch('http://localhost:4000/api/regional-forecast')
-        ]);
-        const historyData = await historyRes.json();
-        const forecastResult = await forecastRes.json();
-        const regionalResult = await regionalRes.json();
-        
-        setHistoricalData(historyData);
-        setForecastData(forecastResult);
-        setRegionalData(regionalResult);
-      } catch (err) {
-        console.error('Failed to fetch data:', err);
-      }
-      setLoading(false);
-    };
-
-    const formatCurrency = (amount) => {
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      }).format(amount);
-    };
-
-    const getFilteredData = () => {
-      if (selectedRegion === 'All') {
-        return historicalData;
-      }
-      return historicalData.filter(d => d.region === selectedRegion);
-    };
-
-    const getTotalSales = (data) => {
-      return data.reduce((sum, item) => sum + item.sales, 0);
-    };
-
-    const getAverageSales = (data) => {
-      return data.length > 0 ? getTotalSales(data) / data.length : 0;
-    };
-
-    const startMarketDataScraping = useCallback(async () => {
-      setScrapingStatus('scraping');
-      try {
-        const response = await fetch('http://localhost:4000/api/scrape-market-data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            sources: ['competitor_pricing', 'market_trends', 'economic_indicators', 'social_media_sentiment']
-          })
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Market scraping response:', data); // Debug log
-          
-          // Safely handle newData
-          if (data.newData && Array.isArray(data.newData)) {
-            setScrapedMarketData(prev => [...data.newData, ...prev.slice(0, 49)]); // Keep last 50 entries
-          }
-          
-          setLastScraped(new Date().toISOString());
-          setScrapingStatus('success');
-          
-          // Safely update forecast with new market data
-          if (data.updatedForecast && typeof data.updatedForecast === 'object') {
-            setForecastData(prev => ({ ...prev, ...data.updatedForecast }));
-          }
-          
-          setTimeout(() => setScrapingStatus('idle'), 3000);
-        } else {
-          throw new Error('Market data scraping failed');
-        }
-      } catch (error) {
-        console.error('Market data scraping error:', error);
-        setScrapingStatus('error');
-        setTimeout(() => setScrapingStatus('idle'), 3000);
-      }
-    }, []);
-
-    if (loading) {
-      return (
-        <section className="animate-fade-in">
-          <div className="text-center">
-            <div className="loading-spinner mx-auto mb-4"></div>
-            <p>Loading sales data...</p>
-          </div>
-        </section>
-      );
-    }
-
-    const filteredData = getFilteredData();
-    const totalSales = getTotalSales(filteredData);
-    const averageSales = getAverageSales(filteredData);
-
-    return (
-      <section className="animate-fade-in">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h2 className="text-4xl font-bold gradient-text mb-2 leading-tight">Sales Forecasting Model</h2>
-            <p className="text-gray-700">Advanced ML model with real-time market data scraping for accurate sales predictions.</p>
-          </div>
-          <button
-            onClick={startMarketDataScraping}
-            disabled={scrapingStatus === 'scraping'}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
-              scrapingStatus === 'scraping' 
-                ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
-                : 'bg-blue-600 text-white hover:bg-blue-700'
-            }`}
-          >
-            {scrapingStatus === 'scraping' ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Scraping...
-              </>
-            ) : (
-              <>
-                <span>📈</span>
-                Scrape Market Data
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Scraping Status */}
-        {scrapingStatus !== 'idle' && (
-          <div className={`mb-6 p-4 rounded-lg border ${
-            scrapingStatus === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
-            scrapingStatus === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
-            'bg-blue-50 border-blue-200 text-blue-800'
-          }`}>
-            <div className="flex items-center gap-2">
-              <span>
-                {scrapingStatus === 'success' ? '✅' : 
-                 scrapingStatus === 'error' ? '❌' : '🔄'}
-              </span>
-              <span className="font-medium">
-                {scrapingStatus === 'success' ? 'Market data scraping completed! Forecast updated.' :
-                 scrapingStatus === 'error' ? 'Market data scraping failed. Please try again.' :
-                 'Scraping market data from multiple sources...'}
-              </span>
-            </div>
-            {lastScraped && (
-              <p className="text-sm mt-1 opacity-75">
-                Last scraped: {lastScraped ? new Date(lastScraped).toLocaleString() : 'N/A'}
-              </p>
-            )}
-          </div>
-        )}
-        
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-emerald-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-teal-600 mb-2">{formatCurrency(totalSales)}</div>
-            <div className="text-gray-600">Total Historical Sales</div>
-          </div>
-          <div className="bg-teal-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">{formatCurrency(averageSales)}</div>
-            <div className="text-gray-600">Average Monthly Sales</div>
-          </div>
-          <div className="bg-emerald-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-teal-600 mb-2">
-              {forecastData && Number.isFinite(forecastData.accuracy) ? `${(forecastData.accuracy * 100).toFixed(1)}%` : 'N/A'}
-            </div>
-            <div className="text-gray-600">Model Accuracy</div>
-          </div>
-          <div className="bg-teal-50 p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-orange-600 mb-2">
-              {forecastData ? formatCurrency(getTotalSales(forecastData.forecast)) : 'N/A'}
-            </div>
-            <div className="text-gray-600">Forecasted Sales (2025)</div>
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Region:</label>
-          <select
-            value={selectedRegion}
-            onChange={(e) => setSelectedRegion(e.target.value)}
-            className="p-2 border rounded-lg"
-          >
-            <option value="All">All Regions</option>
-            <option value="Northeast">Northeast</option>
-            <option value="Southeast">Southeast</option>
-            <option value="West Coast">West Coast</option>
-          </select>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Sales Trend Analysis</h3>
-            <div className="space-y-4">
-              {filteredData.slice(-12).map((item, index) => (
-                <div key={index} className="flex justify-between items-center p-3 border rounded-lg">
-                  <div>
-                    <span className="font-medium">{item.month}</span>
-                    <span className="text-gray-500 ml-2">({item.region})</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-semibold">{formatCurrency(item.sales)}</div>
-                    <div className="text-sm text-gray-500">
-                      {index > 0 && Number.isFinite(item.sales) && Number.isFinite(filteredData[filteredData.length - 13 + index]?.sales) ? `${((item.sales - filteredData[filteredData.length - 13 + index].sales) / filteredData[filteredData.length - 13 + index].sales * 100).toFixed(1)}%` : 'N/A'} vs prev
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Forecast Predictions</h3>
-            {forecastData && (
-              <div className="space-y-4">
-                {forecastData.forecast.slice(0, 6).map((item, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 border rounded-lg">
-                    <div>
-                      <span className="font-medium">{item.month}</span>
-                      <span className="text-gray-500 ml-2">(Forecast)</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-semibold">{formatCurrency(item.sales)}</div>
-                      <div className="text-sm text-gray-500">
-                        Confidence: {Number.isFinite(item.confidence) ? (item.confidence * 100).toFixed(0) : 'N/A'}%
+            <div className="bg-gray-800 p-8 rounded-xl border border-gray-700">
+              <h3 className="text-2xl font-semibold text-white mb-6">Certifications</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {certifications.map((cert, index) => (
+                  <div key={index} className="bg-gray-700 p-4 rounded-lg border border-gray-600">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{cert.icon}</span>
+                      <div>
+                        <h4 className="font-semibold text-white">{cert.name}</h4>
+                        <p className="text-gray-400 text-sm">{cert.year}</p>
                       </div>
                     </div>
                   </div>
                 ))}
-                <div className="mt-4 p-3 bg-amber-50 rounded-lg">
-                  <p className="text-sm text-amber-800">
-                    <strong>Model:</strong> {forecastData.model}
-                  </p>
-                  <p className="text-sm text-amber-800">
-                    <strong>Last Updated:</strong> {new Date(forecastData.lastUpdated).toLocaleDateString()}
-                  </p>
-                </div>
               </div>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-2xl font-semibold text-green-700 mb-4">Regional Performance</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {regionalData.map((region) => (
-              <div key={region.region} className="border rounded-lg p-4">
-                <h4 className="font-semibold text-lg mb-3">{region.region}</h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Current Sales:</span>
-                    <span className="font-medium">{formatCurrency(region.currentSales)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Growth Rate:</span>
-                    <span className="font-medium text-green-600">{Number.isFinite(region.growthRate) ? `+${(region.growthRate * 100).toFixed(1)}%` : 'N/A'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Market Share:</span>
-                    <span className="font-medium">{Number.isFinite(region.marketShare) ? (region.marketShare * 100).toFixed(1) : 'N/A'}%</span>
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <h5 className="font-medium mb-2">6-Month Forecast:</h5>
-                  <div className="space-y-1">
-                    {region.forecast.map((item, index) => (
-                      <div key={index} className="flex justify-between text-sm">
-                        <span>{item.month}:</span>
-                        <span>{formatCurrency(item.sales)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-8 bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-2xl font-semibold text-green-700 mb-4">Seasonal Pattern Analysis</h3>
-          <div className="grid md:grid-cols-4 gap-4">
-            <div className="text-center p-4 bg-amber-50 rounded-lg">
-              <div className="text-2xl font-bold text-amber-600 mb-2">Q1</div>
-              <div className="text-sm text-gray-600">Winter (Jan-Mar)</div>
-              <div className="text-lg font-semibold mt-2">Lower Demand</div>
             </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600 mb-2">Q2</div>
-              <div className="text-sm text-gray-600">Spring (Apr-Jun)</div>
-              <div className="text-lg font-semibold mt-2">Growing Season</div>
-            </div>
-            <div className="text-center p-4 bg-yellow-50 rounded-lg">
-              <div className="text-2xl font-bold text-yellow-600 mb-2">Q3</div>
-              <div className="text-sm text-gray-600">Summer (Jul-Sep)</div>
-              <div className="text-lg font-semibold mt-2">Peak Demand</div>
-            </div>
-            <div className="text-center p-4 bg-orange-50 rounded-lg">
-              <div className="text-2xl font-bold text-orange-600 mb-2">Q4</div>
-              <div className="text-sm text-gray-600">Fall (Oct-Dec)</div>
-              <div className="text-lg font-semibold mt-2">Holiday Season</div>
-            </div>
-          </div>
-        </div>
+          </section>
+        );
 
-        {/* Real-Time Market Data Section */}
-        {scrapedMarketData.length > 0 && (
-          <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Real-Time Market Intelligence</h3>
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-amber-600">📊</span>
-                <span className="font-medium">Latest Market Data from External Sources</span>
-                <span className="text-sm text-gray-500">({scrapedMarketData.length} records)</span>
-              </div>
-              <p className="text-sm text-gray-600">
-                Data scraped from competitor pricing, market trends, economic indicators, and social media sentiment
-              </p>
-            </div>
-            
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-gray-50 rounded-lg">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Source</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Data Type</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Value</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Impact</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Timestamp</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {scrapedMarketData.slice(0, 10).map((data, index) => (
-                    <tr key={data.id || index} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm text-gray-900">
-                        <span className="font-medium">{data.source || 'Unknown'}</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        {data.data ? Object.keys(data.data).join(', ') : 'N/A'}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">
-                        {data.data ? JSON.stringify(data.data).substring(0, 50) + '...' : 'N/A'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          data.status === 'success' ? 'bg-green-100 text-green-800' :
-                          data.status === 'failed' ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {data.status || 'unknown'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">
-                        {data.timestamp ? new Date(data.timestamp).toLocaleString() : 'N/A'}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            
-            {scrapedMarketData.length > 10 && (
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
-                  Showing 10 of {scrapedMarketData.length} records. 
-                  <button 
-                    onClick={() => setScrapedMarketData([])} 
-                    className="ml-2 text-amber-600 hover:text-amber-800 underline"
-                  >
-                    Clear all data
-                  </button>
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </section>
-    );
-  }
+      case 'software':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Software Development Projects</h2>
+            {renderProjects('software')}
+          </section>
+        );
 
-  function EnvironmentalImpactDashboard() {
-    const [waterQuality, setWaterQuality] = useState(null);
-    const [harvestYields, setHarvestYields] = useState(null);
-    const [sustainability, setSustainability] = useState(null);
-    const [trends, setTrends] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [scrapingStatus, setScrapingStatus] = useState('idle');
-    const [scrapedData, setScrapedData] = useState([]);
-    const [lastScraped, setLastScraped] = useState(null);
-    const [error, setError] = useState(null);
+      case 'devops':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">DevOps & Infrastructure Projects</h2>
+            {renderProjects('devops')}
+          </section>
+        );
 
-    const fetchData = useCallback(async () => {
-      try {
-        const [waterRes, harvestRes, sustainabilityRes, trendsRes] = await Promise.all([
-          fetch('http://localhost:4000/api/water-quality'),
-          fetch('http://localhost:4000/api/harvest-yields'),
-          fetch('http://localhost:4000/api/sustainability-metrics'),
-          fetch('http://localhost:4000/api/environmental-trends')
-        ]);
-        const waterData = await waterRes.json();
-        const harvestData = await harvestRes.json();
-        const sustainabilityData = await sustainabilityRes.json();
-        const trendsData = await trendsRes.json();
-        
-        setWaterQuality(waterData);
-        setHarvestYields(harvestData);
-        setSustainability(sustainabilityData);
-        setTrends(trendsData);
-      } catch (err) {
-        console.error('Failed to fetch data:', err);
-      }
-      setLoading(false);
-    }, []);
+      case 'blockchain':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Blockchain & AI Projects</h2>
+            {renderProjects('blockchain')}
+          </section>
+        );
 
-    useEffect(() => {
-      fetchData();
-      // Refresh water quality data every 60 seconds (reduced from 30 to prevent excessive updates)
-      const interval = setInterval(() => {
-        fetch('http://localhost:4000/api/water-quality')
-          .then(res => res.json())
-          .then(setWaterQuality)
-          .catch(err => console.error('Failed to update water quality:', err));
-      }, 60000);
-      return () => clearInterval(interval);
-    }, [fetchData]);
+      case 'enterprise':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Enterprise Solutions</h2>
+            {renderProjects('enterprise')}
+          </section>
+        );
 
-    const getStatusColor = useCallback((status) => {
-      switch (status) {
-        case 'Excellent': return 'bg-green-100 text-green-800';
-        case 'Good': return 'bg-emerald-100 text-emerald-800';
-        case 'Fair': return 'bg-yellow-100 text-yellow-800';
-        case 'Poor': return 'bg-red-100 text-red-800';
-        default: return 'bg-gray-100 text-gray-800';
-      }
-    }, []);
+      case 'fintech':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">FinTech Projects</h2>
+            {renderProjects('fintech')}
+          </section>
+        );
 
-    const getTrendIcon = useCallback((trend) => {
-      switch (trend) {
-        case 'improving': return '↗️';
-        case 'decreasing': return '↘️';
-        case 'stable': return '→';
-        default: return '→';
-      }
-    }, []);
+      case 'healthcare':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Healthcare Solutions</h2>
+            {renderProjects('healthcare')}
+          </section>
+        );
 
-    const startDataScraping = useCallback(async () => {
-      console.log('Starting data scraping...'); // Debug log
-      setScrapingStatus('scraping');
-      setError(null);
-      
-      try {
-        const response = await fetch('http://localhost:4000/api/scrape-environmental-data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            sources: ['weather_api', 'tide_stations', 'water_quality_sensors', 'regulatory_databases']
-          })
-        });
-        
-        console.log('Response status:', response.status); // Debug log
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Scraping response:', data); // Debug log
-          
-          // Safely handle newData
-          if (data.newData && Array.isArray(data.newData)) {
-            console.log('Setting scraped data:', data.newData.length, 'items'); // Debug log
-            setScrapedData(prev => [...data.newData, ...prev.slice(0, 49)]); // Keep last 50 entries
-          } else {
-            console.log('No newData in response or not an array'); // Debug log
-          }
-          
-          setLastScraped(new Date().toISOString());
-          setScrapingStatus('success');
-          
-          // Safely update main data with scraped data
-          if (data.waterQuality && typeof data.waterQuality === 'object') {
-            console.log('Updating water quality data'); // Debug log
-            setWaterQuality(prev => ({ ...prev, ...data.waterQuality }));
-          }
-          if (data.harvestYields && typeof data.harvestYields === 'object') {
-            console.log('Updating harvest yields data'); // Debug log
-            setHarvestYields(prev => ({ ...prev, ...data.harvestYields }));
-          }
-          if (data.sustainability && typeof data.sustainability === 'object') {
-            console.log('Updating sustainability data'); // Debug log
-            setSustainability(prev => ({ ...prev, ...data.sustainability }));
-          }
-          
-          setTimeout(() => setScrapingStatus('idle'), 3000);
-        } else {
-          const errorText = await response.text();
-          console.error('Response not ok:', response.status, errorText); // Debug log
-          throw new Error(`Scraping failed: ${response.status} ${errorText}`);
-        }
-      } catch (error) {
-        console.error('Data scraping error:', error);
-        setError(error.message);
-        setScrapingStatus('error');
-        setTimeout(() => setScrapingStatus('idle'), 3000);
-      }
-    }, []);
+      case 'iot':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">IoT & Smart Systems</h2>
+            {renderProjects('iot')}
+          </section>
+        );
 
-    const exportReport = useCallback(() => {
-      const report = {
-        timestamp: new Date().toISOString(),
-        waterQuality: waterQuality,
-        harvestYields: harvestYields,
-        sustainability: sustainability,
-        trends: trends,
-        scrapedData: scrapedData,
-        lastScraped: lastScraped
-      };
-      
-      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `environmental-report-${new Date().toISOString().split('T')[0]}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }, [waterQuality, harvestYields, sustainability, trends, scrapedData, lastScraped]);
+      case 'modern':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Modern Architecture</h2>
+            {renderProjects('modern')}
+          </section>
+        );
 
-    if (loading) {
-      return (
-        <section className="animate-fade-in">
-          <div className="text-center">
-            <div className="loading-spinner mx-auto mb-4"></div>
-            <p>Loading environmental data...</p>
-          </div>
-        </section>
-      );
+      case 'security':
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Cybersecurity Solutions</h2>
+            {renderProjects('security')}
+          </section>
+        );
+
+      case 'freelancing':
+        return <FreelancingPage />;
+
+      default:
+        return (
+          <section className="animate-fade-in">
+            <h2 className="text-4xl font-bold gradient-text mb-8">Page Not Found</h2>
+            <p className="text-gray-300">The page you're looking for doesn't exist.</p>
+          </section>
+        );
     }
+  };
 
-    if (error) {
-      return (
-        <section className="animate-fade-in">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-red-800 mb-4">Error Loading Dashboard</h2>
-            <p className="text-red-700 mb-4">{error}</p>
-            <button
-              onClick={() => {
-                setError(null);
-                fetchData();
-              }}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Retry
-            </button>
-          </div>
-        </section>
-      );
-    }
-
-    try {
-      return (
-      <section className="animate-fade-in">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h2 className="text-4xl font-bold gradient-text mb-2 leading-tight">Environmental Impact Dashboard</h2>
-            <p className="text-gray-700">Interactive dashboard showing water quality trends, harvest yields, and sustainability metrics with real-time data scraping.</p>
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={startDataScraping}
-              disabled={scrapingStatus === 'scraping'}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
-                scrapingStatus === 'scraping' 
-                  ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
-              }`}
-            >
-              {scrapingStatus === 'scraping' ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Scraping...
-                </>
-              ) : (
-                <>
-                  <span>🔄</span>
-                  Scrape Data
-                </>
-              )}
-            </button>
-            <button
-              onClick={exportReport}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
-            >
-              Export Report
-            </button>
-          </div>
-        </div>
-
-        {/* Scraping Status */}
-        {scrapingStatus !== 'idle' && (
-          <div className={`mb-6 p-4 rounded-lg border ${
-            scrapingStatus === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
-            scrapingStatus === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
-            'bg-blue-50 border-blue-200 text-blue-800'
-          }`}>
-            <div className="flex items-center gap-2">
-              <span>
-                {scrapingStatus === 'success' ? '✅' : 
-                 scrapingStatus === 'error' ? '❌' : '🔄'}
-              </span>
-              <span className="font-medium">
-                {scrapingStatus === 'success' ? 'Data scraping completed successfully!' :
-                 scrapingStatus === 'error' ? 'Data scraping failed. Please try again.' :
-                 'Scraping data from multiple sources...'}
-              </span>
-            </div>
-            {lastScraped && (
-              <p className="text-sm mt-1 opacity-75">
-                Last scraped: {lastScraped ? new Date(lastScraped).toLocaleString() : 'N/A'}
-              </p>
-            )}
-          </div>
-        )}
-
-        {waterQuality?.alerts.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <h3 className="text-red-800 font-semibold mb-2">⚠️ Environmental Alerts</h3>
-            <ul className="text-red-700 space-y-1">
-              {waterQuality.alerts.map((alert, index) => (
-                <li key={index}>• {alert}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-amber-600 mb-2">
-              {waterQuality?.current ? waterQuality.current.dissolvedOxygen : 'N/A'} mg/L
-            </div>
-            <div className="text-gray-600">Dissolved Oxygen</div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">
-              {harvestYields?.yearToDate ? harvestYields.yearToDate.toLocaleString() : 'N/A'} kg
-            </div>
-            <div className="text-gray-600">Year-to-Date Yield</div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-amber-600 mb-2">
-              {sustainability?.wasteRecycling?.current || 'N/A'}%
-            </div>
-            <div className="text-gray-600">Waste Recycling</div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
-            <div className="text-3xl font-bold text-orange-600 mb-2">
-              {waterQuality?.current ? waterQuality.current.status : 'N/A'}
-            </div>
-            <div className="text-gray-600">Water Quality Status</div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Real-Time Water Quality</h3>
-            {waterQuality?.current && (
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Status:</span>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(waterQuality.current.status)}`}>
-                    {waterQuality.current.status}
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span>pH:</span>
-                      <span className="font-medium">{waterQuality.current.ph}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Temperature:</span>
-                      <span className="font-medium">{waterQuality.current.temperature}°C</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Salinity:</span>
-                      <span className="font-medium">{waterQuality.current.salinity} ppt</span>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span>Dissolved O₂:</span>
-                      <span className="font-medium">{waterQuality.current.dissolvedOxygen} mg/L</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Turbidity:</span>
-                      <span className="font-medium">{waterQuality.current.turbidity} NTU</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Last Updated:</span>
-                      <span className="font-medium">{waterQuality.current.date}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Harvest Yield Analysis</h3>
-            {harvestYields && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-3 bg-amber-50 rounded-lg">
-                    <div className="text-2xl font-bold text-amber-600">{harvestYields.currentMonth.yield.toLocaleString()}</div>
-                    <div className="text-sm text-gray-600">Current Month (kg)</div>
-                  </div>
-                  <div className="text-center p-3 bg-green-50 rounded-lg">
-                    <div className="text-2xl font-bold text-green-600">{harvestYields.projectedAnnual.toLocaleString()}</div>
-                    <div className="text-sm text-gray-600">Projected Annual (kg)</div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Efficiency:</span>
-                    <span className="font-medium">{Number.isFinite(harvestYields.currentMonth.efficiency) ? (harvestYields.currentMonth.efficiency * 100).toFixed(1) : 'N/A'}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sustainability Score:</span>
-                    <span className="font-medium">{Number.isFinite(harvestYields.currentMonth.sustainability) ? (harvestYields.currentMonth.sustainability * 100).toFixed(1) : 'N/A'}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Oysters Harvested:</span>
-                    <span className="font-medium">{Number.isFinite(harvestYields.currentMonth.oysters) ? harvestYields.currentMonth.oysters.toLocaleString() : 'N/A'}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h3 className="text-2xl font-semibold text-green-700 mb-4">Sustainability Metrics</h3>
-          <div className="grid md:grid-cols-5 gap-6">
-            {sustainability && Object.entries(sustainability).map(([key, metric]) => (
-              <div key={key} className="text-center p-4 border rounded-lg">
-                <h4 className="font-semibold mb-2 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</h4>
-                <div className="text-2xl font-bold text-green-600 mb-1">
-                  {key === 'carbonFootprint' ? `${metric.current} tCO₂` :
-                   key === 'waterUsage' ? `${metric.current} L/kg` :
-                   key === 'wasteRecycling' || key === 'energyEfficiency' ? `${metric.current}%` :
-                   metric.current}
-                </div>
-                <div className="text-sm text-gray-600 mb-2">Current</div>
-                <div className="text-sm text-gray-500">Target: {metric.target}</div>
-                <div className="flex items-center justify-center mt-2">
-                  <span className="text-lg mr-1">{getTrendIcon(metric.trend)}</span>
-                  <span className="text-sm text-gray-600">{metric.trend}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-2xl font-semibold text-green-700 mb-4">Environmental Trends</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {trends && Object.entries(trends).map(([key, trend]) => (
-              <div key={key} className="border rounded-lg p-4">
-                <h4 className="font-semibold mb-3 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</h4>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">{getTrendIcon(trend.trend)}</span>
-                  <span className="font-medium">{trend.change}</span>
-                  <span className="text-sm text-gray-500">({trend.period})</span>
-                </div>
-                <div className="text-sm text-gray-600 mb-3">Contributing Factors:</div>
-                <ul className="text-sm text-gray-700 space-y-1">
-                  {trend.factors.map((factor, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-green-500 mt-1">•</span>
-                      {factor}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Real-Time Scraped Data Section */}
-        {scrapedData.length > 0 && (
-          <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Real-Time Scraped Data</h3>
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-amber-600">📊</span>
-                <span className="font-medium">Latest Data from External Sources</span>
-                <span className="text-sm text-gray-500">({scrapedData.length} records)</span>
-              </div>
-              <p className="text-sm text-gray-600">
-                Data scraped from weather APIs, tide stations, water quality sensors, and regulatory databases
-              </p>
-            </div>
-            
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-emerald-50 rounded-xl shadow-lg">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Source</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Data Type</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Value</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Timestamp</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {scrapedData.slice(0, 10).map((data, index) => (
-                    <tr key={data.id || index} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm text-gray-900">
-                        <span className="font-medium">{data.source || 'Unknown'}</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        {data.data ? Object.keys(data.data).join(', ') : 'N/A'}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">
-                        {data.data ? JSON.stringify(data.data).substring(0, 50) + '...' : 'N/A'}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">
-                        {data.timestamp ? new Date(data.timestamp).toLocaleString() : 'N/A'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          data.status === 'success' ? 'bg-green-100 text-green-800' :
-                          data.status === 'failed' ? 'bg-red-100 text-red-800' :
-                          'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {data.status || 'unknown'}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            
-            {scrapedData.length > 10 && (
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
-                  Showing 10 of {scrapedData.length} records. 
-                  <button 
-                    onClick={() => setScrapedData([])} 
-                    className="ml-2 text-amber-600 hover:text-amber-800 underline"
-                  >
-                    Clear all data
-                  </button>
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </section>
-    );
-    } catch (error) {
-      console.error('EnvironmentalImpactDashboard rendering error:', error);
-      return (
-        <section className="animate-fade-in">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-red-800 mb-4">Dashboard Error</h2>
-            <p className="text-red-700 mb-4">Something went wrong while rendering the dashboard.</p>
-            <p className="text-sm text-red-600 mb-4">Error: {error.message}</p>
-            <button
-              onClick={() => {
-                setError(null);
-                window.location.reload();
-              }}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Reload Page
-            </button>
-          </div>
-        </section>
-      );
-    }
-  }
-
-  // Freelancing Page Component
-  , [project.demo]);
-
-    // Interactive content by project type
-    let interactive = null;
-
-    // Chart-based demos
-    if ([
-      'ai-trading-bot', 'predictive-analytics', 'forecast', 'analytics', 'healthcare-analytics', 'sales-forecasting', 'real-time-analytics', 'observability', 'risk', 'trading', 'serverless', 'event-driven', 'environment', 'dashboard', 'monitor', 'ci-cd', 'containers', 'infrastructure', 'microservices', 'serverless', 'event-driven', 'bi'
-    ].includes(project.demo)) {
-      interactive = <LiveChart title={project.title} />;
-    }
-    // NFT marketplace/e-commerce/gallery
-    else if ([
-      'nft-marketplace', 'ecommerce', 'smart-home', 'gallery', 'marketplace', 'crypto-exchange'
-    ].includes(project.demo)) {
-      interactive = <GalleryDemo title={project.title} />;
-    }
-    // CRM/ERP/BI: data table
-    else if ([
-      'crm', 'erp', 'business-intelligence', 'bi', 'enterprise', 'customer', 'supply-chain', 'blockchain', 'blockchain-supply-chain'
-    ].includes(project.demo)) {
-      interactive = <DataTableDemo title={project.title} />;
-    }
-    // Chatbot
-    else if ([
-      'chatbot', 'ai-content', 'customer-chatbot'
-    ].includes(project.demo)) {
-      interactive = <ChatbotDemo title={project.title} />;
-    }
-    // Auth/login
-    else if ([
-      'zero-trust', 'blockchain-identity', 'auth', 'login', 'identity'
-    ].includes(project.demo)) {
-      interactive = <LoginDemo title={project.title} />;
-    }
-    // IoT/monitoring
-    else if ([
-      'industrial-iot', 'iot', 'environment', 'smart-city', 'agricultural-iot', 'maintenance', 'predictive-maintenance', 'sensor', 'monitoring'
-    ].includes(project.demo)) {
-      interactive = <IoTDemo title={project.title} />;
-    }
-    // DevOps/serverless/deployment
-    else if ([
-      'ci-cd', 'infrastructure', 'serverless', 'deployment', 'devops'
-    ].includes(project.demo)) {
-      interactive = <DevOpsDemo title={project.title} />;
-    }
-    // Default fallback
-    else {
-      interactive = (
-        <div className="w-full h-48 flex items-center justify-center text-gray-400 bg-gray-800 rounded-lg border border-gray-600">
-          [ Interactive demo or chart coming soon ]
-        </div>
-      );
-    }
-
+  if (isLoading) {
     return (
-      <section className="animate-fade-in">
-        <button
-          onClick={onBack}
-          className="mb-6 text-teal-400 hover:text-teal-300 underline flex items-center gap-2 transition-colors"
-        >
-          <span>←</span> Back to Projects
-        </button>
-        <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
-          <img src={project.image} alt={project.title} className="w-full h-64 object-cover" />
-          <div className="p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-4xl font-bold gradient-text leading-tight">{project.title}</h2>
-              <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                {project.status}
-              </span>
-            </div>
-            <p className="text-lg text-gray-300 mb-6 leading-relaxed">{project.description}</p>
-            {project.impact && (
-              <div className="bg-gray-700 border border-gray-600 rounded-lg p-6 mb-8">
-                <h3 className="text-xl font-semibold text-white mb-3">Business Impact</h3>
-                <p className="text-gray-300 font-medium">{project.impact}</p>
-              </div>
-            )}
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <div>
-                <h3 className="text-2xl font-semibold text-white mb-4">Technologies Used</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech, i) => (
-                    <span key={i} className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium border border-teal-500">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-semibold text-white mb-4">Key Features</h3>
-                <ul className="space-y-2 text-gray-300">
-                  {project.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            {/* Interactive content */}
-            <div className="bg-gray-700 border border-gray-600 rounded-lg p-8 mb-8 flex flex-col items-center">
-              <h3 className="text-xl font-semibold text-white mb-4">Live Demo</h3>
-              {interactive}
-            </div>
-            <div className="flex gap-4 mt-8">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500 mx-auto mb-4"></div>
+          <p className="text-white text-xl">Loading Portfolio...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Navigation */}
+      <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="text-2xl font-bold gradient-text cursor-pointer"
               >
-                View on GitHub
-              </a>
+                CF
+              </button>
             </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
-  // --- Interactive Demo Components ---
-  // Chart.js live-updating chart
-  function LiveChart({ title }) {
-    const chartRef = React.useRef(null);
-    React.useEffect(() => {
-      if (!window.Chart) return;
-      const ctx = chartRef.current.getContext('2d');
-      let chart;
-      let data = Array.from({ length: 20 }, () => Math.random() * 100);
-      chart = new window.Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: Array.from({ length: 20 }, (_, i) => i + 1),
-          datasets: [{
-            label: title + ' (Simulated)',
-            data: data,
-            borderColor: '#14b8a6',
-            backgroundColor: 'rgba(20,184,166,0.2)',
-            tension: 0.3,
-          }],
-        },
-        options: {
-          animation: false,
-          plugins: { legend: { labels: { color: '#fff' } } },
-          scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } },
-        },
-      });
-      const interval = setInterval(() => {
-        data.push(Math.random() * 100);
-        data.shift();
-        chart.data.datasets[0].data = data;
-        chart.update();
-      }, 1000);
-      return () => { chart.destroy(); clearInterval(interval); };
-    }, [title, window.Chart]);
-    return <canvas ref={chartRef} width={600} height={200} />;
-  }
-
-  // Gallery demo (NFT, e-commerce, etc.)
-  function GalleryDemo({ title }) {
-    const [filter, setFilter] = React.useState('all');
-    const items = Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      name: title + ' Item #' + (i + 1),
-      img: `https://placehold.co/200x200/14b8a6/fff?text=${encodeURIComponent(title.charAt(0))}${i + 1}`,
-      type: i % 2 === 0 ? 'Type A' : 'Type B',
-    }));
-    const filtered = filter === 'all' ? items : items.filter(x => x.type === filter);
-    return (
-      <div className="w-full">
-        <div className="mb-4 flex gap-2">
-          <button className={`px-3 py-1 rounded ${filter === 'all' ? 'bg-teal-600 text-white' : 'bg-gray-800 text-gray-300'}`} onClick={() => setFilter('all')}>All</button>
-          <button className={`px-3 py-1 rounded ${filter === 'Type A' ? 'bg-teal-600 text-white' : 'bg-gray-800 text-gray-300'}`} onClick={() => setFilter('Type A')}>Type A</button>
-          <button className={`px-3 py-1 rounded ${filter === 'Type B' ? 'bg-teal-600 text-white' : 'bg-gray-800 text-gray-300'}`} onClick={() => setFilter('Type B')}>Type B</button>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {filtered.map(item => (
-            <div key={item.id} className="bg-gray-800 border border-gray-600 rounded-lg p-2 flex flex-col items-center">
-              <img src={item.img} alt={item.name} className="rounded mb-2" />
-              <div className="text-white text-sm font-medium mb-1">{item.name}</div>
-              <div className="text-xs text-gray-400">{item.type}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Data table demo (CRM, ERP, BI)
-  function DataTableDemo({ title }) {
-    const [query, setQuery] = React.useState('');
-    const data = Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      name: title + ' User ' + (i + 1),
-      email: `user${i + 1}@example.com`,
-      status: i % 3 === 0 ? 'Active' : 'Inactive',
-    }));
-    const filtered = data.filter(row => row.name.toLowerCase().includes(query.toLowerCase()) || row.email.toLowerCase().includes(query.toLowerCase()));
-    return (
-      <div className="w-full">
-        <input
-          className="mb-4 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white w-full"
-          placeholder="Search users..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left">
-            <thead>
-              <tr className="bg-gray-700 text-white">
-                <th className="px-4 py-2">ID</th>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Email</th>
-                <th className="px-4 py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map(row => (
-                <tr key={row.id} className="border-b border-gray-700">
-                  <td className="px-4 py-2">{row.id}</td>
-                  <td className="px-4 py-2">{row.name}</td>
-                  <td className="px-4 py-2">{row.email}</td>
-                  <td className="px-4 py-2">{row.status}</td>
-                </tr>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <button
+                  key={link.page}
+                  onClick={() => setCurrentPage(link.page)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    currentPage === link.page
+                      ? 'bg-teal-600 text-white'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                  }`}
+                >
+                  <span>{link.icon}</span>
+                  {link.name}
+                </button>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
+            </div>
 
-  // Chatbot demo
-  function ChatbotDemo({ title }) {
-    const [messages, setMessages] = React.useState([
-      { from: 'bot', text: `Welcome to the ${title} demo!` }
-    ]);
-    const [input, setInput] = React.useState('');
-    function send() {
-      if (!input.trim()) return;
-      setMessages(msgs => [...msgs, { from: 'user', text: input }, { from: 'bot', text: `You said: ${input}` }]);
-      setInput('');
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 h-64 overflow-y-auto mb-2 flex flex-col">
-          {messages.map((msg, i) => (
-            <div key={i} className={`mb-2 ${msg.from === 'bot' ? 'text-teal-400' : 'text-white text-right'}`}>{msg.text}</div>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <input
-            className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white"
-            placeholder="Type a message..."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') send(); }}
-          />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={send}>Send</button>
-        </div>
-      </div>
-    );
-  }
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-gray-300 hover:text-white focus:outline-none"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
 
-  // Login demo
-  function LoginDemo({ title }) {
-    const [email, setEmail] = React.useState('');
-    const [pass, setPass] = React.useState('');
-    const [msg, setMsg] = React.useState('');
-    function login(e) {
-      e.preventDefault();
-      if (email === 'user@example.com' && pass === 'password') {
-        setMsg('Login successful!');
-      } else {
-        setMsg('Invalid credentials. Try user@example.com / password');
-      }
-    }
-    return (
-      <form className="w-full max-w-xs mx-auto" onSubmit={login}>
-        <div className="mb-4">
-          <label className="block text-white mb-1">Email</label>
-          <input className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" value={email} onChange={e => setEmail(e.target.value)} />
-        </div>
-        <div className="mb-4">
-          <label className="block text-white mb-1">Password</label>
-          <input type="password" className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" value={pass} onChange={e => setPass(e.target.value)} />
-        </div>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" type="submit">Login</button>
-        {msg && <div className="mt-3 text-center text-teal-400">{msg}</div>}
-      </form>
-    );
-  }
-
-  // IoT/monitoring demo
-  function IoTDemo({ title }) {
-    const [value, setValue] = React.useState(Math.random() * 100);
-    React.useEffect(() => {
-      const interval = setInterval(() => setValue(Math.random() * 100), 1500);
-      return () => clearInterval(interval);
-    }, []);
-    return (
-      <div className="w-full flex flex-col items-center">
-        <div className="text-5xl font-bold text-teal-400 mb-2">{value.toFixed(1)}</div>
-        <div className="text-white mb-2">{title} Sensor Value</div>
-        <div className="w-full h-2 bg-gray-700 rounded">
-          <div className="h-2 bg-teal-500 rounded" style={{ width: `${Math.min(100, value)}%` }}></div>
-        </div>
-      </div>
-    );
-  }
-
-  // DevOps/serverless demo
-  function DevOpsDemo({ title }) {
-    const [progress, setProgress] = React.useState(0);
-    React.useEffect(() => {
-      if (progress >= 100) return;
-      const interval = setInterval(() => setProgress(p => Math.min(100, p + Math.random() * 10)), 700);
-      return () => clearInterval(interval);
-    }, [progress]);
-    return (
-      <div className="w-full flex flex-col items-center">
-        <div className="text-white mb-2">{title} Deployment Progress</div>
-        <div className="w-full h-4 bg-gray-700 rounded mb-2">
-          <div className="h-4 bg-teal-500 rounded" style={{ width: `${progress}%` }}></div>
-        </div>
-        <div className="text-teal-400 font-bold">{progress < 100 ? `${progress.toFixed(0)}%` : 'Complete!'}</div>
-      </div>
-    );
-  }
-
-
-
-  , 500);
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">AI Trading Bot Simulator</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={run} disabled={running}>{running ? 'Running...' : 'Run Bot'}</button>
-        <div className="text-white mb-2">Profit: <span className={`font-bold ${profit >= 0 ? 'text-green-400' : 'text-red-400'}`}>{profit.toFixed(2)} USD</span></div>
-        <LiveChart title="Simulated Trading" />
-      </div>
-    );
-  }
-
-  
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Decentralized Identity Verification</h3>
-        {step === 0 && (
-          <>
-            <input className="w-full mb-3 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} />
-            <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={next}>Next</button>
-          </>
-        )}
-        {step === 1 && (
-          <>
-            <p className="text-white">Verifying identity...</p>
-            <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={next}>Verify</button>
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <p className="text-white">Identity verified!</p>
-            <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={next}>Done</button>
-          </>
-        )}
-      </div>
-    );
-  }
-
-  ></div>
-                <div className="text-white text-xs mt-1">{d.label}</div>
+          {/* Mobile Navigation */}
+          {menuOpen && (
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.page}
+                    onClick={() => {
+                      setCurrentPage(link.page);
+                      setMenuOpen(false);
+                    }}
+                    className={`flex items-center gap-2 w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                      currentPage === link.page
+                        ? 'bg-teal-600 text-white'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                    }`}
+                  >
+                    <span>{link.icon}</span>
+                    {link.name}
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {renderContent()}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 border-t border-gray-700 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
+              <div className="space-y-2 text-gray-300">
+                <p>📧 {contactInfo.email}</p>
+                <p>📱 {contactInfo.phone}</p>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4">Connect</h3>
+              <div className="space-y-2">
+                <a
+                  href={contactInfo.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors block"
+                >
+                  GitHub
+                </a>
+                <a
+                  href={contactInfo.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors block"
+                >
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4">Services</h3>
+              <div className="space-y-2 text-gray-300">
+                <p>• Full-Stack Development</p>
+                <p>• Cloud Architecture</p>
+                <p>• DevOps Consulting</p>
+                <p>• Security Implementation</p>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Cael Findley. All rights reserved.</p>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  >
-              <span className="text-white font-bold">{Math.round(v * 100)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-   className="rounded border border-gray-600 mb-4" />
-          <div className="flex gap-2">
-            <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => setZoom(z => Math.max(0.5, z - 0.1))}>-</button>
-            <span className="text-white font-bold">Zoom: {zoom.toFixed(1)}x</span>
-            <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => setZoom(z => Math.min(2, z + 0.1))}>+</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ... existing code ...
-  // In renderContent, add cases for each new demo:
-      case 'erp':
-        return <ERPDemo />;
-      case 'ecommerce':
-        return <EcommerceDemo />;
-      case 'crm':
-        return <CRMDemo />;
-      case 'bi':
-        return <BIDemo />;
-      case 'payment':
-        return <PaymentDemo />;
-      case 'risk':
-        return <RiskDemo />;
-      case 'trading':
-        return <TradingDemo />;
-      case 'crypto-exchange':
-        return <CryptoExchangeDemo />;
-      case 'telemedicine':
-        return <TelemedicineDemo />;
-      case 'clinical':
-        return <ClinicalDemo />;
-      case 'healthcare-analytics':
-        return <HealthcareAnalyticsDemo />;
-      case 'medical-imaging':
-        return <MedicalImagingDemo />;
-  // ... existing code ...
-
-  // --- IoT, Modern Architecture, Cybersecurity Interactive Demo Components ---
-  >Refresh</button>
-      </div>
-    );
-  }
-
-  ></div>
-              <div className="text-white text-xs mt-1">{v.toFixed(0)}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function ServerlessDemo() {
-    const [triggered, setTriggered] = React.useState(false);
-    function trigger() {
-      setTriggered(true);
-      setTimeout(() => setTriggered(false), 1200);
-    }
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Serverless Function Trigger</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" onClick={trigger} disabled={triggered}>{triggered ? 'Triggered!' : 'Trigger Function'}</button>
-      </div>
-    );
-  }
-
-  function EventDrivenDemo() {
-    const [events, setEvents] = React.useState([
-      { id: 1, type: 'UserSignup', time: '09:01' },
-      { id: 2, type: 'OrderPlaced', time: '09:03' },
-    ]);
-    function addEvent() {
-      const types = ['UserSignup', 'OrderPlaced', 'Payment', 'EmailSent'];
-      setEvents(e => [...e, { id: e.length + 1, type: types[Math.floor(Math.random() * types.length)], time: new Date().toLocaleTimeString() }]);
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Event Bus Visualizer</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={addEvent}>Add Event</button>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 h-40 overflow-y-auto">
-          {events.map(e => (
-            <div key={e.id} className="text-white text-sm mb-1">[{e.time}] {e.type}</div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function SOCDemo() {
-    const [incidents, setIncidents] = React.useState([
-      { id: 1, type: 'Phishing', status: 'Open' },
-      { id: 2, type: 'Malware', status: 'Investigating' },
-    ]);
-    function resolve(id) {
-      setIncidents(incs => incs.map(i => i.id === id ? { ...i, status: 'Resolved' } : i));
-    }
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">SOC Dashboard</h3>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          {incidents.map(i => (
-            <div key={i.id} className="flex items-center justify-between mb-2">
-              <div className="text-white">{i.type}</div>
-              <div className={`font-bold ${i.status === 'Resolved' ? 'text-green-400' : 'text-yellow-400'}`}>{i.status}</div>
-              {i.status !== 'Resolved' && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => resolve(i.id)}>Resolve</button>}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function ZeroTrustDemo() {
-    const [access, setAccess] = React.useState(false);
-    function requestAccess() {
-      setAccess(true);
-      setTimeout(() => setAccess(false), 1500);
-    }
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Zero Trust Access</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" onClick={requestAccess} disabled={access}>{access ? 'Access Granted' : 'Request Access'}</button>
-      </div>
-    );
-  }
-
-  function ScannerDemo() {
-    const [scanning, setScanning] = React.useState(false);
-    const [result, setResult] = React.useState(null);
-    function scan() {
-      setScanning(true);
-      setTimeout(() => {
-        setResult({ issues: Math.floor(Math.random() * 5), time: new Date().toLocaleTimeString() });
-        setScanning(false);
-      }, 1200);
-    }
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Vulnerability Scanner</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full mb-4" onClick={scan} disabled={scanning}>{scanning ? 'Scanning...' : 'Start Scan'}</button>
-        {result && <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-white">Scan complete at {result.time}. Issues found: <span className={result.issues ? 'text-red-400 font-bold' : 'text-green-400 font-bold'}>{result.issues}</span></div>}
-      </div>
-    );
-  }
-
-  function HelpdeskDemo() {
-    const [tickets, setTickets] = React.useState([
-      { id: 1, subject: 'Phishing email', status: 'Open' },
-      { id: 2, subject: 'VPN issue', status: 'Closed' },
-    ]);
-    const [subject, setSubject] = React.useState('');
-    function submit() {
-      if (!subject.trim()) return;
-      setTickets(ts => [...ts, { id: ts.length + 1, subject, status: 'Open' }]);
-      setSubject('');
-    }
-    function close(id) {
-      setTickets(ts => ts.map(t => t.id === id ? { ...t, status: 'Closed' } : t));
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Security Helpdesk</h3>
-        <div className="flex gap-2 mb-4">
-          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Ticket subject..." value={subject} onChange={e => setSubject(e.target.value)} />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={submit}>Submit</button>
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          {tickets.map(t => (
-            <div key={t.id} className="flex items-center justify-between mb-2">
-              <div className="text-white">{t.subject}</div>
-              <div className={`font-bold ${t.status === 'Closed' ? 'text-green-400' : 'text-yellow-400'}`}>{t.status}</div>
-              {t.status !== 'Closed' && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => close(t.id)}>Close</button>}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  const root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(<App />); 
+      </footer>
+    </div>
+  );
+}
