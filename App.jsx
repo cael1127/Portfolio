@@ -1,4 +1,55 @@
-const { useState, useEffect, useCallback, useMemo } = React;
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import ReactDOM from 'react-dom/client';
+
+// Import all demo components
+import BlockchainDemo from './components/demos/BlockchainDemo';
+import AIOptimizationDemo from './components/demos/AIOptimizationDemo';
+import DeFiDemo from './components/demos/DeFiDemo';
+import AIResearchDemo from './components/demos/AIResearchDemo';
+import NFTMarketplaceDemo from './components/demos/NFTMarketplaceDemo';
+import AITradingBotDemo from './components/demos/AITradingBotDemo';
+import BlockchainIdentityDemo from './components/demos/BlockchainIdentityDemo';
+import AIContentGenerationDemo from './components/demos/AIContentGenerationDemo';
+import BlockchainGovernanceDemo from './components/demos/BlockchainGovernanceDemo';
+import AIPredictiveAnalyticsDemo from './components/demos/AIPredictiveAnalyticsDemo';
+import ERPDemo from './components/demos/ERPDemo';
+import EcommerceDemo from './components/demos/EcommerceDemo';
+import CRMDemo from './components/demos/CRMDemo';
+import BIDemo from './components/demos/BIDemo';
+import PaymentDemo from './components/demos/PaymentDemo';
+import RiskDemo from './components/demos/RiskDemo';
+import TradingDemo from './components/demos/TradingDemo';
+import CryptoExchangeDemo from './components/demos/CryptoExchangeDemo';
+import TelemedicineDemo from './components/demos/TelemedicineDemo';
+import ClinicalDemo from './components/demos/ClinicalDemo';
+import HealthcareAnalyticsDemo from './components/demos/HealthcareAnalyticsDemo';
+import MedicalImagingDemo from './components/demos/MedicalImagingDemo';
+import SmartCityDemo from './components/demos/SmartCityDemo';
+import IndustrialIoTDemo from './components/demos/IndustrialIoTDemo';
+import SmartHomeDemo from './components/demos/SmartHomeDemo';
+import AgriculturalIoTDemo from './components/demos/AgriculturalIoTDemo';
+import MicroservicesDemo from './components/demos/MicroservicesDemo';
+import AnalyticsDemo from './components/demos/AnalyticsDemo';
+import ServerlessDemo from './components/demos/ServerlessDemo';
+import EventDrivenDemo from './components/demos/EventDrivenDemo';
+import SOCDemo from './components/demos/SOCDemo';
+import ZeroTrustDemo from './components/demos/ZeroTrustDemo';
+import ScannerDemo from './components/demos/ScannerDemo';
+import HelpdeskDemo from './components/demos/HelpdeskDemo';
+
+// Import page components
+import LiveDataDemo from './components/pages/LiveDataDemo';
+import CloudMigrationToolset from './components/pages/CloudMigrationToolset';
+import FreelancingPage from './components/pages/FreelancingPage';
+
+// Import UI components
+import LiveChart from './components/ui/LiveChart';
+import GalleryDemo from './components/ui/GalleryDemo';
+import DataTableDemo from './components/ui/DataTableDemo';
+import ChatbotDemo from './components/ui/ChatbotDemo';
+import LoginDemo from './components/ui/LoginDemo';
+import IoTDemo from './components/ui/IoTDemo';
+import DevOpsDemo from './components/ui/DevOpsDemo';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -1777,112 +1828,7 @@ function App() {
   };
 
   // Live Data Demo Component
-  function LiveDataDemo() {
-    const [sensorData, setSensorData] = useState([]);
-    const [latest, setLatest] = useState(null);
-    const [connected, setConnected] = useState(false);
-    
-    // Debounce sensor data updates to prevent excessive re-renders
-    const updateSensorData = useCallback((newData) => {
-      setLatest(newData);
-      setSensorData((prev) => [newData, ...prev.slice(0, 19)]); // keep last 20
-    }, []);
-
-    useEffect(() => {
-      let socket;
-      let updateTimeout;
-      
-      (async () => {
-        const { io } = await import('https://cdn.socket.io/4.7.5/socket.io.esm.min.js');
-        socket = io('http://localhost:4000');
-        
-        socket.on('connect', () => setConnected(true));
-        socket.on('disconnect', () => setConnected(false));
-        
-        socket.on('sensorData', (data) => {
-          // Debounce updates to prevent excessive re-renders
-          clearTimeout(updateTimeout);
-          updateTimeout = setTimeout(() => {
-            updateSensorData(data);
-          }, 100); // Update every 100ms max
-        });
-      })();
-      
-      return () => { 
-        if (socket) socket.disconnect();
-        clearTimeout(updateTimeout);
-      };
-    }, [updateSensorData]);
-
-    // Memoize the table rows to prevent unnecessary re-renders
-    const tableRows = useMemo(() => 
-      sensorData.map((d, i) => (
-        <tr key={d.timestamp} className={i === 0 ? 'bg-green-50' : ''}>
-          <td className="px-4 py-2">{new Date(d.timestamp).toLocaleTimeString()}</td>
-          <td className="px-4 py-2">{d.temperature}</td>
-          <td className="px-4 py-2">{d.salinity}</td>
-          <td className="px-4 py-2">{d.ph}</td>
-        </tr>
-      )), [sensorData]);
-
-    return (
-      <section className="animate-fade-in">
-        <h2 className="text-4xl font-bold gradient-text mb-6 leading-tight">Live Sensor Data Demo</h2>
-        <p className="mb-4 text-gray-700">This page shows real-time aquaculture sensor data streamed from a Node.js backend using Socket.IO.</p>
-        <div className="mb-6">
-          <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${connected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{connected ? 'Connected' : 'Disconnected'}</span>
-        </div>
-        {latest && (
-          <div className="bg-teal-50 p-6 rounded-xl shadow-lg mb-8">
-            <h3 className="text-2xl font-semibold text-green-700 mb-4">Latest Reading</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div><span className="font-bold">Temperature:</span> {latest.temperature} °C</div>
-              <div><span className="font-bold">Salinity:</span> {latest.salinity} ppt</div>
-              <div><span className="font-bold">pH:</span> {latest.ph}</div>
-              <div><span className="font-bold">Time:</span> {new Date(latest.timestamp).toLocaleTimeString()}</div>
-            </div>
-          </div>
-        )}
-        <h4 className="text-xl font-semibold text-green-700 mb-2">Recent Readings</h4>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-emerald-50 rounded-xl shadow-lg">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">Time</th>
-                <th className="px-4 py-2">Temperature (°C)</th>
-                <th className="px-4 py-2">Salinity (ppt)</th>
-                <th className="px-4 py-2">pH</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableRows}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    );
-  }
-
-  function CloudMigrationToolset() {
-    const [status, setStatus] = useState('idle');
-    const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false);
-
-    const startMigration = async () => {
-      setLoading(true);
-      setStatus('running');
-      setMessage('');
-      try {
-        const res = await fetch('http://localhost:4000/api/migrate', { method: 'POST' });
-        const data = await res.json();
-        if (data.status === 'success') {
-          setStatus('success');
-          setMessage(data.message);
-        } else {
-          setStatus('error');
-          setMessage(data.message);
-        }
-      } catch (err) {
+   catch (err) {
         setStatus('error');
         setMessage(err.message);
       }
@@ -3700,294 +3646,7 @@ function App() {
   }
 
   // Freelancing Page Component
-  function FreelancingPage() {
-    const [showQuoteModal, setShowQuoteModal] = useState(false);
-    const [selectedService, setSelectedService] = useState(null);
-    const [quoteForm, setQuoteForm] = useState({
-      name: '',
-      email: '',
-      company: '',
-      projectDescription: '',
-      timeline: '',
-      budget: ''
-    });
-
-    const handleGetQuote = (service) => {
-      setSelectedService(service);
-      setShowQuoteModal(true);
-    };
-
-    const handleQuoteSubmit = (e) => {
-      e.preventDefault();
-      // Here you would typically send the quote request to your backend
-      alert('Quote request submitted! We\'ll get back to you within 24 hours.');
-      setShowQuoteModal(false);
-      setQuoteForm({
-        name: '',
-        email: '',
-        company: '',
-        projectDescription: '',
-        timeline: '',
-        budget: ''
-      });
-    };
-
-    return (
-      <section className="animate-fade-in">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold gradient-text mb-4">{projects.freelancing.company.name}</h1>
-          <p className="text-xl text-gray-300 mb-6">{projects.freelancing.company.tagline}</p>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            {projects.freelancing.company.description}
-          </p>
-        </div>
-
-        {/* Company Stats */}
-        <div className="grid md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-gray-800 p-6 rounded-xl text-center border border-gray-700">
-            <div className="text-3xl font-bold text-teal-400 mb-2">{projects.freelancing.company.founded}</div>
-            <div className="text-gray-300">Founded</div>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl text-center border border-gray-700">
-            <div className="text-3xl font-bold text-teal-400 mb-2">{projects.freelancing.company.clients}</div>
-            <div className="text-gray-300">Happy Clients</div>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl text-center border border-gray-700">
-            <div className="text-3xl font-bold text-teal-400 mb-2">{projects.freelancing.company.projects}</div>
-            <div className="text-gray-300">Projects Completed</div>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl text-center border border-gray-700">
-            <div className="text-3xl font-bold text-teal-400 mb-2">{projects.freelancing.company.satisfaction}</div>
-            <div className="text-gray-300">Client Satisfaction</div>
-          </div>
-        </div>
-
-        {/* Services Section */}
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold gradient-text mb-8 text-center">Services Offered</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.freelancing.services.map((service, index) => (
-              <div key={service.id} className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:shadow-lg transition-shadow">
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
-                <p className="text-gray-300 mb-4">{service.description}</p>
-                <div className="mb-4">
-                  <div className="text-lg font-semibold text-teal-400 mb-1">Upfront Cost:</div>
-                  <div className="text-2xl font-bold text-teal-400 mb-2">{service.upfront}</div>
-                  <div className="text-lg font-semibold text-teal-400 mb-1">Monthly Service:</div>
-                  <div className="text-xl font-bold text-teal-400">{service.monthly}</div>
-                </div>
-                
-                <div className="mb-4">
-                  <h4 className="font-semibold text-white mb-2">Key Features:</h4>
-                  <ul className="space-y-1 text-sm text-gray-300">
-                    {service.features.slice(0, 4).map((feature, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-teal-400 mt-1">✓</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mb-4">
-                  <h4 className="font-semibold text-white mb-2">Technologies:</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {service.technologies.map((tech, i) => (
-                      <span key={i} className="bg-teal-600 text-white px-2 py-1 rounded text-xs">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <button 
-                  onClick={() => handleGetQuote(service)}
-                  className="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors font-medium"
-                >
-                  Get Custom Quote
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Process Section */}
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold gradient-text mb-8 text-center">Our Process</h2>
-          <div className="grid md:grid-cols-5 gap-6">
-            {projects.freelancing.process.map((step, index) => (
-              <div key={step.step} className="text-center">
-                <div className="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                  {step.step}
-                </div>
-                <div className="text-3xl mb-2">{step.icon}</div>
-                <h3 className="font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-sm text-gray-300">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-
-        {/* Contact CTA */}
-        <div className="bg-teal-600 text-white p-8 rounded-xl text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
-          <p className="text-xl mb-6">Let's discuss how we can help bring your vision to life</p>
-          <div className="flex justify-center gap-4">
-            <button className="bg-white text-teal-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              Schedule Consultation
-            </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-teal-600 transition-colors">
-              View Portfolio
-            </button>
-          </div>
-        </div>
-
-        {/* Quote Modal */}
-        {showQuoteModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
-              <div className="p-6">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-white">Get Custom Quote</h2>
-                  <button 
-                    onClick={() => setShowQuoteModal(false)}
-                    className="text-gray-400 hover:text-gray-200 text-2xl"
-                  >
-                    ×
-                  </button>
-                </div>
-
-                {selectedService && (
-                  <div className="bg-gray-700 p-4 rounded-lg mb-6 border border-gray-600">
-                    <h3 className="font-semibold text-white mb-2">Selected Service:</h3>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-2xl">{selectedService.icon}</span>
-                      <span className="font-medium text-gray-300">{selectedService.title}</span>
-                    </div>
-                    <p className="text-sm text-gray-400">{selectedService.description}</p>
-                  </div>
-                )}
-
-                <form onSubmit={handleQuoteSubmit} className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Name *</label>
-                      <input
-                        type="text"
-                        required
-                        value={quoteForm.name}
-                        onChange={(e) => setQuoteForm({...quoteForm, name: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Email *</label>
-                      <input
-                        type="email"
-                        required
-                        value={quoteForm.email}
-                        onChange={(e) => setQuoteForm({...quoteForm, email: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Company</label>
-                    <input
-                      type="text"
-                      value={quoteForm.company}
-                      onChange={(e) => setQuoteForm({...quoteForm, company: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Project Description *</label>
-                    <textarea
-                      required
-                      rows="4"
-                      value={quoteForm.projectDescription}
-                      onChange={(e) => setQuoteForm({...quoteForm, projectDescription: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
-                      placeholder="Describe your project requirements, goals, and any specific features you need..."
-                    />
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Timeline</label>
-                      <select
-                        value={quoteForm.timeline}
-                        onChange={(e) => setQuoteForm({...quoteForm, timeline: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-white"
-                      >
-                        <option value="">Select timeline</option>
-                        <option value="1-2 months">1-2 months</option>
-                        <option value="3-6 months">3-6 months</option>
-                        <option value="6+ months">6+ months</option>
-                        <option value="Ongoing">Ongoing</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Budget Range</label>
-                      <select
-                        value={quoteForm.budget}
-                        onChange={(e) => setQuoteForm({...quoteForm, budget: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-700 text-white"
-                      >
-                        <option value="">Select budget range</option>
-                        <option value="$5k-15k">$5,000 - $15,000</option>
-                        <option value="$15k-50k">$15,000 - $50,000</option>
-                        <option value="$50k-100k">$50,000 - $100,000</option>
-                        <option value="$100k+">$100,000+</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 pt-4">
-                    <button
-                      type="submit"
-                      className="flex-1 bg-teal-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-teal-700 transition-colors"
-                    >
-                      Submit Quote Request
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowQuoteModal(false)}
-                      className="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-500 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        )}
-      </section>
-    );
-  }
-
-  // Generic ProjectDemo component for all new projects
-  function ProjectDemo({ project, onBack }) {
-    // Utility: Load Chart.js from CDN if needed
-    const [chartLoaded, setChartLoaded] = React.useState(false);
-    React.useEffect(() => {
-      if ((project.demo.includes('chart') || project.demo.includes('analytics') || project.demo.includes('trading') || project.demo.includes('forecast') || project.demo.includes('monitor') || project.demo.includes('dashboard')) && !window.Chart) {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-        script.onload = () => setChartLoaded(true);
-        document.body.appendChild(script);
-        return () => document.body.removeChild(script);
-      } else {
-        setChartLoaded(true);
-      }
-    }, [project.demo]);
+  , [project.demo]);
 
     // Interactive content by project type
     let interactive = null;
@@ -4321,151 +3980,9 @@ function App() {
     );
   }
 
-  // --- Blockchain & AI Interactive Demo Components ---
-  function BlockchainDemo() {
-    const [block, setBlock] = React.useState('');
-    const [result, setResult] = React.useState(null);
-    function search() {
-      setResult({
-        block: block || Math.floor(Math.random() * 10000),
-        txs: Array.from({ length: 3 + Math.floor(Math.random() * 3) }, (_, i) => ({
-          hash: Math.random().toString(36).slice(2, 10),
-          value: (Math.random() * 2).toFixed(3) + ' ETH',
-        })),
-      });
-    }
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Blockchain Explorer</h3>
-        <div className="flex gap-2 mb-4">
-          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Block #" value={block} onChange={e => setBlock(e.target.value)} />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={search}>Search</button>
-        </div>
-        {result && (
-          <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-            <div className="text-white mb-2">Block: <span className="font-bold text-teal-400">{result.block}</span></div>
-            <div className="text-white mb-2">Transactions:</div>
-            <ul>
-              {result.txs.map((tx, i) => (
-                <li key={i} className="text-gray-300 text-sm mb-1">Hash: <span className="text-teal-400">{tx.hash}</span> — Value: {tx.value}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    );
-  }
 
-  function AIOptimizationDemo() {
-    const [param, setParam] = React.useState(50);
-    const [result, setResult] = React.useState(null);
-    function optimize() {
-      setResult(100 - Math.abs(param - 70) + Math.random() * 10);
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">AI Optimization Dashboard</h3>
-        <div className="mb-4">Parameter: <input type="range" min="0" max="100" value={param} onChange={e => setParam(Number(e.target.value))} className="w-2/3" /> <span className="text-teal-400 font-bold">{param}</span></div>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={optimize}>Optimize</button>
-        {result && <div className="text-white">Optimization Score: <span className="text-teal-400 font-bold">{result.toFixed(2)}</span></div>}
-      </div>
-    );
-  }
 
-  function DeFiDemo() {
-    const [deposit, setDeposit] = React.useState('');
-    const [borrow, setBorrow] = React.useState('');
-    const [rate, setRate] = React.useState(2.5 + Math.random() * 2);
-    const [result, setResult] = React.useState(null);
-    function simulate() {
-      setResult({
-        deposit: Number(deposit),
-        borrow: Number(borrow),
-        rate,
-        health: 100 - Number(borrow) / (Number(deposit) + 1) * 100,
-      });
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">DeFi Lending Simulator</h3>
-        <div className="mb-2">Deposit: <input className="px-2 py-1 rounded bg-gray-800 border border-gray-600 text-white w-24" value={deposit} onChange={e => setDeposit(e.target.value)} /></div>
-        <div className="mb-2">Borrow: <input className="px-2 py-1 rounded bg-gray-800 border border-gray-600 text-white w-24" value={borrow} onChange={e => setBorrow(e.target.value)} /></div>
-        <div className="mb-2">Interest Rate: <span className="text-teal-400 font-bold">{rate.toFixed(2)}%</span></div>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={simulate}>Simulate</button>
-        {result && <div className="text-white">Health Factor: <span className={`font-bold ${result.health < 50 ? 'text-red-400' : 'text-green-400'}`}>{result.health.toFixed(1)}</span></div>}
-      </div>
-    );
-  }
-
-  function AIResearchDemo() {
-    const [experiments, setExperiments] = React.useState([]);
-    const [name, setName] = React.useState('');
-    function add() {
-      if (!name.trim()) return;
-      setExperiments(exps => [...exps, { name, acc: (80 + Math.random() * 20).toFixed(2) + '%' }]);
-      setName('');
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">ML Experiment Tracker</h3>
-        <div className="flex gap-2 mb-4">
-          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Experiment Name" value={name} onChange={e => setName(e.target.value)} />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={add}>Add</button>
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          {experiments.length === 0 && <div className="text-gray-400">No experiments yet.</div>}
-          {experiments.map((exp, i) => (
-            <div key={i} className="flex items-center justify-between mb-2">
-              <div className="text-white">{exp.name}</div>
-              <div className="text-teal-400 font-bold">{exp.acc}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function NFTMarketplaceDemo() {
-    const [nfts, setNfts] = React.useState(Array.from({ length: 6 }, (_, i) => ({ id: i, name: `NFT #${i + 1}`, owner: 'You', img: `https://placehold.co/200x200/14b8a6/fff?text=NFT${i + 1}` })));
-    const [minting, setMinting] = React.useState(false);
-    function mint() {
-      setMinting(true);
-      setTimeout(() => {
-        setNfts(nfts => [...nfts, { id: nfts.length, name: `NFT #${nfts.length + 1}`, owner: 'You', img: `https://placehold.co/200x200/14b8a6/fff?text=NFT${nfts.length + 1}` }]);
-        setMinting(false);
-      }, 1200);
-    }
-    return (
-      <div className="w-full max-w-xl mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">NFT Marketplace</h3>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 mb-4" onClick={mint} disabled={minting}>{minting ? 'Minting...' : 'Mint NFT'}</button>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {nfts.map(nft => (
-            <div key={nft.id} className="bg-gray-800 border border-gray-600 rounded-lg p-2 flex flex-col items-center">
-              <img src={nft.img} alt={nft.name} className="rounded mb-2" />
-              <div className="text-white text-sm font-medium mb-1">{nft.name}</div>
-              <div className="text-xs text-gray-400">Owner: {nft.owner}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function AITradingBotDemo() {
-    const [running, setRunning] = React.useState(false);
-    const [profit, setProfit] = React.useState(0);
-    function run() {
-      setRunning(true);
-      setProfit(0);
-      let p = 0;
-      let i = 0;
-      const interval = setInterval(() => {
-        p += (Math.random() - 0.45) * 100;
-        setProfit(p);
-        i++;
-        if (i > 20) { setRunning(false); clearInterval(interval); }
-      }, 500);
+  , 500);
     }
     return (
       <div className="w-full max-w-md mx-auto">
@@ -4477,14 +3994,7 @@ function App() {
     );
   }
 
-  function BlockchainIdentityDemo() {
-    const [step, setStep] = React.useState(0);
-    const [name, setName] = React.useState('');
-    const [verified, setVerified] = React.useState(false);
-    function next() {
-      if (step === 0 && name.trim()) setStep(1);
-      else if (step === 1) { setVerified(true); setStep(2); }
-    }
+  
     return (
       <div className="w-full max-w-xs mx-auto">
         <h3 className="text-2xl font-bold text-white mb-4">Decentralized Identity Verification</h3>
@@ -4510,267 +4020,7 @@ function App() {
     );
   }
 
-  function AIContentGenerationDemo() {
-    const [content, setContent] = React.useState('');
-    const [generated, setGenerated] = React.useState('');
-    const [loading, setLoading] = React.useState(false);
-
-    const generateContent = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch('http://localhost:4000/api/generate-content', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: content })
-        });
-        const data = await res.json();
-        setGenerated(data.content);
-      } catch (err) {
-        console.error('Failed to generate content:', err);
-      }
-      setLoading(false);
-    };
-
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">AI Content Generation</h3>
-        <textarea
-          className="w-full px-3 py-2 rounded bg-gray-800 text-white mb-4"
-          placeholder="Enter your prompt..."
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          rows="4"
-        />
-        <button
-          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
-          onClick={generateContent}
-          disabled={loading}
-        >
-          {loading ? 'Generating...' : 'Generate Content'}
-        </button>
-        {generated && (
-          <div className="mt-4 p-4 bg-gray-700 rounded text-white">
-            <h4 className="text-lg font-semibold mb-2">Generated Content</h4>
-            <pre>{generated}</pre>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  function BlockchainGovernanceDemo() {
-    const [proposal, setProposal] = React.useState('');
-    const [voting, setVoting] = React.useState(false);
-    const [result, setResult] = React.useState(null);
-
-    const submitProposal = async () => {
-      setVoting(true);
-      try {
-        const res = await fetch('http://localhost:4000/api/submit-proposal', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ proposal })
-        });
-        const data = await res.json();
-        setResult(data);
-      } catch (err) {
-        console.error('Failed to submit proposal:', err);
-      }
-      setVoting(false);
-    };
-
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">DAO Proposal Submission</h3>
-        <textarea
-          className="w-full px-3 py-2 rounded bg-gray-800 text-white mb-4"
-          placeholder="Enter your proposal..."
-          value={proposal}
-          onChange={e => setProposal(e.target.value)}
-          rows="4"
-        />
-        <button
-          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
-          onClick={submitProposal}
-          disabled={voting}
-        >
-          {voting ? 'Submitting...' : 'Submit Proposal'}
-        </button>
-        {result && (
-          <div className="mt-4 p-4 bg-gray-700 rounded text-white">
-            <h4 className="text-lg font-semibold mb-2">Proposal Result</h4>
-            <p>{result.message}</p>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  function AIPredictiveAnalyticsDemo() {
-    const [forecast, setForecast] = React.useState('');
-    const [forecastResult, setForecastResult] = React.useState(null);
-    const [loading, setLoading] = React.useState(false);
-
-    const predict = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch('http://localhost:4000/api/predict-sales', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ forecast })
-        });
-        const data = await res.json();
-        setForecastResult(data);
-      } catch (err) {
-        console.error('Failed to predict sales:', err);
-      }
-      setLoading(false);
-    };
-
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Sales Forecast Prediction</h3>
-        <input
-          className="w-full px-3 py-2 rounded bg-gray-800 text-white mb-4"
-          placeholder="Enter your forecast..."
-          value={forecast}
-          onChange={e => setForecast(e.target.value)}
-        />
-        <button
-          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
-          onClick={predict}
-          disabled={loading}
-        >
-          {loading ? 'Predicting...' : 'Predict Sales'}
-        </button>
-        {forecastResult && (
-          <div className="mt-4 p-4 bg-gray-700 rounded text-white">
-            <h4 className="text-lg font-semibold mb-2">Predicted Sales</h4>
-            <p>{forecastResult.prediction}</p>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // --- Enterprise, FinTech, Healthcare Interactive Demo Components ---
-  function ERPDemo() {
-    const modules = ['Finance', 'HR', 'Inventory', 'Sales'];
-    const kpis = [
-      { label: 'Revenue', value: '$1.2M' },
-      { label: 'Orders', value: '3,200' },
-      { label: 'Inventory', value: '1,150' },
-      { label: 'Employees', value: '87' },
-    ];
-    return (
-      <div className="w-full max-w-2xl mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">ERP Dashboard</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {kpis.map((kpi, i) => (
-            <div key={i} className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-center">
-              <div className="text-teal-400 text-lg font-bold mb-1">{kpi.value}</div>
-              <div className="text-gray-300 text-xs uppercase">{kpi.label}</div>
-            </div>
-          ))}
-        </div>
-        <div className="flex gap-4 justify-center">
-          {modules.map((mod, i) => (
-            <button key={i} className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">{mod}</button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function EcommerceDemo() {
-    const [cart, setCart] = React.useState([]);
-    const products = [
-      { id: 1, name: 'Smart Watch', price: 199 },
-      { id: 2, name: 'Wireless Earbuds', price: 99 },
-      { id: 3, name: 'Fitness Tracker', price: 79 },
-    ];
-    function addToCart(p) {
-      setCart(c => [...c, p]);
-    }
-    function checkout() {
-      setCart([]);
-      alert('Order placed!');
-    }
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">E-commerce Demo</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          {products.map(p => (
-            <div key={p.id} className="bg-gray-800 border border-gray-600 rounded-lg p-4 flex flex-col items-center">
-              <div className="text-white font-medium mb-2">{p.name}</div>
-              <div className="text-teal-400 font-bold mb-2">${p.price}</div>
-              <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => addToCart(p)}>Add to Cart</button>
-            </div>
-          ))}
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 mt-4">
-          <div className="text-white mb-2">Cart: {cart.length} item(s)</div>
-          {cart.length > 0 && <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={checkout}>Checkout</button>}
-        </div>
-      </div>
-    );
-  }
-
-  function CRMDemo() {
-    const [leads, setLeads] = React.useState([
-      { id: 1, name: 'Acme Corp', stage: 0 },
-      { id: 2, name: 'Beta LLC', stage: 0 },
-      { id: 3, name: 'Gamma Inc', stage: 0 },
-    ]);
-    const stages = ['Lead', 'Contacted', 'Proposal', 'Won'];
-    function advance(id) {
-      setLeads(ls => ls.map(l => l.id === id && l.stage < stages.length - 1 ? { ...l, stage: l.stage + 1 } : l));
-    }
-    return (
-      <div className="w-full max-w-2xl mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">CRM Pipeline</h3>
-        <div className="grid grid-cols-4 gap-4">
-          {stages.map((stage, i) => (
-            <div key={i} className="bg-gray-800 border border-gray-600 rounded-lg p-2 min-h-[120px]">
-              <div className="text-teal-400 font-bold mb-2 text-center">{stage}</div>
-              {leads.filter(l => l.stage === i).map(l => (
-                <div key={l.id} className="bg-gray-700 rounded p-2 mb-2 flex items-center justify-between">
-                  <span className="text-white text-sm">{l.name}</span>
-                  {i < stages.length - 1 && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => advance(l.id)}>→</button>}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function BIDemo() {
-    const [filter, setFilter] = React.useState('All');
-    const data = [
-      { label: 'Q1', value: 120 },
-      { label: 'Q2', value: 150 },
-      { label: 'Q3', value: 90 },
-      { label: 'Q4', value: 180 },
-    ];
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">BI Dashboard</h3>
-        <div className="mb-4">
-          <select className="bg-gray-800 text-white rounded px-2 py-1" value={filter} onChange={e => setFilter(e.target.value)}>
-            <option>All</option>
-            <option>Q1</option>
-            <option>Q2</option>
-            <option>Q3</option>
-            <option>Q4</option>
-          </select>
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          <div className="flex gap-2 items-end h-32">
-            {data.filter(d => filter === 'All' || d.label === filter).map((d, i) => (
-              <div key={i} className="flex flex-col items-center flex-1">
-                <div className="bg-teal-400 w-8" style={{ height: `${d.value}px` }}></div>
+  ></div>
                 <div className="text-white text-xs mt-1">{d.label}</div>
               </div>
             ))}
@@ -4780,30 +4030,7 @@ function App() {
     );
   }
 
-  function PaymentDemo() {
-    const [amount, setAmount] = React.useState('');
-    const [paid, setPaid] = React.useState(false);
-    function pay() {
-      setPaid(true);
-      setTimeout(() => setPaid(false), 1500);
-    }
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Payment Gateway</h3>
-        <input className="w-full mb-3 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Amount" value={amount} onChange={e => setAmount(e.target.value)} />
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 w-full" onClick={pay} disabled={!amount || paid}>{paid ? 'Paid!' : 'Pay'}</button>
-      </div>
-    );
-  }
-
-  function RiskDemo() {
-    const grid = Array.from({ length: 5 }, (_, r) => Array.from({ length: 5 }, (_, c) => Math.random()));
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Risk Analytics Heatmap</h3>
-        <div className="grid grid-cols-5 gap-1">
-          {grid.flat().map((v, i) => (
-            <div key={i} className="w-12 h-12 flex items-center justify-center rounded" style={{ background: `rgba(20,184,166,${0.2 + v * 0.8})` }}>
+  >
               <span className="text-white font-bold">{Math.round(v * 100)}</span>
             </div>
           ))}
@@ -4812,147 +4039,7 @@ function App() {
     );
   }
 
-  function TradingDemo() {
-    const [price, setPrice] = React.useState(1000 + Math.random() * 1000);
-    const [qty, setQty] = React.useState('');
-    const [orders, setOrders] = React.useState([]);
-    function placeOrder() {
-      setOrders(o => [...o, { price, qty }]);
-      setQty('');
-    }
-    React.useEffect(() => {
-      const interval = setInterval(() => setPrice(p => p + (Math.random() - 0.5) * 10), 1000);
-      return () => clearInterval(interval);
-    }, []);
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Trading Platform</h3>
-        <div className="mb-2">Live Price: <span className="text-teal-400 font-bold">${price.toFixed(2)}</span></div>
-        <div className="flex gap-2 mb-4">
-          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Qty" value={qty} onChange={e => setQty(e.target.value)} />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={placeOrder} disabled={!qty}>Buy</button>
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          <div className="text-white mb-2">Orders:</div>
-          <ul>
-            {orders.map((o, i) => (
-              <li key={i} className="text-gray-300 text-sm mb-1">Qty: {o.qty} @ ${o.price.toFixed(2)}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
-  }
-
-  function CryptoExchangeDemo() {
-    const [orders, setOrders] = React.useState([
-      { price: 1000, qty: 2, side: 'buy' },
-      { price: 1010, qty: 1, side: 'sell' },
-    ]);
-    const [side, setSide] = React.useState('buy');
-    const [qty, setQty] = React.useState('');
-    function placeOrder() {
-      setOrders(o => [...o, { price: 1000 + Math.random() * 50, qty: Number(qty), side }]);
-      setQty('');
-    }
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Crypto Exchange Orderbook</h3>
-        <div className="flex gap-2 mb-4">
-          <select className="bg-gray-800 text-white rounded px-2 py-1" value={side} onChange={e => setSide(e.target.value)}><option>buy</option><option>sell</option></select>
-          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Qty" value={qty} onChange={e => setQty(e.target.value)} />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={placeOrder} disabled={!qty}>Place</button>
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          <div className="text-white mb-2">Orderbook:</div>
-          <ul>
-            {orders.map((o, i) => (
-              <li key={i} className={`text-sm mb-1 ${o.side === 'buy' ? 'text-green-400' : 'text-red-400'}`}>{o.side.toUpperCase()} {o.qty} @ ${o.price.toFixed(2)}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
-  }
-
-  function TelemedicineDemo() {
-    const [msg, setMsg] = React.useState('');
-    const [chat, setChat] = React.useState([
-      { from: 'Doctor', text: 'Hello, how can I help you today?' },
-    ]);
-    function send() {
-      if (!msg.trim()) return;
-      setChat(c => [...c, { from: 'You', text: msg }]);
-      setMsg('');
-      setTimeout(() => setChat(c => [...c, { from: 'Doctor', text: 'I recommend a video consultation.' }]), 1000);
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Telemedicine Chat</h3>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 mb-2 h-48 overflow-y-auto">
-          {chat.map((m, i) => (
-            <div key={i} className={`mb-2 ${m.from === 'You' ? 'text-right' : 'text-left'}`}><span className={m.from === 'You' ? 'text-teal-400' : 'text-white'}>{m.from}:</span> <span className="text-gray-300">{m.text}</span></div>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <input className="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white" placeholder="Type a message..." value={msg} onChange={e => setMsg(e.target.value)} />
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={send}>Send</button>
-        </div>
-      </div>
-    );
-  }
-
-  function ClinicalDemo() {
-    const [patients, setPatients] = React.useState([
-      { id: 1, name: 'John Doe', status: 'Admitted' },
-      { id: 2, name: 'Jane Smith', status: 'Discharged' },
-    ]);
-    function updateStatus(id) {
-      setPatients(ps => ps.map(p => p.id === id ? { ...p, status: p.status === 'Admitted' ? 'Discharged' : 'Admitted' } : p));
-    }
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Clinical Workflow</h3>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          {patients.map(p => (
-            <div key={p.id} className="flex items-center justify-between mb-2">
-              <div className="text-white">{p.name}</div>
-              <div className="text-teal-400 font-bold">{p.status}</div>
-              <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => updateStatus(p.id)}>Toggle</button>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function HealthcareAnalyticsDemo() {
-    const [metric, setMetric] = React.useState('Admissions');
-    const metrics = ['Admissions', 'Discharges', 'Avg Stay'];
-    const values = { Admissions: 120, Discharges: 110, 'Avg Stay': 4.2 };
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Healthcare Analytics</h3>
-        <div className="mb-4">
-          <select className="bg-gray-800 text-white rounded px-2 py-1" value={metric} onChange={e => setMetric(e.target.value)}>
-            {metrics.map(m => <option key={m}>{m}</option>)}
-          </select>
-        </div>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-center">
-          <div className="text-teal-400 text-3xl font-bold mb-2">{values[metric]}</div>
-          <div className="text-white text-lg">{metric}</div>
-        </div>
-      </div>
-    );
-  }
-
-  function MedicalImagingDemo() {
-    const [zoom, setZoom] = React.useState(1);
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Medical Imaging Viewer</h3>
-        <div className="flex flex-col items-center">
-          <img src="https://placehold.co/320x200/222/fff?text=CT+Scan" alt="CT Scan" style={{ transform: `scale(${zoom})` }} className="rounded border border-gray-600 mb-4" />
+   className="rounded border border-gray-600 mb-4" />
           <div className="flex gap-2">
             <button className="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700" onClick={() => setZoom(z => Math.max(0.5, z - 0.1))}>-</button>
             <span className="text-white font-bold">Zoom: {zoom.toFixed(1)}x</span>
@@ -4992,123 +4079,12 @@ function App() {
   // ... existing code ...
 
   // --- IoT, Modern Architecture, Cybersecurity Interactive Demo Components ---
-  function SmartCityDemo() {
-    const sensors = [
-      { id: 1, type: 'Air Quality', value: 42, unit: 'AQI' },
-      { id: 2, type: 'Traffic', value: 78, unit: '%' },
-      { id: 3, type: 'Noise', value: 55, unit: 'dB' },
-      { id: 4, type: 'Water', value: 98, unit: '%' },
-    ];
-    return (
-      <div className="w-full max-w-xl mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Smart City IoT Dashboard</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {sensors.map(s => (
-            <div key={s.id} className="bg-gray-800 border border-gray-600 rounded-lg p-4 text-center">
-              <div className="text-teal-400 text-lg font-bold mb-1">{s.value} {s.unit}</div>
-              <div className="text-gray-300 text-xs uppercase">{s.type}</div>
-            </div>
-          ))}
-        </div>
+  >Refresh</button>
       </div>
     );
   }
 
-  function IndustrialIoTDemo() {
-    const [alerts, setAlerts] = React.useState([
-      { id: 1, sensor: 'Temp', value: 85, status: 'OK' },
-      { id: 2, sensor: 'Pressure', value: 120, status: 'ALERT' },
-      { id: 3, sensor: 'Humidity', value: 40, status: 'OK' },
-    ]);
-    function ack(id) {
-      setAlerts(a => a.map(al => al.id === id ? { ...al, status: 'OK' } : al));
-    }
-    return (
-      <div className="w-full max-w-lg mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Industrial IoT Alerts</h3>
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
-          {alerts.map(a => (
-            <div key={a.id} className="flex items-center justify-between mb-2">
-              <div className="text-white">{a.sensor}: {a.value}</div>
-              <div className={`font-bold ${a.status === 'ALERT' ? 'text-red-400' : 'text-green-400'}`}>{a.status}</div>
-              {a.status === 'ALERT' && <button className="ml-2 text-xs bg-teal-600 text-white px-2 py-1 rounded" onClick={() => ack(a.id)}>Acknowledge</button>}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function SmartHomeDemo() {
-    const [lights, setLights] = React.useState(false);
-    const [temp, setTemp] = React.useState(72);
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Smart Home Panel</h3>
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-white">Lights</span>
-          <button className={`px-4 py-2 rounded ${lights ? 'bg-teal-600' : 'bg-gray-700'} text-white`} onClick={() => setLights(l => !l)}>{lights ? 'On' : 'Off'}</button>
-        </div>
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-white">Temperature</span>
-          <div className="flex items-center gap-2">
-            <button className="bg-teal-600 text-white px-2 py-1 rounded" onClick={() => setTemp(t => t - 1)}>-</button>
-            <span className="text-teal-400 font-bold">{temp}°F</span>
-            <button className="bg-teal-600 text-white px-2 py-1 rounded" onClick={() => setTemp(t => t + 1)}>+</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  function AgriculturalIoTDemo() {
-    const [moisture, setMoisture] = React.useState(45);
-    const [ph, setPh] = React.useState(6.8);
-    return (
-      <div className="w-full max-w-xs mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Agricultural IoT Dashboard</h3>
-        <div className="mb-4">Soil Moisture: <span className="text-teal-400 font-bold">{moisture}%</span></div>
-        <div className="mb-4">Soil pH: <span className="text-teal-400 font-bold">{ph.toFixed(1)}</span></div>
-        <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onClick={() => { setMoisture(m => m + (Math.random() * 10 - 5)); setPh(p => p + (Math.random() - 0.5) * 0.2); }}>Refresh</button>
-      </div>
-    );
-  }
-
-  function MicroservicesDemo() {
-    const services = [
-      { name: 'Auth', deps: ['API', 'DB'] },
-      { name: 'API', deps: ['DB'] },
-      { name: 'DB', deps: [] },
-      { name: 'Frontend', deps: ['API'] },
-    ];
-    return (
-      <div className="w-full max-w-xl mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Microservices Mesh Visualizer</h3>
-        <div className="flex flex-wrap gap-4 justify-center">
-          {services.map(s => (
-            <div key={s.name} className="bg-gray-800 border border-gray-600 rounded-lg p-4 min-w-[120px] text-center">
-              <div className="text-teal-400 font-bold mb-2">{s.name}</div>
-              <div className="text-gray-300 text-xs">Depends on: {s.deps.length ? s.deps.join(', ') : 'None'}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function AnalyticsDemo() {
-    const [data, setData] = React.useState([10, 20, 15, 30, 25]);
-    React.useEffect(() => {
-      const interval = setInterval(() => setData(d => [...d.slice(1), 10 + Math.random() * 30]), 1000);
-      return () => clearInterval(interval);
-    }, []);
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <h3 className="text-2xl font-bold text-white mb-4">Real-Time Analytics Stream</h3>
-        <div className="flex gap-2 items-end h-32">
-          {data.map((v, i) => (
-            <div key={i} className="flex flex-col items-center flex-1">
-              <div className="bg-teal-400 w-8" style={{ height: `${v * 2}px` }}></div>
+  ></div>
               <div className="text-white text-xs mt-1">{v.toFixed(0)}</div>
             </div>
           ))}
