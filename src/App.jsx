@@ -216,7 +216,7 @@ function App() {
             {/* Hero Section */}
             <div className="container mx-auto px-4 py-16">
               <div className="text-center mb-16">
-                <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent">
+                <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent leading-[1.15]">
                   Cael Findley
                 </h1>
                 <p className="text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
