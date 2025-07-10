@@ -259,7 +259,7 @@ function App() {
               </div>
 
               {/* Live Demos Section */}
-              <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-8 rounded-xl border border-green-800">
+              <div className="bg-gray-800/60 p-8 rounded-xl">
                 <h2 className="text-3xl font-bold text-white mb-8">Live Demos</h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   <div 
