@@ -951,7 +951,7 @@ function App() {
                     <li>• Third-party integrations</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">Starting at $75/hour</p>
+                    <p className="text-green-400 font-semibold">According to each project</p>
                   </div>
                 </div>
 
@@ -965,7 +965,7 @@ function App() {
                     <li>• Serverless architecture</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">Starting at $85/hour</p>
+                    <p className="text-green-400 font-semibold">According to each project</p>
                   </div>
                 </div>
 
@@ -979,7 +979,7 @@ function App() {
                     <li>• Data encryption and protection</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">Starting at $95/hour</p>
+                    <p className="text-green-400 font-semibold">According to each project</p>
                   </div>
                 </div>
 
@@ -993,7 +993,7 @@ function App() {
                     <li>• Automated decision systems</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">Starting at $100/hour</p>
+                    <p className="text-green-400 font-semibold">According to each project</p>
                   </div>
                 </div>
 
@@ -1007,7 +1007,7 @@ function App() {
                     <li>• App store optimization</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">Starting at $80/hour</p>
+                    <p className="text-green-400 font-semibold">According to each project</p>
                   </div>
                 </div>
 
@@ -1021,7 +1021,7 @@ function App() {
                     <li>• Team training and mentoring</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">Starting at $120/hour</p>
+                    <p className="text-green-400 font-semibold">According to each project</p>
                   </div>
                 </div>
               </div>
