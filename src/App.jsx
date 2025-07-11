@@ -137,18 +137,20 @@ function App() {
   };
 
   // Navigation component that appears on all pages
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const Navigation = () => (
     <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <button 
-              onClick={() => setCurrentPage('home')}
+              onClick={() => { setCurrentPage('home'); setMobileNavOpen(false); }}
               className="text-2xl font-bold text-green-400 cursor-pointer"
             >
               CF
             </button>
           </div>
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => setCurrentPage('home')}
@@ -201,7 +203,54 @@ function App() {
               Freelancing
             </button>
           </div>
+          {/* Mobile Hamburger */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setMobileNavOpen(!mobileNavOpen)}
+              className="text-gray-300 hover:text-green-400 focus:outline-none"
+              aria-label="Open navigation menu"
+            >
+              <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileNavOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
+              </svg>
+            </button>
+          </div>
         </div>
+        {/* Mobile Nav Dropdown */}
+        {mobileNavOpen && (
+          <div className="md:hidden bg-gray-800 border-t border-gray-700 px-2 pt-2 pb-3 space-y-1">
+            <button
+              onClick={() => { setCurrentPage('home'); setMobileNavOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'home' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+            >
+              Home
+            </button>
+            <button
+              onClick={() => { setCurrentPage('experience'); setMobileNavOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'experience' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+            >
+              Experience
+            </button>
+            <button
+              onClick={() => { setCurrentPage('projects'); setMobileNavOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'projects' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+            >
+              Projects
+            </button>
+            <button
+              onClick={() => { setCurrentPage('contact'); setMobileNavOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'contact' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+            >
+              Contact
+            </button>
+            <button
+              onClick={() => { setCurrentPage('freelancing'); setMobileNavOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'freelancing' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+            >
+              Freelancing
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );
@@ -214,7 +263,7 @@ function App() {
             <Navigation />
             
             {/* Hero Section */}
-            <div className="container mx-auto px-4 py-16">
+            <div className="container mx-auto px-2 sm:px-4 py-8 sm:py-16">
               <div className="text-center mb-16">
                 <h1 className="text-6xl font-bold mb-6 pb-4 bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent leading-[1.3]">
                   Cael Findley
@@ -240,7 +289,7 @@ function App() {
               </div>
 
               {/* Skills Grid */}
-              <div className="grid md:grid-cols-3 gap-8 mb-16">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                 <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800 hover:border-green-700 transition-colors">
                   <div className="text-4xl mb-4">💻</div>
                   <h3 className="text-xl font-semibold text-white mb-2">Full-Stack Development</h3>
@@ -385,7 +434,7 @@ function App() {
             </footer>
 
             {/* AI Chat Widget */}
-            <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${showAIChat ? 'w-96 h-[500px]' : 'w-16 h-16'}`}>
+            <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${showAIChat ? 'w-full max-w-xs sm:max-w-sm md:w-96 h-[60vh] min-h-[350px]' : 'w-16 h-16'}`}>
               {showAIChat ? (
                 <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 rounded-lg border border-green-800 shadow-2xl h-full flex flex-col">
                   {/* Header */}
@@ -444,7 +493,7 @@ function App() {
 
                   {/* Input */}
                   <div className="p-4 border-t border-green-700">
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <input
                         type="text"
                         value={aiInputMessage}
@@ -484,7 +533,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <h2 className="text-4xl font-bold mb-8 text-green-400">Experience & Certifications</h2>
               
               <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-8 rounded-xl border border-green-800 mb-8">
@@ -545,10 +594,10 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <h2 className="text-4xl font-bold mb-8 text-green-400">Projects</h2>
               
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors group cursor-pointer">
                   <div className="mb-4">
                     <div className="text-3xl mb-2">🌊</div>
@@ -857,7 +906,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <h2 className="text-4xl font-bold mb-8 text-green-400">Contact</h2>
               
               <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-8 rounded-xl border border-green-800">
@@ -911,7 +960,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <h2 className="text-4xl font-bold mb-8 text-green-400">Freelancing Services</h2>
               
               {/* Hero Section */}
@@ -940,7 +989,7 @@ function App() {
               </div>
 
               {/* Services Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors">
                   <div className="text-4xl mb-4">💻</div>
                   <h3 className="text-xl font-semibold text-white mb-3">Full-Stack Development</h3>
@@ -1090,7 +1139,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <BlockchainDemo />
             </div>
           </div>
@@ -1099,7 +1148,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <AquacultureDemo />
             </div>
           </div>
@@ -1108,7 +1157,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <LogisticsDemo />
             </div>
           </div>
@@ -1117,7 +1166,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <HealthcareDemo />
             </div>
           </div>
@@ -1126,7 +1175,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <SmartCityDemo />
             </div>
           </div>
@@ -1135,7 +1184,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <FinancialDemo />
             </div>
           </div>
@@ -1144,7 +1193,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <GamePlatformDemo />
             </div>
           </div>
@@ -1153,7 +1202,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <PortfolioBuilderDemo />
             </div>
           </div>
@@ -1162,7 +1211,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <RestaurantAppDemo />
             </div>
           </div>
@@ -1171,7 +1220,7 @@ function App() {
         return (
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <AIAssistantDemo />
             </div>
           </div>
