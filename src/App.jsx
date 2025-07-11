@@ -9,6 +9,8 @@ import GamePlatformDemo from './components/demos/GamePlatformDemo';
 import PortfolioBuilderDemo from './components/demos/PortfolioBuilderDemo';
 import RestaurantAppDemo from './components/demos/RestaurantAppDemo';
 import AIAssistantDemo from './components/demos/AIAssistantDemo';
+import ResumeAnalyzerDemo from './components/demos/ResumeAnalyzerDemo';
+import WhiteboardDemo from './components/demos/WhiteboardDemo';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -1263,10 +1265,7 @@ function App() {
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <div className="text-center py-16">
-                <h2 className="text-4xl font-bold mb-4 text-green-400">AI Resume Analyzer Demo</h2>
-                <p className="text-lg text-gray-300 mb-8">Upload your resume and get instant AI-powered feedback and keyword optimization tips. (Demo coming soon!)</p>
-              </div>
+              <ResumeAnalyzerDemo />
             </div>
           </div>
         );
@@ -1275,10 +1274,7 @@ function App() {
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <div className="text-center py-16">
-                <h2 className="text-4xl font-bold mb-4 text-green-400">Collaborative Whiteboard Demo</h2>
-                <p className="text-lg text-gray-300 mb-8">Real-time collaborative drawing and brainstorming with others online. (Demo coming soon!)</p>
-              </div>
+              <WhiteboardDemo />
             </div>
           </div>
         );
