@@ -381,6 +381,20 @@ function App() {
                     <h3 className="text-xl font-semibold mb-2">🤖 AI Assistant Demo</h3>
                     <p className="text-gray-300">ACF - Your intelligent AI companion.</p>
                   </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('resumeanalyzer')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">📝 AI Resume Analyzer</h3>
+                    <p className="text-gray-300">Upload your resume and get instant AI-powered feedback and keyword optimization tips.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('whiteboard')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🖊️ Collaborative Whiteboard</h3>
+                    <p className="text-gray-300">Real-time collaborative drawing and brainstorming with others online.</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -897,6 +911,53 @@ function App() {
                   </div>
                   <div className="text-green-400 text-sm font-medium">Status: Live</div>
                 </div>
+
+                <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors group cursor-pointer">
+                  <div className="mb-4">
+                    <div className="text-3xl mb-2">📝</div>
+                    <h3 className="text-xl font-semibold mb-2 group-hover:text-green-400 transition-colors">AI Resume Analyzer</h3>
+                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                      Upload your resume and get instant AI-powered feedback on strengths, weaknesses, and keyword optimization for job descriptions.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-300 mb-4">
+                      <div>• PDF/Word resume upload and parsing</div>
+                      <div>• Skill and experience analysis</div>
+                      <div>• ATS keyword optimization tips</div>
+                      <div>• Visualize skill coverage and job match score</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">React</span>
+                    <span className="bg-teal-600 text-white px-2 py-1 rounded text-xs">Node.js</span>
+                    <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">Python</span>
+                    <span className="bg-teal-600 text-white px-2 py-1 rounded text-xs">NLP</span>
+                    <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">Machine Learning</span>
+                  </div>
+                  <div className="text-yellow-400 text-sm font-medium">Status: In Development</div>
+                </div>
+                <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors group cursor-pointer">
+                  <div className="mb-4">
+                    <div className="text-3xl mb-2">🖊️</div>
+                    <h3 className="text-xl font-semibold mb-2 group-hover:text-green-400 transition-colors">Collaborative Whiteboard</h3>
+                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                      Real-time collaborative whiteboard for drawing, diagramming, and brainstorming with others online.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-300 mb-4">
+                      <div>• Real-time multi-user drawing and typing</div>
+                      <div>• WebSocket-based sync</div>
+                      <div>• Save and export boards</div>
+                      <div>• User authentication and access control</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">React</span>
+                    <span className="bg-teal-600 text-white px-2 py-1 rounded text-xs">Node.js</span>
+                    <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">Socket.IO</span>
+                    <span className="bg-teal-600 text-white px-2 py-1 rounded text-xs">Canvas API</span>
+                    <span className="bg-green-600 text-white px-2 py-1 rounded text-xs">Security</span>
+                  </div>
+                  <div className="text-yellow-400 text-sm font-medium">Status: In Development</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1005,20 +1066,6 @@ function App() {
                 </div>
 
                 <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors">
-                  <div className="text-4xl mb-4">☁️</div>
-                  <h3 className="text-xl font-semibold text-white mb-3">Cloud Infrastructure</h3>
-                  <ul className="space-y-2 text-gray-300 text-sm">
-                    <li>• AWS, Azure, Google Cloud setup</li>
-                    <li>• Docker and Kubernetes deployment</li>
-                    <li>• CI/CD pipeline automation</li>
-                    <li>• Serverless architecture</li>
-                  </ul>
-                  <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">According to each project</p>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors">
                   <div className="text-4xl mb-4">🔒</div>
                   <h3 className="text-xl font-semibold text-white mb-3">Security & Compliance</h3>
                   <ul className="space-y-2 text-gray-300 text-sm">
@@ -1026,20 +1073,6 @@ function App() {
                     <li>• Security audits and penetration testing</li>
                     <li>• Zero-trust security architecture</li>
                     <li>• Data encryption and protection</li>
-                  </ul>
-                  <div className="mt-4 pt-4 border-t border-gray-700">
-                    <p className="text-green-400 font-semibold">According to each project</p>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors">
-                  <div className="text-4xl mb-4">🤖</div>
-                  <h3 className="text-xl font-semibold text-white mb-3">AI & Machine Learning</h3>
-                  <ul className="space-y-2 text-gray-300 text-sm">
-                    <li>• Predictive analytics models</li>
-                    <li>• Natural language processing</li>
-                    <li>• Computer vision applications</li>
-                    <li>• Automated decision systems</li>
                   </ul>
                   <div className="mt-4 pt-4 border-t border-gray-700">
                     <p className="text-green-400 font-semibold">According to each project</p>
@@ -1222,6 +1255,30 @@ function App() {
             <Navigation />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <AIAssistantDemo />
+            </div>
+          </div>
+        );
+      case 'resumeanalyzer':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <div className="text-center py-16">
+                <h2 className="text-4xl font-bold mb-4 text-green-400">AI Resume Analyzer Demo</h2>
+                <p className="text-lg text-gray-300 mb-8">Upload your resume and get instant AI-powered feedback and keyword optimization tips. (Demo coming soon!)</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'whiteboard':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <div className="text-center py-16">
+                <h2 className="text-4xl font-bold mb-4 text-green-400">Collaborative Whiteboard Demo</h2>
+                <p className="text-lg text-gray-300 mb-8">Real-time collaborative drawing and brainstorming with others online. (Demo coming soon!)</p>
+              </div>
             </div>
           </div>
         );
