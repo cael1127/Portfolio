@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BlockchainDemo from './components/demos/BlockchainDemo';
 import AquacultureDemo from './components/demos/AquacultureDemo';
 import LogisticsDemo from './components/demos/LogisticsDemo';
@@ -25,6 +25,11 @@ function App() {
   ]);
   const [aiInputMessage, setAiInputMessage] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
+
+  // Auto-scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   // AI Chat functionality
   const handleAISendMessage = async () => {
@@ -147,9 +152,10 @@ function App() {
           <div className="flex items-center">
             <button 
               onClick={() => { setCurrentPage('home'); setMobileNavOpen(false); }}
-              className="text-2xl font-bold text-green-400 cursor-pointer"
+              className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
             >
-              CF
+              <span className="text-2xl">🏠</span>
+              <span className="font-semibold text-lg">Home</span>
             </button>
           </div>
           {/* Desktop Nav */}
