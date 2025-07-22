@@ -235,11 +235,11 @@ const SmartCityDemo = () => {
               <button
                 key={district.id}
                 onClick={() => setSelectedDistrict(district.id)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={'px-4 py-2 rounded-lg transition-colors ' + (
                   selectedDistrict === district.id
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
+                )}
               >
                 {district.name}
               </button>
@@ -667,7 +667,7 @@ const SmartCityDemo = () => {
                   <div className="w-full bg-gray-600 rounded-full h-2 mb-2">
                     <div 
                       className="bg-purple-400 h-2 rounded-full"
-                      style={{ width: `${insight.confidence * 100}%` }}
+                      style={{ width: (insight.confidence * 100) + '%' }}
                     />
                   </div>
                   <div className="text-xs text-gray-400">
@@ -735,11 +735,11 @@ const SmartCityDemo = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={'px-4 py-2 rounded-lg transition-colors ' + (
                 activeTab === tab.id
                   ? 'bg-green-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
+              )}
             >
               <span className="mr-2">{tab.icon}</span>
               {tab.label}

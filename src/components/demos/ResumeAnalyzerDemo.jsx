@@ -273,11 +273,11 @@ const ResumeAnalyzerDemo = () => {
                 {resumes.map((resume) => (
                   <div
                     key={resume.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedResume?.id === resume.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedResume(resume)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -314,11 +314,11 @@ const ResumeAnalyzerDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             resume.analysis.skillsMatch > 90 ? 'bg-green-500' : 
                             resume.analysis.skillsMatch > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${resume.analysis.skillsMatch}%` }}
+                          )}
+                          style={{ width: resume.analysis.skillsMatch + '%' }}
                         ></div>
                       </div>
                     </div>
