@@ -20,51 +20,51 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           <div className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => setCurrentPage('home')}
-              className={`transition-colors ${
+              className={'transition-colors ' + (
                 currentPage === 'home' 
                   ? 'text-green-400 border-b-2 border-green-400' 
                   : 'text-gray-300 hover:text-green-400'
-              }`}
+              )}
             >
               Home
             </button>
             <button
               onClick={() => setCurrentPage('experience')}
-              className={`transition-colors ${
+              className={'transition-colors ' + (
                 currentPage === 'experience' 
                   ? 'text-green-400 border-b-2 border-green-400' 
                   : 'text-gray-300 hover:text-green-400'
-              }`}
+              )}
             >
               Experience
             </button>
             <button
               onClick={() => setCurrentPage('projects')}
-              className={`transition-colors ${
+              className={'transition-colors ' + (
                 currentPage === 'projects' 
                   ? 'text-green-400 border-b-2 border-green-400' 
                   : 'text-gray-300 hover:text-green-400'
-              }`}
+              )}
             >
               Projects
             </button>
             <button
               onClick={() => setCurrentPage('contact')}
-              className={`transition-colors ${
+              className={'transition-colors ' + (
                 currentPage === 'contact' 
                   ? 'text-green-400 border-b-2 border-green-400' 
                   : 'text-gray-300 hover:text-green-400'
-              }`}
+              )}
             >
               Contact
             </button>
             <button
               onClick={() => setCurrentPage('freelancing')}
-              className={`transition-colors ${
+              className={'transition-colors ' + (
                 currentPage === 'freelancing' 
                   ? 'text-green-400 border-b-2 border-green-400' 
                   : 'text-gray-300 hover:text-green-400'
-              }`}
+              )}
             >
               Freelancing
             </button>
