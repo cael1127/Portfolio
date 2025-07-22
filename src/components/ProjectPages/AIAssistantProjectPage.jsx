@@ -576,13 +576,13 @@ const AIAssistantDashboard = () => {
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            className={'flex ' + (message.role === 'user' ? 'justify-end' : 'justify-start')}
           >
             <div
-              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-white'}`}
+              className={'max-w-xs lg:max-w-md px-4 py-2 rounded-lg ' + (message.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-white')}
             >
               <div className="text-sm opacity-75 mb-1">
-                {message.role === 'assistant' && message.model && `${message.model}`}
+                {message.role === 'assistant' && message.model && message.model}
               </div>
               <div className="whitespace-pre-wrap">{message.content}</div>
             </div>
@@ -653,11 +653,11 @@ export default AIAssistantDashboard;`
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap ${
+                className={'py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap ' + (
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-400'
                     : 'border-transparent text-gray-400 hover:text-gray-300'
-                }`}
+                )}
               >
                 <span className="mr-2">{tab.icon}</span>
                 {tab.name}
