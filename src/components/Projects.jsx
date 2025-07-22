@@ -1,4 +1,5 @@
 import React from 'react';
+import TrendingProjects from './TrendingProjects';
 
 const Projects = ({ setCurrentPage }) => {
   return (
@@ -96,6 +97,9 @@ const Projects = ({ setCurrentPage }) => {
             </div>
           </div>
         </div>
+
+        {/* Trending Projects Section */}
+        <TrendingProjects setCurrentPage={setCurrentPage} />
 
         {/* Portfolio Project Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -17,6 +17,8 @@ import RestaurantAppDemo from './components/demos/RestaurantAppDemo';
 import AIAssistantDemo from './components/demos/AIAssistantDemo';
 import ResumeAnalyzerDemo from './components/demos/ResumeAnalyzerDemo';
 import WhiteboardDemo from './components/demos/WhiteboardDemo';
+import FraudDetectionDemo from './components/demos/FraudDetectionDemo';
+import DeepfakeDetectionDemo from './components/demos/DeepfakeDetectionDemo';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -306,6 +308,22 @@ function App() {
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <WhiteboardDemo />
             </div>
+          </div>
+        );
+      
+      // New trending project demos
+      case 'fraud-detection':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <FraudDetectionDemo />
+          </div>
+        );
+      case 'deepfake-detection':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <DeepfakeDetectionDemo />
           </div>
         );
       
