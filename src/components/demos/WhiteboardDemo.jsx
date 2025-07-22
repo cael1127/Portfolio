@@ -257,11 +257,11 @@ const WhiteboardDemo = () => {
                 {projects.map((project) => (
                   <div
                     key={project.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedProject?.id === project.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedProject(project)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -298,11 +298,11 @@ const WhiteboardDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             project.analytics.collaborationScore > 90 ? 'bg-green-500' : 
                             project.analytics.collaborationScore > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${project.analytics.collaborationScore}%` }}
+                          )}
+                          style={{ width: project.analytics.collaborationScore + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -363,9 +363,9 @@ const WhiteboardDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>
@@ -446,10 +446,10 @@ const WhiteboardDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Collaboration Score</span>
-                    <span className={`text-lg font-semibold ${
+                    <span className={'text-lg font-semibold ' + (
                       selectedProject.analytics.collaborationScore > 90 ? 'text-green-400' : 
                       selectedProject.analytics.collaborationScore > 80 ? 'text-yellow-400' : 'text-red-400'
-                    }`}>
+                    )}>
                       {selectedProject.analytics.collaborationScore}%
                     </span>
                   </div>
