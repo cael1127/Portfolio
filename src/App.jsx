@@ -314,95 +314,95 @@ function App() {
                   <p className="text-gray-300">Zero-trust security, HIPAA compliance, and enterprise-grade security solutions.</p>
                 </div>
               </div>
+            </div>
 
-              {/* Live Demos Section */}
-              <div className="bg-gray-800/60 p-8 rounded-xl">
-                <h2 className="text-3xl font-bold text-white mb-8">Live Demos</h2>
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('blockchain')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🔗 Blockchain Demo</h3>
-                    <p className="text-gray-300">Blockchain supply chain with real-time transactions and traceability.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('aquaculture')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🌊 Aquaculture Demo</h3>
-                    <p className="text-gray-300">Aquaculture tracking system with live sensor and tank data.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('logistics')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🚚 Logistics Demo</h3>
-                    <p className="text-gray-300">Smart logistics platform with live fleet and route optimization.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('healthcare')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🏥 Healthcare Demo</h3>
-                    <p className="text-gray-300">AI-powered healthcare analytics and patient monitoring.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('smartcity')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🏙️ Smart City Demo</h3>
-                    <p className="text-gray-300">Smart city infrastructure with live system and traffic data.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('financial')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">📊 Financial Demo</h3>
-                    <p className="text-gray-300">AI-powered financial analytics and live market data.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('gameplatform')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🎮 Game Platform Demo</h3>
-                    <p className="text-gray-300">Interactive multiplayer gaming with real-time features.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('portfoliobuilder')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🎨 Portfolio Builder Demo</h3>
-                    <p className="text-gray-300">Drag-and-drop website builder for creatives.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('restaurantapp')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🍽️ Restaurant App Demo</h3>
-                    <p className="text-gray-300">Complete restaurant management solution.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('aiassistant')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🤖 AI Assistant Demo</h3>
-                    <p className="text-gray-300">ACF - Your intelligent AI companion.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('resumeanalyzer')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">📝 AI Resume Analyzer</h3>
-                    <p className="text-gray-300">Upload your resume and get instant AI-powered feedback and keyword optimization tips.</p>
-                  </div>
-                  <div 
-                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
-                    onClick={() => setCurrentPage('whiteboard')}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">🖊️ Collaborative Whiteboard</h3>
-                    <p className="text-gray-300">Real-time collaborative drawing and brainstorming with others online.</p>
-                  </div>
+            {/* Live Demos Section */}
+            <div className="bg-gray-800/60 p-8 rounded-xl">
+              <h2 className="text-3xl font-bold text-white mb-8">Live Demos</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('blockchain')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🔗 Blockchain Demo</h3>
+                  <p className="text-gray-300">Blockchain supply chain with real-time transactions and traceability.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('aquaculture')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🌊 Aquaculture Demo</h3>
+                  <p className="text-gray-300">Aquaculture tracking system with live sensor and tank data.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('logistics')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🚚 Logistics Demo</h3>
+                  <p className="text-gray-300">Smart logistics platform with live fleet and route optimization.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('healthcare')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🏥 Healthcare Demo</h3>
+                  <p className="text-gray-300">AI-powered healthcare analytics and patient monitoring.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('smartcity')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🏙️ Smart City Demo</h3>
+                  <p className="text-gray-300">Smart city infrastructure with live system and traffic data.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('financial')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">📊 Financial Demo</h3>
+                  <p className="text-gray-300">AI-powered financial analytics and live market data.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('gameplatform')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🎮 Game Platform Demo</h3>
+                  <p className="text-gray-300">Interactive multiplayer gaming with real-time features.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('portfoliobuilder')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🎨 Portfolio Builder Demo</h3>
+                  <p className="text-gray-300">Drag-and-drop website builder for creatives.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('restaurantapp')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🍽️ Restaurant App Demo</h3>
+                  <p className="text-gray-300">Complete restaurant management solution.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('aiassistant')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🤖 AI Assistant Demo</h3>
+                  <p className="text-gray-300">ACF - Your intelligent AI companion.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('resumeanalyzer')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">📝 AI Resume Analyzer</h3>
+                  <p className="text-gray-300">Upload your resume and get instant AI-powered feedback and keyword optimization tips.</p>
+                </div>
+                <div 
+                  className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                  onClick={() => setCurrentPage('whiteboard')}
+                >
+                  <h3 className="text-xl font-semibold mb-2">🖊️ Collaborative Whiteboard</h3>
+                  <p className="text-gray-300">Real-time collaborative drawing and brainstorming with others online.</p>
                 </div>
               </div>
             </div>
@@ -618,7 +618,99 @@ function App() {
             <Navigation />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <h2 className="text-4xl font-bold mb-8 text-green-400">Projects</h2>
-              
+
+              {/* Live Projects Section (migrated from Home) */}
+              <div className="bg-gray-800/60 p-8 rounded-xl mb-12">
+                <h2 className="text-3xl font-bold text-white mb-8">Live Projects</h2>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('blockchain')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🔗 Blockchain Demo</h3>
+                    <p className="text-gray-300">Blockchain supply chain with real-time transactions and traceability.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('aquaculture')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🌊 Aquaculture Demo</h3>
+                    <p className="text-gray-300">Aquaculture tracking system with live sensor and tank data.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('logistics')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🚚 Logistics Demo</h3>
+                    <p className="text-gray-300">Smart logistics platform with live fleet and route optimization.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('healthcare')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🏥 Healthcare Demo</h3>
+                    <p className="text-gray-300">AI-powered healthcare analytics and patient monitoring.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('smartcity')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🏙️ Smart City Demo</h3>
+                    <p className="text-gray-300">Smart city infrastructure with live system and traffic data.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('financial')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">📊 Financial Demo</h3>
+                    <p className="text-gray-300">AI-powered financial analytics and live market data.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('gameplatform')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🎮 Game Platform Demo</h3>
+                    <p className="text-gray-300">Interactive multiplayer gaming with real-time features.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('portfoliobuilder')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🎨 Portfolio Builder Demo</h3>
+                    <p className="text-gray-300">Drag-and-drop website builder for creatives.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('restaurantapp')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🍽️ Restaurant App Demo</h3>
+                    <p className="text-gray-300">Complete restaurant management solution.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('aiassistant')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🤖 AI Assistant Demo</h3>
+                    <p className="text-gray-300">ACF - Your intelligent AI companion.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('resumeanalyzer')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">📝 AI Resume Analyzer</h3>
+                    <p className="text-gray-300">Upload your resume and get instant AI-powered feedback and keyword optimization tips.</p>
+                  </div>
+                  <div 
+                    className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+                    onClick={() => setCurrentPage('whiteboard')}
+                  >
+                    <h3 className="text-xl font-semibold mb-2">🖊️ Collaborative Whiteboard</h3>
+                    <p className="text-gray-300">Real-time collaborative drawing and brainstorming with others online.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Portfolio Project Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-colors group cursor-pointer">
                   <div className="mb-4">
