@@ -47,6 +47,34 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
             <p className="text-gray-300">Zero-trust security, HIPAA compliance, and enterprise-grade security solutions.</p>
           </div>
         </div>
+
+        {/* Featured Demos */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">Featured Demos</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div 
+              className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+              onClick={() => setCurrentPage('demo-organizer')}
+            >
+              <h3 className="text-xl font-semibold mb-2">🎯 All Demos</h3>
+              <p className="text-gray-300">Explore our complete collection of interactive demos organized by category.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+              onClick={() => setCurrentPage('blockchain')}
+            >
+              <h3 className="text-xl font-semibold mb-2">🔗 Blockchain Demo</h3>
+              <p className="text-gray-300">Blockchain supply chain with real-time transactions and traceability.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-green-800 via-teal-700 to-cyan-700 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-teal-600 hover:to-cyan-600 transition-colors border border-green-700 hover:border-green-600"
+              onClick={() => setCurrentPage('aquaculture')}
+            >
+              <h3 className="text-xl font-semibold mb-2">🌊 Aquaculture Demo</h3>
+              <p className="text-gray-300">Aquaculture tracking system with live sensor and tank data.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Footer */}

@@ -20,6 +20,7 @@ import WhiteboardDemo from './components/demos/WhiteboardDemo';
 import FraudDetectionDemo from './components/demos/FraudDetectionDemo';
 import DeepfakeDetectionDemo from './components/demos/DeepfakeDetectionDemo';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
+import DemoOrganizer from './components/DemoOrganizer';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -334,6 +335,16 @@ function App() {
             <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <BlockchainProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'demo-organizer':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <DemoOrganizer setCurrentPage={setCurrentPage} />
             </div>
           </div>
         );
