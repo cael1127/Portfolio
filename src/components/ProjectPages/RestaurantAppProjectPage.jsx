@@ -252,7 +252,7 @@ class InventoryManager {
     if (!item) return;
 
     const alert = {
-      id: `alert-${itemId}-${Date.now()}`,
+      id: 'alert-' + itemId + '-' + Date.now(),
       type: 'low_stock',
       itemId: itemId,
       itemName: item.name,
@@ -272,7 +272,7 @@ class InventoryManager {
     if (!item) return null;
 
     const order = {
-      id: `po-${Date.now()}`,
+      id: 'po-' + Date.now(),
       itemId: itemId,
       itemName: item.name,
       quantity: quantity,
