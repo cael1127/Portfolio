@@ -364,7 +364,7 @@ const AquacultureDemo = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(tank.status)}`}>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(tank.status)}>
                           {tank.alerts.length} alerts
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{tank.currentStock}/{tank.capacity} fish</p>
@@ -389,8 +389,8 @@ const AquacultureDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${getWaterQualityBg(tank.analytics.waterQuality)}`}
-                          style={{ width: `${tank.analytics.waterQuality}%` }}
+                          className={'h-2 rounded-full ' + getWaterQualityBg(tank.analytics.waterQuality)}
+                          style={{ width: tank.analytics.waterQuality + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -528,7 +528,7 @@ const AquacultureDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Water Quality</span>
-                    <span className={`text-lg font-semibold ${getWaterQualityColor(selectedTank.analytics.waterQuality)}`}>
+                    <span className={'text-lg font-semibold ' + getWaterQualityColor(selectedTank.analytics.waterQuality)}>
                       {selectedTank.analytics.waterQuality}%
                     </span>
                   </div>
