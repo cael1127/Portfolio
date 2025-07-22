@@ -84,7 +84,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🏙️',
           difficulty: 'Advanced',
           technologies: ['IoT', 'React', 'Data Analytics'],
-          features: ['Traffic management', 'Energy monitoring', 'Infrastructure']
+          features: ['Traffic management', 'Energy monitoring', 'Infrastructure'],
+          hasProjectPage: true
         }
       ]
     },
@@ -99,7 +100,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🚚',
           difficulty: 'Advanced',
           technologies: ['React', 'AI/ML', 'GPS Integration'],
-          features: ['Route optimization', 'Fleet tracking', 'Predictive analytics']
+          features: ['Route optimization', 'Fleet tracking', 'Predictive analytics'],
+          hasProjectPage: true
         },
         {
           id: 'healthcare',
@@ -118,7 +120,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '💰',
           difficulty: 'Advanced',
           technologies: ['React', 'Financial APIs', 'Data Visualization'],
-          features: ['Portfolio management', 'Market analysis', 'Risk assessment']
+          features: ['Portfolio management', 'Market analysis', 'Risk assessment'],
+          hasProjectPage: true
         },
         {
           id: 'restaurantapp',
