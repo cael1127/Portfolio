@@ -580,11 +580,11 @@ const PortfolioBuilderDashboard = () => {
                 <button
                   key={template.id}
                   onClick={() => setSelectedTemplate(template.id)}
-                  className={`w-full p-3 rounded border text-left ${
+                  className={'w-full p-3 rounded border text-left ' + (
                     selectedTemplate === template.id
                       ? 'bg-green-600 border-green-400'
                       : 'bg-gray-700 border-gray-600 hover:bg-gray-600'
-                  }`}
+                  )}
                 >
                   <div className="font-semibold">{template.name}</div>
                   <div className="text-sm text-gray-400">{template.description}</div>
@@ -651,11 +651,11 @@ const PortfolioBuilderDashboard = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={'px-4 py-2 rounded-lg transition-colors ' + (
                 activeTab === tab.id
                   ? 'bg-green-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
+              )}
             >
               <span className="mr-2">{tab.icon}</span>
               {tab.label}
