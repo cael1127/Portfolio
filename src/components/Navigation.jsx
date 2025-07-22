@@ -87,25 +87,25 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           <div className="md:hidden bg-gray-800 border-t border-gray-700 px-2 pt-2 pb-3 space-y-1">
             <button
               onClick={() => { setCurrentPage('home'); setMobileNavOpen(false); }}
-              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'home' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+              className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'home' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
             >
               Home
             </button>
             <button
               onClick={() => { setCurrentPage('experience'); setMobileNavOpen(false); }}
-              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'experience' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+              className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'experience' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
             >
               Experience
             </button>
             <button
               onClick={() => { setCurrentPage('projects'); setMobileNavOpen(false); }}
-              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'projects' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+              className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'projects' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
             >
               Projects
             </button>
             <button
               onClick={() => { setCurrentPage('contact'); setMobileNavOpen(false); }}
-              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'contact' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+              className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'contact' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
             >
               Contact
             </button>
