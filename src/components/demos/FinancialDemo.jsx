@@ -127,13 +127,13 @@ const FinancialDemo = () => {
           </div>
           <div className="bg-gray-700 p-4 rounded">
             <p className="text-sm text-gray-300">Total Gain</p>
-            <p className={`text-2xl font-bold ${metrics.totalGain >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              ${metrics.totalGain.toLocaleString()} ({metrics.totalGainPercent.toFixed(2)}%)
+            <p className={'text-2xl font-bold ' + (metrics.totalGain >= 0 ? 'text-green-400' : 'text-red-400')}>
+              ${metrics.totalGain.toFixed(2)} ({metrics.totalGainPercent.toFixed(2)}%)
             </p>
           </div>
           <div className="bg-gray-700 p-4 rounded">
             <p className="text-sm text-gray-300">Daily Change</p>
-            <p className={`text-2xl font-bold ${metrics.dailyChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={'text-2xl font-bold ' + (metrics.dailyChange >= 0 ? 'text-green-400' : 'text-red-400')}>
               {metrics.dailyChange >= 0 ? '+' : ''}{metrics.dailyChange.toFixed(2)}%
             </p>
           </div>
@@ -180,10 +180,10 @@ const FinancialDemo = () => {
                     <td className="py-2">{stock.shares}</td>
                     <td className="py-2">${stock.avgPrice.toFixed(2)}</td>
                     <td className="py-2">${stock.currentPrice.toFixed(2)}</td>
-                    <td className={`py-2 ${gainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                      ${gainLoss.toFixed(2)}
+                    <td className={'py-2 ' + (gainLoss >= 0 ? 'text-green-400' : 'text-red-400')}>
+                      {gainLoss >= 0 ? '+' : ''}${gainLoss.toFixed(2)}
                     </td>
-                    <td className={`py-2 ${percentChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    <td className={'py-2 ' + (percentChange >= 0 ? 'text-green-400' : 'text-red-400')}>
                       {percentChange >= 0 ? '+' : ''}{percentChange.toFixed(2)}%
                     </td>
                   </tr>
@@ -263,7 +263,7 @@ const FinancialDemo = () => {
           </div>
           <div className="bg-gray-700 p-3 rounded">
             <p className="text-xs text-gray-400">Change</p>
-            <p className={`text-lg font-bold ${recentData[recentData.length - 1]?.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={'text-lg font-bold ' + (recentData[recentData.length - 1]?.change >= 0 ? 'text-green-400' : 'text-red-400')}>
               {recentData[recentData.length - 1]?.change >= 0 ? '+' : ''}{recentData[recentData.length - 1]?.change.toFixed(2)}%
             </p>
           </div>

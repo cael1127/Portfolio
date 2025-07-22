@@ -302,8 +302,8 @@ const BlockchainDemo = () => {
               <div className="space-y-4">
                 <div>
                   <p className="text-purple-200 text-sm">Status</p>
-                  <p className={`text-lg font-semibold ${getStatusColor(miningStatus)}`}>
-                    {miningStatus.charAt(0).toUpperCase() + miningStatus.slice(1)}
+                  <p className={'text-lg font-semibold ' + getStatusColor(miningStatus)}>
+                    {miningStatus}
                   </p>
                 </div>
                 

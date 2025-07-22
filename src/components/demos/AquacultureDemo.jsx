@@ -356,9 +356,12 @@ const AquacultureDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{tank.name}</h3>
                         <p className="text-gray-400 text-sm">{tank.lastUpdate}</p>
-                        <p className={`text-sm ${getStatusColor(tank.status)}`}>
-                          {tank.status.charAt(0).toUpperCase() + tank.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(tank.status)}>
+                          {tank.status}
                         </p>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(tank.status)}>
+                          {tank.alerts.length} alerts
+                        </div>
                       </div>
                       <div className="text-right">
                         <div className={`px-2 py-1 rounded text-xs ${getStatusBg(tank.status)}`}>
@@ -569,7 +572,7 @@ const AquacultureDemo = () => {
                     <div key={index} className="flex flex-col items-center">
                       <div 
                         className="bg-blue-500 rounded-t w-4"
-                        style={{ height: `${(value / 12) * 100}%` }}
+                        style={{ height: (value / 12) * 100 + '%' }}
                       ></div>
                       <span className="text-xs text-gray-400 mt-1">{value}</span>
                     </div>
@@ -585,7 +588,7 @@ const AquacultureDemo = () => {
                     <div key={index} className="flex flex-col items-center">
                       <div 
                         className="bg-red-500 rounded-t w-4"
-                        style={{ height: `${(value / 35) * 100}%` }}
+                        style={{ height: (value / 35) * 100 + '%' }}
                       ></div>
                       <span className="text-xs text-gray-400 mt-1">{value}</span>
                     </div>
@@ -601,7 +604,7 @@ const AquacultureDemo = () => {
                     <div key={index} className="flex flex-col items-center">
                       <div 
                         className="bg-green-500 rounded-t w-4"
-                        style={{ height: `${(value / 100) * 100}%` }}
+                        style={{ height: (value / 100) * 100 + '%' }}
                       ></div>
                       <span className="text-xs text-gray-400 mt-1">{value}%</span>
                     </div>
