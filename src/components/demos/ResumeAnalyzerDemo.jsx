@@ -284,13 +284,13 @@ const ResumeAnalyzerDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{resume.candidate}</h3>
                         <p className="text-gray-400 text-sm">{resume.position} • {resume.lastUpdate}</p>
-                        <p className={`text-sm ${getStatusColor(resume.status)}`}>
-                          {resume.status.charAt(0).toUpperCase() + resume.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(resume.status)}>
+                          {resume.status}
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getScoreBg(resume.score)}`}>
-                          Score: {resume.score}
+                        <div className={'px-2 py-1 rounded text-xs ' + getScoreBg(resume.score)}>
+                          {resume.score}%
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{resume.alerts.length} alerts</p>
                       </div>
@@ -338,7 +338,7 @@ const ResumeAnalyzerDemo = () => {
                   <div>
                     <h3 className="text-white font-semibold">{selectedResume.candidate}</h3>
                     <p className="text-blue-200 text-sm">{selectedResume.position}</p>
-                    <p className={`text-lg font-bold ${getScoreColor(selectedResume.score)}`}>
+                    <p className={'text-lg font-bold ' + getScoreColor(selectedResume.score)}>
                       Overall Score: {selectedResume.score}/100
                     </p>
                   </div>
@@ -467,8 +467,8 @@ const ResumeAnalyzerDemo = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Overall Score</span>
-                    <span className={`text-lg font-semibold ${getScoreColor(analysisResults.summary.overallScore)}`}>
-                      {analysisResults.summary.overallScore}/100
+                    <span className={'text-lg font-semibold ' + getScoreColor(analysisResults.summary.overallScore)}>
+                      {analysisResults.summary.overallScore}%
                     </span>
                   </div>
                   <div className="flex justify-between items-center">

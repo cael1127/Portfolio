@@ -268,12 +268,12 @@ const WhiteboardDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{project.name}</h3>
                         <p className="text-gray-400 text-sm">by {project.creator} • {project.lastUpdate}</p>
-                        <p className={`text-sm ${getStatusColor(project.status)}`}>
-                          {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(project.status)}>
+                          {project.status}
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(project.status)}`}>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(project.status)}>
                           {project.alerts.length} alerts
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{project.participants} participants</p>
@@ -324,8 +324,8 @@ const WhiteboardDemo = () => {
                       <div>
                         <p className="text-white font-semibold">{user.name}</p>
                         <p className="text-blue-200 text-sm">{user.role} • {user.sessionTime}</p>
-                        <p className={`text-gray-300 text-xs ${getUserStatusColor(user.status)}`}>
-                          {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                        <p className={'text-gray-300 text-xs ' + getUserStatusColor(user.status)}>
+                          {user.status}
                         </p>
                       </div>
                       <div className="text-right">
@@ -423,8 +423,8 @@ const WhiteboardDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Status</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getStatusBg(selectedProject.status)}`}>
-                      {selectedProject.status.charAt(0).toUpperCase() + selectedProject.status.slice(1)}
+                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedProject.status)}>
+                      {selectedProject.status}
                     </span>
                   </div>
                 </div>

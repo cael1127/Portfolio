@@ -272,8 +272,8 @@ const SmartCityDemo = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-300">Status</span>
-                <span className={`px-2 py-1 rounded text-xs ${getAirQualityBg(sensorData.airQuality?.[selectedDistrict]?.status)}`}>
-                  {sensorData.airQuality?.[selectedDistrict]?.status.toUpperCase()}
+                <span className={'px-2 py-1 rounded text-xs ' + getAirQualityBg(sensorData.airQuality?.[selectedDistrict]?.status)}>
+                  {sensorData.airQuality?.[selectedDistrict]?.status || 'Unknown'}
                 </span>
               </div>
             </div>
