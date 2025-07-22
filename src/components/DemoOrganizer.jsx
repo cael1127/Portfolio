@@ -158,6 +158,26 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['React', 'Drag & Drop', 'Template System'],
           features: ['Visual editor', 'Template library', 'Deployment'],
           hasProjectPage: true
+        },
+        {
+          id: 'ai-assistant',
+          name: 'AI Assistant',
+          description: 'Advanced conversational AI with natural language processing',
+          icon: '🤖',
+          difficulty: 'Advanced',
+          technologies: ['React', 'NLP', 'AI Models'],
+          features: ['Natural language processing', 'Multi-model AI', 'Conversation management'],
+          hasProjectPage: true
+        },
+        {
+          id: 'resume-analyzer',
+          name: 'Resume Analyzer',
+          description: 'AI-powered resume analysis and skills matching',
+          icon: '📄',
+          difficulty: 'Advanced',
+          technologies: ['React', 'NLP', 'Document Parsing'],
+          features: ['Resume parsing', 'Skills analysis', 'Job matching'],
+          hasProjectPage: true
         }
       ]
     },

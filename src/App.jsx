@@ -29,6 +29,8 @@ import GamePlatformProjectPage from './components/ProjectPages/GamePlatformProje
 import RestaurantAppProjectPage from './components/ProjectPages/RestaurantAppProjectPage';
 import WhiteboardProjectPage from './components/ProjectPages/WhiteboardProjectPage';
 import PortfolioBuilderProjectPage from './components/ProjectPages/PortfolioBuilderProjectPage';
+import AIAssistantProjectPage from './components/ProjectPages/AIAssistantProjectPage';
+import ResumeAnalyzerProjectPage from './components/ProjectPages/ResumeAnalyzerProjectPage';
 import DemoOrganizer from './components/DemoOrganizer';
 
 function App() {
@@ -444,6 +446,26 @@ function App() {
             <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <PortfolioBuilderProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'ai-assistant-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <AIAssistantProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'resume-analyzer-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <ResumeAnalyzerProjectPage setCurrentPage={setCurrentPage} />
             </div>
           </div>
         );
