@@ -1,230 +1,516 @@
 import React, { useState, useEffect } from 'react';
 
-export default function FinancialDemo() {
-  const [portfolios, setPortfolios] = useState([
-    { id: 1, name: 'Growth Portfolio', value: 125000, change: 2.4, risk: 'Medium', allocation: { stocks: 70, bonds: 20, crypto: 10 } },
-    { id: 2, name: 'Conservative Portfolio', value: 89000, change: 1.2, risk: 'Low', allocation: { stocks: 30, bonds: 60, crypto: 10 } },
-    { id: 3, name: 'Aggressive Portfolio', value: 210000, change: 4.8, risk: 'High', allocation: { stocks: 80, bonds: 10, crypto: 10 } },
-  ]);
-
-  const [marketData, setMarketData] = useState([
-    { symbol: 'AAPL', name: 'Apple Inc.', price: 185.42, change: 1.2, volume: '45.2M' },
-    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 142.18, change: -0.8, volume: '32.1M' },
-    { symbol: 'MSFT', name: 'Microsoft Corp.', price: 378.85, change: 2.1, volume: '28.7M' },
-    { symbol: 'TSLA', name: 'Tesla Inc.', price: 248.50, change: 3.5, volume: '52.3M' },
-  ]);
-
-  const [aiPredictions, setAiPredictions] = useState([
-    { symbol: 'AAPL', prediction: 'Buy', confidence: 87, target: 195.00, timeframe: '1 month' },
-    { symbol: 'GOOGL', prediction: 'Hold', confidence: 72, target: 145.00, timeframe: '1 month' },
-    { symbol: 'MSFT', prediction: 'Buy', confidence: 91, target: 390.00, timeframe: '1 month' },
-    { symbol: 'TSLA', prediction: 'Sell', confidence: 65, target: 230.00, timeframe: '1 month' },
-  ]);
-
-  const [analytics, setAnalytics] = useState({
-    totalAssets: 424000,
-    dailyReturn: 2.1,
-    volatility: 12.4,
-    sharpeRatio: 1.8
+const FinancialDemo = () => {
+  const [portfolios, setPortfolios] = useState([]);
+  const [marketData, setMarketData] = useState([]);
+  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+  const [alerts, setAlerts] = useState([]);
+  const [systemStats, setSystemStats] = useState({
+    totalAssets: 0,
+    totalValue: 0,
+    dailyReturn: 0,
+    riskScore: 0
   });
 
+  // Initialize portfolio data
+  useEffect(() => {
+    const initialPortfolios = [
+      {
+        id: 1,
+        name: 'Growth Portfolio',
+        type: 'Aggressive',
+        status: 'active',
+        totalValue: 125000,
+        dailyChange: 2.3,
+        totalReturn: 15.7,
+        riskScore: 8.2,
+        lastUpdate: '1 minute ago',
+        alerts: [],
+        assets: [
+          { symbol: 'AAPL', name: 'Apple Inc.', shares: 50, value: 8500, change: 1.2 },
+          { symbol: 'GOOGL', name: 'Alphabet Inc.', shares: 30, value: 4200, change: -0.8 },
+          { symbol: 'TSLA', name: 'Tesla Inc.', shares: 25, value: 3800, change: 3.5 },
+          { symbol: 'MSFT', name: 'Microsoft Corp.', shares: 40, value: 12000, change: 0.9 }
+        ]
+      },
+      {
+        id: 2,
+        name: 'Conservative Portfolio',
+        type: 'Defensive',
+        status: 'active',
+        totalValue: 89000,
+        dailyChange: 0.8,
+        totalReturn: 6.2,
+        riskScore: 3.1,
+        lastUpdate: '2 minutes ago',
+        alerts: [],
+        assets: [
+          { symbol: 'JNJ', name: 'Johnson & Johnson', shares: 100, value: 15000, change: 0.5 },
+          { symbol: 'PG', name: 'Procter & Gamble', shares: 80, value: 12000, change: 0.3 },
+          { symbol: 'KO', name: 'Coca-Cola Co.', shares: 120, value: 6000, change: -0.2 },
+          { symbol: 'VZ', name: 'Verizon Communications', shares: 150, value: 8000, change: 1.1 }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Tech Portfolio',
+        type: 'High Risk',
+        status: 'warning',
+        totalValue: 156000,
+        dailyChange: -1.5,
+        totalReturn: 28.4,
+        riskScore: 9.8,
+        lastUpdate: 'Just now',
+        alerts: ['High volatility detected', 'Risk threshold exceeded'],
+        assets: [
+          { symbol: 'NVDA', name: 'NVIDIA Corp.', shares: 60, value: 45000, change: -2.1 },
+          { symbol: 'AMD', name: 'Advanced Micro Devices', shares: 200, value: 22000, change: -1.8 },
+          { symbol: 'META', name: 'Meta Platforms', shares: 80, value: 28000, change: 0.7 },
+          { symbol: 'NFLX', name: 'Netflix Inc.', shares: 100, value: 35000, change: -0.9 }
+        ]
+      }
+    ];
+    setPortfolios(initialPortfolios);
+    setSystemStats({
+      totalAssets: initialPortfolios.reduce((sum, p) => sum + p.assets.length, 0),
+      totalValue: initialPortfolios.reduce((sum, p) => sum + p.totalValue, 0),
+      dailyReturn: 1.2,
+      riskScore: 7.0
+    });
+  }, []);
+
+  // Simulate real-time market updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setMarketData(prev => prev.map(stock => ({
-        ...stock,
-        price: stock.price + (Math.random() - 0.5) * 2,
-        change: stock.change + (Math.random() - 0.5) * 0.5
-      })));
-    }, 4000);
+      setPortfolios(prevPortfolios => prevPortfolios.map(portfolio => {
+        const newPortfolio = {
+          ...portfolio,
+          totalValue: portfolio.totalValue + (Math.random() - 0.5) * 1000,
+          dailyChange: portfolio.dailyChange + (Math.random() - 0.5) * 0.5,
+          lastUpdate: 'Just now'
+        };
+
+        // Update individual assets
+        newPortfolio.assets = portfolio.assets.map(asset => ({
+          ...asset,
+          value: asset.value + (Math.random() - 0.5) * 100,
+          change: asset.change + (Math.random() - 0.5) * 0.3
+        }));
+
+        // Generate alerts based on conditions
+        const newAlerts = [];
+        if (newPortfolio.dailyChange < -2) {
+          newAlerts.push('Significant daily loss');
+        }
+        if (newPortfolio.riskScore > 9) {
+          newAlerts.push('High risk threshold exceeded');
+        }
+        if (newPortfolio.totalValue < portfolio.totalValue * 0.95) {
+          newAlerts.push('Portfolio value declining');
+        }
+
+        newPortfolio.alerts = newAlerts;
+        newPortfolio.status = newAlerts.length > 2 ? 'critical' : 
+                             newAlerts.length > 0 ? 'warning' : 'active';
+        
+        return newPortfolio;
+      }));
+
+      setSystemStats(prev => ({
+        ...prev,
+        totalValue: prevPortfolios.reduce((sum, p) => sum + p.totalValue, 0),
+        dailyReturn: prev.dailyReturn + (Math.random() - 0.5) * 0.2
+      }));
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const getChangeColor = (change) => {
-    return change >= 0 ? 'text-green-400' : 'text-red-400';
-  };
+  // Generate market data
+  useEffect(() => {
+    const newMarketData = [
+      {
+        symbol: 'SPY',
+        name: 'S&P 500 ETF',
+        price: 415.67,
+        change: 0.85,
+        volume: '45.2M',
+        marketCap: '385.2B'
+      },
+      {
+        symbol: 'QQQ',
+        name: 'NASDAQ-100 ETF',
+        price: 378.92,
+        change: -0.32,
+        volume: '32.1M',
+        marketCap: '175.8B'
+      },
+      {
+        symbol: 'IWM',
+        name: 'Russell 2000 ETF',
+        price: 185.43,
+        change: 1.23,
+        volume: '28.7M',
+        marketCap: '68.9B'
+      },
+      {
+        symbol: 'GLD',
+        name: 'Gold ETF',
+        price: 198.76,
+        change: 0.45,
+        volume: '12.3M',
+        marketCap: '38.5B'
+      }
+    ];
+    setMarketData(newMarketData);
+  }, []);
 
-  const getPredictionColor = (prediction) => {
-    switch (prediction) {
-      case 'Buy': return 'text-green-400';
-      case 'Sell': return 'text-red-400';
-      case 'Hold': return 'text-yellow-400';
+  // Generate system alerts
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const allAlerts = portfolios.flatMap(portfolio => 
+        portfolio.alerts.map(alert => ({
+          id: Date.now() + Math.random(),
+          portfolio: portfolio.name,
+          message: alert,
+          severity: alert.includes('Critical') ? 'high' : 'medium',
+          timestamp: new Date().toLocaleTimeString()
+        }))
+      );
+      setAlerts(allAlerts.slice(0, 5));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [portfolios]);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'text-green-400';
+      case 'warning': return 'text-yellow-400';
+      case 'critical': return 'text-red-400';
       default: return 'text-gray-400';
     }
   };
 
-  const getPredictionBg = (prediction) => {
-    switch (prediction) {
-      case 'Buy': return 'bg-green-600';
-      case 'Sell': return 'bg-red-600';
-      case 'Hold': return 'bg-yellow-600';
+  const getStatusBg = (status) => {
+    switch (status) {
+      case 'active': return 'bg-green-600';
+      case 'warning': return 'bg-yellow-600';
+      case 'critical': return 'bg-red-600';
       default: return 'bg-gray-600';
     }
   };
 
+  const getRiskColor = (risk) => {
+    if (risk > 8) return 'text-red-400';
+    if (risk > 5) return 'text-yellow-400';
+    return 'text-green-400';
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
+  };
+
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <h3 className="text-3xl font-bold text-white mb-6">📊 AI-Powered Financial Analytics</h3>
-      
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Portfolio Overview */}
-        <div className="lg:col-span-2">
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-            <h4 className="text-xl font-semibold text-white mb-4">Portfolio Performance</h4>
-            <div className="space-y-4">
-              {portfolios.map(portfolio => (
-                <div key={portfolio.id} className="bg-gray-700 p-4 rounded border border-gray-600">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h5 className="font-semibold text-white">{portfolio.name}</h5>
-                      <p className="text-gray-400 text-sm">Risk: {portfolio.risk}</p>
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-green-400 mb-4">💰 Financial Analytics Platform</h1>
+          <p className="text-gray-300 text-lg">
+            AI-powered portfolio management with real-time market data, risk assessment, and predictive analytics
+          </p>
+        </div>
+
+        {/* System Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
+            <div className="text-3xl mb-2">💼</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Total Assets</h3>
+            <p className="text-3xl font-bold text-green-400">{systemStats.totalAssets}</p>
+          </div>
+          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="text-3xl mb-2">💰</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Portfolio Value</h3>
+            <p className="text-3xl font-bold text-blue-400">{formatCurrency(systemStats.totalValue)}</p>
+          </div>
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="text-3xl mb-2">📈</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Daily Return</h3>
+            <p className={`text-3xl font-bold ${systemStats.dailyReturn >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {systemStats.dailyReturn >= 0 ? '+' : ''}{systemStats.dailyReturn.toFixed(1)}%
+            </p>
+          </div>
+          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+            <div className="text-3xl mb-2">⚠️</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Risk Score</h3>
+            <p className={`text-3xl font-bold ${getRiskColor(systemStats.riskScore)}`}>
+              {systemStats.riskScore.toFixed(1)}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Portfolio Management */}
+          <div className="lg:col-span-2">
+            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
+              <h2 className="text-2xl font-bold text-white mb-6">Portfolio Management</h2>
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {portfolios.map((portfolio) => (
+                  <div
+                    key={portfolio.id}
+                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                      selectedPortfolio?.id === portfolio.id
+                        ? 'border-green-400 bg-green-900/30'
+                        : 'border-gray-600 hover:border-gray-500'
+                    }`}
+                    onClick={() => setSelectedPortfolio(portfolio)}
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{portfolio.name}</h3>
+                        <p className="text-gray-400 text-sm">{portfolio.type} • {portfolio.assets.length} assets</p>
+                        <p className={`text-sm ${getStatusColor(portfolio.status)}`}>
+                          {portfolio.status.charAt(0).toUpperCase() + portfolio.status.slice(1)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(portfolio.status)}`}>
+                          {portfolio.alerts.length} alerts
+                        </div>
+                        <p className="text-gray-400 text-xs mt-1">{portfolio.lastUpdate}</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-white font-bold">${portfolio.value.toLocaleString()}</p>
-                      <p className={`font-medium ${getChangeColor(portfolio.change)}`}>
-                        {portfolio.change >= 0 ? '+' : ''}{portfolio.change}%
-                      </p>
+                    
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-400">Total Value</p>
+                        <p className="text-white font-semibold">{formatCurrency(portfolio.totalValue)}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Daily Change</p>
+                        <p className={`text-white font-semibold ${
+                          portfolio.dailyChange >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {portfolio.dailyChange >= 0 ? '+' : ''}{portfolio.dailyChange.toFixed(1)}%
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Total Return</p>
+                        <p className={`text-white font-semibold ${
+                          portfolio.totalReturn >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {portfolio.totalReturn >= 0 ? '+' : ''}{portfolio.totalReturn.toFixed(1)}%
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Risk Score</p>
+                        <p className={`text-white font-semibold ${getRiskColor(portfolio.riskScore)}`}>
+                          {portfolio.riskScore.toFixed(1)}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="flex-1 bg-gray-600 rounded h-2">
-                      <div className="bg-blue-500 h-2 rounded" style={{ width: `${portfolio.allocation.stocks}%` }}></div>
-                    </div>
-                    <div className="flex-1 bg-gray-600 rounded h-2">
-                      <div className="bg-green-500 h-2 rounded" style={{ width: `${portfolio.allocation.bonds}%` }}></div>
-                    </div>
-                    <div className="flex-1 bg-gray-600 rounded h-2">
-                      <div className="bg-orange-500 h-2 rounded" style={{ width: `${portfolio.allocation.crypto}%` }}></div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Market Data & Alerts */}
+          <div className="space-y-6">
+            {/* Market Data */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <h2 className="text-2xl font-bold text-white mb-4">📊 Market Data</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {marketData.map((stock) => (
+                  <div key={stock.symbol} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="text-white font-semibold">{stock.symbol}</p>
+                        <p className="text-blue-200 text-sm">{stock.name}</p>
+                        <p className="text-gray-300 text-xs">Vol: {stock.volume}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-white font-semibold">${stock.price.toFixed(2)}</p>
+                        <p className={`text-sm ${
+                          stock.change >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}%
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex justify-between text-xs text-gray-400 mt-2">
-                    <span>Stocks: {portfolio.allocation.stocks}%</span>
-                    <span>Bonds: {portfolio.allocation.bonds}%</span>
-                    <span>Crypto: {portfolio.allocation.crypto}%</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Financial Alerts */}
+            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
+              <h2 className="text-2xl font-bold text-white mb-4">🚨 Financial Alerts</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {alerts.length === 0 ? (
+                  <div className="text-center py-4">
+                    <div className="text-4xl mb-2">✅</div>
+                    <p className="text-gray-300">No active alerts</p>
                   </div>
-                </div>
-              ))}
+                ) : (
+                  alerts.map((alert) => (
+                    <div key={alert.id} className="bg-red-800/50 p-3 rounded-lg border border-red-600">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-white font-semibold">{alert.portfolio}</p>
+                          <p className="text-red-200 text-sm">{alert.message}</p>
+                          <p className="text-gray-300 text-xs">{alert.timestamp}</p>
+                        </div>
+                        <div className={`px-2 py-1 rounded text-xs ${
+                          alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
+                        }`}>
+                          {alert.severity.toUpperCase()}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+              <h2 className="text-2xl font-bold text-white mb-4">⚙️ Trading Controls</h2>
+              <div className="space-y-3">
+                <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                  Rebalance Portfolio
+                </button>
+                <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  Risk Assessment
+                </button>
+                <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
+                  Market Analysis
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Market Analytics */}
-        <div className="lg:col-span-1">
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-            <h4 className="text-xl font-semibold text-white mb-4">Market Analytics</h4>
-            <div className="space-y-4">
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-gray-400 text-sm">Total Assets</p>
-                <p className="text-2xl font-bold text-green-400">${analytics.totalAssets.toLocaleString()}</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-gray-400 text-sm">Daily Return</p>
-                <p className="text-2xl font-bold text-green-400">{analytics.dailyReturn}%</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-gray-400 text-sm">Volatility</p>
-                <p className="text-2xl font-bold text-yellow-400">{analytics.volatility}%</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-gray-400 text-sm">Sharpe Ratio</p>
-                <p className="text-2xl font-bold text-green-400">{analytics.sharpeRatio}</p>
-              </div>
+        {/* Portfolio Details */}
+        {selectedPortfolio && (
+          <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">{selectedPortfolio.name} Details</h2>
+              <button
+                onClick={() => setSelectedPortfolio(null)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
             </div>
-          </div>
-
-          {/* AI Insights */}
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 mt-6">
-            <h4 className="text-xl font-semibold text-white mb-4">🤖 AI Insights</h4>
-            <div className="space-y-3">
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-white text-sm font-medium">Market Sentiment</p>
-                <p className="text-green-400 text-sm">Bullish (78% confidence)</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-white text-sm font-medium">Risk Assessment</p>
-                <p className="text-yellow-400 text-sm">Moderate (Current volatility within normal range)</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <p className="text-white text-sm font-medium">Recommended Action</p>
-                <p className="text-green-400 text-sm">Rebalance portfolios toward tech sector</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Live Market Data */}
-      <div className="mt-6 bg-gray-800 p-6 rounded-lg border border-gray-700">
-        <h4 className="text-xl font-semibold text-white mb-4">📈 Live Market Data</h4>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <h5 className="text-white font-semibold mb-4">Stock Prices</h5>
-            <div className="space-y-3">
-              {marketData.map(stock => (
-                <div key={stock.symbol} className="bg-gray-700 p-3 rounded border border-gray-600">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-green-400 mb-3">Portfolio Information</h3>
+                <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-white font-semibold">{stock.symbol}</p>
-                      <p className="text-gray-400 text-xs">{stock.name}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white font-bold">${stock.price.toFixed(2)}</p>
-                      <p className={`text-sm ${getChangeColor(stock.change)}`}>
-                        {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(1)}%
-                      </p>
-                    </div>
+                    <span className="text-gray-300">Type</span>
+                    <span className="text-lg font-semibold text-white">{selectedPortfolio.type}</span>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h5 className="text-white font-semibold mb-4">AI Predictions</h5>
-            <div className="space-y-3">
-              {aiPredictions.map(prediction => (
-                <div key={prediction.symbol} className="bg-gray-700 p-3 rounded border border-gray-600">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <p className="text-white font-semibold">{prediction.symbol}</p>
-                      <p className="text-gray-400 text-xs">Target: ${prediction.target}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${getPredictionBg(prediction.prediction)} text-white`}>
-                      {prediction.prediction}
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Total Value</span>
+                    <span className="text-lg font-semibold text-white">{formatCurrency(selectedPortfolio.totalValue)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Daily Change</span>
+                    <span className={`text-lg font-semibold ${
+                      selectedPortfolio.dailyChange >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {selectedPortfolio.dailyChange >= 0 ? '+' : ''}{selectedPortfolio.dailyChange.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-gray-400">Confidence: {prediction.confidence}%</span>
-                    <span className="text-gray-400">{prediction.timeframe}</span>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Total Return</span>
+                    <span className={`text-lg font-semibold ${
+                      selectedPortfolio.totalReturn >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {selectedPortfolio.totalReturn >= 0 ? '+' : ''}{selectedPortfolio.totalReturn.toFixed(1)}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Risk Score</span>
+                    <span className={`text-lg font-semibold ${getRiskColor(selectedPortfolio.riskScore)}`}>
+                      {selectedPortfolio.riskScore.toFixed(1)}
+                    </span>
                   </div>
                 </div>
-              ))}
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-blue-400 mb-3">Asset Holdings</h3>
+                <div className="space-y-3 max-h-64 overflow-y-auto">
+                  {selectedPortfolio.assets.map((asset) => (
+                    <div key={asset.symbol} className="bg-gray-800 p-3 rounded-lg border border-gray-600">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-white font-semibold">{asset.symbol}</p>
+                          <p className="text-gray-400 text-sm">{asset.name}</p>
+                          <p className="text-gray-300 text-xs">{asset.shares} shares</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-white font-semibold">{formatCurrency(asset.value)}</p>
+                          <p className={`text-sm ${
+                            asset.change >= 0 ? 'text-green-400' : 'text-red-400'
+                          }`}>
+                            {asset.change >= 0 ? '+' : ''}{asset.change.toFixed(1)}%
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        )}
 
-      {/* Risk Analysis */}
-      <div className="mt-6 bg-gray-800 p-6 rounded-lg border border-gray-700">
-        <h4 className="text-xl font-semibold text-white mb-4">⚠️ Risk Analysis</h4>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-gray-700 p-4 rounded">
-            <h5 className="text-white font-semibold mb-2">Portfolio Risk</h5>
-            <p className="text-gray-400 text-sm">Current risk level: Moderate</p>
-            <p className="text-green-400 text-xs mt-2">Within acceptable range</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <h5 className="text-white font-semibold mb-2">Market Risk</h5>
-            <p className="text-gray-400 text-sm">S&P 500 volatility: 15.2%</p>
-            <p className="text-yellow-400 text-xs mt-2">Above average</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <h5 className="text-white font-semibold mb-2">AI Recommendations</h5>
-            <p className="text-gray-400 text-sm">Consider hedging strategies</p>
-            <p className="text-green-400 text-xs mt-2">Automated alerts active</p>
+        {/* AI Features */}
+        <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <h2 className="text-2xl font-bold text-white mb-4">🤖 AI-Powered Financial Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Portfolio Analytics</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Real-time performance tracking</li>
+                <li>• Risk assessment models</li>
+                <li>• Asset allocation optimization</li>
+                <li>• Correlation analysis</li>
+                <li>• Volatility forecasting</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Market Intelligence</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Sentiment analysis</li>
+                <li>• News impact assessment</li>
+                <li>• Technical indicator analysis</li>
+                <li>• Market trend prediction</li>
+                <li>• Earnings forecast models</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Trading Automation</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Algorithmic trading strategies</li>
+                <li>• Stop-loss optimization</li>
+                <li>• Rebalancing automation</li>
+                <li>• Tax-loss harvesting</li>
+                <li>• Portfolio rebalancing</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+};
+
+export default FinancialDemo; 
