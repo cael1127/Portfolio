@@ -20,6 +20,8 @@ import WhiteboardDemo from './components/demos/WhiteboardDemo';
 import FraudDetectionDemo from './components/demos/FraudDetectionDemo';
 import DeepfakeDetectionDemo from './components/demos/DeepfakeDetectionDemo';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
+import AquacultureProjectPage from './components/ProjectPages/AquacultureProjectPage';
+import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPage';
 import DemoOrganizer from './components/DemoOrganizer';
 
 function App() {
@@ -345,6 +347,26 @@ function App() {
             <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <DemoOrganizer setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'aquaculture-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <AquacultureProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'healthcare-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <HealthcareProjectPage setCurrentPage={setCurrentPage} />
             </div>
           </div>
         );

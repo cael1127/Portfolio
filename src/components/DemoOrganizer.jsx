@@ -58,7 +58,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🔗',
           difficulty: 'Advanced',
           technologies: ['Solidity', 'Web3.js', 'React'],
-          features: ['Smart contracts', 'Transaction mining', 'Supply chain tracking']
+          features: ['Smart contracts', 'Transaction mining', 'Supply chain tracking'],
+          hasProjectPage: true
         }
       ]
     },
@@ -73,7 +74,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🌊',
           difficulty: 'Advanced',
           technologies: ['IoT Sensors', 'React', 'Machine Learning'],
-          features: ['Real-time monitoring', 'Predictive analytics', 'Water quality']
+          features: ['Real-time monitoring', 'Predictive analytics', 'Water quality'],
+          hasProjectPage: true
         },
         {
           id: 'smartcity',
@@ -106,7 +108,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🏥',
           difficulty: 'Advanced',
           technologies: ['React', 'AI/ML', 'HIPAA Compliance'],
-          features: ['Patient monitoring', 'Predictive diagnostics', 'Medical alerts']
+          features: ['Patient monitoring', 'Predictive diagnostics', 'Medical alerts'],
+          hasProjectPage: true
         },
         {
           id: 'financial',
@@ -336,6 +339,20 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                     )}
                   </ul>
                 </div>
+                
+                {demo.hasProjectPage && (
+                  <div className="mt-4 pt-4 border-t border-gray-600">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentPage(demo.id + '-project');
+                      }}
+                      className="text-green-400 hover:text-green-300 text-xs font-semibold"
+                    >
+                      📋 View Project Details →
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
