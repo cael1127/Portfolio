@@ -1,557 +1,545 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AIAssistantDemo = () => {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: 'assistant',
-      content: "Hello! I'm ACF (AI Cael Findley), your AI assistant. I can help you with coding, data analysis, creative writing, and much more. What would you like to work on today?",
-      timestamp: new Date().toLocaleTimeString()
-    }
-  ]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [activeMode, setActiveMode] = useState('chat');
-  const [codeResult, setCodeResult] = useState('');
-  const [dataAnalysis, setDataAnalysis] = useState(null);
-  const [creativeOutput, setCreativeOutput] = useState('');
-  const messagesEndRef = useRef(null);
+  const [conversations, setConversations] = useState([]);
+  const [currentConversation, setCurrentConversation] = useState(null);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [alerts, setAlerts] = useState([]);
+  const [systemStats, setSystemStats] = useState({
+    totalConversations: 0,
+    activeUsers: 0,
+    averageResponseTime: 0,
+    satisfactionRate: 0
+  });
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+  // Initialize AI assistant data
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const aiResponses = {
-    coding: [
-      "Here's a React component for that feature:",
-      "I'll create a Node.js API endpoint:",
-      "Here's the optimized code solution:",
-      "Let me generate a TypeScript interface:",
-      "Here's a clean implementation:"
-    ],
-    analysis: [
-      "Based on the data analysis:",
-      "The key insights are:",
-      "Here's what the numbers tell us:",
-      "The trend analysis shows:",
-      "Statistical summary:"
-    ],
-    creative: [
-      "Here's a creative solution:",
-      "I've generated some ideas:",
-      "Creative approach:",
-      "Here's an innovative solution:",
-      "Creative output:"
-    ],
-    general: [
-      "I can help you with that!",
-      "Let me assist you with this.",
-      "Here's what I recommend:",
-      "I'll help you solve this.",
-      "Let me provide some guidance:"
-    ]
-  };
-
-  const generateCode = (request) => {
-    const codeExamples = {
-      'react component': `import React, { useState, useEffect } from 'react';
-
-const ExampleComponent = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('/api/data');
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+    const initialConversations = [
+      {
+        id: 1,
+        user: 'John Smith',
+        topic: 'Code Review',
+        status: 'active',
+        messages: 8,
+        lastUpdate: '2 minutes ago',
+        alerts: [],
+        context: {
+          language: 'JavaScript',
+          framework: 'React',
+          complexity: 'medium',
+          priority: 'high'
+        },
+        analytics: {
+          responseTime: 1.2,
+          accuracy: 94.5,
+          helpfulness: 4.8,
+          resolution: 'resolved'
+        }
+      },
+      {
+        id: 2,
+        user: 'Sarah Johnson',
+        topic: 'Bug Fixing',
+        status: 'active',
+        messages: 12,
+        lastUpdate: '1 minute ago',
+        alerts: [],
+        context: {
+          language: 'Python',
+          framework: 'Django',
+          complexity: 'high',
+          priority: 'critical'
+        },
+        analytics: {
+          responseTime: 2.1,
+          accuracy: 91.2,
+          helpfulness: 4.6,
+          resolution: 'in-progress'
+        }
+      },
+      {
+        id: 3,
+        user: 'Mike Chen',
+        topic: 'Architecture Design',
+        status: 'warning',
+        messages: 15,
+        lastUpdate: 'Just now',
+        alerts: ['Complex query detected', 'Multiple context switches'],
+        context: {
+          language: 'Multiple',
+          framework: 'Microservices',
+          complexity: 'very-high',
+          priority: 'medium'
+        },
+        analytics: {
+          responseTime: 3.8,
+          accuracy: 87.3,
+          helpfulness: 4.2,
+          resolution: 'pending'
+        }
       }
-    };
-
-    fetchData();
+    ];
+    setConversations(initialConversations);
+    setSystemStats({
+      totalConversations: 156,
+      activeUsers: 23,
+      averageResponseTime: 2.1,
+      satisfactionRate: 4.6
+    });
   }, []);
 
-  return (
-    <div className="p-4">
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          {data.map((item, index) => (
-            <div key={index} className="mb-2 p-2 bg-gray-100 rounded">
-              {item.name}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+  // Simulate real-time conversation updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setConversations(prevConversations => prevConversations.map(conversation => {
+        const newConversation = {
+          ...conversation,
+          messages: conversation.messages + Math.floor(Math.random() * 2),
+          lastUpdate: 'Just now'
+        };
 
-export default ExampleComponent;`,
-      'api endpoint': `const express = require('express');
-const router = express.Router();
+        // Update analytics
+        newConversation.analytics = {
+          ...conversation.analytics,
+          responseTime: Math.max(0.5, Math.min(5.0, conversation.analytics.responseTime + (Math.random() - 0.5) * 0.5)),
+          accuracy: Math.max(80, Math.min(98, conversation.analytics.accuracy + (Math.random() - 0.5) * 2))
+        };
 
-// GET endpoint
-router.get('/api/users', async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+        // Generate alerts based on conditions
+        const newAlerts = [];
+        if (newConversation.analytics.responseTime > 3) {
+          newAlerts.push('Slow response time');
+        }
+        if (newConversation.analytics.accuracy < 90) {
+          newAlerts.push('Low accuracy detected');
+        }
+        if (newConversation.messages > 20) {
+          newAlerts.push('Long conversation');
+        }
 
-// POST endpoint
-router.post('/api/users', async (req, res) => {
-  try {
-    const { name, email } = req.body;
-    const newUser = new User({ name, email });
-    await newUser.save();
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(400).json({ error: 'Invalid data' });
-  }
-});
+        newConversation.alerts = newAlerts;
+        newConversation.status = newAlerts.length > 2 ? 'critical' : 
+                                newAlerts.length > 0 ? 'warning' : 'active';
+        
+        return newConversation;
+      }));
 
-module.exports = router;`,
-      'database query': `-- SQL Query for user analytics
-SELECT 
-  u.name,
-  COUNT(o.id) as order_count,
-  SUM(o.total) as total_spent,
-  AVG(o.total) as avg_order_value
-FROM users u
-LEFT JOIN orders o ON u.id = o.user_id
-WHERE o.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-GROUP BY u.id, u.name
-HAVING order_count > 0
-ORDER BY total_spent DESC
-LIMIT 10;`,
-      'algorithm': `function quickSort(arr) {
-  if (arr.length <= 1) return arr;
-  
-  const pivot = arr[Math.floor(arr.length / 2)];
-  const left = arr.filter(x => x < pivot);
-  const middle = arr.filter(x => x === pivot);
-  const right = arr.filter(x => x > pivot);
-  
-  return [...quickSort(left), ...middle, ...quickSort(right)];
-}
+      setSystemStats(prev => ({
+        ...prev,
+        totalConversations: prev.totalConversations + Math.floor(Math.random() * 2),
+        activeUsers: Math.floor(Math.random() * 5) + 20,
+        averageResponseTime: Math.max(1.0, Math.min(4.0, prev.averageResponseTime + (Math.random() - 0.5) * 0.3))
+      }));
+    }, 4000);
 
-// Usage
-const numbers = [3, 7, 1, 9, 4, 6, 8, 2, 5];
-const sorted = quickSort(numbers);
-console.log(sorted); // [1, 2, 3, 4, 5, 6, 7, 8, 9]`
-    };
+    return () => clearInterval(interval);
+  }, []);
 
-    const requestLower = request.toLowerCase();
-    for (const [key, code] of Object.entries(codeExamples)) {
-      if (requestLower.includes(key)) {
-        return code;
-      }
-    }
-    return codeExamples['react component'];
-  };
-
-  const generateAnalysis = (request) => {
-    const analyses = {
-      'sales data': {
-        summary: "Sales increased by 23% this quarter compared to last year.",
-        insights: [
-          "Top performing product: Premium Widget (45% of revenue)",
-          "Peak sales period: December (32% of annual sales)",
-          "Customer retention rate: 87%",
-          "Average order value: $156"
-        ],
-        recommendations: [
-          "Focus marketing on Premium Widget line",
-          "Increase inventory for December rush",
-          "Implement loyalty program to boost retention"
-        ]
+  // Generate current conversation data
+  useEffect(() => {
+    const newConversation = {
+      id: 1,
+      user: 'John Smith',
+      topic: 'Code Review',
+      status: 'active',
+      messages: [
+        {
+          id: 1,
+          sender: 'user',
+          content: 'Can you review this React component for best practices?',
+          timestamp: '2:30 PM',
+          sentiment: 'neutral'
+        },
+        {
+          id: 2,
+          sender: 'assistant',
+          content: 'I\'d be happy to review your React component! Please share the code you\'d like me to examine.',
+          timestamp: '2:31 PM',
+          sentiment: 'positive'
+        },
+        {
+          id: 3,
+          sender: 'user',
+          content: 'Here\'s my component: [code snippet]',
+          timestamp: '2:32 PM',
+          sentiment: 'neutral'
+        },
+        {
+          id: 4,
+          sender: 'assistant',
+          content: 'Great! I can see several areas for improvement. Let me provide detailed feedback...',
+          timestamp: '2:33 PM',
+          sentiment: 'positive'
+        }
+      ],
+      context: {
+        language: 'JavaScript',
+        framework: 'React',
+        complexity: 'medium',
+        priority: 'high'
       },
-      'user behavior': {
-        summary: "User engagement shows strong mobile preference with 67% of sessions on mobile devices.",
-        insights: [
-          "Mobile conversion rate: 3.2%",
-          "Desktop conversion rate: 5.8%",
-          "Peak usage time: 7-9 PM",
-          "Most popular feature: Search (45% of interactions)"
-        ],
-        recommendations: [
-          "Optimize mobile checkout flow",
-          "Add mobile-specific features",
-          "Improve search functionality"
-        ]
-      },
-      'performance metrics': {
-        summary: "System performance is excellent with 99.9% uptime and sub-200ms response times.",
-        insights: [
-          "Average response time: 145ms",
-          "Peak load handled: 10,000 concurrent users",
-          "Database query optimization: 40% improvement",
-          "CDN hit rate: 92%"
-        ],
-        recommendations: [
-          "Implement caching for frequently accessed data",
-          "Consider database sharding for scale",
-          "Add performance monitoring alerts"
-        ]
+      analytics: {
+        responseTime: 1.2,
+        accuracy: 94.5,
+        helpfulness: 4.8,
+        resolution: 'resolved'
       }
     };
+    setCurrentConversation(newConversation);
+  }, []);
 
-    const requestLower = request.toLowerCase();
-    for (const [key, analysis] of Object.entries(analyses)) {
-      if (requestLower.includes(key)) {
-        return analysis;
-      }
+  // Generate system alerts
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const allAlerts = conversations.flatMap(conversation => 
+        conversation.alerts.map(alert => ({
+          id: Date.now() + Math.random(),
+          conversation: conversation.user,
+          message: alert,
+          severity: alert.includes('Critical') ? 'high' : 'medium',
+          timestamp: new Date().toLocaleTimeString()
+        }))
+      );
+      setAlerts(allAlerts.slice(0, 5));
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [conversations]);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'text-green-400';
+      case 'warning': return 'text-yellow-400';
+      case 'critical': return 'text-red-400';
+      default: return 'text-gray-400';
     }
-    return analyses['sales data'];
   };
 
-  const generateCreative = (request) => {
-    const creativeOutputs = {
-      'marketing copy': `🎯 Transform Your Business with AI-Powered Solutions
-
-Ready to revolutionize your operations? Our cutting-edge AI technology delivers:
-
-✨ 40% faster processing times
-🚀 99.9% accuracy rates  
-💡 Intelligent automation
-📈 Real-time insights
-
-Don't wait - the future is here. Contact us today!`,
-      'story': `The Digital Revolution
-
-In a world where technology and humanity dance in perfect harmony, Sarah discovered the power of AI. What started as a simple chatbot evolved into something extraordinary - a companion that understood not just her words, but her dreams.
-
-Together, they built solutions that changed lives, one algorithm at a time. The future wasn't just coming; it was already here.`,
-      'poem': `Lines of Code
-
-In the quiet glow of midnight screens,
-Where logic flows like gentle streams,
-Each function calls, each variable dreams,
-Of problems solved and futures gleamed.
-
-Digital minds in silicon dance,
-Creating worlds with every glance,
-From simple loops to complex trance,
-We build tomorrow's circumstance.`
-    };
-
-    const requestLower = request.toLowerCase();
-    for (const [key, output] of Object.entries(creativeOutputs)) {
-      if (requestLower.includes(key)) {
-        return output;
-      }
+  const getStatusBg = (status) => {
+    switch (status) {
+      case 'active': return 'bg-green-600';
+      case 'warning': return 'bg-yellow-600';
+      case 'critical': return 'bg-red-600';
+      default: return 'bg-gray-600';
     }
-    return creativeOutputs['marketing copy'];
   };
 
-  const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
-
-    const userMessage = {
-      id: messages.length + 1,
-      type: 'user',
-      content: inputMessage,
-      timestamp: new Date().toLocaleTimeString()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
-    setIsTyping(true);
-
-    // Simulate AI processing
-    setTimeout(() => {
-      const request = inputMessage.toLowerCase();
-      let response = '';
-      let responseType = 'general';
-
-      if (request.includes('code') || request.includes('component') || request.includes('api') || request.includes('function')) {
-        response = generateCode(inputMessage);
-        responseType = 'coding';
-        setCodeResult(response);
-      } else if (request.includes('analyze') || request.includes('data') || request.includes('report')) {
-        const analysis = generateAnalysis(inputMessage);
-        response = `${analysis.summary}\n\nKey Insights:\n${analysis.insights.map(insight => `• ${insight}`).join('\n')}\n\nRecommendations:\n${analysis.recommendations.map(rec => `• ${rec}`).join('\n')}`;
-        responseType = 'analysis';
-        setDataAnalysis(analysis);
-      } else if (request.includes('creative') || request.includes('write') || request.includes('story') || request.includes('copy')) {
-        response = generateCreative(inputMessage);
-        responseType = 'creative';
-        setCreativeOutput(response);
-      } else {
-        response = "I can help you with coding, data analysis, creative writing, and more. Try asking me to 'write some code', 'analyze data', or 'create marketing copy'!";
-        responseType = 'general';
-      }
-
-      const aiResponse = {
-        id: messages.length + 2,
-        type: 'assistant',
-        content: response,
-        timestamp: new Date().toLocaleTimeString()
-      };
-
-      setMessages(prev => [...prev, aiResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+  const getSentimentColor = (sentiment) => {
+    switch (sentiment) {
+      case 'positive': return 'text-green-400';
+      case 'negative': return 'text-red-400';
+      case 'neutral': return 'text-gray-400';
+      default: return 'text-gray-400';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">🤖 ACF - AI Assistant</h1>
-          <p className="text-gray-400">Your intelligent companion for coding, analysis, and creative tasks</p>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-green-400 mb-4">🤖 AI Assistant Platform</h1>
+          <p className="text-gray-300 text-lg">
+            Advanced AI assistant with conversation management, sentiment analysis, and intelligent responses
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Chat Interface */}
-          <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 h-[600px] flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-white">💬 Chat with ACF</h2>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setActiveMode('chat')}
-                    className={`px-3 py-1 rounded text-sm font-medium transition-all ${
-                      activeMode === 'chat' 
-                        ? 'bg-green-600 text-white' 
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                  >
-                    Chat
-                  </button>
-                  <button
-                    onClick={() => setActiveMode('code')}
-                    className={`px-3 py-1 rounded text-sm font-medium transition-all ${
-                      activeMode === 'code' 
-                        ? 'bg-green-600 text-white' 
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                  >
-                    Code
-                  </button>
-                  <button
-                    onClick={() => setActiveMode('analysis')}
-                    className={`px-3 py-1 rounded text-sm font-medium transition-all ${
-                      activeMode === 'analysis' 
-                        ? 'bg-green-600 text-white' 
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                  >
-                    Analysis
-                  </button>
-                  <button
-                    onClick={() => setActiveMode('creative')}
-                    className={`px-3 py-1 rounded text-sm font-medium transition-all ${
-                      activeMode === 'creative' 
-                        ? 'bg-green-600 text-white' 
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                  >
-                    Creative
-                  </button>
-                </div>
-              </div>
+        {/* System Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
+            <div className="text-3xl mb-2">💬</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Total Conversations</h3>
+            <p className="text-3xl font-bold text-green-400">{systemStats.totalConversations}</p>
+          </div>
+          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="text-3xl mb-2">👥</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Active Users</h3>
+            <p className="text-3xl font-bold text-blue-400">{systemStats.activeUsers}</p>
+          </div>
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="text-3xl mb-2">⚡</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Avg Response Time</h3>
+            <p className="text-3xl font-bold text-purple-400">{systemStats.averageResponseTime.toFixed(1)}s</p>
+          </div>
+          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+            <div className="text-3xl mb-2">⭐</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Satisfaction Rate</h3>
+            <p className="text-3xl font-bold text-yellow-400">{systemStats.satisfactionRate.toFixed(1)}</p>
+          </div>
+        </div>
 
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto mb-4 space-y-4">
-                {messages.map((message) => (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Conversation Management */}
+          <div className="lg:col-span-2">
+            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
+              <h2 className="text-2xl font-bold text-white mb-6">Conversation Management</h2>
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {conversations.map((conversation) => (
                   <div
-                    key={message.id}
-                    className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                    key={conversation.id}
+                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                      selectedConversation?.id === conversation.id
+                        ? 'border-green-400 bg-green-900/30'
+                        : 'border-gray-600 hover:border-gray-500'
+                    }`}
+                    onClick={() => setSelectedConversation(conversation)}
                   >
-                    <div
-                      className={`max-w-[80%] p-3 rounded-lg ${
-                        message.type === 'user'
-                          ? 'bg-green-600 text-white'
-                          : 'bg-gray-700 text-gray-200'
-                      }`}
-                    >
-                      <div className="whitespace-pre-wrap">{message.content}</div>
-                      <div className="text-xs opacity-70 mt-1">{message.timestamp}</div>
-                    </div>
-                  </div>
-                ))}
-                {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="bg-gray-700 text-gray-200 p-3 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{conversation.user}</h3>
+                        <p className="text-gray-400 text-sm">{conversation.topic} • {conversation.lastUpdate}</p>
+                        <p className={`text-sm ${getStatusColor(conversation.status)}`}>
+                          {conversation.status.charAt(0).toUpperCase() + conversation.status.slice(1)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(conversation.status)}`}>
+                          {conversation.alerts.length} alerts
                         </div>
-                        <span className="text-sm">ACF is thinking...</span>
+                        <p className="text-gray-400 text-xs mt-1">{conversation.messages} messages</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-400">Response Time</p>
+                        <p className="text-white font-semibold">{conversation.analytics.responseTime.toFixed(1)}s</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Accuracy</p>
+                        <p className="text-white">{conversation.analytics.accuracy.toFixed(1)}%</p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3">
+                      <div className="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Helpfulness Score</span>
+                        <span>{conversation.analytics.helpfulness}/5.0</span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full ${
+                            conversation.analytics.helpfulness > 4.5 ? 'bg-green-500' : 
+                            conversation.analytics.helpfulness > 4.0 ? 'bg-yellow-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${(conversation.analytics.helpfulness / 5) * 100}%` }}
+                        ></div>
                       </div>
                     </div>
                   </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-
-              {/* Input */}
-              <div className="flex gap-2">
-                <textarea
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask ACF anything... (Try: 'Write a React component', 'Analyze sales data', 'Create marketing copy')"
-                  className="flex-1 p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-green-400 focus:outline-none resize-none"
-                  rows={2}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!inputMessage.trim() || isTyping}
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                >
-                  Send
-                </button>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Sidebar */}
+          {/* Current Chat & Alerts */}
           <div className="space-y-6">
-            {/* AI Capabilities */}
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-4 rounded-lg border border-green-800">
-              <h3 className="text-lg font-semibold text-white mb-3">🧠 AI Capabilities</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  <span className="text-gray-300">Code Generation</span>
+            {/* Current Chat */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <h2 className="text-2xl font-bold text-white mb-4">💬 Current Chat</h2>
+              {currentConversation ? (
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-white font-semibold">{currentConversation.user}</h3>
+                    <p className="text-blue-200 text-sm">{currentConversation.topic}</p>
+                    <p className="text-gray-300 text-xs">{currentConversation.messages.length} messages</p>
+                  </div>
+                  
+                  <div className="space-y-3 max-h-48 overflow-y-auto">
+                    {currentConversation.messages.slice(-3).map((message) => (
+                      <div key={message.id} className={`p-2 rounded-lg ${
+                        message.sender === 'user' ? 'bg-blue-800/50' : 'bg-gray-800/50'
+                      }`}>
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="text-white text-sm">{message.content}</p>
+                            <p className={`text-xs ${getSentimentColor(message.sentiment)}`}>
+                              {message.sentiment.charAt(0).toUpperCase() + message.sentiment.slice(1)}
+                            </p>
+                          </div>
+                          <p className="text-gray-400 text-xs">{message.timestamp}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  <span className="text-gray-300">Data Analysis</span>
+              ) : (
+                <div className="text-center py-4">
+                  <div className="text-4xl mb-2">💬</div>
+                  <p className="text-gray-300">No active chat</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  <span className="text-gray-300">Creative Writing</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  <span className="text-gray-300">Problem Solving</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  <span className="text-gray-300">Natural Language</span>
-                </div>
+              )}
+            </div>
+
+            {/* System Alerts */}
+            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
+              <h2 className="text-2xl font-bold text-white mb-4">🚨 System Alerts</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {alerts.length === 0 ? (
+                  <div className="text-center py-4">
+                    <div className="text-4xl mb-2">✅</div>
+                    <p className="text-gray-300">No active alerts</p>
+                  </div>
+                ) : (
+                  alerts.map((alert) => (
+                    <div key={alert.id} className="bg-red-800/50 p-3 rounded-lg border border-red-600">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-white font-semibold">{alert.conversation}</p>
+                          <p className="text-red-200 text-sm">{alert.message}</p>
+                          <p className="text-gray-300 text-xs">{alert.timestamp}</p>
+                        </div>
+                        <div className={`px-2 py-1 rounded text-xs ${
+                          alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
+                        }`}>
+                          {alert.severity.toUpperCase()}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-4 rounded-lg border border-green-800">
-              <h3 className="text-lg font-semibold text-white mb-3">⚡ Quick Actions</h3>
-              <div className="space-y-2">
-                {[
-                  "Write a React component",
-                  "Analyze sales data",
-                  "Create marketing copy",
-                  "Generate API endpoint",
-                  "Write a story"
-                ].map((action, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setInputMessage(action)}
-                    className="w-full text-left p-2 rounded bg-gray-700 text-gray-300 hover:bg-gray-600 transition-all text-sm"
-                  >
-                    {action}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* AI Stats */}
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-4 rounded-lg border border-green-800">
-              <h3 className="text-lg font-semibold text-white mb-3">📊 AI Stats</h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Response Time</span>
-                  <span className="text-green-400">~1.5s</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Accuracy</span>
-                  <span className="text-green-400">99.2%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Languages</span>
-                  <span className="text-green-400">15+</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Knowledge Base</span>
-                  <span className="text-green-400">10TB+</span>
-                </div>
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+              <h2 className="text-2xl font-bold text-white mb-4">⚙️ AI Controls</h2>
+              <div className="space-y-3">
+                <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                  New Conversation
+                </button>
+                <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  Analyze Sentiment
+                </button>
+                <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
+                  Generate Report
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Output Display */}
-        {activeMode === 'code' && codeResult && (
-          <div className="mt-6 bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800">
-            <h3 className="text-xl font-semibold text-white mb-4">💻 Generated Code</h3>
-            <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm text-gray-200">
-              <code>{codeResult}</code>
-            </pre>
-          </div>
-        )}
-
-        {activeMode === 'analysis' && dataAnalysis && (
-          <div className="mt-6 bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800">
-            <h3 className="text-xl font-semibold text-white mb-4">📊 Data Analysis</h3>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="bg-gray-800 p-4 rounded-lg">
-                <h4 className="text-green-400 font-semibold mb-2">Summary</h4>
-                <p className="text-gray-300 text-sm">{dataAnalysis.summary}</p>
+        {/* Conversation Details */}
+        {selectedConversation && (
+          <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">Conversation with {selectedConversation.user}</h2>
+              <button
+                onClick={() => setSelectedConversation(null)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-green-400 mb-3">Conversation Information</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Topic</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.topic}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Status</span>
+                    <span className={`px-2 py-1 rounded text-sm ${getStatusBg(selectedConversation.status)}`}>
+                      {selectedConversation.status.charAt(0).toUpperCase() + selectedConversation.status.slice(1)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Messages</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.messages}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Last Update</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.lastUpdate}</span>
+                  </div>
+                </div>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg">
-                <h4 className="text-green-400 font-semibold mb-2">Key Insights</h4>
-                <ul className="text-gray-300 text-sm space-y-1">
-                  {dataAnalysis.insights.map((insight, index) => (
-                    <li key={index}>• {insight}</li>
-                  ))}
-                </ul>
+              <div>
+                <h3 className="text-lg font-semibold text-blue-400 mb-3">Context & Analytics</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Language</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.context.language}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Framework</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.context.framework}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Complexity</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.context.complexity}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Priority</span>
+                    <span className="text-lg font-semibold text-white">{selectedConversation.context.priority}</span>
+                  </div>
+                </div>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg">
-                <h4 className="text-green-400 font-semibold mb-2">Recommendations</h4>
-                <ul className="text-gray-300 text-sm space-y-1">
-                  {dataAnalysis.recommendations.map((rec, index) => (
-                    <li key={index}>• {rec}</li>
-                  ))}
-                </ul>
+            </div>
+            
+            {/* Analytics */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold text-purple-400 mb-3">📊 Performance Analytics</h3>
+              <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-400">{selectedConversation.analytics.responseTime.toFixed(1)}s</p>
+                    <p className="text-gray-400 text-sm">Response Time</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-400">{selectedConversation.analytics.accuracy.toFixed(1)}%</p>
+                    <p className="text-gray-400 text-sm">Accuracy</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-yellow-400">{selectedConversation.analytics.helpfulness.toFixed(1)}</p>
+                    <p className="text-gray-400 text-sm">Helpfulness</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-purple-400">{selectedConversation.analytics.resolution}</p>
+                    <p className="text-gray-400 text-sm">Resolution</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {activeMode === 'creative' && creativeOutput && (
-          <div className="mt-6 bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800">
-            <h3 className="text-xl font-semibold text-white mb-4">🎨 Creative Output</h3>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <pre className="text-gray-200 whitespace-pre-wrap text-sm">{creativeOutput}</pre>
+        {/* AI Features */}
+        <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced AI Assistant Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Natural Language Processing</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Context understanding</li>
+                <li>• Sentiment analysis</li>
+                <li>• Intent recognition</li>
+                <li>• Multi-language support</li>
+                <li>• Conversation flow</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Intelligent Responses</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Real-time generation</li>
+                <li>• Code analysis</li>
+                <li>• Problem solving</li>
+                <li>• Learning adaptation</li>
+                <li>• Personalization</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Analytics & Insights</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Performance metrics</li>
+                <li>• User satisfaction</li>
+                <li>• Response quality</li>
+                <li>• Usage patterns</li>
+                <li>• Improvement suggestions</li>
+              </ul>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
