@@ -200,11 +200,11 @@ const LogisticsDemo = () => {
                 {fleet.map((vehicle) => (
                   <div
                     key={vehicle.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedVehicle?.id === vehicle.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedVehicle(vehicle)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -252,11 +252,11 @@ const LogisticsDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             vehicle.fuelLevel > 70 ? 'bg-green-500' : 
                             vehicle.fuelLevel > 30 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${vehicle.fuelLevel}%` }}
+                          )}
+                          style={{ width: vehicle.fuelLevel + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -279,9 +279,9 @@ const LogisticsDemo = () => {
                         <p className="text-blue-200 text-sm">{route.distance} km • {route.duration}</p>
                         <p className="text-gray-300 text-xs">{route.optimization}</p>
                       </div>
-                      <div className={`px-2 py-1 rounded text-xs ${
+                      <div className={'px-2 py-1 rounded text-xs ' + (
                         route.status === 'active' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-white'
-                      }`}>
+                      )}>
                         {route.status.toUpperCase()}
                       </div>
                     </div>

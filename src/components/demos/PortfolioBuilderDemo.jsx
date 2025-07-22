@@ -244,11 +244,11 @@ const PortfolioBuilderDemo = () => {
                 {templates.map((template) => (
                   <div
                     key={template.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedTemplate?.id === template.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedTemplate(template)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -288,11 +288,11 @@ const PortfolioBuilderDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             template.preview.mobileScore > 90 ? 'bg-green-500' : 
                             template.preview.mobileScore > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${template.preview.mobileScore}%` }}
+                          )}
+                          style={{ width: template.preview.mobileScore + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -324,11 +324,11 @@ const PortfolioBuilderDemo = () => {
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
-                        className={`h-2 rounded-full ${
+                        className={'h-2 rounded-full ' + (
                           currentProject.progress >= 80 ? 'bg-green-500' : 
                           currentProject.progress >= 50 ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}
-                        style={{ width: `${currentProject.progress}%` }}
+                        )}
+                                                  style={{ width: currentProject.progress + '%' }}
                       ></div>
                     </div>
                   </div>
@@ -338,11 +338,11 @@ const PortfolioBuilderDemo = () => {
                     {currentProject.sections.map((section, index) => (
                       <div key={index} className="flex justify-between items-center text-xs">
                         <span className="text-gray-400">{section.name}</span>
-                        <span className={`px-2 py-1 rounded ${
+                        <span className={'px-2 py-1 rounded ' + (
                           section.status === 'completed' ? 'bg-green-600 text-white' :
                           section.status === 'in-progress' ? 'bg-yellow-600 text-white' :
                           'bg-gray-600 text-white'
-                        }`}>
+                        )}>
                           {section.status}
                         </span>
                       </div>

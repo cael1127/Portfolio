@@ -259,11 +259,11 @@ const GamePlatformDemo = () => {
                 {games.map((game) => (
                   <div
                     key={game.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedGame?.id === game.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedGame(game)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -305,11 +305,11 @@ const GamePlatformDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             game.players / game.maxPlayers > 0.8 ? 'bg-red-500' : 
                             game.players / game.maxPlayers > 0.6 ? 'bg-yellow-500' : 'bg-green-500'
-                          }`}
-                          style={{ width: `${(game.players / game.maxPlayers) * 100}%` }}
+                          )}
+                          style={{ width: ((game.players / game.maxPlayers) * 100) + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -363,9 +363,9 @@ const GamePlatformDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>
@@ -442,9 +442,9 @@ const GamePlatformDemo = () => {
                           <p className="text-gray-300 text-sm">{server.players} players</p>
                           <p className="text-gray-400 text-xs">{server.latency}ms latency</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           server.status === 'active' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {server.status.toUpperCase()}
                         </div>
                       </div>
@@ -462,11 +462,11 @@ const GamePlatformDemo = () => {
                   {selectedGame.leaderboard.map((entry) => (
                     <div key={entry.rank} className="flex justify-between items-center p-2 bg-gray-700 rounded">
                       <div className="flex items-center space-x-3">
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        <span className={'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ' + (
                           entry.rank === 1 ? 'bg-yellow-500 text-black' :
                           entry.rank === 2 ? 'bg-gray-400 text-black' :
                           entry.rank === 3 ? 'bg-orange-600 text-white' : 'bg-gray-600 text-white'
-                        }`}>
+                        )}>
                           {entry.rank}
                         </span>
                         <div>

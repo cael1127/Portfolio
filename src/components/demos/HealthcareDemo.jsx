@@ -175,11 +175,11 @@ const HealthcareDemo = () => {
             <div
               key={patient.id}
               onClick={() => setSelectedPatient(patient)}
-              className={`p-4 rounded-lg border cursor-pointer transition-all ${
-                selectedPatient?.id === patient.id
-                  ? 'border-blue-400 bg-blue-900/20'
-                  : 'border-gray-600 hover:border-gray-500'
-              }`}
+                                              className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
+                  selectedPatient?.id === patient.id
+                    ? 'border-blue-400 bg-blue-900/20'
+                    : 'border-gray-600 hover:border-gray-500'
+                )}
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -217,16 +217,16 @@ const HealthcareDemo = () => {
           <div className="bg-gray-700 p-4 rounded">
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-300">Heart Rate</span>
-              <span className={`font-semibold ${
+              <span className={'font-semibold ' + (
                 vitals.heartRate > 100 || vitals.heartRate < 60 ? 'text-red-400' : 'text-green-400'
-              }`}>
+              )}>
                 {vitals.heartRate.toFixed(0)} BPM
               </span>
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
               <div 
                 className="bg-red-400 h-2 rounded-full transition-all"
-                style={{ width: `${Math.min((vitals.heartRate / 120) * 100, 100)}%` }}
+                style={{ width: Math.min((vitals.heartRate / 120) * 100, 100) + '%' }}
               />
             </div>
           </div>
@@ -235,16 +235,16 @@ const HealthcareDemo = () => {
           <div className="bg-gray-700 p-4 rounded">
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-300">Blood Pressure</span>
-              <span className={`font-semibold ${
+              <span className={'font-semibold ' + (
                 vitals.bloodPressure.systolic > 140 || vitals.bloodPressure.diastolic > 90 ? 'text-red-400' : 'text-green-400'
-              }`}>
+              )}>
                 {vitals.bloodPressure.systolic}/{vitals.bloodPressure.diastolic} mmHg
               </span>
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
               <div 
                 className="bg-blue-400 h-2 rounded-full transition-all"
-                style={{ width: `${Math.min((vitals.bloodPressure.systolic / 200) * 100, 100)}%` }}
+                style={{ width: Math.min((vitals.bloodPressure.systolic / 200) * 100, 100) + '%' }}
               />
             </div>
           </div>
@@ -253,16 +253,16 @@ const HealthcareDemo = () => {
           <div className="bg-gray-700 p-4 rounded">
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-300">Temperature</span>
-              <span className={`font-semibold ${
+              <span className={'font-semibold ' + (
                 vitals.temperature > 100.4 ? 'text-red-400' : 'text-green-400'
-              }`}>
+              )}>
                 {vitals.temperature.toFixed(1)}°F
               </span>
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
               <div 
                 className="bg-yellow-400 h-2 rounded-full transition-all"
-                style={{ width: `${Math.min(((vitals.temperature - 95) / 10) * 100, 100)}%` }}
+                style={{ width: Math.min(((vitals.temperature - 95) / 10) * 100, 100) + '%' }}
               />
             </div>
           </div>
@@ -271,16 +271,16 @@ const HealthcareDemo = () => {
           <div className="bg-gray-700 p-4 rounded">
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-300">O₂ Saturation</span>
-              <span className={`font-semibold ${
+              <span className={'font-semibold ' + (
                 vitals.oxygenSaturation < 92 ? 'text-red-400' : 'text-green-400'
-              }`}>
+              )}>
                 {vitals.oxygenSaturation.toFixed(0)}%
               </span>
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
               <div 
                 className="bg-green-400 h-2 rounded-full transition-all"
-                style={{ width: `${vitals.oxygenSaturation}%` }}
+                style={{ width: vitals.oxygenSaturation + '%' }}
               />
             </div>
           </div>
@@ -289,16 +289,16 @@ const HealthcareDemo = () => {
           <div className="bg-gray-700 p-4 rounded">
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-300">Respiratory Rate</span>
-              <span className={`font-semibold ${
+              <span className={'font-semibold ' + (
                 vitals.respiratoryRate > 20 || vitals.respiratoryRate < 12 ? 'text-red-400' : 'text-green-400'
-              }`}>
+              )}>
                 {vitals.respiratoryRate.toFixed(0)} /min
               </span>
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
               <div 
                 className="bg-purple-400 h-2 rounded-full transition-all"
-                style={{ width: `${Math.min((vitals.respiratoryRate / 30) * 100, 100)}%` }}
+                style={{ width: Math.min((vitals.respiratoryRate / 30) * 100, 100) + '%' }}
               />
             </div>
           </div>
@@ -313,10 +313,10 @@ const HealthcareDemo = () => {
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
               <div 
-                className={`h-2 rounded-full transition-all ${
+                className={'h-2 rounded-full transition-all ' + (
                   patient.status === 'critical' ? 'bg-red-400' :
                   patient.status === 'warning' ? 'bg-yellow-400' : 'bg-green-400'
-                }`}
+                )}
                 style={{ width: '100%' }}
               />
             </div>
@@ -368,10 +368,10 @@ const HealthcareDemo = () => {
                       <p className="text-sm text-gray-300">{prediction.prediction}</p>
                     </div>
                     <div className="text-right">
-                      <p className={`text-sm font-semibold ${
+                      <p className={'text-sm font-semibold ' + (
                         prediction.severity === 'high' ? 'text-red-400' :
                         prediction.severity === 'moderate' ? 'text-yellow-400' : 'text-green-400'
-                      }`}>
+                      )}>
                         {(prediction.confidence * 100).toFixed(0)}%
                       </p>
                       <p className="text-xs text-gray-400">{prediction.severity}</p>
@@ -380,7 +380,7 @@ const HealthcareDemo = () => {
                   <div className="w-full bg-gray-600 rounded-full h-2 mb-2">
                     <div 
                       className="bg-purple-400 h-2 rounded-full"
-                      style={{ width: `${prediction.confidence * 100}%` }}
+                      style={{ width: (prediction.confidence * 100) + '%' }}
                     />
                   </div>
                   <div className="text-xs text-gray-400">
@@ -540,11 +540,11 @@ const HealthcareDemo = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={'px-4 py-2 rounded-lg transition-colors ' + (
                 activeTab === tab.id
                   ? 'bg-green-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
+              )}
             >
               <span className="mr-2">{tab.icon}</span>
               {tab.label}
