@@ -266,11 +266,11 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             <div className="flex gap-2">
               <button
                 onClick={() => setSelectedCategory('all')}
-                className={`px-4 py-3 rounded-lg transition-colors ${
+                className={'px-4 py-3 rounded-lg transition-colors ' + (
                   selectedCategory === 'all'
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
+                )}
               >
                 All Demos
               </button>
@@ -278,11 +278,11 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 <button
                   key={key}
                   onClick={() => setSelectedCategory(key)}
-                  className={`px-4 py-3 rounded-lg transition-colors ${
+                  className={'px-4 py-3 rounded-lg transition-colors ' + (
                     selectedCategory === key
                       ? 'bg-green-600 text-white'
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
+                  )}
                 >
                   {category.name.split(' ')[0]}
                 </button>

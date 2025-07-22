@@ -263,11 +263,11 @@ const TrendingProjects = ({ setCurrentPage }) => {
           >
             <div className="flex items-start justify-between mb-4">
               <div className="text-4xl">{project.emoji}</div>
-              <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              <span className={'px-2 py-1 rounded text-xs font-medium ' + (
                 project.difficulty === 'Advanced' ? 'bg-red-600 text-white' :
                 project.difficulty === 'Intermediate' ? 'bg-yellow-600 text-white' :
                 'bg-green-600 text-white'
-              }`}>
+              )}>
                 {project.difficulty}
               </span>
             </div>
@@ -340,11 +340,11 @@ const TrendingProjects = ({ setCurrentPage }) => {
                   <div className="text-5xl">{selectedProject.emoji}</div>
                   <div>
                     <h2 className="text-3xl font-bold text-white mb-2">{selectedProject.title}</h2>
-                    <span className={`px-3 py-1 rounded text-sm font-medium ${
+                    <span className={'px-3 py-1 rounded text-sm font-medium ' + (
                       selectedProject.difficulty === 'Advanced' ? 'bg-red-600 text-white' :
                       selectedProject.difficulty === 'Intermediate' ? 'bg-yellow-600 text-white' :
                       'bg-green-600 text-white'
-                    }`}>
+                    )}>
                       {selectedProject.difficulty} Level
                     </span>
                   </div>

@@ -22,11 +22,11 @@ const Projects = ({ setCurrentPage }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-lg transition-colors ${
+              className={'px-6 py-3 rounded-lg transition-colors ' + (
                 activeTab === tab.id
                   ? 'bg-green-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
+              )}
             >
               <span className="mr-2">{tab.icon}</span>
               {tab.label}
