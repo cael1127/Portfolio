@@ -345,11 +345,11 @@ const AquacultureDemo = () => {
                 {tanks.map((tank) => (
                   <div
                     key={tank.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedTank?.id === tank.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedTank(tank)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -413,10 +413,10 @@ const AquacultureDemo = () => {
                         <p className="text-white font-semibold">{insight.message}</p>
                         <p className="text-blue-200 text-xs">{insight.timestamp}</p>
                       </div>
-                      <div className={`px-2 py-1 rounded text-xs ${
+                      <div className={'px-2 py-1 rounded text-xs ' + (
                         insight.priority === 'high' ? 'bg-red-600 text-white' : 
                         insight.priority === 'medium' ? 'bg-yellow-600 text-white' : 'bg-green-600 text-white'
-                      }`}>
+                      )}>
                         {insight.priority.toUpperCase()}
                       </div>
                     </div>
@@ -443,9 +443,9 @@ const AquacultureDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'critical' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>
