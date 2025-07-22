@@ -126,7 +126,7 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
       </footer>
 
       {/* AI Chat Widget */}
-      <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${showAIChat ? 'w-full max-w-xs sm:max-w-sm md:w-96 h-[60vh] min-h-[350px]' : 'w-16 h-16'}`}>
+              <div className={'fixed bottom-4 right-4 z-50 transition-all duration-300 ' + (showAIChat ? 'w-full max-w-xs sm:max-w-sm md:w-96 h-[60vh] min-h-[350px]' : 'w-16 h-16')}>
         {showAIChat ? (
           <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 rounded-lg border border-green-800 shadow-2xl h-full flex flex-col">
             {/* Header */}
@@ -153,7 +153,7 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
               {aiMessages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={'flex ' + (message.type === 'user' ? 'justify-end' : 'justify-start')}
                 >
                   <div
                     className={`max-w-[80%] p-2 rounded-lg text-sm ${

@@ -111,7 +111,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
             </button>
             <button
               onClick={() => { setCurrentPage('freelancing'); setMobileNavOpen(false); }}
-              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${currentPage === 'freelancing' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400'}`}
+              className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'freelancing' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
             >
               Freelancing
             </button>
