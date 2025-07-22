@@ -126,98 +126,77 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
       </footer>
 
       {/* AI Chat Widget */}
-              <div className={'fixed bottom-4 right-4 z-50 transition-all duration-300 ' + (showAIChat ? 'w-full max-w-xs sm:max-w-sm md:w-96 h-[60vh] min-h-[350px]' : 'w-16 h-16')}>
-        {showAIChat ? (
-          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 rounded-lg border border-green-800 shadow-2xl h-full flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-green-700">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-bold">ACF</span>
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">AI Assistant</h3>
-                  <p className="text-green-400 text-xs">Online</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowAIChat(false)}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                ✕
-              </button>
-            </div>
+        <div className={'fixed bottom-4 right-4 z-50 transition-all duration-300 ' + (showAIChat ? 'w-full max-w-xs sm:max-w-sm md:w-96 h-[60vh] min-h-[350px]' : 'w-16 h-16')}>
+          {/* AI Chat Toggle Button */}
+          <button
+            onClick={() => setShowAIChat(!showAIChat)}
+            className="w-16 h-16 bg-green-600 hover:bg-green-700 rounded-full shadow-lg flex items-center justify-center text-white text-2xl transition-all duration-300"
+          >
+            {showAIChat ? '✕' : '🤖'}
+          </button>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {aiMessages.map((message) => (
-                <div
-                  key={message.id}
-                  className={'flex ' + (message.type === 'user' ? 'justify-end' : 'justify-start')}
-                >
-                  <div
-                    className={`max-w-[80%] p-2 rounded-lg text-sm ${
-                      message.type === 'user'
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-700 text-gray-200'
-                    }`}
-                  >
-                    <div className="whitespace-pre-wrap">{message.content}</div>
-                    <div className="text-xs opacity-70 mt-1">{message.timestamp}</div>
-                  </div>
-                </div>
-              ))}
-              {isAiTyping && (
-                <div className="flex justify-start">
-                  <div className="bg-gray-700 text-gray-200 p-2 rounded-lg">
-                    <div className="flex items-center space-x-2">
-                      <div className="flex space-x-1">
-                        <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                        <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                      </div>
-                      <span className="text-xs">ACF is thinking...</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Input */}
-            <div className="p-4 border-t border-green-700">
-              <div className="flex flex-col sm:flex-row gap-2">
-                <input
-                  type="text"
-                  value={aiInputMessage}
-                  onChange={(e) => setAiInputMessage(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      handleAISendMessage();
-                    }
-                  }}
-                  placeholder="Ask ACF anything..."
-                  className="flex-1 p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-green-400 focus:outline-none text-sm"
-                />
+          {/* AI Chat Interface */}
+          {showAIChat && (
+            <div className="absolute bottom-20 right-0 w-80 h-96 bg-gray-800 rounded-lg shadow-xl border border-gray-700 flex flex-col">
+              {/* Chat Header */}
+              <div className="bg-gray-700 px-4 py-3 rounded-t-lg flex justify-between items-center">
+                <h3 className="text-white font-semibold">AI Assistant</h3>
                 <button
-                  onClick={handleAISendMessage}
-                  disabled={!aiInputMessage.trim() || isAiTyping}
-                  className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
+                  onClick={() => setShowAIChat(false)}
+                  className="text-gray-400 hover:text-white"
                 >
-                  Send
+                  ✕
                 </button>
               </div>
+
+              {/* Chat Messages */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {aiMessages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={'flex ' + (message.type === 'user' ? 'justify-end' : 'justify-start')}
+                  >
+                    <div
+                      className={'max-w-xs px-3 py-2 rounded-lg ' + (
+                        message.type === 'user'
+                          ? 'bg-green-600 text-white'
+                          : 'bg-gray-700 text-white'
+                      )}
+                    >
+                      {message.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Chat Input */}
+              <div className="p-4 border-t border-gray-700">
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={aiInputMessage}
+                    onChange={(e) => setAiInputMessage(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleAISendMessage();
+                      }
+                    }}
+                    placeholder="Ask me anything..."
+                    className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400"
+                  />
+                  <button
+                    onClick={handleAISendMessage}
+                    disabled={!aiInputMessage.trim() || isAiTyping}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => setShowAIChat(true)}
-            className="w-16 h-16 bg-gradient-to-r from-green-600 to-teal-600 rounded-full shadow-lg hover:from-green-700 hover:to-teal-700 transition-all flex items-center justify-center"
-          >
-            <span className="text-white text-2xl">🤖</span>
-          </button>
-        )}
-      </div>
+          )}
+        </div>
     </div>
   );
 };
