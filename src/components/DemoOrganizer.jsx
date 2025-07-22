@@ -178,6 +178,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['React', 'NLP', 'Document Parsing'],
           features: ['Resume parsing', 'Skills analysis', 'Job matching'],
           hasProjectPage: true
+        },
+        {
+          id: 'deepfake-detection',
+          name: 'Deepfake Detection',
+          description: 'AI-powered deepfake detection and analysis',
+          icon: '🔍',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Computer Vision', 'Deep Learning'],
+          features: ['Image analysis', 'Multi-model detection', 'Forensic reporting'],
+          hasProjectPage: true
         }
       ]
     },

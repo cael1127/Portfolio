@@ -31,6 +31,7 @@ import WhiteboardProjectPage from './components/ProjectPages/WhiteboardProjectPa
 import PortfolioBuilderProjectPage from './components/ProjectPages/PortfolioBuilderProjectPage';
 import AIAssistantProjectPage from './components/ProjectPages/AIAssistantProjectPage';
 import ResumeAnalyzerProjectPage from './components/ProjectPages/ResumeAnalyzerProjectPage';
+import DeepfakeDetectionProjectPage from './components/ProjectPages/DeepfakeDetectionProjectPage';
 import DemoOrganizer from './components/DemoOrganizer';
 
 function App() {
@@ -466,6 +467,16 @@ function App() {
             <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <ResumeAnalyzerProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'deepfake-detection-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <DeepfakeDetectionProjectPage setCurrentPage={setCurrentPage} />
             </div>
           </div>
         );
