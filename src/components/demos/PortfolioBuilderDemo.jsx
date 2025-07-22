@@ -255,9 +255,12 @@ const PortfolioBuilderDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{template.name}</h3>
                         <p className="text-gray-400 text-sm">{template.category} • ⭐ {template.rating}</p>
-                        <p className={`text-sm ${getStatusColor(template.status)}`}>
-                          {template.status.charAt(0).toUpperCase() + template.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(template.status)}>
+                          {template.status}
                         </p>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(template.status)}>
+                          {template.status}
+                        </div>
                       </div>
                       <div className="text-right">
                         <div className={`px-2 py-1 rounded text-xs ${getStatusBg(template.status)}`}>
@@ -315,7 +318,7 @@ const PortfolioBuilderDemo = () => {
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-300">Progress</span>
-                      <span className={`font-semibold ${getProgressColor(currentProject.progress)}`}>
+                      <span className={'font-semibold ' + getProgressColor(currentProject.progress)}>
                         {currentProject.progress}%
                       </span>
                     </div>
@@ -432,8 +435,8 @@ const PortfolioBuilderDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Status</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getStatusBg(selectedTemplate.status)}`}>
-                      {selectedTemplate.status.charAt(0).toUpperCase() + selectedTemplate.status.slice(1)}
+                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedTemplate.status)}>
+                      {selectedTemplate.status}
                     </span>
                   </div>
                 </div>
@@ -484,7 +487,7 @@ const PortfolioBuilderDemo = () => {
 
         {/* Builder Features */}
         <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced Portfolio Builder Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Portfolio Builder Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-purple-400 mb-2">Drag & Drop Editor</h3>

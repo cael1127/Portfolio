@@ -289,13 +289,13 @@ const RestaurantAppDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{order.customer}</h3>
                         <p className="text-gray-400 text-sm">{order.type} • {order.timestamp}</p>
-                        <p className={`text-sm ${getOrderStatusColor(order.status)}`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        <p className={'text-gray-300 text-xs ' + getOrderStatusColor(order.status)}>
+                          {order.status}
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getOrderStatusBg(order.status)}`}>
-                          {order.items.length} items
+                        <div className={'px-2 py-1 rounded text-xs ' + getOrderStatusBg(order.status)}>
+                          {order.status}
                         </div>
                         <p className="text-gray-400 text-xs mt-1">${order.total.toFixed(2)}</p>
                       </div>
@@ -350,8 +350,8 @@ const RestaurantAppDemo = () => {
                       <div>
                         <p className="text-white font-semibold">{item.name}</p>
                         <p className="text-blue-200 text-sm">{item.category} • ${item.price}</p>
-                        <p className={`text-gray-300 text-xs ${getStatusColor(item.status)}`}>
-                          {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                        <p className={'text-gray-300 text-xs ' + getStatusColor(item.status)}>
+                          {item.status}
                         </p>
                       </div>
                       <div className="text-right">
@@ -438,8 +438,8 @@ const RestaurantAppDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Status</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getOrderStatusBg(selectedOrder.status)}`}>
-                      {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
+                    <span className={'px-2 py-1 rounded text-sm ' + getOrderStatusBg(selectedOrder.status)}>
+                      {selectedOrder.status}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
