@@ -146,7 +146,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🎨',
           difficulty: 'Intermediate',
           technologies: ['React', 'Canvas API', 'WebRTC'],
-          features: ['Real-time collaboration', 'Drawing tools', 'Project management']
+          features: ['Real-time collaboration', 'Drawing tools', 'Project management'],
+          hasProjectPage: true
         },
         {
           id: 'portfoliobuilder',
@@ -155,7 +156,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🌐',
           difficulty: 'Intermediate',
           technologies: ['React', 'Drag & Drop', 'Template System'],
-          features: ['Visual editor', 'Template library', 'Deployment']
+          features: ['Visual editor', 'Template library', 'Deployment'],
+          hasProjectPage: true
         }
       ]
     },
