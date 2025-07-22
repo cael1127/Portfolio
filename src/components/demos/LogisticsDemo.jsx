@@ -219,7 +219,7 @@ const LogisticsDemo = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(vehicle.status)}`}>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(vehicle.status)}>
                           {vehicle.cargo}
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{vehicle.weight} lbs</p>

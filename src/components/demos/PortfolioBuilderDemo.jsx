@@ -263,7 +263,7 @@ const PortfolioBuilderDemo = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(template.status)}`}>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(template.status)}>
                           {template.alerts.length} alerts
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{template.lastUpdate}</p>

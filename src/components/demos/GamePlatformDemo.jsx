@@ -278,7 +278,7 @@ const GamePlatformDemo = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(game.status)}`}>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(game.status)}>
                           {game.alerts.length} alerts
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{game.lastUpdate}</p>
