@@ -225,10 +225,10 @@ This code demonstrates efficient array processing with functional programming pr
   }
 
   detectLanguage(content) {
-    if (content.includes('```javascript')) return 'javascript';
-    if (content.includes('```python')) return 'python';
-    if (content.includes('```java')) return 'java';
-    if (content.includes('```cpp')) return 'cpp';
+    if (content.includes('javascript')) return 'javascript';
+    if (content.includes('python')) return 'python';
+    if (content.includes('java')) return 'java';
+    if (content.includes('cpp')) return 'cpp';
     return 'text';
   }
 
