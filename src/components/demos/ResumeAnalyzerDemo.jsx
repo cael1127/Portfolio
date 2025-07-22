@@ -351,11 +351,11 @@ const ResumeAnalyzerDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             selectedResume.analysis.skillsMatch > 90 ? 'bg-green-500' : 
                             selectedResume.analysis.skillsMatch > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${selectedResume.analysis.skillsMatch}%` }}
+                          )}
+                          style={{ width: selectedResume.analysis.skillsMatch + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -367,11 +367,11 @@ const ResumeAnalyzerDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             selectedResume.analysis.experienceRelevance > 90 ? 'bg-green-500' : 
                             selectedResume.analysis.experienceRelevance > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${selectedResume.analysis.experienceRelevance}%` }}
+                          )}
+                          style={{ width: selectedResume.analysis.experienceRelevance + '%' }}
                         ></div>
                       </div>
                     </div>

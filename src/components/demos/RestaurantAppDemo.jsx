@@ -278,11 +278,11 @@ const RestaurantAppDemo = () => {
                 {orders.map((order) => (
                   <div
                     key={order.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedOrder?.id === order.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedOrder(order)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -321,11 +321,11 @@ const RestaurantAppDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             order.status === 'completed' ? 'bg-green-500' : 
                             order.status === 'ready' ? 'bg-green-400' :
                             order.status === 'preparing' ? 'bg-blue-500' : 'bg-yellow-500'
-                          }`}
+                          )}
                           style={{ width: order.status === 'completed' ? '100%' : 
                                    order.status === 'ready' ? '75%' :
                                    order.status === 'preparing' ? '50%' : '25%' }}
