@@ -25,6 +25,8 @@ import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPa
 import LogisticsProjectPage from './components/ProjectPages/LogisticsProjectPage';
 import FinancialProjectPage from './components/ProjectPages/FinancialProjectPage';
 import SmartCityProjectPage from './components/ProjectPages/SmartCityProjectPage';
+import GamePlatformProjectPage from './components/ProjectPages/GamePlatformProjectPage';
+import RestaurantAppProjectPage from './components/ProjectPages/RestaurantAppProjectPage';
 import DemoOrganizer from './components/DemoOrganizer';
 
 function App() {
@@ -400,6 +402,26 @@ function App() {
             <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <SmartCityProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'gameplatform-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <GamePlatformProjectPage setCurrentPage={setCurrentPage} />
+            </div>
+          </div>
+        );
+      
+      case 'restaurantapp-project':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <RestaurantAppProjectPage setCurrentPage={setCurrentPage} />
             </div>
           </div>
         );

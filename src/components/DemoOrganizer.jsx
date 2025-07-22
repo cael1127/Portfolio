@@ -130,7 +130,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🍽️',
           difficulty: 'Intermediate',
           technologies: ['React', 'Node.js', 'Real-time updates'],
-          features: ['Order management', 'Inventory tracking', 'Analytics']
+          features: ['Order management', 'Inventory tracking', 'Analytics'],
+          hasProjectPage: true
         }
       ]
     },
@@ -169,7 +170,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🎮',
           difficulty: 'Advanced',
           technologies: ['React', 'WebSocket', 'Game Engine'],
-          features: ['Multiplayer games', 'Real-time chat', 'Leaderboards']
+          features: ['Multiplayer games', 'Real-time chat', 'Leaderboards'],
+          hasProjectPage: true
         }
       ]
     }
