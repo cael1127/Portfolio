@@ -339,7 +339,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       <h3 className="text-lg font-semibold text-white group-hover:text-green-400 transition-colors">
                         {demo.name}
                       </h3>
-                      <div className={`px-2 py-1 rounded text-xs ${getDifficultyBg(demo.difficulty)}`}>
+                      <div className={'px-2 py-1 rounded text-xs ' + getDifficultyBg(demo.difficulty)}>
                         {demo.difficulty}
                       </div>
                     </div>

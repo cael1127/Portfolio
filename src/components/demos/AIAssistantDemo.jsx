@@ -287,12 +287,12 @@ const AIAssistantDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{conversation.user}</h3>
                         <p className="text-gray-400 text-sm">{conversation.topic} • {conversation.lastUpdate}</p>
-                        <p className={`text-sm ${getStatusColor(conversation.status)}`}>
-                          {conversation.status.charAt(0).toUpperCase() + conversation.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(conversation.status)}>
+                          {conversation.status}
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className={`px-2 py-1 rounded text-xs ${getStatusBg(conversation.status)}`}>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(conversation.status)}>
                           {conversation.alerts.length} alerts
                         </div>
                         <p className="text-gray-400 text-xs mt-1">{conversation.messages} messages</p>
@@ -352,8 +352,8 @@ const AIAssistantDemo = () => {
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="text-white text-sm">{message.content}</p>
-                            <p className={`text-xs ${getSentimentColor(message.sentiment)}`}>
-                              {message.sentiment.charAt(0).toUpperCase() + message.sentiment.slice(1)}
+                            <p className={'text-xs ' + getSentimentColor(message.sentiment)}>
+                              {message.sentiment}
                             </p>
                           </div>
                           <p className="text-gray-400 text-xs">{message.timestamp}</p>
@@ -440,8 +440,8 @@ const AIAssistantDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Status</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getStatusBg(selectedConversation.status)}`}>
-                      {selectedConversation.status.charAt(0).toUpperCase() + selectedConversation.status.slice(1)}
+                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedConversation.status)}>
+                      {selectedConversation.status}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
