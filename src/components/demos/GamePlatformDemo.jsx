@@ -270,9 +270,12 @@ const GamePlatformDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{game.name}</h3>
                         <p className="text-gray-400 text-sm">{game.genre} • ⭐ {game.averageRating}</p>
-                        <p className={`text-sm ${getStatusColor(game.status)}`}>
-                          {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(game.status)}>
+                          {game.status}
                         </p>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(game.status)}>
+                          {game.status}
+                        </div>
                       </div>
                       <div className="text-right">
                         <div className={`px-2 py-1 rounded text-xs ${getStatusBg(game.status)}`}>
@@ -328,8 +331,8 @@ const GamePlatformDemo = () => {
                       <div>
                         <p className="text-white font-semibold">{player.username}</p>
                         <p className="text-blue-200 text-sm">Level {player.level} • {player.game}</p>
-                        <p className={`text-gray-300 text-xs ${getPlayerStatusColor(player.status)}`}>
-                          {player.status.charAt(0).toUpperCase() + player.status.slice(1)}
+                        <p className={'text-gray-300 text-xs ' + getPlayerStatusColor(player.status)}>
+                          {player.status}
                         </p>
                       </div>
                       <div className="text-right">
@@ -422,8 +425,8 @@ const GamePlatformDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Status</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getStatusBg(selectedGame.status)}`}>
-                      {selectedGame.status.charAt(0).toUpperCase() + selectedGame.status.slice(1)}
+                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedGame.status)}>
+                      {selectedGame.status}
                     </span>
                   </div>
                 </div>

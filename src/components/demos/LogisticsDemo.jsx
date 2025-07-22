@@ -211,9 +211,12 @@ const LogisticsDemo = () => {
                       <div>
                         <h3 className="text-lg font-semibold text-white">{vehicle.name}</h3>
                         <p className="text-gray-400 text-sm">{vehicle.type} • {vehicle.driver}</p>
-                        <p className={`text-sm ${getStatusColor(vehicle.status)}`}>
-                          {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
+                        <p className={'text-sm ' + getStatusColor(vehicle.status)}>
+                          {vehicle.status}
                         </p>
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(vehicle.status)}>
+                          {vehicle.status}
+                        </div>
                       </div>
                       <div className="text-right">
                         <div className={`px-2 py-1 rounded text-xs ${getStatusBg(vehicle.status)}`}>
@@ -343,8 +346,8 @@ const LogisticsDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Status</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getStatusBg(selectedVehicle.status)}`}>
-                      {selectedVehicle.status.charAt(0).toUpperCase() + selectedVehicle.status.slice(1)}
+                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedVehicle.status)}>
+                      {selectedVehicle.status}
                     </span>
                   </div>
                 </div>

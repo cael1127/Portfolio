@@ -188,8 +188,8 @@ const HealthcareDemo = () => {
                   <p className="text-gray-300 text-sm">{patient.condition}</p>
                 </div>
                 <div className="text-right">
-                  <div className={`px-2 py-1 rounded text-xs ${getStatusBg(patient.status)}`}>
-                    {patient.status.toUpperCase()}
+                  <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(patient.status)}>
+                    {patient.status}
                   </div>
                   <p className="text-gray-400 text-xs mt-1">{patient.lastUpdate}</p>
                 </div>
@@ -307,8 +307,8 @@ const HealthcareDemo = () => {
           <div className="bg-gray-700 p-4 rounded">
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-300">Overall Status</span>
-              <span className={`font-semibold ${getStatusColor(patient.status)}`}>
-                {patient.status.toUpperCase()}
+              <span className={'font-semibold ' + getStatusColor(patient.status)}>
+                {patient.status}
               </span>
             </div>
             <div className="w-full bg-gray-600 rounded-full h-2">
