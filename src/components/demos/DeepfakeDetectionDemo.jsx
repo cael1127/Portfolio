@@ -102,18 +102,18 @@ const DeepfakeDetectionDemo = () => {
                     <p className="text-gray-400 text-sm">Processing facial features and artifacts</p>
                   </div>
                 ) : analysisResult ? (
-                  <div className={`p-4 rounded-lg border ${
+                  <div className={'p-4 rounded-lg border ' + (
                     analysisResult.isDeepfake 
                       ? 'bg-red-900/50 border-red-600' 
                       : 'bg-green-900/50 border-green-600'
-                  }`}>
+                  )}>
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg font-semibold text-white">Analysis Result</h3>
-                      <div className={`px-3 py-1 rounded text-sm font-medium ${
+                      <div className={'px-3 py-1 rounded text-sm font-medium ' + (
                         analysisResult.isDeepfake 
                           ? 'bg-red-600 text-white' 
                           : 'bg-green-600 text-white'
-                      }`}>
+                      )}>
                         {analysisResult.isDeepfake ? 'DEEPFAKE DETECTED' : 'AUTHENTIC'}
                       </div>
                     </div>
@@ -136,11 +136,11 @@ const DeepfakeDetectionDemo = () => {
                   key={image.id}
                   onClick={() => analyzeImage(image)}
                   disabled={isAnalyzing}
-                  className={`p-3 rounded-lg border transition-colors ${
+                  className={'p-3 rounded-lg border transition-colors ' + (
                     currentImage?.id === image.id
                       ? 'border-green-400 bg-green-900/30'
                       : 'border-gray-600 hover:border-gray-500'
-                  } ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  ) + ' ' + (isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer')}
                 >
                   <div className="text-center">
                     <div className="text-2xl mb-2">👤</div>

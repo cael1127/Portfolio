@@ -383,11 +383,11 @@ const ResumeAnalyzerDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
-                            selectedResume.analysis.educationFit > 90 ? 'bg-green-500' : 
-                            selectedResume.analysis.educationFit > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${selectedResume.analysis.educationFit}%` }}
+                                                  className={'h-2 rounded-full ' + (
+                          selectedResume.analysis.educationFit > 90 ? 'bg-green-500' : 
+                          selectedResume.analysis.educationFit > 80 ? 'bg-yellow-500' : 'bg-red-500'
+                        )}
+                                                      style={{ width: selectedResume.analysis.educationFit + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -419,9 +419,9 @@ const ResumeAnalyzerDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>

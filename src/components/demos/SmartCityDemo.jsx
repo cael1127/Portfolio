@@ -360,7 +360,7 @@ const SmartCityDemo = () => {
                   <div key={index} className="flex flex-col items-center">
                     <div 
                       className="w-3 bg-blue-400 rounded-t"
-                      style={{ height: `${height}%` }}
+                      style={{ height: height + '%' }}
                     />
                     <div className="text-xs text-gray-400 mt-1">
                       {data.hour}:00
@@ -479,7 +479,7 @@ const SmartCityDemo = () => {
                   <span className="text-blue-400">{energyData.consumption.residential}%</span>
                 </div>
                 <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-blue-400 h-2 rounded-full" style={{ width: `${energyData.consumption.residential}%` }}></div>
+                  <div className="bg-blue-400 h-2 rounded-full" style={{ width: energyData.consumption.residential + '%' }}></div>
                 </div>
               </div>
               <div>
@@ -488,7 +488,7 @@ const SmartCityDemo = () => {
                   <span className="text-green-400">{energyData.consumption.commercial}%</span>
                 </div>
                 <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-green-400 h-2 rounded-full" style={{ width: `${energyData.consumption.commercial}%` }}></div>
+                  <div className="bg-green-400 h-2 rounded-full" style={{ width: energyData.consumption.commercial + '%' }}></div>
                 </div>
               </div>
               <div>
@@ -497,7 +497,7 @@ const SmartCityDemo = () => {
                   <span className="text-yellow-400">{energyData.consumption.industrial}%</span>
                 </div>
                 <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-yellow-400 h-2 rounded-full" style={{ width: `${energyData.consumption.industrial}%` }}></div>
+                  <div className="bg-yellow-400 h-2 rounded-full" style={{ width: energyData.consumption.industrial + '%' }}></div>
                 </div>
               </div>
             </div>
