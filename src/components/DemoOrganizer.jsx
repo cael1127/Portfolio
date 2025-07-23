@@ -4,6 +4,12 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Enhanced navigation function
+  const navigateToDemo = (demoId) => {
+    console.log('Navigating to demo:', demoId);
+    setCurrentPage(demoId);
+  };
+
   const demoCategories = {
     'ai-ml': {
       name: '🤖 AI & Machine Learning',
@@ -304,10 +310,17 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             {filteredDemos.map((demo) => (
               <div
                 key={demo.id}
-                className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group"
-                onClick={() => setCurrentPage(demo.id)}
+                className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative"
               >
-                <div className="flex items-start justify-between mb-4">
+                <button
+                  className="absolute inset-0 w-full h-full bg-transparent"
+                  onClick={() => {
+                    console.log('Demo clicked:', demo.id);
+                    navigateToDemo(demo.id);
+                  }}
+                  style={{ zIndex: 1 }}
+                />
+                <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
                   <div className="flex items-center">
                     <div className="text-3xl mr-3">{demo.icon}</div>
                     <div>
@@ -319,9 +332,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       </div>
                     </div>
                   </div>
-                  <button className="text-green-400 hover:text-green-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">
                     →
-                  </button>
+                  </div>
                 </div>
                 
                 <p className="text-gray-300 text-sm mb-4">{demo.description}</p>
@@ -394,6 +407,19 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               </div>
               <div className="text-gray-300 text-sm">Technologies Used</div>
             </div>
+          </div>
+          
+          {/* Test Button */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => {
+                console.log('Test button clicked - going to blockchain');
+                navigateToDemo('blockchain');
+              }}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+            >
+              🧪 Test Navigation to Blockchain Demo
+            </button>
           </div>
         </div>
       </div>

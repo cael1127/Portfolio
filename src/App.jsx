@@ -20,6 +20,7 @@ import ResumeAnalyzerDemoPage from './pages/ResumeAnalyzerDemoPage';
 import WhiteboardDemoPage from './pages/WhiteboardDemoPage';
 import FraudDetectionDemoPage from './pages/FraudDetectionDemoPage';
 import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
+import TestDemoPage from './pages/TestDemoPage';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
 import AquacultureProjectPage from './components/ProjectPages/AquacultureProjectPage';
 import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPage';
@@ -52,6 +53,39 @@ function App() {
   ]);
   const [aiInputMessage, setAiInputMessage] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
+
+  // Enhanced navigation function with browser history
+  const navigateToPage = (page) => {
+    console.log('Navigating to:', page);
+    setCurrentPage(page);
+    
+    // Update browser history
+    const url = page === 'home' ? '/' : `/${page}`;
+    window.history.pushState({ page }, '', url);
+  };
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = (event) => {
+      console.log('PopState event:', event);
+      if (event.state && event.state.page) {
+        setCurrentPage(event.state.page);
+      } else {
+        // Handle direct URL access
+        const path = window.location.pathname.substring(1) || 'home';
+        setCurrentPage(path);
+      }
+    };
+
+    // Handle initial page load
+    const path = window.location.pathname.substring(1) || 'home';
+    if (path !== currentPage) {
+      setCurrentPage(path);
+    }
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Auto-scroll to top when page changes
   useEffect(() => {
@@ -171,13 +205,14 @@ function App() {
   };
 
   const renderContent = () => {
+    console.log('Rendering page:', currentPage);
     switch (currentPage) {
       case 'home':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <Home 
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={navigateToPage}
               showAIChat={showAIChat}
               setShowAIChat={setShowAIChat}
               aiMessages={aiMessages}
@@ -192,7 +227,7 @@ function App() {
       case 'experience':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <Experience />
           </div>
         );
@@ -200,15 +235,15 @@ function App() {
       case 'projects':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <Projects setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
+            <Projects setCurrentPage={navigateToPage} />
           </div>
         );
 
       case 'contact':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <Contact />
           </div>
         );
@@ -216,48 +251,48 @@ function App() {
       case 'freelancing':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <Freelancing />
           </div>
         );
       
       case 'blockchain':
-        return <BlockchainDemoPage setCurrentPage={setCurrentPage} />;
+        return <BlockchainDemoPage setCurrentPage={navigateToPage} />;
       case 'aquaculture':
-        return <AquacultureDemoPage setCurrentPage={setCurrentPage} />;
+        return <AquacultureDemoPage setCurrentPage={navigateToPage} />;
       case 'logistics':
-        return <LogisticsDemoPage setCurrentPage={setCurrentPage} />;
+        return <LogisticsDemoPage setCurrentPage={navigateToPage} />;
       case 'healthcare':
-        return <HealthcareDemoPage setCurrentPage={setCurrentPage} />;
+        return <HealthcareDemoPage setCurrentPage={navigateToPage} />;
       case 'smartcity':
-        return <SmartCityDemoPage setCurrentPage={setCurrentPage} />;
+        return <SmartCityDemoPage setCurrentPage={navigateToPage} />;
       case 'financial':
-        return <FinancialDemoPage setCurrentPage={setCurrentPage} />;
+        return <FinancialDemoPage setCurrentPage={navigateToPage} />;
       case 'gameplatform':
-        return <GamePlatformDemoPage setCurrentPage={setCurrentPage} />;
+        return <GamePlatformDemoPage setCurrentPage={navigateToPage} />;
       case 'portfoliobuilder':
-        return <PortfolioBuilderDemoPage setCurrentPage={setCurrentPage} />;
+        return <PortfolioBuilderDemoPage setCurrentPage={navigateToPage} />;
       case 'restaurantapp':
-        return <RestaurantAppDemoPage setCurrentPage={setCurrentPage} />;
+        return <RestaurantAppDemoPage setCurrentPage={navigateToPage} />;
       case 'aiassistant':
-        return <AIAssistantDemoPage setCurrentPage={setCurrentPage} />;
+        return <AIAssistantDemoPage setCurrentPage={navigateToPage} />;
       case 'resumeanalyzer':
-        return <ResumeAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
+        return <ResumeAnalyzerDemoPage setCurrentPage={navigateToPage} />;
       case 'whiteboard':
-        return <WhiteboardDemoPage setCurrentPage={setCurrentPage} />;
+        return <WhiteboardDemoPage setCurrentPage={navigateToPage} />;
       
       // New trending project demos
       case 'fraud-detection':
-        return <FraudDetectionDemoPage setCurrentPage={setCurrentPage} />;
+        return <FraudDetectionDemoPage setCurrentPage={navigateToPage} />;
       case 'deepfake-detection':
-        return <DeepfakeDetectionDemoPage setCurrentPage={setCurrentPage} />;
+        return <DeepfakeDetectionDemoPage setCurrentPage={navigateToPage} />;
       
       case 'blockchain-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <BlockchainProjectPage setCurrentPage={setCurrentPage} />
+              <BlockchainProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -265,9 +300,9 @@ function App() {
       case 'demo-organizer':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <DemoOrganizer setCurrentPage={setCurrentPage} />
+              <DemoOrganizer setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -275,9 +310,9 @@ function App() {
       case 'aquaculture-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <AquacultureProjectPage setCurrentPage={setCurrentPage} />
+              <AquacultureProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -285,9 +320,9 @@ function App() {
       case 'healthcare-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <HealthcareProjectPage setCurrentPage={setCurrentPage} />
+              <HealthcareProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -295,9 +330,9 @@ function App() {
       case 'logistics-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <LogisticsProjectPage setCurrentPage={setCurrentPage} />
+              <LogisticsProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -305,9 +340,9 @@ function App() {
       case 'financial-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <FinancialProjectPage setCurrentPage={setCurrentPage} />
+              <FinancialProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -315,9 +350,9 @@ function App() {
       case 'smartcity-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <SmartCityProjectPage setCurrentPage={setCurrentPage} />
+              <SmartCityProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -325,9 +360,9 @@ function App() {
       case 'gameplatform-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <GamePlatformProjectPage setCurrentPage={setCurrentPage} />
+              <GamePlatformProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -335,9 +370,9 @@ function App() {
       case 'restaurantapp-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <RestaurantAppProjectPage setCurrentPage={setCurrentPage} />
+              <RestaurantAppProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -345,9 +380,9 @@ function App() {
       case 'whiteboard-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <WhiteboardProjectPage setCurrentPage={setCurrentPage} />
+              <WhiteboardProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -355,9 +390,9 @@ function App() {
       case 'portfoliobuilder-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <PortfolioBuilderProjectPage setCurrentPage={setCurrentPage} />
+              <PortfolioBuilderProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -365,9 +400,9 @@ function App() {
       case 'ai-assistant-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <AIAssistantProjectPage setCurrentPage={setCurrentPage} />
+              <AIAssistantProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -375,9 +410,9 @@ function App() {
       case 'resume-analyzer-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <ResumeAnalyzerProjectPage setCurrentPage={setCurrentPage} />
+              <ResumeAnalyzerProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -385,9 +420,9 @@ function App() {
       case 'deepfake-detection-project':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <DeepfakeDetectionProjectPage setCurrentPage={setCurrentPage} />
+              <DeepfakeDetectionProjectPage setCurrentPage={navigateToPage} />
             </div>
           </div>
         );
@@ -395,7 +430,7 @@ function App() {
       case 'analytics-dashboard':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <AnalyticsDashboard />
           </div>
         );
@@ -403,7 +438,7 @@ function App() {
       case 'resume-builder':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <ResumeBuilder />
           </div>
         );
@@ -411,7 +446,7 @@ function App() {
       case 'collaborative-features':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <CollaborativeFeatures />
           </div>
         );
@@ -419,8 +454,18 @@ function App() {
       case 'performance-monitor':
         return (
           <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
             <PerformanceMonitor />
+          </div>
+        );
+      
+      case 'test-demo':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={navigateToPage} />
+            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+              <TestDemoPage setCurrentPage={navigateToPage} />
+            </div>
           </div>
         );
       
