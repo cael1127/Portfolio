@@ -91,44 +91,49 @@ const GamePlatformDemo = () => {
   // Simulate real-time game updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setGames(prevGames => prevGames.map(game => {
-        const newGame = {
-          ...game,
-          players: game.players + Math.floor((Math.random() - 0.5) * 20),
-          lastUpdate: 'Just now'
-        };
+      setGames(prevGames => {
+        const updatedGames = prevGames.map(game => {
+          const newGame = {
+            ...game,
+            players: game.players + Math.floor((Math.random() - 0.5) * 20),
+            lastUpdate: 'Just now'
+          };
 
-        // Update server data
-        newGame.servers = game.servers.map(server => ({
-          ...server,
-          players: server.players + Math.floor((Math.random() - 0.5) * 10),
-          latency: Math.max(20, Math.min(120, server.latency + (Math.random() - 0.5) * 5))
+          // Update server data
+          newGame.servers = game.servers.map(server => ({
+            ...server,
+            players: server.players + Math.floor((Math.random() - 0.5) * 10),
+            latency: Math.max(20, Math.min(120, server.latency + (Math.random() - 0.5) * 5))
+          }));
+
+          // Generate alerts based on conditions
+          const newAlerts = [];
+          if (newGame.players > game.maxPlayers * 0.9) {
+            newAlerts.push('High player count');
+          }
+          if (newGame.servers.some(s => s.latency > 100)) {
+            newAlerts.push('High latency detected');
+          }
+          if (newGame.servers.some(s => s.players > 200)) {
+            newAlerts.push('Server capacity warning');
+          }
+
+          newGame.alerts = newAlerts;
+          newGame.status = newAlerts.length > 2 ? 'critical' : 
+                          newAlerts.length > 0 ? 'warning' : 'active';
+          
+          return newGame;
+        });
+
+        // Update system stats with the new games data
+        setSystemStats(prev => ({
+          ...prev,
+          totalPlayers: updatedGames.reduce((sum, game) => sum + game.players, 0),
+          averageLatency: Math.max(20, Math.min(120, prev.averageLatency + (Math.random() - 0.5) * 2))
         }));
 
-        // Generate alerts based on conditions
-        const newAlerts = [];
-        if (newGame.players > game.maxPlayers * 0.9) {
-          newAlerts.push('High player count');
-        }
-        if (newGame.servers.some(s => s.latency > 100)) {
-          newAlerts.push('High latency detected');
-        }
-        if (newGame.servers.some(s => s.players > 200)) {
-          newAlerts.push('Server capacity warning');
-        }
-
-        newGame.alerts = newAlerts;
-        newGame.status = newAlerts.length > 2 ? 'critical' : 
-                        newAlerts.length > 0 ? 'warning' : 'active';
-        
-        return newGame;
-      }));
-
-      setSystemStats(prev => ({
-        ...prev,
-        totalPlayers: prevGames.reduce((sum, game) => sum + game.players, 0),
-        averageLatency: Math.max(20, Math.min(120, prev.averageLatency + (Math.random() - 0.5) * 2))
-      }));
+        return updatedGames;
+      });
     }, 3000);
 
     return () => clearInterval(interval);
