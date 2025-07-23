@@ -75,6 +75,41 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
             </div>
           </div>
         </div>
+
+        {/* Enhanced Features */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">🚀 Enhanced Features</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div 
+              className="bg-gradient-to-br from-purple-800 via-purple-700 to-purple-600 p-6 rounded-lg cursor-pointer hover:from-purple-700 hover:via-purple-600 hover:to-purple-500 transition-colors border border-purple-700 hover:border-purple-600"
+              onClick={() => setCurrentPage('analytics-dashboard')}
+            >
+              <h3 className="text-xl font-semibold mb-2">📊 Analytics Dashboard</h3>
+              <p className="text-gray-300">Real-time insights and performance metrics for portfolio analytics.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-600 p-6 rounded-lg cursor-pointer hover:from-blue-700 hover:via-blue-600 hover:to-blue-500 transition-colors border border-blue-700 hover:border-blue-600"
+              onClick={() => setCurrentPage('resume-builder')}
+            >
+              <h3 className="text-xl font-semibold mb-2">📄 Resume Builder</h3>
+              <p className="text-gray-300">Interactive resume builder with real-time preview and multiple templates.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-yellow-800 via-yellow-700 to-yellow-600 p-6 rounded-lg cursor-pointer hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 transition-colors border border-yellow-700 hover:border-yellow-600"
+              onClick={() => setCurrentPage('collaborative-features')}
+            >
+              <h3 className="text-xl font-semibold mb-2">🤝 Collaborative Features</h3>
+              <p className="text-gray-300">Real-time collaboration tools and team management features.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-red-800 via-red-700 to-red-600 p-6 rounded-lg cursor-pointer hover:from-red-700 hover:via-red-600 hover:to-red-500 transition-colors border border-red-700 hover:border-red-600"
+              onClick={() => setCurrentPage('performance-monitor')}
+            >
+              <h3 className="text-xl font-semibold mb-2">⚡ Performance Monitor</h3>
+              <p className="text-gray-300">Real-time performance tracking and optimization insights.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Footer */}

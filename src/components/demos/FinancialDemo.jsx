@@ -1,49 +1,89 @@
 import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
+import webScraper from '../../utils/webScraper';
 
 const FinancialDemo = () => {
+  const [cryptoData, setCryptoData] = useState([]);
+  const [stockData, setStockData] = useState([]);
+  const [tradingHistory, setTradingHistory] = useState([]);
+  const [portfolio, setPortfolio] = useState({
+    totalValue: 0,
+    dailyChange: 0,
+    totalReturn: 0,
+    holdings: []
+  });
   const [showCodeViewer, setShowCodeViewer] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [analytics, setAnalytics] = useState({
+    totalTrades: 0,
+    successRate: 0,
+    averageReturn: 0,
+    riskScore: 0
+  });
 
   // Sample code for the demo
   const demoCode = `import React, { useState, useEffect } from 'react';
+import webScraper from '../../utils/webScraper';
 
 const FinancialDemo = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [portfolio, setPortfolio] = useState({});
+  const [cryptoData, setCryptoData] = useState([]);
+  const [stockData, setStockData] = useState([]);
   
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newTransaction = {
-        id: Date.now(),
-        type: ['buy', 'sell'][Math.floor(Math.random() * 2)],
-        symbol: ['AAPL', 'GOOGL', 'MSFT', 'TSLA'][Math.floor(Math.random() * 4)],
-        amount: Math.floor(Math.random() * 1000) + 100,
-        price: Math.random() * 500 + 50,
-        timestamp: new Date().toLocaleTimeString()
-      };
+    const fetchData = async () => {
+      // Fetch real cryptocurrency data
+      const crypto = await webScraper.getCryptoData();
+      setCryptoData(crypto);
       
-      setTransactions(prev => [newTransaction, ...prev.slice(0, 9)]);
-    }, 2000);
-
+      // Fetch real stock market data
+      const stocks = await webScraper.getStockData();
+      setStockData(stocks);
+    };
+    
+    fetchData();
+    const interval = setInterval(fetchData, 30000); // Update every 30 seconds
+    
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
+      {/* Real-time financial data display */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Transaction Monitor */}
-        <div className="space-y-4">
-          {transactions.map((tx) => (
-            <div key={tx.id} className="p-4 bg-gray-800 rounded-lg">
+        <div>
+          <h2>Cryptocurrency Markets</h2>
+          {cryptoData.map(crypto => (
+            <div key={crypto.id} className="p-4 bg-gray-800 rounded-lg mb-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-white font-semibold">{tx.symbol}</p>
-                  <p className="text-gray-300 text-sm">{tx.type.toUpperCase()}</p>
-                  <p className="text-gray-400 text-xs">${tx.price.toFixed(2)}</p>
+                  <h3 className="font-semibold">{crypto.name}</h3>
+                  <p className="text-gray-400">{crypto.symbol}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-white font-semibold">${tx.amount.toFixed(2)}</p>
-                  <p className="text-gray-400 text-xs">{tx.timestamp}</p>
+                  <p className="text-xl font-bold">${crypto.price.toLocaleString()}</p>
+                  <p className={crypto.change24h > 0 ? 'text-green-400' : 'text-red-400'}>
+                    {crypto.change24h > 0 ? '+' : ''}{crypto.change24h.toFixed(2)}%
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div>
+          <h2>Stock Markets</h2>
+          {stockData.map(stock => (
+            <div key={stock.symbol} className="p-4 bg-gray-800 rounded-lg mb-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-semibold">{stock.symbol}</h3>
+                  <p className="text-gray-400">Volume: {stock.volume.toLocaleString()}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xl font-bold">${stock.price.toFixed(2)}</p>
+                  <p className={stock.changePercent > 0 ? 'text-green-400' : 'text-red-400'}>
+                    {stock.changePercent > 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
@@ -55,498 +95,333 @@ const FinancialDemo = () => {
 };
 
 export default FinancialDemo;`;
-  const [activeTab, setActiveTab] = useState('portfolio');
-  const [portfolioData, setPortfolioData] = useState([]);
-  const [marketData, setMarketData] = useState([]);
-  const [riskMetrics, setRiskMetrics] = useState({});
-  const [selectedTimeframe, setSelectedTimeframe] = useState('1Y');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const tabs = [
-    { id: 'portfolio', label: 'Portfolio', icon: '💼' },
-    { id: 'market', label: 'Market Data', icon: '📈' },
-    { id: 'risk', label: 'Risk Analysis', icon: '⚠️' },
-    { id: 'ai', label: 'AI Insights', icon: '🤖' }
-  ];
-
-  const timeframes = [
-    { id: '1D', label: '1 Day' },
-    { id: '1W', label: '1 Week' },
-    { id: '1M', label: '1 Month' },
-    { id: '3M', label: '3 Months' },
-    { id: '1Y', label: '1 Year' },
-    { id: '5Y', label: '5 Years' }
-  ];
 
   useEffect(() => {
-    initializeData();
-    const interval = setInterval(updateData, 5000);
+    const fetchData = async () => {
+      try {
+        // Fetch real cryptocurrency data
+        const crypto = await webScraper.getCryptoData();
+        setCryptoData(crypto || []);
+        
+        // Fetch real stock market data
+        const stocks = await webScraper.getStockData();
+        setStockData(stocks || []);
+        
+        // Update portfolio calculations
+        updatePortfolio(crypto, stocks);
+      } catch (error) {
+        console.error('Error fetching financial data:', error);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 30000); // Update every 30 seconds
+
     return () => clearInterval(interval);
   }, []);
 
-  const initializeData = () => {
-    // Initialize portfolio data
-    const initialPortfolio = [
-      { symbol: 'AAPL', name: 'Apple Inc.', shares: 100, avgPrice: 150, currentPrice: 175, allocation: 0.25 },
-      { symbol: 'GOOGL', name: 'Alphabet Inc.', shares: 50, avgPrice: 2800, currentPrice: 2950, allocation: 0.20 },
-      { symbol: 'MSFT', name: 'Microsoft Corp.', shares: 75, avgPrice: 300, currentPrice: 320, allocation: 0.20 },
-      { symbol: 'TSLA', name: 'Tesla Inc.', shares: 200, avgPrice: 200, currentPrice: 250, allocation: 0.15 },
-      { symbol: 'NVDA', name: 'NVIDIA Corp.', shares: 60, avgPrice: 400, currentPrice: 450, allocation: 0.20 }
-    ];
-
-    setPortfolioData(initialPortfolio);
-
-    // Initialize market data
-    const initialMarketData = generateMarketData();
-    setMarketData(initialMarketData);
-
-    // Initialize risk metrics
-    setRiskMetrics({
-      sharpeRatio: 1.85,
-      beta: 1.12,
-      volatility: 0.18,
-      maxDrawdown: -0.08,
-      var95: -0.025
-    });
-  };
-
-  const generateMarketData = () => {
-    const data = [];
-    const basePrice = 100;
-    let currentPrice = basePrice;
-
-    for (let i = 0; i < 252; i++) {
-      const change = (Math.random() - 0.5) * 0.02;
-      currentPrice *= (1 + change);
-      
-      data.push({
-        date: new Date(Date.now() - (252 - i) * 24 * 60 * 60 * 1000),
-        price: currentPrice,
-        volume: Math.floor(Math.random() * 1000000) + 500000,
-        change: change * 100
-      });
-    }
-
-    return data;
-  };
-
-  const updateData = () => {
-    setPortfolioData(prev => prev.map(stock => ({
-      ...stock,
-      currentPrice: stock.currentPrice * (1 + (Math.random() - 0.5) * 0.01)
-    })));
-
-    setMarketData(prev => {
-      const newData = [...prev];
-      const lastPrice = newData[newData.length - 1].price;
-      const change = (Math.random() - 0.5) * 0.02;
-      newData.push({
-        date: new Date(),
-        price: lastPrice * (1 + change),
-        volume: Math.floor(Math.random() * 1000000) + 500000,
-        change: change * 100
-      });
-      return newData.slice(-252); // Keep last 252 days
-    });
-  };
-
-  const calculatePortfolioMetrics = () => {
-    const totalValue = portfolioData.reduce((sum, stock) => sum + (stock.shares * stock.currentPrice), 0);
-    const totalCost = portfolioData.reduce((sum, stock) => sum + (stock.shares * stock.avgPrice), 0);
-    const totalGain = totalValue - totalCost;
-    const totalGainPercent = (totalGain / totalCost) * 100;
-
-    return {
+  const updatePortfolio = (crypto, stocks) => {
+    const allAssets = [...(crypto || []), ...(stocks || [])];
+    const totalValue = allAssets.reduce((sum, asset) => sum + (asset.price || 0), 0);
+    const dailyChange = allAssets.reduce((sum, asset) => sum + (asset.change24h || asset.changePercent || 0), 0);
+    
+    setPortfolio({
       totalValue,
-      totalCost,
-      totalGain,
-      totalGainPercent,
-      dailyChange: (Math.random() - 0.5) * 0.03
-    };
+      dailyChange,
+      totalReturn: ((totalValue - 100000) / 100000) * 100,
+      holdings: allAssets.slice(0, 10)
+    });
   };
 
-  const renderPortfolioChart = () => {
-    const metrics = calculatePortfolioMetrics();
-    
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">Portfolio Performance</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Total Value</p>
-            <p className="text-2xl font-bold text-green-400">
-              ${metrics.totalValue.toLocaleString()}
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Total Gain</p>
-            <p className={'text-2xl font-bold ' + (metrics.totalGain >= 0 ? 'text-green-400' : 'text-red-400')}>
-              ${metrics.totalGain.toFixed(2)} ({metrics.totalGainPercent.toFixed(2)}%)
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Daily Change</p>
-            <p className={'text-2xl font-bold ' + (metrics.dailyChange >= 0 ? 'text-green-400' : 'text-red-400')}>
-              {metrics.dailyChange >= 0 ? '+' : ''}{metrics.dailyChange.toFixed(2)}%
-            </p>
-          </div>
-        </div>
+  // Simulate trading activity
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newTrade = {
+        id: Date.now(),
+        asset: cryptoData[Math.floor(Math.random() * cryptoData.length)]?.name || 
+               stockData[Math.floor(Math.random() * stockData.length)]?.symbol || 'Unknown',
+        type: Math.random() > 0.5 ? 'Buy' : 'Sell',
+        amount: Math.floor(Math.random() * 10000) + 1000,
+        price: Math.floor(Math.random() * 1000) + 100,
+        timestamp: new Date().toLocaleTimeString(),
+        status: Math.random() > 0.8 ? 'Pending' : 'Completed'
+      };
 
-        {/* Portfolio Allocation Chart */}
-        <div className="mb-6">
-          <h4 className="text-md font-semibold text-white mb-3">Asset Allocation</h4>
-          <div className="flex flex-wrap gap-2">
-            {portfolioData.map((stock, index) => (
-              <div key={stock.symbol} className="flex items-center space-x-2">
-                <div 
-                  className="w-4 h-4 rounded"
-                  style={{ backgroundColor: 'hsl(' + (index * 60) + ', 70%, 50%)' }}
-                />
-                <span className="text-sm text-gray-300">{stock.symbol}</span>
-                <span className="text-sm text-gray-400">({(stock.allocation * 100).toFixed(1)}%)</span>
-              </div>
-            ))}
-          </div>
-        </div>
+      setTradingHistory(prev => [newTrade, ...prev.slice(0, 19)]);
+      
+      // Update analytics
+      setAnalytics(prev => ({
+        totalTrades: prev.totalTrades + 1,
+        successRate: Math.min(95, prev.successRate + (Math.random() > 0.7 ? 0.1 : -0.1)),
+        averageReturn: prev.averageReturn + (Math.random() - 0.5) * 0.5,
+        riskScore: Math.min(100, prev.riskScore + (Math.random() - 0.5) * 2)
+      }));
+    }, 5000);
 
-        {/* Stock Performance Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-600">
-                <th className="text-left py-2">Symbol</th>
-                <th className="text-left py-2">Shares</th>
-                <th className="text-left py-2">Avg Price</th>
-                <th className="text-left py-2">Current Price</th>
-                <th className="text-left py-2">Gain/Loss</th>
-                <th className="text-left py-2">% Change</th>
-              </tr>
-            </thead>
-            <tbody>
-              {portfolioData.map(stock => {
-                const gainLoss = (stock.currentPrice - stock.avgPrice) * stock.shares;
-                const percentChange = ((stock.currentPrice - stock.avgPrice) / stock.avgPrice) * 100;
-                
-                return (
-                  <tr key={stock.symbol} className="border-b border-gray-700">
-                    <td className="py-2 font-semibold">{stock.symbol}</td>
-                    <td className="py-2">{stock.shares}</td>
-                    <td className="py-2">${stock.avgPrice.toFixed(2)}</td>
-                    <td className="py-2">${stock.currentPrice.toFixed(2)}</td>
-                    <td className={'py-2 ' + (gainLoss >= 0 ? 'text-green-400' : 'text-red-400')}>
-                      {gainLoss >= 0 ? '+' : ''}${gainLoss.toFixed(2)}
-                    </td>
-                    <td className={'py-2 ' + (percentChange >= 0 ? 'text-green-400' : 'text-red-400')}>
-                      {percentChange >= 0 ? '+' : ''}{percentChange.toFixed(2)}%
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
+    return () => clearInterval(interval);
+  }, [cryptoData, stockData]);
+
+  const getChangeColor = (change) => {
+    return change > 0 ? 'text-green-400' : 'text-red-400';
   };
 
-  const renderMarketChart = () => {
-    const recentData = marketData.slice(-30);
-    
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-purple-400 mb-4">Market Performance</h3>
-        
-        <div className="mb-4">
-          <div className="flex space-x-2">
-            {timeframes.map(timeframe => (
-              <button
-                key={timeframe.id}
-                onClick={() => setSelectedTimeframe(timeframe.id)}
-                className={'px-3 py-1 rounded text-sm ' + (
-                  selectedTimeframe === timeframe.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                )}
-              >
-                {timeframe.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Price Chart */}
-        <div className="mb-6">
-          <h4 className="text-md font-semibold text-white mb-3">Price Movement</h4>
-          <div className="h-64 bg-gray-700 rounded p-4">
-            <div className="flex items-end justify-between h-full">
-              {recentData.map((point, index) => {
-                const maxPrice = Math.max(...recentData.map(p => p.price));
-                const minPrice = Math.min(...recentData.map(p => p.price));
-                const height = ((point.price - minPrice) / (maxPrice - minPrice)) * 100;
-                
-                return (
-                  <div key={index} className="flex flex-col items-center">
-                    <div 
-                      className="w-2 bg-blue-400 rounded-t"
-                      style={{ height: height + '%' }}
-                    />
-                    <div className="text-xs text-gray-400 mt-1">
-                      ${point.price.toFixed(2)}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Market Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gray-700 p-3 rounded">
-            <p className="text-xs text-gray-400">Current Price</p>
-            <p className="text-lg font-bold text-green-400">
-              ${recentData[recentData.length - 1]?.price.toFixed(2)}
-            </p>
-          </div>
-          <div className="bg-gray-700 p-3 rounded">
-            <p className="text-xs text-gray-400">Volume</p>
-            <p className="text-lg font-bold text-blue-400">
-              {(recentData[recentData.length - 1]?.volume / 1000000).toFixed(1)}M
-            </p>
-          </div>
-          <div className="bg-gray-700 p-3 rounded">
-            <p className="text-xs text-gray-400">Change</p>
-            <p className={'text-lg font-bold ' + (recentData[recentData.length - 1]?.change >= 0 ? 'text-green-400' : 'text-red-400')}>
-              {recentData[recentData.length - 1]?.change >= 0 ? '+' : ''}{recentData[recentData.length - 1]?.change.toFixed(2)}%
-            </p>
-          </div>
-          <div className="bg-gray-700 p-3 rounded">
-            <p className="text-xs text-gray-400">Volatility</p>
-            <p className="text-lg font-bold text-yellow-400">
-              {riskMetrics.volatility.toFixed(2)}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderRiskAnalysis = () => {
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-yellow-400 mb-4">Risk Analysis</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Risk Metrics */}
-          <div>
-            <h4 className="text-md font-semibold text-white mb-3">Risk Metrics</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Sharpe Ratio</span>
-                <span className="text-green-400 font-semibold">{riskMetrics.sharpeRatio.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Beta</span>
-                <span className="text-blue-400 font-semibold">{riskMetrics.beta.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Volatility</span>
-                <span className="text-yellow-400 font-semibold">{(riskMetrics.volatility * 100).toFixed(1)}%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Max Drawdown</span>
-                <span className="text-red-400 font-semibold">{(riskMetrics.maxDrawdown * 100).toFixed(1)}%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">VaR (95%)</span>
-                <span className="text-orange-400 font-semibold">{(riskMetrics.var95 * 100).toFixed(1)}%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Risk Visualization */}
-          <div>
-            <h4 className="text-md font-semibold text-white mb-3">Risk Distribution</h4>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-300">Low Risk</span>
-                  <span className="text-green-400">25%</span>
-                </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div className="bg-green-400 h-2 rounded-full" style={{ width: '25%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-300">Medium Risk</span>
-                  <span className="text-yellow-400">45%</span>
-                </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '45%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-300">High Risk</span>
-                  <span className="text-red-400">30%</span>
-                </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div className="bg-red-400 h-2 rounded-full" style={{ width: '30%' }}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Risk Alerts */}
-        <div className="mt-6">
-          <h4 className="text-md font-semibold text-white mb-3">Risk Alerts</h4>
-          <div className="space-y-2">
-            <div className="bg-red-900/20 border border-red-500/50 p-3 rounded">
-              <div className="flex items-center space-x-2">
-                <span className="text-red-400">⚠️</span>
-                <span className="text-red-300">High volatility detected in TSLA position</span>
-              </div>
-            </div>
-            <div className="bg-yellow-900/20 border border-yellow-500/50 p-3 rounded">
-              <div className="flex items-center space-x-2">
-                <span className="text-yellow-400">⚠️</span>
-                <span className="text-yellow-300">Portfolio concentration risk: 25% in AAPL</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderAIInsights = () => {
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-green-400 mb-4">AI-Powered Insights</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Market Predictions */}
-          <div>
-            <h4 className="text-md font-semibold text-white mb-3">Market Predictions</h4>
-            <div className="space-y-3">
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">AAPL</span>
-                  <span className="text-green-400">+2.3%</span>
-                </div>
-                <p className="text-xs text-gray-400">AI predicts upward movement based on technical indicators</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">TSLA</span>
-                  <span className="text-red-400">-1.8%</span>
-                </div>
-                <p className="text-xs text-gray-400">Potential downside due to market sentiment analysis</p>
-              </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">NVDA</span>
-                  <span className="text-green-400">+3.1%</span>
-                </div>
-                <p className="text-xs text-gray-400">Strong buy signal from AI analysis</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Portfolio Recommendations */}
-          <div>
-            <h4 className="text-md font-semibold text-white mb-3">Portfolio Recommendations</h4>
-            <div className="space-y-3">
-              <div className="bg-blue-900/20 border border-blue-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-blue-400">💡</span>
-                  <span className="text-blue-300 font-semibold">Rebalance Portfolio</span>
-                </div>
-                <p className="text-xs text-gray-300">Consider reducing AAPL allocation to 20% for better diversification</p>
-              </div>
-              <div className="bg-green-900/20 border border-green-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-green-400">📈</span>
-                  <span className="text-green-300 font-semibold">Buy Opportunity</span>
-                </div>
-                <p className="text-xs text-gray-300">MSFT showing strong fundamentals, consider adding 25 shares</p>
-              </div>
-              <div className="bg-yellow-900/20 border border-yellow-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-yellow-400">⚡</span>
-                  <span className="text-yellow-300 font-semibold">Risk Management</span>
-                </div>
-                <p className="text-xs text-gray-300">Set stop-loss at $240 for TSLA to limit downside risk</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* AI Confidence Score */}
-        <div className="mt-6">
-          <h4 className="text-md font-semibold text-white mb-3">AI Confidence Score</h4>
-          <div className="bg-gray-700 p-4 rounded">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-300">Prediction Accuracy</span>
-              <span className="text-green-400 font-semibold">87.3%</span>
-            </div>
-            <div className="w-full bg-gray-600 rounded-full h-2">
-              <div className="bg-green-400 h-2 rounded-full" style={{ width: '87.3%' }}></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const getChangeBg = (change) => {
+    return change > 0 ? 'bg-green-900' : 'bg-red-900';
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8 flex justify-between items-start">
-          <div>
-            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Financial Demo</h1>
-            <p className="text-gray-300 text-lg">
-              Interactive demo with real-time data and advanced features
-            </p>
-          </div>
-          <button
-            onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-          >
-            <span>📄</span>
-            <span>View Code</span>
-          </button>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {tabs.map((tab) => (
+        <div className="mb-8">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl font-bold text-white mb-2">💰 Financial Analytics Platform</h1>
+              <p className="text-gray-400">Real-time market data and AI-powered trading insights</p>
+            </div>
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={'px-4 py-2 rounded-lg transition-colors ' + (
-                activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              )}
+              onClick={() => setShowCodeViewer(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
+              📄 View Code
             </button>
-          ))}
+          </div>
         </div>
 
-        {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          {activeTab === 'portfolio' && renderPortfolioChart()}
-          {activeTab === 'market' && renderMarketChart()}
-          {activeTab === 'risk' && renderRiskAnalysis()}
-          {activeTab === 'ai' && renderAIInsights()}
+        {/* Portfolio Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-300 text-sm">Portfolio Value</p>
+                <p className="text-3xl font-bold text-white">${portfolio.totalValue.toLocaleString()}</p>
+                <p className={`text-sm ${getChangeColor(portfolio.dailyChange)}`}>
+                  {portfolio.dailyChange > 0 ? '+' : ''}{portfolio.dailyChange.toFixed(2)}% today
+                </p>
+              </div>
+              <div className="text-4xl">📈</div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-300 text-sm">Total Return</p>
+                <p className="text-3xl font-bold text-white">{portfolio.totalReturn.toFixed(2)}%</p>
+                <p className="text-blue-400 text-sm">+12.5% this month</p>
+              </div>
+              <div className="text-4xl">💹</div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-300 text-sm">Success Rate</p>
+                <p className="text-3xl font-bold text-white">{analytics.successRate.toFixed(1)}%</p>
+                <p className="text-purple-400 text-sm">+2.1% this week</p>
+              </div>
+              <div className="text-4xl">🎯</div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-300 text-sm">Risk Score</p>
+                <p className="text-3xl font-bold text-white">{analytics.riskScore.toFixed(1)}</p>
+                <p className="text-yellow-400 text-sm">Moderate risk</p>
+              </div>
+              <div className="text-4xl">⚠️</div>
+            </div>
+          </div>
         </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Cryptocurrency Markets */}
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+            <h2 className="text-2xl font-bold text-white mb-4">🪙 Cryptocurrency Markets</h2>
+            <div className="space-y-4">
+              {cryptoData.map(crypto => (
+                <div 
+                  key={crypto.id} 
+                  className="p-4 bg-gray-800 rounded-lg border border-gray-600 hover:border-gray-500 transition-colors cursor-pointer"
+                  onClick={() => setSelectedAsset(crypto)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">{crypto.symbol}</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white">{crypto.name}</h3>
+                        <p className="text-gray-400 text-sm">{crypto.symbol}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-white">${crypto.price.toLocaleString()}</p>
+                      <p className={`text-sm font-semibold ${getChangeColor(crypto.change24h)}`}>
+                        {crypto.change24h > 0 ? '+' : ''}{crypto.change24h.toFixed(2)}%
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stock Markets */}
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+            <h2 className="text-2xl font-bold text-white mb-4">📊 Stock Markets</h2>
+            <div className="space-y-4">
+              {stockData.map(stock => (
+                <div 
+                  key={stock.symbol} 
+                  className="p-4 bg-gray-800 rounded-lg border border-gray-600 hover:border-gray-500 transition-colors cursor-pointer"
+                  onClick={() => setSelectedAsset(stock)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">{stock.symbol}</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white">{stock.symbol}</h3>
+                        <p className="text-gray-400 text-sm">Vol: {stock.volume.toLocaleString()}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-white">${stock.price.toFixed(2)}</p>
+                      <p className={`text-sm font-semibold ${getChangeColor(stock.changePercent)}`}>
+                        {stock.changePercent > 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Trading Activity */}
+        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">⚡ Live Trading Activity</h2>
+          <div className="space-y-3 max-h-64 overflow-y-auto">
+            {tradingHistory.map(trade => (
+              <div key={trade.id} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className={`w-3 h-3 rounded-full ${trade.type === 'Buy' ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                  <div>
+                    <p className="font-semibold text-white">{trade.asset}</p>
+                    <p className="text-gray-400 text-sm">{trade.type} • ${trade.amount.toLocaleString()}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-white font-semibold">${trade.price.toFixed(2)}</p>
+                  <p className={`text-sm ${trade.status === 'Completed' ? 'text-green-400' : 'text-yellow-400'}`}>
+                    {trade.status}
+                  </p>
+                </div>
+                <div className="text-gray-400 text-sm">{trade.timestamp}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* AI Trading Insights */}
+        <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <h2 className="text-2xl font-bold text-white mb-4">🤖 AI Trading Insights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Market Sentiment</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Bitcoin: Bullish (75% confidence)</li>
+                <li>• Ethereum: Neutral (45% confidence)</li>
+                <li>• AAPL: Bullish (82% confidence)</li>
+                <li>• TSLA: Bearish (68% confidence)</li>
+                <li>• Overall: Moderately Bullish</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Risk Analysis</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Portfolio diversification: Good</li>
+                <li>• Volatility: Moderate</li>
+                <li>• Market correlation: Low</li>
+                <li>• Liquidity: High</li>
+                <li>• Recommended: Hold current positions</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Trading Signals</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Strong Buy: AAPL, GOOGL</li>
+                <li>• Buy: Bitcoin, Ethereum</li>
+                <li>• Hold: MSFT, AMZN</li>
+                <li>• Sell: TSLA (partial)</li>
+                <li>• Watch: Cardano, Polkadot</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Asset Details Modal */}
+        {selectedAsset && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 p-6 rounded-xl max-w-md w-full mx-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-white">Asset Details</h3>
+                <button
+                  onClick={() => setSelectedAsset(null)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Name</span>
+                  <span className="text-white font-semibold">{selectedAsset.name || selectedAsset.symbol}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Current Price</span>
+                  <span className="text-white font-semibold">${selectedAsset.price.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">24h Change</span>
+                  <span className={`font-semibold ${getChangeColor(selectedAsset.change24h || selectedAsset.changePercent)}`}>
+                    {selectedAsset.change24h || selectedAsset.changePercent > 0 ? '+' : ''}
+                    {(selectedAsset.change24h || selectedAsset.changePercent).toFixed(2)}%
+                  </span>
+                </div>
+                {selectedAsset.volume && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Volume</span>
+                    <span className="text-white font-semibold">{selectedAsset.volume.toLocaleString()}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Code Viewer Modal */}
+        {showCodeViewer && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 p-6 rounded-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-white">Financial Demo Code</h3>
+                <button
+                  onClick={() => setShowCodeViewer(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <CodeViewer code={demoCode} language="javascript" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

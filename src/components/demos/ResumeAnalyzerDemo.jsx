@@ -2,51 +2,69 @@ import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
 
 const ResumeAnalyzerDemo = () => {
+  const [resumes, setResumes] = useState([]);
+  const [jobPostings, setJobPostings] = useState([]);
+  const [candidates, setCandidates] = useState([]);
   const [showCodeViewer, setShowCodeViewer] = useState(false);
+  const [selectedResume, setSelectedResume] = useState(null);
+  const [analyzerStats, setAnalyzerStats] = useState({
+    totalResumes: 0,
+    activeCandidates: 0,
+    averageScore: 0,
+    matchRate: 0,
+    processingTime: 0,
+    aiAccuracy: 0,
+    dailyApplications: 0,
+    monthlyHires: 0
+  });
 
   // Sample code for the demo
   const demoCode = `import React, { useState, useEffect } from 'react';
 
 const ResumeAnalyzerDemo = () => {
   const [resumes, setResumes] = useState([]);
-  const [analytics, setAnalytics] = useState({});
+  const [jobPostings, setJobPostings] = useState([]);
+  const [candidates, setCandidates] = useState([]);
   
   useEffect(() => {
     const interval = setInterval(() => {
-      const newResume = {
-        id: Date.now(),
-        candidate: 'Candidate ' + Math.floor(Math.random() * 1000),
-        score: Math.floor(Math.random() * 40) + 60,
-        skills: ['JavaScript', 'React', 'Python'][Math.floor(Math.random() * 3)],
-        timestamp: new Date().toLocaleTimeString()
-      };
-      
-      setResumes(prev => [newResume, ...prev.slice(0, 9)]);
-    }, 4000);
+      setResumes(prev => prev.map(resume => ({
+        ...resume,
+        score: resume.score + (Math.random() - 0.5) * 2,
+        lastUpdate: 'Just now'
+      })));
+    }, 6000);
 
     return () => clearInterval(interval);
   }, []);
 
+  const analyzeResume = (resumeId) => {
+    const resume = resumes.find(r => r.id === resumeId);
+    console.log('Analyzing resume:', resume.name);
+    // AI analysis logic here
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Resume Analysis */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Resume List */}
         <div className="space-y-4">
           {resumes.map((resume) => (
             <div key={resume.id} className="p-4 bg-gray-800 rounded-lg">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-white font-semibold">{resume.candidate}</p>
-                  <p className="text-gray-300 text-sm">{resume.skills}</p>
-                  <p className="text-gray-400 text-xs">{resume.timestamp}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-white font-semibold">{resume.score}%</p>
-                  <div className="px-2 py-1 rounded text-xs">
-                    {resume.score > 80 ? 'Excellent' : resume.score > 60 ? 'Good' : 'Fair'}
-                  </div>
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold">{resume.name}</h3>
+              <p className="text-gray-300 text-sm">{resume.position}</p>
+              <p className="text-gray-400 text-xs">Score: {resume.score.toFixed(1)}%</p>
+            </div>
+          ))}
+        </div>
+        
+        {/* Job Postings */}
+        <div className="space-y-4">
+          {jobPostings.map((job) => (
+            <div key={job.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{job.title}</h3>
+              <p className="text-gray-300 text-sm">{job.company}</p>
+              <p className="text-gray-400 text-xs">{job.applications} applications</p>
             </div>
           ))}
         </div>
@@ -56,243 +74,389 @@ const ResumeAnalyzerDemo = () => {
 };
 
 export default ResumeAnalyzerDemo;`;
-  const [resumes, setResumes] = useState([]);
-  const [selectedResume, setSelectedResume] = useState(null);
-  const [analysisResults, setAnalysisResults] = useState(null);
-  const [alerts, setAlerts] = useState([]);
-  const [systemStats, setSystemStats] = useState({
-    totalResumes: 0,
-    analyzedToday: 0,
-    averageScore: 0,
-    matchRate: 0
-  });
 
-  // Initialize resume analyzer data
   useEffect(() => {
+    // Initialize resume analyzer data
     const initialResumes = [
       {
         id: 1,
-        candidate: 'Sarah Johnson',
+        name: 'Sarah Johnson',
+        email: 'sarah.johnson@email.com',
         position: 'Senior Software Engineer',
-        status: 'analyzed',
-        score: 87,
-        lastUpdate: '2 minutes ago',
-        alerts: [],
-        details: {
-          experience: '8 years',
-          education: 'MS Computer Science',
-          skills: ['React', 'Node.js', 'Python', 'AWS', 'Docker'],
-          languages: ['JavaScript', 'Python', 'Java', 'SQL'],
-          certifications: ['AWS Certified Developer', 'Google Cloud Professional']
+        score: 87.5,
+        status: 'shortlisted',
+        lastUpdate: 'Just now',
+        experience: 8,
+        skills: ['React', 'Node.js', 'Python', 'AWS', 'Docker'],
+        education: 'MS Computer Science',
+        location: 'San Francisco, CA',
+        salary: 140000,
+        matchRate: 92,
+        aiInsights: {
+          technicalSkills: 9.2,
+          communication: 8.5,
+          leadership: 7.8,
+          cultureFit: 8.9,
+          growthPotential: 8.7
         },
         analysis: {
-          skillsMatch: 92,
-          experienceRelevance: 88,
-          educationFit: 85,
-          overallScore: 87,
-          recommendations: ['Add more cloud experience', 'Include project metrics']
+          keywords: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS'],
+          missingSkills: ['Kubernetes', 'GraphQL'],
+          strengths: ['Strong technical background', 'Good communication skills'],
+          recommendations: ['Consider for senior role', 'Good culture fit']
         }
       },
       {
         id: 2,
-        candidate: 'Mike Chen',
+        name: 'Michael Chen',
+        email: 'michael.chen@email.com',
         position: 'Data Scientist',
-        status: 'analyzed',
-        score: 94,
-        lastUpdate: '1 minute ago',
-        alerts: [],
-        details: {
-          experience: '5 years',
-          education: 'PhD Statistics',
-          skills: ['Python', 'TensorFlow', 'SQL', 'Machine Learning', 'R'],
-          languages: ['Python', 'R', 'SQL', 'JavaScript'],
-          certifications: ['Google Cloud Professional Data Engineer']
+        score: 91.2,
+        status: 'interviewing',
+        lastUpdate: '2 minutes ago',
+        experience: 5,
+        skills: ['Python', 'Machine Learning', 'SQL', 'TensorFlow', 'Pandas'],
+        education: 'PhD Statistics',
+        location: 'New York, NY',
+        salary: 120000,
+        matchRate: 95,
+        aiInsights: {
+          technicalSkills: 9.5,
+          communication: 8.2,
+          leadership: 6.5,
+          cultureFit: 8.1,
+          growthPotential: 9.1
         },
         analysis: {
-          skillsMatch: 96,
-          experienceRelevance: 92,
-          educationFit: 98,
-          overallScore: 94,
-          recommendations: ['Excellent profile', 'Consider for interview']
+          keywords: ['Python', 'Machine Learning', 'Data Analysis', 'SQL'],
+          missingSkills: ['Deep Learning', 'Spark'],
+          strengths: ['Excellent analytical skills', 'Strong ML background'],
+          recommendations: ['Perfect for data role', 'High potential candidate']
         }
       },
       {
         id: 3,
-        candidate: 'Alex Rodriguez',
-        position: 'Frontend Developer',
-        status: 'warning',
-        score: 72,
-        lastUpdate: 'Just now',
-        alerts: ['Missing key skills', 'Limited experience'],
-        details: {
-          experience: '2 years',
-          education: 'BS Computer Science',
-          skills: ['HTML', 'CSS', 'JavaScript', 'React'],
-          languages: ['JavaScript', 'HTML', 'CSS'],
-          certifications: []
+        name: 'Emily Rodriguez',
+        email: 'emily.rodriguez@email.com',
+        position: 'Product Manager',
+        score: 78.9,
+        status: 'reviewing',
+        lastUpdate: '5 minutes ago',
+        experience: 6,
+        skills: ['Product Strategy', 'User Research', 'Agile', 'SQL', 'Figma'],
+        education: 'MBA Business Administration',
+        location: 'Austin, TX',
+        salary: 110000,
+        matchRate: 78,
+        aiInsights: {
+          technicalSkills: 6.8,
+          communication: 9.1,
+          leadership: 8.7,
+          cultureFit: 8.3,
+          growthPotential: 8.5
         },
         analysis: {
-          skillsMatch: 68,
-          experienceRelevance: 65,
-          educationFit: 75,
-          overallScore: 72,
-          recommendations: ['Add more frameworks', 'Include portfolio projects']
+          keywords: ['Product Management', 'User Research', 'Strategy', 'Agile'],
+          missingSkills: ['Technical Background', 'Data Analysis'],
+          strengths: ['Strong leadership skills', 'Good communication'],
+          recommendations: ['Consider for PM role', 'Needs technical training']
+        }
+      },
+      {
+        id: 4,
+        name: 'David Kim',
+        email: 'david.kim@email.com',
+        position: 'DevOps Engineer',
+        score: 84.3,
+        status: 'shortlisted',
+        lastUpdate: '8 minutes ago',
+        experience: 7,
+        skills: ['Docker', 'Kubernetes', 'AWS', 'Jenkins', 'Linux'],
+        education: 'BS Computer Engineering',
+        location: 'Seattle, WA',
+        salary: 130000,
+        matchRate: 88,
+        aiInsights: {
+          technicalSkills: 9.0,
+          communication: 7.5,
+          leadership: 7.2,
+          cultureFit: 8.0,
+          growthPotential: 8.3
+        },
+        analysis: {
+          keywords: ['DevOps', 'Cloud Infrastructure', 'Automation', 'Linux'],
+          missingSkills: ['Terraform', 'Prometheus'],
+          strengths: ['Strong infrastructure skills', 'Good automation experience'],
+          recommendations: ['Good technical fit', 'Consider for DevOps role']
+        }
+      },
+      {
+        id: 5,
+        name: 'Lisa Wang',
+        email: 'lisa.wang@email.com',
+        position: 'UX Designer',
+        score: 89.7,
+        status: 'interviewing',
+        lastUpdate: '12 minutes ago',
+        experience: 4,
+        skills: ['Figma', 'Sketch', 'User Research', 'Prototyping', 'Adobe Creative Suite'],
+        education: 'BS Design',
+        location: 'Los Angeles, CA',
+        salary: 95000,
+        matchRate: 91,
+        aiInsights: {
+          technicalSkills: 8.8,
+          communication: 9.3,
+          leadership: 6.8,
+          cultureFit: 9.1,
+          growthPotential: 8.9
+        },
+        analysis: {
+          keywords: ['UX Design', 'User Research', 'Prototyping', 'Design Systems'],
+          missingSkills: ['Coding Skills', 'Analytics'],
+          strengths: ['Excellent design skills', 'Strong user empathy'],
+          recommendations: ['Perfect for UX role', 'High culture fit']
         }
       }
     ];
+
+    const initialJobPostings = [
+      {
+        id: 1,
+        title: 'Senior Software Engineer',
+        company: 'TechCorp Inc.',
+        location: 'San Francisco, CA',
+        applications: 45,
+        status: 'active',
+        requirements: ['React', 'Node.js', 'Python', 'AWS'],
+        experience: '5+ years',
+        salary: '120k-160k',
+        posted: '2024-01-15',
+        deadline: '2024-02-15',
+        priority: 'high'
+      },
+      {
+        id: 2,
+        title: 'Data Scientist',
+        company: 'DataFlow Analytics',
+        location: 'New York, NY',
+        applications: 32,
+        status: 'active',
+        requirements: ['Python', 'Machine Learning', 'SQL', 'TensorFlow'],
+        experience: '3+ years',
+        salary: '100k-140k',
+        posted: '2024-01-10',
+        deadline: '2024-02-10',
+        priority: 'high'
+      },
+      {
+        id: 3,
+        title: 'Product Manager',
+        company: 'InnovateTech',
+        location: 'Austin, TX',
+        applications: 28,
+        status: 'active',
+        requirements: ['Product Strategy', 'User Research', 'Agile'],
+        experience: '4+ years',
+        salary: '110k-150k',
+        posted: '2024-01-12',
+        deadline: '2024-02-12',
+        priority: 'medium'
+      },
+      {
+        id: 4,
+        title: 'DevOps Engineer',
+        company: 'CloudScale Systems',
+        location: 'Seattle, WA',
+        applications: 19,
+        status: 'active',
+        requirements: ['Docker', 'Kubernetes', 'AWS', 'Jenkins'],
+        experience: '3+ years',
+        salary: '120k-160k',
+        posted: '2024-01-08',
+        deadline: '2024-02-08',
+        priority: 'medium'
+      },
+      {
+        id: 5,
+        title: 'UX Designer',
+        company: 'DesignHub',
+        location: 'Los Angeles, CA',
+        applications: 36,
+        status: 'active',
+        requirements: ['Figma', 'User Research', 'Prototyping'],
+        experience: '2+ years',
+        salary: '80k-120k',
+        posted: '2024-01-18',
+        deadline: '2024-02-18',
+        priority: 'low'
+      }
+    ];
+
+    const initialCandidates = [
+      {
+        id: 1,
+        name: 'Sarah Johnson',
+        status: 'shortlisted',
+        position: 'Senior Software Engineer',
+        lastActivity: 'Just now',
+        interviewStage: 'Technical Round',
+        nextInterview: '2024-01-25',
+        recruiter: 'John Smith',
+        notes: 'Strong technical background, good communication skills'
+      },
+      {
+        id: 2,
+        name: 'Michael Chen',
+        status: 'interviewing',
+        position: 'Data Scientist',
+        lastActivity: '2 minutes ago',
+        interviewStage: 'Final Round',
+        nextInterview: '2024-01-23',
+        recruiter: 'Lisa Brown',
+        notes: 'Excellent analytical skills, perfect for data role'
+      },
+      {
+        id: 3,
+        name: 'Emily Rodriguez',
+        status: 'reviewing',
+        position: 'Product Manager',
+        lastActivity: '5 minutes ago',
+        interviewStage: 'Initial Screening',
+        nextInterview: '2024-01-26',
+        recruiter: 'Mike Johnson',
+        notes: 'Good leadership skills, needs technical training'
+      },
+      {
+        id: 4,
+        name: 'David Kim',
+        status: 'shortlisted',
+        position: 'DevOps Engineer',
+        lastActivity: '8 minutes ago',
+        interviewStage: 'Technical Round',
+        nextInterview: '2024-01-24',
+        recruiter: 'Sarah Wilson',
+        notes: 'Strong infrastructure skills, good technical fit'
+      },
+      {
+        id: 5,
+        name: 'Lisa Wang',
+        status: 'interviewing',
+        position: 'UX Designer',
+        lastActivity: '12 minutes ago',
+        interviewStage: 'Portfolio Review',
+        nextInterview: '2024-01-22',
+        recruiter: 'Tom Davis',
+        notes: 'Excellent design skills, high culture fit'
+      }
+    ];
+
     setResumes(initialResumes);
-    setSystemStats({
-      totalResumes: 247,
-      analyzedToday: 23,
-      averageScore: 84.3,
-      matchRate: 78.5
-    });
+    setJobPostings(initialJobPostings);
+    setCandidates(initialCandidates);
   }, []);
 
-  // Simulate real-time resume updates
   useEffect(() => {
+    // Simulate real-time resume analyzer updates
     const interval = setInterval(() => {
-      setResumes(prevResumes => prevResumes.map(resume => {
-        const newResume = {
-          ...resume,
-          score: Math.max(60, Math.min(98, resume.score + (Math.random() - 0.5) * 3)),
-          lastUpdate: 'Just now'
-        };
+      // Update resume scores
+      setResumes(prev => prev.map(resume => ({
+        ...resume,
+        score: Math.max(0, Math.min(100, resume.score + (Math.random() - 0.5) * 2)),
+        lastUpdate: 'Just now'
+      })));
 
-        // Update analysis scores
-        newResume.analysis = {
-          ...resume.analysis,
-          skillsMatch: Math.max(60, Math.min(98, resume.analysis.skillsMatch + (Math.random() - 0.5) * 2)),
-          experienceRelevance: Math.max(60, Math.min(98, resume.analysis.experienceRelevance + (Math.random() - 0.5) * 2)),
-          educationFit: Math.max(60, Math.min(98, resume.analysis.educationFit + (Math.random() - 0.5) * 2)),
-          overallScore: Math.round((newResume.analysis.skillsMatch + newResume.analysis.experienceRelevance + newResume.analysis.educationFit) / 3)
-        };
-
-        // Generate alerts based on conditions
-        const newAlerts = [];
-        if (newResume.analysis.overallScore < 75) {
-          newAlerts.push('Low overall score');
-        }
-        if (newResume.analysis.skillsMatch < 70) {
-          newAlerts.push('Skills mismatch');
-        }
-        if (newResume.details.experience.includes('1') || newResume.details.experience.includes('2')) {
-          newAlerts.push('Limited experience');
-        }
-
-        newResume.alerts = newAlerts;
-        newResume.status = newAlerts.length > 2 ? 'critical' : 
-                          newAlerts.length > 0 ? 'warning' : 'analyzed';
-        
-        return newResume;
+      // Update analyzer stats
+      setAnalyzerStats(prev => ({
+        totalResumes: resumes.length,
+        activeCandidates: candidates.filter(c => c.status !== 'rejected').length,
+        averageScore: resumes.reduce((sum, r) => sum + r.score, 0) / resumes.length,
+        matchRate: resumes.reduce((sum, r) => sum + r.matchRate, 0) / resumes.length,
+        processingTime: Math.max(10, Math.min(60, prev.processingTime + (Math.random() - 0.5) * 5)),
+        aiAccuracy: Math.max(85, Math.min(98, prev.aiAccuracy + (Math.random() - 0.5) * 2)),
+        dailyApplications: Math.floor(Math.random() * 20) + 50,
+        monthlyHires: Math.floor(Math.random() * 10) + 15
       }));
-
-      setSystemStats(prev => ({
-        ...prev,
-        analyzedToday: prev.analyzedToday + Math.floor(Math.random() * 2),
-        averageScore: Math.max(70, Math.min(95, prev.averageScore + (Math.random() - 0.5) * 1))
-      }));
-    }, 5000);
+    }, 6000);
 
     return () => clearInterval(interval);
-  }, []);
-
-  // Generate analysis results for selected resume
-  useEffect(() => {
-    if (selectedResume) {
-      const newAnalysis = {
-        candidate: selectedResume.candidate,
-        position: selectedResume.position,
-        timestamp: new Date().toLocaleTimeString(),
-        summary: {
-          overallScore: selectedResume.analysis.overallScore,
-          skillsMatch: selectedResume.analysis.skillsMatch,
-          experienceRelevance: selectedResume.analysis.experienceRelevance,
-          educationFit: selectedResume.analysis.educationFit
-        },
-        detailedAnalysis: {
-          strengths: [
-            'Strong technical background',
-            'Relevant certifications',
-            'Good educational foundation',
-            'Industry experience'
-          ],
-          weaknesses: [
-            'Could use more specific project examples',
-            'Limited leadership experience',
-            'Missing some key technologies'
-          ],
-          recommendations: selectedResume.analysis.recommendations
-        },
-        skillsAnalysis: {
-          technical: selectedResume.details.skills,
-          languages: selectedResume.details.languages,
-          certifications: selectedResume.details.certifications,
-          missing: ['Kubernetes', 'Microservices', 'CI/CD']
-        }
-      };
-      setAnalysisResults(newAnalysis);
-    }
-  }, [selectedResume]);
-
-  // Generate system alerts
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const allAlerts = resumes.flatMap(resume => 
-        resume.alerts.map(alert => ({
-          id: Date.now() + Math.random(),
-          candidate: resume.candidate,
-          message: alert,
-          severity: alert.includes('Critical') ? 'high' : 'medium',
-          timestamp: new Date().toLocaleTimeString()
-        }))
-      );
-      setAlerts(allAlerts.slice(0, 5));
-    }, 7000);
-
-    return () => clearInterval(interval);
-  }, [resumes]);
+  }, [resumes, candidates]);
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'analyzed': return 'text-green-400';
-      case 'warning': return 'text-yellow-400';
-      case 'critical': return 'text-red-400';
+      case 'shortlisted': return 'text-green-400';
+      case 'interviewing': return 'text-blue-400';
+      case 'reviewing': return 'text-yellow-400';
+      case 'rejected': return 'text-red-400';
+      case 'hired': return 'text-purple-400';
       default: return 'text-gray-400';
     }
   };
 
   const getStatusBg = (status) => {
     switch (status) {
-      case 'analyzed': return 'bg-green-600';
-      case 'warning': return 'bg-yellow-600';
-      case 'critical': return 'bg-red-600';
+      case 'shortlisted': return 'bg-green-600';
+      case 'interviewing': return 'bg-blue-600';
+      case 'reviewing': return 'bg-yellow-600';
+      case 'rejected': return 'bg-red-600';
+      case 'hired': return 'bg-purple-600';
+      default: return 'bg-gray-600';
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'high': return 'text-red-400';
+      case 'medium': return 'text-yellow-400';
+      case 'low': return 'text-green-400';
+      default: return 'text-gray-400';
+    }
+  };
+
+  const getPriorityBg = (priority) => {
+    switch (priority) {
+      case 'high': return 'bg-red-600';
+      case 'medium': return 'bg-yellow-600';
+      case 'low': return 'bg-green-600';
       default: return 'bg-gray-600';
     }
   };
 
   const getScoreColor = (score) => {
     if (score >= 90) return 'text-green-400';
-    if (score >= 80) return 'text-yellow-400';
-    if (score >= 70) return 'text-orange-400';
+    if (score >= 80) return 'text-blue-400';
+    if (score >= 70) return 'text-yellow-400';
     return 'text-red-400';
   };
 
   const getScoreBg = (score) => {
     if (score >= 90) return 'bg-green-600';
-    if (score >= 80) return 'bg-yellow-600';
-    if (score >= 70) return 'bg-orange-600';
+    if (score >= 80) return 'bg-blue-600';
+    if (score >= 70) return 'bg-yellow-600';
     return 'bg-red-600';
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0
+    }).format(value);
+  };
+
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('en-US').format(value);
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Header with Code Viewer Button */}
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Resume Analyzer Demo</h1>
+            <h1 className="text-4xl font-bold text-cyan-400 mb-4">📄 AI Resume Analyzer</h1>
             <p className="text-gray-300 text-lg">
-              Interactive demo with real-time data and advanced features
+              Advanced resume analysis platform with AI-powered insights, candidate evaluation, and hiring analytics
             </p>
           </div>
           <button
@@ -304,85 +468,95 @@ export default ResumeAnalyzerDemo;`;
           </button>
         </div>
 
-        {/* System Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-            <div className="text-3xl mb-2">📋</div>
+        {/* Analyzer Stats Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-cyan-900 via-cyan-800 to-cyan-700 p-6 rounded-xl border border-cyan-800">
+            <div className="text-3xl mb-2">📄</div>
             <h3 className="text-xl font-semibold text-white mb-2">Total Resumes</h3>
-            <p className="text-3xl font-bold text-green-400">{systemStats.totalResumes}</p>
+            <p className="text-3xl font-bold text-cyan-400">{analyzerStats.totalResumes}</p>
+            <p className="text-cyan-300 text-sm">{analyzerStats.dailyApplications} today</p>
+          </div>
+          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+            <div className="text-3xl mb-2">👥</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Active Candidates</h3>
+            <p className="text-3xl font-bold text-green-400">{analyzerStats.activeCandidates}</p>
+            <p className="text-green-300 text-sm">{analyzerStats.monthlyHires} hired this month</p>
           </div>
           <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-            <div className="text-3xl mb-2">⚡</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Analyzed Today</h3>
-            <p className="text-3xl font-bold text-blue-400">{systemStats.analyzedToday}</p>
+            <div className="text-3xl mb-2">🎯</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Avg Score</h3>
+            <p className="text-3xl font-bold text-blue-400">{analyzerStats.averageScore.toFixed(1)}%</p>
+            <p className="text-blue-300 text-sm">{analyzerStats.matchRate.toFixed(1)}% match rate</p>
           </div>
           <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="text-3xl mb-2">📊</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Avg Score</h3>
-            <p className="text-3xl font-bold text-purple-400">{systemStats.averageScore.toFixed(1)}</p>
-          </div>
-          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="text-3xl mb-2">🎯</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Match Rate</h3>
-            <p className="text-3xl font-bold text-yellow-400">{systemStats.matchRate}%</p>
+            <div className="text-3xl mb-2">🤖</div>
+            <h3 className="text-xl font-semibold text-white mb-2">AI Accuracy</h3>
+            <p className="text-3xl font-bold text-purple-400">{analyzerStats.aiAccuracy.toFixed(1)}%</p>
+            <p className="text-purple-300 text-sm">{analyzerStats.processingTime.toFixed(1)}s avg processing</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Resume Management */}
+          {/* Resume Analysis */}
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-              <h2 className="text-2xl font-bold text-white mb-6">Resume Analysis</h2>
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+            <div className="bg-gradient-to-br from-cyan-900 via-cyan-800 to-cyan-700 p-6 rounded-xl border border-cyan-800">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">📄 Resume Analysis</h2>
+                <div className="text-sm text-cyan-300">Real-time updates every 6s</div>
+              </div>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
                 {resumes.map((resume) => (
                   <div
                     key={resume.id}
-                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
+                    className={'p-4 rounded-lg border cursor-pointer transition-all hover:scale-105 ' + (
                       selectedResume?.id === resume.id
-                        ? 'border-green-400 bg-green-900/30'
+                        ? 'border-cyan-400 bg-cyan-900/30'
                         : 'border-gray-600 hover:border-gray-500'
                     )}
                     onClick={() => setSelectedResume(resume)}
                   >
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <h3 className="text-lg font-semibold text-white">{resume.candidate}</h3>
-                        <p className="text-gray-400 text-sm">{resume.position} • {resume.lastUpdate}</p>
-                        <p className={'text-sm ' + getStatusColor(resume.status)}>
-                          {resume.status}
-                        </p>
+                        <h3 className="text-lg font-semibold text-white">{resume.name}</h3>
+                        <p className="text-cyan-200 text-sm">{resume.position} • {resume.location}</p>
+                        <p className="text-cyan-200 text-xs">{resume.experience} years exp • {resume.education}</p>
+                        <p className="text-gray-300 text-xs">{resume.email} • {resume.lastUpdate}</p>
                       </div>
                       <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs ' + getScoreBg(resume.score)}>
-                          {resume.score}%
+                        <div className={'px-2 py-1 rounded text-xs font-medium ' + getStatusBg(resume.status)}>
+                          {resume.status.toUpperCase()}
                         </div>
-                        <p className="text-gray-400 text-xs mt-1">{resume.alerts.length} alerts</p>
+                        <p className={'text-lg font-semibold mt-1 ' + getScoreColor(resume.score)}>
+                          {resume.score.toFixed(1)}%
+                        </p>
+                        <p className="text-gray-300 text-xs">{resume.matchRate}% match</p>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
-                        <p className="text-gray-400">Experience</p>
-                        <p className="text-white font-semibold">{resume.details.experience}</p>
+                        <p className="text-gray-400">Skills</p>
+                        <p className="text-white font-semibold">{resume.skills.length}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Education</p>
-                        <p className="text-white">{resume.details.education}</p>
+                        <p className="text-gray-400">Salary</p>
+                        <p className="text-white font-semibold">{formatCurrency(resume.salary)}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">AI Score</p>
+                        <p className="text-white font-semibold">{(resume.aiInsights.technicalSkills + resume.aiInsights.communication) / 2}</p>
                       </div>
                     </div>
                     
                     <div className="mt-3">
                       <div className="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Skills Match</span>
-                        <span>{resume.analysis.skillsMatch}%</span>
+                        <span>Match Score</span>
+                        <span>{resume.matchRate}%</span>
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={'h-2 rounded-full ' + (
-                            resume.analysis.skillsMatch > 90 ? 'bg-green-500' : 
-                            resume.analysis.skillsMatch > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          )}
-                          style={{ width: resume.analysis.skillsMatch + '%' }}
+                          className={'h-2 rounded-full transition-all ' + getScoreBg(resume.score)}
+                          style={{ width: resume.score + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -392,230 +566,219 @@ export default ResumeAnalyzerDemo;`;
             </div>
           </div>
 
-          {/* Analysis Results & Alerts */}
+          {/* Hiring Analytics */}
           <div className="space-y-6">
-            {/* Analysis Results */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-              <h2 className="text-2xl font-bold text-white mb-4">📊 Analysis Results</h2>
-              {selectedResume ? (
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-white font-semibold">{selectedResume.candidate}</h3>
-                    <p className="text-blue-200 text-sm">{selectedResume.position}</p>
-                    <p className={'text-lg font-bold ' + getScoreColor(selectedResume.score)}>
-                      Overall Score: {selectedResume.score}/100
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-300">Skills Match</span>
-                        <span className="text-white">{selectedResume.analysis.skillsMatch}%</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className={'h-2 rounded-full ' + (
-                            selectedResume.analysis.skillsMatch > 90 ? 'bg-green-500' : 
-                            selectedResume.analysis.skillsMatch > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          )}
-                          style={{ width: selectedResume.analysis.skillsMatch + '%' }}
-                        ></div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-300">Experience Relevance</span>
-                        <span className="text-white">{selectedResume.analysis.experienceRelevance}%</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className={'h-2 rounded-full ' + (
-                            selectedResume.analysis.experienceRelevance > 90 ? 'bg-green-500' : 
-                            selectedResume.analysis.experienceRelevance > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                          )}
-                          style={{ width: selectedResume.analysis.experienceRelevance + '%' }}
-                        ></div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-300">Education Fit</span>
-                        <span className="text-white">{selectedResume.analysis.educationFit}%</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                                                  className={'h-2 rounded-full ' + (
-                          selectedResume.analysis.educationFit > 90 ? 'bg-green-500' : 
-                          selectedResume.analysis.educationFit > 80 ? 'bg-yellow-500' : 'bg-red-500'
-                        )}
-                                                      style={{ width: selectedResume.analysis.educationFit + '%' }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-4">
-                  <div className="text-4xl mb-2">📊</div>
-                  <p className="text-gray-300">Select a resume to view analysis</p>
-                </div>
-              )}
-            </div>
-
-            {/* System Alerts */}
-            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
-              <h2 className="text-2xl font-bold text-white mb-4">🚨 Analysis Alerts</h2>
+            {/* Job Postings */}
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+              <h2 className="text-2xl font-bold text-white mb-4">💼 Job Postings</h2>
               <div className="space-y-3 max-h-48 overflow-y-auto">
-                {alerts.length === 0 ? (
-                  <div className="text-center py-4">
-                    <div className="text-4xl mb-2">✅</div>
-                    <p className="text-gray-300">No active alerts</p>
-                  </div>
-                ) : (
-                  alerts.map((alert) => (
-                    <div key={alert.id} className="bg-red-800/50 p-3 rounded-lg border border-red-600">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-white font-semibold">{alert.candidate}</p>
-                          <p className="text-red-200 text-sm">{alert.message}</p>
-                          <p className="text-gray-300 text-xs">{alert.timestamp}</p>
+                {jobPostings.map((job) => (
+                  <div key={job.id} className="bg-green-800/50 p-3 rounded-lg border border-green-600">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white font-semibold">{job.title}</p>
+                        <p className="text-green-200 text-sm">{job.company}</p>
+                        <p className="text-green-200 text-xs">{job.location}</p>
+                        <p className="text-gray-300 text-xs">{job.experience} • {job.salary}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs ' + getPriorityBg(job.priority)}>
+                          {job.priority.toUpperCase()}
                         </div>
-                        <div className={'px-2 py-1 rounded text-xs ' + (
-                          alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        )}>
-                          {alert.severity.toUpperCase()}
-                        </div>
+                        <p className="text-white text-xs mt-1">{job.applications} apps</p>
+                        <p className="text-gray-300 text-xs">{job.status}</p>
                       </div>
                     </div>
-                  ))
-                )}
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Quick Actions */}
+            {/* Candidate Pipeline */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <h2 className="text-2xl font-bold text-white mb-4">👥 Candidate Pipeline</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {candidates.map((candidate) => (
+                  <div key={candidate.id} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white font-semibold">{candidate.name}</p>
+                        <p className="text-blue-200 text-sm">{candidate.position}</p>
+                        <p className="text-blue-200 text-xs">{candidate.interviewStage}</p>
+                        <p className="text-gray-300 text-xs">{candidate.recruiter}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(candidate.status)}>
+                          {candidate.status.toUpperCase()}
+                        </div>
+                        <p className="text-white text-xs mt-1">{candidate.nextInterview}</p>
+                        <p className="text-gray-300 text-xs">{candidate.lastActivity}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* AI Insights */}
             <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h2 className="text-2xl font-bold text-white mb-4">⚙️ Analyzer Controls</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">🤖 AI Insights</h2>
               <div className="space-y-3">
-                <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                  Upload Resume
-                </button>
-                <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                  Generate Report
-                </button>
-                <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
-                  Compare Candidates
-                </button>
+                <div className="bg-purple-800/50 p-3 rounded-lg border border-purple-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">Technical Skills</p>
+                      <p className="text-purple-200 text-sm">Average across candidates</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-semibold">8.7/10</p>
+                      <p className="text-purple-300 text-xs">Strong</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-purple-800/50 p-3 rounded-lg border border-purple-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">Culture Fit</p>
+                      <p className="text-purple-200 text-sm">Team compatibility</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-semibold">8.4/10</p>
+                      <p className="text-purple-300 text-xs">Good</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-purple-800/50 p-3 rounded-lg border border-purple-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">Growth Potential</p>
+                      <p className="text-purple-200 text-sm">Career advancement</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-semibold">8.2/10</p>
+                      <p className="text-purple-300 text-xs">High</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Detailed Analysis */}
-        {analysisResults && (
-          <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">Detailed Analysis: {analysisResults.candidate}</h2>
-              <button
-                onClick={() => setAnalysisResults(null)}
-                className="text-gray-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-green-400 mb-3">Summary</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Overall Score</span>
-                    <span className={'text-lg font-semibold ' + getScoreColor(analysisResults.summary.overallScore)}>
-                      {analysisResults.summary.overallScore}%
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Skills Match</span>
-                    <span className="text-lg font-semibold text-white">{analysisResults.summary.skillsMatch}%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Experience Relevance</span>
-                    <span className="text-lg font-semibold text-white">{analysisResults.summary.experienceRelevance}%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Education Fit</span>
-                    <span className="text-lg font-semibold text-white">{analysisResults.summary.educationFit}%</span>
-                  </div>
-                </div>
+        {/* Resume Details Modal */}
+        {selectedResume && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+            <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-4xl w-full p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">Resume Details</h2>
+                <button
+                  onClick={() => setSelectedResume(null)}
+                  className="text-gray-400 hover:text-white text-2xl"
+                >
+                  ✕
+                </button>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-blue-400 mb-3">Skills Analysis</h3>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-gray-300 text-sm mb-2">Technical Skills:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {analysisResults.skillsAnalysis.technical.map((skill, index) => (
-                        <span key={index} className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                          {skill}
-                        </span>
-                      ))}
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-cyan-400 mb-3">Candidate Information</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Name:</span>
+                      <span className="text-white font-semibold">{selectedResume.name}</span>
                     </div>
-                  </div>
-                  <div>
-                    <p className="text-gray-300 text-sm mb-2">Programming Languages:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {analysisResults.skillsAnalysis.languages.map((lang, index) => (
-                        <span key={index} className="bg-green-600 text-white px-2 py-1 rounded text-xs">
-                          {lang}
-                        </span>
-                      ))}
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Position:</span>
+                      <span className="text-white font-semibold">{selectedResume.position}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Experience:</span>
+                      <span className="text-white font-semibold">{selectedResume.experience} years</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Education:</span>
+                      <span className="text-white font-semibold">{selectedResume.education}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Location:</span>
+                      <span className="text-white font-semibold">{selectedResume.location}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Salary:</span>
+                      <span className="text-white font-semibold">{formatCurrency(selectedResume.salary)}</span>
                     </div>
                   </div>
                 </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-green-400 mb-3">AI Analysis</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Technical Skills:</span>
+                      <span className="text-white font-semibold">{selectedResume.aiInsights.technicalSkills}/10</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Communication:</span>
+                      <span className="text-white font-semibold">{selectedResume.aiInsights.communication}/10</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Leadership:</span>
+                      <span className="text-white font-semibold">{selectedResume.aiInsights.leadership}/10</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Culture Fit:</span>
+                      <span className="text-white font-semibold">{selectedResume.aiInsights.cultureFit}/10</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Growth Potential:</span>
+                      <span className="text-white font-semibold">{selectedResume.aiInsights.growthPotential}/10</span>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-blue-400 mb-3 mt-4">Skills</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedResume.skills.map((skill, index) => (
+                      <span key={index} className="px-2 py-1 bg-blue-600 text-white text-xs rounded">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-yellow-400 mb-3 mt-4">Keywords Found</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedResume.analysis.keywords.map((keyword, index) => (
+                      <span key={index} className="px-2 py-1 bg-yellow-600 text-white text-xs rounded">
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            {/* Strengths & Weaknesses */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-green-400 mb-3">✅ Strengths</h3>
-                <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <ul className="space-y-2">
-                    {analysisResults.detailedAnalysis.strengths.map((strength, index) => (
-                      <li key={index} className="text-gray-300 text-sm flex items-start">
-                        <span className="text-green-400 mr-2">•</span>
-                        {strength}
-                      </li>
+              
+              <div className="mt-6 grid grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-green-400 mb-3">Strengths</h3>
+                  <ul className="space-y-1 text-sm">
+                    {selectedResume.analysis.strengths.map((strength, index) => (
+                      <li key={index} className="text-gray-300">• {strength}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-red-400 mb-3">Missing Skills</h3>
+                  <ul className="space-y-1 text-sm">
+                    {selectedResume.analysis.missingSkills.map((skill, index) => (
+                      <li key={index} className="text-gray-300">• {skill}</li>
                     ))}
                   </ul>
                 </div>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-red-400 mb-3">⚠️ Areas for Improvement</h3>
-                <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <ul className="space-y-2">
-                    {analysisResults.detailedAnalysis.weaknesses.map((weakness, index) => (
-                      <li key={index} className="text-gray-300 text-sm flex items-start">
-                        <span className="text-red-400 mr-2">•</span>
-                        {weakness}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
-            {/* Recommendations */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold text-purple-400 mb-3">💡 Recommendations</h3>
-              <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                <ul className="space-y-2">
-                  {analysisResults.detailedAnalysis.recommendations.map((rec, index) => (
-                    <li key={index} className="text-gray-300 text-sm flex items-start">
-                      <span className="text-purple-400 mr-2">•</span>
-                      {rec}
-                    </li>
+              
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold text-purple-400 mb-3">Recommendations</h3>
+                <ul className="space-y-1 text-sm">
+                  {selectedResume.analysis.recommendations.map((rec, index) => (
+                    <li key={index} className="text-gray-300">• {rec}</li>
                   ))}
                 </ul>
               </div>
@@ -623,43 +786,53 @@ export default ResumeAnalyzerDemo;`;
           </div>
         )}
 
-        {/* AI Features */}
-        <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced Resume Analysis Features</h2>
+        {/* Resume Analyzer Features */}
+        <div className="mt-8 bg-gradient-to-br from-cyan-900 via-cyan-800 to-cyan-700 p-6 rounded-xl border border-cyan-800">
+          <h2 className="text-2xl font-bold text-white mb-4">📄 Advanced Resume Analyzer Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">AI-Powered Analysis</h3>
+              <h3 className="text-lg font-semibold text-cyan-400 mb-2">AI Analysis</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Natural language processing</li>
-                <li>• Skill extraction & matching</li>
-                <li>• Experience relevance scoring</li>
-                <li>• Education fit analysis</li>
-                <li>• Sentiment analysis</li>
+                <li>• Skills extraction & matching</li>
+                <li>• Experience evaluation</li>
+                <li>• Culture fit assessment</li>
+                <li>• Growth potential analysis</li>
+                <li>• Keyword optimization</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Intelligent Insights</h3>
+              <h3 className="text-lg font-semibold text-cyan-400 mb-2">Candidate Pipeline</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Automated scoring</li>
-                <li>• Comparative analysis</li>
-                <li>• Trend identification</li>
-                <li>• Predictive modeling</li>
-                <li>• Bias detection</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Reporting & Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Detailed reports</li>
-                <li>• Performance metrics</li>
-                <li>• Candidate ranking</li>
+                <li>• Automated screening</li>
+                <li>• Interview scheduling</li>
+                <li>• Status tracking</li>
+                <li>• Performance analytics</li>
                 <li>• Hiring insights</li>
-                <li>• ROI analysis</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-cyan-400 mb-2">Recruitment Analytics</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Time-to-hire metrics</li>
+                <li>• Source effectiveness</li>
+                <li>• Cost-per-hire analysis</li>
+                <li>• Quality of hire tracking</li>
+                <li>• Predictive hiring</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Code Viewer */}
+      {showCodeViewer && (
+        <CodeViewer
+          code={demoCode}
+          language="jsx"
+          title="Resume Analyzer Demo Code"
+          onClose={() => setShowCodeViewer(false)}
+        />
+      )}
     </div>
   );
 };

@@ -2,20 +2,37 @@ import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
 
 const GamePlatformDemo = () => {
+  const [games, setGames] = useState([]);
+  const [activePlayers, setActivePlayers] = useState([]);
+  const [gameStats, setGameStats] = useState({});
+  const [leaderboard, setLeaderboard] = useState([]);
   const [showCodeViewer, setShowCodeViewer] = useState(false);
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [platformStats, setPlatformStats] = useState({
+    totalGames: 0,
+    activePlayers: 0,
+    totalRevenue: 0,
+    averageSessionTime: 0,
+    serverLoad: 0,
+    matchmakingQueue: 0,
+    dailyActiveUsers: 0,
+    monthlyRevenue: 0
+  });
 
   // Sample code for the demo
   const demoCode = `import React, { useState, useEffect } from 'react';
 
 const GamePlatformDemo = () => {
   const [games, setGames] = useState([]);
-  const [players, setPlayers] = useState([]);
+  const [activePlayers, setActivePlayers] = useState([]);
+  const [gameStats, setGameStats] = useState({});
   
   useEffect(() => {
     const interval = setInterval(() => {
       setGames(prev => prev.map(game => ({
         ...game,
-        players: game.players + Math.floor((Math.random() - 0.5) * 20),
+        players: game.players + Math.floor(Math.random() * 10) - 5,
+        revenue: game.revenue + Math.random() * 100,
         lastUpdate: 'Just now'
       })));
     }, 3000);
@@ -23,24 +40,34 @@ const GamePlatformDemo = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const startMatch = (gameId) => {
+    const game = games.find(g => g.id === gameId);
+    if (game && game.players >= 2) {
+      console.log('Starting match for:', game.name);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Game Management */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Game List */}
         <div className="space-y-4">
           {games.map((game) => (
             <div key={game.id} className="p-4 bg-gray-800 rounded-lg">
               <h3 className="text-lg font-semibold">{game.name}</h3>
-              <div className="grid grid-cols-2 gap-4 mt-2">
-                <div>
-                  <p className="text-gray-400">Players</p>
-                  <p className="text-white font-semibold">{game.players.toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400">Status</p>
-                  <p className="text-white font-semibold">{game.status}</p>
-                </div>
-              </div>
+              <p className="text-gray-300 text-sm">{game.players} players online</p>
+              <p className="text-gray-400 text-xs">${game.revenue.toFixed(2)} revenue</p>
+            </div>
+          ))}
+        </div>
+        
+        {/* Active Players */}
+        <div className="space-y-4">
+          {activePlayers.map((player) => (
+            <div key={player.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{player.username}</h3>
+              <p className="text-gray-300 text-sm">Playing {player.currentGame}</p>
+              <p className="text-gray-400 text-xs">{player.sessionTime} minutes</p>
             </div>
           ))}
         </div>
@@ -50,204 +77,247 @@ const GamePlatformDemo = () => {
 };
 
 export default GamePlatformDemo;`;
-  const [games, setGames] = useState([]);
-  const [players, setPlayers] = useState([]);
-  const [selectedGame, setSelectedGame] = useState(null);
-  const [alerts, setAlerts] = useState([]);
-  const [systemStats, setSystemStats] = useState({
-    totalPlayers: 0,
-    activeGames: 0,
-    averageLatency: 0,
-    serverUptime: 0
-  });
 
-  // Initialize game platform data
   useEffect(() => {
+    // Initialize game platform data
     const initialGames = [
       {
         id: 1,
         name: 'Cyber Warriors',
-        genre: 'FPS',
-        status: 'active',
+        genre: 'Action RPG',
         players: 1247,
         maxPlayers: 2000,
-        averageRating: 4.6,
-        lastUpdate: '1 minute ago',
-        alerts: [],
-        servers: [
-          { region: 'US East', players: 456, latency: 45, status: 'active' },
-          { region: 'US West', players: 389, latency: 52, status: 'active' },
-          { region: 'Europe', players: 402, latency: 78, status: 'active' }
-        ],
-        leaderboard: [
-          { rank: 1, player: 'ShadowKiller', score: 15420, level: 85 },
-          { rank: 2, player: 'CyberNinja', score: 14230, level: 78 },
-          { rank: 3, player: 'TechWarrior', score: 13890, level: 72 }
-        ]
+        revenue: 15420.50,
+        rating: 4.8,
+        status: 'active',
+        lastUpdate: 'Just now',
+        features: ['Multiplayer', 'PvP', 'Guilds', 'Trading'],
+        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia'],
+        matchmakingTime: 12,
+        averageSessionTime: 45,
+        dailyActiveUsers: 8500,
+        monthlyRevenue: 125000
       },
       {
         id: 2,
-        name: 'Fantasy Quest',
-        genre: 'RPG',
-        status: 'active',
+        name: 'Space Explorers',
+        genre: 'Strategy',
         players: 892,
         maxPlayers: 1500,
-        averageRating: 4.8,
-        lastUpdate: '2 minutes ago',
-        alerts: [],
-        servers: [
-          { region: 'US East', players: 234, latency: 38, status: 'active' },
-          { region: 'Europe', players: 345, latency: 65, status: 'active' },
-          { region: 'Asia', players: 313, latency: 89, status: 'active' }
-        ],
-        leaderboard: [
-          { rank: 1, player: 'DragonSlayer', score: 8920, level: 92 },
-          { rank: 2, player: 'MageMaster', score: 8450, level: 88 },
-          { rank: 3, player: 'KnightGuard', score: 8120, level: 85 }
-        ]
+        revenue: 9875.30,
+        rating: 4.6,
+        status: 'active',
+        lastUpdate: '1 minute ago',
+        features: ['Co-op', 'Resource Management', 'Exploration'],
+        serverRegions: ['US-East', 'Europe'],
+        matchmakingTime: 8,
+        averageSessionTime: 32,
+        dailyActiveUsers: 6200,
+        monthlyRevenue: 89000
       },
       {
         id: 3,
         name: 'Racing Legends',
         genre: 'Racing',
-        status: 'warning',
-        players: 567,
-        maxPlayers: 800,
-        averageRating: 4.3,
-        lastUpdate: 'Just now',
-        alerts: ['High server load detected', 'Performance optimization needed'],
-        servers: [
-          { region: 'US East', players: 189, latency: 42, status: 'active' },
-          { region: 'US West', players: 156, latency: 48, status: 'active' },
-          { region: 'Europe', players: 222, latency: 72, status: 'warning' }
-        ],
-        leaderboard: [
-          { rank: 1, player: 'SpeedDemon', score: 6780, level: 65 },
-          { rank: 2, player: 'TrackMaster', score: 6450, level: 62 },
-          { rank: 3, player: 'DriftKing', score: 6120, level: 58 }
-        ]
+        players: 2156,
+        maxPlayers: 3000,
+        revenue: 22340.80,
+        rating: 4.9,
+        status: 'active',
+        lastUpdate: '2 minutes ago',
+        features: ['Multiplayer Racing', 'Custom Cars', 'Tournaments'],
+        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia', 'Australia'],
+        matchmakingTime: 5,
+        averageSessionTime: 28,
+        dailyActiveUsers: 12000,
+        monthlyRevenue: 180000
+      },
+      {
+        id: 4,
+        name: 'Fantasy Quest',
+        genre: 'MMORPG',
+        players: 3456,
+        maxPlayers: 5000,
+        revenue: 45670.20,
+        rating: 4.7,
+        status: 'maintenance',
+        lastUpdate: '3 minutes ago',
+        features: ['Open World', 'Guilds', 'Raids', 'Crafting'],
+        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia'],
+        matchmakingTime: 15,
+        averageSessionTime: 120,
+        dailyActiveUsers: 25000,
+        monthlyRevenue: 320000
+      },
+      {
+        id: 5,
+        name: 'Battle Royale',
+        genre: 'FPS',
+        players: 5678,
+        maxPlayers: 8000,
+        revenue: 67890.40,
+        rating: 4.5,
+        status: 'active',
+        lastUpdate: '4 minutes ago',
+        features: ['Battle Royale', 'Squad Mode', 'Custom Skins'],
+        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia', 'South America'],
+        matchmakingTime: 3,
+        averageSessionTime: 18,
+        dailyActiveUsers: 45000,
+        monthlyRevenue: 520000
       }
     ];
-    setGames(initialGames);
-    setSystemStats({
-      totalPlayers: initialGames.reduce((sum, game) => sum + game.players, 0),
-      activeGames: initialGames.filter(game => game.status === 'active').length,
-      averageLatency: 58,
-      serverUptime: 99.7
-    });
-  }, []);
 
-  // Simulate real-time game updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGames(prevGames => {
-        const updatedGames = prevGames.map(game => {
-          const newGame = {
-            ...game,
-            players: game.players + Math.floor((Math.random() - 0.5) * 20),
-            lastUpdate: 'Just now'
-          };
-
-          // Update server data
-          newGame.servers = game.servers.map(server => ({
-            ...server,
-            players: server.players + Math.floor((Math.random() - 0.5) * 10),
-            latency: Math.max(20, Math.min(120, server.latency + (Math.random() - 0.5) * 5))
-          }));
-
-          // Generate alerts based on conditions
-          const newAlerts = [];
-          if (newGame.players > game.maxPlayers * 0.9) {
-            newAlerts.push('High player count');
-          }
-          if (newGame.servers.some(s => s.latency > 100)) {
-            newAlerts.push('High latency detected');
-          }
-          if (newGame.servers.some(s => s.players > 200)) {
-            newAlerts.push('Server capacity warning');
-          }
-
-          newGame.alerts = newAlerts;
-          newGame.status = newAlerts.length > 2 ? 'critical' : 
-                          newAlerts.length > 0 ? 'warning' : 'active';
-          
-          return newGame;
-        });
-
-        // Update system stats with the new games data
-        setSystemStats(prev => ({
-          ...prev,
-          totalPlayers: updatedGames.reduce((sum, game) => sum + game.players, 0),
-          averageLatency: Math.max(20, Math.min(120, prev.averageLatency + (Math.random() - 0.5) * 2))
-        }));
-
-        return updatedGames;
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Generate player data
-  useEffect(() => {
-    const newPlayers = [
+    const initialActivePlayers = [
       {
         id: 1,
-        username: 'ShadowKiller',
+        username: 'DragonSlayer',
         level: 85,
-        game: 'Cyber Warriors',
-        status: 'online',
-        lastSeen: '2 minutes ago',
-        achievements: 127,
-        playTime: '1,247 hours'
+        currentGame: 'Cyber Warriors',
+        sessionTime: 127,
+        rank: 'Diamond',
+        region: 'US-East',
+        status: 'in-game',
+        achievements: 156,
+        playtime: 1247
       },
       {
         id: 2,
-        username: 'DragonSlayer',
-        level: 92,
-        game: 'Fantasy Quest',
-        status: 'online',
-        lastSeen: '1 minute ago',
-        achievements: 156,
-        playTime: '2,134 hours'
+        username: 'SpacePilot',
+        level: 42,
+        currentGame: 'Space Explorers',
+        sessionTime: 89,
+        rank: 'Gold',
+        region: 'Europe',
+        status: 'in-game',
+        achievements: 89,
+        playtime: 567
       },
       {
         id: 3,
         username: 'SpeedDemon',
-        level: 65,
-        game: 'Racing Legends',
-        status: 'away',
-        lastSeen: '15 minutes ago',
-        achievements: 89,
-        playTime: '856 hours'
+        level: 67,
+        currentGame: 'Racing Legends',
+        sessionTime: 45,
+        rank: 'Platinum',
+        region: 'US-West',
+        status: 'in-game',
+        achievements: 234,
+        playtime: 892
+      },
+      {
+        id: 4,
+        username: 'MageMaster',
+        level: 128,
+        currentGame: 'Fantasy Quest',
+        sessionTime: 203,
+        rank: 'Legend',
+        region: 'Asia',
+        status: 'in-game',
+        achievements: 445,
+        playtime: 2156
+      },
+      {
+        id: 5,
+        username: 'SniperElite',
+        level: 73,
+        currentGame: 'Battle Royale',
+        sessionTime: 67,
+        rank: 'Master',
+        region: 'US-East',
+        status: 'in-game',
+        achievements: 178,
+        playtime: 945
       }
     ];
-    setPlayers(newPlayers);
+
+    const initialLeaderboard = [
+      {
+        rank: 1,
+        username: 'DragonSlayer',
+        score: 15420,
+        game: 'Cyber Warriors',
+        level: 85,
+        region: 'US-East'
+      },
+      {
+        rank: 2,
+        username: 'MageMaster',
+        score: 14230,
+        game: 'Fantasy Quest',
+        level: 128,
+        region: 'Asia'
+      },
+      {
+        rank: 3,
+        username: 'SniperElite',
+        score: 12890,
+        game: 'Battle Royale',
+        level: 73,
+        region: 'US-East'
+      },
+      {
+        rank: 4,
+        username: 'SpeedDemon',
+        score: 11560,
+        game: 'Racing Legends',
+        level: 67,
+        region: 'US-West'
+      },
+      {
+        rank: 5,
+        username: 'SpacePilot',
+        score: 9870,
+        game: 'Space Explorers',
+        level: 42,
+        region: 'Europe'
+      }
+    ];
+
+    setGames(initialGames);
+    setActivePlayers(initialActivePlayers);
+    setLeaderboard(initialLeaderboard);
   }, []);
 
-  // Generate system alerts
   useEffect(() => {
+    // Simulate real-time game platform updates
     const interval = setInterval(() => {
-      const allAlerts = games.flatMap(game => 
-        game.alerts.map(alert => ({
-          id: Date.now() + Math.random(),
-          game: game.name,
-          message: alert,
-          severity: alert.includes('Critical') ? 'high' : 'medium',
-          timestamp: new Date().toLocaleTimeString()
-        }))
-      );
-      setAlerts(allAlerts.slice(0, 5));
-    }, 5000);
+      // Update games
+      setGames(prev => prev.map(game => ({
+        ...game,
+        players: Math.max(0, Math.min(game.maxPlayers, game.players + Math.floor(Math.random() * 20) - 10)),
+        revenue: game.revenue + Math.random() * 100,
+        lastUpdate: 'Just now'
+      })));
+
+      // Update active players
+      setActivePlayers(prev => prev.map(player => ({
+        ...player,
+        sessionTime: player.sessionTime + 1,
+        level: player.level + (Math.random() > 0.95 ? 1 : 0)
+      })));
+
+      // Update platform stats
+      setPlatformStats(prev => ({
+        totalGames: games.length,
+        activePlayers: activePlayers.length,
+        totalRevenue: games.reduce((sum, game) => sum + game.revenue, 0),
+        averageSessionTime: Math.floor(activePlayers.reduce((sum, player) => sum + player.sessionTime, 0) / activePlayers.length),
+        serverLoad: Math.max(20, Math.min(95, prev.serverLoad + (Math.random() - 0.5) * 10)),
+        matchmakingQueue: Math.floor(Math.random() * 500) + 100,
+        dailyActiveUsers: Math.floor(Math.random() * 10000) + 50000,
+        monthlyRevenue: prev.monthlyRevenue + Math.random() * 1000
+      }));
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [games]);
+  }, [games, activePlayers]);
 
   const getStatusColor = (status) => {
     switch (status) {
       case 'active': return 'text-green-400';
-      case 'warning': return 'text-yellow-400';
-      case 'critical': return 'text-red-400';
+      case 'maintenance': return 'text-yellow-400';
+      case 'offline': return 'text-red-400';
       default: return 'text-gray-400';
     }
   };
@@ -255,29 +325,57 @@ export default GamePlatformDemo;`;
   const getStatusBg = (status) => {
     switch (status) {
       case 'active': return 'bg-green-600';
-      case 'warning': return 'bg-yellow-600';
-      case 'critical': return 'bg-red-600';
+      case 'maintenance': return 'bg-yellow-600';
+      case 'offline': return 'bg-red-600';
       default: return 'bg-gray-600';
     }
   };
 
-  const getPlayerStatusColor = (status) => {
-    switch (status) {
-      case 'online': return 'text-green-400';
-      case 'away': return 'text-yellow-400';
-      case 'offline': return 'text-red-400';
+  const getRankColor = (rank) => {
+    switch (rank) {
+      case 'Legend': return 'text-purple-400';
+      case 'Master': return 'text-red-400';
+      case 'Diamond': return 'text-blue-400';
+      case 'Platinum': return 'text-cyan-400';
+      case 'Gold': return 'text-yellow-400';
+      case 'Silver': return 'text-gray-400';
       default: return 'text-gray-400';
     }
+  };
+
+  const getRankBg = (rank) => {
+    switch (rank) {
+      case 'Legend': return 'bg-purple-600';
+      case 'Master': return 'bg-red-600';
+      case 'Diamond': return 'bg-blue-600';
+      case 'Platinum': return 'bg-cyan-600';
+      case 'Gold': return 'bg-yellow-600';
+      case 'Silver': return 'bg-gray-600';
+      default: return 'bg-gray-600';
+    }
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(value);
+  };
+
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('en-US').format(value);
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Header with Code Viewer Button */}
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Game Platform Demo</h1>
+            <h1 className="text-4xl font-bold text-purple-400 mb-4">🎮 Advanced Game Platform</h1>
             <p className="text-gray-300 text-lg">
-              Interactive demo with real-time data and advanced features
+              Multiplayer gaming platform with real-time analytics, matchmaking, and comprehensive game management
             </p>
           </div>
           <button
@@ -289,42 +387,49 @@ export default GamePlatformDemo;`;
           </button>
         </div>
 
-        {/* System Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-            <div className="text-3xl mb-2">👥</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Total Players</h3>
-            <p className="text-3xl font-bold text-green-400">{systemStats.totalPlayers.toLocaleString()}</p>
-          </div>
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+        {/* Platform Stats Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
             <div className="text-3xl mb-2">🎮</div>
             <h3 className="text-xl font-semibold text-white mb-2">Active Games</h3>
-            <p className="text-3xl font-bold text-blue-400">{systemStats.activeGames}</p>
+            <p className="text-3xl font-bold text-purple-400">{platformStats.totalGames}</p>
+            <p className="text-purple-300 text-sm">{platformStats.activePlayers} players online</p>
           </div>
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="text-3xl mb-2">💰</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Total Revenue</h3>
+            <p className="text-3xl font-bold text-blue-400">{formatCurrency(platformStats.totalRevenue)}</p>
+            <p className="text-blue-300 text-sm">{formatCurrency(platformStats.monthlyRevenue)} monthly</p>
+          </div>
+          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
             <div className="text-3xl mb-2">⚡</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Avg Latency</h3>
-            <p className="text-3xl font-bold text-purple-400">{systemStats.averageLatency.toFixed(0)}ms</p>
+            <h3 className="text-xl font-semibold text-white mb-2">Server Load</h3>
+            <p className="text-3xl font-bold text-green-400">{platformStats.serverLoad.toFixed(1)}%</p>
+            <p className="text-green-300 text-sm">{platformStats.matchmakingQueue} in queue</p>
           </div>
           <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="text-3xl mb-2">🖥️</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Server Uptime</h3>
-            <p className="text-3xl font-bold text-yellow-400">{systemStats.serverUptime}%</p>
+            <div className="text-3xl mb-2">👥</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Daily Users</h3>
+            <p className="text-3xl font-bold text-yellow-400">{formatNumber(platformStats.dailyActiveUsers)}</p>
+            <p className="text-yellow-300 text-sm">{platformStats.averageSessionTime} min avg session</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Game Management */}
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-              <h2 className="text-2xl font-bold text-white mb-6">Game Management</h2>
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">🎮 Game Management</h2>
+                <div className="text-sm text-purple-300">Real-time updates every 3s</div>
+              </div>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
                 {games.map((game) => (
                   <div
                     key={game.id}
-                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
+                    className={'p-4 rounded-lg border cursor-pointer transition-all hover:scale-105 ' + (
                       selectedGame?.id === game.id
-                        ? 'border-green-400 bg-green-900/30'
+                        ? 'border-purple-400 bg-purple-900/30'
                         : 'border-gray-600 hover:border-gray-500'
                     )}
                     onClick={() => setSelectedGame(game)}
@@ -332,47 +437,46 @@ export default GamePlatformDemo;`;
                     <div className="flex justify-between items-start mb-3">
                       <div>
                         <h3 className="text-lg font-semibold text-white">{game.name}</h3>
-                        <p className="text-gray-400 text-sm">{game.genre} • ⭐ {game.averageRating}</p>
-                        <p className={'text-sm ' + getStatusColor(game.status)}>
-                          {game.status}
-                        </p>
-                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(game.status)}>
-                          {game.status}
-                        </div>
+                        <p className="text-purple-200 text-sm">{game.genre}</p>
+                        <p className="text-purple-200 text-xs">⭐ {game.rating} • {game.features.join(', ')}</p>
+                        <p className="text-gray-300 text-xs">{game.lastUpdate}</p>
                       </div>
                       <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(game.status)}>
-                          {game.alerts.length} alerts
+                        <div className={'px-2 py-1 rounded text-xs font-medium ' + getStatusBg(game.status)}>
+                          {game.status.toUpperCase()}
                         </div>
-                        <p className="text-gray-400 text-xs mt-1">{game.lastUpdate}</p>
+                        <p className="text-white text-lg font-semibold mt-1">{game.players}/{game.maxPlayers}</p>
+                        <p className="text-gray-300 text-xs">{formatCurrency(game.revenue)}</p>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
-                        <p className="text-gray-400">Players</p>
-                        <p className="text-white font-semibold">
-                          {game.players.toLocaleString()}/{game.maxPlayers.toLocaleString()}
-                        </p>
+                        <p className="text-gray-400">Matchmaking</p>
+                        <p className="text-white font-semibold">{game.matchmakingTime}s</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Servers</p>
-                        <p className="text-white">{game.servers.length}</p>
+                        <p className="text-gray-400">Session Time</p>
+                        <p className="text-white font-semibold">{game.averageSessionTime}m</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Daily Users</p>
+                        <p className="text-white font-semibold">{formatNumber(game.dailyActiveUsers)}</p>
                       </div>
                     </div>
                     
                     <div className="mt-3">
                       <div className="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Server Capacity</span>
-                        <span>{Math.round((game.players / game.maxPlayers) * 100)}%</span>
+                        <span>Server Load</span>
+                        <span>{Math.floor((game.players / game.maxPlayers) * 100)}%</span>
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={'h-2 rounded-full ' + (
+                          className={'h-2 rounded-full transition-all ' + (
                             game.players / game.maxPlayers > 0.8 ? 'bg-red-500' : 
                             game.players / game.maxPlayers > 0.6 ? 'bg-yellow-500' : 'bg-green-500'
                           )}
-                          style={{ width: ((game.players / game.maxPlayers) * 100) + '%' }}
+                          style={{ width: Math.min((game.players / game.maxPlayers) * 100, 100) + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -382,25 +486,27 @@ export default GamePlatformDemo;`;
             </div>
           </div>
 
-          {/* Player Activity & Alerts */}
+          {/* Gaming Analytics */}
           <div className="space-y-6">
-            {/* Player Activity */}
+            {/* Active Players */}
             <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-              <h2 className="text-2xl font-bold text-white mb-4">👥 Player Activity</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">👥 Active Players</h2>
               <div className="space-y-3 max-h-48 overflow-y-auto">
-                {players.map((player) => (
+                {activePlayers.map((player) => (
                   <div key={player.id} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
-                    <div className="flex justify-between items-start mb-2">
+                    <div className="flex justify-between items-start">
                       <div>
                         <p className="text-white font-semibold">{player.username}</p>
-                        <p className="text-blue-200 text-sm">Level {player.level} • {player.game}</p>
-                        <p className={'text-gray-300 text-xs ' + getPlayerStatusColor(player.status)}>
-                          {player.status}
-                        </p>
+                        <p className="text-blue-200 text-sm">Level {player.level} • {player.currentGame}</p>
+                        <p className="text-blue-200 text-xs">{player.sessionTime}m session</p>
+                        <p className="text-gray-300 text-xs">{player.region}</p>
                       </div>
                       <div className="text-right">
-                        <div className="text-xs text-gray-300">{player.achievements} achievements</div>
-                        <p className="text-gray-300 text-xs mt-1">{player.playTime}</p>
+                        <div className={'px-2 py-1 rounded text-xs ' + getRankBg(player.rank)}>
+                          {player.rank}
+                        </div>
+                        <p className="text-white text-xs mt-1">{player.achievements} achievements</p>
+                        <p className="text-gray-300 text-xs">{player.playtime}h total</p>
                       </div>
                     </div>
                   </div>
@@ -408,141 +514,167 @@ export default GamePlatformDemo;`;
               </div>
             </div>
 
-            {/* System Alerts */}
-            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
-              <h2 className="text-2xl font-bold text-white mb-4">🚨 System Alerts</h2>
+            {/* Leaderboard */}
+            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+              <h2 className="text-2xl font-bold text-white mb-4">🏆 Leaderboard</h2>
               <div className="space-y-3 max-h-48 overflow-y-auto">
-                {alerts.length === 0 ? (
-                  <div className="text-center py-4">
-                    <div className="text-4xl mb-2">✅</div>
-                    <p className="text-gray-300">No active alerts</p>
-                  </div>
-                ) : (
-                  alerts.map((alert) => (
-                    <div key={alert.id} className="bg-red-800/50 p-3 rounded-lg border border-red-600">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-white font-semibold">{alert.game}</p>
-                          <p className="text-red-200 text-sm">{alert.message}</p>
-                          <p className="text-gray-300 text-xs">{alert.timestamp}</p>
-                        </div>
-                        <div className={'px-2 py-1 rounded text-xs ' + (
-                          alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
+                {leaderboard.map((player) => (
+                  <div key={player.rank} className="bg-yellow-800/50 p-3 rounded-lg border border-yellow-600">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center space-x-2">
+                        <div className={'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ' + (
+                          player.rank === 1 ? 'bg-yellow-500' :
+                          player.rank === 2 ? 'bg-gray-400' :
+                          player.rank === 3 ? 'bg-orange-600' : 'bg-gray-600'
                         )}>
-                          {alert.severity.toUpperCase()}
+                          {player.rank}
+                        </div>
+                        <div>
+                          <p className="text-white font-semibold">{player.username}</p>
+                          <p className="text-yellow-200 text-sm">{player.game}</p>
+                          <p className="text-yellow-200 text-xs">Level {player.level}</p>
                         </div>
                       </div>
+                      <div className="text-right">
+                        <p className="text-white font-semibold">{formatNumber(player.score)}</p>
+                        <p className="text-gray-300 text-xs">{player.region}</p>
+                      </div>
                     </div>
-                  ))
-                )}
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h2 className="text-2xl font-bold text-white mb-4">⚙️ Platform Controls</h2>
+            {/* Server Status */}
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+              <h2 className="text-2xl font-bold text-white mb-4">🖥️ Server Status</h2>
               <div className="space-y-3">
-                <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                  Matchmaking
-                </button>
-                <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                  Server Status
-                </button>
-                <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
-                  Performance Monitor
-                </button>
+                <div className="bg-green-800/50 p-3 rounded-lg border border-green-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">US-East</p>
+                      <p className="text-green-200 text-sm">Primary Server</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                      <p className="text-green-300 text-xs">Online</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-green-800/50 p-3 rounded-lg border border-green-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">Europe</p>
+                      <p className="text-green-200 text-sm">Secondary Server</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                      <p className="text-green-300 text-xs">Online</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-green-800/50 p-3 rounded-lg border border-green-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">Asia</p>
+                      <p className="text-green-200 text-sm">Regional Server</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                      <p className="text-green-300 text-xs">Online</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Game Details */}
+        {/* Game Details Modal */}
         {selectedGame && (
-          <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">{selectedGame.name} Details</h2>
-              <button
-                onClick={() => setSelectedGame(null)}
-                className="text-gray-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-green-400 mb-3">Game Information</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Genre</span>
-                    <span className="text-lg font-semibold text-white">{selectedGame.genre}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Players</span>
-                    <span className="text-lg font-semibold text-white">
-                      {selectedGame.players.toLocaleString()}/{selectedGame.maxPlayers.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Rating</span>
-                    <span className="text-lg font-semibold text-white">⭐ {selectedGame.averageRating}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Status</span>
-                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedGame.status)}>
-                      {selectedGame.status}
-                    </span>
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+            <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-4xl w-full p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">Game Details</h2>
+                <button
+                  onClick={() => setSelectedGame(null)}
+                  className="text-gray-400 hover:text-white text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Game Information</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Name:</span>
+                      <span className="text-white font-semibold">{selectedGame.name}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Genre:</span>
+                      <span className="text-white font-semibold">{selectedGame.genre}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Status:</span>
+                      <span className={'font-semibold ' + getStatusColor(selectedGame.status)}>
+                        {selectedGame.status.toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Rating:</span>
+                      <span className="text-white font-semibold">⭐ {selectedGame.rating}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Players:</span>
+                      <span className="text-white font-semibold">{selectedGame.players}/{selectedGame.maxPlayers}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Revenue:</span>
+                      <span className="text-white font-semibold">{formatCurrency(selectedGame.revenue)}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-blue-400 mb-3">Server Status</h3>
-                <div className="space-y-3 max-h-64 overflow-y-auto">
-                  {selectedGame.servers.map((server, index) => (
-                    <div key={index} className="bg-gray-800 p-3 rounded-lg border border-gray-600">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-white font-semibold">{server.region}</p>
-                          <p className="text-gray-300 text-sm">{server.players} players</p>
-                          <p className="text-gray-400 text-xs">{server.latency}ms latency</p>
-                        </div>
-                        <div className={'px-2 py-1 rounded text-xs ' + (
-                          server.status === 'active' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-white'
-                        )}>
-                          {server.status.toUpperCase()}
-                        </div>
-                      </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Performance Metrics</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Matchmaking Time:</span>
+                      <span className="text-white font-semibold">{selectedGame.matchmakingTime}s</span>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            {/* Leaderboard */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold text-purple-400 mb-3">🏆 Leaderboard</h3>
-              <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                <div className="space-y-2">
-                  {selectedGame.leaderboard.map((entry) => (
-                    <div key={entry.rank} className="flex justify-between items-center p-2 bg-gray-700 rounded">
-                      <div className="flex items-center space-x-3">
-                        <span className={'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ' + (
-                          entry.rank === 1 ? 'bg-yellow-500 text-black' :
-                          entry.rank === 2 ? 'bg-gray-400 text-black' :
-                          entry.rank === 3 ? 'bg-orange-600 text-white' : 'bg-gray-600 text-white'
-                        )}>
-                          {entry.rank}
-                        </span>
-                        <div>
-                          <p className="text-white font-semibold">{entry.player}</p>
-                          <p className="text-gray-400 text-xs">Level {entry.level}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-white font-semibold">{entry.score.toLocaleString()}</p>
-                        <p className="text-gray-400 text-xs">Score</p>
-                      </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Avg Session:</span>
+                      <span className="text-white font-semibold">{selectedGame.averageSessionTime}m</span>
                     </div>
-                  ))}
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Daily Users:</span>
+                      <span className="text-white font-semibold">{formatNumber(selectedGame.dailyActiveUsers)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Monthly Revenue:</span>
+                      <span className="text-white font-semibold">{formatCurrency(selectedGame.monthlyRevenue)}</span>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-green-400 mb-3 mt-4">Features</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedGame.features.map((feature, index) => (
+                      <span key={index} className="px-2 py-1 bg-green-600 text-white text-xs rounded">
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-yellow-400 mb-3 mt-4">Server Regions</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedGame.serverRegions.map((region, index) => (
+                      <span key={index} className="px-2 py-1 bg-yellow-600 text-white text-xs rounded">
+                        {region}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -551,41 +683,51 @@ export default GamePlatformDemo;`;
 
         {/* Gaming Features */}
         <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced Gaming Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">🎮 Advanced Gaming Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Multiplayer Systems</h3>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Multiplayer System</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Real-time matchmaking</li>
                 <li>• Cross-platform play</li>
-                <li>• Voice chat integration</li>
-                <li>• Team formation</li>
-                <li>• Tournament systems</li>
+                <li>• Server load balancing</li>
+                <li>• Regional servers</li>
+                <li>• Anti-cheat protection</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Performance Analytics</h3>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Game Analytics</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Server load balancing</li>
-                <li>• Latency optimization</li>
-                <li>• Player behavior analysis</li>
-                <li>• Game balance metrics</li>
-                <li>• Anti-cheat systems</li>
+                <li>• Player behavior tracking</li>
+                <li>• Performance metrics</li>
+                <li>• Revenue analytics</li>
+                <li>• Server monitoring</li>
+                <li>• Real-time dashboards</li>
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-purple-400 mb-2">Social Features</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Friend systems</li>
-                <li>• Achievement tracking</li>
+                <li>• Friend system</li>
+                <li>• Guilds & clans</li>
                 <li>• Leaderboards</li>
-                <li>• Guild/clan management</li>
-                <li>• In-game messaging</li>
+                <li>• Achievements</li>
+                <li>• Chat system</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Code Viewer */}
+      {showCodeViewer && (
+        <CodeViewer
+          code={demoCode}
+          language="jsx"
+          title="Game Platform Demo Code"
+          onClose={() => setShowCodeViewer(false)}
+        />
+      )}
     </div>
   );
 };

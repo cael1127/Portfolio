@@ -33,6 +33,10 @@ import AIAssistantProjectPage from './components/ProjectPages/AIAssistantProject
 import ResumeAnalyzerProjectPage from './components/ProjectPages/ResumeAnalyzerProjectPage';
 import DeepfakeDetectionProjectPage from './components/ProjectPages/DeepfakeDetectionProjectPage';
 import DemoOrganizer from './components/DemoOrganizer';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
+import ResumeBuilder from './components/ResumeBuilder';
+import CollaborativeFeatures from './components/CollaborativeFeatures';
+import PerformanceMonitor from './components/PerformanceMonitor';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -478,6 +482,38 @@ function App() {
             <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
               <DeepfakeDetectionProjectPage setCurrentPage={setCurrentPage} />
             </div>
+          </div>
+        );
+      
+      case 'analytics-dashboard':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <AnalyticsDashboard />
+          </div>
+        );
+      
+      case 'resume-builder':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <ResumeBuilder />
+          </div>
+        );
+      
+      case 'collaborative-features':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <CollaborativeFeatures />
+          </div>
+        );
+      
+      case 'performance-monitor':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <PerformanceMonitor />
           </div>
         );
       

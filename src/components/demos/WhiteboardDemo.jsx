@@ -2,49 +2,75 @@ import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
 
 const WhiteboardDemo = () => {
+  const [whiteboards, setWhiteboards] = useState([]);
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [showCodeViewer, setShowCodeViewer] = useState(false);
+  const [selectedWhiteboard, setSelectedWhiteboard] = useState(null);
+  const [whiteboardStats, setWhiteboardStats] = useState({
+    totalWhiteboards: 0,
+    activeUsers: 0,
+    totalElements: 0,
+    averageSessionTime: 0,
+    collaborationScore: 0,
+    realTimeSync: 0,
+    dailyCreations: 0,
+    monthlyCollaborations: 0
+  });
 
   // Sample code for the demo
   const demoCode = `import React, { useState, useEffect } from 'react';
 
 const WhiteboardDemo = () => {
-  const [sessions, setSessions] = useState([]);
-  const [drawings, setDrawings] = useState([]);
+  const [whiteboards, setWhiteboards] = useState([]);
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
   
   useEffect(() => {
     const interval = setInterval(() => {
-      const newSession = {
-        id: Date.now(),
-        name: 'Session ' + Math.floor(Math.random() * 1000),
-        participants: Math.floor(Math.random() * 10) + 1,
-        drawings: Math.floor(Math.random() * 50) + 10,
+      setWhiteboards(prev => prev.map(board => ({
+        ...board,
+        elements: board.elements + Math.floor(Math.random() * 5),
         lastUpdate: 'Just now'
-      };
-      
-      setSessions(prev => [newSession, ...prev.slice(0, 9)]);
-    }, 5000);
+      })));
+    }, 7000);
 
     return () => clearInterval(interval);
   }, []);
 
+  const createWhiteboard = (projectId) => {
+    const newBoard = {
+      id: Date.now(),
+      name: 'New Whiteboard',
+      projectId,
+      elements: 0,
+      collaborators: 1,
+      status: 'active'
+    };
+    setWhiteboards(prev => [newBoard, ...prev]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Session Management */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Whiteboard List */}
         <div className="space-y-4">
-          {sessions.map((session) => (
-            <div key={session.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{session.name}</h3>
-              <div className="grid grid-cols-2 gap-4 mt-2">
-                <div>
-                  <p className="text-gray-400">Participants</p>
-                  <p className="text-white font-semibold">{session.participants}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400">Drawings</p>
-                  <p className="text-white font-semibold">{session.drawings}</p>
-                </div>
-              </div>
+          {whiteboards.map((board) => (
+            <div key={board.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{board.name}</h3>
+              <p className="text-gray-300 text-sm">{board.elements} elements</p>
+              <p className="text-gray-400 text-xs">{board.collaborators} collaborators</p>
+            </div>
+          ))}
+        </div>
+        
+        {/* Active Users */}
+        <div className="space-y-4">
+          {activeUsers.map((user) => (
+            <div key={user.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{user.username}</h3>
+              <p className="text-gray-300 text-sm">Working on {user.currentBoard}</p>
+              <p className="text-gray-400 text-xs">{user.sessionTime} minutes</p>
             </div>
           ))}
         </div>
@@ -54,197 +80,296 @@ const WhiteboardDemo = () => {
 };
 
 export default WhiteboardDemo;`;
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [activeUsers, setActiveUsers] = useState([]);
-  const [alerts, setAlerts] = useState([]);
-  const [systemStats, setSystemStats] = useState({
-    totalProjects: 0,
-    activeUsers: 0,
-    averageSessionTime: 0,
-    collaborationRate: 0
-  });
 
-  // Initialize whiteboard data
   useEffect(() => {
-    const initialProjects = [
+    // Initialize whiteboard data
+    const initialWhiteboards = [
       {
         id: 1,
-        name: 'Product Architecture',
-        creator: 'Sarah Johnson',
+        name: 'Product Design Sprint',
+        project: 'Mobile App Redesign',
+        elements: 156,
+        collaborators: 8,
         status: 'active',
-        participants: 4,
-        lastUpdate: '2 minutes ago',
-        alerts: [],
-        details: {
-          type: 'Architecture',
-          elements: 24,
-          layers: 3,
-          version: 'v2.1'
+        lastUpdate: 'Just now',
+        createdBy: 'Sarah Johnson',
+        createdAt: '2024-01-15',
+        features: ['Real-time Drawing', 'Sticky Notes', 'Shapes', 'Text Tools', 'Image Upload'],
+        tools: ['Pen', 'Highlighter', 'Shapes', 'Text', 'Sticky Notes', 'Images'],
+        collaboration: {
+          activeUsers: 5,
+          totalEdits: 234,
+          lastEdit: '2 minutes ago',
+          syncStatus: 'synced'
         },
         analytics: {
           sessionTime: 45,
-          collaborationScore: 92,
-          elementsAdded: 18,
-          comments: 12
+          elementsCreated: 156,
+          comments: 23,
+          exports: 5
         }
       },
       {
         id: 2,
-        name: 'UI/UX Design',
-        creator: 'Mike Chen',
+        name: 'Architecture Planning',
+        project: 'Office Building Design',
+        elements: 89,
+        collaborators: 4,
         status: 'active',
-        participants: 3,
         lastUpdate: '1 minute ago',
-        alerts: [],
-        details: {
-          type: 'Design',
-          elements: 31,
-          layers: 5,
-          version: 'v1.8'
+        createdBy: 'Mike Chen',
+        createdAt: '2024-01-12',
+        features: ['Floor Plans', '3D Models', 'Annotations', 'Measurements', 'Layers'],
+        tools: ['Pen', 'Shapes', 'Text', 'Measurements', 'Layers', '3D Tools'],
+        collaboration: {
+          activeUsers: 3,
+          totalEdits: 156,
+          lastEdit: 'Just now',
+          syncStatus: 'synced'
         },
         analytics: {
           sessionTime: 32,
-          collaborationScore: 88,
-          elementsAdded: 25,
-          comments: 8
+          elementsCreated: 89,
+          comments: 12,
+          exports: 3
         }
       },
       {
         id: 3,
-        name: 'System Flow',
-        creator: 'Alex Rodriguez',
-        status: 'warning',
-        participants: 6,
-        lastUpdate: 'Just now',
-        alerts: ['High complexity', 'Multiple editors'],
-        details: {
-          type: 'Flowchart',
-          elements: 47,
-          layers: 7,
-          version: 'v3.2'
+        name: 'Marketing Strategy',
+        project: 'Q1 Campaign Planning',
+        elements: 234,
+        collaborators: 6,
+        status: 'active',
+        lastUpdate: '3 minutes ago',
+        createdBy: 'Emily Rodriguez',
+        createdAt: '2024-01-10',
+        features: ['Mind Maps', 'Flowcharts', 'Templates', 'Branding', 'Charts'],
+        tools: ['Pen', 'Shapes', 'Text', 'Templates', 'Charts', 'Images'],
+        collaboration: {
+          activeUsers: 4,
+          totalEdits: 445,
+          lastEdit: '5 minutes ago',
+          syncStatus: 'synced'
         },
         analytics: {
-          sessionTime: 78,
-          collaborationScore: 76,
-          elementsAdded: 42,
-          comments: 23
+          sessionTime: 67,
+          elementsCreated: 234,
+          comments: 34,
+          exports: 8
+        }
+      },
+      {
+        id: 4,
+        name: 'Software Architecture',
+        project: 'Microservices Design',
+        elements: 123,
+        collaborators: 5,
+        status: 'active',
+        lastUpdate: '5 minutes ago',
+        createdBy: 'David Kim',
+        createdAt: '2024-01-08',
+        features: ['UML Diagrams', 'Flowcharts', 'Code Blocks', 'Annotations', 'Version Control'],
+        tools: ['Pen', 'Shapes', 'Text', 'UML Tools', 'Code Blocks', 'Versioning'],
+        collaboration: {
+          activeUsers: 3,
+          totalEdits: 289,
+          lastEdit: '8 minutes ago',
+          syncStatus: 'synced'
+        },
+        analytics: {
+          sessionTime: 28,
+          elementsCreated: 123,
+          comments: 18,
+          exports: 4
+        }
+      },
+      {
+        id: 5,
+        name: 'Creative Brainstorming',
+        project: 'New Product Ideas',
+        elements: 78,
+        collaborators: 7,
+        status: 'active',
+        lastUpdate: '10 minutes ago',
+        createdBy: 'Lisa Wang',
+        createdAt: '2024-01-05',
+        features: ['Brainstorming Tools', 'Idea Mapping', 'Voting', 'Templates', 'Export'],
+        tools: ['Pen', 'Sticky Notes', 'Shapes', 'Voting', 'Templates', 'Export'],
+        collaboration: {
+          activeUsers: 6,
+          totalEdits: 167,
+          lastEdit: '12 minutes ago',
+          syncStatus: 'synced'
+        },
+        analytics: {
+          sessionTime: 54,
+          elementsCreated: 78,
+          comments: 29,
+          exports: 6
         }
       }
     ];
-    setProjects(initialProjects);
-    setSystemStats({
-      totalProjects: 89,
-      activeUsers: 12,
-      averageSessionTime: 52.3,
-      collaborationRate: 85.7
-    });
-  }, []);
 
-  // Simulate real-time project updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProjects(prevProjects => prevProjects.map(project => {
-        const newProject = {
-          ...project,
-          participants: project.participants + Math.floor((Math.random() - 0.5) * 2),
-          lastUpdate: 'Just now'
-        };
-
-        // Update analytics
-        newProject.analytics = {
-          ...project.analytics,
-          sessionTime: project.analytics.sessionTime + Math.floor(Math.random() * 5),
-          elementsAdded: project.analytics.elementsAdded + Math.floor(Math.random() * 3),
-          collaborationScore: Math.max(60, Math.min(98, project.analytics.collaborationScore + (Math.random() - 0.5) * 2))
-        };
-
-        // Generate alerts based on conditions
-        const newAlerts = [];
-        if (newProject.analytics.sessionTime > 60) {
-          newAlerts.push('Long session detected');
-        }
-        if (newProject.analytics.elementsAdded > 40) {
-          newAlerts.push('High complexity');
-        }
-        if (newProject.participants > 5) {
-          newAlerts.push('Multiple editors');
-        }
-
-        newProject.alerts = newAlerts;
-        newProject.status = newAlerts.length > 2 ? 'critical' : 
-                          newAlerts.length > 0 ? 'warning' : 'active';
-        
-        return newProject;
-      }));
-
-      setSystemStats(prev => ({
-        ...prev,
-        activeUsers: Math.floor(Math.random() * 5) + 10,
-        averageSessionTime: Math.max(30, Math.min(80, prev.averageSessionTime + (Math.random() - 0.5) * 2))
-      }));
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Generate active users data
-  useEffect(() => {
-    const newUsers = [
+    const initialActiveUsers = [
       {
         id: 1,
-        name: 'Sarah Johnson',
-        role: 'Creator',
-        status: 'online',
-        lastActivity: '2 minutes ago',
-        tools: ['Pen', 'Shape', 'Text'],
-        sessionTime: '45 min'
+        username: 'Sarah Johnson',
+        avatar: '👩‍💻',
+        currentBoard: 'Product Design Sprint',
+        status: 'drawing',
+        lastActivity: 'Just now',
+        sessionTime: 45,
+        tools: ['Pen', 'Shapes', 'Text'],
+        cursorPosition: { x: 245, y: 156 }
       },
       {
         id: 2,
-        name: 'Mike Chen',
-        role: 'Editor',
-        status: 'online',
+        username: 'Mike Chen',
+        avatar: '👨‍🏗️',
+        currentBoard: 'Architecture Planning',
+        status: 'annotating',
         lastActivity: '1 minute ago',
-        tools: ['Eraser', 'Select', 'Move'],
-        sessionTime: '32 min'
+        sessionTime: 32,
+        tools: ['Pen', 'Measurements', 'Layers'],
+        cursorPosition: { x: 189, y: 234 }
       },
       {
         id: 3,
-        name: 'Alex Rodriguez',
-        role: 'Viewer',
-        status: 'away',
+        username: 'Emily Rodriguez',
+        avatar: '👩‍💼',
+        currentBoard: 'Marketing Strategy',
+        status: 'typing',
+        lastActivity: '2 minutes ago',
+        sessionTime: 67,
+        tools: ['Text', 'Charts', 'Templates'],
+        cursorPosition: { x: 312, y: 89 }
+      },
+      {
+        id: 4,
+        username: 'David Kim',
+        avatar: '👨‍💻',
+        currentBoard: 'Software Architecture',
+        status: 'drawing',
+        lastActivity: '3 minutes ago',
+        sessionTime: 28,
+        tools: ['Pen', 'UML Tools', 'Code Blocks'],
+        cursorPosition: { x: 156, y: 278 }
+      },
+      {
+        id: 5,
+        username: 'Lisa Wang',
+        avatar: '👩‍🎨',
+        currentBoard: 'Creative Brainstorming',
+        status: 'sticky-notes',
         lastActivity: '5 minutes ago',
-        tools: ['View', 'Comment'],
-        sessionTime: '18 min'
+        sessionTime: 54,
+        tools: ['Sticky Notes', 'Voting', 'Templates'],
+        cursorPosition: { x: 423, y: 145 }
       }
     ];
-    setActiveUsers(newUsers);
+
+    const initialProjects = [
+      {
+        id: 1,
+        name: 'Mobile App Redesign',
+        category: 'Product Design',
+        whiteboards: 3,
+        collaborators: 12,
+        status: 'active',
+        progress: 75,
+        deadline: '2024-02-15',
+        createdBy: 'Sarah Johnson'
+      },
+      {
+        id: 2,
+        name: 'Office Building Design',
+        category: 'Architecture',
+        whiteboards: 2,
+        collaborators: 8,
+        status: 'active',
+        progress: 60,
+        deadline: '2024-03-01',
+        createdBy: 'Mike Chen'
+      },
+      {
+        id: 3,
+        name: 'Q1 Campaign Planning',
+        category: 'Marketing',
+        whiteboards: 4,
+        collaborators: 15,
+        status: 'active',
+        progress: 85,
+        deadline: '2024-01-31',
+        createdBy: 'Emily Rodriguez'
+      },
+      {
+        id: 4,
+        name: 'Microservices Design',
+        category: 'Software Development',
+        whiteboards: 2,
+        collaborators: 6,
+        status: 'active',
+        progress: 40,
+        deadline: '2024-02-28',
+        createdBy: 'David Kim'
+      },
+      {
+        id: 5,
+        name: 'New Product Ideas',
+        category: 'Innovation',
+        whiteboards: 1,
+        collaborators: 10,
+        status: 'active',
+        progress: 30,
+        deadline: '2024-02-10',
+        createdBy: 'Lisa Wang'
+      }
+    ];
+
+    setWhiteboards(initialWhiteboards);
+    setActiveUsers(initialActiveUsers);
+    setProjects(initialProjects);
   }, []);
 
-  // Generate system alerts
   useEffect(() => {
+    // Simulate real-time whiteboard updates
     const interval = setInterval(() => {
-      const allAlerts = projects.flatMap(project => 
-        project.alerts.map(alert => ({
-          id: Date.now() + Math.random(),
-          project: project.name,
-          message: alert,
-          severity: alert.includes('Critical') ? 'high' : 'medium',
-          timestamp: new Date().toLocaleTimeString()
-        }))
-      );
-      setAlerts(allAlerts.slice(0, 5));
-    }, 6000);
+      // Update whiteboards
+      setWhiteboards(prev => prev.map(board => ({
+        ...board,
+        elements: board.elements + Math.floor(Math.random() * 3),
+        lastUpdate: 'Just now'
+      })));
+
+      // Update active users
+      setActiveUsers(prev => prev.map(user => ({
+        ...user,
+        sessionTime: user.sessionTime + 1,
+        lastActivity: 'Just now'
+      })));
+
+      // Update whiteboard stats
+      setWhiteboardStats(prev => ({
+        totalWhiteboards: whiteboards.length,
+        activeUsers: activeUsers.length,
+        totalElements: whiteboards.reduce((sum, board) => sum + board.elements, 0),
+        averageSessionTime: Math.floor(activeUsers.reduce((sum, user) => sum + user.sessionTime, 0) / activeUsers.length),
+        collaborationScore: Math.max(70, Math.min(100, prev.collaborationScore + (Math.random() - 0.5) * 5)),
+        realTimeSync: Math.max(95, Math.min(100, prev.realTimeSync + (Math.random() - 0.5) * 2)),
+        dailyCreations: Math.floor(Math.random() * 20) + 30,
+        monthlyCollaborations: prev.monthlyCollaborations + Math.random() * 50
+      }));
+    }, 7000);
 
     return () => clearInterval(interval);
-  }, [projects]);
+  }, [whiteboards, activeUsers]);
 
   const getStatusColor = (status) => {
     switch (status) {
       case 'active': return 'text-green-400';
-      case 'warning': return 'text-yellow-400';
-      case 'critical': return 'text-red-400';
+      case 'archived': return 'text-gray-400';
+      case 'shared': return 'text-blue-400';
       default: return 'text-gray-400';
     }
   };
@@ -252,29 +377,65 @@ export default WhiteboardDemo;`;
   const getStatusBg = (status) => {
     switch (status) {
       case 'active': return 'bg-green-600';
-      case 'warning': return 'bg-yellow-600';
-      case 'critical': return 'bg-red-600';
+      case 'archived': return 'bg-gray-600';
+      case 'shared': return 'bg-blue-600';
       default: return 'bg-gray-600';
     }
   };
 
   const getUserStatusColor = (status) => {
     switch (status) {
-      case 'online': return 'text-green-400';
-      case 'away': return 'text-yellow-400';
-      case 'offline': return 'text-red-400';
+      case 'drawing': return 'text-blue-400';
+      case 'typing': return 'text-green-400';
+      case 'annotating': return 'text-yellow-400';
+      case 'sticky-notes': return 'text-purple-400';
       default: return 'text-gray-400';
     }
+  };
+
+  const getUserStatusBg = (status) => {
+    switch (status) {
+      case 'drawing': return 'bg-blue-600';
+      case 'typing': return 'bg-green-600';
+      case 'annotating': return 'bg-yellow-600';
+      case 'sticky-notes': return 'bg-purple-600';
+      default: return 'bg-gray-600';
+    }
+  };
+
+  const getProgressColor = (progress) => {
+    if (progress >= 80) return 'text-green-400';
+    if (progress >= 60) return 'text-yellow-400';
+    if (progress >= 40) return 'text-blue-400';
+    return 'text-red-400';
+  };
+
+  const getProgressBg = (progress) => {
+    if (progress >= 80) return 'bg-green-600';
+    if (progress >= 60) return 'bg-yellow-600';
+    if (progress >= 40) return 'bg-blue-600';
+    return 'bg-red-600';
+  };
+
+  const formatNumber = (value) => {
+    return new Intl.NumberFormat('en-US').format(value);
+  };
+
+  const formatTime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Header with Code Viewer Button */}
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Whiteboard Demo</h1>
+            <h1 className="text-4xl font-bold text-indigo-400 mb-4">🖼️ Advanced Whiteboard Platform</h1>
             <p className="text-gray-300 text-lg">
-              Interactive demo with real-time data and advanced features
+              Collaborative whiteboard platform with real-time drawing, project management, and comprehensive analytics
             </p>
           </div>
           <button
@@ -286,85 +447,96 @@ export default WhiteboardDemo;`;
           </button>
         </div>
 
-        {/* System Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-            <div className="text-3xl mb-2">📋</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Total Projects</h3>
-            <p className="text-3xl font-bold text-green-400">{systemStats.totalProjects}</p>
+        {/* Whiteboard Stats Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 p-6 rounded-xl border border-indigo-800">
+            <div className="text-3xl mb-2">🖼️</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Total Whiteboards</h3>
+            <p className="text-3xl font-bold text-indigo-400">{whiteboardStats.totalWhiteboards}</p>
+            <p className="text-indigo-300 text-sm">{whiteboardStats.dailyCreations} created today</p>
           </div>
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
             <div className="text-3xl mb-2">👥</div>
             <h3 className="text-xl font-semibold text-white mb-2">Active Users</h3>
-            <p className="text-3xl font-bold text-blue-400">{systemStats.activeUsers}</p>
+            <p className="text-3xl font-bold text-green-400">{whiteboardStats.activeUsers}</p>
+            <p className="text-green-300 text-sm">{formatTime(whiteboardStats.averageSessionTime)} avg session</p>
+          </div>
+          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="text-3xl mb-2">🎯</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Total Elements</h3>
+            <p className="text-3xl font-bold text-blue-400">{formatNumber(whiteboardStats.totalElements)}</p>
+            <p className="text-blue-300 text-sm">{whiteboardStats.collaborationScore.toFixed(1)}% collaboration</p>
           </div>
           <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="text-3xl mb-2">⏱️</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Avg Session</h3>
-            <p className="text-3xl font-bold text-purple-400">{systemStats.averageSessionTime.toFixed(0)}m</p>
-          </div>
-          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="text-3xl mb-2">🤝</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Collaboration Rate</h3>
-            <p className="text-3xl font-bold text-yellow-400">{systemStats.collaborationRate}%</p>
+            <div className="text-3xl mb-2">⚡</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Real-time Sync</h3>
+            <p className="text-3xl font-bold text-purple-400">{whiteboardStats.realTimeSync.toFixed(1)}%</p>
+            <p className="text-purple-300 text-sm">{formatNumber(whiteboardStats.monthlyCollaborations)} collaborations</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Project Management */}
+          {/* Whiteboard Management */}
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-              <h2 className="text-2xl font-bold text-white mb-6">Project Management</h2>
-              <div className="space-y-4 max-h-96 overflow-y-auto">
-                {projects.map((project) => (
+            <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 p-6 rounded-xl border border-indigo-800">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">🖼️ Whiteboard Management</h2>
+                <div className="text-sm text-indigo-300">Real-time updates every 7s</div>
+              </div>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {whiteboards.map((whiteboard) => (
                   <div
-                    key={project.id}
-                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
-                      selectedProject?.id === project.id
-                        ? 'border-green-400 bg-green-900/30'
+                    key={whiteboard.id}
+                    className={'p-4 rounded-lg border cursor-pointer transition-all hover:scale-105 ' + (
+                      selectedWhiteboard?.id === whiteboard.id
+                        ? 'border-indigo-400 bg-indigo-900/30'
                         : 'border-gray-600 hover:border-gray-500'
                     )}
-                    onClick={() => setSelectedProject(project)}
+                    onClick={() => setSelectedWhiteboard(whiteboard)}
                   >
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <h3 className="text-lg font-semibold text-white">{project.name}</h3>
-                        <p className="text-gray-400 text-sm">by {project.creator} • {project.lastUpdate}</p>
-                        <p className={'text-sm ' + getStatusColor(project.status)}>
-                          {project.status}
-                        </p>
+                        <h3 className="text-lg font-semibold text-white">{whiteboard.name}</h3>
+                        <p className="text-indigo-200 text-sm">{whiteboard.project} • {whiteboard.createdBy}</p>
+                        <p className="text-indigo-200 text-xs">{whiteboard.features.length} features • {whiteboard.tools.length} tools</p>
+                        <p className="text-gray-300 text-xs">{whiteboard.createdAt} • {whiteboard.lastUpdate}</p>
                       </div>
                       <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(project.status)}>
-                          {project.alerts.length} alerts
+                        <div className={'px-2 py-1 rounded text-xs font-medium ' + getStatusBg(whiteboard.status)}>
+                          {whiteboard.status.toUpperCase()}
                         </div>
-                        <p className="text-gray-400 text-xs mt-1">{project.participants} participants</p>
+                        <p className="text-white text-lg font-semibold mt-1">{whiteboard.elements}</p>
+                        <p className="text-gray-300 text-xs">{whiteboard.collaborators} collaborators</p>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
-                        <p className="text-gray-400">Elements</p>
-                        <p className="text-white font-semibold">{project.details.elements}</p>
+                        <p className="text-gray-400">Active Users</p>
+                        <p className="text-white font-semibold">{whiteboard.collaboration.activeUsers}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Layers</p>
-                        <p className="text-white">{project.details.layers}</p>
+                        <p className="text-gray-400">Total Edits</p>
+                        <p className="text-white font-semibold">{whiteboard.collaboration.totalEdits}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Session Time</p>
+                        <p className="text-white font-semibold">{whiteboard.analytics.sessionTime}m</p>
                       </div>
                     </div>
                     
                     <div className="mt-3">
                       <div className="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Collaboration Score</span>
-                        <span>{project.analytics.collaborationScore}%</span>
+                        <span>Collaboration</span>
+                        <span>{whiteboard.collaboration.activeUsers}/{whiteboard.collaborators} users</span>
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={'h-2 rounded-full ' + (
-                            project.analytics.collaborationScore > 90 ? 'bg-green-500' : 
-                            project.analytics.collaborationScore > 80 ? 'bg-yellow-500' : 'bg-red-500'
+                          className={'h-2 rounded-full transition-all ' + (
+                            whiteboard.collaboration.activeUsers / whiteboard.collaborators > 0.7 ? 'bg-green-500' : 
+                            whiteboard.collaboration.activeUsers / whiteboard.collaborators > 0.4 ? 'bg-yellow-500' : 'bg-red-500'
                           )}
-                          style={{ width: project.analytics.collaborationScore + '%' }}
+                          style={{ width: Math.min((whiteboard.collaboration.activeUsers / whiteboard.collaborators) * 100, 100) + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -374,160 +546,179 @@ export default WhiteboardDemo;`;
             </div>
           </div>
 
-          {/* Active Users & Alerts */}
+          {/* Whiteboard Analytics */}
           <div className="space-y-6">
             {/* Active Users */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
               <h2 className="text-2xl font-bold text-white mb-4">👥 Active Users</h2>
               <div className="space-y-3 max-h-48 overflow-y-auto">
                 {activeUsers.map((user) => (
-                  <div key={user.id} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="text-white font-semibold">{user.name}</p>
-                        <p className="text-blue-200 text-sm">{user.role} • {user.sessionTime}</p>
-                        <p className={'text-gray-300 text-xs ' + getUserStatusColor(user.status)}>
-                          {user.status}
-                        </p>
+                  <div key={user.id} className="bg-green-800/50 p-3 rounded-lg border border-green-600">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center space-x-2">
+                        <div className="text-2xl">{user.avatar}</div>
+                        <div>
+                          <p className="text-white font-semibold">{user.username}</p>
+                          <p className="text-green-200 text-sm">{user.currentBoard}</p>
+                          <p className="text-green-200 text-xs">{user.tools.join(', ')}</p>
+                          <p className="text-gray-300 text-xs">{user.lastActivity}</p>
+                        </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-xs text-gray-300">{user.tools.length} tools</div>
-                        <p className="text-gray-300 text-xs mt-1">{user.lastActivity}</p>
+                        <div className={'px-2 py-1 rounded text-xs ' + getUserStatusBg(user.status)}>
+                          {user.status.toUpperCase()}
+                        </div>
+                        <p className="text-white text-xs mt-1">{formatTime(user.sessionTime)}</p>
                       </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {user.tools.map((tool, index) => (
-                        <span key={index} className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                          {tool}
-                        </span>
-                      ))}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* System Alerts */}
-            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
-              <h2 className="text-2xl font-bold text-white mb-4">🚨 System Alerts</h2>
+            {/* Projects */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <h2 className="text-2xl font-bold text-white mb-4">📁 Projects</h2>
               <div className="space-y-3 max-h-48 overflow-y-auto">
-                {alerts.length === 0 ? (
-                  <div className="text-center py-4">
-                    <div className="text-4xl mb-2">✅</div>
-                    <p className="text-gray-300">No active alerts</p>
-                  </div>
-                ) : (
-                  alerts.map((alert) => (
-                    <div key={alert.id} className="bg-red-800/50 p-3 rounded-lg border border-red-600">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-white font-semibold">{alert.project}</p>
-                          <p className="text-red-200 text-sm">{alert.message}</p>
-                          <p className="text-gray-300 text-xs">{alert.timestamp}</p>
+                {projects.map((project) => (
+                  <div key={project.id} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white font-semibold">{project.name}</p>
+                        <p className="text-blue-200 text-sm">{project.category}</p>
+                        <p className="text-blue-200 text-xs">{project.whiteboards} whiteboards</p>
+                        <p className="text-gray-300 text-xs">By {project.createdBy}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs ' + getProgressBg(project.progress)}>
+                          {project.progress}%
                         </div>
-                        <div className={'px-2 py-1 rounded text-xs ' + (
-                          alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        )}>
-                          {alert.severity.toUpperCase()}
-                        </div>
+                        <p className="text-white text-xs mt-1">{project.collaborators} users</p>
+                        <p className="text-gray-300 text-xs">{project.deadline}</p>
                       </div>
                     </div>
-                  ))
-                )}
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Quick Actions */}
             <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h2 className="text-2xl font-bold text-white mb-4">⚙️ Whiteboard Controls</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">⚡ Quick Actions</h2>
               <div className="space-y-3">
-                <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                  New Project
+                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-colors">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>➕</span>
+                    <span>Create Whiteboard</span>
+                  </div>
                 </button>
-                <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                  Share Project
+                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-colors">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>👥</span>
+                    <span>Invite Collaborators</span>
+                  </div>
                 </button>
-                <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
-                  Export Canvas
+                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-colors">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>📊</span>
+                    <span>View Analytics</span>
+                  </div>
+                </button>
+                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-colors">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>📤</span>
+                    <span>Export Board</span>
+                  </div>
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Project Details */}
-        {selectedProject && (
-          <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">{selectedProject.name} Details</h2>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="text-gray-400 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-green-400 mb-3">Project Information</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Creator</span>
-                    <span className="text-lg font-semibold text-white">{selectedProject.creator}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Type</span>
-                    <span className="text-lg font-semibold text-white">{selectedProject.details.type}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Version</span>
-                    <span className="text-lg font-semibold text-white">{selectedProject.details.version}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Status</span>
-                    <span className={'px-2 py-1 rounded text-sm ' + getStatusBg(selectedProject.status)}>
-                      {selectedProject.status}
-                    </span>
+        {/* Whiteboard Details Modal */}
+        {selectedWhiteboard && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+            <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-4xl w-full p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">Whiteboard Details</h2>
+                <button
+                  onClick={() => setSelectedWhiteboard(null)}
+                  className="text-gray-400 hover:text-white text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-indigo-400 mb-3">Whiteboard Information</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Name:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.name}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Project:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.project}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Created By:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.createdBy}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Status:</span>
+                      <span className={'font-semibold ' + getStatusColor(selectedWhiteboard.status)}>
+                        {selectedWhiteboard.status.toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Created:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.createdAt}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Last Update:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.lastUpdate}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-blue-400 mb-3">Analytics</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Session Time</span>
-                    <span className="text-lg font-semibold text-white">{selectedProject.analytics.sessionTime} min</span>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-green-400 mb-3">Analytics</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Session Time:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.analytics.sessionTime}m</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Elements Created:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.analytics.elementsCreated}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Comments:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.analytics.comments}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Exports:</span>
+                      <span className="text-white font-semibold">{selectedWhiteboard.analytics.exports}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Elements Added</span>
-                    <span className="text-lg font-semibold text-white">{selectedProject.analytics.elementsAdded}</span>
+                  
+                  <h3 className="text-lg font-semibold text-blue-400 mb-3 mt-4">Features</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedWhiteboard.features.map((feature, index) => (
+                      <span key={index} className="px-2 py-1 bg-blue-600 text-white text-xs rounded">
+                        {feature}
+                      </span>
+                    ))}
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Comments</span>
-                    <span className="text-lg font-semibold text-white">{selectedProject.analytics.comments}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Collaboration Score</span>
-                    <span className={'text-lg font-semibold ' + (
-                      selectedProject.analytics.collaborationScore > 90 ? 'text-green-400' : 
-                      selectedProject.analytics.collaborationScore > 80 ? 'text-yellow-400' : 'text-red-400'
-                    )}>
-                      {selectedProject.analytics.collaborationScore}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Canvas Preview */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold text-purple-400 mb-3">🎨 Canvas Preview</h3>
-              <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                <div className="aspect-video bg-white rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">🎨</div>
-                    <p className="text-gray-600 font-semibold">{selectedProject.name}</p>
-                    <p className="text-gray-500 text-sm">{selectedProject.details.elements} elements • {selectedProject.details.layers} layers</p>
+                  
+                  <h3 className="text-lg font-semibold text-purple-400 mb-3 mt-4">Tools</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedWhiteboard.tools.map((tool, index) => (
+                      <span key={index} className="px-2 py-1 bg-purple-600 text-white text-xs rounded">
+                        {tool}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -536,42 +727,52 @@ export default WhiteboardDemo;`;
         )}
 
         {/* Whiteboard Features */}
-        <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced Whiteboard Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 p-6 rounded-xl border border-indigo-800">
+          <h2 className="text-2xl font-bold text-white mb-4">🖼️ Advanced Whiteboard Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Drawing Tools</h3>
+              <h3 className="text-lg font-semibold text-indigo-400 mb-2">Drawing Tools</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Freehand drawing</li>
-                <li>• Shape tools</li>
-                <li>• Text & annotations</li>
-                <li>• Color palette</li>
-                <li>• Layer management</li>
+                <li>• Real-time drawing</li>
+                <li>• Multiple brush types</li>
+                <li>• Shape recognition</li>
+                <li>• Text annotations</li>
+                <li>• Image uploads</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Collaboration</h3>
+              <h3 className="text-lg font-semibold text-indigo-400 mb-2">Collaboration</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Real-time sync</li>
                 <li>• Multi-user editing</li>
+                <li>• Live cursors</li>
                 <li>• Version control</li>
                 <li>• Comments & feedback</li>
                 <li>• Export options</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Analytics & Insights</h3>
+              <h3 className="text-lg font-semibold text-indigo-400 mb-2">Project Management</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Session tracking</li>
-                <li>• User activity</li>
-                <li>• Performance metrics</li>
-                <li>• Usage patterns</li>
-                <li>• Collaboration scores</li>
+                <li>• Board organization</li>
+                <li>• Template library</li>
+                <li>• Progress tracking</li>
+                <li>• Team permissions</li>
+                <li>• Analytics dashboard</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Code Viewer */}
+      {showCodeViewer && (
+        <CodeViewer
+          code={demoCode}
+          language="jsx"
+          title="Whiteboard Demo Code"
+          onClose={() => setShowCodeViewer(false)}
+        />
+      )}
     </div>
   );
 };
