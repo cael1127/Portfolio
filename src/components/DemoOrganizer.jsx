@@ -4,12 +4,6 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Simple navigation function
-  const navigateToDemo = (demoId) => {
-    console.log('Navigating to demo:', demoId);
-    setCurrentPage(demoId);
-  };
-
   const demoCategories = {
     'ai-ml': {
       name: '🤖 AI & Machine Learning',
@@ -311,16 +305,12 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               <div
                 key={demo.id}
                 className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative"
-                onClick={() => {
-                  console.log('Demo clicked:', demo.id);
-                  navigateToDemo(demo.id);
-                }}
               >
                 <button
                   className="absolute inset-0 w-full h-full bg-transparent"
                   onClick={() => {
                     console.log('Demo clicked:', demo.id);
-                    navigateToDemo(demo.id);
+                    setCurrentPage(demo.id);
                   }}
                   style={{ zIndex: 1 }}
                 />
@@ -418,7 +408,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             <button
               onClick={() => {
                 console.log('Test button clicked - going to blockchain');
-                navigateToDemo('blockchain');
+                setCurrentPage('blockchain');
               }}
               className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
