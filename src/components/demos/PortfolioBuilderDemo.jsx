@@ -375,9 +375,9 @@ const PortfolioBuilderDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>
@@ -458,9 +458,9 @@ const PortfolioBuilderDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Mobile Score</span>
-                    <span className={`text-lg font-semibold ${
+                    <span className={'text-lg font-semibold ' + (
                       selectedTemplate.preview.mobileScore > 90 ? 'text-green-400' : 'text-yellow-400'
-                    }`}>
+                    )}>
                       {selectedTemplate.preview.mobileScore}%
                     </span>
                   </div>

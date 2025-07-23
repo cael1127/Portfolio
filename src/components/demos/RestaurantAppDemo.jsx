@@ -382,9 +382,9 @@ const RestaurantAppDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>
@@ -482,20 +482,20 @@ const RestaurantAppDemo = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${
+                    <div className={'w-3 h-3 rounded-full ' + (
                       selectedOrder.status === 'preparing' || selectedOrder.status === 'ready' || selectedOrder.status === 'completed' 
                         ? 'bg-blue-500' : 'bg-gray-500'
-                    }`}></div>
+                    )}></div>
                     <div>
                       <p className="text-white font-semibold">Preparing</p>
                       <p className="text-gray-400 text-sm">Estimated: {selectedOrder.estimatedTime} minutes</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${
+                    <div className={'w-3 h-3 rounded-full ' + (
                       selectedOrder.status === 'ready' || selectedOrder.status === 'completed' 
                         ? 'bg-green-500' : 'bg-gray-500'
-                    }`}></div>
+                    )}></div>
                     <div>
                       <p className="text-white font-semibold">Ready for Pickup</p>
                       <p className="text-gray-400 text-sm">Order completed</p>

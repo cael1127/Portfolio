@@ -373,9 +373,9 @@ const LogisticsDemo = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Fuel Level</span>
-                    <span className={`text-lg font-semibold ${
+                    <span className={'text-lg font-semibold ' + (
                       selectedVehicle.fuelLevel < 30 ? 'text-red-400' : 'text-green-400'
-                    }`}>
+                    )}>
                       {selectedVehicle.fuelLevel.toFixed(0)}%
                     </span>
                   </div>
