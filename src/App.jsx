@@ -5,20 +5,21 @@ import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Freelancing from './components/Freelancing';
-import BlockchainDemo from './components/demos/BlockchainDemo';
-import AquacultureDemo from './components/demos/AquacultureDemo';
-import LogisticsDemo from './components/demos/LogisticsDemo';
-import HealthcareDemo from './components/demos/HealthcareDemo';
-import SmartCityDemo from './components/demos/SmartCityDemo';
-import FinancialDemo from './components/demos/FinancialDemo';
-import GamePlatformDemo from './components/demos/GamePlatformDemo';
-import PortfolioBuilderDemo from './components/demos/PortfolioBuilderDemo';
-import RestaurantAppDemo from './components/demos/RestaurantAppDemo';
-import AIAssistantDemo from './components/demos/AIAssistantDemo';
-import ResumeAnalyzerDemo from './components/demos/ResumeAnalyzerDemo';
-import WhiteboardDemo from './components/demos/WhiteboardDemo';
-import FraudDetectionDemo from './components/demos/FraudDetectionDemo';
-import DeepfakeDetectionDemo from './components/demos/DeepfakeDetectionDemo';
+// Demo Pages
+import BlockchainDemoPage from './pages/BlockchainDemoPage';
+import AquacultureDemoPage from './pages/AquacultureDemoPage';
+import LogisticsDemoPage from './pages/LogisticsDemoPage';
+import HealthcareDemoPage from './pages/HealthcareDemoPage';
+import SmartCityDemoPage from './pages/SmartCityDemoPage';
+import FinancialDemoPage from './pages/FinancialDemoPage';
+import GamePlatformDemoPage from './pages/GamePlatformDemoPage';
+import PortfolioBuilderDemoPage from './pages/PortfolioBuilderDemoPage';
+import RestaurantAppDemoPage from './pages/RestaurantAppDemoPage';
+import AIAssistantDemoPage from './pages/AIAssistantDemoPage';
+import ResumeAnalyzerDemoPage from './pages/ResumeAnalyzerDemoPage';
+import WhiteboardDemoPage from './pages/WhiteboardDemoPage';
+import FraudDetectionDemoPage from './pages/FraudDetectionDemoPage';
+import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
 import AquacultureProjectPage from './components/ProjectPages/AquacultureProjectPage';
 import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPage';
@@ -221,129 +222,35 @@ function App() {
         );
       
       case 'blockchain':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <BlockchainDemo />
-            </div>
-          </div>
-        );
+        return <BlockchainDemoPage setCurrentPage={setCurrentPage} />;
       case 'aquaculture':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <AquacultureDemo />
-            </div>
-          </div>
-        );
+        return <AquacultureDemoPage setCurrentPage={setCurrentPage} />;
       case 'logistics':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <LogisticsDemo />
-            </div>
-          </div>
-        );
+        return <LogisticsDemoPage setCurrentPage={setCurrentPage} />;
       case 'healthcare':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <HealthcareDemo />
-            </div>
-          </div>
-        );
+        return <HealthcareDemoPage setCurrentPage={setCurrentPage} />;
       case 'smartcity':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <SmartCityDemo />
-            </div>
-          </div>
-        );
+        return <SmartCityDemoPage setCurrentPage={setCurrentPage} />;
       case 'financial':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <FinancialDemo />
-            </div>
-          </div>
-        );
+        return <FinancialDemoPage setCurrentPage={setCurrentPage} />;
       case 'gameplatform':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <GamePlatformDemo />
-            </div>
-          </div>
-        );
+        return <GamePlatformDemoPage setCurrentPage={setCurrentPage} />;
       case 'portfoliobuilder':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <PortfolioBuilderDemo />
-            </div>
-          </div>
-        );
+        return <PortfolioBuilderDemoPage setCurrentPage={setCurrentPage} />;
       case 'restaurantapp':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <RestaurantAppDemo />
-            </div>
-          </div>
-        );
+        return <RestaurantAppDemoPage setCurrentPage={setCurrentPage} />;
       case 'aiassistant':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <AIAssistantDemo />
-            </div>
-          </div>
-        );
+        return <AIAssistantDemoPage setCurrentPage={setCurrentPage} />;
       case 'resumeanalyzer':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <ResumeAnalyzerDemo />
-            </div>
-          </div>
-        );
+        return <ResumeAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
       case 'whiteboard':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-              <WhiteboardDemo />
-            </div>
-          </div>
-        );
+        return <WhiteboardDemoPage setCurrentPage={setCurrentPage} />;
       
       // New trending project demos
       case 'fraud-detection':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <FraudDetectionDemo />
-          </div>
-        );
+        return <FraudDetectionDemoPage setCurrentPage={setCurrentPage} />;
       case 'deepfake-detection':
-        return (
-          <div className="min-h-screen bg-gray-900 text-white">
-            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <DeepfakeDetectionDemo />
-          </div>
-        );
+        return <DeepfakeDetectionDemoPage setCurrentPage={setCurrentPage} />;
       
       case 'blockchain-project':
         return (
