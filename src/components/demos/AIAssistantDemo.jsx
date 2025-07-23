@@ -276,11 +276,11 @@ const AIAssistantDemo = () => {
                 {conversations.map((conversation) => (
                   <div
                     key={conversation.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedConversation?.id === conversation.id
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedConversation(conversation)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -317,11 +317,11 @@ const AIAssistantDemo = () => {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${
+                          className={'h-2 rounded-full ' + (
                             conversation.analytics.helpfulness > 4.5 ? 'bg-green-500' : 
                             conversation.analytics.helpfulness > 4.0 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${(conversation.analytics.helpfulness / 5) * 100}%` }}
+                          )}
+                          style={{ width: ((conversation.analytics.helpfulness / 5) * 100) + '%' }}
                         ></div>
                       </div>
                     </div>
@@ -346,9 +346,9 @@ const AIAssistantDemo = () => {
                   
                   <div className="space-y-3 max-h-48 overflow-y-auto">
                     {currentConversation.messages.slice(-3).map((message) => (
-                      <div key={message.id} className={`p-2 rounded-lg ${
+                      <div key={message.id} className={'p-2 rounded-lg ' + (
                         message.sender === 'user' ? 'bg-blue-800/50' : 'bg-gray-800/50'
-                      }`}>
+                      )}>
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="text-white text-sm">{message.content}</p>
@@ -388,9 +388,9 @@ const AIAssistantDemo = () => {
                           <p className="text-red-200 text-sm">{alert.message}</p>
                           <p className="text-gray-300 text-xs">{alert.timestamp}</p>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs ${
+                        <div className={'px-2 py-1 rounded text-xs ' + (
                           alert.severity === 'high' ? 'bg-red-600 text-white' : 'bg-yellow-600 text-white'
-                        }`}>
+                        )}>
                           {alert.severity.toUpperCase()}
                         </div>
                       </div>

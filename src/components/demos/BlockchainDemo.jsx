@@ -218,11 +218,11 @@ const BlockchainDemo = () => {
                 {blockchain.map((block, index) => (
                   <div
                     key={block.index}
-                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={'p-4 rounded-lg border cursor-pointer transition-all ' + (
                       selectedBlock?.index === block.index
                         ? 'border-green-400 bg-green-900/30'
                         : 'border-gray-600 hover:border-gray-500'
-                    }`}
+                    )}
                     onClick={() => setSelectedBlock(block)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -315,11 +315,11 @@ const BlockchainDemo = () => {
                 <button
                   onClick={mineBlock}
                   disabled={miningStatus === 'mining' || pendingTransactions.length === 0}
-                  className={`w-full px-4 py-2 rounded-lg transition-colors ${
+                  className={'w-full px-4 py-2 rounded-lg transition-colors ' + (
                     miningStatus === 'mining' || pendingTransactions.length === 0
                       ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
                       : 'bg-purple-600 text-white hover:bg-purple-700'
-                  }`}
+                  )}
                 >
                   {miningStatus === 'mining' ? 'Mining...' : 'Mine Block'}
                 </button>
@@ -444,7 +444,7 @@ const BlockchainDemo = () => {
                     <div key={index} className="flex flex-col items-center">
                       <div 
                         className="bg-purple-500 rounded-t w-4"
-                        style={{ height: `${(value / 30) * 100}%` }}
+                        style={{ height: ((value / 30) * 100) + '%' }}
                       ></div>
                       <span className="text-xs text-gray-400 mt-1">{value}</span>
                     </div>
@@ -460,7 +460,7 @@ const BlockchainDemo = () => {
                     <div key={index} className="flex flex-col items-center">
                       <div 
                         className="bg-blue-500 rounded-t w-4"
-                        style={{ height: `${(value / 120) * 100}%` }}
+                        style={{ height: ((value / 120) * 100) + '%' }}
                       ></div>
                       <span className="text-xs text-gray-400 mt-1">{value}s</span>
                     </div>
@@ -476,7 +476,7 @@ const BlockchainDemo = () => {
                     <div key={index} className="flex flex-col items-center">
                       <div 
                         className="bg-yellow-500 rounded-t w-4"
-                        style={{ height: `${(value / 10) * 100}%` }}
+                        style={{ height: ((value / 10) * 100) + '%' }}
                       ></div>
                       <span className="text-xs text-gray-400 mt-1">{value.toFixed(1)}</span>
                     </div>
