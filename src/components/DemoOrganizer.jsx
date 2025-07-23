@@ -25,7 +25,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '🎭',
           difficulty: 'Advanced',
           technologies: ['Python', 'OpenCV', 'TensorFlow'],
-          features: ['Face analysis', 'Video processing', 'Confidence scoring']
+          features: ['Face analysis', 'Video processing', 'Confidence scoring'],
+          hasProjectPage: true
         },
         {
           id: 'resumeanalyzer',
@@ -34,7 +35,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '📄',
           difficulty: 'Intermediate',
           technologies: ['React', 'NLP', 'Machine Learning'],
-          features: ['Skill extraction', 'Candidate scoring', 'Recommendations']
+          features: ['Skill extraction', 'Candidate scoring', 'Recommendations'],
+          hasProjectPage: true
         },
         {
           id: 'aiassistant',
@@ -43,7 +45,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           icon: '💬',
           difficulty: 'Intermediate',
           technologies: ['React', 'NLP', 'API Integration'],
-          features: ['Natural conversations', 'Context awareness', 'Smart responses']
+          features: ['Natural conversations', 'Context awareness', 'Smart responses'],
+          hasProjectPage: true
         }
       ]
     },
@@ -159,36 +162,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           features: ['Visual editor', 'Template library', 'Deployment'],
           hasProjectPage: true
         },
-        {
-          id: 'ai-assistant',
-          name: 'AI Assistant',
-          description: 'Advanced conversational AI with natural language processing',
-          icon: '🤖',
-          difficulty: 'Advanced',
-          technologies: ['React', 'NLP', 'AI Models'],
-          features: ['Natural language processing', 'Multi-model AI', 'Conversation management'],
-          hasProjectPage: true
-        },
-        {
-          id: 'resume-analyzer',
-          name: 'Resume Analyzer',
-          description: 'AI-powered resume analysis and skills matching',
-          icon: '📄',
-          difficulty: 'Advanced',
-          technologies: ['React', 'NLP', 'Document Parsing'],
-          features: ['Resume parsing', 'Skills analysis', 'Job matching'],
-          hasProjectPage: true
-        },
-        {
-          id: 'deepfake-detection',
-          name: 'Deepfake Detection',
-          description: 'AI-powered deepfake detection and analysis',
-          icon: '🔍',
-          difficulty: 'Advanced',
-          technologies: ['React', 'Computer Vision', 'Deep Learning'],
-          features: ['Image analysis', 'Multi-model detection', 'Forensic reporting'],
-          hasProjectPage: true
-        }
+
+
       ]
     },
     'entertainment': {
