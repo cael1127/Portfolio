@@ -1,6 +1,55 @@
 import React, { useState, useEffect } from 'react';
+import CodeViewer from '../CodeViewer';
 
 const PortfolioBuilderDemo = () => {
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
+
+  // Sample code for the demo
+  const demoCode = `import React, { useState, useEffect } from 'react';
+
+const PortfolioBuilderDemo = () => {
+  const [templates, setTemplates] = useState([]);
+  const [projects, setProjects] = useState([]);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProjects(prev => prev.map(project => ({
+        ...project,
+        views: project.views + Math.floor(Math.random() * 10),
+        lastUpdate: 'Just now'
+      })));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Project Gallery */}
+        <div className="space-y-4">
+          {projects.map((project) => (
+            <div key={project.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{project.name}</h3>
+              <div className="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                  <p className="text-gray-400">Views</p>
+                  <p className="text-white font-semibold">{project.views.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Status</p>
+                  <p className="text-white font-semibold">{project.status}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PortfolioBuilderDemo;`;
   const [templates, setTemplates] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -204,11 +253,20 @@ const PortfolioBuilderDemo = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🎨 Portfolio Builder Platform</h1>
-          <p className="text-gray-300 text-lg">
-            Drag-and-drop website builder with professional templates, real-time preview, and deployment analytics
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Portfolio Builder Demo</h1>
+            <p className="text-gray-300 text-lg">
+              Interactive demo with real-time data and advanced features
+            </p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          >
+            <span>📄</span>
+            <span>View Code</span>
+          </button>
         </div>
 
         {/* System Stats */}

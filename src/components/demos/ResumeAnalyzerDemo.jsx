@@ -1,6 +1,61 @@
 import React, { useState, useEffect } from 'react';
+import CodeViewer from '../CodeViewer';
 
 const ResumeAnalyzerDemo = () => {
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
+
+  // Sample code for the demo
+  const demoCode = `import React, { useState, useEffect } from 'react';
+
+const ResumeAnalyzerDemo = () => {
+  const [resumes, setResumes] = useState([]);
+  const [analytics, setAnalytics] = useState({});
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newResume = {
+        id: Date.now(),
+        candidate: 'Candidate ' + Math.floor(Math.random() * 1000),
+        score: Math.floor(Math.random() * 40) + 60,
+        skills: ['JavaScript', 'React', 'Python'][Math.floor(Math.random() * 3)],
+        timestamp: new Date().toLocaleTimeString()
+      };
+      
+      setResumes(prev => [newResume, ...prev.slice(0, 9)]);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Resume Analysis */}
+        <div className="space-y-4">
+          {resumes.map((resume) => (
+            <div key={resume.id} className="p-4 bg-gray-800 rounded-lg">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-white font-semibold">{resume.candidate}</p>
+                  <p className="text-gray-300 text-sm">{resume.skills}</p>
+                  <p className="text-gray-400 text-xs">{resume.timestamp}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-white font-semibold">{resume.score}%</p>
+                  <div className="px-2 py-1 rounded text-xs">
+                    {resume.score > 80 ? 'Excellent' : resume.score > 60 ? 'Good' : 'Fair'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ResumeAnalyzerDemo;`;
   const [resumes, setResumes] = useState([]);
   const [selectedResume, setSelectedResume] = useState(null);
   const [analysisResults, setAnalysisResults] = useState(null);
@@ -233,11 +288,20 @@ const ResumeAnalyzerDemo = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">📄 AI Resume Analyzer</h1>
-          <p className="text-gray-300 text-lg">
-            Intelligent resume analysis with AI-powered insights, skill matching, and candidate evaluation
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Resume Analyzer Demo</h1>
+            <p className="text-gray-300 text-lg">
+              Interactive demo with real-time data and advanced features
+            </p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          >
+            <span>📄</span>
+            <span>View Code</span>
+          </button>
         </div>
 
         {/* System Stats */}

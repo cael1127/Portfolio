@@ -1,6 +1,60 @@
 import React, { useState, useEffect } from 'react';
+import CodeViewer from '../CodeViewer';
 
 const FinancialDemo = () => {
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
+
+  // Sample code for the demo
+  const demoCode = `import React, { useState, useEffect } from 'react';
+
+const FinancialDemo = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [portfolio, setPortfolio] = useState({});
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newTransaction = {
+        id: Date.now(),
+        type: ['buy', 'sell'][Math.floor(Math.random() * 2)],
+        symbol: ['AAPL', 'GOOGL', 'MSFT', 'TSLA'][Math.floor(Math.random() * 4)],
+        amount: Math.floor(Math.random() * 1000) + 100,
+        price: Math.random() * 500 + 50,
+        timestamp: new Date().toLocaleTimeString()
+      };
+      
+      setTransactions(prev => [newTransaction, ...prev.slice(0, 9)]);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Transaction Monitor */}
+        <div className="space-y-4">
+          {transactions.map((tx) => (
+            <div key={tx.id} className="p-4 bg-gray-800 rounded-lg">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-white font-semibold">{tx.symbol}</p>
+                  <p className="text-gray-300 text-sm">{tx.type.toUpperCase()}</p>
+                  <p className="text-gray-400 text-xs">${tx.price.toFixed(2)}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-white font-semibold">${tx.amount.toFixed(2)}</p>
+                  <p className="text-gray-400 text-xs">{tx.timestamp}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FinancialDemo;`;
   const [activeTab, setActiveTab] = useState('portfolio');
   const [portfolioData, setPortfolioData] = useState([]);
   const [marketData, setMarketData] = useState([]);
@@ -452,11 +506,20 @@ const FinancialDemo = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">💰 Financial Analytics Platform</h1>
-          <p className="text-gray-300 text-lg">
-            Advanced financial analysis with real-time data, AI-powered insights, and comprehensive risk management
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Financial Demo</h1>
+            <p className="text-gray-300 text-lg">
+              Interactive demo with real-time data and advanced features
+            </p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          >
+            <span>📄</span>
+            <span>View Code</span>
+          </button>
         </div>
 
         {/* Tab Navigation */}

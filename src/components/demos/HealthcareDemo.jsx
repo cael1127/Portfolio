@@ -1,6 +1,59 @@
 import React, { useState, useEffect } from 'react';
+import CodeViewer from '../CodeViewer';
 
 const HealthcareDemo = () => {
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
+
+  // Sample code for the demo
+  const demoCode = `import React, { useState, useEffect } from 'react';
+
+const HealthcareDemo = () => {
+  const [patients, setPatients] = useState([]);
+  const [alerts, setAlerts] = useState([]);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPatients(prev => prev.map(patient => ({
+        ...patient,
+        heartRate: patient.heartRate + (Math.random() - 0.5) * 10,
+        bloodPressure: {
+          systolic: patient.bloodPressure.systolic + (Math.random() - 0.5) * 5,
+          diastolic: patient.bloodPressure.diastolic + (Math.random() - 0.5) * 3
+        },
+        lastUpdate: 'Just now'
+      })));
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Patient Monitoring */}
+        <div className="space-y-4">
+          {patients.map((patient) => (
+            <div key={patient.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{patient.name}</h3>
+              <div className="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                  <p className="text-gray-400">Heart Rate</p>
+                  <p className="text-white font-semibold">{patient.heartRate.toFixed(0)} bpm</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Blood Pressure</p>
+                  <p className="text-white font-semibold">{patient.bloodPressure.systolic}/{patient.bloodPressure.diastolic}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HealthcareDemo;`;
   const [activeTab, setActiveTab] = useState('patients');
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -527,11 +580,20 @@ const HealthcareDemo = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🏥 Healthcare Analytics Platform</h1>
-          <p className="text-gray-300 text-lg">
-            AI-powered patient monitoring with real-time vital signs, predictive diagnostics, and comprehensive analytics
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Healthcare Demo</h1>
+            <p className="text-gray-300 text-lg">
+              Interactive demo with real-time data and advanced features
+            </p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          >
+            <span>📄</span>
+            <span>View Code</span>
+          </button>
         </div>
 
         {/* Tab Navigation */}

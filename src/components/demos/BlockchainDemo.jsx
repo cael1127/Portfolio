@@ -1,6 +1,61 @@
 import React, { useState, useEffect } from 'react';
+import CodeViewer from '../CodeViewer';
 
 const BlockchainDemo = () => {
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
+
+  // Sample code for the demo
+  const demoCode = `import React, { useState, useEffect } from 'react';
+
+const BlockchainDemo = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [blocks, setBlocks] = useState([]);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newTransaction = {
+        id: Date.now(),
+        from: '0x' + Math.random().toString(16).substr(2, 8),
+        to: '0x' + Math.random().toString(16).substr(2, 8),
+        amount: Math.floor(Math.random() * 1000) + 1,
+        gas: Math.floor(Math.random() * 100) + 21,
+        status: Math.random() > 0.1 ? 'confirmed' : 'pending'
+      };
+      
+      setTransactions(prev => [newTransaction, ...prev.slice(0, 9)]);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Transaction Monitor */}
+        <div className="space-y-4">
+          {transactions.map((tx) => (
+            <div key={tx.id} className="p-4 bg-gray-800 rounded-lg">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-white font-semibold">{tx.amount} ETH</p>
+                  <p className="text-gray-300 text-sm">{tx.from}</p>
+                  <p className="text-gray-400 text-xs">{tx.to}</p>
+                </div>
+                <div className="text-right">
+                  <div className="px-2 py-1 rounded text-xs">
+                    {tx.status}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BlockchainDemo;`;
   const [blockchain, setBlockchain] = useState([]);
   const [pendingTransactions, setPendingTransactions] = useState([]);
   const [selectedBlock, setSelectedBlock] = useState(null);
@@ -178,11 +233,20 @@ const BlockchainDemo = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🔗 Blockchain Supply Chain Platform</h1>
-          <p className="text-gray-300 text-lg">
-            Real-time blockchain simulation with transaction processing, mining operations, and supply chain tracking
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Blockchain Demo</h1>
+            <p className="text-gray-300 text-lg">
+              Interactive demo with real-time data and advanced features
+            </p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          >
+            <span>📄</span>
+            <span>View Code</span>
+          </button>
         </div>
 
         {/* Network Statistics */}
