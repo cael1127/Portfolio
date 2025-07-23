@@ -543,17 +543,17 @@ const AquacultureDemo = () => {
                 <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
                   <h4 className="font-semibold text-white mb-2">Ammonia</h4>
                   <p className="text-2xl font-bold text-white">{selectedTank.sensors.ammonia.toFixed(3)} mg/L</p>
-                  <p className="text-gray-400 text-sm">Safe: < 0.05 mg/L</p>
+                  <p className="text-gray-400 text-sm">Safe: &lt; 0.05 mg/L</p>
                 </div>
                 <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
                   <h4 className="font-semibold text-white mb-2">Nitrite</h4>
                   <p className="text-2xl font-bold text-white">{selectedTank.sensors.nitrite.toFixed(3)} mg/L</p>
-                  <p className="text-gray-400 text-sm">Safe: < 0.02 mg/L</p>
+                  <p className="text-gray-400 text-sm">Safe: &lt; 0.02 mg/L</p>
                 </div>
                 <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
                   <h4 className="font-semibold text-white mb-2">Nitrate</h4>
                   <p className="text-2xl font-bold text-white">{selectedTank.sensors.nitrate.toFixed(1)} mg/L</p>
-                  <p className="text-gray-400 text-sm">Safe: < 10 mg/L</p>
+                  <p className="text-gray-400 text-sm">Safe: &lt; 10 mg/L</p>
                 </div>
               </div>
             </div>
