@@ -4,7 +4,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Enhanced navigation function
+  // Simple navigation function
   const navigateToDemo = (demoId) => {
     console.log('Navigating to demo:', demoId);
     setCurrentPage(demoId);
@@ -311,6 +311,10 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               <div
                 key={demo.id}
                 className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative"
+                onClick={() => {
+                  console.log('Demo clicked:', demo.id);
+                  navigateToDemo(demo.id);
+                }}
               >
                 <button
                   className="absolute inset-0 w-full h-full bg-transparent"

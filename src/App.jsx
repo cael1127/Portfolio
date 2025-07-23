@@ -20,7 +20,6 @@ import ResumeAnalyzerDemoPage from './pages/ResumeAnalyzerDemoPage';
 import WhiteboardDemoPage from './pages/WhiteboardDemoPage';
 import FraudDetectionDemoPage from './pages/FraudDetectionDemoPage';
 import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
-import TestDemoPage from './pages/TestDemoPage';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
 import AquacultureProjectPage from './components/ProjectPages/AquacultureProjectPage';
 import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPage';
@@ -53,44 +52,71 @@ function App() {
   ]);
   const [aiInputMessage, setAiInputMessage] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Enhanced navigation function with browser history
+  // Simple navigation function
   const navigateToPage = (page) => {
-    console.log('Navigating to:', page);
-    setCurrentPage(page);
-    
-    // Update browser history
-    const url = page === 'home' ? '/' : `/${page}`;
-    window.history.pushState({ page }, '', url);
+    try {
+      console.log('Navigating to:', page);
+      setCurrentPage(page);
+    } catch (err) {
+      console.error('Navigation error:', err);
+      setError(err);
+    }
   };
 
   // Handle browser back/forward buttons
   useEffect(() => {
-    const handlePopState = (event) => {
-      console.log('PopState event:', event);
-      if (event.state && event.state.page) {
-        setCurrentPage(event.state.page);
-      } else {
-        // Handle direct URL access
+    try {
+      const handlePopState = (event) => {
+        console.log('PopState event:', event);
         const path = window.location.pathname.substring(1) || 'home';
         setCurrentPage(path);
+      };
+
+      // Handle initial page load
+      const path = window.location.pathname.substring(1) || 'home';
+      if (path !== currentPage) {
+        setCurrentPage(path);
       }
-    };
 
-    // Handle initial page load
-    const path = window.location.pathname.substring(1) || 'home';
-    if (path !== currentPage) {
-      setCurrentPage(path);
+      window.addEventListener('popstate', handlePopState);
+      return () => window.removeEventListener('popstate', handlePopState);
+    } catch (err) {
+      console.error('Navigation setup error:', err);
+      setError(err);
     }
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [currentPage]);
 
   // Auto-scroll to top when page changes
   useEffect(() => {
-    window.scrollTo(0, 0);
+    try {
+      window.scrollTo(0, 0);
+    } catch (err) {
+      console.error('Scroll error:', err);
+    }
   }, [currentPage]);
+
+  // Error boundary
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-400 mb-4">Something went wrong</h1>
+          <p className="text-gray-300 mb-4">{error.message}</p>
+          <button
+            onClick={() => {
+              setError(null);
+              setCurrentPage('home');
+            }}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Go Home
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // AI Chat functionality
   const handleAISendMessage = async () => {
@@ -470,7 +496,20 @@ function App() {
         );
       
       default:
-        return <div>Page not found</div>;
+        return (
+          <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-red-400 mb-4">Page Not Found</h1>
+              <p className="text-gray-300 mb-4">The page "{currentPage}" could not be found.</p>
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Go Home
+              </button>
+            </div>
+          </div>
+        );
     }
   };
 
