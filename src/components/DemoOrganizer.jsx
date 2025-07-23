@@ -215,7 +215,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
   const filteredDemos = allDemos.filter(demo => {
     const matchesCategory = selectedCategory === 'all' || 
-      Object.keys(demoCategories).find(key => demoCategories[key].demos.includes(demo));
+      demoCategories[selectedCategory]?.demos.some(categoryDemo => categoryDemo.id === demo.id);
     const matchesSearch = demo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          demo.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          demo.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
