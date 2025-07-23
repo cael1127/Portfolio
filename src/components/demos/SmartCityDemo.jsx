@@ -2,20 +2,37 @@ import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
 
 const SmartCityDemo = () => {
+  const [sensors, setSensors] = useState([]);
+  const [trafficData, setTrafficData] = useState([]);
+  const [environmentalData, setEnvironmentalData] = useState([]);
+  const [energyGrid, setEnergyGrid] = useState([]);
   const [showCodeViewer, setShowCodeViewer] = useState(false);
+  const [selectedSensor, setSelectedSensor] = useState(null);
+  const [cityStats, setCityStats] = useState({
+    totalSensors: 0,
+    activeSensors: 0,
+    trafficFlow: 0,
+    airQuality: 0,
+    energyConsumption: 0,
+    publicSafety: 0,
+    wasteManagement: 0,
+    waterQuality: 0
+  });
 
   // Sample code for the demo
   const demoCode = `import React, { useState, useEffect } from 'react';
 
 const SmartCityDemo = () => {
   const [sensors, setSensors] = useState([]);
-  const [traffic, setTraffic] = useState([]);
+  const [trafficData, setTrafficData] = useState([]);
+  const [environmentalData, setEnvironmentalData] = useState([]);
   
   useEffect(() => {
     const interval = setInterval(() => {
       setSensors(prev => prev.map(sensor => ({
         ...sensor,
-        value: sensor.value + (Math.random() - 0.5) * 5,
+        value: sensor.value + (Math.random() - 0.5) * 10,
+        status: Math.random() > 0.95 ? 'offline' : 'online',
         lastUpdate: 'Just now'
       })));
     }, 3000);
@@ -23,10 +40,19 @@ const SmartCityDemo = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const analyzeTrafficFlow = (trafficData) => {
+    // AI-powered traffic analysis
+    const analysis = {
+      congestion: trafficData.flow > 80 ? 'High' : trafficData.flow > 50 ? 'Medium' : 'Low',
+      recommendation: trafficData.flow > 80 ? 'Consider alternative routes' : 'Normal flow'
+    };
+    return analysis;
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Sensor Data */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* IoT Sensors */}
         <div className="space-y-4">
           {sensors.map((sensor) => (
             <div key={sensor.id} className="p-4 bg-gray-800 rounded-lg">
@@ -34,7 +60,7 @@ const SmartCityDemo = () => {
               <div className="grid grid-cols-2 gap-4 mt-2">
                 <div>
                   <p className="text-gray-400">Value</p>
-                  <p className="text-white font-semibold">{sensor.value.toFixed(1)} {sensor.unit}</p>
+                  <p className="text-white font-semibold">{sensor.value}</p>
                 </div>
                 <div>
                   <p className="text-gray-400">Status</p>
@@ -44,738 +70,346 @@ const SmartCityDemo = () => {
             </div>
           ))}
         </div>
+        
+        {/* Traffic Management */}
+        <div className="space-y-4">
+          {trafficData.map((traffic) => (
+            <div key={traffic.id} className="p-4 bg-gray-800 rounded-lg">
+              <h3 className="text-lg font-semibold">{traffic.location}</h3>
+              <p className="text-gray-300 text-sm">{traffic.flow}% flow</p>
+              <p className="text-gray-400 text-xs">{traffic.speed} km/h avg</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default SmartCityDemo;`;
-  const [activeTab, setActiveTab] = useState('overview');
-  const [cityData, setCityData] = useState({});
-  const [sensorData, setSensorData] = useState({});
-  const [trafficData, setTrafficData] = useState([]);
-  const [energyData, setEnergyData] = useState({});
-  const [environmentalData, setEnvironmentalData] = useState({});
-  const [selectedDistrict, setSelectedDistrict] = useState('downtown');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const tabs = [
-    { id: 'overview', label: 'Overview', icon: '🏙️' },
-    { id: 'traffic', label: 'Traffic', icon: '🚗' },
-    { id: 'energy', label: 'Energy', icon: '⚡' },
-    { id: 'environment', label: 'Environment', icon: '🌱' },
-    { id: 'ai', label: 'AI Insights', icon: '🤖' }
-  ];
-
-  const districts = [
-    { id: 'downtown', name: 'Downtown', color: 'blue' },
-    { id: 'midtown', name: 'Midtown', color: 'green' },
-    { id: 'uptown', name: 'Uptown', color: 'purple' },
-    { id: 'suburbs', name: 'Suburbs', color: 'orange' }
-  ];
 
   useEffect(() => {
-    initializeData();
-    const interval = setInterval(updateData, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const initializeData = () => {
-    // Initialize city overview data
-    setCityData({
-      population: 850000,
-      area: 450,
-      districts: 4,
-      sensors: 1250,
-      efficiency: 87.5
-    });
-
-    // Initialize sensor data
-    setSensorData({
-      airQuality: {
-        downtown: { pm25: 35, pm10: 65, co2: 420, status: 'moderate' },
-        midtown: { pm25: 28, pm10: 52, co2: 395, status: 'good' },
-        uptown: { pm25: 22, pm10: 45, co2: 380, status: 'good' },
-        suburbs: { pm25: 18, pm10: 38, co2: 365, status: 'excellent' }
+    // Initialize smart city data
+    const initialSensors = [
+      {
+        id: 1,
+        name: 'Air Quality Sensor',
+        type: 'Environmental',
+        location: 'Downtown',
+        value: 45,
+        unit: 'AQI',
+        status: 'online',
+        threshold: 50,
+        lastUpdate: 'Just now',
+        coordinates: { lat: 40.7128, lng: -74.0060 },
+        battery: 85,
+        maintenance: '2024-02-15'
       },
-      noise: {
-        downtown: 68,
-        midtown: 62,
-        uptown: 58,
-        suburbs: 45
+      {
+        id: 2,
+        name: 'Traffic Camera',
+        type: 'Traffic',
+        location: 'Main Street',
+        value: 78,
+        unit: 'vehicles/min',
+        status: 'online',
+        threshold: 100,
+        lastUpdate: '1 minute ago',
+        coordinates: { lat: 40.7589, lng: -73.9851 },
+        battery: 92,
+        maintenance: '2024-02-20'
       },
-      temperature: {
-        downtown: 72,
-        midtown: 70,
-        uptown: 68,
-        suburbs: 66
+      {
+        id: 3,
+        name: 'Smart Streetlight',
+        type: 'Lighting',
+        location: 'Central Park',
+        value: 85,
+        unit: 'lumens',
+        status: 'online',
+        threshold: 90,
+        lastUpdate: '2 minutes ago',
+        coordinates: { lat: 40.7829, lng: -73.9654 },
+        battery: 67,
+        maintenance: '2024-02-10'
       },
-      humidity: {
-        downtown: 65,
-        midtown: 62,
-        uptown: 60,
-        suburbs: 58
+      {
+        id: 4,
+        name: 'Waste Bin Sensor',
+        type: 'Waste Management',
+        location: 'Shopping District',
+        value: 23,
+        unit: '% full',
+        status: 'online',
+        threshold: 80,
+        lastUpdate: '3 minutes ago',
+        coordinates: { lat: 40.7505, lng: -73.9934 },
+        battery: 45,
+        maintenance: '2024-02-25'
+      },
+      {
+        id: 5,
+        name: 'Water Quality Monitor',
+        type: 'Water',
+        location: 'Harbor',
+        value: 7.2,
+        unit: 'pH',
+        status: 'online',
+        threshold: 8.5,
+        lastUpdate: 'Just now',
+        coordinates: { lat: 40.6892, lng: -74.0445 },
+        battery: 78,
+        maintenance: '2024-02-18'
       }
-    });
+    ];
 
-    // Initialize traffic data
-    const initialTraffic = [];
-    for (let i = 0; i < 24; i++) {
-      initialTraffic.push({
-        hour: i,
-        downtown: Math.floor(Math.random() * 1000) + 500,
-        midtown: Math.floor(Math.random() * 800) + 400,
-        uptown: Math.floor(Math.random() * 600) + 300,
-        suburbs: Math.floor(Math.random() * 400) + 200
-      });
-    }
-    setTrafficData(initialTraffic);
-
-    // Initialize energy data
-    setEnergyData({
-      solar: { current: 45.2, capacity: 60, efficiency: 75.3 },
-      wind: { current: 28.8, capacity: 40, efficiency: 72.0 },
-      hydro: { current: 15.6, capacity: 20, efficiency: 78.0 },
-      grid: { current: 120.4, capacity: 150, efficiency: 80.3 },
-      consumption: {
-        residential: 45,
-        commercial: 35,
-        industrial: 20
+    const initialTrafficData = [
+      {
+        id: 1,
+        location: 'Main Street & 5th Ave',
+        flow: 78,
+        speed: 35,
+        congestion: 'moderate',
+        status: 'normal',
+        lastUpdate: 'Just now',
+        incidents: 0,
+        signalStatus: 'green',
+        pedestrianCount: 45
+      },
+      {
+        id: 2,
+        location: 'Broadway & 42nd St',
+        flow: 92,
+        speed: 18,
+        congestion: 'high',
+        status: 'congested',
+        lastUpdate: '1 minute ago',
+        incidents: 1,
+        signalStatus: 'yellow',
+        pedestrianCount: 120
+      },
+      {
+        id: 3,
+        location: 'Park Avenue & 34th St',
+        flow: 45,
+        speed: 42,
+        congestion: 'low',
+        status: 'smooth',
+        lastUpdate: '2 minutes ago',
+        incidents: 0,
+        signalStatus: 'green',
+        pedestrianCount: 28
       }
-    });
+    ];
 
-    // Initialize environmental data
-    setEnvironmentalData({
-      wasteRecycling: 78.5,
-      greenSpaces: 23.4,
-      waterQuality: 94.2,
-      biodiversity: 87.6
-    });
-  };
-
-  const updateData = () => {
-    // Update sensor data
-    setSensorData(prev => ({
-      airQuality: {
-        downtown: {
-          pm25: prev.airQuality.downtown.pm25 + (Math.random() - 0.5) * 4,
-          pm10: prev.airQuality.downtown.pm10 + (Math.random() - 0.5) * 6,
-          co2: prev.airQuality.downtown.co2 + (Math.random() - 0.5) * 8,
-          status: prev.airQuality.downtown.pm25 > 35 ? 'moderate' : 'good'
-        },
-        midtown: {
-          pm25: prev.airQuality.midtown.pm25 + (Math.random() - 0.5) * 3,
-          pm10: prev.airQuality.midtown.pm10 + (Math.random() - 0.5) * 5,
-          co2: prev.airQuality.midtown.co2 + (Math.random() - 0.5) * 6,
-          status: prev.airQuality.midtown.pm25 > 30 ? 'moderate' : 'good'
-        },
-        uptown: {
-          pm25: prev.airQuality.uptown.pm25 + (Math.random() - 0.5) * 2,
-          pm10: prev.airQuality.uptown.pm10 + (Math.random() - 0.5) * 4,
-          co2: prev.airQuality.uptown.co2 + (Math.random() - 0.5) * 5,
-          status: 'good'
-        },
-        suburbs: {
-          pm25: prev.airQuality.suburbs.pm25 + (Math.random() - 0.5) * 1,
-          pm10: prev.airQuality.suburbs.pm10 + (Math.random() - 0.5) * 3,
-          co2: prev.airQuality.suburbs.co2 + (Math.random() - 0.5) * 4,
-          status: 'excellent'
+    const initialEnvironmentalData = [
+      {
+        id: 1,
+        type: 'Air Quality',
+        location: 'Downtown',
+        value: 45,
+        unit: 'AQI',
+        status: 'good',
+        trend: 'improving',
+        lastUpdate: 'Just now',
+        pollutants: {
+          pm25: 12,
+          pm10: 25,
+          no2: 18,
+          o3: 35
         }
       },
-      noise: {
-        downtown: prev.noise.downtown + (Math.random() - 0.5) * 2,
-        midtown: prev.noise.midtown + (Math.random() - 0.5) * 1.5,
-        uptown: prev.noise.uptown + (Math.random() - 0.5) * 1,
-        suburbs: prev.noise.suburbs + (Math.random() - 0.5) * 0.5
+      {
+        id: 2,
+        type: 'Noise Level',
+        location: 'Times Square',
+        value: 75,
+        unit: 'dB',
+        status: 'moderate',
+        trend: 'stable',
+        lastUpdate: '1 minute ago',
+        pollutants: {
+          peak: 85,
+          average: 72,
+          background: 65
+        }
       },
-      temperature: {
-        downtown: prev.temperature.downtown + (Math.random() - 0.5) * 1,
-        midtown: prev.temperature.midtown + (Math.random() - 0.5) * 0.8,
-        uptown: prev.temperature.uptown + (Math.random() - 0.5) * 0.6,
-        suburbs: prev.temperature.suburbs + (Math.random() - 0.5) * 0.4
-      },
-      humidity: {
-        downtown: prev.humidity.downtown + (Math.random() - 0.5) * 2,
-        midtown: prev.humidity.midtown + (Math.random() - 0.5) * 1.5,
-        uptown: prev.humidity.uptown + (Math.random() - 0.5) * 1,
-        suburbs: prev.humidity.suburbs + (Math.random() - 0.5) * 0.5
+      {
+        id: 3,
+        type: 'Temperature',
+        location: 'Central Park',
+        value: 22,
+        unit: '°C',
+        status: 'comfortable',
+        trend: 'rising',
+        lastUpdate: '2 minutes ago',
+        pollutants: {
+          humidity: 65,
+          heatIndex: 24,
+          windSpeed: 8
+        }
       }
-    }));
+    ];
 
-    // Update traffic data
-    setTrafficData(prev => {
-      const newData = [...prev];
-      const currentHour = new Date().getHours();
-      newData[currentHour] = {
-        hour: currentHour,
-        downtown: Math.floor(Math.random() * 1000) + 500,
-        midtown: Math.floor(Math.random() * 800) + 400,
-        uptown: Math.floor(Math.random() * 600) + 300,
-        suburbs: Math.floor(Math.random() * 400) + 200
-      };
-      return newData;
-    });
-
-    // Update energy data
-    setEnergyData(prev => ({
-      ...prev,
-      solar: {
-        ...prev.solar,
-        current: prev.solar.current + (Math.random() - 0.5) * 2,
-        efficiency: prev.solar.efficiency + (Math.random() - 0.5) * 1
+    const initialEnergyGrid = [
+      {
+        id: 1,
+        name: 'Solar Farm',
+        type: 'Renewable',
+        location: 'Rooftop District',
+        output: 85,
+        unit: 'MW',
+        capacity: 100,
+        status: 'active',
+        efficiency: 78,
+        lastUpdate: 'Just now'
       },
-      wind: {
-        ...prev.wind,
-        current: prev.wind.current + (Math.random() - 0.5) * 1.5,
-        efficiency: prev.wind.efficiency + (Math.random() - 0.5) * 0.8
+      {
+        id: 2,
+        name: 'Wind Turbine',
+        type: 'Renewable',
+        location: 'Harbor Area',
+        output: 45,
+        unit: 'MW',
+        capacity: 60,
+        status: 'active',
+        efficiency: 75,
+        lastUpdate: '1 minute ago'
+      },
+      {
+        id: 3,
+        name: 'Battery Storage',
+        type: 'Storage',
+        location: 'Grid Station',
+        output: 120,
+        unit: 'MWh',
+        capacity: 200,
+        status: 'charging',
+        efficiency: 92,
+        lastUpdate: '2 minutes ago'
       }
-    }));
-  };
+    ];
 
-  const getAirQualityColor = (status) => {
+    setSensors(initialSensors);
+    setTrafficData(initialTrafficData);
+    setEnvironmentalData(initialEnvironmentalData);
+    setEnergyGrid(initialEnergyGrid);
+  }, []);
+
+  useEffect(() => {
+    // Simulate real-time smart city updates
+    const interval = setInterval(() => {
+      // Update sensor data
+      setSensors(prev => prev.map(sensor => ({
+        ...sensor,
+        value: Math.max(0, Math.min(100, sensor.value + (Math.random() - 0.5) * 10)),
+        status: Math.random() > 0.98 ? 'offline' : 'online',
+        battery: Math.max(0, sensor.battery - Math.random() * 0.5),
+        lastUpdate: 'Just now'
+      })));
+
+      // Update traffic data
+      setTrafficData(prev => prev.map(traffic => ({
+        ...traffic,
+        flow: Math.max(0, Math.min(100, traffic.flow + (Math.random() - 0.5) * 15)),
+        speed: Math.max(5, Math.min(60, traffic.speed + (Math.random() - 0.5) * 5)),
+        lastUpdate: 'Just now'
+      })));
+
+      // Update environmental data
+      setEnvironmentalData(prev => prev.map(env => ({
+        ...env,
+        value: Math.max(0, Math.min(100, env.value + (Math.random() - 0.5) * 5)),
+        lastUpdate: 'Just now'
+      })));
+
+      // Update energy grid
+      setEnergyGrid(prev => prev.map(energy => ({
+        ...energy,
+        output: Math.max(0, Math.min(energy.capacity, energy.output + (Math.random() - 0.5) * 10)),
+        efficiency: Math.max(50, Math.min(95, energy.efficiency + (Math.random() - 0.5) * 2)),
+        lastUpdate: 'Just now'
+      })));
+
+      // Update city stats
+      setCityStats(prev => ({
+        totalSensors: sensors.length,
+        activeSensors: sensors.filter(s => s.status === 'online').length,
+        trafficFlow: Math.max(0, Math.min(100, prev.trafficFlow + (Math.random() - 0.5) * 5)),
+        airQuality: Math.max(0, Math.min(100, prev.airQuality + (Math.random() - 0.5) * 3)),
+        energyConsumption: Math.max(0, Math.min(100, prev.energyConsumption + (Math.random() - 0.5) * 2)),
+        publicSafety: Math.max(0, Math.min(100, prev.publicSafety + (Math.random() - 0.5) * 1)),
+        wasteManagement: Math.max(0, Math.min(100, prev.wasteManagement + (Math.random() - 0.5) * 2)),
+        waterQuality: Math.max(0, Math.min(100, prev.waterQuality + (Math.random() - 0.5) * 1))
+      }));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [sensors]);
+
+  const getStatusColor = (status) => {
     switch (status) {
-      case 'excellent': return 'text-green-400';
-      case 'good': return 'text-blue-400';
-      case 'moderate': return 'text-yellow-400';
-      case 'poor': return 'text-red-400';
+      case 'online': return 'text-green-400';
+      case 'offline': return 'text-red-400';
+      case 'maintenance': return 'text-yellow-400';
       default: return 'text-gray-400';
     }
   };
 
-  const getAirQualityBg = (status) => {
+  const getStatusBg = (status) => {
     switch (status) {
-      case 'excellent': return 'bg-green-600';
-      case 'good': return 'bg-blue-600';
-      case 'moderate': return 'bg-yellow-600';
-      case 'poor': return 'bg-red-600';
+      case 'online': return 'bg-green-600';
+      case 'offline': return 'bg-red-600';
+      case 'maintenance': return 'bg-yellow-600';
       default: return 'bg-gray-600';
     }
   };
 
-  const renderCityOverview = () => {
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">City Overview</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Population</p>
-            <p className="text-2xl font-bold text-white">{cityData.population.toLocaleString()}</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Area (km²)</p>
-            <p className="text-2xl font-bold text-green-400">{cityData.area}</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Smart Sensors</p>
-            <p className="text-2xl font-bold text-blue-400">{cityData.sensors.toLocaleString()}</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Efficiency</p>
-            <p className="text-2xl font-bold text-purple-400">{cityData.efficiency}%</p>
-          </div>
-        </div>
-
-        {/* District Selection */}
-        <div className="mb-6">
-          <h4 className="text-md font-semibold text-white mb-3">District Monitoring</h4>
-          <div className="flex flex-wrap gap-2">
-            {districts.map(district => (
-              <button
-                key={district.id}
-                onClick={() => setSelectedDistrict(district.id)}
-                className={'px-4 py-2 rounded-lg transition-colors ' + (
-                  selectedDistrict === district.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                )}
-              >
-                {district.name}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Selected District Data */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Air Quality - {districts.find(d => d.id === selectedDistrict)?.name}</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">PM2.5</span>
-                <span className="text-white font-semibold">
-                  {sensorData.airQuality?.[selectedDistrict]?.pm25.toFixed(1)} μg/m³
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">PM10</span>
-                <span className="text-white font-semibold">
-                  {sensorData.airQuality?.[selectedDistrict]?.pm10.toFixed(1)} μg/m³
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">CO₂</span>
-                <span className="text-white font-semibold">
-                  {sensorData.airQuality?.[selectedDistrict]?.co2.toFixed(0)} ppm
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Status</span>
-                <span className={'px-2 py-1 rounded text-xs ' + getAirQualityBg(sensorData.airQuality?.[selectedDistrict]?.status)}>
-                  {sensorData.airQuality?.[selectedDistrict]?.status || 'Unknown'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Environmental Data</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Temperature</span>
-                <span className="text-white font-semibold">
-                  {sensorData.temperature?.[selectedDistrict]?.toFixed(1)}°F
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Humidity</span>
-                <span className="text-white font-semibold">
-                  {sensorData.humidity?.[selectedDistrict]?.toFixed(1)}%
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Noise Level</span>
-                <span className="text-white font-semibold">
-                  {sensorData.noise?.[selectedDistrict]?.toFixed(1)} dB
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Sensors Active</span>
-                <span className="text-green-400 font-semibold">
-                  {Math.floor(Math.random() * 50) + 200}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const getTrafficColor = (congestion) => {
+    switch (congestion) {
+      case 'high': return 'text-red-400';
+      case 'moderate': return 'text-yellow-400';
+      case 'low': return 'text-green-400';
+      default: return 'text-gray-400';
+    }
   };
 
-  const renderTrafficManagement = () => {
-    const currentTraffic = trafficData[new Date().getHours()];
-    
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-green-400 mb-4">Traffic Management</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Downtown Traffic</p>
-            <p className="text-2xl font-bold text-blue-400">
-              {currentTraffic?.downtown.toLocaleString()} vehicles
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Midtown Traffic</p>
-            <p className="text-2xl font-bold text-green-400">
-              {currentTraffic?.midtown.toLocaleString()} vehicles
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Uptown Traffic</p>
-            <p className="text-2xl font-bold text-purple-400">
-              {currentTraffic?.uptown.toLocaleString()} vehicles
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Suburbs Traffic</p>
-            <p className="text-2xl font-bold text-orange-400">
-              {currentTraffic?.suburbs.toLocaleString()} vehicles
-            </p>
-          </div>
-        </div>
-
-        {/* Traffic Flow Chart */}
-        <div className="mb-6">
-          <h4 className="text-md font-semibold text-white mb-3">24-Hour Traffic Flow</h4>
-          <div className="h-64 bg-gray-700 rounded p-4">
-            <div className="flex items-end justify-between h-full">
-              {trafficData.slice(0, 12).map((data, index) => {
-                const maxTraffic = Math.max(...trafficData.map(d => d.downtown));
-                const height = (data.downtown / maxTraffic) * 100;
-                
-                return (
-                  <div key={index} className="flex flex-col items-center">
-                    <div 
-                      className="w-3 bg-blue-400 rounded-t"
-                      style={{ height: height + '%' }}
-                    />
-                    <div className="text-xs text-gray-400 mt-1">
-                      {data.hour}:00
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Traffic Alerts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Traffic Alerts</h4>
-            <div className="space-y-2">
-              <div className="bg-yellow-900/20 border border-yellow-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2">
-                  <span className="text-yellow-400">⚠️</span>
-                  <span className="text-yellow-300">Heavy traffic on Main Street</span>
-                </div>
-              </div>
-              <div className="bg-green-900/20 border border-green-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-400">✅</span>
-                  <span className="text-green-300">Traffic flow normal in suburbs</span>
-                </div>
-              </div>
-              <div className="bg-blue-900/20 border border-blue-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2">
-                  <span className="text-blue-400">🚦</span>
-                  <span className="text-blue-300">Smart signals optimized</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Traffic Statistics</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Average Speed</span>
-                <span className="text-green-400 font-semibold">32 mph</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Congestion Level</span>
-                <span className="text-yellow-400 font-semibold">Moderate</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Public Transit</span>
-                <span className="text-blue-400 font-semibold">85% on time</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Smart Signals</span>
-                <span className="text-green-400 font-semibold">Active</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const getTrafficBg = (congestion) => {
+    switch (congestion) {
+      case 'high': return 'bg-red-600';
+      case 'moderate': return 'bg-yellow-600';
+      case 'low': return 'bg-green-600';
+      default: return 'bg-gray-600';
+    }
   };
 
-  const renderEnergyManagement = () => {
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-yellow-400 mb-4">Energy Management</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Solar Power</p>
-            <p className="text-2xl font-bold text-yellow-400">
-              {energyData.solar.current.toFixed(1)} MW
-            </p>
-            <p className="text-xs text-gray-400">
-              {energyData.solar.efficiency.toFixed(1)}% efficiency
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Wind Power</p>
-            <p className="text-2xl font-bold text-blue-400">
-              {energyData.wind.current.toFixed(1)} MW
-            </p>
-            <p className="text-xs text-gray-400">
-              {energyData.wind.efficiency.toFixed(1)}% efficiency
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Hydro Power</p>
-            <p className="text-2xl font-bold text-cyan-400">
-              {energyData.hydro.current.toFixed(1)} MW
-            </p>
-            <p className="text-xs text-gray-400">
-              {energyData.hydro.efficiency.toFixed(1)}% efficiency
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Grid Power</p>
-            <p className="text-2xl font-bold text-purple-400">
-              {energyData.grid.current.toFixed(1)} MW
-            </p>
-            <p className="text-xs text-gray-400">
-              {energyData.grid.efficiency.toFixed(1)}% efficiency
-            </p>
-          </div>
-        </div>
-
-        {/* Energy Consumption */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Energy Consumption</h4>
-            <div className="space-y-3">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-300">Residential</span>
-                  <span className="text-blue-400">{energyData.consumption.residential}%</span>
-                </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-blue-400 h-2 rounded-full" style={{ width: energyData.consumption.residential + '%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-300">Commercial</span>
-                  <span className="text-green-400">{energyData.consumption.commercial}%</span>
-                </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-green-400 h-2 rounded-full" style={{ width: energyData.consumption.commercial + '%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-300">Industrial</span>
-                  <span className="text-yellow-400">{energyData.consumption.industrial}%</span>
-                </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-yellow-400 h-2 rounded-full" style={{ width: energyData.consumption.industrial + '%' }}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Smart Grid Status</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Grid Stability</span>
-                <span className="text-green-400 font-semibold">98.5%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Renewable Energy</span>
-                <span className="text-blue-400 font-semibold">74.2%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Energy Storage</span>
-                <span className="text-purple-400 font-semibold">85.3%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Smart Meters</span>
-                <span className="text-green-400 font-semibold">Active</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const getAirQualityColor = (aqi) => {
+    if (aqi <= 50) return 'text-green-400';
+    if (aqi <= 100) return 'text-yellow-400';
+    if (aqi <= 150) return 'text-orange-400';
+    return 'text-red-400';
   };
 
-  const renderEnvironmentalMonitoring = () => {
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-green-400 mb-4">Environmental Monitoring</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Waste Recycling</p>
-            <p className="text-2xl font-bold text-green-400">
-              {environmentalData.wasteRecycling.toFixed(1)}%
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Green Spaces</p>
-            <p className="text-2xl font-bold text-blue-400">
-              {environmentalData.greenSpaces.toFixed(1)}%
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Water Quality</p>
-            <p className="text-2xl font-bold text-cyan-400">
-              {environmentalData.waterQuality.toFixed(1)}%
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <p className="text-sm text-gray-300">Biodiversity</p>
-            <p className="text-2xl font-bold text-purple-400">
-              {environmentalData.biodiversity.toFixed(1)}%
-            </p>
-          </div>
-        </div>
-
-        {/* Environmental Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Sustainability Metrics</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Carbon Footprint</span>
-                <span className="text-green-400 font-semibold">-12.5%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Air Quality Index</span>
-                <span className="text-blue-400 font-semibold">Good</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Water Conservation</span>
-                <span className="text-cyan-400 font-semibold">+8.3%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Green Buildings</span>
-                <span className="text-purple-400 font-semibold">67%</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-700 p-4 rounded">
-            <h4 className="text-md font-semibold text-white mb-3">Environmental Alerts</h4>
-            <div className="space-y-2">
-              <div className="bg-green-900/20 border border-green-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-400">✅</span>
-                  <span className="text-green-300">Air quality improving in downtown</span>
-                </div>
-              </div>
-              <div className="bg-blue-900/20 border border-blue-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2">
-                  <span className="text-blue-400">💧</span>
-                  <span className="text-blue-300">Water quality excellent across city</span>
-                </div>
-              </div>
-              <div className="bg-yellow-900/20 border border-yellow-500/50 p-3 rounded">
-                <div className="flex items-center space-x-2">
-                  <span className="text-yellow-400">🌱</span>
-                  <span className="text-yellow-300">New green spaces planned for midtown</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const getAirQualityBg = (aqi) => {
+    if (aqi <= 50) return 'bg-green-600';
+    if (aqi <= 100) return 'bg-yellow-600';
+    if (aqi <= 150) return 'bg-orange-600';
+    return 'bg-red-600';
   };
 
-  const renderAIInsights = () => {
-    const insights = [
-      {
-        category: 'Traffic Optimization',
-        prediction: 'Reduce congestion by 15%',
-        confidence: 0.89,
-        action: 'Adjust signal timing on Main Street'
-      },
-      {
-        category: 'Energy Efficiency',
-        prediction: 'Increase renewable energy by 8%',
-        confidence: 0.92,
-        action: 'Activate additional solar panels'
-      },
-      {
-        category: 'Air Quality',
-        prediction: 'Improve air quality by 12%',
-        confidence: 0.85,
-        action: 'Implement green corridor in downtown'
-      },
-      {
-        category: 'Public Safety',
-        prediction: 'Reduce incidents by 23%',
-        confidence: 0.94,
-        action: 'Deploy additional smart cameras'
-      }
-    ];
-
-    return (
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-        <h3 className="text-lg font-semibold text-purple-400 mb-4">AI-Powered Insights</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* AI Predictions */}
-          <div>
-            <h4 className="text-md font-semibold text-white mb-3">Smart City Predictions</h4>
-            <div className="space-y-3">
-              {insights.map((insight, index) => (
-                <div key={index} className="bg-gray-700 p-4 rounded">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <p className="font-semibold text-white">{insight.category}</p>
-                      <p className="text-sm text-gray-300">{insight.prediction}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold text-green-400">
-                        {(insight.confidence * 100).toFixed(0)}%
-                      </p>
-                      <p className="text-xs text-gray-400">confidence</p>
-                    </div>
-                  </div>
-                  <div className="w-full bg-gray-600 rounded-full h-2 mb-2">
-                    <div 
-                      className="bg-purple-400 h-2 rounded-full"
-                      style={{ width: (insight.confidence * 100) + '%' }}
-                    />
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    {insight.action}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* AI Performance */}
-          <div>
-            <h4 className="text-md font-semibold text-white mb-3">AI System Performance</h4>
-            <div className="space-y-4">
-              <div className="bg-gray-700 p-4 rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">Prediction Accuracy</span>
-                  <span className="text-green-400 font-semibold">91.3%</span>
-                </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-green-400 h-2 rounded-full" style={{ width: '91.3%' }}></div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-700 p-4 rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">Response Time</span>
-                  <span className="text-blue-400 font-semibold">0.8s</span>
-                </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-blue-400 h-2 rounded-full" style={{ width: '85%' }}></div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-700 p-4 rounded">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">Data Processing</span>
-                  <span className="text-purple-400 font-semibold">2.1M/s</span>
-                </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
-                  <div className="bg-purple-400 h-2 rounded-full" style={{ width: '92%' }}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const formatCoordinates = (coords) => {
+    return `${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}`;
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Header with Code Viewer Button */}
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Smart City Demo</h1>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">🏙️ Smart City Platform</h1>
             <p className="text-gray-300 text-lg">
-              Interactive demo with real-time data and advanced features
+              IoT-powered urban management with real-time monitoring, traffic optimization, and environmental analytics
             </p>
           </div>
           <button
@@ -787,33 +421,296 @@ export default SmartCityDemo;`;
           </button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={'px-4 py-2 rounded-lg transition-colors ' + (
-                activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              )}
-            >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
+        {/* City Stats Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
+            <div className="text-3xl mb-2">📡</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Active Sensors</h3>
+            <p className="text-3xl font-bold text-green-400">{cityStats.activeSensors}/{cityStats.totalSensors}</p>
+            <p className="text-green-300 text-sm">Real-time monitoring</p>
+          </div>
+          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="text-3xl mb-2">🚗</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Traffic Flow</h3>
+            <p className="text-3xl font-bold text-blue-400">{cityStats.trafficFlow.toFixed(0)}%</p>
+            <p className="text-blue-300 text-sm">Optimized routes</p>
+          </div>
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="text-3xl mb-2">🌬️</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Air Quality</h3>
+            <p className="text-3xl font-bold text-purple-400">{cityStats.airQuality.toFixed(0)} AQI</p>
+            <p className="text-purple-300 text-sm">Environmental monitoring</p>
+          </div>
+          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+            <div className="text-3xl mb-2">⚡</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Energy Usage</h3>
+            <p className="text-3xl font-bold text-yellow-400">{cityStats.energyConsumption.toFixed(0)}%</p>
+            <p className="text-yellow-300 text-sm">Smart grid management</p>
+          </div>
         </div>
 
-        {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          {activeTab === 'overview' && renderCityOverview()}
-          {activeTab === 'traffic' && renderTrafficManagement()}
-          {activeTab === 'energy' && renderEnergyManagement()}
-          {activeTab === 'environment' && renderEnvironmentalMonitoring()}
-          {activeTab === 'ai' && renderAIInsights()}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* IoT Sensors */}
+          <div className="lg:col-span-2">
+            <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">📡 IoT Sensor Network</h2>
+                <div className="text-sm text-green-300">Real-time updates every 3s</div>
+              </div>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {sensors.map((sensor) => (
+                  <div
+                    key={sensor.id}
+                    className={'p-4 rounded-lg border cursor-pointer transition-all hover:scale-105 ' + (
+                      sensor.status === 'online' 
+                        ? 'bg-green-900/50 border-green-600' 
+                        : sensor.status === 'offline'
+                          ? 'bg-red-900/50 border-red-600'
+                          : 'bg-yellow-900/50 border-yellow-600'
+                    )}
+                    onClick={() => setSelectedSensor(sensor)}
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{sensor.name}</h3>
+                        <p className="text-gray-300 text-sm">{sensor.type} • {sensor.location}</p>
+                        <p className="text-gray-400 text-xs">{sensor.lastUpdate}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs font-medium ' + getStatusBg(sensor.status)}>
+                          {sensor.status.toUpperCase()}
+                        </div>
+                        <p className="text-gray-300 text-xs mt-1">{sensor.value} {sensor.unit}</p>
+                        <p className="text-gray-400 text-xs">{sensor.battery.toFixed(0)}% battery</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-400">Threshold</p>
+                        <p className="text-white font-semibold">{sensor.threshold} {sensor.unit}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Location</p>
+                        <p className="text-white font-semibold">{formatCoordinates(sensor.coordinates)}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3">
+                      <div className="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Battery Level</span>
+                        <span>{sensor.battery.toFixed(0)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div 
+                          className={'h-2 rounded-full transition-all ' + (
+                            sensor.battery < 20 ? 'bg-red-500' : 
+                            sensor.battery < 50 ? 'bg-yellow-500' : 'bg-green-500'
+                          )}
+                          style={{ width: sensor.battery + '%' }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Smart City Analytics */}
+          <div className="space-y-6">
+            {/* Traffic Management */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <h2 className="text-2xl font-bold text-white mb-4">🚗 Traffic Management</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {trafficData.map((traffic) => (
+                  <div key={traffic.id} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white font-semibold">{traffic.location}</p>
+                        <p className="text-blue-200 text-sm">{traffic.flow}% flow</p>
+                        <p className="text-blue-200 text-xs">{traffic.speed} km/h avg</p>
+                        <p className="text-gray-300 text-xs">{traffic.pedestrianCount} pedestrians</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs ' + getTrafficBg(traffic.congestion)}>
+                          {traffic.congestion.toUpperCase()}
+                        </div>
+                        <p className="text-white text-xs mt-1">{traffic.signalStatus}</p>
+                        <p className="text-gray-300 text-xs">{traffic.incidents} incidents</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Environmental Monitoring */}
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+              <h2 className="text-2xl font-bold text-white mb-4">🌬️ Environmental Data</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {environmentalData.map((env) => (
+                  <div key={env.id} className="bg-purple-800/50 p-3 rounded-lg border border-purple-600">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white font-semibold">{env.type}</p>
+                        <p className="text-purple-200 text-sm">{env.location}</p>
+                        <p className="text-purple-200 text-xs">{env.value} {env.unit}</p>
+                        <p className="text-gray-300 text-xs">{env.trend}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs ' + getAirQualityBg(env.value)}>
+                          {env.status.toUpperCase()}
+                        </div>
+                        <p className="text-white text-xs mt-1">{env.lastUpdate}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Energy Grid */}
+            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+              <h2 className="text-2xl font-bold text-white mb-4">⚡ Energy Grid</h2>
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {energyGrid.map((energy) => (
+                  <div key={energy.id} className="bg-yellow-800/50 p-3 rounded-lg border border-yellow-600">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white font-semibold">{energy.name}</p>
+                        <p className="text-yellow-200 text-sm">{energy.type}</p>
+                        <p className="text-yellow-200 text-xs">{energy.location}</p>
+                        <p className="text-gray-300 text-xs">{energy.efficiency}% efficient</p>
+                      </div>
+                      <div className="text-right">
+                        <div className={'px-2 py-1 rounded text-xs ' + getStatusBg(energy.status)}>
+                          {energy.status.toUpperCase()}
+                        </div>
+                        <p className="text-white text-xs mt-1">{energy.output} {energy.unit}</p>
+                        <p className="text-gray-300 text-xs">{energy.capacity} capacity</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Sensor Details Modal */}
+        {selectedSensor && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+            <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-2xl w-full p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">Sensor Details</h2>
+                <button
+                  onClick={() => setSelectedSensor(null)}
+                  className="text-gray-400 hover:text-white text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-gray-400">Sensor ID</p>
+                  <p className="text-white font-semibold">{selectedSensor.id}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Name</p>
+                  <p className="text-white font-semibold">{selectedSensor.name}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Type</p>
+                  <p className="text-white font-semibold">{selectedSensor.type}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Location</p>
+                  <p className="text-white font-semibold">{selectedSensor.location}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Current Value</p>
+                  <p className="text-white font-semibold">{selectedSensor.value} {selectedSensor.unit}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Status</p>
+                  <p className={'font-semibold ' + getStatusColor(selectedSensor.status)}>
+                    {selectedSensor.status.toUpperCase()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Threshold</p>
+                  <p className="text-white font-semibold">{selectedSensor.threshold} {selectedSensor.unit}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Battery Level</p>
+                  <p className="text-white font-semibold">{selectedSensor.battery.toFixed(1)}%</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Coordinates</p>
+                  <p className="text-white font-semibold">{formatCoordinates(selectedSensor.coordinates)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Last Update</p>
+                  <p className="text-white font-semibold">{selectedSensor.lastUpdate}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Maintenance Due</p>
+                  <p className="text-white font-semibold">{selectedSensor.maintenance}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Smart City Features */}
+        <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <h2 className="text-2xl font-bold text-white mb-4">🏙️ Advanced Smart City Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">IoT Infrastructure</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Real-time sensor monitoring</li>
+                <li>• Predictive maintenance</li>
+                <li>• Automated alerts</li>
+                <li>• Energy optimization</li>
+                <li>• Environmental tracking</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Traffic Management</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• AI-powered traffic analysis</li>
+                <li>• Dynamic signal timing</li>
+                <li>• Congestion prediction</li>
+                <li>• Emergency vehicle routing</li>
+                <li>• Public transport optimization</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Urban Analytics</h3>
+              <ul className="space-y-1 text-gray-300 text-sm">
+                <li>• Air quality monitoring</li>
+                <li>• Noise level tracking</li>
+                <li>• Waste management</li>
+                <li>• Water quality control</li>
+                <li>• Public safety systems</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Code Viewer */}
+      {showCodeViewer && (
+        <CodeViewer
+          code={demoCode}
+          language="jsx"
+          title="Smart City Demo Code"
+          onClose={() => setShowCodeViewer(false)}
+        />
+      )}
     </div>
   );
 };
