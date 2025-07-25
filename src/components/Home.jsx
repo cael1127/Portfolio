@@ -79,7 +79,7 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
         {/* Enhanced Features */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-white mb-8 text-center">🚀 Enhanced Features</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <div 
               className="bg-gradient-to-br from-purple-800 via-purple-700 to-purple-600 p-6 rounded-lg cursor-pointer hover:from-purple-700 hover:via-purple-600 hover:to-purple-500 transition-colors border border-purple-700 hover:border-purple-600"
               onClick={() => setCurrentPage('analytics-dashboard')}
@@ -101,12 +101,33 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
               <h3 className="text-xl font-semibold mb-2">🤝 Collaborative Features</h3>
               <p className="text-gray-300">Real-time collaboration tools and team management features.</p>
             </div>
+          </div>
+        </div>
+
+        {/* Enterprise-Level Features */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">🏢 Enterprise-Level Features</h2>
+          <div className="grid md:grid-cols-3 gap-6">
             <div 
               className="bg-gradient-to-br from-red-800 via-red-700 to-red-600 p-6 rounded-lg cursor-pointer hover:from-red-700 hover:via-red-600 hover:to-red-500 transition-colors border border-red-700 hover:border-red-600"
-              onClick={() => setCurrentPage('performance-monitor')}
+              onClick={() => setCurrentPage('ai-interview-simulator')}
             >
-              <h3 className="text-xl font-semibold mb-2">⚡ Performance Monitor</h3>
-              <p className="text-gray-300">Real-time performance tracking and optimization insights.</p>
+              <h3 className="text-xl font-semibold mb-2">🤖 AI Interview Simulator</h3>
+              <p className="text-gray-300">Advanced speech recognition and AI-powered interview coaching with real-time analysis.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-green-800 via-green-700 to-green-600 p-6 rounded-lg cursor-pointer hover:from-green-700 hover:via-green-600 hover:to-green-500 transition-colors border border-green-700 hover:border-green-600"
+              onClick={() => setCurrentPage('real-time-collaboration')}
+            >
+              <h3 className="text-xl font-semibold mb-2">🌐 Real-Time Collaboration</h3>
+              <p className="text-gray-300">WebSocket, WebRTC, and operational transform for seamless teamwork.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-indigo-800 via-indigo-700 to-indigo-600 p-6 rounded-lg cursor-pointer hover:from-indigo-700 hover:via-indigo-600 hover:to-indigo-500 transition-colors border border-indigo-700 hover:border-indigo-600"
+              onClick={() => setCurrentPage('advanced-analytics')}
+            >
+              <h3 className="text-xl font-semibold mb-2">�� Advanced Analytics</h3>
+              <p className="text-gray-300">Machine learning predictions, anomaly detection, and enterprise-level insights.</p>
             </div>
           </div>
         </div>

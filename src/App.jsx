@@ -20,7 +20,10 @@ import ResumeAnalyzerDemoPage from './pages/ResumeAnalyzerDemoPage';
 import WhiteboardDemoPage from './pages/WhiteboardDemoPage';
 import FraudDetectionDemoPage from './pages/FraudDetectionDemoPage';
 import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
-import TestDemoPage from './pages/TestDemoPage';
+// Advanced Components
+import AIInterviewSimulator from './components/AIInterviewSimulator';
+import RealTimeCollaboration from './components/RealTimeCollaboration';
+import AdvancedAnalytics from './components/AdvancedAnalytics';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
 import AquacultureProjectPage from './components/ProjectPages/AquacultureProjectPage';
 import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPage';
@@ -288,6 +291,31 @@ function App() {
         return <FraudDetectionDemoPage setCurrentPage={setCurrentPage} />;
       case 'deepfake-detection':
         return <DeepfakeDetectionDemoPage setCurrentPage={setCurrentPage} />;
+      
+      // Advanced Enterprise Demos
+      case 'ai-interview-simulator':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <AIInterviewSimulator />
+          </div>
+        );
+      
+      case 'real-time-collaboration':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <RealTimeCollaboration />
+          </div>
+        );
+      
+      case 'advanced-analytics':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <AdvancedAnalytics />
+          </div>
+        );
       
       case 'blockchain-project':
         return (
