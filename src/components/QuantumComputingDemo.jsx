@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CodeViewer from '../CodeViewer';
+import CodeViewer from './CodeViewer';
 
 const QuantumComputingDemo = () => {
   const [quantumState, setQuantumState] = useState({
