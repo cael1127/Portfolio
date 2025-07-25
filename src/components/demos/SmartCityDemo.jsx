@@ -13,7 +13,15 @@ const SmartCityDemo = () => {
     population: 0,
     energyConsumption: 0,
     airQuality: 0,
-    trafficFlow: 0
+    trafficFlow: 0,
+    sustainabilityScore: 0,
+    efficiencyMetrics: {}
+  });
+  const [urbanAlgorithms, setUrbanAlgorithms] = useState({
+    trafficOptimization: [],
+    energyManagement: {},
+    environmentalPredictions: [],
+    infrastructureRecommendations: []
   });
 
   // Sample code for the demo
@@ -107,6 +115,366 @@ export default SmartCityDemo;`;
 
     return () => clearInterval(interval);
   }, []);
+
+  // Urban planning algorithms for smart city optimization
+  useEffect(() => {
+    if (trafficData.length > 0 && environmentalData && weatherData) {
+      // Run traffic optimization algorithms
+      const trafficOptimization = runTrafficOptimizationAlgorithms(trafficData);
+      setUrbanAlgorithms(prev => ({ ...prev, trafficOptimization }));
+      
+      // Run energy management algorithms
+      const energyManagement = runEnergyManagementAlgorithms(weatherData, environmentalData);
+      setUrbanAlgorithms(prev => ({ ...prev, energyManagement }));
+      
+      // Run environmental prediction algorithms
+      const environmentalPredictions = runEnvironmentalPredictionAlgorithms(environmentalData, weatherData);
+      setUrbanAlgorithms(prev => ({ ...prev, environmentalPredictions }));
+      
+      // Run infrastructure recommendation algorithms
+      const infrastructureRecommendations = runInfrastructureAlgorithms(trafficData, environmentalData);
+      setUrbanAlgorithms(prev => ({ ...prev, infrastructureRecommendations }));
+      
+      // Update city stats with algorithm results
+      updateCityStatsWithAlgorithms(trafficOptimization, energyManagement, environmentalPredictions);
+    }
+  }, [trafficData, environmentalData, weatherData]);
+
+  // Run traffic optimization algorithms
+  const runTrafficOptimizationAlgorithms = (traffic) => {
+    const optimizations = [];
+    
+    traffic.forEach(intersection => {
+      const congestion = intersection.congestion;
+      const averageSpeed = intersection.averageSpeed;
+      
+      // Traffic signal optimization
+      if (congestion > 70) {
+        optimizations.push({
+          location: intersection.location,
+          type: 'Signal Optimization',
+          action: 'Extend green light duration',
+          expectedImprovement: Math.min(20, congestion * 0.3),
+          priority: 'High',
+          algorithm: 'Adaptive Traffic Control'
+        });
+      }
+      
+      // Route optimization
+      if (averageSpeed < 20) {
+        optimizations.push({
+          location: intersection.location,
+          type: 'Route Optimization',
+          action: 'Implement dynamic routing',
+          expectedImprovement: 15,
+          priority: 'Medium',
+          algorithm: 'Real-time Route Planning'
+        });
+      }
+      
+      // Public transport optimization
+      if (congestion > 60) {
+        optimizations.push({
+          location: intersection.location,
+          type: 'Public Transport',
+          action: 'Increase bus frequency',
+          expectedImprovement: 10,
+          priority: 'Medium',
+          algorithm: 'Demand-Responsive Transit'
+        });
+      }
+    });
+    
+    return optimizations;
+  };
+
+  // Run energy management algorithms
+  const runEnergyManagementAlgorithms = (weather, environmental) => {
+    const temperature = weather?.temperature || 20;
+    const humidity = weather?.humidity || 50;
+    const airQuality = environmental?.sensors?.[0]?.aqi || 50;
+    
+    // Calculate energy demand based on weather
+    const heatingDemand = temperature < 15 ? Math.max(0, (15 - temperature) * 1000) : 0;
+    const coolingDemand = temperature > 25 ? Math.max(0, (temperature - 25) * 1200) : 0;
+    const totalDemand = heatingDemand + coolingDemand;
+    
+    // Renewable energy optimization
+    const solarEfficiency = calculateSolarEfficiency(weather);
+    const windEfficiency = calculateWindEfficiency(weather);
+    
+    // Smart grid recommendations
+    const gridOptimization = {
+      currentDemand: totalDemand,
+      renewableCapacity: solarEfficiency + windEfficiency,
+      gridEfficiency: calculateGridEfficiency(totalDemand, solarEfficiency + windEfficiency),
+      recommendations: generateEnergyRecommendations(totalDemand, solarEfficiency, windEfficiency)
+    };
+    
+    return gridOptimization;
+  };
+
+  // Calculate solar energy efficiency
+  const calculateSolarEfficiency = (weather) => {
+    const temperature = weather?.temperature || 20;
+    const description = weather?.description?.toLowerCase() || '';
+    
+    let efficiency = 0.8; // Base efficiency
+    
+    // Temperature effect (solar panels are less efficient at high temperatures)
+    if (temperature > 30) efficiency *= 0.9;
+    else if (temperature < 10) efficiency *= 0.95;
+    
+    // Weather effect
+    if (description.includes('cloudy')) efficiency *= 0.6;
+    else if (description.includes('rainy')) efficiency *= 0.3;
+    else if (description.includes('sunny')) efficiency *= 1.1;
+    
+    return Math.max(0, Math.min(1, efficiency));
+  };
+
+  // Calculate wind energy efficiency
+  const calculateWindEfficiency = (weather) => {
+    const windSpeed = weather?.windSpeed || 5;
+    
+    // Wind turbine efficiency curve
+    if (windSpeed < 3) return 0; // Below cut-in speed
+    if (windSpeed > 25) return 0; // Above cut-out speed
+    if (windSpeed >= 12 && windSpeed <= 20) return 0.9; // Optimal range
+    if (windSpeed >= 8 && windSpeed < 12) return 0.7; // Good range
+    if (windSpeed >= 3 && windSpeed < 8) return 0.4; // Low range
+    
+    return 0.5; // Default
+  };
+
+  // Calculate grid efficiency
+  const calculateGridEfficiency = (demand, renewableCapacity) => {
+    const renewableRatio = renewableCapacity / Math.max(demand, 1);
+    const baseEfficiency = 0.85;
+    
+    // Higher renewable ratio improves efficiency
+    const renewableBonus = Math.min(0.1, renewableRatio * 0.05);
+    
+    return Math.min(0.95, baseEfficiency + renewableBonus);
+  };
+
+  // Generate energy management recommendations
+  const generateEnergyRecommendations = (demand, solarEfficiency, windEfficiency) => {
+    const recommendations = [];
+    
+    if (demand > 5000) {
+      recommendations.push({
+        type: 'Demand Response',
+        action: 'Activate peak demand reduction programs',
+        impact: 'Reduce demand by 15-20%',
+        priority: 'High'
+      });
+    }
+    
+    if (solarEfficiency > 0.7) {
+      recommendations.push({
+        type: 'Solar Optimization',
+        action: 'Maximize solar panel output',
+        impact: 'Increase renewable energy by 25%',
+        priority: 'Medium'
+      });
+    }
+    
+    if (windEfficiency > 0.8) {
+      recommendations.push({
+        type: 'Wind Optimization',
+        action: 'Increase wind turbine output',
+        impact: 'Increase renewable energy by 30%',
+        priority: 'Medium'
+      });
+    }
+    
+    return recommendations;
+  };
+
+  // Run environmental prediction algorithms
+  const runEnvironmentalPredictionAlgorithms = (environmental, weather) => {
+    const predictions = [];
+    
+    if (environmental?.sensors) {
+      const avgAQI = environmental.sensors.reduce((sum, sensor) => sum + sensor.aqi, 0) / environmental.sensors.length;
+      
+      // Air quality prediction
+      const aqiTrend = predictAirQualityTrend(environmental.sensors, weather);
+      predictions.push({
+        type: 'Air Quality',
+        current: avgAQI,
+        predicted: aqiTrend.predicted,
+        trend: aqiTrend.trend,
+        recommendations: aqiTrend.recommendations
+      });
+      
+      // Pollution prediction
+      const pollutionPrediction = predictPollutionLevels(environmental.sensors, weather);
+      predictions.push({
+        type: 'Pollution Levels',
+        current: pollutionPrediction.current,
+        predicted: pollutionPrediction.predicted,
+        riskLevel: pollutionPrediction.riskLevel,
+        interventions: pollutionPrediction.interventions
+      });
+    }
+    
+    return predictions;
+  };
+
+  // Predict air quality trend
+  const predictAirQualityTrend = (sensors, weather) => {
+    const currentAQI = sensors.reduce((sum, sensor) => sum + sensor.aqi, 0) / sensors.length;
+    const windSpeed = weather?.windSpeed || 5;
+    const humidity = weather?.humidity || 50;
+    
+    // Simple prediction model
+    let predictedAQI = currentAQI;
+    
+    // Wind effect (higher wind speed improves air quality)
+    if (windSpeed > 10) predictedAQI *= 0.9;
+    else if (windSpeed < 3) predictedAQI *= 1.1;
+    
+    // Humidity effect (high humidity can trap pollutants)
+    if (humidity > 80) predictedAQI *= 1.05;
+    
+    // Time of day effect (rush hour increases pollution)
+    const hour = new Date().getHours();
+    if (hour >= 7 && hour <= 9) predictedAQI *= 1.1; // Morning rush
+    if (hour >= 17 && hour <= 19) predictedAQI *= 1.1; // Evening rush
+    
+    const trend = predictedAQI > currentAQI ? 'Deteriorating' : 'Improving';
+    
+    const recommendations = [];
+    if (predictedAQI > 100) {
+      recommendations.push('Implement traffic restrictions');
+      recommendations.push('Activate air quality alerts');
+      recommendations.push('Increase public transport frequency');
+    }
+    
+    return { predicted: Math.round(predictedAQI), trend, recommendations };
+  };
+
+  // Predict pollution levels
+  const predictPollutionLevels = (sensors, weather) => {
+    const currentPollution = sensors.reduce((sum, sensor) => 
+      sum + (sensor.pm25 + sensor.pm10) / 2, 0) / sensors.length;
+    
+    // Pollution prediction model
+    let predictedPollution = currentPollution;
+    
+    // Weather effects
+    const windSpeed = weather?.windSpeed || 5;
+    const humidity = weather?.humidity || 50;
+    
+    if (windSpeed > 15) predictedPollution *= 0.8; // High wind disperses pollution
+    if (humidity > 80) predictedPollution *= 1.2; // High humidity traps pollution
+    
+    const riskLevel = predictedPollution > 50 ? 'High' : predictedPollution > 30 ? 'Medium' : 'Low';
+    
+    const interventions = [];
+    if (riskLevel === 'High') {
+      interventions.push('Implement industrial emission controls');
+      interventions.push('Activate vehicle emission testing');
+      interventions.push('Increase green space coverage');
+    }
+    
+    return {
+      current: Math.round(currentPollution),
+      predicted: Math.round(predictedPollution),
+      riskLevel,
+      interventions
+    };
+  };
+
+  // Run infrastructure recommendation algorithms
+  const runInfrastructureAlgorithms = (traffic, environmental) => {
+    const recommendations = [];
+    
+    // Traffic infrastructure recommendations
+    const highCongestionAreas = traffic.filter(t => t.congestion > 70);
+    if (highCongestionAreas.length > 0) {
+      recommendations.push({
+        type: 'Transportation',
+        priority: 'High',
+        recommendation: 'Expand public transportation network',
+        impact: 'Reduce traffic congestion by 25%',
+        cost: 'High',
+        timeline: '2-3 years'
+      });
+    }
+    
+    // Environmental infrastructure recommendations
+    const poorAirQuality = environmental?.sensors?.some(s => s.aqi > 100);
+    if (poorAirQuality) {
+      recommendations.push({
+        type: 'Environmental',
+        priority: 'High',
+        recommendation: 'Implement green infrastructure projects',
+        impact: 'Improve air quality by 30%',
+        cost: 'Medium',
+        timeline: '1-2 years'
+      });
+    }
+    
+    // Smart city technology recommendations
+    recommendations.push({
+      type: 'Technology',
+      priority: 'Medium',
+      recommendation: 'Deploy IoT sensors for real-time monitoring',
+      impact: 'Improve city efficiency by 20%',
+      cost: 'Medium',
+      timeline: '6-12 months'
+    });
+    
+    return recommendations;
+  };
+
+  // Update city stats with algorithm results
+  const updateCityStatsWithAlgorithms = (trafficOptimization, energyManagement, environmentalPredictions) => {
+    const efficiencyMetrics = {
+      trafficEfficiency: calculateTrafficEfficiency(trafficOptimization),
+      energyEfficiency: energyManagement.gridEfficiency,
+      environmentalEfficiency: calculateEnvironmentalEfficiency(environmentalPredictions)
+    };
+    
+    const sustainabilityScore = calculateSustainabilityScore(efficiencyMetrics);
+    
+    setCityStats(prev => ({
+      ...prev,
+      sustainabilityScore,
+      efficiencyMetrics
+    }));
+  };
+
+  // Calculate traffic efficiency
+  const calculateTrafficEfficiency = (optimizations) => {
+    if (optimizations.length === 0) return 0.8; // Base efficiency
+    
+    const totalImprovement = optimizations.reduce((sum, opt) => sum + opt.expectedImprovement, 0);
+    return Math.min(0.95, 0.8 + (totalImprovement / 100));
+  };
+
+  // Calculate environmental efficiency
+  const calculateEnvironmentalEfficiency = (predictions) => {
+    if (predictions.length === 0) return 0.7; // Base efficiency
+    
+    const improvingPredictions = predictions.filter(p => p.trend === 'Improving').length;
+    const totalPredictions = predictions.length;
+    
+    return 0.7 + (improvingPredictions / totalPredictions) * 0.2;
+  };
+
+  // Calculate overall sustainability score
+  const calculateSustainabilityScore = (metrics) => {
+    const { trafficEfficiency, energyEfficiency, environmentalEfficiency } = metrics;
+    
+    // Weighted average of all efficiency metrics
+    const score = (trafficEfficiency * 0.3 + energyEfficiency * 0.4 + environmentalEfficiency * 0.3) * 100;
+    
+    return Math.round(score);
+  };
 
   const updateCityStats = (weather, traffic, environmental) => {
     const population = 8400000 + Math.floor(Math.random() * 100000);

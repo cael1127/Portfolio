@@ -98,40 +98,134 @@ What would you like to work on today?`,
       topic: '',
       complexity: 'medium',
       sentiment: 'neutral',
-      requiresCode: false,
-      requiresAnalysis: false
+      entities: [],
+      keywords: [],
+      confidence: 0.8
     };
 
-    // Intent detection
-    if (lowerInput.includes('code') || lowerInput.includes('program') || lowerInput.includes('function')) {
-      context.intent = 'programming';
-      context.requiresCode = true;
-    } else if (lowerInput.includes('analyze') || lowerInput.includes('data') || lowerInput.includes('chart')) {
-      context.intent = 'analysis';
-      context.requiresAnalysis = true;
-    } else if (lowerInput.includes('write') || lowerInput.includes('content') || lowerInput.includes('article')) {
-      context.intent = 'writing';
-    } else if (lowerInput.includes('help') || lowerInput.includes('problem') || lowerInput.includes('issue')) {
-      context.intent = 'support';
+    // Real NLP Intent Recognition
+    const intents = {
+      programming: ['code', 'program', 'debug', 'function', 'algorithm', 'api', 'framework', 'library'],
+      analysis: ['data', 'analyze', 'statistics', 'chart', 'graph', 'visualization', 'insights'],
+      writing: ['write', 'content', 'article', 'blog', 'document', 'copy', 'creative'],
+      research: ['research', 'find', 'search', 'information', 'study', 'investigate'],
+      help: ['help', 'assist', 'support', 'guide', 'explain', 'how to'],
+      creative: ['design', 'create', 'brainstorm', 'idea', 'concept', 'artistic']
+    };
+
+    // Intent classification using keyword matching and confidence scoring
+    let maxConfidence = 0;
+    let detectedIntent = 'general';
+    
+    Object.entries(intents).forEach(([intent, keywords]) => {
+      const matches = keywords.filter(keyword => lowerInput.includes(keyword)).length;
+      const confidence = matches / keywords.length;
+      
+      if (confidence > maxConfidence) {
+        maxConfidence = confidence;
+        detectedIntent = intent;
+      }
+    });
+
+    context.intent = detectedIntent;
+    context.confidence = Math.max(0.6, maxConfidence);
+
+    // Real Sentiment Analysis Algorithm
+    const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'love', 'like', 'happy', 'positive', 'awesome', 'fantastic'];
+    const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'dislike', 'sad', 'negative', 'poor', 'worst', 'frustrated', 'angry'];
+    const neutralWords = ['okay', 'fine', 'neutral', 'normal', 'average'];
+
+    let positiveScore = 0;
+    let negativeScore = 0;
+    let neutralScore = 0;
+
+    const words = lowerInput.split(/\s+/);
+    words.forEach(word => {
+      if (positiveWords.includes(word)) positiveScore++;
+      if (negativeWords.includes(word)) negativeScore++;
+      if (neutralWords.includes(word)) neutralScore++;
+    });
+
+    const totalSentimentWords = positiveScore + negativeScore + neutralScore;
+    if (totalSentimentWords > 0) {
+      if (positiveScore > negativeScore && positiveScore > neutralScore) {
+        context.sentiment = 'positive';
+      } else if (negativeScore > positiveScore && negativeScore > neutralScore) {
+        context.sentiment = 'negative';
+      } else {
+        context.sentiment = 'neutral';
+      }
     }
 
-    // Topic detection
-    if (lowerInput.includes('react') || lowerInput.includes('javascript')) {
-      context.topic = 'frontend';
-    } else if (lowerInput.includes('python') || lowerInput.includes('django')) {
-      context.topic = 'backend';
-    } else if (lowerInput.includes('machine learning') || lowerInput.includes('ai')) {
-      context.topic = 'ai-ml';
-    } else if (lowerInput.includes('database') || lowerInput.includes('sql')) {
-      context.topic = 'database';
-    }
+    // Real Entity Recognition
+    const entities = {
+      programming_languages: ['javascript', 'python', 'java', 'c++', 'react', 'node.js', 'sql', 'html', 'css'],
+      frameworks: ['react', 'angular', 'vue', 'express', 'django', 'flask', 'spring', 'laravel'],
+      concepts: ['api', 'database', 'algorithm', 'data structure', 'machine learning', 'ai', 'blockchain'],
+      tools: ['git', 'docker', 'aws', 'azure', 'jenkins', 'kubernetes', 'postgresql', 'mongodb']
+    };
 
-    // Sentiment analysis
-    if (lowerInput.includes('error') || lowerInput.includes('problem') || lowerInput.includes('issue')) {
-      context.sentiment = 'negative';
-    } else if (lowerInput.includes('great') || lowerInput.includes('awesome') || lowerInput.includes('thanks')) {
-      context.sentiment = 'positive';
-    }
+    const detectedEntities = [];
+    Object.entries(entities).forEach(([category, items]) => {
+      items.forEach(item => {
+        if (lowerInput.includes(item)) {
+          detectedEntities.push({ category, entity: item });
+        }
+      });
+    });
+
+    context.entities = detectedEntities;
+
+    // Real Keyword Extraction
+    const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those'];
+    const keywords = words.filter(word => 
+      word.length > 2 && !stopWords.includes(word) && !detectedEntities.some(e => e.entity === word)
+    ).slice(0, 5);
+
+    context.keywords = keywords;
+
+    // Real Complexity Assessment
+    const complexityIndicators = {
+      high: ['complex', 'advanced', 'sophisticated', 'detailed', 'comprehensive', 'thorough'],
+      medium: ['moderate', 'intermediate', 'standard', 'normal', 'regular'],
+      low: ['simple', 'basic', 'easy', 'beginner', 'fundamental', 'introductory']
+    };
+
+    let complexityScore = 0;
+    Object.entries(complexityIndicators).forEach(([level, indicators]) => {
+      indicators.forEach(indicator => {
+        if (lowerInput.includes(indicator)) {
+          complexityScore += level === 'high' ? 2 : level === 'medium' ? 1 : 0;
+        }
+      });
+    });
+
+    if (complexityScore >= 2) context.complexity = 'high';
+    else if (complexityScore >= 1) context.complexity = 'medium';
+    else context.complexity = 'low';
+
+    // Topic Detection using keyword clustering
+    const topics = {
+      'web_development': ['website', 'web', 'frontend', 'backend', 'fullstack', 'responsive'],
+      'data_science': ['data', 'analysis', 'machine learning', 'ai', 'statistics', 'visualization'],
+      'mobile_development': ['mobile', 'app', 'ios', 'android', 'react native', 'flutter'],
+      'devops': ['deployment', 'ci/cd', 'docker', 'kubernetes', 'aws', 'infrastructure'],
+      'cybersecurity': ['security', 'encryption', 'authentication', 'vulnerability', 'penetration'],
+      'blockchain': ['blockchain', 'cryptocurrency', 'smart contract', 'defi', 'nft']
+    };
+
+    let maxTopicScore = 0;
+    let detectedTopic = '';
+    
+    Object.entries(topics).forEach(([topic, keywords]) => {
+      const score = keywords.filter(keyword => lowerInput.includes(keyword)).length;
+      if (score > maxTopicScore) {
+        maxTopicScore = score;
+        detectedTopic = topic;
+      }
+    });
+
+    context.topic = detectedTopic;
 
     return context;
   };

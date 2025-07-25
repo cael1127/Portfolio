@@ -16,7 +16,16 @@ const BlockchainDemo = () => {
     averageBlockTime: 0,
     gasPrice: 0,
     activeMiners: 0,
-    difficulty: 0
+    difficulty: 0,
+    consensusAlgorithm: 'Proof of Work',
+    blockReward: 2.0,
+    totalSupply: 0
+  });
+  const [blockchainAlgorithms, setBlockchainAlgorithms] = useState({
+    consensusResults: [],
+    smartContractExecution: [],
+    transactionValidation: [],
+    miningAlgorithms: {}
   });
 
   // Sample code for the demo
@@ -172,63 +181,368 @@ export default BlockchainDemo;`;
     setMiners(initialMiners);
   }, []);
 
+  // Real blockchain algorithms for consensus and validation
   useEffect(() => {
-    // Simulate real-time blockchain activity
-    const interval = setInterval(() => {
-      // Generate new transaction
-      const newTransaction = {
-        id: Date.now(),
-        from: '0x' + Math.random().toString(16).substr(2, 8),
-        to: '0x' + Math.random().toString(16).substr(2, 8),
-        amount: Math.floor(Math.random() * 1000) + 1,
-        gas: Math.floor(Math.random() * 100) + 21,
-        gasPrice: Math.floor(Math.random() * 50) + 20,
-        status: Math.random() > 0.1 ? 'confirmed' : 'pending',
-        blockNumber: Math.floor(Math.random() * 1000000) + 1,
-        timestamp: new Date().toLocaleTimeString(),
-        method: ['transfer', 'approve', 'mint', 'burn'][Math.floor(Math.random() * 4)],
-        contractAddress: Math.random() > 0.7 ? '0x' + Math.random().toString(16).substr(2, 8) : null
-      };
+    if (transactions.length > 0 && blocks.length > 0) {
+      // Run consensus algorithm
+      const consensusResults = runConsensusAlgorithm(blocks, transactions);
+      setBlockchainAlgorithms(prev => ({ ...prev, consensusResults }));
+      
+      // Run smart contract execution
+      const smartContractExecution = runSmartContractExecution(smartContracts, transactions);
+      setBlockchainAlgorithms(prev => ({ ...prev, smartContractExecution }));
+      
+      // Run transaction validation
+      const transactionValidation = runTransactionValidation(transactions);
+      setBlockchainAlgorithms(prev => ({ ...prev, transactionValidation }));
+      
+      // Run mining algorithms
+      const miningAlgorithms = runMiningAlgorithms(blocks, networkStats);
+      setBlockchainAlgorithms(prev => ({ ...prev, miningAlgorithms }));
+      
+      // Update network stats with algorithm results
+      updateNetworkStatsWithAlgorithms(consensusResults, transactionValidation, miningAlgorithms);
+    }
+  }, [transactions, blocks, smartContracts, networkStats]);
 
-      setTransactions(prev => [newTransaction, ...prev.slice(0, 19)]);
+  // Run Proof of Work consensus algorithm
+  const runConsensusAlgorithm = (blocks, transactions) => {
+    const results = [];
+    
+    // Calculate network difficulty based on recent blocks
+    const recentBlocks = blocks.slice(-10);
+    if (recentBlocks.length > 0) {
+      const avgBlockTime = recentBlocks.reduce((sum, block) => 
+        sum + (block.timestamp - (recentBlocks[0]?.timestamp || block.timestamp)), 0) / recentBlocks.length;
+      
+      // Adjust difficulty based on block time (target: 10 minutes)
+      const targetBlockTime = 600000; // 10 minutes in milliseconds
+      const difficultyAdjustment = targetBlockTime / avgBlockTime;
+      
+      results.push({
+        type: 'Difficulty Adjustment',
+        currentDifficulty: networkStats.difficulty,
+        newDifficulty: Math.round(networkStats.difficulty * difficultyAdjustment),
+        blockTime: avgBlockTime,
+        targetBlockTime,
+        adjustment: difficultyAdjustment > 1 ? 'Increase' : 'Decrease'
+      });
+    }
+    
+    // Validate block chain integrity
+    const chainIntegrity = validateBlockchainIntegrity(blocks);
+    results.push({
+      type: 'Chain Integrity',
+      isValid: chainIntegrity.isValid,
+      orphanedBlocks: chainIntegrity.orphanedBlocks,
+      forkDetected: chainIntegrity.forkDetected,
+      recommendations: chainIntegrity.recommendations
+    });
+    
+    return results;
+  };
 
-      // Update network stats
-      setNetworkStats(prev => ({
-        totalTransactions: prev.totalTransactions + 1,
-        pendingTransactions: prev.pendingTransactions + (newTransaction.status === 'pending' ? 1 : 0),
-        totalBlocks: prev.totalBlocks + (Math.random() > 0.8 ? 1 : 0),
-        networkHashrate: prev.networkHashrate + (Math.random() - 0.5) * 10,
-        averageBlockTime: Math.max(10, prev.averageBlockTime + (Math.random() - 0.5) * 2),
-        gasPrice: Math.max(20, prev.gasPrice + (Math.random() - 0.5) * 5),
-        activeMiners: prev.activeMiners + (Math.random() > 0.9 ? 1 : 0),
-        difficulty: prev.difficulty + (Math.random() - 0.5) * 100000
-      }));
-
-      // Update miners
-      setMiners(prev => prev.map(miner => ({
-        ...miner,
-        hashrate: Math.max(10, miner.hashrate + (Math.random() - 0.5) * 5),
-        lastSeen: 'Just now'
-      })));
-
-      // Occasionally add new block
-      if (Math.random() > 0.8) {
-        const newBlock = {
-          id: Math.floor(Math.random() * 1000000) + 1,
-          hash: '0x' + Math.random().toString(16).substr(2, 64),
-          transactions: Math.floor(Math.random() * 100) + 50,
-          gasUsed: Math.floor(Math.random() * 8000000) + 2000000,
-          gasLimit: 15000000,
-          miner: '0x' + Math.random().toString(16).substr(2, 8),
-          timestamp: new Date().toLocaleTimeString(),
-          difficulty: Math.floor(Math.random() * 1000000) + 5000000
-        };
-        setBlocks(prev => [newBlock, ...prev.slice(0, 9)]);
+  // Validate blockchain integrity
+  const validateBlockchainIntegrity = (blocks) => {
+    if (blocks.length < 2) return { isValid: true, orphanedBlocks: 0, forkDetected: false, recommendations: [] };
+    
+    let orphanedBlocks = 0;
+    let forkDetected = false;
+    const recommendations = [];
+    
+    // Check for orphaned blocks (blocks without proper parent)
+    for (let i = 1; i < blocks.length; i++) {
+      const currentBlock = blocks[i];
+      const previousBlock = blocks[i - 1];
+      
+      if (currentBlock.previousHash !== previousBlock.hash) {
+        orphanedBlocks++;
+        recommendations.push(`Block ${currentBlock.number} is orphaned`);
       }
-    }, 2000);
+    }
+    
+    // Check for forks (multiple blocks at same height)
+    const blockHeights = blocks.map(b => b.number);
+    const uniqueHeights = new Set(blockHeights);
+    if (blockHeights.length !== uniqueHeights.size) {
+      forkDetected = true;
+      recommendations.push('Fork detected in blockchain');
+    }
+    
+    const isValid = orphanedBlocks === 0 && !forkDetected;
+    
+    return { isValid, orphanedBlocks, forkDetected, recommendations };
+  };
 
-    return () => clearInterval(interval);
-  }, []);
+  // Run smart contract execution algorithms
+  const runSmartContractExecution = (contracts, transactions) => {
+    const executions = [];
+    
+    contracts.forEach(contract => {
+      // Simulate smart contract execution
+      const gasUsed = calculateGasUsage(contract);
+      const executionCost = gasUsed * networkStats.gasPrice;
+      
+      // Check for contract vulnerabilities
+      const vulnerabilities = checkContractVulnerabilities(contract);
+      
+      executions.push({
+        contractAddress: contract.address,
+        contractName: contract.name,
+        gasUsed,
+        executionCost,
+        vulnerabilities,
+        status: vulnerabilities.length > 0 ? 'Warning' : 'Safe',
+        recommendations: generateContractRecommendations(vulnerabilities)
+      });
+    });
+    
+    return executions;
+  };
+
+  // Calculate gas usage for smart contract
+  const calculateGasUsage = (contract) => {
+    const baseGas = 21000;
+    const storageGas = contract.storageSlots ? contract.storageSlots * 20000 : 0;
+    const computationGas = contract.complexity ? contract.complexity * 1000 : 0;
+    
+    return baseGas + storageGas + computationGas;
+  };
+
+  // Check for smart contract vulnerabilities
+  const checkContractVulnerabilities = (contract) => {
+    const vulnerabilities = [];
+    
+    // Check for common vulnerabilities
+    if (contract.reentrancyGuard === false) {
+      vulnerabilities.push('Reentrancy vulnerability detected');
+    }
+    
+    if (contract.overflowProtection === false) {
+      vulnerabilities.push('Integer overflow vulnerability detected');
+    }
+    
+    if (contract.accessControl === false) {
+      vulnerabilities.push('Access control vulnerability detected');
+    }
+    
+    if (contract.gasLimit && contract.gasLimit > 8000000) {
+      vulnerabilities.push('High gas limit may cause DoS');
+    }
+    
+    return vulnerabilities;
+  };
+
+  // Generate contract security recommendations
+  const generateContractRecommendations = (vulnerabilities) => {
+    const recommendations = [];
+    
+    if (vulnerabilities.includes('Reentrancy vulnerability detected')) {
+      recommendations.push('Implement reentrancy guard pattern');
+    }
+    
+    if (vulnerabilities.includes('Integer overflow vulnerability detected')) {
+      recommendations.push('Use SafeMath library for arithmetic operations');
+    }
+    
+    if (vulnerabilities.includes('Access control vulnerability detected')) {
+      recommendations.push('Implement proper access control mechanisms');
+    }
+    
+    if (vulnerabilities.includes('High gas limit may cause DoS')) {
+      recommendations.push('Optimize gas usage and set reasonable limits');
+    }
+    
+    return recommendations;
+  };
+
+  // Run transaction validation algorithms
+  const runTransactionValidation = (transactions) => {
+    const validations = [];
+    
+    transactions.forEach(tx => {
+      // Validate transaction format
+      const formatValidation = validateTransactionFormat(tx);
+      
+      // Check for double spending
+      const doubleSpendCheck = checkDoubleSpending(tx, transactions);
+      
+      // Validate signature
+      const signatureValidation = validateTransactionSignature(tx);
+      
+      // Calculate transaction priority
+      const priority = calculateTransactionPriority(tx);
+      
+      validations.push({
+        transactionId: tx.id,
+        formatValid: formatValidation.isValid,
+        doubleSpendFree: doubleSpendCheck.isValid,
+        signatureValid: signatureValidation.isValid,
+        priority,
+        status: formatValidation.isValid && doubleSpendCheck.isValid && signatureValidation.isValid ? 'Valid' : 'Invalid',
+        errors: [...formatValidation.errors, ...doubleSpendCheck.errors, ...signatureValidation.errors]
+      });
+    });
+    
+    return validations;
+  };
+
+  // Validate transaction format
+  const validateTransactionFormat = (tx) => {
+    const errors = [];
+    
+    if (!tx.from || tx.from.length !== 42) {
+      errors.push('Invalid sender address format');
+    }
+    
+    if (!tx.to || tx.to.length !== 42) {
+      errors.push('Invalid recipient address format');
+    }
+    
+    if (tx.amount <= 0) {
+      errors.push('Invalid transaction amount');
+    }
+    
+    if (tx.gas < 21000) {
+      errors.push('Gas limit too low');
+    }
+    
+    if (tx.gasPrice <= 0) {
+      errors.push('Invalid gas price');
+    }
+    
+    return { isValid: errors.length === 0, errors };
+  };
+
+  // Check for double spending
+  const checkDoubleSpending = (tx, allTransactions) => {
+    const errors = [];
+    
+    // Check if sender has sufficient balance
+    const senderTransactions = allTransactions.filter(t => t.from === tx.from);
+    const totalSent = senderTransactions.reduce((sum, t) => sum + t.amount, 0);
+    
+    if (totalSent > 1000) { // Simulated balance check
+      errors.push('Insufficient balance for transaction');
+    }
+    
+    // Check for duplicate transaction IDs
+    const duplicateIds = allTransactions.filter(t => t.id === tx.id).length;
+    if (duplicateIds > 1) {
+      errors.push('Duplicate transaction ID detected');
+    }
+    
+    return { isValid: errors.length === 0, errors };
+  };
+
+  // Validate transaction signature
+  const validateTransactionSignature = (tx) => {
+    const errors = [];
+    
+    // Simulate signature validation
+    if (!tx.signature || tx.signature.length < 64) {
+      errors.push('Invalid transaction signature');
+    }
+    
+    // Check signature format (simplified)
+    const signatureRegex = /^[0-9a-fA-F]{130,132}$/;
+    if (!signatureRegex.test(tx.signature)) {
+      errors.push('Invalid signature format');
+    }
+    
+    return { isValid: errors.length === 0, errors };
+  };
+
+  // Calculate transaction priority
+  const calculateTransactionPriority = (tx) => {
+    const gasPrice = tx.gasPrice || networkStats.gasPrice;
+    const amount = tx.amount || 0;
+    
+    // Priority based on gas price and amount
+    const gasPriority = gasPrice / networkStats.gasPrice;
+    const amountPriority = amount / 1000; // Normalize to 1000 ETH
+    
+    return Math.min(10, (gasPriority + amountPriority) / 2);
+  };
+
+  // Run mining algorithms
+  const runMiningAlgorithms = (blocks, stats) => {
+    const algorithms = {};
+    
+    // Proof of Work mining simulation
+    const currentDifficulty = stats.difficulty;
+    const targetHash = '0x' + '0'.repeat(Math.floor(currentDifficulty / 4));
+    
+    // Calculate mining difficulty
+    const hashRate = stats.networkHashrate;
+    const blockTime = stats.averageBlockTime;
+    const expectedHashRate = (2 ** 256) / (currentDifficulty * blockTime);
+    
+    algorithms.pow = {
+      currentDifficulty,
+      targetHash,
+      hashRate,
+      expectedHashRate,
+      efficiency: hashRate / expectedHashRate,
+      blockReward: stats.blockReward,
+      miningProfitability: calculateMiningProfitability(hashRate, stats)
+    };
+    
+    // Alternative consensus algorithms
+    algorithms.pos = {
+      stakingReward: 0.05, // 5% annual return
+      validatorCount: Math.floor(stats.activeMiners * 0.1),
+      totalStaked: 1000000, // 1M ETH staked
+      consensusParticipation: 0.95
+    };
+    
+    algorithms.dpos = {
+      delegateCount: 21,
+      blockTime: 3, // 3 seconds
+      consensusParticipation: 0.98,
+      governanceParticipation: 0.85
+    };
+    
+    return algorithms;
+  };
+
+  // Calculate mining profitability
+  const calculateMiningProfitability = (hashRate, stats) => {
+    const electricityCost = 0.12; // $0.12 per kWh
+    const hardwareEfficiency = 0.8; // 80% efficiency
+    const electricityConsumption = hashRate * 0.000001; // kWh per hash
+    
+    const dailyRevenue = (hashRate / stats.networkHashrate) * stats.blockReward * 144; // 144 blocks per day
+    const dailyCost = electricityConsumption * electricityCost * 24;
+    
+    const profitability = (dailyRevenue - dailyCost) / dailyCost;
+    
+    return {
+      dailyRevenue,
+      dailyCost,
+      profitability,
+      roi: profitability * 100,
+      breakEvenTime: dailyCost > 0 ? dailyRevenue / dailyCost : 0
+    };
+  };
+
+  // Update network stats with algorithm results
+  const updateNetworkStatsWithAlgorithms = (consensusResults, transactionValidation, miningAlgorithms) => {
+    const validTransactions = transactionValidation.filter(tx => tx.status === 'Valid').length;
+    const invalidTransactions = transactionValidation.filter(tx => tx.status === 'Invalid').length;
+    
+    const consensusResult = consensusResults.find(r => r.type === 'Difficulty Adjustment');
+    const newDifficulty = consensusResult ? consensusResult.newDifficulty : networkStats.difficulty;
+    
+    setNetworkStats(prev => ({
+      ...prev,
+      difficulty: newDifficulty,
+      totalTransactions: validTransactions + invalidTransactions,
+      pendingTransactions: invalidTransactions,
+      consensusAlgorithm: 'Proof of Work',
+      miningEfficiency: miningAlgorithms.pow?.efficiency || 0.8
+    }));
+  };
 
   const getStatusColor = (status) => {
     switch (status) {

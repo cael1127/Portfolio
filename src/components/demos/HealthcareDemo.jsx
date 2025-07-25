@@ -12,7 +12,16 @@ const HealthcareDemo = () => {
     totalPatients: 0,
     activeCases: 0,
     averageWaitTime: 0,
-    satisfactionRate: 0
+    satisfactionRate: 0,
+    riskAssessment: [],
+    treatmentEfficacy: {},
+    diagnosticAccuracy: 0
+  });
+  const [medicalAlgorithms, setMedicalAlgorithms] = useState({
+    diagnosisResults: [],
+    riskPredictions: [],
+    treatmentRecommendations: [],
+    drugInteractions: []
   });
 
   // Sample code for the demo
@@ -127,6 +136,332 @@ export default HealthcareDemo;`;
 
     return () => clearInterval(interval);
   }, []);
+
+  // Medical algorithms for patient diagnosis and risk assessment
+  useEffect(() => {
+    if (healthcareData && healthcareData.patients) {
+      // Run diagnostic algorithms
+      const diagnosisResults = runDiagnosticAlgorithms(healthcareData);
+      setMedicalAlgorithms(prev => ({ ...prev, diagnosisResults }));
+      
+      // Run risk assessment algorithms
+      const riskPredictions = runRiskAssessmentAlgorithms(healthcareData);
+      setMedicalAlgorithms(prev => ({ ...prev, riskPredictions }));
+      
+      // Run treatment recommendation algorithms
+      const treatmentRecommendations = runTreatmentAlgorithms(healthcareData);
+      setMedicalAlgorithms(prev => ({ ...prev, treatmentRecommendations }));
+      
+      // Run drug interaction algorithms
+      const drugInteractions = runDrugInteractionAlgorithms(healthcareData);
+      setMedicalAlgorithms(prev => ({ ...prev, drugInteractions }));
+      
+      // Update analytics with algorithm results
+      updateHealthcareAnalytics(diagnosisResults, riskPredictions, treatmentRecommendations);
+    }
+  }, [healthcareData]);
+
+  // Run diagnostic algorithms based on patient vitals
+  const runDiagnosticAlgorithms = (data) => {
+    const results = [];
+    
+    if (data.vitals) {
+      const { heartRate, bloodPressure, temperature, oxygenSaturation } = data.vitals;
+      
+      // Heart rate analysis
+      if (heartRate > 100) {
+        results.push({
+          type: 'Cardiovascular',
+          diagnosis: 'Tachycardia',
+          confidence: 0.85,
+          severity: 'Moderate',
+          recommendation: 'Monitor heart rate, consider beta-blockers if persistent'
+        });
+      } else if (heartRate < 60) {
+        results.push({
+          type: 'Cardiovascular',
+          diagnosis: 'Bradycardia',
+          confidence: 0.80,
+          severity: 'Mild',
+          recommendation: 'Check for underlying causes, monitor for symptoms'
+        });
+      }
+      
+      // Blood pressure analysis
+      const [systolic, diastolic] = bloodPressure.split('/').map(Number);
+      if (systolic > 140 || diastolic > 90) {
+        results.push({
+          type: 'Cardiovascular',
+          diagnosis: 'Hypertension',
+          confidence: 0.90,
+          severity: systolic > 160 ? 'Severe' : 'Moderate',
+          recommendation: 'Lifestyle modifications, consider antihypertensive medication'
+        });
+      }
+      
+      // Temperature analysis
+      if (temperature > 100.4) {
+        results.push({
+          type: 'Infectious Disease',
+          diagnosis: 'Fever',
+          confidence: 0.95,
+          severity: temperature > 103 ? 'High' : 'Moderate',
+          recommendation: 'Investigate source of infection, consider antipyretics'
+        });
+      }
+      
+      // Oxygen saturation analysis
+      if (oxygenSaturation < 95) {
+        results.push({
+          type: 'Respiratory',
+          diagnosis: 'Hypoxemia',
+          confidence: 0.88,
+          severity: oxygenSaturation < 90 ? 'Severe' : 'Moderate',
+          recommendation: 'Supplemental oxygen, investigate underlying cause'
+        });
+      }
+    }
+    
+    return results;
+  };
+
+  // Run risk assessment algorithms
+  const runRiskAssessmentAlgorithms = (data) => {
+    const predictions = [];
+    
+    if (data.patients && data.patients.total > 0) {
+      // Calculate patient risk scores
+      const highRiskPatients = data.patients.total * 0.15; // 15% high risk
+      const mediumRiskPatients = data.patients.total * 0.25; // 25% medium risk
+      
+      predictions.push({
+        type: 'Readmission Risk',
+        highRisk: Math.floor(highRiskPatients),
+        mediumRisk: Math.floor(mediumRiskPatients),
+        lowRisk: data.patients.total - Math.floor(highRiskPatients) - Math.floor(mediumRiskPatients),
+        factors: ['Age > 65', 'Multiple comorbidities', 'Previous readmissions', 'Medication non-compliance']
+      });
+      
+      // Infection risk assessment
+      const infectionRisk = calculateInfectionRisk(data);
+      predictions.push({
+        type: 'Infection Risk',
+        riskLevel: infectionRisk.level,
+        probability: infectionRisk.probability,
+        recommendations: infectionRisk.recommendations
+      });
+      
+      // Fall risk assessment
+      const fallRisk = calculateFallRisk(data);
+      predictions.push({
+        type: 'Fall Risk',
+        riskLevel: fallRisk.level,
+        probability: fallRisk.probability,
+        interventions: fallRisk.interventions
+      });
+    }
+    
+    return predictions;
+  };
+
+  // Calculate infection risk based on hospital data
+  const calculateInfectionRisk = (data) => {
+    const totalPatients = data.patients?.total || 0;
+    const activeCases = data.patients?.active || 0;
+    
+    // Infection risk factors
+    const occupancyRate = activeCases / totalPatients;
+    const baseRisk = occupancyRate * 0.3;
+    const seasonalFactor = 1.2; // Winter season
+    const hygieneFactor = 0.8; // Good hygiene practices
+    
+    const infectionProbability = baseRisk * seasonalFactor * hygieneFactor;
+    
+    let level = 'Low';
+    if (infectionProbability > 0.1) level = 'High';
+    else if (infectionProbability > 0.05) level = 'Medium';
+    
+    return {
+      level,
+      probability: infectionProbability,
+      recommendations: [
+        'Enhanced hand hygiene protocols',
+        'Regular surface disinfection',
+        'Patient isolation for high-risk cases',
+        'Staff vaccination requirements'
+      ]
+    };
+  };
+
+  // Calculate fall risk for elderly patients
+  const calculateFallRisk = (data) => {
+    const elderlyPatients = Math.floor((data.patients?.total || 0) * 0.3); // 30% elderly
+    const fallRiskFactors = ['Mobility issues', 'Medication side effects', 'Environmental hazards'];
+    
+    const baseRisk = 0.15; // 15% base fall risk for elderly
+    const riskMultiplier = 1.5; // Increased risk in hospital setting
+    
+    const fallProbability = baseRisk * riskMultiplier;
+    
+    return {
+      level: fallProbability > 0.2 ? 'High' : fallProbability > 0.1 ? 'Medium' : 'Low',
+      probability: fallProbability,
+      interventions: [
+        'Bed alarms for high-risk patients',
+        'Non-slip footwear',
+        'Assistive devices',
+        'Medication review for fall risk'
+      ]
+    };
+  };
+
+  // Run treatment recommendation algorithms
+  const runTreatmentAlgorithms = (data) => {
+    const recommendations = [];
+    
+    if (data.medications) {
+      // Analyze medication effectiveness
+      data.medications.forEach(med => {
+        const effectiveness = calculateMedicationEffectiveness(med);
+        recommendations.push({
+          medication: med.name,
+          effectiveness: effectiveness.score,
+          recommendation: effectiveness.recommendation,
+          monitoring: effectiveness.monitoring
+        });
+      });
+    }
+    
+    // Personalized treatment recommendations
+    if (data.vitals) {
+      const personalizedRecs = generatePersonalizedRecommendations(data.vitals);
+      recommendations.push(...personalizedRecs);
+    }
+    
+    return recommendations;
+  };
+
+  // Calculate medication effectiveness
+  const calculateMedicationEffectiveness = (medication) => {
+    const effectivenessScores = {
+      'Aspirin': { score: 0.85, monitoring: 'Bleeding risk, GI symptoms' },
+      'Lisinopril': { score: 0.90, monitoring: 'Blood pressure, kidney function' },
+      'Metformin': { score: 0.88, monitoring: 'Blood glucose, kidney function' }
+    };
+    
+    const score = effectivenessScores[medication.name]?.score || 0.75;
+    const monitoring = effectivenessScores[medication.name]?.monitoring || 'Standard monitoring';
+    
+    let recommendation = 'Continue current dosage';
+    if (score < 0.8) {
+      recommendation = 'Consider dosage adjustment or alternative medication';
+    }
+    
+    return { score, recommendation, monitoring };
+  };
+
+  // Generate personalized treatment recommendations
+  const generatePersonalizedRecommendations = (vitals) => {
+    const recommendations = [];
+    
+    if (vitals.heartRate > 100) {
+      recommendations.push({
+        type: 'Cardiovascular',
+        recommendation: 'Beta-blocker therapy',
+        priority: 'High',
+        expectedOutcome: 'Heart rate reduction within 24-48 hours'
+      });
+    }
+    
+    if (vitals.bloodPressure.includes('140/90')) {
+      recommendations.push({
+        type: 'Hypertension',
+        recommendation: 'ACE inhibitor or calcium channel blocker',
+        priority: 'High',
+        expectedOutcome: 'Blood pressure reduction within 1-2 weeks'
+      });
+    }
+    
+    if (vitals.temperature > 100.4) {
+      recommendations.push({
+        type: 'Fever Management',
+        recommendation: 'Acetaminophen or ibuprofen',
+        priority: 'Medium',
+        expectedOutcome: 'Temperature reduction within 2-4 hours'
+      });
+    }
+    
+    return recommendations;
+  };
+
+  // Run drug interaction algorithms
+  const runDrugInteractionAlgorithms = (data) => {
+    const interactions = [];
+    
+    if (data.medications) {
+      const medications = data.medications.map(m => m.name);
+      
+      // Check for known drug interactions
+      const knownInteractions = {
+        'Aspirin': ['Warfarin', 'NSAIDs', 'ACE inhibitors'],
+        'Lisinopril': ['Potassium supplements', 'Lithium', 'NSAIDs'],
+        'Metformin': ['Alcohol', 'Contrast agents', 'ACE inhibitors']
+      };
+      
+      medications.forEach(med => {
+        const interactions = knownInteractions[med] || [];
+        if (interactions.length > 0) {
+          interactions.forEach(interaction => {
+            if (medications.includes(interaction)) {
+              interactions.push({
+                drug1: med,
+                drug2: interaction,
+                severity: 'Moderate',
+                recommendation: 'Monitor closely, consider alternative medication',
+                risk: 'Increased bleeding risk, kidney function monitoring required'
+              });
+            }
+          });
+        }
+      });
+    }
+    
+    return interactions;
+  };
+
+  // Update healthcare analytics with algorithm results
+  const updateHealthcareAnalytics = (diagnosisResults, riskPredictions, treatmentRecommendations) => {
+    const diagnosticAccuracy = calculateDiagnosticAccuracy(diagnosisResults);
+    const treatmentEfficacy = calculateTreatmentEfficacy(treatmentRecommendations);
+    
+    setAnalytics(prev => ({
+      ...prev,
+      diagnosticAccuracy,
+      treatmentEfficacy,
+      riskAssessment: riskPredictions
+    }));
+  };
+
+  // Calculate diagnostic accuracy
+  const calculateDiagnosticAccuracy = (diagnosisResults) => {
+    if (diagnosisResults.length === 0) return 0;
+    
+    const highConfidenceDiagnoses = diagnosisResults.filter(d => d.confidence > 0.8);
+    return (highConfidenceDiagnoses.length / diagnosisResults.length) * 100;
+  };
+
+  // Calculate treatment efficacy
+  const calculateTreatmentEfficacy = (recommendations) => {
+    if (recommendations.length === 0) return {};
+    
+    const avgEffectiveness = recommendations.reduce((sum, rec) => sum + (rec.effectiveness || 0), 0) / recommendations.length;
+    
+    return {
+      averageEffectiveness: avgEffectiveness,
+      highEfficacyTreatments: recommendations.filter(r => r.effectiveness > 0.85).length,
+      totalRecommendations: recommendations.length
+    };
+  };
 
   // Simulate real-time patient monitoring
   useEffect(() => {
