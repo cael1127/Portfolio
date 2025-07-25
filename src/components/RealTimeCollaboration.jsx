@@ -10,7 +10,6 @@ const RealTimeCollaboration = () => {
   const [isConnected, setIsConnected] = useState(true);
   const [userTyping, setUserTyping] = useState(null);
   const [cursorPositions, setCursorPositions] = useState({});
-  const [showCodeViewer, setShowCodeViewer] = useState(false);
 
   // Simulate real-time users
   useEffect(() => {

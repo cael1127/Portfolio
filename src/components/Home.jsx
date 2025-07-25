@@ -126,8 +126,36 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
               className="bg-gradient-to-br from-indigo-800 via-indigo-700 to-indigo-600 p-6 rounded-lg cursor-pointer hover:from-indigo-700 hover:via-indigo-600 hover:to-indigo-500 transition-colors border border-indigo-700 hover:border-indigo-600"
               onClick={() => setCurrentPage('advanced-analytics')}
             >
-              <h3 className="text-xl font-semibold mb-2">�� Advanced Analytics</h3>
+              <h3 className="text-xl font-semibold mb-2">📊 Advanced Analytics</h3>
               <p className="text-gray-300">Machine learning predictions, anomaly detection, and enterprise-level insights.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Cutting-Edge Technologies */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">🚀 Cutting-Edge Technologies</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div 
+              className="bg-gradient-to-br from-purple-800 via-purple-700 to-purple-600 p-6 rounded-lg cursor-pointer hover:from-purple-700 hover:via-purple-600 hover:to-purple-500 transition-colors border border-purple-700 hover:border-purple-600"
+              onClick={() => setCurrentPage('quantum-computing')}
+            >
+              <h3 className="text-xl font-semibold mb-2">⚛️ Quantum Computing</h3>
+              <p className="text-gray-300">Advanced quantum algorithms, circuit simulation, and quantum error correction.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-yellow-800 via-yellow-700 to-yellow-600 p-6 rounded-lg cursor-pointer hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 transition-colors border border-yellow-700 hover:border-yellow-600"
+              onClick={() => setCurrentPage('blockchain-advanced')}
+            >
+              <h3 className="text-xl font-semibold mb-2">⛓️ Advanced Blockchain</h3>
+              <p className="text-gray-300">Smart contracts, DeFi protocols, NFT marketplace, and blockchain analytics.</p>
+            </div>
+            <div 
+              className="bg-gradient-to-br from-cyan-800 via-cyan-700 to-cyan-600 p-6 rounded-lg cursor-pointer hover:from-cyan-700 hover:via-cyan-600 hover:to-cyan-500 transition-colors border border-cyan-700 hover:border-cyan-600"
+              onClick={() => setCurrentPage('edge-computing')}
+            >
+              <h3 className="text-xl font-semibold mb-2">🌐 Edge Computing</h3>
+              <p className="text-gray-300">IoT device management, real-time processing, and distributed computing.</p>
             </div>
           </div>
         </div>

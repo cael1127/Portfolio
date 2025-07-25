@@ -24,6 +24,9 @@ import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
 import AIInterviewSimulator from './components/AIInterviewSimulator';
 import RealTimeCollaboration from './components/RealTimeCollaboration';
 import AdvancedAnalytics from './components/AdvancedAnalytics';
+import QuantumComputingDemo from './components/QuantumComputingDemo';
+import BlockchainAdvanced from './components/BlockchainAdvanced';
+import EdgeComputing from './components/EdgeComputing';
 import BlockchainProjectPage from './components/ProjectPages/BlockchainProjectPage';
 import AquacultureProjectPage from './components/ProjectPages/AquacultureProjectPage';
 import HealthcareProjectPage from './components/ProjectPages/HealthcareProjectPage';
@@ -314,6 +317,30 @@ function App() {
           <div className="min-h-screen bg-gray-900 text-white">
             <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <AdvancedAnalytics />
+          </div>
+        );
+      
+      case 'quantum-computing':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <QuantumComputingDemo />
+          </div>
+        );
+      
+      case 'blockchain-advanced':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <BlockchainAdvanced />
+          </div>
+        );
+      
+      case 'edge-computing':
+        return (
+          <div className="min-h-screen bg-gray-900 text-white">
+            <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <EdgeComputing />
           </div>
         );
       
