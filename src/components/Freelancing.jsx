@@ -106,16 +106,16 @@ const Freelancing = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">💼</div>
-              <h3 className="text-xl font-semibold mb-3">Technical Consulting</h3>
+              <div className="text-3xl mb-4">📱</div>
+              <h3 className="text-xl font-semibold mb-3">Mobile Development</h3>
               <p className="text-gray-400 mb-4">
-                Strategic technology consulting and project management
+                Cross-platform mobile applications and PWA development
               </p>
               <ul className="text-sm text-gray-300 space-y-1">
-                <li>• Technology Strategy</li>
-                <li>• Project Management</li>
-                <li>• Code Reviews & Mentoring</li>
-                <li>• Architecture Planning</li>
+                <li>• React Native Applications</li>
+                <li>• Progressive Web Apps</li>
+                <li>• Mobile-First Design</li>
+                <li>• App Store Optimization</li>
               </ul>
             </div>
           </div>
@@ -243,5 +243,4 @@ const Freelancing = () => {
   );
 };
 
-export default Freelancing; 
 export default Freelancing; 
