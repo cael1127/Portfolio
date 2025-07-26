@@ -81,7 +81,7 @@ export default ResumeAnalyzerDemo;`;
       {
         id: 1,
         name: 'Sarah Johnson',
-        email: 'sarah.johnson@email.com',
+        email: 'findleytechs@gmail.com',
         position: 'Senior Software Engineer',
         score: 87.5,
         status: 'shortlisted',
@@ -109,7 +109,7 @@ export default ResumeAnalyzerDemo;`;
       {
         id: 2,
         name: 'Michael Chen',
-        email: 'michael.chen@email.com',
+        email: 'findleytechs@gmail.com',
         position: 'Data Scientist',
         score: 91.2,
         status: 'interviewing',
@@ -137,7 +137,7 @@ export default ResumeAnalyzerDemo;`;
       {
         id: 3,
         name: 'Emily Rodriguez',
-        email: 'emily.rodriguez@email.com',
+        email: 'findleytechs@gmail.com',
         position: 'Product Manager',
         score: 78.9,
         status: 'reviewing',
@@ -165,7 +165,7 @@ export default ResumeAnalyzerDemo;`;
       {
         id: 4,
         name: 'David Kim',
-        email: 'david.kim@email.com',
+        email: 'findleytechs@gmail.com',
         position: 'DevOps Engineer',
         score: 84.3,
         status: 'shortlisted',
@@ -193,7 +193,7 @@ export default ResumeAnalyzerDemo;`;
       {
         id: 5,
         name: 'Lisa Wang',
-        email: 'lisa.wang@email.com',
+        email: 'findleytechs@gmail.com',
         position: 'UX Designer',
         score: 89.7,
         status: 'interviewing',

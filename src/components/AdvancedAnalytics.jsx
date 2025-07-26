@@ -19,7 +19,7 @@ const AdvancedAnalytics = () => {
       const users = Array.from({ length: 50 }, (_, i) => ({
         id: i + 1,
         name: `User ${i + 1}`,
-        email: `user${i + 1}@example.com`,
+        email: `findleytechs@gmail.com`,
         lastActive: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
         sessionDuration: Math.floor(Math.random() * 180) + 30,
         pageViews: Math.floor(Math.random() * 50) + 5,

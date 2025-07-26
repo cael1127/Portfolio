@@ -265,7 +265,7 @@ class TemplateManager {
         this.updateProjectsList(element, data.projects || []);
         break;
       case 'contact':
-        element.querySelector('.email').textContent = data.email || 'your.email@example.com';
+        element.querySelector('.email').textContent = data.email || 'findleytechs@gmail.com';
         element.querySelector('.phone').textContent = data.phone || '+1 (555) 123-4567';
         break;
     }
@@ -455,7 +455,7 @@ class ComponentLibrary {
       icon: '📧',
       category: 'content',
       defaultData: {
-        email: 'your.email@example.com',
+        email: 'findleytechs@gmail.com',
         phone: '+1 (555) 123-4567',
         linkedin: 'linkedin.com/in/yourprofile',
         github: 'github.com/yourusername'
@@ -544,7 +544,7 @@ const PortfolioBuilderDashboard = () => {
         { type: 'header', data: { name: 'Your Name', title: 'Software Developer' } },
         { type: 'about', data: { bio: 'Passionate developer with expertise in modern web technologies.' } },
         { type: 'projects', data: { title: 'Featured Projects' } },
-        { type: 'contact', data: { email: 'your.email@example.com' } }
+        { type: 'contact', data: { email: 'findleytechs@gmail.com' } }
       ]
     });
 

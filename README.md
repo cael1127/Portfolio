@@ -148,7 +148,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Contact
 
-- **Email**: caelfindley@gmail.com
+- **Email**: findleytechs@gmail.com
 
 ---
 

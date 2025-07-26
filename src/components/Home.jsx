@@ -168,7 +168,7 @@ const Home = ({ setCurrentPage, showAIChat, setShowAIChat, aiMessages, aiInputMe
             <div>
               <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
               <div className="space-y-2 text-gray-300">
-                <p>📧 caelfindley@gmail.com</p>
+                <p>📧 findleytechs@gmail.com</p>
                 <p>📱 +1 (361) 920-6493</p>
               </div>
             </div>

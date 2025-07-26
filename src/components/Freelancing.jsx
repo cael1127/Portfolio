@@ -16,7 +16,7 @@ const Freelancing = () => {
             </p>
             <div className="flex justify-center gap-4">
               <a
-                href="mailto:caelfindley@gmail.com"
+                href="mailto:findleytechs@gmail.com"
                 className="bg-green-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
               >
                 Get Started
@@ -132,7 +132,7 @@ const Freelancing = () => {
             <p className="text-gray-100 mb-6">Let's discuss your requirements and create something amazing together.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a
-                href="mailto:caelfindley@gmail.com?subject=Freelance Project Inquiry"
+                href="mailto:findleytechs@gmail.com?subject=Freelance Project Inquiry"
                 className="bg-white text-green-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
               >
                 Send Email

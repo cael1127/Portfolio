@@ -5,7 +5,7 @@ const ResumeBuilder = () => {
     personalInfo: {
       name: 'Cael Findley',
       title: 'Full-Stack Software Engineer',
-      email: 'caelfindley@gmail.com',
+              email: 'findleytechs@gmail.com',
       phone: '+1 (361) 920-6493',
       location: 'Texas, United States',
       linkedin: 'linkedin.com/in/caelfindley',

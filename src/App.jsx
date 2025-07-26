@@ -90,7 +90,7 @@ function App() {
         - Specializes in modern web technologies, cloud infrastructure, and innovative solutions
         - Current role: Software Engineer at Three Sisters Oyster Company (since 2025)
         - Location: Texas, United States
-        - Contact: caelfindley@gmail.com, +1 (361) 920-6493
+        - Contact: findleytechs@gmail.com, +1 (361) 920-6493
         
         Available Pages/Sections:
         - Home: Overview, skills, live demos
@@ -157,7 +157,7 @@ function App() {
       } else if (request.includes('skill') || request.includes('technology')) {
         response = "My technical skills include:\n\n💻 **Full-Stack**: React, Node.js, Python\n☁️ **Cloud**: AWS, Docker, Kubernetes\n🔒 **Security**: HIPAA compliance, zero-trust architecture\n🤖 **AI/ML**: TensorFlow, predictive analytics\n📱 **Mobile**: React Native, PWA development\n\nWhat area interests you most?";
       } else if (request.includes('contact') || request.includes('hire') || request.includes('freelance')) {
-        response = "I'm available for freelance work! Here's how to reach me:\n\n📧 **Email**: caelfindley@gmail.com\n📱 **Phone**: +1 (361) 920-6493\n💼 **Services**: Full-stack development, cloud architecture, AI/ML, security\n💰 **Rates**: Starting at $75/hour\n\nCheck out the 'Freelancing' page for more details!";
+        response = "I'm available for freelance work! Here's how to reach me:\n\n📧 **Email**: findleytechs@gmail.com\n📱 **Phone**: +1 (361) 920-6493\n💼 **Services**: Full-stack development, cloud architecture, AI/ML, security\n💰 **Rates**: Starting at $75/hour\n\nCheck out the 'Freelancing' page for more details!";
       } else if (request.includes('demo') || request.includes('live')) {
         response = "I have several live demos you can try:\n\n🔗 **Blockchain Demo**: Supply chain transactions\n🌊 **Aquaculture Demo**: Sensor data visualization\n🚚 **Logistics Demo**: Route optimization\n🏥 **Healthcare Demo**: Patient analytics\n🏙️ **Smart City Demo**: Infrastructure monitoring\n📊 **Financial Demo**: Market analytics\n🎮 **Game Platform Demo**: Interactive gaming\n🎨 **Portfolio Builder Demo**: Website builder\n🍽️ **Restaurant App Demo**: Management system\n\nClick on any demo card on the home page to try them!";
       } else {
