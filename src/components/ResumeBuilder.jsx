@@ -1,524 +1,357 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import ContactModal from './ContactModal';
 
 const ResumeBuilder = () => {
-  const [resumeData, setResumeData] = useState({
-    personalInfo: {
-      name: 'Cael Findley',
-      title: 'Full-Stack Software Engineer',
-              email: 'findleytechs@gmail.com',
-      phone: '+1 (361) 920-6493',
-      location: 'Texas, United States',
-      linkedin: 'linkedin.com/in/caelfindley',
-      github: 'github.com/cael1127'
-    },
-    summary: 'Full-Stack Software Engineer specializing in modern web technologies, cloud infrastructure, and innovative solutions that drive business growth.',
-    experience: [
-      {
-        id: 1,
-        company: 'Three Sisters Oyster Company',
-        position: 'Software Engineer',
-        duration: '2025 - Present',
-        location: 'Texas, United States',
-        description: 'Developed and maintained aquaculture tracking systems, implemented cloud infrastructure, and ensured HIPAA compliance for healthcare integrations.',
-        achievements: [
-          'Built real-time monitoring systems for aquaculture operations',
-          'Implemented cloud-native solutions using AWS and Docker',
-          'Developed secure data management systems'
-        ]
-      }
-    ],
-    education: [
-      {
-        id: 1,
-        degree: 'Bachelor of Science in Computer Science',
-        institution: 'University of Texas',
-        year: '2024',
-        gpa: '3.8/4.0'
-      }
-    ],
-    skills: {
-      technical: ['React', 'Node.js', 'Python', 'AWS', 'Docker', 'Kubernetes', 'PostgreSQL', 'MongoDB', 'TypeScript', 'GraphQL'],
-      soft: ['Problem Solving', 'Team Leadership', 'Agile Development', 'Client Communication', 'Project Management']
-    },
-    certifications: [
-      {
-        id: 1,
-        name: 'AWS Certified Developer',
-        issuer: 'Amazon Web Services',
-        year: '2024'
-      },
-      {
-        id: 2,
-        name: 'Google Cloud Professional Data Engineer',
-        issuer: 'Google Cloud',
-        year: '2024'
-      },
-      {
-        id: 3,
-        name: 'CompTIA Security+',
-        issuer: 'CompTIA',
-        year: '2024'
-      }
-    ],
-    projects: [
-      {
-        id: 1,
-        name: 'Aquaculture Tracking System',
-        description: 'Real-time monitoring system for aquaculture operations with IoT integration',
-        technologies: ['React', 'Node.js', 'AWS', 'IoT']
-      },
-      {
-        id: 2,
-        name: 'Smart Logistics Platform',
-        description: 'AI-powered logistics optimization with real-time tracking and analytics',
-        technologies: ['Python', 'Machine Learning', 'React', 'PostgreSQL']
-      }
-    ]
-  });
-
-  const [selectedTemplate, setSelectedTemplate] = useState('modern');
-  const [previewMode, setPreviewMode] = useState(false);
-  const [activeSection, setActiveSection] = useState('personal');
-  const [showExportModal, setShowExportModal] = useState(false);
-
-  const templates = [
-    { id: 'modern', name: 'Modern', preview: '🎨' },
-    { id: 'professional', name: 'Professional', preview: '💼' },
-    { id: 'creative', name: 'Creative', preview: '✨' },
-    { id: 'minimal', name: 'Minimal', preview: '📄' }
-  ];
-
-  const sections = [
-    { id: 'personal', name: 'Personal Info', icon: '👤' },
-    { id: 'summary', name: 'Summary', icon: '📝' },
-    { id: 'experience', name: 'Experience', icon: '💼' },
-    { id: 'education', name: 'Education', icon: '🎓' },
-    { id: 'skills', name: 'Skills', icon: '🛠️' },
-    { id: 'certifications', name: 'Certifications', icon: '🏆' },
-    { id: 'projects', name: 'Projects', icon: '🚀' }
-  ];
-
-  const updateResumeData = (section, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value
-      }
-    }));
-  };
-
-  const updateArrayField = (section, index, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-  };
-
-  const addArrayItem = (section) => {
-    const newItem = {
-      id: Date.now(),
-      ...(section === 'experience' && {
-        company: '',
-        position: '',
-        duration: '',
-        location: '',
-        description: '',
-        achievements: []
-      }),
-      ...(section === 'education' && {
-        degree: '',
-        institution: '',
-        year: '',
-        gpa: ''
-      }),
-      ...(section === 'certifications' && {
-        name: '',
-        issuer: '',
-        year: ''
-      }),
-      ...(section === 'projects' && {
-        name: '',
-        description: '',
-        technologies: []
-      })
-    };
-
-    setResumeData(prev => ({
-      ...prev,
-      [section]: [...prev[section], newItem]
-    }));
-  };
-
-  const removeArrayItem = (section, index) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].filter((_, i) => i !== index)
-    }));
-  };
-
-  const renderPersonalInfo = () => (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-          <input
-            type="text"
-            value={resumeData.personalInfo.name}
-            onChange={(e) => updateResumeData('personalInfo', 'name', e.target.value)}
-            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Job Title</label>
-          <input
-            type="text"
-            value={resumeData.personalInfo.title}
-            onChange={(e) => updateResumeData('personalInfo', 'title', e.target.value)}
-            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-          <input
-            type="email"
-            value={resumeData.personalInfo.email}
-            onChange={(e) => updateResumeData('personalInfo', 'email', e.target.value)}
-            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
-          <input
-            type="tel"
-            value={resumeData.personalInfo.phone}
-            onChange={(e) => updateResumeData('personalInfo', 'phone', e.target.value)}
-            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
-          <input
-            type="text"
-            value={resumeData.personalInfo.location}
-            onChange={(e) => updateResumeData('personalInfo', 'location', e.target.value)}
-            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">LinkedIn</label>
-          <input
-            type="text"
-            value={resumeData.personalInfo.linkedin}
-            onChange={(e) => updateResumeData('personalInfo', 'linkedin', e.target.value)}
-            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderSummary = () => (
-    <div>
-      <label className="block text-sm font-medium text-gray-300 mb-2">Professional Summary</label>
-      <textarea
-        value={resumeData.summary}
-        onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))}
-        rows={4}
-        className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-        placeholder="Write a compelling professional summary..."
-      />
-    </div>
-  );
-
-  const renderExperience = () => (
-    <div className="space-y-4">
-      {resumeData.experience.map((exp, index) => (
-        <div key={exp.id} className="p-4 bg-gray-800 rounded-lg border border-gray-700">
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-lg font-semibold text-white">Experience #{index + 1}</h3>
-            <button
-              onClick={() => removeArrayItem('experience', index)}
-              className="text-red-400 hover:text-red-300"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Company</label>
-              <input
-                type="text"
-                value={exp.company}
-                onChange={(e) => updateArrayField('experience', index, 'company', e.target.value)}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Position</label>
-              <input
-                type="text"
-                value={exp.position}
-                onChange={(e) => updateArrayField('experience', index, 'position', e.target.value)}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Duration</label>
-              <input
-                type="text"
-                value={exp.duration}
-                onChange={(e) => updateArrayField('experience', index, 'duration', e.target.value)}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
-              <input
-                type="text"
-                value={exp.location}
-                onChange={(e) => updateArrayField('experience', index, 'location', e.target.value)}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
-            <textarea
-              value={exp.description}
-              onChange={(e) => updateArrayField('experience', index, 'description', e.target.value)}
-              rows={3}
-              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-            />
-          </div>
-        </div>
-      ))}
-      <button
-        onClick={() => addArrayItem('experience')}
-        className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-      >
-        + Add Experience
-      </button>
-    </div>
-  );
-
-  const renderSkills = () => (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Technical Skills (comma-separated)</label>
-        <input
-          type="text"
-          value={resumeData.skills.technical.join(', ')}
-          onChange={(e) => setResumeData(prev => ({
-            ...prev,
-            skills: { ...prev.skills, technical: e.target.value.split(',').map(s => s.trim()) }
-          }))}
-          className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Soft Skills (comma-separated)</label>
-        <input
-          type="text"
-          value={resumeData.skills.soft.join(', ')}
-          onChange={(e) => setResumeData(prev => ({
-            ...prev,
-            skills: { ...prev.skills, soft: e.target.value.split(',').map(s => s.trim()) }
-          }))}
-          className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
-        />
-      </div>
-    </div>
-  );
-
-  const renderPreview = () => (
-    <div className="bg-white text-black p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{resumeData.personalInfo.name}</h1>
-        <p className="text-xl text-gray-600 mb-4">{resumeData.personalInfo.title}</p>
-        <div className="flex justify-center space-x-4 text-sm text-gray-500">
-          <span>{resumeData.personalInfo.email}</span>
-          <span>•</span>
-          <span>{resumeData.personalInfo.phone}</span>
-          <span>•</span>
-          <span>{resumeData.personalInfo.location}</span>
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-3 border-b border-gray-300 pb-2">Summary</h2>
-        <p className="text-gray-700">{resumeData.summary}</p>
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-3 border-b border-gray-300 pb-2">Experience</h2>
-        {resumeData.experience.map((exp, index) => (
-          <div key={exp.id} className="mb-4">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold text-gray-800">{exp.position}</h3>
-              <span className="text-gray-500 text-sm">{exp.duration}</span>
-            </div>
-            <p className="text-gray-600 mb-1">{exp.company} • {exp.location}</p>
-            <p className="text-gray-700 text-sm">{exp.description}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-3 border-b border-gray-300 pb-2">Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <h3 className="font-semibold text-gray-800 mb-2">Technical Skills</h3>
-            <p className="text-gray-700">{resumeData.skills.technical.join(', ')}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-800 mb-2">Soft Skills</h3>
-            <p className="text-gray-700">{resumeData.skills.soft.join(', ')}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [activeSection, setActiveSection] = useState('guide');
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">📄 Resume Builder</h1>
-          <p className="text-gray-400">Create and customize your professional resume</p>
-        </div>
-
-        {/* Template Selection */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">🎨 Choose Template</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {templates.map(template => (
-              <button
-                key={template.id}
-                onClick={() => setSelectedTemplate(template.id)}
-                className={`p-4 rounded-lg border transition-colors ${
-                  selectedTemplate === template.id
-                    ? 'bg-blue-600 border-blue-500 text-white'
-                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                <div className="text-2xl mb-2">{template.preview}</div>
-                <div className="font-semibold">{template.name}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Mode Toggle */}
-        <div className="mb-8">
-          <div className="flex space-x-4">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl font-bold text-center mb-8">Resume Builder & Career Guide</h1>
+          
+          {/* Navigation Tabs */}
+          <div className="flex flex-wrap justify-center mb-8">
             <button
-              onClick={() => setPreviewMode(false)}
-              className={`px-6 py-3 rounded-lg transition-colors ${
-                !previewMode
-                  ? 'bg-blue-600 text-white'
+              onClick={() => setActiveSection('guide')}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                activeSection === 'guide' 
+                  ? 'bg-teal-600 text-white' 
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
-              ✏️ Edit Mode
+              Big Tech Guide
             </button>
             <button
-              onClick={() => setPreviewMode(true)}
-              className={`px-6 py-3 rounded-lg transition-colors ${
-                previewMode
-                  ? 'bg-blue-600 text-white'
+              onClick={() => setActiveSection('builder')}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                activeSection === 'builder' 
+                  ? 'bg-teal-600 text-white' 
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
-              👁️ Preview Mode
+              Resume Builder
             </button>
             <button
-              onClick={() => setShowExportModal(true)}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              onClick={() => setActiveSection('projects')}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                activeSection === 'projects' 
+                  ? 'bg-teal-600 text-white' 
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
             >
-              📤 Export PDF
+              Project Ideas
             </button>
           </div>
-        </div>
 
-        {previewMode ? (
-          renderPreview()
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar Navigation */}
-            <div className="lg:col-span-1">
-              <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-                <h2 className="text-xl font-bold text-white mb-4">📋 Sections</h2>
-                <div className="space-y-2">
-                  {sections.map(section => (
-                    <button
-                      key={section.id}
-                      onClick={() => setActiveSection(section.id)}
-                      className={`w-full text-left p-3 rounded-lg transition-colors ${
-                        activeSection === section.id
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                    >
-                      <span className="mr-2">{section.icon}</span>
-                      {section.name}
-                    </button>
-                  ))}
+          {/* Big Tech Internship Guide */}
+          {activeSection === 'guide' && (
+            <div className="bg-gray-800 rounded-lg p-8">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold mb-4">🚀 Guide to Building a Winning Resume for Big Tech Internships</h2>
+                <p className="text-gray-300 text-lg">Freshman Edition - Break into Google, Meta, Amazon, Microsoft</p>
+              </div>
+
+              <div className="space-y-8">
+                {/* Introduction */}
+                <div className="bg-gray-700 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-4 text-teal-400">🎯 Why This Guide?</h3>
+                  <p className="text-gray-300 mb-4">
+                    To break into <strong>big tech</strong>—Google, Meta, Amazon, Microsoft, etc.—your resume must survive the first filter: 
+                    <strong> automated systems (ATS)</strong> that scan for the right projects and keywords.
+                  </p>
+                  <p className="text-gray-300">
+                    This guide gives you the exact strategy and projects you need to showcase the right skills 
+                    <strong> as a freshman</strong>, stand out, and land interviews.
+                  </p>
+                </div>
+
+                {/* Project Selection Strategy */}
+                <div className="bg-gray-700 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-4 text-green-400">📌 How to Choose the Right Projects</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <div className="bg-teal-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1">1</div>
+                      <div>
+                        <h4 className="font-semibold text-white mb-2">🔍 Match Projects to the Job Role</h4>
+                        <p className="text-gray-300">Not all projects are created equal. To pass resume screens, projects must align with the <em>technologies listed in job descriptions</em>.</p>
+                        <p className="text-gray-300 mt-2">Decide on your role focus: <strong>Frontend, Backend, Full-Stack, or AI/ML</strong>.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="bg-teal-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1">2</div>
+                      <div>
+                        <h4 className="font-semibold text-white mb-2">🤖 Use AI to Extract Keywords</h4>
+                        <p className="text-gray-300">Copy a job posting from Google/Amazon/etc. and paste it into ChatGPT with:</p>
+                        <div className="bg-gray-800 p-3 rounded mt-2 font-mono text-sm">
+                          "Extract key skills and technologies required for this role."
+                        </div>
+                        <p className="text-gray-300 mt-2">Look for patterns like <strong>React</strong>, <strong>Python</strong>, <strong>NLP</strong>, <strong>REST APIs</strong>, etc.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="bg-teal-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mt-1">3</div>
+                      <div>
+                        <h4 className="font-semibold text-white mb-2">✍️ Optimize Your Resume with Keywords</h4>
+                        <p className="text-gray-300">In each project, include:</p>
+                        <ul className="text-gray-300 mt-2 space-y-1">
+                          <li>✅ The tools/tech used</li>
+                          <li>✅ A result or impact</li>
+                          <li>✅ A link to code/demo</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Project Categories */}
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold text-emerald-400">💼 Resume-Boosting Projects by Area</h3>
+                  
+                  {/* AI/ML Projects */}
+                  <div className="bg-gray-700 p-6 rounded-lg">
+                    <h4 className="text-xl font-bold mb-4 text-pink-400">🧠 A. AI / ML Projects</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-gray-600">
+                            <th className="text-left py-2">Project Title</th>
+                            <th className="text-left py-2">Skills Shown</th>
+                            <th className="text-left py-2">Link</th>
+                          </tr>
+                        </thead>
+                        <tbody className="space-y-2">
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">Train an AI to Play Snake</td>
+                            <td className="py-2 text-gray-300">Python, PyTorch, Pygame, RL concepts</td>
+                            <td className="py-2">
+                              <a href="https://www.youtube.com/watch?v=L8ypSXwyBds" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Watch</a>
+                            </td>
+                          </tr>
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">AI Agents in Pure Python</td>
+                            <td className="py-2 text-gray-300">Python, agent-based design</td>
+                            <td className="py-2">
+                              <a href="https://www.youtube.com/watch?v=bZzyPscbtI8" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Watch</a>
+                            </td>
+                          </tr>
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">Sentiment Analysis on Amazon Reviews</td>
+                            <td className="py-2 text-gray-300">NLTK, Huggingface, Transformers, Python</td>
+                            <td className="py-2">
+                              <a href="https://www.youtube.com/watch?v=QpzMWQvxXWk" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Watch</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="py-2 font-semibold">Titanic Survival Predictor (Kaggle)</td>
+                            <td className="py-2 text-gray-300">Pandas, scikit-learn, data cleaning</td>
+                            <td className="py-2">
+                              <a href="https://www.kaggle.com/competitions/titanic/discussion" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Try</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Frontend Projects */}
+                  <div className="bg-gray-700 p-6 rounded-lg">
+                    <h4 className="text-xl font-bold mb-4 text-blue-400">💻 B. Frontend Projects</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-gray-600">
+                            <th className="text-left py-2">Project Title</th>
+                            <th className="text-left py-2">Skills Shown</th>
+                            <th className="text-left py-2">Link</th>
+                          </tr>
+                        </thead>
+                        <tbody className="space-y-2">
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">3D Portfolio Website</td>
+                            <td className="py-2 text-gray-300">JavaScript, Three.js, WebGL</td>
+                            <td className="py-2">
+                              <a href="https://www.youtube.com/watch?v=Q7AOvWpIVHU" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Watch</a>
+                            </td>
+                          </tr>
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">RAG Chatbot w/ Next.js</td>
+                            <td className="py-2 text-gray-300">React, LangChain.js, Vercel, OpenAI</td>
+                            <td className="py-2">
+                              <a href="https://www.youtube.com/watch?v=d-VKYF4Zow0" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Watch</a>
+                            </td>
+                          </tr>
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">Interactive Resume Web App</td>
+                            <td className="py-2 text-gray-300">React, CSS</td>
+                            <td className="py-2 text-gray-400">Build from scratch</td>
+                          </tr>
+                          <tr>
+                            <td className="py-2 font-semibold">CSS Art or Animation Gallery</td>
+                            <td className="py-2 text-gray-300">HTML, CSS, design creativity</td>
+                            <td className="py-2 text-gray-400">Use CodePen or YouTube for inspiration</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Backend Projects */}
+                  <div className="bg-gray-700 p-6 rounded-lg">
+                    <h4 className="text-xl font-bold mb-4 text-purple-400">🔧 C. Backend & Full-Stack Projects</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-gray-600">
+                            <th className="text-left py-2">Project Title</th>
+                            <th className="text-left py-2">Skills Shown</th>
+                            <th className="text-left py-2">Link</th>
+                          </tr>
+                        </thead>
+                        <tbody className="space-y-2">
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">RAG Chatbot Backend</td>
+                            <td className="py-2 text-gray-300">Node.js, LangChain.js</td>
+                            <td className="py-2">
+                              <a href="https://www.youtube.com/watch?v=d-VKYF4Zow0" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300">Watch</a>
+                            </td>
+                          </tr>
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">Bookstore REST API</td>
+                            <td className="py-2 text-gray-300">Express.js or FastAPI, REST principles</td>
+                            <td className="py-2 text-gray-400">Search "Bookstore API Project"</td>
+                          </tr>
+                          <tr className="border-b border-gray-600">
+                            <td className="py-2 font-semibold">Expense Tracker App (MERN)</td>
+                            <td className="py-2 text-gray-300">MongoDB, Express, React, Node.js</td>
+                            <td className="py-2 text-gray-400">Search "MERN Expense Tracker"</td>
+                          </tr>
+                          <tr>
+                            <td className="py-2 font-semibold">Mini Social Network</td>
+                            <td className="py-2 text-gray-300">Django/Express, SQL, Auth</td>
+                            <td className="py-2 text-gray-400">Search "Social Media App Tutorial"</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Best Practices */}
+                <div className="bg-gray-700 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-4 text-yellow-400">🛠️ How to Build Projects That Impress</h3>
+                  <ul className="text-gray-300 space-y-2">
+                    <li>🧠 Use <strong>version control</strong> (Git/GitHub)</li>
+                    <li>📝 Add a <code className="bg-gray-800 px-2 py-1 rounded">README.md</code>: what it does, tech used, screenshots</li>
+                    <li>🌐 Host <strong>demos</strong> on Vercel, Netlify, or Streamlit</li>
+                    <li>✅ Include <strong>unit tests</strong> and well-commented code</li>
+                  </ul>
+                </div>
+
+                {/* Resume Optimization */}
+                <div className="bg-gray-700 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-4 text-orange-400">📝 Resume Optimization Checklist</h3>
+                  <ul className="text-gray-300 space-y-2">
+                    <li>✅ Use <strong>targeted titles</strong> (e.g., "Full-Stack Expense Tracker using MERN Stack")</li>
+                    <li>✅ Mention <strong>key technologies</strong> (e.g., "Python, Huggingface, PyTorch")</li>
+                    <li>✅ Show <strong>results/impact</strong> (e.g., "95% accuracy in classification task")</li>
+                    <li>✅ Add <strong>GitHub/Demo links</strong></li>
+                    <li>✅ Avoid vague names like "My Project"</li>
+                  </ul>
+                </div>
+
+                {/* Final Thoughts */}
+                <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-4 text-white">🎯 Final Thoughts: Play to the Algorithms</h3>
+                  <p className="text-white">
+                    Big tech internships are <strong>achievable—even in freshman year</strong>—with the right project strategy. 
+                    Build <strong>intentional projects</strong>, use <strong>AI to optimize</strong>, showcase your outcomes, 
+                    and host your work online. Let your projects speak for your ability.
+                  </p>
+                </div>
+
+                {/* Quick Reference */}
+                <div className="bg-gray-700 p-6 rounded-lg">
+                  <h3 className="text-2xl font-bold mb-4 text-cyan-400">🔗 Quick Reference: Project Links</h3>
+                  <div className="grid md:grid-cols-2 gap-4 text-sm">
+                    <div className="space-y-2">
+                      <a href="https://www.youtube.com/watch?v=L8ypSXwyBds" target="_blank" rel="noopener noreferrer" className="block text-teal-400 hover:text-teal-300">1. 🐍 Snake AI (Reinforcement Learning)</a>
+                      <a href="https://www.youtube.com/watch?v=bZzyPscbtI8" target="_blank" rel="noopener noreferrer" className="block text-teal-400 hover:text-teal-300">2. 🤖 Pure Python AI Agents</a>
+                      <a href="https://www.youtube.com/watch?v=QpzMWQvxXWk" target="_blank" rel="noopener noreferrer" className="block text-teal-400 hover:text-teal-300">3. 📝 Sentiment Analysis with Transformers</a>
+                    </div>
+                    <div className="space-y-2">
+                      <a href="https://www.kaggle.com/competitions/titanic/discussion" target="_blank" rel="noopener noreferrer" className="block text-teal-400 hover:text-teal-300">4. 🚢 Kaggle Titanic Challenge</a>
+                      <a href="https://www.youtube.com/watch?v=Q7AOvWpIVHU" target="_blank" rel="noopener noreferrer" className="block text-teal-400 hover:text-teal-300">5. 🌐 3D Portfolio Site (Three.js)</a>
+                      <a href="https://www.youtube.com/watch?v=d-VKYF4Zow0" target="_blank" rel="noopener noreferrer" className="block text-teal-400 hover:text-teal-300">6. 💬 RAG Chatbot w/ Next.js</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          )}
 
-            {/* Main Content */}
-            <div className="lg:col-span-3">
-              <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-                <h2 className="text-2xl font-bold text-white mb-6">
-                  {sections.find(s => s.id === activeSection)?.icon} {sections.find(s => s.id === activeSection)?.name}
-                </h2>
-                
-                {activeSection === 'personal' && renderPersonalInfo()}
-                {activeSection === 'summary' && renderSummary()}
-                {activeSection === 'experience' && renderExperience()}
-                {activeSection === 'skills' && renderSkills()}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Export Modal */}
-        {showExportModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-md w-full mx-4">
-              <h3 className="text-xl font-bold text-white mb-4">Export Resume</h3>
-              <div className="space-y-4">
-                <button className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                  📄 Export as PDF
-                </button>
-                <button className="w-full p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                  📄 Export as Word
-                </button>
-                <button className="w-full p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                  📄 Export as HTML
-                </button>
+          {/* Resume Builder Tool */}
+          {activeSection === 'builder' && (
+            <div className="bg-gray-800 rounded-lg p-8">
+              <h2 className="text-3xl font-bold text-center mb-8">Interactive Resume Builder</h2>
+              <div className="text-center">
+                <p className="text-gray-300 mb-6">
+                  Build a professional resume optimized for ATS systems and big tech applications.
+                </p>
                 <button
-                  onClick={() => setShowExportModal(false)}
-                  className="w-full p-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  onClick={() => setShowContactModal(true)}
+                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
                 >
-                  Cancel
+                  Get Custom Resume Help
                 </button>
               </div>
             </div>
+          )}
+
+          {/* Project Ideas Database */}
+          {activeSection === 'projects' && (
+            <div className="bg-gray-800 rounded-lg p-8">
+              <h2 className="text-3xl font-bold text-center mb-8">Project Ideas Database</h2>
+              <div className="text-center">
+                <p className="text-gray-300 mb-6">
+                  Browse curated project ideas by skill level and technology stack.
+                </p>
+                <button
+                  onClick={() => setShowContactModal(true)}
+                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+                >
+                  Access Project Database
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Contact CTA */}
+          <div className="mt-12 text-center">
+            <h2 className="text-3xl font-bold mb-4">Need Personalized Career Guidance?</h2>
+            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+              I can help you create a winning resume, choose the right projects, and develop a strategy 
+              to break into big tech companies. Let's work together to achieve your career goals.
+            </p>
+            <button
+              onClick={() => setShowContactModal(true)}
+              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+            >
+              Get Career Coaching
+            </button>
           </div>
-        )}
+        </div>
       </div>
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={showContactModal} 
+        onClose={() => setShowContactModal(false)} 
+      />
     </div>
   );
 };
