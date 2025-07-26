@@ -106,9 +106,16 @@ const Home = ({ setCurrentPage }) => {
               </button>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">📍</div>
-              <h3 className="font-semibold mb-2">Location</h3>
-              <p className="text-gray-400">Texas, United States</p>
+              <div className="text-3xl mb-4">📷</div>
+              <h3 className="font-semibold mb-2">Instagram</h3>
+              <a 
+                href="https://instagram.com/findleytech" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-pink-400 hover:text-pink-300 transition-colors"
+              >
+                @findleytech
+              </a>
             </div>
           </div>
           
