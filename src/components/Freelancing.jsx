@@ -18,7 +18,7 @@ const Freelancing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => setShowContactModal(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
               >
                 Start a Project
               </button>
@@ -26,7 +26,7 @@ const Freelancing = () => {
                 href="https://linkedin.com/in/caelfindley"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-transparent border-2 border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                className="bg-transparent border-2 border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white font-bold py-3 px-6 rounded-lg transition-colors"
               >
                 View LinkedIn
               </a>
@@ -126,7 +126,7 @@ const Freelancing = () => {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-gray-700 p-6 rounded-lg text-center">
                 <h3 className="text-xl font-semibold mb-2">Hourly Rate</h3>
-                <div className="text-3xl font-bold text-blue-400 mb-4">$75-125/hr</div>
+                <div className="text-3xl font-bold text-teal-400 mb-4">$75-125/hr</div>
                 <p className="text-gray-400 text-sm mb-4">
                   Flexible hourly rates based on project complexity
                 </p>
@@ -137,13 +137,13 @@ const Freelancing = () => {
                 </ul>
               </div>
 
-              <div className="bg-blue-600 p-6 rounded-lg text-center">
+              <div className="bg-teal-600 p-6 rounded-lg text-center">
                 <h3 className="text-xl font-semibold mb-2">Project-Based</h3>
                 <div className="text-3xl font-bold text-white mb-4">Custom Quote</div>
-                <p className="text-blue-100 text-sm mb-4">
+                <p className="text-teal-100 text-sm mb-4">
                   Fixed pricing for complete project delivery
                 </p>
-                <ul className="text-sm text-blue-200 space-y-1">
+                <ul className="text-sm text-teal-200 space-y-1">
                   <li>• Full application development</li>
                   <li>• Complete feature implementation</li>
                   <li>• End-to-end solutions</li>
@@ -170,7 +170,7 @@ const Freelancing = () => {
             <h2 className="text-3xl font-bold text-center mb-8">How I Work</h2>
             <div className="grid md:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                <div className="bg-teal-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                   1
                 </div>
                 <h3 className="font-semibold mb-2">Discovery</h3>
@@ -179,7 +179,7 @@ const Freelancing = () => {
                 </p>
               </div>
               <div className="text-center">
-                <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                <div className="bg-teal-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                   2
                 </div>
                 <h3 className="font-semibold mb-2">Planning</h3>
@@ -188,7 +188,7 @@ const Freelancing = () => {
                 </p>
               </div>
               <div className="text-center">
-                <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                <div className="bg-teal-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                   3
                 </div>
                 <h3 className="font-semibold mb-2">Development</h3>
@@ -197,7 +197,7 @@ const Freelancing = () => {
                 </p>
               </div>
               <div className="text-center">
-                <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                <div className="bg-teal-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                   4
                 </div>
                 <h3 className="font-semibold mb-2">Delivery</h3>
@@ -219,7 +219,7 @@ const Freelancing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => setShowContactModal(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
               >
                 Start a Project
               </button>

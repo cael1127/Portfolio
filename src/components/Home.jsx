@@ -9,7 +9,7 @@ const Home = ({ setCurrentPage }) => {
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-400 via-teal-500 to-emerald-500 bg-clip-text text-transparent">
             Cael Findley
           </h1>
           <p className="text-2xl md:text-3xl text-gray-300 mb-8">
@@ -24,13 +24,13 @@ const Home = ({ setCurrentPage }) => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setCurrentPage('demo-organizer')}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
             >
               View My Work
             </button>
             <button
               onClick={() => setShowContactModal(true)}
-              className="bg-transparent border-2 border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+              className="bg-transparent border-2 border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
             >
               Get In Touch
             </button>
@@ -44,7 +44,7 @@ const Home = ({ setCurrentPage }) => {
           <h2 className="text-3xl font-bold text-center mb-12">Technical Expertise</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">⚛️</span>
               </div>
               <h3 className="font-semibold mb-2">Frontend</h3>
@@ -58,14 +58,14 @@ const Home = ({ setCurrentPage }) => {
               <p className="text-gray-400 text-sm">Node.js, Python, GraphQL</p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="bg-emerald-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">☁️</span>
               </div>
               <h3 className="font-semibold mb-2">Cloud</h3>
               <p className="text-gray-400 text-sm">AWS, Docker, Kubernetes</p>
             </div>
             <div className="text-center">
-              <div className="bg-yellow-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="bg-teal-500 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🤖</span>
               </div>
               <h3 className="font-semibold mb-2">AI/ML</h3>
@@ -90,7 +90,7 @@ const Home = ({ setCurrentPage }) => {
               <h3 className="font-semibold mb-2">Email</h3>
               <button 
                 onClick={() => setShowContactModal(true)}
-                className="text-blue-400 hover:text-blue-300 transition-colors"
+                className="text-teal-400 hover:text-teal-300 transition-colors"
               >
                 findleytechs@gmail.com
               </button>
@@ -114,7 +114,7 @@ const Home = ({ setCurrentPage }) => {
           
           <button
             onClick={() => setShowContactModal(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
+            className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
           >
             Start a Conversation
           </button>
@@ -168,7 +168,7 @@ const Home = ({ setCurrentPage }) => {
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           <button
             onClick={() => setCurrentPage('quantum-computing')}
-            className="bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 p-6 rounded-lg transition-colors text-left"
+            className="bg-gradient-to-br from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 p-6 rounded-lg transition-colors text-left"
           >
             <div className="text-2xl mb-3">⚛️</div>
             <h3 className="font-semibold mb-2">Quantum Computing</h3>
@@ -176,7 +176,7 @@ const Home = ({ setCurrentPage }) => {
           </button>
           <button
             onClick={() => setCurrentPage('blockchain-advanced')}
-            className="bg-gradient-to-br from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 p-6 rounded-lg transition-colors text-left"
+            className="bg-gradient-to-br from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 p-6 rounded-lg transition-colors text-left"
           >
             <div className="text-2xl mb-3">🔗</div>
             <h3 className="font-semibold mb-2">Advanced Blockchain</h3>
@@ -184,7 +184,7 @@ const Home = ({ setCurrentPage }) => {
           </button>
           <button
             onClick={() => setCurrentPage('edge-computing')}
-            className="bg-gradient-to-br from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 p-6 rounded-lg transition-colors text-left"
+            className="bg-gradient-to-br from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 p-6 rounded-lg transition-colors text-left"
           >
             <div className="text-2xl mb-3">🌐</div>
             <h3 className="font-semibold mb-2">Edge Computing</h3>
