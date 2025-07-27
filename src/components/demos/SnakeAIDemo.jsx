@@ -201,140 +201,157 @@ const SnakeAIDemo = () => {
 
   // AI decision making - SIMPLE RULE-BASED SYSTEM THAT ACTUALLY WORKS
   const getAIMove = () => {
-    const head = snake[0];
-    const foodDir = [food[0] - head[0], food[1] - head[1]];
-    
-    // SIMPLE RULE-BASED AI FOR EARLY GENERATIONS
-    const currentGen = generationRef.current;
-    if (currentGen < 10) {
-      // Use simple rules for early generations
-      const safeDirections = [];
-      const directions = [
-        { dir: 'UP', dx: 0, dy: -1 },
-        { dir: 'RIGHT', dx: 1, dy: 0 },
-        { dir: 'DOWN', dx: 0, dy: 1 },
-        { dir: 'LEFT', dx: -1, dy: 0 }
-      ];
+    try {
+      const head = snake[0];
+      const foodDir = [food[0] - head[0], food[1] - head[1]];
       
-      // Find safe directions
-      directions.forEach(({ dir, dx, dy }) => {
-        const newHead = [head[0] + dx, head[1] + dy];
-        const isSafe = 
-          newHead[0] >= 0 && newHead[0] < GRID_SIZE &&
-          newHead[1] >= 0 && newHead[1] < GRID_SIZE &&
-          !snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+      console.log('AI decision making - head:', head, 'food:', food, 'foodDir:', foodDir);
+      
+      // SIMPLE RULE-BASED AI FOR EARLY GENERATIONS
+      const currentGen = generationRef.current;
+      if (currentGen < 10) {
+        // Use simple rules for early generations
+        const safeDirections = [];
+        const directions = [
+          { dir: 'UP', dx: 0, dy: -1 },
+          { dir: 'RIGHT', dx: 1, dy: 0 },
+          { dir: 'DOWN', dx: 0, dy: 1 },
+          { dir: 'LEFT', dx: -1, dy: 0 }
+        ];
         
-        if (isSafe) {
-          safeDirections.push(dir);
+        // Find safe directions
+        directions.forEach(({ dir, dx, dy }) => {
+          const newHead = [head[0] + dx, head[1] + dy];
+          const isSafe = 
+            newHead[0] >= 0 && newHead[0] < GRID_SIZE &&
+            newHead[1] >= 0 && newHead[1] < GRID_SIZE &&
+            !snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+          
+          if (isSafe) {
+            safeDirections.push(dir);
+          }
+        });
+        
+        console.log('Safe directions found:', safeDirections);
+        
+        if (safeDirections.length === 0) {
+          console.log('No safe directions, using random');
+          return ['UP', 'RIGHT', 'DOWN', 'LEFT'][Math.floor(Math.random() * 4)];
         }
-      });
-      
-      if (safeDirections.length === 0) {
-        console.log('No safe directions, using random');
-        return ['UP', 'RIGHT', 'DOWN', 'LEFT'][Math.floor(Math.random() * 4)];
+        
+        // Prioritize moving towards food if safe
+        let bestDirection = safeDirections[0];
+        let bestScore = -Infinity;
+        
+        safeDirections.forEach(dir => {
+          let score = 0;
+          const newHead = [head[0], head[1]];
+          
+          switch (dir) {
+            case 'UP': newHead[1] -= 1; break;
+            case 'RIGHT': newHead[0] += 1; break;
+            case 'DOWN': newHead[1] += 1; break;
+            case 'LEFT': newHead[0] -= 1; break;
+          }
+          
+          // Score based on distance to food
+          const newDistance = Math.abs(newHead[0] - food[0]) + Math.abs(newHead[1] - food[1]);
+          const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
+          
+          if (newDistance < currentDistance) {
+            score += 10; // Moving towards food is good
+          } else if (newDistance > currentDistance) {
+            score -= 5; // Moving away from food is bad
+          }
+          
+          // Bonus for moving directly towards food
+          if (foodDir[0] > 0 && dir === 'RIGHT') score += 5;
+          if (foodDir[0] < 0 && dir === 'LEFT') score += 5;
+          if (foodDir[1] > 0 && dir === 'DOWN') score += 5;
+          if (foodDir[1] < 0 && dir === 'UP') score += 5;
+          
+          console.log('Direction', dir, 'score:', score);
+          
+          if (score > bestScore) {
+            bestScore = score;
+            bestDirection = dir;
+          }
+        });
+        
+        console.log('Rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections);
+        
+        // Update visualization for rule-based decisions
+        setNnVisualization({
+          inputs: [foodDir[0], foodDir[1], currentDistance, ...safeDirections.map(d => d === bestDirection ? 1 : 0)],
+          hidden: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+          outputs: [0.25, 0.25, 0.25, 0.25],
+          decision: bestDirection,
+          exploration: false
+        });
+        
+        return bestDirection;
       }
       
-      // Prioritize moving towards food if safe
-      let bestDirection = safeDirections[0];
-      let bestScore = -Infinity;
+      // NEURAL NETWORK FOR LATER GENERATIONS
+      if (!modelRef.current) {
+        console.log('No model available, using default RIGHT');
+        return 'RIGHT';
+      }
       
-      safeDirections.forEach(dir => {
-        let score = 0;
-        const newHead = [head[0], head[1]];
-        
-        switch (dir) {
-          case 'UP': newHead[1] -= 1; break;
-          case 'RIGHT': newHead[0] += 1; break;
-          case 'DOWN': newHead[1] += 1; break;
-          case 'LEFT': newHead[0] -= 1; break;
+      // Use neural network for decision making
+      const inputs = getAIInputs();
+      console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
+      const outputs = modelRef.current.feedForward(inputs);
+      console.log('AI raw outputs:', outputs);
+      
+      // Get hidden layer activations for visualization
+      const hidden = [];
+      for (let j = 0; j < modelRef.current.hiddenNodes; j++) {
+        let sum = modelRef.current.biasH[0][j];
+        for (let i = 0; i < modelRef.current.inputNodes; i++) {
+          sum += inputs[i] * modelRef.current.weightsIH[i][j];
         }
-        
-        // Score based on distance to food
-        const newDistance = Math.abs(newHead[0] - food[0]) + Math.abs(newHead[1] - food[1]);
-        const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
-        
-        if (newDistance < currentDistance) {
-          score += 10; // Moving towards food is good
-        } else if (newDistance > currentDistance) {
-          score -= 5; // Moving away from food is bad
-        }
-        
-        // Bonus for moving directly towards food
-        if (foodDir[0] > 0 && dir === 'RIGHT') score += 5;
-        if (foodDir[0] < 0 && dir === 'LEFT') score += 5;
-        if (foodDir[1] > 0 && dir === 'DOWN') score += 5;
-        if (foodDir[1] < 0 && dir === 'UP') score += 5;
-        
-        if (score > bestScore) {
-          bestScore = score;
-          bestDirection = dir;
-        }
+        hidden[j] = modelRef.current.sigmoid(sum);
+      }
+      
+      // ADD NOISE TO PREVENT STUCK PATTERNS
+      const noisyOutputs = outputs.map(output => {
+        const noise = (Math.random() - 0.5) * 0.2; // Add ±10% noise
+        return Math.max(0, Math.min(1, output + noise)); // Clamp between 0 and 1
       });
+      console.log('AI noisy outputs:', noisyOutputs);
       
-      console.log('Rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections);
+      // Use neural network output
+      const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
+      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+      const newDirection = directions[maxIndex];
+      console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
       
-      // Update visualization for rule-based decisions
+      // Update visualization data
       setNnVisualization({
-        inputs: [foodDir[0], foodDir[1], currentDistance, ...safeDirections.map(d => d === bestDirection ? 1 : 0)],
-        hidden: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
-        outputs: [0.25, 0.25, 0.25, 0.25],
-        decision: bestDirection,
+        inputs: inputs.slice(0, 10), // Show first 10 inputs
+        hidden: hidden.slice(0, 8), // Show first 8 hidden nodes
+        outputs: noisyOutputs,
+        decision: newDirection,
         exploration: false
       });
       
-      return bestDirection;
-    }
-    
-    // NEURAL NETWORK FOR LATER GENERATIONS
-    if (!modelRef.current) {
-      console.log('No model available, using default RIGHT');
+      return newDirection;
+    } catch (error) {
+      console.error('Error in AI decision making:', error);
+      // Fallback to a safe direction
       return 'RIGHT';
     }
-    
-    // Use neural network for decision making
-    const inputs = getAIInputs();
-    console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
-    const outputs = modelRef.current.feedForward(inputs);
-    console.log('AI raw outputs:', outputs);
-    
-    // Get hidden layer activations for visualization
-    const hidden = [];
-    for (let j = 0; j < modelRef.current.hiddenNodes; j++) {
-      let sum = modelRef.current.biasH[0][j];
-      for (let i = 0; i < modelRef.current.inputNodes; i++) {
-        sum += inputs[i] * modelRef.current.weightsIH[i][j];
-      }
-      hidden[j] = modelRef.current.sigmoid(sum);
-    }
-    
-    // ADD NOISE TO PREVENT STUCK PATTERNS
-    const noisyOutputs = outputs.map(output => {
-      const noise = (Math.random() - 0.5) * 0.2; // Add ±10% noise
-      return Math.max(0, Math.min(1, output + noise)); // Clamp between 0 and 1
-    });
-    console.log('AI noisy outputs:', noisyOutputs);
-    
-    // Use neural network output
-    const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
-    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-    const newDirection = directions[maxIndex];
-    console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
-    
-    // Update visualization data
-    setNnVisualization({
-      inputs: inputs.slice(0, 10), // Show first 10 inputs
-      hidden: hidden.slice(0, 8), // Show first 8 hidden nodes
-      outputs: noisyOutputs,
-      decision: newDirection,
-      exploration: false
-    });
-    
-    return newDirection;
   };
 
   // Game logic
   const moveSnake = () => {
-    if (gameState !== 'playing') return;
+    if (gameState !== 'playing') {
+      console.log('Game not playing, skipping move');
+      return;
+    }
+
+    console.log('moveSnake called - gameState:', gameState, 'direction:', directionRef.current);
 
     // Update game time for AI
     setGameTime(prev => prev + 1);
@@ -360,6 +377,8 @@ const SnakeAIDemo = () => {
           head[0] = head[0] - 1;
           break;
         default:
+          console.log('Invalid direction:', directionRef.current, 'using RIGHT as fallback');
+          head[0] = head[0] + 1; // Default to RIGHT
           break;
       }
       
@@ -415,6 +434,7 @@ const SnakeAIDemo = () => {
         console.log('Snake length maintained:', oldLength, '->', newSnake.length);
       }
       
+      console.log('Final snake state:', newSnake);
       return newSnake;
     });
   };
@@ -580,6 +600,7 @@ const SnakeAIDemo = () => {
   };
 
   const updateDirection = (newDirection) => {
+    console.log('Updating direction from', directionRef.current, 'to', newDirection);
     setDirection(newDirection);
     directionRef.current = newDirection;
   };
@@ -593,12 +614,26 @@ const SnakeAIDemo = () => {
     }
     
     if (gameState === 'playing') {
-      console.log('Starting game loop', { aiMode, gameState });
+      console.log('Starting game loop', { aiMode, gameState, direction: directionRef.current });
       const interval = setInterval(() => {
+        console.log('Game loop tick - AI mode:', aiMode, 'Direction:', directionRef.current, 'Snake:', snake);
+        
         if (aiMode) {
-          const aiDirection = getAIMove();
-          updateDirection(aiDirection);
+          try {
+            const aiDirection = getAIMove();
+            console.log('AI chose direction:', aiDirection);
+            if (aiDirection && ['UP', 'RIGHT', 'DOWN', 'LEFT'].includes(aiDirection)) {
+              updateDirection(aiDirection);
+            } else {
+              console.log('Invalid AI direction, keeping current:', directionRef.current);
+            }
+          } catch (error) {
+            console.error('Error in AI decision:', error);
+            // Keep current direction as fallback
+          }
         }
+        
+        console.log('Moving snake with direction:', directionRef.current);
         moveSnake();
       }, aiMode ? 400 : 200); // SLOWER for AI to prevent rapid resets
       
@@ -609,6 +644,8 @@ const SnakeAIDemo = () => {
         clearInterval(interval);
         gameLoopRef.current = null;
       };
+    } else {
+      console.log('Game not playing, not starting loop. Game state:', gameState);
     }
   }, [gameState, aiMode]);
 
@@ -813,12 +850,23 @@ const getAIMove = (snake, food, direction, model) => {
                 )}
                 
                 {gameState === 'playing' && (
-                  <button
-                    onClick={() => setGameState('paused')}
-                    className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg transition-colors"
-                  >
-                    Pause
-                  </button>
+                  <>
+                    <button
+                      onClick={() => setGameState('paused')}
+                      className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Pause
+                    </button>
+                    <button
+                      onClick={() => {
+                        console.log('Manual move test - current direction:', directionRef.current);
+                        moveSnake();
+                      }}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Test Move
+                    </button>
+                  </>
                 )}
                 
                 {gameState === 'paused' && (
