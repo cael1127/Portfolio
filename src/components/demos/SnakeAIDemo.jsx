@@ -15,13 +15,21 @@ const SnakeAIDemo = () => {
   const [fitness, setFitness] = useState(0);
   const [model, setModel] = useState(null);
   const [aiRestarting, setAiRestarting] = useState(false);
+  const [bestFitness, setBestFitness] = useState(0);
+  const [bestModel, setBestModel] = useState(null);
+  const [stuckCount, setStuckCount] = useState(0);
+  const [isRestarting, setIsRestarting] = useState(false); // PREVENT MULTIPLE RESTARTS
+  
+  // Refs for AI state
+  const modelRef = useRef(null);
+  const generationRef = useRef(1);
+  const fitnessRef = useRef(0);
+  const deathCountRef = useRef(0);
+  const directionRef = useRef('RIGHT');
+  const bestFitnessRef = useRef(0);
+  const stuckCountRef = useRef(0);
   const canvasRef = useRef(null);
   const gameLoopRef = useRef(null);
-  const directionRef = useRef('RIGHT');
-  const generationRef = useRef(1); // ADD REF to track current generation
-  const fitnessRef = useRef(0); // ADD REF to track current fitness
-  const deathCountRef = useRef(0); // ADD DEATH COUNTER
-  const modelRef = useRef(null); // ADD MODEL REF for immediate access
 
   const GRID_SIZE = 20;
   const CELL_SIZE = 20;
@@ -175,7 +183,7 @@ const SnakeAIDemo = () => {
     return inputs;
   };
 
-  // AI decision making - WORKING LEARNING SYSTEM
+  // AI decision making - IMPROVED LEARNING SYSTEM
   const getAIMove = () => {
     if (!modelRef.current) {
       console.log('No model available, using default RIGHT');
@@ -184,43 +192,59 @@ const SnakeAIDemo = () => {
     
     // Use neural network for decision making
     const inputs = getAIInputs();
-    console.log('AI inputs:', inputs);
+    console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
     const outputs = modelRef.current.feedForward(inputs);
-    console.log('AI outputs:', outputs);
+    console.log('AI raw outputs:', outputs);
     
-    // Find the direction with highest output
-    const maxIndex = outputs.indexOf(Math.max(...outputs));
-    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-    let newDirection = directions[maxIndex];
+    // ADD NOISE TO PREVENT STUCK PATTERNS
+    const noisyOutputs = outputs.map(output => {
+      const noise = (Math.random() - 0.5) * 0.2; // Add ±10% noise
+      return Math.max(0, Math.min(1, output + noise)); // Clamp between 0 and 1
+    });
+    console.log('AI noisy outputs:', noisyOutputs);
     
-    // ERROR HANDLING: Ensure we have a valid direction
-    if (!newDirection || newDirection === 'undefined') {
-      console.log('Invalid direction from neural network, using default RIGHT');
-      newDirection = 'RIGHT';
+    // FIXED EXPLORATION LOGIC - Much lower exploration so neural network can learn
+    const currentGen = generationRef.current;
+    const explorationRate = currentGen < 3 ? 0.1 : Math.max(0.05, 0.15 - (currentGen * 0.02)); // 10% exploration for first 3 generations
+    const shouldExplore = Math.random() < explorationRate;
+    
+    console.log('Exploration check:', { currentGen, explorationRate, shouldExplore, random: Math.random() });
+    
+    let newDirection;
+    if (shouldExplore) {
+      // Random exploration for early generations
+      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+      newDirection = directions[Math.floor(Math.random() * directions.length)];
+      console.log('AI exploring randomly:', newDirection, 'generation:', currentGen);
+    } else {
+      // Use neural network output with noise
+      const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
+      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+      newDirection = directions[maxIndex];
+      console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
     }
     
-    console.log('AI chose direction:', newDirection, 'from outputs:', outputs);
+    // FORCE VARIETY - If AI keeps choosing the same direction, force a change
+    if (newDirection === directionRef.current && Math.random() < 0.2) {
+      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+      const otherDirections = directions.filter(dir => dir !== newDirection);
+      newDirection = otherDirections[Math.floor(Math.random() * otherDirections.length)];
+      console.log('Forcing direction change from', directionRef.current, 'to', newDirection);
+    }
     
-    // Safety check - make sure we don't hit walls
-    const head = snake[0];
-    const directionVectors = {
-      'UP': [0, -1],
-      'RIGHT': [1, 0],
-      'DOWN': [0, 1],
-      'LEFT': [-1, 0]
-    };
-    
-    const [dx, dy] = directionVectors[newDirection];
-    const newHead = [head[0] + dx, head[1] + dy];
-    
-    // If the chosen direction would cause death, pick a random safe direction
-    const wouldDie = 
-      newHead[0] < 0 || newHead[0] >= GRID_SIZE ||
-      newHead[1] < 0 || newHead[1] >= GRID_SIZE ||
-      snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
-    
-    if (wouldDie) {
-      console.log('AI would die, picking random safe direction');
+    // RULE-BASED FALLBACK - If AI keeps dying, use simple rules
+    if (deathCountRef.current > 10 && currentGen > 5) {
+      console.log('AI performing poorly, using rule-based fallback');
+      const head = snake[0];
+      const foodDir = [food[0] - head[0], food[1] - head[1]];
+      
+      // Simple rule: try to move towards food if safe
+      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+      const directionVectors = {
+        'UP': [0, -1], 'RIGHT': [1, 0], 'DOWN': [0, 1], 'LEFT': [-1, 0]
+      };
+      
+      // Find safe directions
       const safeDirections = [];
       Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
         const testHead = [head[0] + dx, head[1] + dy];
@@ -235,12 +259,80 @@ const SnakeAIDemo = () => {
       });
       
       if (safeDirections.length > 0) {
-        newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
-        console.log('AI chose safe alternative:', newDirection);
+        // Pick direction closest to food
+        let bestDir = safeDirections[0];
+        let bestDist = Infinity;
+        
+        safeDirections.forEach(dir => {
+          const [dx, dy] = directionVectors[dir];
+          const testHead = [head[0] + dx, head[1] + dy];
+          const dist = Math.abs(testHead[0] - food[0]) + Math.abs(testHead[1] - food[1]);
+          if (dist < bestDist) {
+            bestDist = dist;
+            bestDir = dir;
+          }
+        });
+        
+        newDirection = bestDir;
+        console.log('Rule-based AI chose:', newDirection, 'distance to food:', bestDist);
       }
     }
     
-    console.log('AI move:', { currentDir: directionRef.current, newDirection, generation: generationRef.current, score, outputs });
+    // ERROR HANDLING: Ensure we have a valid direction
+    if (!newDirection || newDirection === 'undefined') {
+      console.log('Invalid direction from neural network, using default RIGHT');
+      newDirection = 'RIGHT';
+    }
+    
+    // IMPROVED SAFETY CHECK - Don't just pick random safe direction, try to learn
+    const head = snake[0];
+    const directionVectors = {
+      'UP': [0, -1],
+      'RIGHT': [1, 0],
+      'DOWN': [0, 1],
+      'LEFT': [-1, 0]
+    };
+    
+    const [dx, dy] = directionVectors[newDirection];
+    const newHead = [head[0] + dx, head[1] + dy];
+    
+    // Check if the chosen direction would cause death
+    const wouldDie = 
+      newHead[0] < 0 || newHead[0] >= GRID_SIZE ||
+      newHead[1] < 0 || newHead[1] >= GRID_SIZE ||
+      snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+    
+    if (wouldDie) {
+      // Instead of picking random safe direction, try to find the best alternative
+      const alternatives = [];
+      Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
+        const testHead = [head[0] + dx, head[1] + dy];
+        const isSafe = 
+          testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
+          testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
+          !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
+        
+        if (isSafe) {
+          // Calculate how good this alternative is (closer to food = better)
+          const foodDist = Math.abs(testHead[0] - food[0]) + Math.abs(testHead[1] - food[1]);
+          alternatives.push({ direction: dir, distance: foodDist });
+        }
+      });
+      
+      if (alternatives.length > 0) {
+        // Pick the alternative that gets us closest to food
+        alternatives.sort((a, b) => a.distance - b.distance);
+        newDirection = alternatives[0].direction;
+        console.log('AI chose safe alternative:', newDirection, 'distance to food:', alternatives[0].distance);
+      } else {
+        // If no safe direction, pick random (shouldn't happen often)
+        const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+        newDirection = directions[Math.floor(Math.random() * directions.length)];
+        console.log('No safe direction found, picking random:', newDirection);
+      }
+    }
+    
+    console.log('AI move:', { currentDir: directionRef.current, newDirection, generation: currentGen, score, explorationRate });
     return newDirection;
   };
 
@@ -251,6 +343,9 @@ const SnakeAIDemo = () => {
     setSnake(prevSnake => {
       const newSnake = [...prevSnake];
       const head = [...newSnake[0]];
+      const oldLength = newSnake.length;
+      
+      console.log('Moving snake:', { direction: directionRef.current, head, oldLength });
       
       switch (directionRef.current) {
         case 'UP':
@@ -268,6 +363,8 @@ const SnakeAIDemo = () => {
         default:
           break;
       }
+      
+      console.log('New head position:', head);
       
       // Check wall collision
       if (head[0] < 0 || head[0] >= GRID_SIZE || head[1] < 0 || head[1] >= GRID_SIZE) {
@@ -287,7 +384,9 @@ const SnakeAIDemo = () => {
       const foodEaten = head[0] === food[0] && head[1] === food[1];
       
       if (foodEaten) {
-        console.log('Food eaten!', { head, food, score });
+        console.log('Food eaten!', { head, food, score, aiMode, generation: generationRef.current });
+      } else {
+        console.log('No food eaten', { head, food, distance: Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]) });
       }
       
       newSnake.unshift(head);
@@ -295,14 +394,17 @@ const SnakeAIDemo = () => {
       if (foodEaten) {
         setScore(prev => {
           const newScore = prev + 10;
+          console.log('Score updated:', prev, '->', newScore);
           if (newScore > highScore) {
             setHighScore(newScore);
           }
           return newScore;
         });
         generateFood();
+        console.log('Snake grew from', oldLength, 'to', newSnake.length);
       } else {
         newSnake.pop();
+        console.log('Snake length maintained:', oldLength, '->', newSnake.length);
       }
       
       return newSnake;
@@ -330,29 +432,81 @@ const SnakeAIDemo = () => {
   };
 
   const gameOver = () => {
+    // PREVENT MULTIPLE GENERATIONS PER DEATH
+    if (isRestarting) {
+      console.log('Already restarting, skipping duplicate gameOver call');
+      return;
+    }
+    
     deathCountRef.current += 1;
     console.log('Game Over called', { aiMode, score, gameState, generation: generationRef.current, deathCount: deathCountRef.current });
     if (aiMode) {
-      const currentFitness = score + (snake.length * 5); // BETTER FITNESS: score + length bonus
-      console.log('Setting fitness to:', currentFitness, 'score:', score, 'length:', snake.length);
+      setIsRestarting(true); // PREVENT MULTIPLE RESTARTS
+      
+      // IMPROVED FITNESS CALCULATION - Encourage better learning
+      const survivalTime = score; // Each food eaten = 1 point, so score represents survival time
+      const lengthBonus = snake.length * 10; // Higher bonus for longer snake
+      const explorationBonus = Math.min(score * 2, 50); // Bonus for exploring (eating multiple foods)
+      const efficiencyBonus = snake.length > 1 ? (score / snake.length) * 5 : 0; // Bonus for efficient pathfinding
+      
+      const currentFitness = survivalTime + lengthBonus + explorationBonus + efficiencyBonus;
+      console.log('Setting fitness to:', currentFitness, 'score:', score, 'length:', snake.length, 'exploration:', explorationBonus, 'efficiency:', efficiencyBonus);
       setFitness(currentFitness);
       fitnessRef.current = currentFitness;
+      
+      // TRACK BEST PERFORMING MODEL
+      if (currentFitness > bestFitnessRef.current) {
+        console.log('New best fitness!', currentFitness, 'previous:', bestFitnessRef.current);
+        setBestFitness(currentFitness);
+        setBestModel(modelRef.current);
+        bestFitnessRef.current = currentFitness;
+        setStuckCount(0);
+        stuckCountRef.current = 0;
+      } else {
+        // Track how long we've been stuck
+        const newStuckCount = stuckCountRef.current + 1;
+        setStuckCount(newStuckCount);
+        stuckCountRef.current = newStuckCount;
+        
+        // If stuck for too long, reset to best model or create new one
+        if (newStuckCount > 20) {
+          console.log('AI stuck for too long, resetting to best model or creating new one');
+          if (bestModel) {
+            modelRef.current = bestModel;
+            setModel(bestModel);
+            console.log('Reset to best model with fitness:', bestFitnessRef.current);
+          } else {
+            const newModel = new NeuralNetwork(30, 16, 4);
+            modelRef.current = newModel;
+            setModel(newModel);
+            console.log('Created new model due to being stuck');
+          }
+          setStuckCount(0);
+          stuckCountRef.current = 0;
+        }
+      }
+      
       setAiRestarting(true);
       console.log('AI mode - evolving model and restarting, fitness:', currentFitness);
       
-      // Evolve the model
+      // Evolve the model with adaptive mutation rate
       if (modelRef.current) {
-        const newModel = modelRef.current.mutate(0.5); // INCREASED mutation rate for faster learning
+        // Higher mutation rate for poor performers, lower for good performers
+        const baseMutationRate = 0.3;
+        const performanceFactor = Math.max(0.1, Math.min(0.8, 1 - (currentFitness / 100)));
+        const mutationRate = baseMutationRate + (performanceFactor * 0.4);
+        
+        const newModel = modelRef.current.mutate(mutationRate);
         setModel(newModel);
-        modelRef.current = newModel; // UPDATE MODEL REF
+        modelRef.current = newModel;
         const currentGen = generationRef.current;
         const newGen = currentGen + 1;
-        console.log('Evolving model, generation:', currentGen, '->', newGen, 'fitness:', currentFitness);
+        console.log('Evolving model, generation:', currentGen, '->', newGen, 'fitness:', currentFitness, 'mutation rate:', mutationRate);
         setGeneration(newGen);
         generationRef.current = newGen;
       }
       
-      // Auto-restart for AI learning - MUCH LONGER DELAY
+      // Auto-restart for AI learning - SINGLE DELAY, NO NESTED TIMEOUTS
       setTimeout(() => {
         console.log('AI restarting after death, generation:', generationRef.current, 'death count:', deathCountRef.current);
         setScore(0);
@@ -361,12 +515,9 @@ const SnakeAIDemo = () => {
         generateFood();
         setGameState('playing');
         setAiRestarting(false);
-        
-        // ADDITIONAL DELAY: Pause briefly to prevent immediate collision
-        setTimeout(() => {
-          console.log('AI ready to start moving');
-        }, 1000);
-      }, 3000);
+        setIsRestarting(false); // RESET RESTART FLAG
+        console.log('AI ready to start moving');
+      }, 2000); // Single delay, no nested setTimeout
     } else {
       console.log('Manual mode - setting game over state');
       setGameState('gameOver');
@@ -404,8 +555,19 @@ const SnakeAIDemo = () => {
     setAiMode(false);
     setAiThinking(false);
     setAiRestarting(false);
+    setIsRestarting(false); // CLEAR RESTART FLAG
     setGeneration(1);
     setFitness(0);
+    setBestFitness(0);
+    setBestModel(null);
+    setStuckCount(0);
+    // Clear refs
+    generationRef.current = 1;
+    fitnessRef.current = 0;
+    deathCountRef.current = 0;
+    bestFitnessRef.current = 0;
+    stuckCountRef.current = 0;
+    modelRef.current = null;
   };
 
   const updateDirection = (newDirection) => {
@@ -415,6 +577,12 @@ const SnakeAIDemo = () => {
 
   // Game loop
   useEffect(() => {
+    // Clear any existing interval first
+    if (gameLoopRef.current) {
+      clearInterval(gameLoopRef.current);
+      gameLoopRef.current = null;
+    }
+    
     if (gameState === 'playing') {
       console.log('Starting game loop', { aiMode, gameState });
       const interval = setInterval(() => {
@@ -423,13 +591,14 @@ const SnakeAIDemo = () => {
           updateDirection(aiDirection);
         }
         moveSnake();
-      }, aiMode ? 300 : 200); // INCREASED from 150ms to 300ms for AI (much slower)
+      }, aiMode ? 400 : 200); // SLOWER for AI to prevent rapid resets
       
       gameLoopRef.current = interval;
       
       return () => {
         console.log('Clearing game loop');
         clearInterval(interval);
+        gameLoopRef.current = null;
       };
     }
   }, [gameState, aiMode]);
@@ -684,18 +853,28 @@ const getAIMove = (snake, food, direction, model) => {
                     <span className="text-white font-semibold">{generation}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Fitness Score:</span>
+                    <span className="text-gray-400">Current Fitness:</span>
                     <span className="text-white font-semibold">{fitness}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Learning Rate:</span>
-                    <span className="text-white font-semibold">0.1</span>
+                    <span className="text-gray-400">Best Fitness:</span>
+                    <span className="text-green-400 font-semibold">{bestFitness}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Stuck Count:</span>
+                    <span className={`font-semibold ${stuckCount > 10 ? 'text-red-400' : 'text-yellow-400'}`}>
+                      {stuckCount}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Status:</span>
                     <span className={`font-semibold ${aiRestarting ? 'text-red-400' : 'text-green-400'}`}>
                       {aiRestarting ? 'Restarting...' : 'Learning'}
                     </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Deaths:</span>
+                    <span className="text-white font-semibold">{deathCountRef.current}</span>
                   </div>
                 </div>
               )}
@@ -713,7 +892,7 @@ const getAIMove = (snake, food, direction, model) => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Input Nodes:</span>
-                  <span className="text-white">24</span>
+                  <span className="text-white">30</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Hidden Nodes:</span>
