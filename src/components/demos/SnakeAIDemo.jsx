@@ -90,8 +90,9 @@ const SnakeAIDemo = () => {
   // Initialize AI model
   useEffect(() => {
     if (aiMode && !model) {
-      const neuralNetwork = new NeuralNetwork(24, 16, 4); // 24 inputs, 16 hidden, 4 outputs
+      const neuralNetwork = new NeuralNetwork(32, 16, 4); // FIXED: 32 inputs, 16 hidden, 4 outputs
       setModel(neuralNetwork);
+      console.log('Neural network initialized with 32 inputs');
     }
   }, [aiMode, model]);
 
@@ -168,16 +169,23 @@ const SnakeAIDemo = () => {
 
   // AI decision making - WORKING LEARNING SYSTEM
   const getAIMove = () => {
-    if (!model) return 'RIGHT';
+    if (!model) {
+      console.log('No model available, using default RIGHT');
+      return 'RIGHT';
+    }
     
     // Use neural network for decision making
     const inputs = getAIInputs();
+    console.log('AI inputs:', inputs);
     const outputs = model.feedForward(inputs);
+    console.log('AI outputs:', outputs);
     
     // Find the direction with highest output
     const maxIndex = outputs.indexOf(Math.max(...outputs));
     const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
     let newDirection = directions[maxIndex];
+    
+    console.log('AI chose direction:', newDirection, 'from outputs:', outputs);
     
     // Safety check - make sure we don't hit walls
     const head = snake[0];
@@ -214,6 +222,7 @@ const SnakeAIDemo = () => {
       
       if (safeDirections.length > 0) {
         newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
+        console.log('AI chose safe alternative:', newDirection);
       }
     }
     
@@ -350,18 +359,29 @@ const SnakeAIDemo = () => {
   };
 
   const startGame = (ai = false) => {
+    console.log('Starting game with AI:', ai);
     setAiMode(ai);
     setGameState('playing');
     setScore(0);
-    setSnake([[5, 5]]); // CHANGED from [10, 10] to [5, 5] for safer start
+    setSnake([[5, 5]]);
     updateDirection('RIGHT');
     generateFood();
     if (ai) {
-      setGeneration(1); // FIXED: Start from generation 1
+      setGeneration(1);
       setFitness(0);
-      generationRef.current = 1; // INITIALIZE REF
-      fitnessRef.current = 0; // INITIALIZE REF
+      generationRef.current = 1;
+      fitnessRef.current = 0;
       console.log('AI game started, generation:', 1);
+      // Force model creation
+      setTimeout(() => {
+        if (!model) {
+          console.log('Creating neural network model...');
+          const neuralNetwork = new NeuralNetwork(32, 16, 4);
+          setModel(neuralNetwork);
+        } else {
+          console.log('Model already exists:', model);
+        }
+      }, 100);
     }
   };
 
