@@ -142,6 +142,12 @@ const SnakeAIDemo = () => {
     inputs.push(head[1] / GRID_SIZE); // Distance to top wall
     inputs.push((GRID_SIZE - head[1]) / GRID_SIZE); // Distance to bottom wall
     
+    // Food direction preference
+    inputs.push(foodDir[0] > 0 ? 1 : 0); // Food is to the right
+    inputs.push(foodDir[0] < 0 ? 1 : 0); // Food is to the left
+    inputs.push(foodDir[1] > 0 ? 1 : 0); // Food is below
+    inputs.push(foodDir[1] < 0 ? 1 : 0); // Food is above
+    
     return inputs;
   };
 
@@ -159,13 +165,22 @@ const SnakeAIDemo = () => {
     const currentIndex = directions.indexOf(directionRef.current);
     const oppositeIndex = (currentIndex + 2) % 4;
     
-    if (maxIndex === oppositeIndex) {
-      // Choose a safe direction
-      const safeDirections = directions.filter((_, i) => i !== oppositeIndex);
-      return safeDirections[Math.floor(Math.random() * safeDirections.length)];
+    // Get valid moves (not 180-degree turns)
+    const validMoves = [];
+    for (let i = 0; i < 4; i++) {
+      if (i !== oppositeIndex) {
+        validMoves.push(i);
+      }
     }
     
-    return directions[maxIndex];
+    // Check if the AI's choice is valid
+    if (validMoves.includes(maxIndex)) {
+      return directions[maxIndex];
+    } else {
+      // Choose a random valid move
+      const randomIndex = validMoves[Math.floor(Math.random() * validMoves.length)];
+      return directions[randomIndex];
+    }
   };
 
   // Game logic
@@ -178,19 +193,25 @@ const SnakeAIDemo = () => {
       
       switch (directionRef.current) {
         case 'UP':
-          head[1] = (head[1] - 1 + GRID_SIZE) % GRID_SIZE;
+          head[1] = head[1] - 1;
           break;
         case 'RIGHT':
-          head[0] = (head[0] + 1) % GRID_SIZE;
+          head[0] = head[0] + 1;
           break;
         case 'DOWN':
-          head[1] = (head[1] + 1) % GRID_SIZE;
+          head[1] = head[1] + 1;
           break;
         case 'LEFT':
-          head[0] = (head[0] - 1 + GRID_SIZE) % GRID_SIZE;
+          head[0] = head[0] - 1;
           break;
         default:
           break;
+      }
+      
+      // Check wall collision
+      if (head[0] < 0 || head[0] >= GRID_SIZE || head[1] < 0 || head[1] >= GRID_SIZE) {
+        gameOver();
+        return prevSnake;
       }
       
       // Check collision with self
@@ -277,15 +298,11 @@ const SnakeAIDemo = () => {
     if (gameState === 'playing') {
       const interval = setInterval(() => {
         if (aiMode) {
-          setAiThinking(true);
-          setTimeout(() => {
-            const aiDirection = getAIMove();
-            updateDirection(aiDirection);
-            setAiThinking(false);
-          }, 100);
+          const aiDirection = getAIMove();
+          updateDirection(aiDirection);
         }
         moveSnake();
-      }, aiMode ? 150 : 200);
+      }, aiMode ? 100 : 200);
       
       gameLoopRef.current = interval;
       
