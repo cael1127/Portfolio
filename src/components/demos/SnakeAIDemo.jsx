@@ -712,6 +712,15 @@ const SnakeAIDemo = () => {
       ctx.lineTo(GRID_SIZE * CELL_SIZE, i * CELL_SIZE);
       ctx.stroke();
     }
+    
+    // Draw grid coordinates for debugging
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '8px Arial';
+    for (let x = 0; x < GRID_SIZE; x++) {
+      for (let y = 0; y < GRID_SIZE; y++) {
+        ctx.fillText(`${x},${y}`, x * CELL_SIZE + 2, y * CELL_SIZE + 8);
+      }
+    }
 
     // Draw snake
     snake.forEach((segment, index) => {
@@ -722,6 +731,16 @@ const SnakeAIDemo = () => {
     // Draw food
     ctx.fillStyle = '#ef4444';
     ctx.fillRect(food[0] * CELL_SIZE + 2, food[1] * CELL_SIZE + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+    
+    // Debug: Draw food position indicator
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '10px Arial';
+    ctx.fillText(`Food: ${food[0]},${food[1]}`, 10, GRID_SIZE * CELL_SIZE + 20);
+    
+    // Debug: Draw snake head position
+    if (snake.length > 0) {
+      ctx.fillText(`Head: ${snake[0][0]},${snake[0][1]}`, 10, GRID_SIZE * CELL_SIZE + 35);
+    }
 
     // Draw AI thinking indicator
     if (aiMode && aiThinking) {
@@ -890,6 +909,21 @@ const getAIMove = (snake, food, direction, model) => {
                       className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
                     >
                       Debug Info
+                    </button>
+                    <button
+                      onClick={() => {
+                        console.log('Food position check:', {
+                          foodState: food,
+                          foodX: food[0],
+                          foodY: food[1],
+                          renderedPosition: `${food[0] * CELL_SIZE},${food[1] * CELL_SIZE}`,
+                          gridSize: GRID_SIZE,
+                          cellSize: CELL_SIZE
+                        });
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Check Food Position
                     </button>
                   </>
                 )}
