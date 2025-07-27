@@ -183,7 +183,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           hasProjectPage: true
         },
         {
-          id: 'smartcity',
+          id: 'smart-city',
           name: 'Smart City Infrastructure',
           description: 'Comprehensive smart city monitoring and management',
           icon: '🏙️',

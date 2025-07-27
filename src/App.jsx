@@ -32,6 +32,8 @@ import BookstoreAPIDemoPage from './pages/BookstoreAPIDemoPage';
 import MERNExpenseTrackerDemoPage from './pages/MERNExpenseTrackerDemoPage';
 import SocialNetworkDemoPage from './pages/SocialNetworkDemoPage';
 import InteractiveResumeDemoPage from './pages/InteractiveResumeDemoPage';
+import FraudDetectionDemoPage from './pages/FraudDetectionDemoPage';
+import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -102,6 +104,16 @@ function App() {
         return <SocialNetworkDemoPage setCurrentPage={setCurrentPage} />;
       case 'interactive-resume-demo':
         return <InteractiveResumeDemoPage setCurrentPage={setCurrentPage} />;
+      case 'fraud-detection-demo':
+        return <FraudDetectionDemoPage setCurrentPage={setCurrentPage} />;
+      case 'deepfake-detection-demo':
+        return <DeepfakeDetectionDemoPage setCurrentPage={setCurrentPage} />;
+      case 'resumeanalyzer-demo':
+        return <ResumeAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
+      case 'aiassistant-demo':
+        return <AIAssistantDemoPage setCurrentPage={setCurrentPage} />;
+      case 'smartcity-demo':
+        return <SmartCityDemoPage setCurrentPage={setCurrentPage} />;
       
       default:
         return <Home setCurrentPage={setCurrentPage} />;
