@@ -177,23 +177,7 @@ const SnakeAIDemo = () => {
     const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
     let newDirection = directions[maxIndex];
     
-    // Prevent 180-degree turns (immediate death)
-    const currentDir = directionRef.current;
-    if ((currentDir === 'UP' && newDirection === 'DOWN') ||
-        (currentDir === 'DOWN' && newDirection === 'UP') ||
-        (currentDir === 'LEFT' && newDirection === 'RIGHT') ||
-        (currentDir === 'RIGHT' && newDirection === 'LEFT')) {
-      // Choose a safe direction instead
-      const safeDirections = directions.filter(dir => 
-        !((currentDir === 'UP' && dir === 'DOWN') ||
-          (currentDir === 'DOWN' && dir === 'UP') ||
-          (currentDir === 'LEFT' && dir === 'RIGHT') ||
-          (currentDir === 'RIGHT' && dir === 'LEFT'))
-      );
-      newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
-    }
-    
-    // ADDITIONAL SAFETY CHECK: Prevent immediate wall collision
+    // CRITICAL FIX: Always check for safe moves first
     const head = snake[0];
     const directionVectors = {
       'UP': [0, -1],
@@ -202,40 +186,46 @@ const SnakeAIDemo = () => {
       'LEFT': [-1, 0]
     };
     
-    const [dx, dy] = directionVectors[newDirection];
-    const newHead = [head[0] + dx, head[1] + dy];
-    
-    // Check if the chosen direction would cause immediate death
-    const wouldDie = 
-      newHead[0] < 0 || newHead[0] >= GRID_SIZE ||
-      newHead[1] < 0 || newHead[1] >= GRID_SIZE ||
-      snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
-    
-    if (wouldDie) {
-      console.log('AI chose dangerous move, finding safe alternative');
-      // Find a safe direction
-      const safeDirections = [];
-      Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
-        const testHead = [head[0] + dx, head[1] + dy];
-        const isSafe = 
-          testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
-          testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
-          !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
-        
-        if (isSafe) {
-          safeDirections.push(dir);
-        }
-      });
+    // Find ALL safe directions first
+    const safeDirections = [];
+    Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
+      const testHead = [head[0] + dx, head[1] + dy];
+      const isSafe = 
+        testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
+        testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
+        !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
       
-      if (safeDirections.length > 0) {
-        newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
-        console.log('AI chose safe alternative:', newDirection);
-      } else {
-        console.log('No safe moves available, AI will die');
+      if (isSafe) {
+        safeDirections.push(dir);
       }
+    });
+    
+    // If no safe directions, AI will die (this should rarely happen)
+    if (safeDirections.length === 0) {
+      console.log('No safe moves available, AI will die');
+      return 'RIGHT'; // Default to right if no safe moves
     }
     
-    console.log('AI move:', { currentDir, newDirection, outputs, wouldDie, generation: generationRef.current });
+    // Prevent 180-degree turns (immediate death)
+    const currentDir = directionRef.current;
+    const safeNonReverseDirections = safeDirections.filter(dir => 
+      !((currentDir === 'UP' && dir === 'DOWN') ||
+        (currentDir === 'DOWN' && dir === 'UP') ||
+        (currentDir === 'LEFT' && dir === 'RIGHT') ||
+        (currentDir === 'RIGHT' && dir === 'LEFT'))
+    );
+    
+    // Use AI's choice only if it's safe and not a 180-degree turn
+    if (safeDirections.includes(newDirection) && safeNonReverseDirections.includes(newDirection)) {
+      console.log('AI chose safe move:', newDirection);
+    } else {
+      // Choose from safe directions, preferring non-reverse moves
+      const preferredDirections = safeNonReverseDirections.length > 0 ? safeNonReverseDirections : safeDirections;
+      newDirection = preferredDirections[Math.floor(Math.random() * preferredDirections.length)];
+      console.log('AI chose safe alternative:', newDirection, 'from safe options:', safeDirections);
+    }
+    
+    console.log('AI move:', { currentDir, newDirection, safeDirections, generation: generationRef.current });
     return newDirection;
   };
 
@@ -343,7 +333,7 @@ const SnakeAIDemo = () => {
           return newGen;
         });
       }
-      // Auto-restart for AI learning - INCREASED DELAY
+      // Auto-restart for AI learning - MUCH LONGER DELAY
       setTimeout(() => {
         console.log('AI restarting after death, generation:', generationRef.current);
         setScore(0);
@@ -356,8 +346,8 @@ const SnakeAIDemo = () => {
         // ADDITIONAL DELAY: Pause briefly to prevent immediate collision
         setTimeout(() => {
           console.log('AI ready to start moving');
-        }, 500); // 500ms pause before AI starts moving
-      }, 2000); // INCREASED from 1000ms to 2000ms to prevent immediate collision
+        }, 1000); // INCREASED from 500ms to 1000ms pause before AI starts moving
+      }, 3000); // INCREASED from 2000ms to 3000ms to prevent immediate collision
     } else {
       console.log('Manual mode - setting game over state');
       setGameState('gameOver');
@@ -407,7 +397,7 @@ const SnakeAIDemo = () => {
           updateDirection(aiDirection);
         }
         moveSnake();
-      }, aiMode ? 150 : 200); // INCREASED from 100ms to 150ms for AI
+      }, aiMode ? 300 : 200); // INCREASED from 150ms to 300ms for AI (much slower)
       
       gameLoopRef.current = interval;
       
