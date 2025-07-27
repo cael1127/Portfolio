@@ -20,6 +20,7 @@ const SnakeAIDemo = () => {
   const directionRef = useRef('RIGHT');
   const generationRef = useRef(1); // ADD REF to track current generation
   const fitnessRef = useRef(0); // ADD REF to track current fitness
+  const deathCountRef = useRef(0); // ADD DEATH COUNTER
 
   const GRID_SIZE = 20;
   const CELL_SIZE = 20;
@@ -154,31 +155,55 @@ const SnakeAIDemo = () => {
     return inputs;
   };
 
-  // AI decision making
+  // AI decision making - COMPLETELY REWRITTEN
   const getAIMove = () => {
     if (!model) return 'RIGHT';
     
-    // ADD RANDOM EXPLORATION: Early generations should explore randomly
-    if (generationRef.current < 5) {
-      const randomChance = Math.max(0.3, 1 - generationRef.current * 0.1); // 30% random chance for first 5 generations
-      if (Math.random() < randomChance) {
-        const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-        const randomDir = directions[Math.floor(Math.random() * directions.length)];
-        console.log('AI exploring randomly:', randomDir, 'generation:', generationRef.current);
-        return randomDir;
+    // SIMPLE AI: Just move in a safe pattern for now
+    const head = snake[0];
+    const currentDir = directionRef.current;
+    
+    // Simple wall avoidance - if near wall, turn
+    const nearRightWall = head[0] >= GRID_SIZE - 2;
+    const nearLeftWall = head[0] <= 1;
+    const nearBottomWall = head[1] >= GRID_SIZE - 2;
+    const nearTopWall = head[1] <= 1;
+    
+    // Simple food seeking
+    const foodDirX = food[0] - head[0];
+    const foodDirY = food[1] - head[1];
+    
+    let newDirection = currentDir;
+    
+    // If near a wall, turn away
+    if (currentDir === 'RIGHT' && nearRightWall) {
+      newDirection = foodDirY > 0 ? 'DOWN' : 'UP';
+    } else if (currentDir === 'LEFT' && nearLeftWall) {
+      newDirection = foodDirY > 0 ? 'DOWN' : 'UP';
+    } else if (currentDir === 'DOWN' && nearBottomWall) {
+      newDirection = foodDirX > 0 ? 'RIGHT' : 'LEFT';
+    } else if (currentDir === 'UP' && nearTopWall) {
+      newDirection = foodDirX > 0 ? 'RIGHT' : 'LEFT';
+    } else {
+      // Try to move toward food
+      if (Math.abs(foodDirX) > Math.abs(foodDirY)) {
+        // Food is more horizontal
+        if (foodDirX > 0 && currentDir !== 'LEFT') {
+          newDirection = 'RIGHT';
+        } else if (foodDirX < 0 && currentDir !== 'RIGHT') {
+          newDirection = 'LEFT';
+        }
+      } else {
+        // Food is more vertical
+        if (foodDirY > 0 && currentDir !== 'UP') {
+          newDirection = 'DOWN';
+        } else if (foodDirY < 0 && currentDir !== 'DOWN') {
+          newDirection = 'UP';
+        }
       }
     }
     
-    const inputs = getAIInputs();
-    const outputs = model.feedForward(inputs);
-    
-    // Find the direction with highest output
-    const maxIndex = outputs.indexOf(Math.max(...outputs));
-    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-    let newDirection = directions[maxIndex];
-    
-    // CRITICAL FIX: Always check for safe moves first
-    const head = snake[0];
+    // Safety check - make sure we don't hit walls
     const directionVectors = {
       'UP': [0, -1],
       'RIGHT': [1, 0],
@@ -186,46 +211,36 @@ const SnakeAIDemo = () => {
       'LEFT': [-1, 0]
     };
     
-    // Find ALL safe directions first
-    const safeDirections = [];
-    Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
-      const testHead = [head[0] + dx, head[1] + dy];
-      const isSafe = 
-        testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
-        testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
-        !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
+    const [dx, dy] = directionVectors[newDirection];
+    const newHead = [head[0] + dx, head[1] + dy];
+    
+    // If the chosen direction would cause death, pick a random safe direction
+    const wouldDie = 
+      newHead[0] < 0 || newHead[0] >= GRID_SIZE ||
+      newHead[1] < 0 || newHead[1] >= GRID_SIZE ||
+      snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+    
+    if (wouldDie) {
+      console.log('AI would die, picking random safe direction');
+      const safeDirections = [];
+      Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
+        const testHead = [head[0] + dx, head[1] + dy];
+        const isSafe = 
+          testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
+          testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
+          !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
+        
+        if (isSafe) {
+          safeDirections.push(dir);
+        }
+      });
       
-      if (isSafe) {
-        safeDirections.push(dir);
+      if (safeDirections.length > 0) {
+        newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
       }
-    });
-    
-    // If no safe directions, AI will die (this should rarely happen)
-    if (safeDirections.length === 0) {
-      console.log('No safe moves available, AI will die');
-      return 'RIGHT'; // Default to right if no safe moves
     }
     
-    // Prevent 180-degree turns (immediate death)
-    const currentDir = directionRef.current;
-    const safeNonReverseDirections = safeDirections.filter(dir => 
-      !((currentDir === 'UP' && dir === 'DOWN') ||
-        (currentDir === 'DOWN' && dir === 'UP') ||
-        (currentDir === 'LEFT' && dir === 'RIGHT') ||
-        (currentDir === 'RIGHT' && dir === 'LEFT'))
-    );
-    
-    // Use AI's choice only if it's safe and not a 180-degree turn
-    if (safeDirections.includes(newDirection) && safeNonReverseDirections.includes(newDirection)) {
-      console.log('AI chose safe move:', newDirection);
-    } else {
-      // Choose from safe directions, preferring non-reverse moves
-      const preferredDirections = safeNonReverseDirections.length > 0 ? safeNonReverseDirections : safeDirections;
-      newDirection = preferredDirections[Math.floor(Math.random() * preferredDirections.length)];
-      console.log('AI chose safe alternative:', newDirection, 'from safe options:', safeDirections);
-    }
-    
-    console.log('AI move:', { currentDir, newDirection, safeDirections, generation: generationRef.current });
+    console.log('AI move:', { currentDir, newDirection, generation: generationRef.current, score });
     return newDirection;
   };
 
@@ -315,29 +330,32 @@ const SnakeAIDemo = () => {
   };
 
   const gameOver = () => {
-    console.log('Game Over called', { aiMode, score, gameState, generation: generationRef.current });
+    deathCountRef.current += 1;
+    console.log('Game Over called', { aiMode, score, gameState, generation: generationRef.current, deathCount: deathCountRef.current });
     if (aiMode) {
       const currentFitness = score;
+      console.log('Setting fitness to:', currentFitness);
       setFitness(currentFitness);
       fitnessRef.current = currentFitness;
       setAiRestarting(true);
       console.log('AI mode - evolving model and restarting, fitness:', currentFitness);
+      
       // Evolve the model
       if (model) {
-        const newModel = model.mutate(0.3); // INCREASED from 0.1 to 0.3 for faster learning
+        const newModel = model.mutate(0.3);
         setModel(newModel);
-        setGeneration(prev => {
-          const newGen = prev + 1;
-          generationRef.current = newGen;
-          console.log('Generation updated:', prev, '->', newGen);
-          return newGen;
-        });
+        const currentGen = generationRef.current;
+        const newGen = currentGen + 1;
+        console.log('Evolving model, generation:', currentGen, '->', newGen);
+        setGeneration(newGen);
+        generationRef.current = newGen;
       }
+      
       // Auto-restart for AI learning - MUCH LONGER DELAY
       setTimeout(() => {
-        console.log('AI restarting after death, generation:', generationRef.current);
+        console.log('AI restarting after death, generation:', generationRef.current, 'death count:', deathCountRef.current);
         setScore(0);
-        setSnake([[5, 5]]); // CHANGED from [10, 10] to [5, 5]
+        setSnake([[5, 5]]);
         updateDirection('RIGHT');
         generateFood();
         setGameState('playing');
@@ -346,8 +364,8 @@ const SnakeAIDemo = () => {
         // ADDITIONAL DELAY: Pause briefly to prevent immediate collision
         setTimeout(() => {
           console.log('AI ready to start moving');
-        }, 1000); // INCREASED from 500ms to 1000ms pause before AI starts moving
-      }, 3000); // INCREASED from 2000ms to 3000ms to prevent immediate collision
+        }, 1000);
+      }, 3000);
     } else {
       console.log('Manual mode - setting game over state');
       setGameState('gameOver');
