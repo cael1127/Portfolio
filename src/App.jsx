@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Home from './components/Home';
 import DemoOrganizer from './components/DemoOrganizer';
-import ResumeBuilder from './components/ResumeBuilder';
 import Freelancing from './components/Freelancing';
 import Contact from './components/Contact';
 import AIInterviewSimulator from './components/AIInterviewSimulator';
@@ -43,8 +42,6 @@ function App() {
         return <Home setCurrentPage={setCurrentPage} />;
       case 'demo-organizer':
         return <DemoOrganizer setCurrentPage={setCurrentPage} />;
-      case 'resume-builder':
-        return <ResumeBuilder setCurrentPage={setCurrentPage} />;
       case 'freelancing':
         return <Freelancing setCurrentPage={setCurrentPage} />;
       case 'contact':
@@ -116,7 +113,6 @@ function App() {
     const navItems = [
       { id: 'home', label: '🏠 Home', icon: '🏠' },
       { id: 'demo-organizer', label: '🚀 Projects', icon: '🚀' },
-      { id: 'resume-builder', label: '📄 Resume', icon: '📄' },
       { id: 'freelancing', label: '💼 Services', icon: '💼' },
       { id: 'contact', label: '📞 Contact', icon: '📞' },
     ];
