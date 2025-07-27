@@ -401,12 +401,21 @@ const SnakeAIDemo = () => {
       // Check if food is eaten BEFORE adding head to snake
       const foodEaten = head[0] === food[0] && head[1] === food[1];
       
+      console.log('Food collision check:', {
+        head: head,
+        food: food,
+        headX: head[0], headY: head[1],
+        foodX: food[0], foodY: food[1],
+        collision: foodEaten,
+        distance: Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1])
+      });
+      
       // Track food distance for AI learning
       const currentFoodDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
       const movedCloserToFood = currentFoodDistance < lastFoodDistance;
       
       if (foodEaten) {
-        console.log('Food eaten!', { head, food, score, aiMode, generation: generationRef.current });
+        console.log('🎯 FOOD EATEN!', { head, food, score, aiMode, generation: generationRef.current });
         setLastMoveWasSuccessful(true); // Food eating is always successful
       } else {
         console.log('No food eaten', { head, food, distance: currentFoodDistance });
@@ -455,7 +464,7 @@ const SnakeAIDemo = () => {
       attempts < maxAttempts
     );
     
-    console.log('Generated food at:', newFood, 'snake length:', snake.length);
+    console.log('🍎 Generated food at:', newFood, 'snake length:', snake.length, 'attempts:', attempts);
     setFood(newFood);
   };
 
@@ -561,6 +570,7 @@ const SnakeAIDemo = () => {
     setSnake([[5, 5]]);
     updateDirection('RIGHT');
     generateFood();
+    console.log('Game started - initial snake:', [[5, 5]], 'food will be generated');
     if (ai) {
       setGeneration(1);
       setFitness(0);
@@ -865,6 +875,20 @@ const getAIMove = (snake, food, direction, model) => {
                       className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors"
                     >
                       Test Move
+                    </button>
+                    <button
+                      onClick={() => {
+                        console.log('Debug info:', {
+                          snake: snake,
+                          food: food,
+                          direction: directionRef.current,
+                          score: score,
+                          gameState: gameState
+                        });
+                      }}
+                      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Debug Info
                     </button>
                   </>
                 )}
