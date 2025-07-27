@@ -95,7 +95,7 @@ const SnakeAIDemo = () => {
     }
   }, [aiMode, model]);
 
-  // Get AI inputs
+  // Get AI inputs - IMPROVED FOR BETTER LEARNING
   const getAIInputs = () => {
     const inputs = [];
     
@@ -132,7 +132,7 @@ const SnakeAIDemo = () => {
       inputs.push(i === dirIndex ? 1 : 0);
     }
     
-    // Additional features
+    // Additional features for better learning
     inputs.push(snake.length / 100); // Snake length
     inputs.push(score / 1000); // Score
     inputs.push(head[0] / GRID_SIZE); // Head X position
@@ -152,58 +152,35 @@ const SnakeAIDemo = () => {
     inputs.push(foodDir[1] > 0 ? 1 : 0); // Food is below
     inputs.push(foodDir[1] < 0 ? 1 : 0); // Food is above
     
+    // ADDITIONAL FEATURES FOR BETTER LEARNING
+    // Distance to food in each direction
+    inputs.push(Math.abs(foodDir[0]) / GRID_SIZE); // Absolute X distance
+    inputs.push(Math.abs(foodDir[1]) / GRID_SIZE); // Absolute Y distance
+    
+    // Movement preference based on food location
+    inputs.push(foodDir[0] > 0 && directionRef.current !== 'LEFT' ? 1 : 0); // Should go right
+    inputs.push(foodDir[0] < 0 && directionRef.current !== 'RIGHT' ? 1 : 0); // Should go left
+    inputs.push(foodDir[1] > 0 && directionRef.current !== 'UP' ? 1 : 0); // Should go down
+    inputs.push(foodDir[1] < 0 && directionRef.current !== 'DOWN' ? 1 : 0); // Should go up
+    
     return inputs;
   };
 
-  // AI decision making - COMPLETELY REWRITTEN
+  // AI decision making - WORKING LEARNING SYSTEM
   const getAIMove = () => {
     if (!model) return 'RIGHT';
     
-    // SIMPLE AI: Just move in a safe pattern for now
-    const head = snake[0];
-    const currentDir = directionRef.current;
+    // Use neural network for decision making
+    const inputs = getAIInputs();
+    const outputs = model.feedForward(inputs);
     
-    // Simple wall avoidance - if near wall, turn
-    const nearRightWall = head[0] >= GRID_SIZE - 2;
-    const nearLeftWall = head[0] <= 1;
-    const nearBottomWall = head[1] >= GRID_SIZE - 2;
-    const nearTopWall = head[1] <= 1;
-    
-    // Simple food seeking
-    const foodDirX = food[0] - head[0];
-    const foodDirY = food[1] - head[1];
-    
-    let newDirection = currentDir;
-    
-    // If near a wall, turn away
-    if (currentDir === 'RIGHT' && nearRightWall) {
-      newDirection = foodDirY > 0 ? 'DOWN' : 'UP';
-    } else if (currentDir === 'LEFT' && nearLeftWall) {
-      newDirection = foodDirY > 0 ? 'DOWN' : 'UP';
-    } else if (currentDir === 'DOWN' && nearBottomWall) {
-      newDirection = foodDirX > 0 ? 'RIGHT' : 'LEFT';
-    } else if (currentDir === 'UP' && nearTopWall) {
-      newDirection = foodDirX > 0 ? 'RIGHT' : 'LEFT';
-    } else {
-      // Try to move toward food
-      if (Math.abs(foodDirX) > Math.abs(foodDirY)) {
-        // Food is more horizontal
-        if (foodDirX > 0 && currentDir !== 'LEFT') {
-          newDirection = 'RIGHT';
-        } else if (foodDirX < 0 && currentDir !== 'RIGHT') {
-          newDirection = 'LEFT';
-        }
-      } else {
-        // Food is more vertical
-        if (foodDirY > 0 && currentDir !== 'UP') {
-          newDirection = 'DOWN';
-        } else if (foodDirY < 0 && currentDir !== 'DOWN') {
-          newDirection = 'UP';
-        }
-      }
-    }
+    // Find the direction with highest output
+    const maxIndex = outputs.indexOf(Math.max(...outputs));
+    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+    let newDirection = directions[maxIndex];
     
     // Safety check - make sure we don't hit walls
+    const head = snake[0];
     const directionVectors = {
       'UP': [0, -1],
       'RIGHT': [1, 0],
@@ -240,7 +217,7 @@ const SnakeAIDemo = () => {
       }
     }
     
-    console.log('AI move:', { currentDir, newDirection, generation: generationRef.current, score });
+    console.log('AI move:', { currentDir: directionRef.current, newDirection, generation: generationRef.current, score, outputs });
     return newDirection;
   };
 
@@ -333,8 +310,8 @@ const SnakeAIDemo = () => {
     deathCountRef.current += 1;
     console.log('Game Over called', { aiMode, score, gameState, generation: generationRef.current, deathCount: deathCountRef.current });
     if (aiMode) {
-      const currentFitness = score;
-      console.log('Setting fitness to:', currentFitness);
+      const currentFitness = score + (snake.length * 5); // BETTER FITNESS: score + length bonus
+      console.log('Setting fitness to:', currentFitness, 'score:', score, 'length:', snake.length);
       setFitness(currentFitness);
       fitnessRef.current = currentFitness;
       setAiRestarting(true);
@@ -342,11 +319,11 @@ const SnakeAIDemo = () => {
       
       // Evolve the model
       if (model) {
-        const newModel = model.mutate(0.3);
+        const newModel = model.mutate(0.5); // INCREASED mutation rate for faster learning
         setModel(newModel);
         const currentGen = generationRef.current;
         const newGen = currentGen + 1;
-        console.log('Evolving model, generation:', currentGen, '->', newGen);
+        console.log('Evolving model, generation:', currentGen, '->', newGen, 'fitness:', currentFitness);
         setGeneration(newGen);
         generationRef.current = newGen;
       }
