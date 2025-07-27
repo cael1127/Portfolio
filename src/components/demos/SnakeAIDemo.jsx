@@ -19,6 +19,18 @@ const SnakeAIDemo = () => {
   const [bestModel, setBestModel] = useState(null);
   const [stuckCount, setStuckCount] = useState(0);
   const [isRestarting, setIsRestarting] = useState(false); // PREVENT MULTIPLE RESTARTS
+  const [nnVisualization, setNnVisualization] = useState({
+    inputs: [],
+    hidden: [],
+    outputs: [],
+    decision: '',
+    exploration: false
+  });
+  
+  // AI tracking variables
+  const [gameTime, setGameTime] = useState(0);
+  const [lastMoveWasSuccessful, setLastMoveWasSuccessful] = useState(false);
+  const [lastFoodDistance, setLastFoodDistance] = useState(0);
   
   // Refs for AI state
   const modelRef = useRef(null);
@@ -116,17 +128,19 @@ const SnakeAIDemo = () => {
   const getAIInputs = () => {
     const inputs = [];
     
-    // Distance to food in 4 directions
+    // CLEAR GOAL SIGNAL - Food eating is the primary objective
     const head = snake[0];
     const foodDir = [
       food[0] - head[0], // X direction
       food[1] - head[1], // Y direction
     ];
     
-    inputs.push(foodDir[0] / GRID_SIZE); // Normalized X distance
-    inputs.push(foodDir[1] / GRID_SIZE); // Normalized Y distance
+    // 1. FOOD DISTANCE (Primary goal)
+    inputs.push(foodDir[0] / GRID_SIZE); // X distance to food
+    inputs.push(foodDir[1] / GRID_SIZE); // Y distance to food
+    inputs.push((Math.abs(foodDir[0]) + Math.abs(foodDir[1])) / (GRID_SIZE * 2)); // Total distance to food
     
-    // Danger detection in 4 directions
+    // 2. DANGER DETECTION (Survival)
     const directions = [
       [0, -1], // UP
       [1, 0],  // RIGHT
@@ -143,42 +157,44 @@ const SnakeAIDemo = () => {
       inputs.push(isDanger ? 1 : 0);
     });
     
-    // Current direction one-hot encoding
+    // 3. CURRENT DIRECTION (Context)
     const dirIndex = ['UP', 'RIGHT', 'DOWN', 'LEFT'].indexOf(directionRef.current);
     for (let i = 0; i < 4; i++) {
       inputs.push(i === dirIndex ? 1 : 0);
     }
     
-    // Additional features for better learning
-    inputs.push(snake.length / 100); // Snake length
-    inputs.push(score / 1000); // Score
-    inputs.push(head[0] / GRID_SIZE); // Head X position
-    inputs.push(head[1] / GRID_SIZE); // Head Y position
-    inputs.push(food[0] / GRID_SIZE); // Food X position
-    inputs.push(food[1] / GRID_SIZE); // Food Y position
-    
-    // Distance to walls
-    inputs.push(head[0] / GRID_SIZE); // Distance to left wall
-    inputs.push((GRID_SIZE - head[0]) / GRID_SIZE); // Distance to right wall
-    inputs.push(head[1] / GRID_SIZE); // Distance to top wall
-    inputs.push((GRID_SIZE - head[1]) / GRID_SIZE); // Distance to bottom wall
-    
-    // Food direction preference
+    // 4. FOOD DIRECTION PREFERENCE (Clear movement hints)
     inputs.push(foodDir[0] > 0 ? 1 : 0); // Food is to the right
     inputs.push(foodDir[0] < 0 ? 1 : 0); // Food is to the left
     inputs.push(foodDir[1] > 0 ? 1 : 0); // Food is below
     inputs.push(foodDir[1] < 0 ? 1 : 0); // Food is above
     
-    // ADDITIONAL FEATURES FOR BETTER LEARNING
-    // Distance to food in each direction
-    inputs.push(Math.abs(foodDir[0]) / GRID_SIZE); // Absolute X distance
-    inputs.push(Math.abs(foodDir[1]) / GRID_SIZE); // Absolute Y distance
+    // 5. SAFE MOVEMENT TOWARDS FOOD (Smart hints)
+    inputs.push(foodDir[0] > 0 && directionRef.current !== 'LEFT' ? 1 : 0); // Can go right safely
+    inputs.push(foodDir[0] < 0 && directionRef.current !== 'RIGHT' ? 1 : 0); // Can go left safely
+    inputs.push(foodDir[1] > 0 && directionRef.current !== 'UP' ? 1 : 0); // Can go down safely
+    inputs.push(foodDir[1] < 0 && directionRef.current !== 'DOWN' ? 1 : 0); // Can go up safely
     
-    // Movement preference based on food location
-    inputs.push(foodDir[0] > 0 && directionRef.current !== 'LEFT' ? 1 : 0); // Should go right
-    inputs.push(foodDir[0] < 0 && directionRef.current !== 'RIGHT' ? 1 : 0); // Should go left
-    inputs.push(foodDir[1] > 0 && directionRef.current !== 'UP' ? 1 : 0); // Should go down
-    inputs.push(foodDir[1] < 0 && directionRef.current !== 'DOWN' ? 1 : 0); // Should go up
+    // 6. WALL DISTANCE (Boundary awareness)
+    inputs.push(head[0] / GRID_SIZE); // Distance to left wall
+    inputs.push((GRID_SIZE - head[0]) / GRID_SIZE); // Distance to right wall
+    inputs.push(head[1] / GRID_SIZE); // Distance to top wall
+    inputs.push((GRID_SIZE - head[1]) / GRID_SIZE); // Distance to bottom wall
+    
+    // 7. PERFORMANCE METRICS (Reward signals)
+    inputs.push(snake.length / 50); // Snake length (normalized)
+    inputs.push(score / 500); // Score (normalized)
+    
+    // 8. FOOD PROXIMITY (Urgency signal)
+    const distanceToFood = Math.abs(foodDir[0]) + Math.abs(foodDir[1]);
+    inputs.push(distanceToFood < 2 ? 1 : 0); // Food is very close
+    inputs.push(distanceToFood < 5 ? 1 : 0); // Food is close
+    
+    // 9. SURVIVAL TIME (Encourage longer survival)
+    inputs.push(Math.min(gameTime / 1000, 1)); // Survival time (normalized)
+    
+    // 10. LAST MOVE SUCCESS (Learning from recent actions)
+    inputs.push(lastMoveWasSuccessful ? 1 : 0); // Did last move help?
     
     return inputs;
   };
@@ -195,6 +211,16 @@ const SnakeAIDemo = () => {
     console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
     const outputs = modelRef.current.feedForward(inputs);
     console.log('AI raw outputs:', outputs);
+    
+    // Get hidden layer activations for visualization
+    const hidden = [];
+    for (let j = 0; j < modelRef.current.hiddenNodes; j++) {
+      let sum = modelRef.current.biasH[0][j];
+      for (let i = 0; i < modelRef.current.inputNodes; i++) {
+        sum += inputs[i] * modelRef.current.weightsIH[i][j];
+      }
+      hidden[j] = modelRef.current.sigmoid(sum);
+    }
     
     // ADD NOISE TO PREVENT STUCK PATTERNS
     const noisyOutputs = outputs.map(output => {
@@ -232,113 +258,24 @@ const SnakeAIDemo = () => {
       console.log('Forcing direction change from', directionRef.current, 'to', newDirection);
     }
     
-    // RULE-BASED FALLBACK - If AI keeps dying, use simple rules
-    if (deathCountRef.current > 10 && currentGen > 5) {
-      console.log('AI performing poorly, using rule-based fallback');
-      const head = snake[0];
-      const foodDir = [food[0] - head[0], food[1] - head[1]];
-      
-      // Simple rule: try to move towards food if safe
-      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-      const directionVectors = {
-        'UP': [0, -1], 'RIGHT': [1, 0], 'DOWN': [0, 1], 'LEFT': [-1, 0]
-      };
-      
-      // Find safe directions
-      const safeDirections = [];
-      Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
-        const testHead = [head[0] + dx, head[1] + dy];
-        const isSafe = 
-          testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
-          testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
-          !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
-        
-        if (isSafe) {
-          safeDirections.push(dir);
-        }
-      });
-      
-      if (safeDirections.length > 0) {
-        // Pick direction closest to food
-        let bestDir = safeDirections[0];
-        let bestDist = Infinity;
-        
-        safeDirections.forEach(dir => {
-          const [dx, dy] = directionVectors[dir];
-          const testHead = [head[0] + dx, head[1] + dy];
-          const dist = Math.abs(testHead[0] - food[0]) + Math.abs(testHead[1] - food[1]);
-          if (dist < bestDist) {
-            bestDist = dist;
-            bestDir = dir;
-          }
-        });
-        
-        newDirection = bestDir;
-        console.log('Rule-based AI chose:', newDirection, 'distance to food:', bestDist);
-      }
-    }
+    // Update visualization data
+    setNnVisualization({
+      inputs: inputs.slice(0, 10), // Show first 10 inputs
+      hidden: hidden.slice(0, 8), // Show first 8 hidden nodes
+      outputs: noisyOutputs,
+      decision: newDirection,
+      exploration: shouldExplore
+    });
     
-    // ERROR HANDLING: Ensure we have a valid direction
-    if (!newDirection || newDirection === 'undefined') {
-      console.log('Invalid direction from neural network, using default RIGHT');
-      newDirection = 'RIGHT';
-    }
-    
-    // IMPROVED SAFETY CHECK - Don't just pick random safe direction, try to learn
-    const head = snake[0];
-    const directionVectors = {
-      'UP': [0, -1],
-      'RIGHT': [1, 0],
-      'DOWN': [0, 1],
-      'LEFT': [-1, 0]
-    };
-    
-    const [dx, dy] = directionVectors[newDirection];
-    const newHead = [head[0] + dx, head[1] + dy];
-    
-    // Check if the chosen direction would cause death
-    const wouldDie = 
-      newHead[0] < 0 || newHead[0] >= GRID_SIZE ||
-      newHead[1] < 0 || newHead[1] >= GRID_SIZE ||
-      snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
-    
-    if (wouldDie) {
-      // Instead of picking random safe direction, try to find the best alternative
-      const alternatives = [];
-      Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
-        const testHead = [head[0] + dx, head[1] + dy];
-        const isSafe = 
-          testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
-          testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
-          !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
-        
-        if (isSafe) {
-          // Calculate how good this alternative is (closer to food = better)
-          const foodDist = Math.abs(testHead[0] - food[0]) + Math.abs(testHead[1] - food[1]);
-          alternatives.push({ direction: dir, distance: foodDist });
-        }
-      });
-      
-      if (alternatives.length > 0) {
-        // Pick the alternative that gets us closest to food
-        alternatives.sort((a, b) => a.distance - b.distance);
-        newDirection = alternatives[0].direction;
-        console.log('AI chose safe alternative:', newDirection, 'distance to food:', alternatives[0].distance);
-      } else {
-        // If no safe direction, pick random (shouldn't happen often)
-        const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-        newDirection = directions[Math.floor(Math.random() * directions.length)];
-        console.log('No safe direction found, picking random:', newDirection);
-      }
-    }
-    
-    console.log('AI move:', { currentDir: directionRef.current, newDirection, generation: currentGen, score, explorationRate });
     return newDirection;
   };
 
   // Game logic
   const moveSnake = () => {
     if (gameState !== 'playing') return;
+
+    // Update game time for AI
+    setGameTime(prev => prev + 1);
 
     setSnake(prevSnake => {
       const newSnake = [...prevSnake];
@@ -383,11 +320,20 @@ const SnakeAIDemo = () => {
       // Check if food is eaten BEFORE adding head to snake
       const foodEaten = head[0] === food[0] && head[1] === food[1];
       
+      // Track food distance for AI learning
+      const currentFoodDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
+      const movedCloserToFood = currentFoodDistance < lastFoodDistance;
+      
       if (foodEaten) {
         console.log('Food eaten!', { head, food, score, aiMode, generation: generationRef.current });
+        setLastMoveWasSuccessful(true); // Food eating is always successful
       } else {
-        console.log('No food eaten', { head, food, distance: Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]) });
+        console.log('No food eaten', { head, food, distance: currentFoodDistance });
+        // Track if the move brought us closer to food
+        setLastMoveWasSuccessful(movedCloserToFood);
       }
+      
+      setLastFoodDistance(currentFoodDistance);
       
       newSnake.unshift(head);
       
@@ -476,7 +422,7 @@ const SnakeAIDemo = () => {
             setModel(bestModel);
             console.log('Reset to best model with fitness:', bestFitnessRef.current);
           } else {
-            const newModel = new NeuralNetwork(30, 16, 4);
+            const newModel = new NeuralNetwork(25, 16, 4);
             modelRef.current = newModel;
             setModel(newModel);
             console.log('Created new model due to being stuck');
@@ -540,7 +486,7 @@ const SnakeAIDemo = () => {
       console.log('AI game started, generation:', 1);
       // Create model immediately
       console.log('Creating neural network model immediately...');
-      const neuralNetwork = new NeuralNetwork(30, 16, 4); // FIXED: 30 inputs, 16 hidden, 4 outputs
+      const neuralNetwork = new NeuralNetwork(25, 16, 4); // FIXED: 25 inputs, 16 hidden, 4 outputs
       setModel(neuralNetwork);
       modelRef.current = neuralNetwork; // SET MODEL REF
       console.log('Model created and set:', neuralNetwork);
@@ -837,6 +783,92 @@ const getAIMove = (snake, food, direction, model) => {
                 <p><strong>AI Mode:</strong> Watch the neural network learn through genetic algorithms</p>
                 <p><strong>Space:</strong> Pause/Resume the game</p>
               </div>
+              
+              {/* Neural Network Visualization */}
+              {aiMode && (
+                <div className="mt-6 bg-gray-800 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 Neural Network Live Visualization</h3>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Input Layer */}
+                    <div className="bg-gray-700 rounded-lg p-4">
+                      <h4 className="text-sm font-semibold text-blue-400 mb-3">Input Layer (First 10)</h4>
+                      <div className="space-y-1">
+                        {nnVisualization.inputs.map((value, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                            <div className="flex-1 bg-gray-600 rounded-full h-2">
+                              <div 
+                                className="bg-blue-400 h-2 rounded-full transition-all duration-200"
+                                style={{ width: `${Math.abs(value) * 100}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-xs text-gray-300 w-8 text-right">
+                              {value.toFixed(2)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Hidden Layer */}
+                    <div className="bg-gray-700 rounded-lg p-4">
+                      <h4 className="text-sm font-semibold text-green-400 mb-3">Hidden Layer (First 8)</h4>
+                      <div className="space-y-1">
+                        {nnVisualization.hidden.map((value, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <div className="flex-1 bg-gray-600 rounded-full h-2">
+                              <div 
+                                className="bg-green-400 h-2 rounded-full transition-all duration-200"
+                                style={{ width: `${value * 100}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-xs text-gray-300 w-8 text-right">
+                              {value.toFixed(2)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Output Layer */}
+                    <div className="bg-gray-700 rounded-lg p-4">
+                      <h4 className="text-sm font-semibold text-red-400 mb-3">Output Layer</h4>
+                      <div className="space-y-1">
+                        {['UP', 'RIGHT', 'DOWN', 'LEFT'].map((direction, index) => (
+                          <div key={direction} className="flex items-center space-x-2">
+                            <div className={`w-2 h-2 rounded-full ${nnVisualization.decision === direction ? 'bg-red-400' : 'bg-gray-500'}`}></div>
+                            <div className="flex-1 bg-gray-600 rounded-full h-2">
+                              <div 
+                                className={`h-2 rounded-full transition-all duration-200 ${nnVisualization.decision === direction ? 'bg-red-400' : 'bg-gray-500'}`}
+                                style={{ width: `${(nnVisualization.outputs[index] || 0) * 100}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-xs text-gray-300 w-8 text-right">
+                              {(nnVisualization.outputs[index] || 0).toFixed(2)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Decision Info */}
+                  <div className="mt-4 p-3 bg-gray-700 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-300">Decision:</span>
+                      <span className={`font-semibold ${nnVisualization.exploration ? 'text-yellow-400' : 'text-blue-400'}`}>
+                        {nnVisualization.decision} {nnVisualization.exploration ? '(Exploration)' : '(Neural Network)'}
+                      </span>
+                    </div>
+                    <div className="mt-2 text-xs text-gray-400">
+                      <span>Max Output: {(Math.max(...(nnVisualization.outputs || [0])) || 0).toFixed(3)}</span>
+                      <span className="ml-4">Exploration Rate: {((generation < 3 ? 0.1 : Math.max(0.05, 0.15 - (generation * 0.02))) * 100).toFixed(1)}%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -892,7 +924,7 @@ const getAIMove = (snake, food, direction, model) => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Input Nodes:</span>
-                  <span className="text-white">30</span>
+                  <span className="text-white">25</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Hidden Nodes:</span>
