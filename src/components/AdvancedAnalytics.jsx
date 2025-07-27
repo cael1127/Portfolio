@@ -102,60 +102,60 @@ const AdvancedAnalytics = () => {
   
   // Real-time Data Processing
   const processAnalyticsData = async (rawData) => {
-    // Data preprocessing and feature engineering
-    const processedData = await preprocessData(rawData);
+    const processedData = {
+      users: rawData.users.map(user => ({
+        ...user,
+        engagementScore: calculateEngagementScore(user),
+        churnProbability: predictChurn(user),
+        lifetimeValue: calculateLTV(user)
+      })),
+      metrics: {
+        totalRevenue: rawData.users.reduce((sum, user) => sum + user.revenue, 0),
+        averageSessionDuration: rawData.users.reduce((sum, user) => sum + user.sessionDuration, 0) / rawData.users.length,
+        conversionRate: rawData.users.filter(user => user.conversionRate > 0.05).length / rawData.users.length
+      }
+    };
     
-    // Anomaly detection using isolation forest
-    const anomalies = await detectAnomalies(processedData);
-    
-    // Time series forecasting
-    const predictions = await forecastMetrics(processedData);
-    
-    return { processedData, anomalies, predictions };
+    return processedData;
   };
   
-  // Advanced Statistical Analysis
-  const performStatisticalAnalysis = (data) => {
-    const analysis = {
-      correlation: calculateCorrelation(data),
-      regression: performLinearRegression(data),
-      clustering: performKMeansClustering(data),
-      timeSeries: performTimeSeriesAnalysis(data)
-    };
+  // Anomaly Detection Algorithm
+  const detectAnomalies = (data) => {
+    const anomalies = [];
+    const mean = data.reduce((sum, val) => sum + val, 0) / data.length;
+    const std = Math.sqrt(data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.length);
     
-    return analysis;
+    data.forEach((value, index) => {
+      const zScore = Math.abs((value - mean) / std);
+      if (zScore > 2.5) {
+        anomalies.push({
+          index,
+          value,
+          severity: zScore > 3.5 ? 'High' : 'Medium',
+          description: 'Statistical anomaly detected'
+        });
+      }
+    });
+    
+    return anomalies;
   };
   
-  // Real-time Dashboard Updates
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('/api/analytics/real-time');
-      const data = await response.json();
-      
-      const processed = await processAnalyticsData(data);
-      setAnalyticsData(processed);
-    };
+  // Predictive Analytics
+  const generatePredictions = async (historicalData) => {
+    const model = await loadMLModel();
+    const predictions = [];
     
-    fetchData();
-    const interval = setInterval(fetchData, 30000);
+    for (let i = 0; i < 30; i++) {
+      const prediction = await model.predict(historicalData.slice(-30));
+      predictions.push({
+        date: new Date(Date.now() + i * 24 * 60 * 60 * 1000),
+        value: prediction.dataSync()[0],
+        confidence: Math.random() * 0.2 + 0.8
+      });
+    }
     
-    return () => clearInterval(interval);
-  }, []);
-  
-  // WebSocket for Real-time Updates
-  useEffect(() => {
-    const ws = new WebSocket('wss://analytics-server.com/real-time');
-    
-    ws.onmessage = (event) => {
-      const update = JSON.parse(event.data);
-      setAnalyticsData(prev => ({
-        ...prev,
-        [update.type]: update.data
-      }));
-    };
-    
-    return () => ws.close();
-  }, []);
+    return predictions;
+  };
   
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -164,75 +164,98 @@ const AdvancedAnalytics = () => {
           📊 Advanced Analytics Dashboard
         </h1>
         
-        {/* Real-time metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-900 to-blue-700 p-6 rounded-xl">
-            <h3 className="text-lg font-semibold mb-2">Active Users</h3>
-            <p className="text-3xl font-bold">1,247</p>
-            <p className="text-blue-300 text-sm">+12% from yesterday</p>
-          </div>
-          
-          <div className="bg-gradient-to-br from-green-900 to-green-700 p-6 rounded-xl">
-            <h3 className="text-lg font-semibold mb-2">Revenue</h3>
-            <p className="text-3xl font-bold">$125K</p>
-            <p className="text-green-300 text-sm">+8% from yesterday</p>
-          </div>
-          
-          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl">
-            <h3 className="text-lg font-semibold mb-2">Conversion Rate</h3>
-            <p className="text-3xl font-bold">12.5%</p>
-            <p className="text-purple-300 text-sm">+2.1% from yesterday</p>
-          </div>
-          
-          <div className="bg-gradient-to-br from-red-900 to-red-700 p-6 rounded-xl">
-            <h3 className="text-lg font-semibold mb-2">Churn Rate</h3>
-            <p className="text-3xl font-bold">2.3%</p>
-            <p className="text-red-300 text-sm">-0.5% from yesterday</p>
-          </div>
-        </div>
-        
-        {/* Machine Learning Predictions */}
-        <div className="bg-gray-800 p-6 rounded-xl mb-8">
-          <h2 className="text-2xl font-bold mb-4">🤖 ML Predictions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {predictions.map(prediction => (
-              <div key={prediction.metric} className="bg-gray-700 p-4 rounded-lg">
-                <h3 className="font-semibold mb-2">{prediction.metric}</h3>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-2xl font-bold">${prediction.predicted.toLocaleString()}</p>
-                    <p className="text-gray-400 text-sm">Predicted</p>
+        {/* Analytics Interface */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            {/* User Analytics */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">👥 User Analytics</h2>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-blue-800/50 p-4 rounded-lg">
+                    <p className="text-blue-200 text-sm">Total Users</p>
+                    <p className="text-white text-2xl font-bold">{analyticsData.users.length}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-400">Confidence</p>
-                    <p className="text-lg font-semibold">{(prediction.confidence * 100).toFixed(0)}%</p>
+                  <div className="bg-blue-800/50 p-4 rounded-lg">
+                    <p className="text-blue-200 text-sm">Active Now</p>
+                    <p className="text-white text-2xl font-bold">{Math.floor(analyticsData.users.length * 0.3)}</p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Anomaly Detection */}
-        <div className="bg-gray-800 p-6 rounded-xl">
-          <h2 className="text-2xl font-bold mb-4">🚨 Anomaly Detection</h2>
-          <div className="space-y-4">
-            {anomalies.map((anomaly, index) => (
-              <div key={index} className="bg-gray-700 p-4 rounded-lg border-l-4 border-red-500">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold">{anomaly.metric}</h3>
-                    <p className="text-gray-400 text-sm">{anomaly.description}</p>
+            </div>
+            
+            {/* Predictions */}
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">🔮 Predictions</h2>
+              <div className="space-y-3">
+                {analyticsData.predictions.map((pred, index) => (
+                  <div key={index} className="bg-green-800/50 p-4 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <p className="text-white font-semibold">{pred.metric}</p>
+                      <span className={\`text-sm \${
+                        pred.trend === 'up' ? 'text-green-400' : 'text-red-400'
+                      }\`}>
+                        {pred.trend === 'up' ? '↗' : '↘'}
+                      </span>
+                    </div>
+                    <p className="text-green-200 text-sm">
+                      {pred.current} → {pred.predicted}
+                    </p>
+                    <p className="text-green-300 text-xs">
+                      Confidence: {(pred.confidence * 100).toFixed(1)}%
+                    </p>
                   </div>
-                  <div className="text-right">
-                    <span className={\`px-2 py-1 rounded text-xs \${anomaly.severity === 'High' ? 'bg-red-600' : anomaly.severity === 'Medium' ? 'bg-yellow-600' : 'bg-green-600'}\`}>
-                      {anomaly.severity}
-                    </span>
-                    <p className="text-gray-400 text-xs mt-1">{anomaly.timestamp}</p>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+          </div>
+          
+          {/* Trends and Anomalies */}
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">📈 Trends</h2>
+              <div className="space-y-3">
+                {analyticsData.trends.map((trend, index) => (
+                  <div key={index} className="bg-purple-800/50 p-4 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <p className="text-white font-semibold">{trend.name}</p>
+                      <span className={\`text-sm \${
+                        trend.direction === 'up' ? 'text-green-400' : 'text-red-400'
+                      }\`}>
+                        {trend.direction === 'up' ? '+' : ''}{trend.change}%
+                      </span>
+                    </div>
+                    <p className="text-purple-200 text-sm">{trend.value}%</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">⚠️ Anomalies</h2>
+              <div className="space-y-3">
+                {analyticsData.anomalies.map((anomaly, index) => (
+                  <div key={index} className={\`p-4 rounded-lg \${
+                    anomaly.severity === 'High' ? 'bg-red-800/50' :
+                    anomaly.severity === 'Medium' ? 'bg-yellow-800/50' :
+                    'bg-orange-800/50'
+                  }\`}>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-white font-semibold">{anomaly.metric}</p>
+                      <span className={\`text-xs px-2 py-1 rounded \${
+                        anomaly.severity === 'High' ? 'bg-red-600' :
+                        anomaly.severity === 'Medium' ? 'bg-yellow-600' :
+                        'bg-orange-600'
+                      }\`}>
+                        {anomaly.severity}
+                      </span>
+                    </div>
+                    <p className="text-gray-200 text-sm">{anomaly.description}</p>
+                    <p className="text-gray-300 text-xs">{anomaly.timestamp}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -250,215 +273,189 @@ export default AdvancedAnalytics;`;
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-4xl font-bold text-purple-400 mb-2">📊 Advanced Analytics Dashboard</h1>
-              <p className="text-gray-400">Machine learning predictions, real-time insights, and enterprise-level analytics</p>
+              <p className="text-gray-400">Real-time data visualization and business intelligence powered by ML</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
             >
               📄 View Code
             </button>
           </div>
         </div>
 
-        {/* Real-time Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Active Users</p>
-                <p className="text-3xl font-bold text-white">1,247</p>
-                <p className="text-blue-400 text-sm">+12% from yesterday</p>
-              </div>
-              <div className="text-4xl">👥</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Revenue</p>
-                <p className="text-3xl font-bold text-white">$125K</p>
-                <p className="text-green-400 text-sm">+8% from yesterday</p>
-              </div>
-              <div className="text-4xl">💰</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Conversion Rate</p>
-                <p className="text-3xl font-bold text-white">12.5%</p>
-                <p className="text-purple-400 text-sm">+2.1% from yesterday</p>
-              </div>
-              <div className="text-4xl">📈</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Churn Rate</p>
-                <p className="text-3xl font-bold text-white">2.3%</p>
-                <p className="text-red-400 text-sm">-0.5% from yesterday</p>
-              </div>
-              <div className="text-4xl">📉</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* ML Predictions */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">🤖 Machine Learning Predictions</h2>
-            <div className="space-y-4">
-              {analyticsData.predictions?.map((prediction, index) => (
-                <div key={index} className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-semibold text-white">{prediction.metric}</h3>
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      prediction.trend === 'up' ? 'bg-green-600' : 'bg-red-600'
-                    }`}>
-                      {prediction.trend === 'up' ? '↗️' : '↘️'} {prediction.trend}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-gray-400 text-sm">Current</p>
-                      <p className="text-xl font-bold text-white">
-                        {typeof prediction.current === 'number' && prediction.current > 1000 
-                          ? `$${prediction.current.toLocaleString()}` 
-                          : prediction.current}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400 text-sm">Predicted</p>
-                      <p className="text-xl font-bold text-green-400">
-                        {typeof prediction.predicted === 'number' && prediction.predicted > 1000 
-                          ? `$${prediction.predicted.toLocaleString()}` 
-                          : prediction.predicted}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Confidence</span>
-                      <span className="text-white font-semibold">{(prediction.confidence * 100).toFixed(0)}%</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2 mt-1">
-                      <div 
-                        className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${prediction.confidence * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* User Analytics */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">👥 User Analytics</h2>
-            <div className="space-y-4 max-h-96 overflow-y-auto">
-              {analyticsData.users?.slice(0, 10).map(user => (
-                <div key={user.id} className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <div className="flex items-center justify-between">
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">👥 User Analytics</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="text-blue-400 text-sm">Live data</span>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-blue-800/50 p-4 rounded-lg">
+                  <p className="text-blue-200 text-sm">Total Users</p>
+                  <p className="text-white text-2xl font-bold">{analyticsData.users.length}</p>
+                </div>
+                <div className="bg-blue-800/50 p-4 rounded-lg">
+                  <p className="text-blue-200 text-sm">Active Now</p>
+                  <p className="text-white text-2xl font-bold">{Math.floor(analyticsData.users.length * 0.3)}</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3 max-h-48 overflow-y-auto">
+                {analyticsData.users.slice(0, 5).map(user => (
+                  <div key={user.id} className="flex items-center justify-between p-3 bg-blue-800/50 rounded-lg">
                     <div>
                       <p className="text-white font-semibold">{user.name}</p>
-                      <p className="text-gray-400 text-sm">{user.email}</p>
+                      <p className="text-blue-200 text-sm">{user.email}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-green-400 font-semibold">${user.revenue}</p>
-                      <p className="text-gray-400 text-xs">{user.segment}</p>
+                      <p className="text-white text-sm">${user.revenue}</p>
+                      <p className="text-blue-200 text-xs">{user.sessionDuration}m</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 mt-3 text-sm">
-                    <div>
-                      <p className="text-gray-400">Session</p>
-                      <p className="text-white">{user.sessionDuration}m</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400">Views</p>
-                      <p className="text-white">{user.pageViews}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400">Churn Risk</p>
-                      <p className={`font-semibold ${
-                        user.churnRisk > 0.2 ? 'text-red-400' : 
-                        user.churnRisk > 0.1 ? 'text-yellow-400' : 'text-green-400'
+                ))}
+              </div>
+            </div>
+
+            {/* Predictions */}
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">🔮 ML Predictions</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 text-sm">AI powered</span>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {analyticsData.predictions.map((pred, index) => (
+                  <div key={index} className="bg-green-800/50 p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-white font-semibold">{pred.metric}</p>
+                      <span className={`text-sm ${
+                        pred.trend === 'up' ? 'text-green-400' : 'text-red-400'
                       }`}>
-                        {(user.churnRisk * 100).toFixed(1)}%
+                        {pred.trend === 'up' ? '↗' : '↘'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <p className="text-green-200 text-sm">
+                        ${pred.current.toLocaleString()} → ${pred.predicted.toLocaleString()}
+                      </p>
+                      <p className="text-green-300 text-xs">
+                        {(pred.confidence * 100).toFixed(1)}% confidence
                       </p>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Anomaly Detection */}
-        <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">🚨 Anomaly Detection</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {analyticsData.anomalies?.map((anomaly, index) => (
-              <div key={index} className="bg-red-800/50 p-4 rounded-lg border border-red-700">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-white">{anomaly.metric}</h3>
-                  <span className={`px-2 py-1 rounded text-xs ${
-                    anomaly.severity === 'High' ? 'bg-red-600' : 
-                    anomaly.severity === 'Medium' ? 'bg-yellow-600' : 'bg-green-600'
-                  }`}>
-                    {anomaly.severity}
-                  </span>
+          {/* Trends and Anomalies */}
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">📈 Trends</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                  <span className="text-purple-400 text-sm">Real-time</span>
                 </div>
-                <p className="text-red-200 text-sm mb-2">{anomaly.description}</p>
-                <p className="text-red-300 text-xs">{anomaly.timestamp}</p>
               </div>
-            ))}
+              
+              <div className="space-y-4">
+                {analyticsData.trends.map((trend, index) => (
+                  <div key={index} className="bg-purple-800/50 p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-white font-semibold">{trend.name}</p>
+                      <span className={`text-sm ${
+                        trend.direction === 'up' ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {trend.direction === 'up' ? '+' : ''}{trend.change}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-purple-700 rounded-full h-2">
+                      <div 
+                        className="bg-purple-400 h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${trend.value}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-purple-200 text-sm mt-2">{trend.value}%</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">⚠️ Anomaly Detection</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="text-red-400 text-sm">AI monitoring</span>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {analyticsData.anomalies.map((anomaly, index) => (
+                  <div key={index} className={`p-4 rounded-lg ${
+                    anomaly.severity === 'High' ? 'bg-red-800/50' :
+                    anomaly.severity === 'Medium' ? 'bg-yellow-800/50' :
+                    'bg-orange-800/50'
+                  }`}>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-white font-semibold">{anomaly.metric}</p>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        anomaly.severity === 'High' ? 'bg-red-600' :
+                        anomaly.severity === 'Medium' ? 'bg-yellow-600' :
+                        'bg-orange-600'
+                      }`}>
+                        {anomaly.severity}
+                      </span>
+                    </div>
+                    <p className="text-gray-200 text-sm mb-2">{anomaly.description}</p>
+                    <p className="text-gray-300 text-xs">{anomaly.timestamp}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Advanced Features */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Analytics Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-purple-400 mb-2">🤖 Machine Learning</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Predictive analytics</li>
-                <li>• Anomaly detection</li>
-                <li>• Pattern recognition</li>
-                <li>• Automated insights</li>
+                <li>• Predictive analytics models</li>
+                <li>• Anomaly detection algorithms</li>
+                <li>• Real-time data processing</li>
+                <li>• Automated insights generation</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">📊 Real-time Processing</h3>
+              <h3 className="text-lg font-semibold text-blue-400 mb-2">📊 Data Visualization</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Stream processing</li>
-                <li>• Live data visualization</li>
-                <li>• Instant metric updates</li>
-                <li>• WebSocket integration</li>
+                <li>• Interactive charts and graphs</li>
+                <li>• Real-time dashboards</li>
+                <li>• Custom metric tracking</li>
+                <li>• Export and reporting tools</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">📈 Advanced Metrics</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">🔍 Business Intelligence</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Cohort analysis</li>
-                <li>• Funnel tracking</li>
-                <li>• A/B testing results</li>
-                <li>• Customer segmentation</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-2">🔍 Deep Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Behavioral analysis</li>
-                <li>• Attribution modeling</li>
-                <li>• Lifetime value calculation</li>
-                <li>• Churn prediction</li>
+                <li>• KPI monitoring and alerts</li>
+                <li>• Trend analysis and forecasting</li>
+                <li>• User behavior analytics</li>
+                <li>• Performance optimization insights</li>
               </ul>
             </div>
           </div>

@@ -98,321 +98,228 @@ const QuantumComputingDemo = () => {
       probabilities: probabilities,
       successRate: Math.random() * 0.3 + 0.7,
       coherenceTime: Math.random() * 100 + 50,
-      fidelity: Math.random() * 0.2 + 0.8
+      entanglementFidelity: Math.random() * 0.2 + 0.8
     };
   };
 
   const demoCode = `import React, { useState, useEffect } from 'react';
 import { QuantumCircuit } from 'qiskit';
+import { TensorFlow } from '@tensorflow/tfjs';
 
 const QuantumComputingDemo = () => {
   const [circuit, setCircuit] = useState(null);
-  const [results, setResults] = useState(null);
-  const [isRunning, setIsRunning] = useState(false);
+  const [results, setResults] = useState({});
+  const [qubits, setQubits] = useState(4);
   
-  // Initialize quantum circuit
-  const initializeCircuit = (qubits) => {
-    const qc = new QuantumCircuit(qubits, qubits);
+  // Initialize Quantum Circuit
+  const initializeCircuit = (numQubits) => {
+    const qc = new QuantumCircuit(numQubits, numQubits);
     return qc;
   };
   
-  // Grover's Algorithm implementation
-  const groversAlgorithm = async (n) => {
+  // Quantum Gates Implementation
+  const applyGate = (circuit, gate, qubit, target = null) => {
+    switch (gate) {
+      case 'H':
+        circuit.h(qubit);
+        break;
+      case 'X':
+        circuit.x(qubit);
+        break;
+      case 'CNOT':
+        circuit.cx(qubit, target);
+        break;
+      case 'SWAP':
+        circuit.swap(qubit, target);
+        break;
+      case 'Phase':
+        circuit.rz(Math.PI / 4, qubit);
+        break;
+      case 'S':
+        circuit.s(qubit);
+        break;
+      case 'T':
+        circuit.t(qubit);
+        break;
+      case 'Z':
+        circuit.z(qubit);
+        break;
+    }
+  };
+  
+  // Grover's Algorithm Implementation
+  const groversAlgorithm = async (searchSpace, markedState) => {
+    const n = Math.log2(searchSpace);
+    const iterations = Math.floor(Math.PI / 4 * Math.sqrt(searchSpace));
+    
     const circuit = initializeCircuit(n);
     
-    // Apply Hadamard gates to all qubits
+    // Initialize superposition
     for (let i = 0; i < n; i++) {
-      circuit.h(i);
+      applyGate(circuit, 'H', i);
     }
     
-    // Oracle function (marking the solution)
-    circuit.x(n - 1);
-    circuit.h(n - 1);
-    circuit.mct([0, 1, 2], n - 1);
-    circuit.h(n - 1);
-    circuit.x(n - 1);
+    // Grover iteration
+    for (let iter = 0; iter < iterations; iter++) {
+      // Oracle (marking the solution)
+      applyOracle(circuit, markedState);
+      
+      // Diffusion operator
+      applyDiffusion(circuit, n);
+    }
     
-    // Diffusion operator
-    for (let i = 0; i < n; i++) {
-      circuit.h(i);
-      circuit.x(i);
-    }
-    circuit.h(n - 1);
-    circuit.mct([0, 1, 2], n - 1);
-    circuit.h(n - 1);
-    for (let i = 0; i < n; i++) {
-      circuit.x(i);
-      circuit.h(i);
-    }
+    // Measure
+    circuit.measure_all();
     
     return circuit;
   };
   
-  // Shor's Algorithm for factoring
-  const shorsAlgorithm = async (N) => {
-    const n = Math.ceil(Math.log2(N));
+  // Shor's Algorithm Implementation
+  const shorsAlgorithm = async (number) => {
+    const n = Math.ceil(Math.log2(number));
     const circuit = initializeCircuit(2 * n);
     
     // Quantum Fourier Transform
     for (let i = 0; i < n; i++) {
-      circuit.h(i);
+      applyGate(circuit, 'H', i);
       for (let j = i + 1; j < n; j++) {
-        circuit.cp(Math.PI / Math.pow(2, j - i), i, j);
+        applyGate(circuit, 'CNOT', i, j);
       }
     }
     
-    // Modular exponentiation
-    for (let i = 0; i < n; i++) {
-      circuit.cx(i, i + n);
-    }
+    // Period finding
+    const period = await findPeriod(circuit, number);
     
-    // Inverse QFT
-    for (let i = n - 1; i >= 0; i--) {
-      for (let j = n - 1; j > i; j--) {
-        circuit.cp(-Math.PI / Math.pow(2, j - i), i, j);
-      }
-      circuit.h(i);
-    }
-    
-    return circuit;
+    return period;
   };
   
   // Quantum Fourier Transform
-  const quantumFourierTransform = async (n) => {
-    const circuit = initializeCircuit(n);
-    
+  const quantumFourierTransform = (circuit, n) => {
     for (let i = 0; i < n; i++) {
-      circuit.h(i);
+      applyGate(circuit, 'H', i);
       for (let j = i + 1; j < n; j++) {
-        circuit.cp(Math.PI / Math.pow(2, j - i), i, j);
+        const phase = Math.PI / Math.pow(2, j - i);
+        circuit.rz(phase, j);
+        applyGate(circuit, 'CNOT', i, j);
       }
     }
+  };
+  
+  // Quantum Teleportation
+  const quantumTeleportation = (circuit) => {
+    // Create Bell pair
+    applyGate(circuit, 'H', 1);
+    applyGate(circuit, 'CNOT', 1, 2);
     
-    // Swap qubits
-    for (let i = 0; i < Math.floor(n / 2); i++) {
-      circuit.swap(i, n - 1 - i);
-    }
+    // Alice's measurement
+    applyGate(circuit, 'CNOT', 0, 1);
+    applyGate(circuit, 'H', 0);
     
-    return circuit;
+    // Bob's correction
+    circuit.measure([0, 1], [0, 1]);
+    applyGate(circuit, 'X', 2);
+    applyGate(circuit, 'Z', 2);
   };
   
   // Execute quantum algorithm
   const executeAlgorithm = async (algorithm, params) => {
-    setIsRunning(true);
+    const circuit = initializeCircuit(algorithm.qubits);
     
-    let circuit;
-    switch (algorithm) {
-      case 'grover':
-        circuit = await groversAlgorithm(params.n);
-        break;
-      case 'shor':
-        circuit = await shorsAlgorithm(params.N);
-        break;
-      case 'qft':
-        circuit = await quantumFourierTransform(params.n);
-        break;
-      default:
-        throw new Error('Unknown algorithm');
-    }
+    // Apply algorithm gates
+    algorithm.gates.forEach((gate, index) => {
+      const qubit = index % algorithm.qubits;
+      const target = (index + 1) % algorithm.qubits;
+      applyGate(circuit, gate, qubit, target);
+    });
     
-    // Execute on quantum simulator
-    const backend = await getBackend('qasm_simulator');
-    const job = await execute(circuit, backend, shots=1000);
-    const result = await job.result();
+    // Measure and get results
+    circuit.measure_all();
+    const results = await circuit.run(1000);
     
-    setResults(result);
-    setIsRunning(false);
-  };
-  
-  // Quantum error correction
-  const quantumErrorCorrection = (circuit) => {
-    // Implement surface code or other error correction
-    const encodedCircuit = circuit.clone();
-    
-    // Add ancilla qubits for error detection
-    for (let i = 0; i < circuit.num_qubits; i++) {
-      encodedCircuit.h(i);
-      encodedCircuit.cx(i, i + circuit.num_qubits);
-    }
-    
-    return encodedCircuit;
+    return results;
   };
   
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-purple-400 mb-8">
           ⚛️ Quantum Computing Platform
         </h1>
         
-        {/* Quantum Circuit Visualization */}
-        <div className="bg-gray-800 p-6 rounded-xl mb-8">
-          <h2 className="text-2xl font-bold mb-4">🔬 Quantum Circuit</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3">Circuit Diagram</h3>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                {/* Circuit visualization would go here */}
-                <div className="space-y-2">
-                  {circuit.map((gate, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <span className="text-purple-400 font-mono">{gate.gate}</span>
-                      <span className="text-gray-400">Q{gate.qubit}</span>
-                      <span className="text-gray-500 text-sm">t={gate.time}</span>
-                    </div>
-                  ))}
+        {/* Quantum Interface */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            {/* Quantum State */}
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">🔬 Quantum State</h2>
+              <div className="space-y-4">
+                <div className="bg-purple-800/50 p-4 rounded-lg">
+                  <p className="text-white font-semibold">Qubits: {quantumState.qubits}</p>
+                  <p className="text-purple-200 text-sm">Superposition: {quantumState.superposition ? 'Yes' : 'No'}</p>
+                  <p className="text-purple-200 text-sm">Entanglement: {quantumState.entanglement ? 'Yes' : 'No'}</p>
                 </div>
               </div>
             </div>
             
-            <div>
-              <h3 className="text-lg font-semibold mb-3">Quantum State</h3>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Qubits:</span>
-                    <span className="text-purple-400">{quantumState.qubits}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Superposition:</span>
-                    <span className="text-green-400">{quantumState.superposition ? 'Yes' : 'No'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Entanglement:</span>
-                    <span className="text-blue-400">{quantumState.entanglement ? 'Yes' : 'No'}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Algorithm Selection */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {algorithms.map((algorithm, index) => (
-            <div key={index} className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h3 className="text-lg font-bold text-white mb-2">{algorithm.name}</h3>
-              <p className="text-purple-200 text-sm mb-3">{algorithm.description}</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Complexity:</span>
-                  <span className="text-yellow-400 font-mono">{algorithm.complexity}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Qubits:</span>
-                  <span className="text-green-400">{algorithm.qubits}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Gates:</span>
-                  <span className="text-blue-400">{algorithm.gates.length}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => executeAlgorithm(algorithm)}
-                disabled={isRunning}
-                className="w-full mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
-              >
-                {isRunning ? 'Running...' : 'Execute'}
-              </button>
-            </div>
-          ))}
-        </div>
-        
-        {/* Results Display */}
-        {Object.keys(results).length > 0 && (
-          <div className="bg-gradient-to-br from-green-900 to-green-700 p-6 rounded-xl border border-green-800 mb-8">
-            <h2 className="text-2xl font-bold text-white mb-4">📊 Quantum Results</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-green-400 mb-2">Measurements</h3>
-                <div className="space-y-2 max-h-48 overflow-y-auto">
-                  {results.measurements?.slice(0, 8).map((measurement, index) => (
-                    <div key={index} className="flex justify-between items-center bg-green-800/50 p-2 rounded">
-                      <span className="font-mono text-green-300">|{measurement.state}⟩</span>
-                      <span className="text-green-400">{(measurement.probability * 100).toFixed(1)}%</span>
+            {/* Quantum Algorithms */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">🧮 Algorithms</h2>
+              <div className="space-y-3">
+                {algorithms.map(algorithm => (
+                  <div key={algorithm.name} className="bg-blue-800/50 p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-white font-semibold">{algorithm.name}</p>
+                      <span className="text-blue-200 text-sm">{algorithm.complexity}</span>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-blue-400 mb-2">Performance</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Success Rate:</span>
-                    <span className="text-green-400">{(results.successRate * 100).toFixed(1)}%</span>
+                    <p className="text-blue-200 text-sm mb-2">{algorithm.description}</p>
+                    <button
+                      onClick={() => executeAlgorithm(algorithm)}
+                      disabled={isRunning}
+                      className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      {isRunning ? 'Running...' : 'Execute'}
+                    </button>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Coherence Time:</span>
-                    <span className="text-blue-400">{results.coherenceTime.toFixed(1)} μs</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Fidelity:</span>
-                    <span className="text-purple-400">{(results.fidelity * 100).toFixed(1)}%</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-yellow-400 mb-2">Algorithm Info</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Algorithm:</span>
-                    <span className="text-yellow-400">{results.algorithm}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Execution Time:</span>
-                    <span className="text-yellow-400">{(Math.random() * 5 + 1).toFixed(2)}s</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Shots:</span>
-                    <span className="text-yellow-400">1000</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        )}
-        
-        {/* Advanced Features */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Quantum Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">⚛️ Quantum Algorithms</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Grover's search algorithm</li>
-                <li>• Shor's factoring algorithm</li>
-                <li>• Quantum Fourier Transform</li>
-                <li>• Quantum teleportation</li>
-              </ul>
+          
+          {/* Results and Circuit */}
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">📊 Results</h2>
+              {results.measurements ? (
+                <div className="space-y-3">
+                  <div className="bg-green-800/50 p-4 rounded-lg">
+                    <p className="text-white font-semibold">{results.algorithm}</p>
+                    <p className="text-green-200 text-sm">Success Rate: {(results.successRate * 100).toFixed(1)}%</p>
+                    <p className="text-green-200 text-sm">Coherence Time: {results.coherenceTime.toFixed(1)} μs</p>
+                  </div>
+                  <div className="space-y-2">
+                    {results.measurements.slice(0, 5).map((measurement, index) => (
+                      <div key={index} className="bg-green-800/50 p-2 rounded">
+                        <p className="text-white text-sm">State: {measurement.state}</p>
+                        <p className="text-green-200 text-xs">Probability: {(measurement.probability * 100).toFixed(1)}%</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-green-200">Execute an algorithm to see results...</p>
+              )}
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">🔬 Quantum Gates</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Hadamard (H) gates</li>
-                <li>• CNOT entangling gates</li>
-                <li>• Phase rotation gates</li>
-                <li>• SWAP operations</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">🛡️ Error Correction</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Surface code implementation</li>
-                <li>• Quantum error detection</li>
-                <li>• Fault-tolerant operations</li>
-                <li>• Decoherence mitigation</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-2">📊 Quantum Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• State tomography</li>
-                <li>• Process tomography</li>
-                <li>• Quantum state estimation</li>
-                <li>• Fidelity measurements</li>
-              </ul>
+            
+            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">⚡ Circuit</h2>
+              <div className="space-y-2">
+                {circuit.map(gate => (
+                  <div key={gate.id} className="bg-yellow-800/50 p-2 rounded">
+                    <p className="text-white text-sm">Gate: {gate.gate}</p>
+                    <p className="text-yellow-200 text-xs">Qubit: {gate.qubit}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -425,249 +332,187 @@ export default QuantumComputingDemo;`;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-4xl font-bold text-purple-400 mb-2">⚛️ Quantum Computing Platform</h1>
-              <p className="text-gray-400">Advanced quantum algorithms, circuit simulation, and quantum error correction</p>
+              <p className="text-gray-400">Quantum algorithms and quantum simulation for advanced computing</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
             >
               📄 View Code
             </button>
           </div>
         </div>
 
-        {/* Quantum Circuit Visualization */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">🔬 Quantum Circuit</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-4">Circuit Diagram</h3>
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <div className="space-y-3">
-                  {circuit.length > 0 ? (
-                    circuit.map((gate, index) => (
-                      <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          <span className="text-purple-400 font-mono font-bold">{gate.gate}</span>
-                          <span className="text-gray-300">on Q{gate.qubit}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-gray-400 text-sm">t={gate.time}</span>
-                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-8">
-                      <div className="text-4xl mb-2">⚛️</div>
-                      <p className="text-gray-400">No circuit executed yet</p>
-                      <p className="text-gray-500 text-sm">Select an algorithm to run</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Quantum State */}
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">🔬 Quantum State</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                  <span className="text-purple-400 text-sm">Live</span>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="bg-purple-800/50 p-4 rounded-lg">
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-white font-semibold">Qubits</p>
+                    <span className="text-purple-200 text-lg font-bold">{quantumState.qubits}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-purple-200 text-sm">Superposition</span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        quantumState.superposition ? 'bg-green-600' : 'bg-red-600'
+                      }`}>
+                        {quantumState.superposition ? 'Active' : 'Inactive'}
+                      </span>
                     </div>
-                  )}
+                    <div className="flex justify-between items-center">
+                      <span className="text-purple-200 text-sm">Entanglement</span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        quantumState.entanglement ? 'bg-green-600' : 'bg-red-600'
+                      }`}>
+                        {quantumState.entanglement ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-4">Quantum State</h3>
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Qubits:</span>
-                    <span className="text-purple-400 font-bold">{quantumState.qubits}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Superposition:</span>
-                    <span className={`font-bold ${quantumState.superposition ? 'text-green-400' : 'text-red-400'}`}>
-                      {quantumState.superposition ? '✓ Active' : '✗ Inactive'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Entanglement:</span>
-                    <span className={`font-bold ${quantumState.entanglement ? 'text-green-400' : 'text-red-400'}`}>
-                      {quantumState.entanglement ? '✓ Active' : '✗ Inactive'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Measurement:</span>
-                    <span className="text-yellow-400 font-bold">
-                      {quantumState.measurement || 'Not measured'}
-                    </span>
-                  </div>
-                  
-                  {/* Quantum State Visualization */}
-                  <div className="mt-6">
-                    <h4 className="text-sm font-semibold text-gray-300 mb-3">State Vector</h4>
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                      <div className="grid grid-cols-2 gap-2 text-xs">
-                        {Array.from({ length: Math.pow(2, quantumState.qubits) }, (_, i) => (
-                          <div key={i} className="flex justify-between">
-                            <span className="text-purple-300">|{i.toString(2).padStart(quantumState.qubits, '0')}⟩</span>
-                            <span className="text-green-400">{(Math.random() * 0.5 + 0.1).toFixed(3)}</span>
-                          </div>
-                        ))}
-                      </div>
+
+            {/* Quantum Algorithms */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">🧮 Quantum Algorithms</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="text-blue-400 text-sm">{algorithms.length} available</span>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {algorithms.map(algorithm => (
+                  <div key={algorithm.name} className="bg-blue-800/50 p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-3">
+                      <p className="text-white font-semibold">{algorithm.name}</p>
+                      <span className="text-blue-200 text-sm">{algorithm.complexity}</span>
+                    </div>
+                    <p className="text-blue-200 text-sm mb-3">{algorithm.description}</p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-blue-300 text-xs">{algorithm.qubits} qubits</span>
+                      <button
+                        onClick={() => executeAlgorithm(algorithm)}
+                        disabled={isRunning}
+                        className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                      >
+                        {isRunning ? 'Running...' : 'Execute'}
+                      </button>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Algorithm Selection */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {algorithms.map((algorithm, index) => (
-            <div key={index} className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800 hover:border-purple-600 transition-colors">
-              <h3 className="text-lg font-bold text-white mb-2">{algorithm.name}</h3>
-              <p className="text-purple-200 text-sm mb-4">{algorithm.description}</p>
-              <div className="space-y-2 text-sm mb-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Complexity:</span>
-                  <span className="text-yellow-400 font-mono">{algorithm.complexity}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Qubits:</span>
-                  <span className="text-green-400">{algorithm.qubits}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Gates:</span>
-                  <span className="text-blue-400">{algorithm.gates.length}</span>
+          {/* Results and Circuit */}
+          <div className="space-y-6">
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">📊 Quantum Results</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 text-sm">Measurement</span>
                 </div>
               </div>
-              <button
-                onClick={() => executeAlgorithm(algorithm)}
-                disabled={isRunning}
-                className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isRunning ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Running...</span>
+              
+              {results.measurements ? (
+                <div className="space-y-4">
+                  <div className="bg-green-800/50 p-4 rounded-lg">
+                    <p className="text-white font-semibold mb-2">{results.algorithm}</p>
+                    <div className="grid grid-cols-3 gap-3 text-sm">
+                      <div>
+                        <p className="text-green-200">Success Rate</p>
+                        <p className="text-white font-semibold">{(results.successRate * 100).toFixed(1)}%</p>
+                      </div>
+                      <div>
+                        <p className="text-green-200">Coherence</p>
+                        <p className="text-white font-semibold">{results.coherenceTime.toFixed(1)} μs</p>
+                      </div>
+                      <div>
+                        <p className="text-green-200">Fidelity</p>
+                        <p className="text-white font-semibold">{(results.entanglementFidelity * 100).toFixed(1)}%</p>
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  'Execute Algorithm'
-                )}
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* Results Display */}
-        {Object.keys(results).length > 0 && (
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800 mb-8">
-            <h2 className="text-2xl font-bold text-white mb-6">📊 Quantum Results</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold text-green-400 mb-4">Measurements</h3>
-                <div className="space-y-2 max-h-48 overflow-y-auto">
-                  {results.measurements?.slice(0, 8).map((measurement, index) => (
-                    <div key={index} className="flex justify-between items-center bg-green-800/50 p-3 rounded-lg border border-green-700">
-                      <span className="font-mono text-green-300">|{measurement.state}⟩</span>
-                      <div className="flex items-center space-x-3">
-                        <span className="text-green-400 font-semibold">{(measurement.probability * 100).toFixed(1)}%</span>
-                        <div className="w-16 bg-green-700 rounded-full h-2">
+                  
+                  <div className="space-y-2 max-h-48 overflow-y-auto">
+                    <p className="text-green-200 text-sm font-semibold">Measurement Results:</p>
+                    {results.measurements.slice(0, 8).map((measurement, index) => (
+                      <div key={index} className="bg-green-800/50 p-2 rounded">
+                        <div className="flex justify-between items-center">
+                          <p className="text-white text-sm">|{measurement.state}⟩</p>
+                          <p className="text-green-200 text-xs">{(measurement.probability * 100).toFixed(1)}%</p>
+                        </div>
+                        <div className="w-full bg-green-700 rounded-full h-1 mt-1">
                           <div 
-                            className="bg-green-400 h-2 rounded-full"
+                            className="bg-green-400 h-1 rounded-full transition-all duration-300"
                             style={{ width: `${measurement.probability * 100}%` }}
                           ></div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-green-200">Execute an algorithm to see quantum results...</p>
+                </div>
+              )}
+            </div>
+
+            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">⚡ Quantum Circuit</h2>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+                  <span className="text-yellow-400 text-sm">{circuit.length} gates</span>
                 </div>
               </div>
               
-              <div>
-                <h3 className="text-lg font-semibold text-blue-400 mb-4">Performance Metrics</h3>
-                <div className="space-y-4">
-                  <div className="bg-blue-800/50 p-4 rounded-lg border border-blue-700">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300">Success Rate</span>
-                      <span className="text-green-400 font-bold">{(results.successRate * 100).toFixed(1)}%</span>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {circuit.length > 0 ? (
+                  circuit.map(gate => (
+                    <div key={gate.id} className="bg-yellow-800/50 p-3 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <p className="text-white font-semibold">{gate.gate}</p>
+                        <span className="text-yellow-200 text-sm">Qubit {gate.qubit}</span>
+                      </div>
+                      <p className="text-yellow-300 text-xs">Time: {gate.time}</p>
                     </div>
-                    <div className="w-full bg-blue-700 rounded-full h-2">
-                      <div 
-                        className="bg-green-400 h-2 rounded-full"
-                        style={{ width: `${results.successRate * 100}%` }}
-                      ></div>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-yellow-200">Circuit will appear when algorithm is executed...</p>
                   </div>
-                  
-                  <div className="bg-blue-800/50 p-4 rounded-lg border border-blue-700">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300">Coherence Time</span>
-                      <span className="text-blue-400 font-bold">{results.coherenceTime.toFixed(1)} μs</span>
-                    </div>
-                    <div className="w-full bg-blue-700 rounded-full h-2">
-                      <div 
-                        className="bg-blue-400 h-2 rounded-full"
-                        style={{ width: `${Math.min(results.coherenceTime / 150, 1) * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-blue-800/50 p-4 rounded-lg border border-blue-700">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300">Fidelity</span>
-                      <span className="text-purple-400 font-bold">{(results.fidelity * 100).toFixed(1)}%</span>
-                    </div>
-                    <div className="w-full bg-blue-700 rounded-full h-2">
-                      <div 
-                        className="bg-purple-400 h-2 rounded-full"
-                        style={{ width: `${results.fidelity * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-yellow-400 mb-4">Algorithm Info</h3>
-                <div className="space-y-4">
-                  <div className="bg-yellow-800/50 p-4 rounded-lg border border-yellow-700">
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Algorithm:</span>
-                      <span className="text-yellow-400 font-semibold">{results.algorithm}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-yellow-800/50 p-4 rounded-lg border border-yellow-700">
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Execution Time:</span>
-                      <span className="text-yellow-400 font-semibold">{(Math.random() * 5 + 1).toFixed(2)}s</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-yellow-800/50 p-4 rounded-lg border border-yellow-700">
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Quantum Shots:</span>
-                      <span className="text-yellow-400 font-semibold">1000</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-yellow-800/50 p-4 rounded-lg border border-yellow-700">
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Error Rate:</span>
-                      <span className="text-red-400 font-semibold">{(Math.random() * 0.05).toFixed(3)}%</span>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Advanced Features */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Quantum Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-purple-400 mb-2">⚛️ Quantum Algorithms</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
@@ -680,41 +525,41 @@ export default QuantumComputingDemo;`;
             <div>
               <h3 className="text-lg font-semibold text-blue-400 mb-2">🔬 Quantum Gates</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Hadamard (H) gates</li>
-                <li>• CNOT entangling gates</li>
-                <li>• Phase rotation gates</li>
-                <li>• SWAP operations</li>
+                <li>• Hadamard (H) gate</li>
+                <li>• CNOT gate operations</li>
+                <li>• Phase shift gates</li>
+                <li>• Pauli gates (X, Y, Z)</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">🛡️ Error Correction</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">📊 Quantum Measurement</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Surface code implementation</li>
-                <li>• Quantum error detection</li>
-                <li>• Fault-tolerant operations</li>
-                <li>• Decoherence mitigation</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-2">📊 Quantum Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• State tomography</li>
-                <li>• Process tomography</li>
-                <li>• Quantum state estimation</li>
-                <li>• Fidelity measurements</li>
+                <li>• State vector simulation</li>
+                <li>• Probability distribution</li>
+                <li>• Quantum error correction</li>
+                <li>• Decoherence modeling</li>
               </ul>
             </div>
           </div>
         </div>
 
-        {/* Code Viewer */}
-        <CodeViewer
-          isOpen={showCodeViewer}
-          onClose={() => setShowCodeViewer(false)}
-          code={demoCode}
-          language="javascript"
-          title="Quantum Computing Implementation"
-        />
+        {/* Code Viewer Modal */}
+        {showCodeViewer && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 p-6 rounded-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-white">Quantum Computing Code</h3>
+                <button
+                  onClick={() => setShowCodeViewer(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <CodeViewer code={demoCode} language="javascript" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
