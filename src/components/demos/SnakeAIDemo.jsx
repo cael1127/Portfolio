@@ -75,6 +75,13 @@ const SnakeAIDemo = () => {
         outputs[k] = this.sigmoid(sum);
       }
 
+      // ERROR HANDLING: Ensure outputs are valid numbers
+      for (let i = 0; i < outputs.length; i++) {
+        if (isNaN(outputs[i]) || !isFinite(outputs[i])) {
+          outputs[i] = 0.5; // Default to neutral value
+        }
+      }
+
       return outputs;
     }
 
@@ -185,6 +192,12 @@ const SnakeAIDemo = () => {
     const maxIndex = outputs.indexOf(Math.max(...outputs));
     const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
     let newDirection = directions[maxIndex];
+    
+    // ERROR HANDLING: Ensure we have a valid direction
+    if (!newDirection || newDirection === 'undefined') {
+      console.log('Invalid direction from neural network, using default RIGHT');
+      newDirection = 'RIGHT';
+    }
     
     console.log('AI chose direction:', newDirection, 'from outputs:', outputs);
     
@@ -376,7 +389,7 @@ const SnakeAIDemo = () => {
       console.log('AI game started, generation:', 1);
       // Create model immediately
       console.log('Creating neural network model immediately...');
-      const neuralNetwork = new NeuralNetwork(32, 16, 4);
+      const neuralNetwork = new NeuralNetwork(30, 16, 4); // FIXED: 30 inputs, 16 hidden, 4 outputs
       setModel(neuralNetwork);
       modelRef.current = neuralNetwork; // SET MODEL REF
       console.log('Model created and set:', neuralNetwork);
@@ -531,6 +544,13 @@ class NeuralNetwork {
         sum += hidden[j] * this.weightsHO[j][k];
       }
       outputs[k] = this.sigmoid(sum);
+    }
+
+    // ERROR HANDLING: Ensure outputs are valid numbers
+    for (let i = 0; i < outputs.length; i++) {
+      if (isNaN(outputs[i]) || !isFinite(outputs[i])) {
+        outputs[i] = 0.5; // Default to neutral value
+      }
     }
 
     return outputs;
