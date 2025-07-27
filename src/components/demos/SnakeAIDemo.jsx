@@ -199,7 +199,7 @@ const SnakeAIDemo = () => {
     return inputs;
   };
 
-  // AI decision making - SIMPLE RULE-BASED SYSTEM THAT ACTUALLY WORKS
+  // AI decision making - IMPROVED RULE-BASED SYSTEM WITH BETTER NEURAL NETWORK TRANSITION
   const getAIMove = () => {
     try {
       const head = snake[0];
@@ -207,10 +207,10 @@ const SnakeAIDemo = () => {
       
       console.log('AI decision making - head:', head, 'food:', food, 'foodDir:', foodDir);
       
-      // SIMPLE RULE-BASED AI FOR EARLY GENERATIONS
+      // IMPROVED RULE-BASED AI FOR EARLY GENERATIONS
       const currentGen = generationRef.current;
-      if (currentGen < 10) {
-        // Use simple rules for early generations
+      if (currentGen <= 15) {
+        // Use enhanced rules for early generations
         const safeDirections = [];
         const directions = [
           { dir: 'UP', dx: 0, dy: -1 },
@@ -239,7 +239,7 @@ const SnakeAIDemo = () => {
           return ['UP', 'RIGHT', 'DOWN', 'LEFT'][Math.floor(Math.random() * 4)];
         }
         
-        // Prioritize moving towards food if safe
+        // ENHANCED SCORING SYSTEM - Prioritize food eating and survival
         let bestDirection = safeDirections[0];
         let bestScore = -Infinity;
         
@@ -259,18 +259,28 @@ const SnakeAIDemo = () => {
           const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
           
           if (newDistance < currentDistance) {
-            score += 10; // Moving towards food is good
+            score += 20; // Moving towards food is very good
           } else if (newDistance > currentDistance) {
-            score -= 5; // Moving away from food is bad
+            score -= 10; // Moving away from food is bad
           }
           
           // Bonus for moving directly towards food
-          if (foodDir[0] > 0 && dir === 'RIGHT') score += 5;
-          if (foodDir[0] < 0 && dir === 'LEFT') score += 5;
-          if (foodDir[1] > 0 && dir === 'DOWN') score += 5;
-          if (foodDir[1] < 0 && dir === 'UP') score += 5;
+          if (foodDir[0] > 0 && dir === 'RIGHT') score += 15;
+          if (foodDir[0] < 0 && dir === 'LEFT') score += 15;
+          if (foodDir[1] > 0 && dir === 'DOWN') score += 15;
+          if (foodDir[1] < 0 && dir === 'UP') score += 15;
           
-          console.log('Direction', dir, 'score:', score);
+          // Bonus for staying away from walls
+          const wallDistance = Math.min(newHead[0], newHead[1], GRID_SIZE - 1 - newHead[0], GRID_SIZE - 1 - newHead[1]);
+          score += wallDistance * 2; // Prefer positions away from walls
+          
+          // Bonus for moving towards center when no clear food direction
+          if (Math.abs(foodDir[0]) < 2 && Math.abs(foodDir[1]) < 2) {
+            const centerDistance = Math.abs(newHead[0] - GRID_SIZE/2) + Math.abs(newHead[1] - GRID_SIZE/2);
+            score += (GRID_SIZE - centerDistance) * 0.5;
+          }
+          
+          console.log('Direction', dir, 'score:', score, 'newDistance:', newDistance, 'currentDistance:', currentDistance);
           
           if (score > bestScore) {
             bestScore = score;
@@ -278,7 +288,7 @@ const SnakeAIDemo = () => {
           }
         });
         
-        console.log('Rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections);
+        console.log('Enhanced rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections, 'score:', bestScore);
         
         // Update visualization for rule-based decisions
         const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
@@ -293,56 +303,128 @@ const SnakeAIDemo = () => {
         return bestDirection;
       }
       
-      // NEURAL NETWORK FOR LATER GENERATIONS
-      if (!modelRef.current) {
-        console.log('No model available, using default RIGHT');
-        return 'RIGHT';
+      // HYBRID SYSTEM FOR MIDDLE GENERATIONS (16-30)
+      if (currentGen <= 30) {
+        // Mix rule-based and neural network
+        const ruleBasedMove = getRuleBasedMove(head, food, snake);
+        const nnMove = getNeuralNetworkMove(head, food);
+        
+        // Use rule-based 70% of the time, neural network 30%
+        const useRuleBased = Math.random() < 0.7;
+        const finalMove = useRuleBased ? ruleBasedMove : nnMove;
+        
+        console.log('Hybrid AI chose:', finalMove, 'rule-based:', ruleBasedMove, 'neural network:', nnMove, 'using rule-based:', useRuleBased);
+        
+        setNnVisualization({
+          inputs: [foodDir[0], foodDir[1], Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1])],
+          hidden: [0.6, 0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+          outputs: [0.25, 0.25, 0.25, 0.25],
+          decision: finalMove,
+          exploration: !useRuleBased
+        });
+        
+        return finalMove;
       }
       
-      // Use neural network for decision making
-      const inputs = getAIInputs();
-      console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
-      const outputs = modelRef.current.feedForward(inputs);
-      console.log('AI raw outputs:', outputs);
-      
-      // Get hidden layer activations for visualization
-      const hidden = [];
-      for (let j = 0; j < modelRef.current.hiddenNodes; j++) {
-        let sum = modelRef.current.biasH[0][j];
-        for (let i = 0; i < modelRef.current.inputNodes; i++) {
-          sum += inputs[i] * modelRef.current.weightsIH[i][j];
-        }
-        hidden[j] = modelRef.current.sigmoid(sum);
-      }
-      
-      // ADD NOISE TO PREVENT STUCK PATTERNS
-      const noisyOutputs = outputs.map(output => {
-        const noise = (Math.random() - 0.5) * 0.2; // Add ±10% noise
-        return Math.max(0, Math.min(1, output + noise)); // Clamp between 0 and 1
-      });
-      console.log('AI noisy outputs:', noisyOutputs);
-      
-      // Use neural network output
-      const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
-      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-      const newDirection = directions[maxIndex];
-      console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
-      
-      // Update visualization data
-      setNnVisualization({
-        inputs: inputs.slice(0, 10), // Show first 10 inputs
-        hidden: hidden.slice(0, 8), // Show first 8 hidden nodes
-        outputs: noisyOutputs,
-        decision: newDirection,
-        exploration: false
-      });
-      
-      return newDirection;
+      // PURE NEURAL NETWORK FOR LATER GENERATIONS
+      return getNeuralNetworkMove(head, food);
     } catch (error) {
       console.error('Error in AI decision making:', error);
       // Fallback to a safe direction
       return 'RIGHT';
     }
+  };
+
+  // Helper function for rule-based moves
+  const getRuleBasedMove = (head, food, snake) => {
+    const foodDir = [food[0] - head[0], food[1] - head[1]];
+    const directions = [
+      { dir: 'UP', dx: 0, dy: -1 },
+      { dir: 'RIGHT', dx: 1, dy: 0 },
+      { dir: 'DOWN', dx: 0, dy: 1 },
+      { dir: 'LEFT', dx: -1, dy: 0 }
+    ];
+    
+    const safeDirections = directions.filter(({ dir, dx, dy }) => {
+      const newHead = [head[0] + dx, head[1] + dy];
+      return newHead[0] >= 0 && newHead[0] < GRID_SIZE &&
+             newHead[1] >= 0 && newHead[1] < GRID_SIZE &&
+             !snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+    });
+    
+    if (safeDirections.length === 0) return 'RIGHT';
+    
+    // Simple rule: move towards food if safe
+    let bestDir = safeDirections[0].dir;
+    let bestScore = -Infinity;
+    
+    safeDirections.forEach(({ dir, dx, dy }) => {
+      const newHead = [head[0] + dx, head[1] + dy];
+      const newDistance = Math.abs(newHead[0] - food[0]) + Math.abs(newHead[1] - food[1]);
+      const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
+      
+      let score = 0;
+      if (newDistance < currentDistance) score += 10;
+      if (foodDir[0] > 0 && dir === 'RIGHT') score += 5;
+      if (foodDir[0] < 0 && dir === 'LEFT') score += 5;
+      if (foodDir[1] > 0 && dir === 'DOWN') score += 5;
+      if (foodDir[1] < 0 && dir === 'UP') score += 5;
+      
+      if (score > bestScore) {
+        bestScore = score;
+        bestDir = dir;
+      }
+    });
+    
+    return bestDir;
+  };
+
+  // Helper function for neural network moves
+  const getNeuralNetworkMove = (head, food) => {
+    if (!modelRef.current) {
+      console.log('No model available, using default RIGHT');
+      return 'RIGHT';
+    }
+    
+    // Use neural network for decision making
+    const inputs = getAIInputs();
+    console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
+    const outputs = modelRef.current.feedForward(inputs);
+    console.log('AI raw outputs:', outputs);
+    
+    // Get hidden layer activations for visualization
+    const hidden = [];
+    for (let j = 0; j < modelRef.current.hiddenNodes; j++) {
+      let sum = modelRef.current.biasH[0][j];
+      for (let i = 0; i < modelRef.current.inputNodes; i++) {
+        sum += inputs[i] * modelRef.current.weightsIH[i][j];
+      }
+      hidden[j] = modelRef.current.sigmoid(sum);
+    }
+    
+    // ADD NOISE TO PREVENT STUCK PATTERNS
+    const noisyOutputs = outputs.map(output => {
+      const noise = (Math.random() - 0.5) * 0.1; // Reduced noise for later generations
+      return Math.max(0, Math.min(1, output + noise)); // Clamp between 0 and 1
+    });
+    console.log('AI noisy outputs:', noisyOutputs);
+    
+    // Use neural network output
+    const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
+    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+    const newDirection = directions[maxIndex];
+    console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
+    
+    // Update visualization data
+    setNnVisualization({
+      inputs: inputs.slice(0, 10), // Show first 10 inputs
+      hidden: hidden.slice(0, 8), // Show first 8 hidden nodes
+      outputs: noisyOutputs,
+      decision: newDirection,
+      exploration: false
+    });
+    
+    return newDirection;
   };
 
   // Game logic
@@ -466,6 +548,13 @@ const SnakeAIDemo = () => {
     );
     
     console.log('🍎 Generated food at:', newFood, 'snake length:', snake.length, 'attempts:', attempts);
+    console.log('Food coordinates:', { x: newFood[0], y: newFood[1], gridSize: GRID_SIZE, cellSize: CELL_SIZE });
+    console.log('Food will be rendered at:', { 
+      pixelX: newFood[0] * CELL_SIZE + 2, 
+      pixelY: newFood[1] * CELL_SIZE + 2,
+      cellX: newFood[0],
+      cellY: newFood[1]
+    });
     setFood(newFood);
   };
 
@@ -732,15 +821,23 @@ const SnakeAIDemo = () => {
     ctx.fillStyle = '#ef4444';
     ctx.fillRect(food[0] * CELL_SIZE + 2, food[1] * CELL_SIZE + 2, CELL_SIZE - 4, CELL_SIZE - 4);
     
-    // Debug: Draw food position indicator
+    // Debug: Draw food position indicator with better visibility
     ctx.fillStyle = '#ffffff';
-    ctx.font = '10px Arial';
-    ctx.fillText(`Food: ${food[0]},${food[1]}`, 10, GRID_SIZE * CELL_SIZE + 20);
+    ctx.font = '12px Arial';
+    ctx.fillText(`Food: ${food[0]},${food[1]}`, 10, GRID_SIZE * CELL_SIZE + 25);
     
     // Debug: Draw snake head position
     if (snake.length > 0) {
-      ctx.fillText(`Head: ${snake[0][0]},${snake[0][1]}`, 10, GRID_SIZE * CELL_SIZE + 35);
+      ctx.fillText(`Head: ${snake[0][0]},${snake[0][1]}`, 10, GRID_SIZE * CELL_SIZE + 40);
     }
+    
+    // Debug: Draw food pixel coordinates
+    ctx.fillText(`Food pixels: ${food[0] * CELL_SIZE + 2},${food[1] * CELL_SIZE + 2}`, 10, GRID_SIZE * CELL_SIZE + 55);
+    
+    // Debug: Highlight the food cell with a border
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(food[0] * CELL_SIZE, food[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
     // Draw AI thinking indicator
     if (aiMode && aiThinking) {
@@ -920,6 +1017,7 @@ const getAIMove = (snake, food, direction, model) => {
                           gridSize: GRID_SIZE,
                           cellSize: CELL_SIZE
                         });
+                        alert(`Food Debug Info:\n\nFood coordinates: (${food[0]}, ${food[1]})\nFood pixel position: (${food[0] * CELL_SIZE + 2}, ${food[1] * CELL_SIZE + 2})\nGrid size: ${GRID_SIZE}x${GRID_SIZE}\nCell size: ${CELL_SIZE}px\n\nNote: The white border around the red food square shows exactly where the food is positioned. The coordinates shown below the game are the same as the food position.`);
                       }}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
                     >
@@ -952,6 +1050,7 @@ const getAIMove = (snake, food, direction, model) => {
                 <p><strong>Manual Play:</strong> Use arrow keys to control the snake</p>
                 <p><strong>AI Mode:</strong> Watch the neural network learn through genetic algorithms</p>
                 <p><strong>Space:</strong> Pause/Resume the game</p>
+                <p><strong>Visual Debug:</strong> The white border around the red food square shows the exact food position. Coordinates below the game match the food location.</p>
               </div>
               
               {/* Neural Network Visualization */}
