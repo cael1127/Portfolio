@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import CodeViewer from './CodeViewer';
 
 const AIInterviewSimulator = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [aiResponse, setAiResponse] = useState('');
-  const [interviewQuestions, setInterviewQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
-  const [feedback, setFeedback] = useState([]);
-  const [showCodeViewer, setShowCodeViewer] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
 
   const questions = [
     {
@@ -40,15 +38,9 @@ const AIInterviewSimulator = () => {
     }
   ];
 
-  useEffect(() => {
-    setInterviewQuestions(questions);
-    setCurrentQuestion(0);
-  }, []);
-
   const startInterview = () => {
     setCurrentQuestion(0);
     setScore(0);
-    setFeedback([]);
     setTranscript('');
     setAiResponse('');
   };
@@ -56,10 +48,8 @@ const AIInterviewSimulator = () => {
   const simulateAIResponse = async (userAnswer) => {
     setIsTyping(true);
     
-    // Simulate AI analysis
     const analysis = analyzeAnswer(userAnswer, questions[currentQuestion]);
     
-    // Simulate typing effect
     let response = '';
     const fullResponse = `Great answer! Here's my analysis:
 
@@ -81,7 +71,6 @@ ${analysis.improvements.map(i => `• ${i}`).join('\n')}
     
     setIsTyping(false);
     setScore(prev => prev + analysis.score);
-    setFeedback(prev => [...prev, analysis]);
   };
 
   const analyzeAnswer = (answer, question) => {
@@ -124,7 +113,6 @@ ${analysis.improvements.map(i => `• ${i}`).join('\n')}
       setTranscript('');
       setAiResponse('');
     } else {
-      // Interview complete
       const finalScore = Math.round((score / questions.length) * 10);
       setAiResponse(`🎉 **Interview Complete!**
 
@@ -193,27 +181,60 @@ const AIInterviewSimulator = () => {
           🤖 AI Interview Simulator
         </h1>
         
-        {/* Real-time speech recognition */}
-        <div className="bg-gray-800 p-6 rounded-xl mb-6">
-          <h2 className="text-2xl font-bold mb-4">🎤 Voice Recognition</h2>
-          <button
-            onClick={startRecording}
-            className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700"
-          >
-            {isRecording ? 'Recording...' : 'Start Recording'}
-          </button>
-          <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-            <p className="text-gray-300">{transcript || 'Your speech will appear here...'}</p>
+        {/* Interview Interface */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            {/* Current Question */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
+              <h2 className="text-xl font-bold text-white mb-4">
+                Question {currentQuestion + 1}/{questions.length}
+              </h2>
+              <p className="text-lg text-white mb-4">
+                {questions[currentQuestion]?.question}
+              </p>
+            </div>
+            
+            {/* Speech Recognition */}
+            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
+              <h3 className="text-lg font-bold text-white mb-4">🎤 Voice Recognition</h3>
+              <button
+                onClick={() => setIsRecording(!isRecording)}
+                className={\`px-4 py-2 rounded-lg transition-colors \${
+                  isRecording 
+                    ? 'bg-red-600 text-white hover:bg-red-700' 
+                    : 'bg-gray-600 text-white hover:bg-gray-700'
+                }\`}
+              >
+                {isRecording ? '⏹️ Stop Recording' : '🎙️ Start Recording'}
+              </button>
+              
+              <div className="bg-gray-800 p-4 rounded-lg mt-4 min-h-[100px]">
+                <p className="text-gray-300">
+                  {transcript || "Your speech will appear here..."}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-        
-        {/* AI Analysis */}
-        <div className="bg-gray-800 p-6 rounded-xl">
-          <h2 className="text-2xl font-bold mb-4">🧠 AI Analysis</h2>
-          <div className="prose prose-invert max-w-none">
-            {aiResponse && (
-              <div dangerouslySetInnerHTML={{ __html: aiResponse }} />
-            )}
+          
+          {/* AI Analysis */}
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
+            <h3 className="text-lg font-bold text-white mb-4">🧠 AI Analysis</h3>
+            <div className="bg-gray-800 p-4 rounded-lg min-h-[300px]">
+              {isTyping ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <span className="text-purple-400">AI is analyzing your response...</span>
+                </div>
+              ) : aiResponse ? (
+                <div className="prose prose-invert max-w-none">
+                  <div dangerouslySetInnerHTML={{ __html: aiResponse.replace(/\\n/g, '<br>') }} />
+                </div>
+              ) : (
+                <p className="text-gray-400">AI analysis will appear here after you submit a response...</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
