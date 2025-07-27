@@ -134,7 +134,7 @@ const Home = ({ setCurrentPage }) => {
           <h2 className="text-3xl font-bold text-center mb-12">Enhanced Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <button
-              onClick={() => setCurrentPage('analytics-dashboard')}
+              onClick={() => setCurrentPage('advanced-analytics')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
               <div className="text-2xl mb-3">📊</div>
@@ -142,15 +142,15 @@ const Home = ({ setCurrentPage }) => {
               <p className="text-gray-400 text-sm">Real-time data visualization and insights</p>
             </button>
             <button
-              onClick={() => setCurrentPage('resume-builder')}
+              onClick={() => setCurrentPage('ai-interview-simulator')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
-              <div className="text-2xl mb-3">📄</div>
-              <h3 className="font-semibold mb-2">Resume Builder</h3>
-              <p className="text-gray-400 text-sm">Professional resume creation tool</p>
+              <div className="text-2xl mb-3">🤖</div>
+              <h3 className="font-semibold mb-2">AI Interview Simulator</h3>
+              <p className="text-gray-400 text-sm">Advanced speech recognition and AI coaching</p>
             </button>
             <button
-              onClick={() => setCurrentPage('collaborative-features')}
+              onClick={() => setCurrentPage('real-time-collaboration')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
               <div className="text-2xl mb-3">👥</div>
@@ -158,12 +158,12 @@ const Home = ({ setCurrentPage }) => {
               <p className="text-gray-400 text-sm">Real-time collaboration tools</p>
             </button>
             <button
-              onClick={() => setCurrentPage('performance-monitor')}
+              onClick={() => setCurrentPage('edge-computing')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
-              <div className="text-2xl mb-3">⚡</div>
-              <h3 className="font-semibold mb-2">Performance Monitor</h3>
-              <p className="text-gray-400 text-sm">System performance tracking</p>
+              <div className="text-2xl mb-3">🌐</div>
+              <h3 className="font-semibold mb-2">Edge Computing</h3>
+              <p className="text-gray-400 text-sm">IoT and distributed systems</p>
             </button>
           </div>
         </div>
