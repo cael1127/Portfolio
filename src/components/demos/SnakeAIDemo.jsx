@@ -14,6 +14,7 @@ const SnakeAIDemo = () => {
   const [generation, setGeneration] = useState(1);
   const [fitness, setFitness] = useState(0);
   const [model, setModel] = useState(null);
+  const [aiRestarting, setAiRestarting] = useState(false);
   const canvasRef = useRef(null);
   const gameLoopRef = useRef(null);
   const directionRef = useRef('RIGHT');
@@ -252,15 +253,26 @@ const SnakeAIDemo = () => {
   };
 
   const gameOver = () => {
-    setGameState('gameOver');
     if (aiMode) {
       setFitness(score);
+      setAiRestarting(true);
       // Evolve the model
       if (model) {
         const newModel = model.mutate(0.1);
         setModel(newModel);
         setGeneration(prev => prev + 1);
       }
+      // Auto-restart for AI learning
+      setTimeout(() => {
+        setScore(0);
+        setSnake([[10, 10]]);
+        updateDirection('RIGHT');
+        generateFood();
+        setGameState('playing');
+        setAiRestarting(false);
+      }, 1000); // Brief pause to show the death and restart
+    } else {
+      setGameState('gameOver');
     }
   };
 
@@ -284,6 +296,7 @@ const SnakeAIDemo = () => {
     updateDirection('RIGHT');
     setAiMode(false);
     setAiThinking(false);
+    setAiRestarting(false);
     setGeneration(1);
     setFitness(0);
   };
@@ -379,7 +392,14 @@ const SnakeAIDemo = () => {
       ctx.font = '12px Arial';
       ctx.fillText('AI Thinking...', 10, 20);
     }
-  }, [snake, food, aiMode, aiThinking]);
+    
+    // Draw AI restarting indicator
+    if (aiMode && aiRestarting) {
+      ctx.fillStyle = '#ef4444';
+      ctx.font = '14px Arial';
+      ctx.fillText('AI Restarting...', 10, 40);
+    }
+  }, [snake, food, aiMode, aiThinking, aiRestarting]);
 
   const codeExample = `// Neural Network for Snake AI
 class NeuralNetwork {
@@ -552,6 +572,12 @@ const getAIMove = (snake, food, direction, model) => {
                   <div className="flex justify-between">
                     <span className="text-gray-400">Learning Rate:</span>
                     <span className="text-white font-semibold">0.1</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Status:</span>
+                    <span className={`font-semibold ${aiRestarting ? 'text-red-400' : 'text-green-400'}`}>
+                      {aiRestarting ? 'Restarting...' : 'Learning'}
+                    </span>
                   </div>
                 </div>
               )}
