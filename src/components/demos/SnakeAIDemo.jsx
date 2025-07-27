@@ -16,6 +16,7 @@ const SnakeAIDemo = () => {
   const [model, setModel] = useState(null);
   const canvasRef = useRef(null);
   const gameLoopRef = useRef(null);
+  const directionRef = useRef('RIGHT');
 
   const GRID_SIZE = 20;
   const CELL_SIZE = 20;
@@ -122,7 +123,7 @@ const SnakeAIDemo = () => {
     });
     
     // Current direction one-hot encoding
-    const dirIndex = ['UP', 'RIGHT', 'DOWN', 'LEFT'].indexOf(direction);
+    const dirIndex = ['UP', 'RIGHT', 'DOWN', 'LEFT'].indexOf(directionRef.current);
     for (let i = 0; i < 4; i++) {
       inputs.push(i === dirIndex ? 1 : 0);
     }
@@ -146,7 +147,7 @@ const SnakeAIDemo = () => {
 
   // AI decision making
   const getAIMove = () => {
-    if (!model) return direction;
+    if (!model) return directionRef.current;
     
     const inputs = getAIInputs();
     const outputs = model.feedForward(inputs);
@@ -155,7 +156,7 @@ const SnakeAIDemo = () => {
     const maxIndex = outputs.indexOf(Math.max(...outputs));
     
     // Prevent 180-degree turns
-    const currentIndex = directions.indexOf(direction);
+    const currentIndex = directions.indexOf(directionRef.current);
     const oppositeIndex = (currentIndex + 2) % 4;
     
     if (maxIndex === oppositeIndex) {
@@ -175,7 +176,7 @@ const SnakeAIDemo = () => {
       const newSnake = [...prevSnake];
       const head = [...newSnake[0]];
       
-      switch (direction) {
+      switch (directionRef.current) {
         case 'UP':
           head[1] = (head[1] - 1 + GRID_SIZE) % GRID_SIZE;
           break;
@@ -247,7 +248,7 @@ const SnakeAIDemo = () => {
     setGameState('playing');
     setScore(0);
     setSnake([[10, 10]]);
-    setDirection('RIGHT');
+    updateDirection('RIGHT');
     generateFood();
     if (ai) {
       setGeneration(1);
@@ -259,11 +260,16 @@ const SnakeAIDemo = () => {
     setGameState('menu');
     setScore(0);
     setSnake([[10, 10]]);
-    setDirection('RIGHT');
+    updateDirection('RIGHT');
     setAiMode(false);
     setAiThinking(false);
     setGeneration(1);
     setFitness(0);
+  };
+
+  const updateDirection = (newDirection) => {
+    setDirection(newDirection);
+    directionRef.current = newDirection;
   };
 
   // Game loop
@@ -274,7 +280,7 @@ const SnakeAIDemo = () => {
           setAiThinking(true);
           setTimeout(() => {
             const aiDirection = getAIMove();
-            setDirection(aiDirection);
+            updateDirection(aiDirection);
             setAiThinking(false);
           }, 100);
         }
@@ -285,7 +291,7 @@ const SnakeAIDemo = () => {
       
       return () => clearInterval(interval);
     }
-  }, [gameState, direction, aiMode]);
+  }, [gameState, aiMode]);
 
   // Handle keyboard input
   useEffect(() => {
@@ -294,16 +300,16 @@ const SnakeAIDemo = () => {
       
       switch (e.key) {
         case 'ArrowUp':
-          if (direction !== 'DOWN') setDirection('UP');
+          if (directionRef.current !== 'DOWN') updateDirection('UP');
           break;
         case 'ArrowRight':
-          if (direction !== 'LEFT') setDirection('RIGHT');
+          if (directionRef.current !== 'LEFT') updateDirection('RIGHT');
           break;
         case 'ArrowDown':
-          if (direction !== 'UP') setDirection('DOWN');
+          if (directionRef.current !== 'UP') updateDirection('DOWN');
           break;
         case 'ArrowLeft':
-          if (direction !== 'RIGHT') setDirection('LEFT');
+          if (directionRef.current !== 'RIGHT') updateDirection('LEFT');
           break;
         case ' ':
           setGameState(prev => prev === 'playing' ? 'paused' : 'playing');
@@ -315,7 +321,7 @@ const SnakeAIDemo = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [gameState, direction, aiMode]);
+  }, [gameState, aiMode]);
 
   // Render game
   useEffect(() => {
