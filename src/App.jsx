@@ -111,9 +111,138 @@ function App() {
     }
   };
 
+  // Navigation component
+  const Navigation = () => {
+    const navItems = [
+      { id: 'home', label: '🏠 Home', icon: '🏠' },
+      { id: 'demo-organizer', label: '🚀 Projects', icon: '🚀' },
+      { id: 'resume-builder', label: '📄 Resume', icon: '📄' },
+      { id: 'freelancing', label: '💼 Services', icon: '💼' },
+      { id: 'contact', label: '📞 Contact', icon: '📞' },
+    ];
+
+    const enterpriseItems = [
+      { id: 'ai-interview-simulator', label: '🤖 AI Interview', icon: '🤖' },
+      { id: 'real-time-collaboration', label: '👥 Collaboration', icon: '👥' },
+      { id: 'advanced-analytics', label: '📊 Analytics', icon: '📊' },
+      { id: 'blockchain-advanced', label: '⛓️ Blockchain', icon: '⛓️' },
+      { id: 'edge-computing', label: '🌐 Edge Computing', icon: '🌐' },
+      { id: 'quantum-computing', label: '⚛️ Quantum', icon: '⚛️' },
+    ];
+
+    return (
+      <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="flex items-center space-x-2 text-white font-bold text-lg hover:text-teal-400 transition-colors"
+              >
+                <span className="text-2xl">💻</span>
+                <span>Cael Findley</span>
+              </button>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:block">
+              <div className="flex items-center space-x-1">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setCurrentPage(item.id)}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      currentPage === item.id
+                        ? 'bg-teal-600 text-white'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                
+                {/* Enterprise Features Dropdown */}
+                <div className="relative group">
+                  <button className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+                    🚀 Enterprise
+                  </button>
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    {enterpriseItems.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => setCurrentPage(item.id)}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => {
+                  const mobileMenu = document.getElementById('mobile-menu');
+                  mobileMenu.classList.toggle('hidden');
+                }}
+                className="text-gray-300 hover:text-white p-2"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div id="mobile-menu" className="hidden md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setCurrentPage(item.id)}
+                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                    currentPage === item.id
+                      ? 'bg-teal-600 text-white'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+              
+              {/* Mobile Enterprise Features */}
+              <div className="pt-4 pb-3 border-t border-gray-700">
+                <div className="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Enterprise Features
+                </div>
+                {enterpriseItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setCurrentPage(item.id)}
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  };
+
   return (
-    <div className="App">
-      {renderContent()}
+    <div className="App min-h-screen bg-gray-900">
+      <Navigation />
+      <main>
+        {renderContent()}
+      </main>
     </div>
   );
 }
