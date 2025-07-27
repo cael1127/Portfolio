@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', onClose }) => {
+const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', isOpen, onClose }) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
@@ -33,6 +33,11 @@ const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', onClos
     }
   };
 
+  // Don't render if not open
+  if (!isOpen) {
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-4xl w-full max-h-[90vh] overflow-hidden">
@@ -54,7 +59,7 @@ const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', onClos
             </button>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white text-2xl"
+              className="text-gray-400 hover:text-white text-2xl transition-colors"
             >
               ✕
             </button>
