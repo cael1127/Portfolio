@@ -211,12 +211,14 @@ const SnakeAIDemo = () => {
       
       // Check wall collision
       if (head[0] < 0 || head[0] >= GRID_SIZE || head[1] < 0 || head[1] >= GRID_SIZE) {
+        console.log('Wall collision detected', { head, aiMode });
         gameOver();
         return prevSnake;
       }
       
       // Check collision with self
       if (newSnake.some(segment => segment[0] === head[0] && segment[1] === head[1])) {
+        console.log('Self collision detected', { head, aiMode });
         gameOver();
         return prevSnake;
       }
@@ -267,9 +269,11 @@ const SnakeAIDemo = () => {
   };
 
   const gameOver = () => {
+    console.log('Game Over called', { aiMode, score, gameState });
     if (aiMode) {
       setFitness(score);
       setAiRestarting(true);
+      console.log('AI mode - evolving model and restarting');
       // Evolve the model
       if (model) {
         const newModel = model.mutate(0.1);
@@ -278,6 +282,7 @@ const SnakeAIDemo = () => {
       }
       // Auto-restart for AI learning
       setTimeout(() => {
+        console.log('AI restarting after death');
         setScore(0);
         setSnake([[10, 10]]);
         updateDirection('RIGHT');
@@ -286,6 +291,7 @@ const SnakeAIDemo = () => {
         setAiRestarting(false);
       }, 1000); // Brief pause to show the death and restart
     } else {
+      console.log('Manual mode - setting game over state');
       setGameState('gameOver');
     }
   };
@@ -323,6 +329,7 @@ const SnakeAIDemo = () => {
   // Game loop
   useEffect(() => {
     if (gameState === 'playing') {
+      console.log('Starting game loop', { aiMode, gameState });
       const interval = setInterval(() => {
         if (aiMode) {
           const aiDirection = getAIMove();
@@ -333,7 +340,10 @@ const SnakeAIDemo = () => {
       
       gameLoopRef.current = interval;
       
-      return () => clearInterval(interval);
+      return () => {
+        console.log('Clearing game loop');
+        clearInterval(interval);
+      };
     }
   }, [gameState, aiMode]);
 
