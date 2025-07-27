@@ -180,7 +180,49 @@ const SnakeAIDemo = () => {
       newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
     }
     
-    console.log('AI move:', { currentDir, newDirection, outputs });
+    // ADDITIONAL SAFETY CHECK: Prevent immediate wall collision
+    const head = snake[0];
+    const directionVectors = {
+      'UP': [0, -1],
+      'RIGHT': [1, 0],
+      'DOWN': [0, 1],
+      'LEFT': [-1, 0]
+    };
+    
+    const [dx, dy] = directionVectors[newDirection];
+    const newHead = [head[0] + dx, head[1] + dy];
+    
+    // Check if the chosen direction would cause immediate death
+    const wouldDie = 
+      newHead[0] < 0 || newHead[0] >= GRID_SIZE ||
+      newHead[1] < 0 || newHead[1] >= GRID_SIZE ||
+      snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+    
+    if (wouldDie) {
+      console.log('AI chose dangerous move, finding safe alternative');
+      // Find a safe direction
+      const safeDirections = [];
+      Object.entries(directionVectors).forEach(([dir, [dx, dy]]) => {
+        const testHead = [head[0] + dx, head[1] + dy];
+        const isSafe = 
+          testHead[0] >= 0 && testHead[0] < GRID_SIZE &&
+          testHead[1] >= 0 && testHead[1] < GRID_SIZE &&
+          !snake.some(segment => segment[0] === testHead[0] && segment[1] === testHead[1]);
+        
+        if (isSafe) {
+          safeDirections.push(dir);
+        }
+      });
+      
+      if (safeDirections.length > 0) {
+        newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
+        console.log('AI chose safe alternative:', newDirection);
+      } else {
+        console.log('No safe moves available, AI will die');
+      }
+    }
+    
+    console.log('AI move:', { currentDir, newDirection, outputs, wouldDie });
     return newDirection;
   };
 
@@ -290,6 +332,11 @@ const SnakeAIDemo = () => {
         generateFood();
         setGameState('playing');
         setAiRestarting(false);
+        
+        // ADDITIONAL DELAY: Pause briefly to prevent immediate collision
+        setTimeout(() => {
+          console.log('AI ready to start moving');
+        }, 500); // 500ms pause before AI starts moving
       }, 2000); // INCREASED from 1000ms to 2000ms to prevent immediate collision
     } else {
       console.log('Manual mode - setting game over state');
@@ -337,7 +384,7 @@ const SnakeAIDemo = () => {
           updateDirection(aiDirection);
         }
         moveSnake();
-      }, aiMode ? 100 : 200);
+      }, aiMode ? 150 : 200); // INCREASED from 100ms to 150ms for AI
       
       gameLoopRef.current = interval;
       
