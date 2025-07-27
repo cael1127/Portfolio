@@ -410,7 +410,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   className="absolute inset-0 w-full h-full bg-transparent"
                   onClick={() => {
                     console.log('Demo clicked:', demo.id);
-                    setCurrentPage(demo.id);
+                    setCurrentPage(demo.id + '-demo');
                   }}
                   style={{ zIndex: 1 }}
                 />
@@ -464,7 +464,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setCurrentPage(demo.id + '-project');
+                        setCurrentPage(demo.id + '-demo');
                       }}
                       className="text-green-400 hover:text-green-300 text-xs font-semibold"
                     >
