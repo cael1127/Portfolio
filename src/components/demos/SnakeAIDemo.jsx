@@ -221,10 +221,16 @@ const SnakeAIDemo = () => {
         return prevSnake;
       }
       
+      // Check if food is eaten BEFORE adding head to snake
+      const foodEaten = head[0] === food[0] && head[1] === food[1];
+      
+      if (foodEaten) {
+        console.log('Food eaten!', { head, food, score });
+      }
+      
       newSnake.unshift(head);
       
-      // Check if food is eaten
-      if (head[0] === food[0] && head[1] === food[1]) {
+      if (foodEaten) {
         setScore(prev => {
           const newScore = prev + 10;
           if (newScore > highScore) {
@@ -243,12 +249,20 @@ const SnakeAIDemo = () => {
 
   const generateFood = () => {
     let newFood;
+    let attempts = 0;
+    const maxAttempts = 100;
+    
     do {
       newFood = [
         Math.floor(Math.random() * GRID_SIZE),
         Math.floor(Math.random() * GRID_SIZE)
       ];
-    } while (snake.some(segment => segment[0] === newFood[0] && segment[1] === newFood[1]));
+      attempts++;
+    } while (
+      snake.some(segment => segment[0] === newFood[0] && segment[1] === newFood[1]) &&
+      attempts < maxAttempts
+    );
+    
     setFood(newFood);
   };
 
