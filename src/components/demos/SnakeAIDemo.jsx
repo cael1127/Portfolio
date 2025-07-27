@@ -156,6 +156,17 @@ const SnakeAIDemo = () => {
   const getAIMove = () => {
     if (!model) return 'RIGHT';
     
+    // ADD RANDOM EXPLORATION: Early generations should explore randomly
+    if (generation < 5) {
+      const randomChance = Math.max(0.3, 1 - generation * 0.1); // 30% random chance for first 5 generations
+      if (Math.random() < randomChance) {
+        const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+        const randomDir = directions[Math.floor(Math.random() * directions.length)];
+        console.log('AI exploring randomly:', randomDir, 'generation:', generation);
+        return randomDir;
+      }
+    }
+    
     const inputs = getAIInputs();
     const outputs = model.feedForward(inputs);
     
@@ -222,7 +233,7 @@ const SnakeAIDemo = () => {
       }
     }
     
-    console.log('AI move:', { currentDir, newDirection, outputs, wouldDie });
+    console.log('AI move:', { currentDir, newDirection, outputs, wouldDie, generation });
     return newDirection;
   };
 
@@ -312,20 +323,24 @@ const SnakeAIDemo = () => {
   };
 
   const gameOver = () => {
-    console.log('Game Over called', { aiMode, score, gameState });
+    console.log('Game Over called', { aiMode, score, gameState, generation });
     if (aiMode) {
       setFitness(score);
       setAiRestarting(true);
       console.log('AI mode - evolving model and restarting');
       // Evolve the model
       if (model) {
-        const newModel = model.mutate(0.1);
+        const newModel = model.mutate(0.3); // INCREASED from 0.1 to 0.3 for faster learning
         setModel(newModel);
-        setGeneration(prev => prev + 1);
+        setGeneration(prev => {
+          const newGen = prev + 1;
+          console.log('Generation updated:', prev, '->', newGen);
+          return newGen;
+        });
       }
       // Auto-restart for AI learning - INCREASED DELAY
       setTimeout(() => {
-        console.log('AI restarting after death');
+        console.log('AI restarting after death, generation:', generation);
         setScore(0);
         setSnake([[5, 5]]); // CHANGED from [10, 10] to [5, 5]
         updateDirection('RIGHT');
@@ -352,8 +367,9 @@ const SnakeAIDemo = () => {
     updateDirection('RIGHT');
     generateFood();
     if (ai) {
-      setGeneration(1);
+      setGeneration(1); // FIXED: Start from generation 1
       setFitness(0);
+      console.log('AI game started, generation:', 1);
     }
   };
 
