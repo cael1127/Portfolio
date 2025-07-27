@@ -205,8 +205,6 @@ const SnakeAIDemo = () => {
       const head = snake[0];
       const foodDir = [food[0] - head[0], food[1] - head[1]];
       
-      console.log('AI decision making - head:', head, 'food:', food, 'foodDir:', foodDir);
-      
       // IMPROVED RULE-BASED AI FOR EARLY GENERATIONS
       const currentGen = generationRef.current;
       if (currentGen <= 15) {
@@ -232,10 +230,7 @@ const SnakeAIDemo = () => {
           }
         });
         
-        console.log('Safe directions found:', safeDirections);
-        
         if (safeDirections.length === 0) {
-          console.log('No safe directions, using random');
           return ['UP', 'RIGHT', 'DOWN', 'LEFT'][Math.floor(Math.random() * 4)];
         }
         
@@ -280,15 +275,11 @@ const SnakeAIDemo = () => {
             score += (GRID_SIZE - centerDistance) * 0.5;
           }
           
-          console.log('Direction', dir, 'score:', score, 'newDistance:', newDistance, 'currentDistance:', currentDistance);
-          
           if (score > bestScore) {
             bestScore = score;
             bestDirection = dir;
           }
         });
-        
-        console.log('Enhanced rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections, 'score:', bestScore);
         
         // Update visualization for rule-based decisions
         const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
@@ -313,8 +304,6 @@ const SnakeAIDemo = () => {
         const useRuleBased = Math.random() < 0.7;
         const finalMove = useRuleBased ? ruleBasedMove : nnMove;
         
-        console.log('Hybrid AI chose:', finalMove, 'rule-based:', ruleBasedMove, 'neural network:', nnMove, 'using rule-based:', useRuleBased);
-        
         setNnVisualization({
           inputs: [foodDir[0], foodDir[1], Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1])],
           hidden: [0.6, 0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
@@ -329,7 +318,6 @@ const SnakeAIDemo = () => {
       // PURE NEURAL NETWORK FOR LATER GENERATIONS
       return getNeuralNetworkMove(head, food);
     } catch (error) {
-      console.error('Error in AI decision making:', error);
       // Fallback to a safe direction
       return 'RIGHT';
     }
@@ -382,15 +370,12 @@ const SnakeAIDemo = () => {
   // Helper function for neural network moves
   const getNeuralNetworkMove = (head, food) => {
     if (!modelRef.current) {
-      console.log('No model available, using default RIGHT');
       return 'RIGHT';
     }
     
     // Use neural network for decision making
     const inputs = getAIInputs();
-    console.log('AI inputs:', inputs.slice(0, 10), '... (total:', inputs.length, ')');
     const outputs = modelRef.current.feedForward(inputs);
-    console.log('AI raw outputs:', outputs);
     
     // Get hidden layer activations for visualization
     const hidden = [];
@@ -407,13 +392,11 @@ const SnakeAIDemo = () => {
       const noise = (Math.random() - 0.5) * 0.1; // Reduced noise for later generations
       return Math.max(0, Math.min(1, output + noise)); // Clamp between 0 and 1
     });
-    console.log('AI noisy outputs:', noisyOutputs);
     
     // Use neural network output
     const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
     const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
     const newDirection = directions[maxIndex];
-    console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
     
     // Update visualization data
     setNnVisualization({
@@ -430,11 +413,8 @@ const SnakeAIDemo = () => {
   // Game logic
   const moveSnake = () => {
     if (gameState !== 'playing') {
-      console.log('Game not playing, skipping move');
       return;
     }
-
-    console.log('moveSnake called - gameState:', gameState, 'direction:', directionRef.current);
 
     // Update game time for AI
     setGameTime(prev => prev + 1);
@@ -443,8 +423,6 @@ const SnakeAIDemo = () => {
       const newSnake = [...prevSnake];
       const head = [...newSnake[0]];
       const oldLength = newSnake.length;
-      
-      console.log('Moving snake:', { direction: directionRef.current, head, oldLength });
       
       switch (directionRef.current) {
         case 'UP':
@@ -460,23 +438,18 @@ const SnakeAIDemo = () => {
           head[0] = head[0] - 1;
           break;
         default:
-          console.log('Invalid direction:', directionRef.current, 'using RIGHT as fallback');
           head[0] = head[0] + 1; // Default to RIGHT
           break;
       }
       
-      console.log('New head position:', head);
-      
       // Check wall collision
       if (head[0] < 0 || head[0] >= GRID_SIZE || head[1] < 0 || head[1] >= GRID_SIZE) {
-        console.log('Wall collision detected', { head, aiMode });
         gameOver();
         return prevSnake;
       }
       
       // Check collision with self
       if (newSnake.some(segment => segment[0] === head[0] && segment[1] === head[1])) {
-        console.log('Self collision detected', { head, aiMode });
         gameOver();
         return prevSnake;
       }
@@ -484,24 +457,13 @@ const SnakeAIDemo = () => {
       // Check if food is eaten BEFORE adding head to snake
       const foodEaten = head[0] === food[0] && head[1] === food[1];
       
-      console.log('Food collision check:', {
-        head: head,
-        food: food,
-        headX: head[0], headY: head[1],
-        foodX: food[0], foodY: food[1],
-        collision: foodEaten,
-        distance: Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1])
-      });
-      
       // Track food distance for AI learning
       const currentFoodDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
       const movedCloserToFood = currentFoodDistance < lastFoodDistance;
       
       if (foodEaten) {
-        console.log('🎯 FOOD EATEN!', { head, food, score, aiMode, generation: generationRef.current });
         setLastMoveWasSuccessful(true); // Food eating is always successful
       } else {
-        console.log('No food eaten', { head, food, distance: currentFoodDistance });
         // Track if the move brought us closer to food
         setLastMoveWasSuccessful(movedCloserToFood);
       }
@@ -513,20 +475,16 @@ const SnakeAIDemo = () => {
       if (foodEaten) {
         setScore(prev => {
           const newScore = prev + 10;
-          console.log('Score updated:', prev, '->', newScore);
           if (newScore > highScore) {
             setHighScore(newScore);
           }
           return newScore;
         });
         generateFood();
-        console.log('Snake grew from', oldLength, 'to', newSnake.length);
       } else {
         newSnake.pop();
-        console.log('Snake length maintained:', oldLength, '->', newSnake.length);
       }
       
-      console.log('Final snake state:', newSnake);
       return newSnake;
     });
   };
@@ -547,26 +505,16 @@ const SnakeAIDemo = () => {
       attempts < maxAttempts
     );
     
-    console.log('🍎 Generated food at:', newFood, 'snake length:', snake.length, 'attempts:', attempts);
-    console.log('Food coordinates:', { x: newFood[0], y: newFood[1], gridSize: GRID_SIZE, cellSize: CELL_SIZE });
-    console.log('Food will be rendered at:', { 
-      pixelX: newFood[0] * CELL_SIZE + 2, 
-      pixelY: newFood[1] * CELL_SIZE + 2,
-      cellX: newFood[0],
-      cellY: newFood[1]
-    });
     setFood(newFood);
   };
 
   const gameOver = () => {
     // PREVENT MULTIPLE GENERATIONS PER DEATH
     if (isRestarting) {
-      console.log('Already restarting, skipping duplicate gameOver call');
       return;
     }
     
     deathCountRef.current += 1;
-    console.log('Game Over called', { aiMode, score, gameState, generation: generationRef.current, deathCount: deathCountRef.current });
     if (aiMode) {
       setIsRestarting(true); // PREVENT MULTIPLE RESTARTS
       
@@ -578,13 +526,11 @@ const SnakeAIDemo = () => {
       const foodEatingBonus = score * 50; // Massive bonus for actually eating food
       
       const currentFitness = survivalTime + lengthBonus + explorationBonus + efficiencyBonus + foodEatingBonus;
-      console.log('Setting fitness to:', currentFitness, 'score:', score, 'length:', snake.length, 'exploration:', explorationBonus, 'efficiency:', efficiencyBonus, 'food bonus:', foodEatingBonus);
       setFitness(currentFitness);
       fitnessRef.current = currentFitness;
       
       // TRACK BEST PERFORMING MODEL
       if (currentFitness > bestFitnessRef.current) {
-        console.log('New best fitness!', currentFitness, 'previous:', bestFitnessRef.current);
         setBestFitness(currentFitness);
         setBestModel(modelRef.current);
         bestFitnessRef.current = currentFitness;
@@ -598,16 +544,13 @@ const SnakeAIDemo = () => {
         
         // If stuck for too long, reset to best model or create new one
         if (newStuckCount > 20) {
-          console.log('AI stuck for too long, resetting to best model or creating new one');
           if (bestModel) {
             modelRef.current = bestModel;
             setModel(bestModel);
-            console.log('Reset to best model with fitness:', bestFitnessRef.current);
           } else {
             const newModel = new NeuralNetwork(25, 16, 4);
             modelRef.current = newModel;
             setModel(newModel);
-            console.log('Created new model due to being stuck');
           }
           setStuckCount(0);
           stuckCountRef.current = 0;
@@ -615,7 +558,6 @@ const SnakeAIDemo = () => {
       }
       
       setAiRestarting(true);
-      console.log('AI mode - evolving model and restarting, fitness:', currentFitness);
       
       // Evolve the model with adaptive mutation rate
       if (modelRef.current) {
@@ -629,50 +571,46 @@ const SnakeAIDemo = () => {
         modelRef.current = newModel;
         const currentGen = generationRef.current;
         const newGen = currentGen + 1;
-        console.log('Evolving model, generation:', currentGen, '->', newGen, 'fitness:', currentFitness, 'mutation rate:', mutationRate);
         setGeneration(newGen);
         generationRef.current = newGen;
       }
       
       // Auto-restart for AI learning - SINGLE DELAY, NO NESTED TIMEOUTS
       setTimeout(() => {
-        console.log('AI restarting after death, generation:', generationRef.current, 'death count:', deathCountRef.current);
         setScore(0);
-        setSnake([[5, 5]]);
-        updateDirection('RIGHT');
-        generateFood();
+        setSnake([[10, 10]]);
+        setFood([15, 15]);
+        setDirection('RIGHT');
+        directionRef.current = 'RIGHT';
         setGameState('playing');
         setAiRestarting(false);
-        setIsRestarting(false); // RESET RESTART FLAG
-        console.log('AI ready to start moving');
-      }, 2000); // Single delay, no nested setTimeout
+        setIsRestarting(false);
+        setGameTime(0);
+        setLastMoveWasSuccessful(false);
+        setLastFoodDistance(0);
+        generateFood();
+      }, 1000);
     } else {
-      console.log('Manual mode - setting game over state');
       setGameState('gameOver');
     }
   };
 
   const startGame = (ai = false) => {
-    console.log('Starting game with AI:', ai);
     setAiMode(ai);
     setGameState('playing');
     setScore(0);
     setSnake([[5, 5]]);
     updateDirection('RIGHT');
     generateFood();
-    console.log('Game started - initial snake:', [[5, 5]], 'food will be generated');
     if (ai) {
       setGeneration(1);
       setFitness(0);
       generationRef.current = 1;
       fitnessRef.current = 0;
-      console.log('AI game started, generation:', 1);
       // Create model immediately
-      console.log('Creating neural network model immediately...');
       const neuralNetwork = new NeuralNetwork(25, 16, 4); // FIXED: 25 inputs, 16 hidden, 4 outputs
       setModel(neuralNetwork);
       modelRef.current = neuralNetwork; // SET MODEL REF
-      console.log('Model created and set:', neuralNetwork);
     }
   };
 
@@ -700,7 +638,6 @@ const SnakeAIDemo = () => {
   };
 
   const updateDirection = (newDirection) => {
-    console.log('Updating direction from', directionRef.current, 'to', newDirection);
     setDirection(newDirection);
     directionRef.current = newDirection;
   };
@@ -714,18 +651,13 @@ const SnakeAIDemo = () => {
     }
     
     if (gameState === 'playing') {
-      console.log('Starting game loop', { aiMode, gameState, direction: directionRef.current });
       const interval = setInterval(() => {
-        console.log('Game loop tick - AI mode:', aiMode, 'Direction:', directionRef.current, 'Snake:', snake);
         
         if (aiMode) {
           try {
             const aiDirection = getAIMove();
-            console.log('AI chose direction:', aiDirection);
             if (aiDirection && ['UP', 'RIGHT', 'DOWN', 'LEFT'].includes(aiDirection)) {
               updateDirection(aiDirection);
-            } else {
-              console.log('Invalid AI direction, keeping current:', directionRef.current);
             }
           } catch (error) {
             console.error('Error in AI decision:', error);
@@ -733,19 +665,19 @@ const SnakeAIDemo = () => {
           }
         }
         
-        console.log('Moving snake with direction:', directionRef.current);
         moveSnake();
       }, aiMode ? 400 : 200); // SLOWER for AI to prevent rapid resets
       
       gameLoopRef.current = interval;
       
       return () => {
-        console.log('Clearing game loop');
         clearInterval(interval);
         gameLoopRef.current = null;
       };
     } else {
-      console.log('Game not playing, not starting loop. Game state:', gameState);
+      return () => {
+        // No-op if game is not playing
+      };
     }
   }, [gameState, aiMode]);
 
@@ -820,24 +752,6 @@ const SnakeAIDemo = () => {
     // Draw food
     ctx.fillStyle = '#ef4444';
     ctx.fillRect(food[0] * CELL_SIZE + 2, food[1] * CELL_SIZE + 2, CELL_SIZE - 4, CELL_SIZE - 4);
-    
-    // Debug: Draw food position indicator with better visibility
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '12px Arial';
-    ctx.fillText(`Food: ${food[0]},${food[1]}`, 10, GRID_SIZE * CELL_SIZE + 25);
-    
-    // Debug: Draw snake head position
-    if (snake.length > 0) {
-      ctx.fillText(`Head: ${snake[0][0]},${snake[0][1]}`, 10, GRID_SIZE * CELL_SIZE + 40);
-    }
-    
-    // Debug: Draw food pixel coordinates
-    ctx.fillText(`Food pixels: ${food[0] * CELL_SIZE + 2},${food[1] * CELL_SIZE + 2}`, 10, GRID_SIZE * CELL_SIZE + 55);
-    
-    // Debug: Highlight the food cell with a border
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(food[0] * CELL_SIZE, food[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
     // Draw AI thinking indicator
     if (aiMode && aiThinking) {
@@ -984,45 +898,6 @@ const getAIMove = (snake, food, direction, model) => {
                     >
                       Pause
                     </button>
-                    <button
-                      onClick={() => {
-                        console.log('Manual move test - current direction:', directionRef.current);
-                        moveSnake();
-                      }}
-                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors"
-                    >
-                      Test Move
-                    </button>
-                    <button
-                      onClick={() => {
-                        console.log('Debug info:', {
-                          snake: snake,
-                          food: food,
-                          direction: directionRef.current,
-                          score: score,
-                          gameState: gameState
-                        });
-                      }}
-                      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
-                    >
-                      Debug Info
-                    </button>
-                    <button
-                      onClick={() => {
-                        console.log('Food position check:', {
-                          foodState: food,
-                          foodX: food[0],
-                          foodY: food[1],
-                          renderedPosition: `${food[0] * CELL_SIZE},${food[1] * CELL_SIZE}`,
-                          gridSize: GRID_SIZE,
-                          cellSize: CELL_SIZE
-                        });
-                        alert(`Food Debug Info:\n\nFood coordinates: (${food[0]}, ${food[1]})\nFood pixel position: (${food[0] * CELL_SIZE + 2}, ${food[1] * CELL_SIZE + 2})\nGrid size: ${GRID_SIZE}x${GRID_SIZE}\nCell size: ${CELL_SIZE}px\n\nNote: The white border around the red food square shows exactly where the food is positioned. The coordinates shown below the game are the same as the food position.`);
-                      }}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
-                    >
-                      Check Food Position
-                    </button>
                   </>
                 )}
                 
@@ -1050,7 +925,6 @@ const getAIMove = (snake, food, direction, model) => {
                 <p><strong>Manual Play:</strong> Use arrow keys to control the snake</p>
                 <p><strong>AI Mode:</strong> Watch the neural network learn through genetic algorithms</p>
                 <p><strong>Space:</strong> Pause/Resume the game</p>
-                <p><strong>Visual Debug:</strong> The white border around the red food square shows the exact food position. Coordinates below the game match the food location.</p>
               </div>
               
               {/* Neural Network Visualization */}

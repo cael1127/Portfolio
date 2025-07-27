@@ -119,6 +119,20 @@ function App() {
         return <AIAssistantDemoPage setCurrentPage={setCurrentPage} />;
       case 'smartcity-demo':
         return <SmartCityDemoPage setCurrentPage={setCurrentPage} />;
+      case 'logistics-demo':
+        return <LogisticsDemoPage setCurrentPage={setCurrentPage} />;
+      case 'healthcare-demo':
+        return <HealthcareDemoPage setCurrentPage={setCurrentPage} />;
+      case 'financial-demo':
+        return <FinancialDemoPage setCurrentPage={setCurrentPage} />;
+      case 'restaurantapp-demo':
+        return <RestaurantAppDemoPage setCurrentPage={setCurrentPage} />;
+      case 'whiteboard-demo':
+        return <WhiteboardDemoPage setCurrentPage={setCurrentPage} />;
+      case 'portfoliobuilder-demo':
+        return <PortfolioBuilderDemoPage setCurrentPage={setCurrentPage} />;
+      case 'gameplatform-demo':
+        return <GamePlatformDemoPage setCurrentPage={setCurrentPage} />;
       
       default:
         return <Home setCurrentPage={setCurrentPage} />;
