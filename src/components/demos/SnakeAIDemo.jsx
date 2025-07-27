@@ -281,6 +281,7 @@ const SnakeAIDemo = () => {
         console.log('Rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections);
         
         // Update visualization for rule-based decisions
+        const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
         setNnVisualization({
           inputs: [foodDir[0], foodDir[1], currentDistance, ...safeDirections.map(d => d === bestDirection ? 1 : 0)],
           hidden: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
