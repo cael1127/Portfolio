@@ -21,6 +21,7 @@ const SnakeAIDemo = () => {
   const generationRef = useRef(1); // ADD REF to track current generation
   const fitnessRef = useRef(0); // ADD REF to track current fitness
   const deathCountRef = useRef(0); // ADD DEATH COUNTER
+  const modelRef = useRef(null); // ADD MODEL REF for immediate access
 
   const GRID_SIZE = 20;
   const CELL_SIZE = 20;
@@ -87,14 +88,14 @@ const SnakeAIDemo = () => {
     }
   }
 
-  // Initialize AI model
-  useEffect(() => {
-    if (aiMode && !model) {
-      const neuralNetwork = new NeuralNetwork(32, 16, 4); // FIXED: 32 inputs, 16 hidden, 4 outputs
-      setModel(neuralNetwork);
-      console.log('Neural network initialized with 32 inputs');
-    }
-  }, [aiMode, model]);
+  // Initialize AI model - REMOVED since we create it immediately in startGame
+  // useEffect(() => {
+  //   if (aiMode && !model) {
+  //     const neuralNetwork = new NeuralNetwork(32, 16, 4);
+  //     setModel(neuralNetwork);
+  //     console.log('Neural network initialized with 32 inputs');
+  //   }
+  // }, [aiMode, model]);
 
   // Get AI inputs - IMPROVED FOR BETTER LEARNING
   const getAIInputs = () => {
@@ -169,7 +170,7 @@ const SnakeAIDemo = () => {
 
   // AI decision making - WORKING LEARNING SYSTEM
   const getAIMove = () => {
-    if (!model) {
+    if (!modelRef.current) {
       console.log('No model available, using default RIGHT');
       return 'RIGHT';
     }
@@ -177,7 +178,7 @@ const SnakeAIDemo = () => {
     // Use neural network for decision making
     const inputs = getAIInputs();
     console.log('AI inputs:', inputs);
-    const outputs = model.feedForward(inputs);
+    const outputs = modelRef.current.feedForward(inputs);
     console.log('AI outputs:', outputs);
     
     // Find the direction with highest output
@@ -327,9 +328,10 @@ const SnakeAIDemo = () => {
       console.log('AI mode - evolving model and restarting, fitness:', currentFitness);
       
       // Evolve the model
-      if (model) {
-        const newModel = model.mutate(0.5); // INCREASED mutation rate for faster learning
+      if (modelRef.current) {
+        const newModel = modelRef.current.mutate(0.5); // INCREASED mutation rate for faster learning
         setModel(newModel);
+        modelRef.current = newModel; // UPDATE MODEL REF
         const currentGen = generationRef.current;
         const newGen = currentGen + 1;
         console.log('Evolving model, generation:', currentGen, '->', newGen, 'fitness:', currentFitness);
@@ -372,16 +374,12 @@ const SnakeAIDemo = () => {
       generationRef.current = 1;
       fitnessRef.current = 0;
       console.log('AI game started, generation:', 1);
-      // Force model creation
-      setTimeout(() => {
-        if (!model) {
-          console.log('Creating neural network model...');
-          const neuralNetwork = new NeuralNetwork(32, 16, 4);
-          setModel(neuralNetwork);
-        } else {
-          console.log('Model already exists:', model);
-        }
-      }, 100);
+      // Create model immediately
+      console.log('Creating neural network model immediately...');
+      const neuralNetwork = new NeuralNetwork(32, 16, 4);
+      setModel(neuralNetwork);
+      modelRef.current = neuralNetwork; // SET MODEL REF
+      console.log('Model created and set:', neuralNetwork);
     }
   };
 
