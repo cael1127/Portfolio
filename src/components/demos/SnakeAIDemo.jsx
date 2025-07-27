@@ -154,34 +154,34 @@ const SnakeAIDemo = () => {
 
   // AI decision making
   const getAIMove = () => {
-    if (!model) return directionRef.current;
+    if (!model) return 'RIGHT';
     
     const inputs = getAIInputs();
     const outputs = model.feedForward(inputs);
     
-    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+    // Find the direction with highest output
     const maxIndex = outputs.indexOf(Math.max(...outputs));
+    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+    let newDirection = directions[maxIndex];
     
-    // Prevent 180-degree turns
-    const currentIndex = directions.indexOf(directionRef.current);
-    const oppositeIndex = (currentIndex + 2) % 4;
-    
-    // Get valid moves (not 180-degree turns)
-    const validMoves = [];
-    for (let i = 0; i < 4; i++) {
-      if (i !== oppositeIndex) {
-        validMoves.push(i);
-      }
+    // Prevent 180-degree turns (immediate death)
+    const currentDir = directionRef.current;
+    if ((currentDir === 'UP' && newDirection === 'DOWN') ||
+        (currentDir === 'DOWN' && newDirection === 'UP') ||
+        (currentDir === 'LEFT' && newDirection === 'RIGHT') ||
+        (currentDir === 'RIGHT' && newDirection === 'LEFT')) {
+      // Choose a safe direction instead
+      const safeDirections = directions.filter(dir => 
+        !((currentDir === 'UP' && dir === 'DOWN') ||
+          (currentDir === 'DOWN' && dir === 'UP') ||
+          (currentDir === 'LEFT' && dir === 'RIGHT') ||
+          (currentDir === 'RIGHT' && dir === 'LEFT'))
+      );
+      newDirection = safeDirections[Math.floor(Math.random() * safeDirections.length)];
     }
     
-    // Check if the AI's choice is valid
-    if (validMoves.includes(maxIndex)) {
-      return directions[maxIndex];
-    } else {
-      // Choose a random valid move
-      const randomIndex = validMoves[Math.floor(Math.random() * validMoves.length)];
-      return directions[randomIndex];
-    }
+    console.log('AI move:', { currentDir, newDirection, outputs });
+    return newDirection;
   };
 
   // Game logic
@@ -265,6 +265,7 @@ const SnakeAIDemo = () => {
       attempts < maxAttempts
     );
     
+    console.log('Generated food at:', newFood, 'snake length:', snake.length);
     setFood(newFood);
   };
 
@@ -280,16 +281,16 @@ const SnakeAIDemo = () => {
         setModel(newModel);
         setGeneration(prev => prev + 1);
       }
-      // Auto-restart for AI learning
+      // Auto-restart for AI learning - INCREASED DELAY
       setTimeout(() => {
         console.log('AI restarting after death');
         setScore(0);
-        setSnake([[10, 10]]);
+        setSnake([[5, 5]]); // CHANGED from [10, 10] to [5, 5]
         updateDirection('RIGHT');
         generateFood();
         setGameState('playing');
         setAiRestarting(false);
-      }, 1000); // Brief pause to show the death and restart
+      }, 2000); // INCREASED from 1000ms to 2000ms to prevent immediate collision
     } else {
       console.log('Manual mode - setting game over state');
       setGameState('gameOver');
@@ -300,7 +301,7 @@ const SnakeAIDemo = () => {
     setAiMode(ai);
     setGameState('playing');
     setScore(0);
-    setSnake([[10, 10]]);
+    setSnake([[5, 5]]); // CHANGED from [10, 10] to [5, 5] for safer start
     updateDirection('RIGHT');
     generateFood();
     if (ai) {
@@ -312,7 +313,7 @@ const SnakeAIDemo = () => {
   const resetGame = () => {
     setGameState('menu');
     setScore(0);
-    setSnake([[10, 10]]);
+    setSnake([[5, 5]]); // CHANGED from [10, 10] to [5, 5]
     updateDirection('RIGHT');
     setAiMode(false);
     setAiThinking(false);
