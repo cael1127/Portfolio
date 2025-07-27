@@ -47,6 +47,36 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['React', 'NLP', 'API Integration'],
           features: ['Natural conversations', 'Context awareness', 'Smart responses'],
           hasProjectPage: true
+        },
+        {
+          id: 'snake-ai',
+          name: 'Snake AI with Reinforcement Learning',
+          description: 'AI learns to play Snake using neural networks and genetic algorithms',
+          icon: '🐍',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'Neural Networks', 'Genetic Algorithms'],
+          features: ['Reinforcement Learning', 'Real-time training', 'Performance metrics'],
+          hasProjectPage: true
+        },
+        {
+          id: 'ai-agents',
+          name: 'AI Agents in Pure Python',
+          description: 'Multi-agent system with different AI behaviors and coordination',
+          icon: '🤖',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'Multi-Agent Systems', 'Behavior Trees'],
+          features: ['Agent coordination', 'Behavior patterns', 'Environment simulation'],
+          hasProjectPage: true
+        },
+        {
+          id: 'sentiment-analysis',
+          name: 'Sentiment Analysis with Transformers',
+          description: 'Advanced sentiment analysis using VADER, Transformers, and NLTK',
+          icon: '📊',
+          difficulty: 'Intermediate',
+          technologies: ['Python', 'Transformers', 'NLTK', 'VADER'],
+          features: ['Text analysis', 'Sentiment scoring', 'Detailed breakdowns'],
+          hasProjectPage: true
         }
       ]
     },
@@ -62,6 +92,78 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           difficulty: 'Advanced',
           technologies: ['Solidity', 'Web3.js', 'React'],
           features: ['Smart contracts', 'Transaction mining', 'Supply chain tracking'],
+          hasProjectPage: true
+        }
+      ]
+    },
+    'frontend': {
+      name: '🌐 Frontend & Web Development',
+      description: 'Modern frontend applications and web development',
+      demos: [
+        {
+          id: '3d-portfolio',
+          name: '3D Portfolio Website',
+          description: 'Interactive 3D portfolio using Three.js and WebGL',
+          icon: '🎨',
+          difficulty: 'Advanced',
+          technologies: ['Three.js', 'WebGL', 'JavaScript'],
+          features: ['3D graphics', 'Interactive elements', 'Smooth animations'],
+          hasProjectPage: true
+        },
+        {
+          id: 'interactive-resume',
+          name: 'Interactive Resume Web App',
+          description: 'Real-time editing resume with responsive design',
+          icon: '📝',
+          difficulty: 'Intermediate',
+          technologies: ['React', 'CSS3', 'Form Validation'],
+          features: ['Real-time editing', 'Responsive design', 'Auto-save'],
+          hasProjectPage: true
+        }
+      ]
+    },
+    'backend': {
+      name: '⚙️ Backend & Full-Stack',
+      description: 'Backend APIs and full-stack applications',
+      demos: [
+        {
+          id: 'rag-chatbot',
+          name: 'RAG Chatbot with Next.js',
+          description: 'Retrieval-Augmented Generation chatbot with context awareness',
+          icon: '💬',
+          difficulty: 'Advanced',
+          technologies: ['Next.js', 'LangChain', 'OpenAI'],
+          features: ['Context awareness', 'Source attribution', 'Smart responses'],
+          hasProjectPage: true
+        },
+        {
+          id: 'bookstore-api',
+          name: 'Bookstore REST API',
+          description: 'Complete REST API for bookstore management',
+          icon: '📚',
+          difficulty: 'Intermediate',
+          technologies: ['Express.js', 'REST API', 'CRUD Operations'],
+          features: ['Full CRUD', 'Data validation', 'Error handling'],
+          hasProjectPage: true
+        },
+        {
+          id: 'mern-expense-tracker',
+          name: 'MERN Expense Tracker',
+          description: 'Full-stack expense tracker with MongoDB and React',
+          icon: '💰',
+          difficulty: 'Intermediate',
+          technologies: ['MERN Stack', 'MongoDB', 'Express', 'React'],
+          features: ['Real-time stats', 'Category breakdown', 'Data visualization'],
+          hasProjectPage: true
+        },
+        {
+          id: 'social-network',
+          name: 'Mini Social Network',
+          description: 'Social media platform with user authentication and posts',
+          icon: '👥',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Node.js', 'MongoDB', 'Auth'],
+          features: ['User authentication', 'Real-time posts', 'Comments & likes'],
           hasProjectPage: true
         }
       ]
@@ -161,9 +263,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['React', 'Drag & Drop', 'Template System'],
           features: ['Visual editor', 'Template library', 'Deployment'],
           hasProjectPage: true
-        },
-
-
+        }
       ]
     },
     'entertainment': {
