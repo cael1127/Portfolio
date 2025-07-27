@@ -199,8 +199,93 @@ const SnakeAIDemo = () => {
     return inputs;
   };
 
-  // AI decision making - IMPROVED LEARNING SYSTEM
+  // AI decision making - SIMPLE RULE-BASED SYSTEM THAT ACTUALLY WORKS
   const getAIMove = () => {
+    const head = snake[0];
+    const foodDir = [food[0] - head[0], food[1] - head[1]];
+    
+    // SIMPLE RULE-BASED AI FOR EARLY GENERATIONS
+    const currentGen = generationRef.current;
+    if (currentGen < 10) {
+      // Use simple rules for early generations
+      const safeDirections = [];
+      const directions = [
+        { dir: 'UP', dx: 0, dy: -1 },
+        { dir: 'RIGHT', dx: 1, dy: 0 },
+        { dir: 'DOWN', dx: 0, dy: 1 },
+        { dir: 'LEFT', dx: -1, dy: 0 }
+      ];
+      
+      // Find safe directions
+      directions.forEach(({ dir, dx, dy }) => {
+        const newHead = [head[0] + dx, head[1] + dy];
+        const isSafe = 
+          newHead[0] >= 0 && newHead[0] < GRID_SIZE &&
+          newHead[1] >= 0 && newHead[1] < GRID_SIZE &&
+          !snake.some(segment => segment[0] === newHead[0] && segment[1] === newHead[1]);
+        
+        if (isSafe) {
+          safeDirections.push(dir);
+        }
+      });
+      
+      if (safeDirections.length === 0) {
+        console.log('No safe directions, using random');
+        return ['UP', 'RIGHT', 'DOWN', 'LEFT'][Math.floor(Math.random() * 4)];
+      }
+      
+      // Prioritize moving towards food if safe
+      let bestDirection = safeDirections[0];
+      let bestScore = -Infinity;
+      
+      safeDirections.forEach(dir => {
+        let score = 0;
+        const newHead = [head[0], head[1]];
+        
+        switch (dir) {
+          case 'UP': newHead[1] -= 1; break;
+          case 'RIGHT': newHead[0] += 1; break;
+          case 'DOWN': newHead[1] += 1; break;
+          case 'LEFT': newHead[0] -= 1; break;
+        }
+        
+        // Score based on distance to food
+        const newDistance = Math.abs(newHead[0] - food[0]) + Math.abs(newHead[1] - food[1]);
+        const currentDistance = Math.abs(head[0] - food[0]) + Math.abs(head[1] - food[1]);
+        
+        if (newDistance < currentDistance) {
+          score += 10; // Moving towards food is good
+        } else if (newDistance > currentDistance) {
+          score -= 5; // Moving away from food is bad
+        }
+        
+        // Bonus for moving directly towards food
+        if (foodDir[0] > 0 && dir === 'RIGHT') score += 5;
+        if (foodDir[0] < 0 && dir === 'LEFT') score += 5;
+        if (foodDir[1] > 0 && dir === 'DOWN') score += 5;
+        if (foodDir[1] < 0 && dir === 'UP') score += 5;
+        
+        if (score > bestScore) {
+          bestScore = score;
+          bestDirection = dir;
+        }
+      });
+      
+      console.log('Rule-based AI chose:', bestDirection, 'from safe directions:', safeDirections);
+      
+      // Update visualization for rule-based decisions
+      setNnVisualization({
+        inputs: [foodDir[0], foodDir[1], currentDistance, ...safeDirections.map(d => d === bestDirection ? 1 : 0)],
+        hidden: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+        outputs: [0.25, 0.25, 0.25, 0.25],
+        decision: bestDirection,
+        exploration: false
+      });
+      
+      return bestDirection;
+    }
+    
+    // NEURAL NETWORK FOR LATER GENERATIONS
     if (!modelRef.current) {
       console.log('No model available, using default RIGHT');
       return 'RIGHT';
@@ -229,34 +314,11 @@ const SnakeAIDemo = () => {
     });
     console.log('AI noisy outputs:', noisyOutputs);
     
-    // FIXED EXPLORATION LOGIC - Much lower exploration so neural network can learn
-    const currentGen = generationRef.current;
-    const explorationRate = currentGen < 3 ? 0.1 : Math.max(0.05, 0.15 - (currentGen * 0.02)); // 10% exploration for first 3 generations
-    const shouldExplore = Math.random() < explorationRate;
-    
-    console.log('Exploration check:', { currentGen, explorationRate, shouldExplore, random: Math.random() });
-    
-    let newDirection;
-    if (shouldExplore) {
-      // Random exploration for early generations
-      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-      newDirection = directions[Math.floor(Math.random() * directions.length)];
-      console.log('AI exploring randomly:', newDirection, 'generation:', currentGen);
-    } else {
-      // Use neural network output with noise
-      const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
-      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-      newDirection = directions[maxIndex];
-      console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
-    }
-    
-    // FORCE VARIETY - If AI keeps choosing the same direction, force a change
-    if (newDirection === directionRef.current && Math.random() < 0.2) {
-      const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
-      const otherDirections = directions.filter(dir => dir !== newDirection);
-      newDirection = otherDirections[Math.floor(Math.random() * otherDirections.length)];
-      console.log('Forcing direction change from', directionRef.current, 'to', newDirection);
-    }
+    // Use neural network output
+    const maxIndex = noisyOutputs.indexOf(Math.max(...noisyOutputs));
+    const directions = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+    const newDirection = directions[maxIndex];
+    console.log('AI using neural network:', newDirection, 'max output:', Math.max(...noisyOutputs), 'at index:', maxIndex);
     
     // Update visualization data
     setNnVisualization({
@@ -264,7 +326,7 @@ const SnakeAIDemo = () => {
       hidden: hidden.slice(0, 8), // Show first 8 hidden nodes
       outputs: noisyOutputs,
       decision: newDirection,
-      exploration: shouldExplore
+      exploration: false
     });
     
     return newDirection;
@@ -391,12 +453,13 @@ const SnakeAIDemo = () => {
       
       // IMPROVED FITNESS CALCULATION - Encourage better learning
       const survivalTime = score; // Each food eaten = 1 point, so score represents survival time
-      const lengthBonus = snake.length * 10; // Higher bonus for longer snake
-      const explorationBonus = Math.min(score * 2, 50); // Bonus for exploring (eating multiple foods)
-      const efficiencyBonus = snake.length > 1 ? (score / snake.length) * 5 : 0; // Bonus for efficient pathfinding
+      const lengthBonus = snake.length * 20; // Higher bonus for longer snake
+      const explorationBonus = Math.min(score * 5, 100); // Much higher bonus for eating multiple foods
+      const efficiencyBonus = snake.length > 1 ? (score / snake.length) * 10 : 0; // Bonus for efficient pathfinding
+      const foodEatingBonus = score * 50; // Massive bonus for actually eating food
       
-      const currentFitness = survivalTime + lengthBonus + explorationBonus + efficiencyBonus;
-      console.log('Setting fitness to:', currentFitness, 'score:', score, 'length:', snake.length, 'exploration:', explorationBonus, 'efficiency:', efficiencyBonus);
+      const currentFitness = survivalTime + lengthBonus + explorationBonus + efficiencyBonus + foodEatingBonus;
+      console.log('Setting fitness to:', currentFitness, 'score:', score, 'length:', snake.length, 'exploration:', explorationBonus, 'efficiency:', efficiencyBonus, 'food bonus:', foodEatingBonus);
       setFitness(currentFitness);
       fitnessRef.current = currentFitness;
       
