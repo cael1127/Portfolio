@@ -1,331 +1,307 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Text, Float, Environment, Stars, PerspectiveCamera } from '@react-three/drei';
+import React, { useRef, useMemo } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import { 
+  Environment, 
+  OrbitControls, 
+  Stars, 
+  Text3D, 
+  Float, 
+  Sparkles,
+  useTexture,
+  MeshDistortMaterial,
+  MeshReflectorMaterial
+} from '@react-three/drei';
 import * as THREE from 'three';
 
-// Floating Navigation Panel
-const NavigationPanel = ({ position, onNavigate, currentPage }) => {
+// Floating Project Cards Component
+const ProjectCard = ({ position, rotation, scale, title, description, icon, color, onClick }) => {
   const meshRef = useRef();
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = React.useState(false);
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+      meshRef.current.rotation.y += 0.005;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
     }
   });
 
-  const pages = [
-    { id: 'home', name: 'Home', color: '#10b981' },
-    { id: 'demo-organizer', name: 'Projects', color: '#3b82f6' },
-    { id: 'resume-builder', name: 'Resume', color: '#8b5cf6' },
-    { id: 'freelancing', name: 'Services', color: '#f59e0b' },
-    { id: 'contact', name: 'Contact', color: '#ef4444' }
+  return (
+    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+      <group
+        ref={meshRef}
+        position={position}
+        rotation={rotation}
+        scale={hovered ? scale.map(s => s * 1.1) : scale}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+        onClick={onClick}
+      >
+        {/* Card Background */}
+        <mesh>
+          <boxGeometry args={[2, 1.5, 0.1]} />
+          <MeshDistortMaterial
+            color={color}
+            speed={2}
+            distort={hovered ? 0.3 : 0.1}
+            radius={1}
+            transparent
+            opacity={0.8}
+          />
+        </mesh>
+        
+        {/* Icon */}
+        <Text3D
+          font="/fonts/helvetiker_regular.typeface.json"
+          size={0.3}
+          height={0.05}
+          position={[0, 0.3, 0.06]}
+          curveSegments={12}
+        >
+          {icon}
+          <meshStandardMaterial color="white" />
+        </Text3D>
+        
+        {/* Title */}
+        <Text3D
+          font="/fonts/helvetiker_regular.typeface.json"
+          size={0.15}
+          height={0.02}
+          position={[0, 0, 0.06]}
+          curveSegments={12}
+        >
+          {title}
+          <meshStandardMaterial color="white" />
+        </Text3D>
+        
+        {/* Description */}
+        <Text3D
+          font="/fonts/helvetiker_regular.typeface.json"
+          size={0.08}
+          height={0.01}
+          position={[0, -0.3, 0.06]}
+          curveSegments={12}
+        >
+          {description}
+          <meshStandardMaterial color="lightgray" />
+        </Text3D>
+      </group>
+    </Float>
+  );
+};
+
+// Floating Navigation Menu
+const NavigationMenu = ({ onNavigate }) => {
+  const menuItems = [
+    { title: 'Home', icon: '🏠', position: [-8, 2, 0], color: '#4F46E5' },
+    { title: 'Projects', icon: '💼', position: [-4, 2, 0], color: '#059669' },
+    { title: 'Skills', icon: '⚡', position: [0, 2, 0], color: '#DC2626' },
+    { title: 'Contact', icon: '📧', position: [4, 2, 0], color: '#7C3AED' },
+    { title: 'About', icon: '👤', position: [8, 2, 0], color: '#EA580C' }
   ];
 
   return (
-    <group position={position}>
-      {pages.map((page, index) => (
-        <Float key={page.id} speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-          <mesh
-            ref={meshRef}
-            position={[index * 2.5 - 5, 0, 0]}
-            onPointerOver={() => setHovered(true)}
-            onPointerOut={() => setHovered(false)}
-            onClick={() => onNavigate(page.id)}
-            scale={currentPage === page.id ? 1.2 : 1}
-          >
-            <boxGeometry args={[1.5, 0.8, 0.1]} />
-            <meshStandardMaterial 
-              color={currentPage === page.id ? page.color : '#374151'} 
-              transparent 
+    <group position={[0, 4, 0]}>
+      {menuItems.map((item, index) => (
+        <ProjectCard
+          key={index}
+          position={item.position}
+          rotation={[0, 0, 0]}
+          scale={[1, 1, 1]}
+          title={item.title}
+          description=""
+          icon={item.icon}
+          color={item.color}
+          onClick={() => onNavigate(item.title.toLowerCase())}
+        />
+      ))}
+    </group>
+  );
+};
+
+// Floating Project Showcase
+const ProjectShowcase = ({ onProjectClick }) => {
+  const projects = [
+    {
+      title: 'AI Fraud Detection',
+      description: 'ML-powered security',
+      icon: '🔍',
+      position: [-6, -2, 0],
+      color: '#DC2626'
+    },
+    {
+      title: 'Healthcare Analytics',
+      description: 'Patient monitoring',
+      icon: '🏥',
+      position: [-2, -2, 0],
+      color: '#059669'
+    },
+    {
+      title: 'Financial Platform',
+      description: 'Trading algorithms',
+      icon: '💰',
+      position: [2, -2, 0],
+      color: '#7C3AED'
+    },
+    {
+      title: 'Smart City IoT',
+      description: 'Urban monitoring',
+      icon: '🏙️',
+      position: [6, -2, 0],
+      color: '#4F46E5'
+    }
+  ];
+
+  return (
+    <group position={[0, -2, 0]}>
+      {projects.map((project, index) => (
+        <ProjectCard
+          key={index}
+          position={project.position}
+          rotation={[0, 0, 0]}
+          scale={[1, 1, 1]}
+          title={project.title}
+          description={project.description}
+          icon={project.icon}
+          color={project.color}
+          onClick={() => onProjectClick(project.title)}
+        />
+      ))}
+    </group>
+  );
+};
+
+// Floating Skills Orbs
+const SkillsOrbs = () => {
+  const skills = [
+    { name: 'React', icon: '⚛️', position: [-8, 0, 0], color: '#61DAFB' },
+    { name: 'Node.js', icon: '🟢', position: [-4, 0, 0], color: '#339933' },
+    { name: 'Python', icon: '🐍', position: [0, 0, 0], color: '#3776AB' },
+    { name: 'AI/ML', icon: '🤖', position: [4, 0, 0], color: '#FF6B6B' },
+    { name: 'Blockchain', icon: '🔗', position: [8, 0, 0], color: '#F7931E' }
+  ];
+
+  return (
+    <group position={[0, 0, 0]}>
+      {skills.map((skill, index) => (
+        <Float key={index} speed={2} rotationIntensity={1} floatIntensity={0.5}>
+          <mesh position={skill.position}>
+            <sphereGeometry args={[0.5, 32, 32]} />
+            <MeshDistortMaterial
+              color={skill.color}
+              speed={3}
+              distort={0.4}
+              radius={1}
+              transparent
               opacity={0.8}
             />
           </mesh>
-          <Text
-            position={[index * 2.5 - 5, 0, 0.1]}
-            fontSize={0.3}
-            color="white"
-            anchorX="center"
-            anchorY="middle"
+          <Text3D
+            font="/fonts/helvetiker_regular.typeface.json"
+            size={0.2}
+            height={0.02}
+            position={[skill.position[0], skill.position[1] - 0.8, skill.position[2]]}
+            curveSegments={12}
           >
-            {page.name}
-          </Text>
+            {skill.name}
+            <meshStandardMaterial color="white" />
+          </Text3D>
         </Float>
       ))}
     </group>
   );
 };
 
-// Floating Skill Orbs
-const SkillOrb = ({ position, skill, level, color }) => {
+// Central Hero Section
+const HeroSection = () => {
   const meshRef = useRef();
-  const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
+      meshRef.current.rotation.y += 0.01;
     }
   });
 
   return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-      <mesh
-        ref={meshRef}
-        position={position}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-        scale={hovered ? 1.2 : 1}
-      >
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshStandardMaterial 
-          color={color} 
-          transparent 
-          opacity={0.8}
-          metalness={0.5}
+    <group position={[0, 0, 0]}>
+      {/* Central Platform */}
+      <mesh ref={meshRef} position={[0, -1, 0]}>
+        <cylinderGeometry args={[3, 3, 0.2, 32]} />
+        <MeshReflectorMaterial
+          color="#1F2937"
+          metalness={0.8}
           roughness={0.2}
+          mirror={0.5}
         />
       </mesh>
-      <Text
-        position={[position[0], position[1] - 0.8, position[2]]}
-        fontSize={0.2}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {skill}
-      </Text>
-      <Text
-        position={[position[0], position[1] - 1, position[2]]}
-        fontSize={0.15}
-        color="#9ca3af"
-        anchorX="center"
-        anchorY="middle"
-      >
-        Level {level}
-      </Text>
-    </Float>
-  );
-};
-
-// Project Showcase
-const ProjectShowcase = ({ position, project, onSelect }) => {
-  const meshRef = useRef();
-  const [hovered, setHovered] = useState(false);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-      <mesh
-        ref={meshRef}
-        position={position}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-        onClick={() => onSelect(project.id)}
-        scale={hovered ? 1.1 : 1}
-      >
-        <boxGeometry args={[2, 1.5, 0.2]} />
-        <meshStandardMaterial 
-          color={hovered ? '#10b981' : '#1f2937'} 
-          transparent 
-          opacity={0.9}
-        />
-      </mesh>
-      <Text
-        position={[position[0], position[1] + 1, position[2] + 0.1]}
-        fontSize={0.25}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {project.name}
-      </Text>
-      <Text
-        position={[position[0], position[1] + 0.5, position[2] + 0.1]}
-        fontSize={0.15}
-        color="#9ca3af"
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={1.8}
-      >
-        {project.description}
-      </Text>
-    </Float>
-  );
-};
-
-// Contact Information Panel
-const ContactPanel = ({ position }) => {
-  const meshRef = useRef();
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.05;
-    }
-  });
-
-  const contactInfo = [
-    { type: 'Email', value: 'findleytechs@gmail.com', color: '#10b981' },
-    { type: 'Phone', value: '+1 (361) 920-6493', color: '#3b82f6' },
-    { type: 'LinkedIn', value: 'linkedin.com/in/caelfindley', color: '#0ea5e9' },
-    { type: 'GitHub', value: 'github.com/cael1127', color: '#6b7280' },
-    { type: 'Instagram', value: '@findleytech', color: '#ec4899' }
-  ];
-
-  return (
-    <group position={position}>
-      <mesh ref={meshRef}>
-        <boxGeometry args={[4, 3, 0.1]} />
-        <meshStandardMaterial color="#1f2937" transparent opacity={0.9} />
-      </mesh>
-      <Text
-        position={[0, 1.2, 0.1]}
-        fontSize={0.4}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-      >
-        Contact Me
-      </Text>
-      {contactInfo.map((info, index) => (
-        <Text
-          key={info.type}
-          position={[-1.5, 0.5 - index * 0.4, 0.1]}
-          fontSize={0.2}
-          color={info.color}
-          anchorX="left"
-          anchorY="middle"
+      
+      {/* Hero Text */}
+      <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5}>
+        <Text3D
+          font="/fonts/helvetiker_regular.typeface.json"
+          size={0.8}
+          height={0.1}
+          position={[-2, 1, 0]}
+          curveSegments={12}
         >
-          {info.type}: {info.value}
-        </Text>
-      ))}
+          CAEL FINDLEY
+          <meshStandardMaterial color="#10B981" />
+        </Text3D>
+      </Float>
+      
+      <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.3}>
+        <Text3D
+          font="/fonts/helvetiker_regular.typeface.json"
+          size={0.4}
+          height={0.05}
+          position={[-1.5, 0.2, 0]}
+          curveSegments={12}
+        >
+          SOFTWARE ENGINEER
+          <meshStandardMaterial color="#6B7280" />
+        </Text3D>
+      </Float>
+      
+      {/* Sparkles Effect */}
+      <Sparkles count={100} scale={10} size={2} speed={0.3} />
     </group>
   );
 };
 
 // Main 3D Scene Component
-const Scene3D = ({ currentPage, onNavigate }) => {
-  const skills = [
-    { name: 'React', level: 95, color: '#61dafb', position: [-8, 2, 0] },
-    { name: 'Node.js', level: 90, color: '#68a063', position: [-6, 4, 2] },
-    { name: 'Python', level: 88, color: '#3776ab', position: [-4, 6, -2] },
-    { name: 'AWS', level: 85, color: '#ff9900', position: [-2, 8, 0] },
-    { name: 'Docker', level: 82, color: '#2496ed', position: [0, 10, 2] },
-    { name: 'TypeScript', level: 88, color: '#3178c6', position: [2, 8, -2] },
-    { name: 'GraphQL', level: 80, color: '#e535ab', position: [4, 6, 0] },
-    { name: 'Machine Learning', level: 85, color: '#ff6b6b', position: [6, 4, 2] },
-    { name: 'Cybersecurity', level: 83, color: '#ff4757', position: [8, 2, -2] }
-  ];
+const Scene3D = ({ onNavigate, onProjectClick }) => {
+  const { camera } = useThree();
 
-  const projects = [
-    { id: 'aquaculture', name: 'Aquaculture System', description: 'IoT monitoring platform', position: [-6, -2, 0] },
-    { id: 'blockchain', name: 'Blockchain Demo', description: 'Supply chain tracking', position: [-2, -2, 0] },
-    { id: 'ai-assistant', name: 'AI Assistant', description: 'LLM-powered chatbot', position: [2, -2, 0] },
-    { id: 'logistics', name: 'Smart Logistics', description: 'AI optimization platform', position: [6, -2, 0] }
-  ];
+  React.useEffect(() => {
+    camera.position.set(0, 5, 15);
+    camera.lookAt(0, 0, 0);
+  }, [camera]);
 
   return (
-    <div className="w-full h-screen">
-      <Canvas>
-        <PerspectiveCamera makeDefault position={[0, 0, 15]} />
-        <OrbitControls 
-          enablePan={true}
-          enableZoom={true}
-          enableRotate={true}
-          maxPolarAngle={Math.PI / 2}
-          minDistance={5}
-          maxDistance={50}
-        />
-        
-        {/* Lighting */}
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        
-        {/* Environment */}
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-        <Environment preset="night" />
-        
-        {/* Navigation Panel */}
-        <NavigationPanel 
-          position={[0, -8, 0]} 
-          onNavigate={onNavigate} 
-          currentPage={currentPage} 
-        />
-        
-        {/* Skill Orbs */}
-        {skills.map((skill) => (
-          <SkillOrb
-            key={skill.name}
-            position={skill.position}
-            skill={skill.name}
-            level={skill.level}
-            color={skill.color}
-          />
-        ))}
-        
-        {/* Project Showcase */}
-        {projects.map((project) => (
-          <ProjectShowcase
-            key={project.id}
-            position={project.position}
-            project={project}
-            onSelect={onNavigate}
-          />
-        ))}
-        
-        {/* Contact Panel */}
-        <ContactPanel position={[0, 8, 0]} />
-        
-        {/* Floating Particles */}
-        <ParticleField />
-      </Canvas>
-    </div>
-  );
-};
-
-// Particle Field for Atmosphere
-const ParticleField = () => {
-  const particlesRef = useRef();
-  const particles = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < 1000; i++) {
-      const time = Date.now() * 0.0001;
-      const x = (Math.random() - 0.5) * 50;
-      const y = (Math.random() - 0.5) * 50;
-      const z = (Math.random() - 0.5) * 50;
-      temp.push({ x, y, z, time });
-    }
-    return temp;
-  }, []);
-
-  useFrame((state) => {
-    if (particlesRef.current) {
-      particles.forEach((particle, i) => {
-        const mesh = particlesRef.current.children[i];
-        if (mesh) {
-          mesh.position.x = particle.x + Math.sin(state.clock.elapsedTime + particle.time) * 2;
-          mesh.position.y = particle.y + Math.cos(state.clock.elapsedTime + particle.time) * 2;
-          mesh.position.z = particle.z + Math.sin(state.clock.elapsedTime * 0.5 + particle.time) * 2;
-        }
-      });
-    }
-  });
-
-  return (
-    <group ref={particlesRef}>
-      {particles.map((particle, i) => (
-        <mesh key={i} position={[particle.x, particle.y, particle.z]}>
-          <sphereGeometry args={[0.02, 8, 8]} />
-          <meshStandardMaterial color="#10b981" transparent opacity={0.3} />
-        </mesh>
-      ))}
-    </group>
+    <>
+      {/* Environment and Lighting */}
+      <Environment preset="night" />
+      <ambientLight intensity={0.3} />
+      <pointLight position={[10, 10, 10]} intensity={1} />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} />
+      
+      {/* Stars Background */}
+      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+      
+      {/* Scene Components */}
+      <HeroSection />
+      <NavigationMenu onNavigate={onNavigate} />
+      <ProjectShowcase onProjectClick={onProjectClick} />
+      <SkillsOrbs />
+      
+      {/* Controls */}
+      <OrbitControls 
+        enablePan={true}
+        enableZoom={true}
+        enableRotate={true}
+        maxDistance={30}
+        minDistance={5}
+      />
+    </>
   );
 };
 

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Home from './components/Home';
+import Home3D from './components/Home3D';
 import DemoOrganizer from './components/DemoOrganizer';
+import DemoOrganizer3D from './components/DemoOrganizer3D';
+import Enhanced3DScene from './components/Enhanced3DScene';
 import Freelancing from './components/Freelancing';
 import Contact from './components/Contact';
+import Contact3D from './components/Contact3D';
+import Navigation3D from './components/Navigation3D';
 import AIInterviewSimulator from './components/AIInterviewSimulator';
 import RealTimeCollaboration from './components/RealTimeCollaboration';
 import AdvancedAnalytics from './components/AdvancedAnalytics';
@@ -37,6 +42,7 @@ import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [use3D, setUse3D] = useState(true);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -46,13 +52,13 @@ function App() {
   const renderContent = () => {
     switch (currentPage) {
       case 'home':
-        return <Home setCurrentPage={setCurrentPage} />;
+        return use3D ? <Enhanced3DScene setCurrentPage={setCurrentPage} currentPage={currentPage} /> : <Home setCurrentPage={setCurrentPage} />;
       case 'demo-organizer':
-        return <DemoOrganizer setCurrentPage={setCurrentPage} />;
+        return use3D ? <DemoOrganizer3D setCurrentPage={setCurrentPage} /> : <DemoOrganizer setCurrentPage={setCurrentPage} />;
       case 'freelancing':
         return <Freelancing setCurrentPage={setCurrentPage} />;
       case 'contact':
-        return <Contact setCurrentPage={setCurrentPage} />;
+        return use3D ? <Contact3D setCurrentPage={setCurrentPage} /> : <Contact setCurrentPage={setCurrentPage} />;
       case 'ai-interview-simulator':
         return <AIInterviewSimulator setCurrentPage={setCurrentPage} />;
       case 'real-time-collaboration':
@@ -188,6 +194,18 @@ function App() {
                     {item.label}
                   </button>
                 ))}
+                
+                {/* 3D Toggle Button */}
+                <button
+                  onClick={() => setUse3D(!use3D)}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    use3D
+                      ? 'bg-purple-600 text-white'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                  }`}
+                >
+                  {use3D ? '🎨 3D Mode' : '📱 2D Mode'}
+                </button>
                 
                 {/* Enterprise Features Dropdown */}
                 <div className="relative group">
