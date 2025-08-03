@@ -69,15 +69,15 @@ const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', isOpen
         {/* Code Display */}
         <div className="p-4 overflow-auto max-h-[calc(90vh-80px)]">
           <pre className="text-sm text-gray-300 bg-gray-800 p-4 rounded-lg overflow-x-auto">
-            <code>{code}</code>
+            <code>{code || 'No code available'}</code>
           </pre>
         </div>
 
         {/* Footer */}
         <div className="p-4 border-t border-gray-700 bg-gray-800">
           <div className="flex justify-between items-center text-sm text-gray-400">
-            <span>Lines: {code.split('\n').length}</span>
-            <span>Characters: {code.length}</span>
+            <span>Lines: {code ? code.split('\n').length : 0}</span>
+            <span>Characters: {code ? code.length : 0}</span>
             <span>Language: {language.toUpperCase()}</span>
           </div>
         </div>

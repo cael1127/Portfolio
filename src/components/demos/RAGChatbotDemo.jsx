@@ -12,6 +12,80 @@ const RAGChatbotDemo = () => {
   const [confidence, setConfidence] = useState(0);
   const messagesEndRef = useRef(null);
 
+  // Knowledge Base for the demo
+  const knowledgeBase = {
+    'portfolio': {
+      content: 'This is a comprehensive portfolio showcasing AI/ML projects and full-stack applications. The portfolio includes Snake AI with reinforcement learning, sentiment analysis with transformers, and various other cutting-edge projects.',
+      source: 'Portfolio Documentation'
+    },
+    'projects': {
+      content: 'Key projects include: 1) Snake AI with neural networks and genetic algorithms, 2) Multi-agent AI system with behavior-based coordination, 3) Sentiment analysis using VADER, transformers, and NLTK, 4) RAG chatbot with LangChain and Next.js.',
+      source: 'Project Database'
+    },
+    'skills': {
+      content: 'Technical skills include: React, Python, TensorFlow, PyTorch, Node.js, Next.js, LangChain, JavaScript, TypeScript, Machine Learning, AI/ML, Blockchain, Web3, and various other modern technologies.',
+      source: 'Skills Database'
+    },
+    'experience': {
+      content: 'Experience includes building enterprise-level applications, implementing real-time collaboration systems, developing AI-powered features, and deploying scalable web applications.',
+      source: 'Experience Records'
+    }
+  };
+
+  // Process message function for the demo
+  const processMessage = async (userMessage) => {
+    setIsTyping(true);
+    
+    // Simulate processing time
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Generate mock response based on input
+    const responses = [
+      "This portfolio showcases advanced AI/ML projects including neural networks and reinforcement learning.",
+      "The projects demonstrate expertise in React, Python, TensorFlow, and modern web technologies.",
+      "Key skills include machine learning, full-stack development, and real-time applications.",
+      "Experience includes building enterprise applications and AI-powered features."
+    ];
+    
+    const response = responses[Math.floor(Math.random() * responses.length)];
+    
+    setIsTyping(false);
+    
+    return {
+      text: response,
+      sources: [{ title: 'Portfolio Database', relevance: 0.85 }],
+      confidence: 0.8
+    };
+  };
+
+  // Send message function for the demo
+  const sendMessage = async () => {
+    if (!inputMessage.trim()) return;
+    
+    const userMessage = {
+      id: Date.now(),
+      text: inputMessage,
+      sender: 'user',
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
+    setInputMessage('');
+    
+    const response = await processMessage(inputMessage);
+    
+    const botMessage = {
+      id: Date.now() + 1,
+      text: response.text,
+      sender: 'bot',
+      timestamp: new Date(),
+      sources: response.sources,
+      confidence: response.confidence
+    };
+    
+    setMessages(prev => [...prev, botMessage]);
+  };
+
   const demoCode = `/**
  * RAG Chatbot Implementation
  * Created by Cael Findley
