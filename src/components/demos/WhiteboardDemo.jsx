@@ -130,6 +130,155 @@ const WhiteboardDemo = () => {
     return () => clearInterval(interval);
   }, []);
 
+  `;
+
+  // Initialize data
+  useEffect(() => {
+    // Initialize whiteboard data
+    const initialWhiteboards = [
+      {
+        id: 1,
+        name: 'Product Design Sprint',
+        project: 'Mobile App Redesign',
+        elements: 156,
+        collaborators: 8,
+        status: 'active',
+        lastUpdate: 'Just now',
+        createdBy: 'Sarah Johnson',
+        createdAt: '2024-01-15',
+        features: ['Real-time Drawing', 'Sticky Notes', 'Shapes', 'Text Tools', 'Image Upload'],
+        tools: ['Pen', 'Highlighter', 'Shapes', 'Text', 'Sticky Notes', 'Images'],
+        collaboration: {
+          activeUsers: 5,
+          totalEdits: 234,
+          lastEdit: '2 minutes ago',
+          syncStatus: 'synced'
+        },
+        analytics: {
+          sessionTime: 45,
+          elementsCreated: 156,
+          comments: 23,
+          exports: 5
+        }
+      },
+      {
+        id: 2,
+        name: 'Architecture Planning',
+        project: 'Office Building Design',
+        elements: 89,
+        collaborators: 4,
+        status: 'active',
+        lastUpdate: '1 minute ago',
+        createdBy: 'Mike Chen',
+        createdAt: '2024-01-12',
+        features: ['Floor Plans', 'Annotations', 'Measurements', 'Layers'],
+        tools: ['Pen', 'Shapes', 'Text', 'Measurements', 'Layers'],
+        collaboration: {
+          activeUsers: 3,
+          totalEdits: 156,
+          lastEdit: 'Just now',
+          syncStatus: 'synced'
+        },
+        analytics: {
+          sessionTime: 32,
+          elementsCreated: 89,
+          comments: 12,
+          exports: 3
+        }
+      },
+      {
+        id: 3,
+        name: 'Marketing Strategy',
+        project: 'Q4 Campaign Planning',
+        elements: 203,
+        collaborators: 6,
+        status: 'active',
+        lastUpdate: 'Just now',
+        createdBy: 'Emily Rodriguez',
+        createdAt: '2024-01-10',
+        features: ['Mind Maps', 'Flowcharts', 'Presentations', 'Collaboration'],
+        tools: ['Pen', 'Shapes', 'Text', 'Sticky Notes', 'Images'],
+        collaboration: {
+          activeUsers: 4,
+          totalEdits: 445,
+          lastEdit: 'Just now',
+          syncStatus: 'synced'
+        },
+        analytics: {
+          sessionTime: 67,
+          elementsCreated: 203,
+          comments: 34,
+          exports: 8
+        }
+      }
+    ];
+
+    const initialUsers = [
+      {
+        id: 1,
+        username: 'Sarah Johnson',
+        status: 'online',
+        currentBoard: 'Product Design Sprint',
+        sessionTime: 45,
+        lastActivity: 'Just now',
+        avatar: '👩‍💼'
+      },
+      {
+        id: 2,
+        username: 'Mike Chen',
+        status: 'online',
+        currentBoard: 'Architecture Planning',
+        sessionTime: 32,
+        lastActivity: '1 minute ago',
+        avatar: '👨‍💼'
+      },
+      {
+        id: 3,
+        username: 'Emily Rodriguez',
+        status: 'online',
+        currentBoard: 'Marketing Strategy',
+        sessionTime: 67,
+        lastActivity: 'Just now',
+        avatar: '👩‍🎨'
+      },
+      {
+        id: 4,
+        username: 'David Kim',
+        status: 'away',
+        currentBoard: 'Product Design Sprint',
+        sessionTime: 23,
+        lastActivity: '5 minutes ago',
+        avatar: '👨‍💻'
+      }
+    ];
+
+    setWhiteboards(initialWhiteboards);
+    setActiveUsers(initialUsers);
+    setWhiteboardStats({
+      totalWhiteboards: initialWhiteboards.length,
+      activeUsers: initialUsers.filter(u => u.status === 'online').length,
+      totalElements: initialWhiteboards.reduce((sum, board) => sum + board.elements, 0),
+      averageSessionTime: Math.round(initialUsers.reduce((sum, user) => sum + user.sessionTime, 0) / initialUsers.length),
+      collaborationScore: 87.5,
+      realTimeSync: 99.2,
+      dailyCreations: 3,
+      monthlyCollaborations: 156
+    });
+  }, []);
+
+  // Real-time collaboration simulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWhiteboards(prev => prev.map(board => ({
+        ...board,
+        elements: board.elements + Math.floor(Math.random() * 5),
+        lastUpdate: 'Just now'
+      })));
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Tool selection
   const tools = [
     { id: 'pen', name: 'Pen', icon: '✏️' },
@@ -262,7 +411,8 @@ const WhiteboardDemo = () => {
   );
 };
 
-export default WhiteboardDemo;`;
+export default WhiteboardDemo;
+`;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
