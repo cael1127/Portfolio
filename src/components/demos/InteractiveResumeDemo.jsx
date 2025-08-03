@@ -52,7 +52,7 @@ const InteractiveResumeDemo = () => {
       }
     ],
     skills: {
-      technical: ['React', 'Node.js', 'Python', 'TensorFlow', 'Three.js', 'MongoDB', 'AWS', 'Docker'],
+      technical: ['React', 'Node.js', 'Python', 'TensorFlow', 'MongoDB', 'AWS', 'Docker'],
       soft: ['Leadership', 'Problem Solving', 'Team Collaboration', 'Communication', 'Project Management'],
       languages: ['JavaScript', 'Python', 'TypeScript', 'SQL', 'HTML/CSS']
     },
@@ -60,8 +60,8 @@ const InteractiveResumeDemo = () => {
       {
         id: 1,
         name: 'AI-Powered Portfolio',
-        description: 'Interactive 3D portfolio with AI chatbot and real-time collaboration features.',
-        tech: ['React', 'Three.js', 'Python', 'TensorFlow'],
+            description: 'Interactive portfolio with AI chatbot and real-time collaboration features.',
+    tech: ['React', 'Python', 'TensorFlow'],
         link: 'github.com/cael1127/portfolio'
       },
       {
@@ -158,8 +158,8 @@ const InteractiveResume = () => {
       {
         id: 1,
         name: 'AI-Powered Portfolio',
-        description: 'Interactive 3D portfolio with AI features',
-        tech: ['React', 'Three.js', 'Python'],
+            description: 'Interactive portfolio with AI features',
+    tech: ['React', 'Python'],
         link: 'github.com/cael1127/portfolio'
       }
     ]

@@ -13,19 +13,19 @@ const RAGChatbotDemo = () => {
 
   const knowledgeBase = {
     'portfolio': {
-      content: 'This is a comprehensive portfolio showcasing AI/ML projects, 3D web experiences, and full-stack applications. The portfolio includes Snake AI with reinforcement learning, sentiment analysis with transformers, 3D portfolio with Three.js, and various other cutting-edge projects.',
+      content: 'This is a comprehensive portfolio showcasing AI/ML projects and full-stack applications. The portfolio includes Snake AI with reinforcement learning, sentiment analysis with transformers, and various other cutting-edge projects.',
       source: 'Portfolio Documentation'
     },
     'projects': {
-      content: 'Key projects include: 1) Snake AI with neural networks and genetic algorithms, 2) Multi-agent AI system with behavior-based coordination, 3) Sentiment analysis using VADER, transformers, and NLTK, 4) 3D portfolio with Three.js and WebGL, 5) RAG chatbot with LangChain and Next.js.',
+      content: 'Key projects include: 1) Snake AI with neural networks and genetic algorithms, 2) Multi-agent AI system with behavior-based coordination, 3) Sentiment analysis using VADER, transformers, and NLTK, 4) RAG chatbot with LangChain and Next.js.',
       source: 'Project Database'
     },
     'skills': {
-      content: 'Technical skills include: React, Three.js, Python, TensorFlow, PyTorch, Node.js, Next.js, LangChain, WebGL, JavaScript, TypeScript, Machine Learning, AI/ML, Blockchain, Web3, and various other modern technologies.',
+      content: 'Technical skills include: React, Python, TensorFlow, PyTorch, Node.js, Next.js, LangChain, JavaScript, TypeScript, Machine Learning, AI/ML, Blockchain, Web3, and various other modern technologies.',
       source: 'Skills Database'
     },
     'experience': {
-      content: 'Experience includes building enterprise-level applications, implementing real-time collaboration systems, developing AI-powered features, creating interactive 3D experiences, and deploying scalable web applications.',
+      content: 'Experience includes building enterprise-level applications, implementing real-time collaboration systems, developing AI-powered features, and deploying scalable web applications.',
       source: 'Experience Records'
     }
   };
@@ -75,7 +75,7 @@ const RAGChatbotDemo = () => {
       
       `From the context provided, ${query.toLowerCase().includes('project') ? 'the projects include' : 'the portfolio contains'} ${context.toLowerCase().includes('snake') ? 'Snake AI with reinforcement learning' : 'multiple interactive demos'} that showcase modern web development techniques.`,
       
-      `According to the knowledge base, ${query.toLowerCase().includes('skill') ? 'the technical skills include' : 'the experience includes'} ${context.toLowerCase().includes('react') ? 'React, Three.js, and modern JavaScript' : 'AI/ML, web development, and 3D graphics'}.`,
+      `According to the knowledge base, ${query.toLowerCase().includes('skill') ? 'the technical skills include' : 'the experience includes'} ${context.toLowerCase().includes('react') ? 'React and modern JavaScript' : 'AI/ML and web development'}.`,
       
       `Based on the retrieved information, ${query.toLowerCase().includes('experience') ? 'the experience demonstrates' : 'the portfolio shows'} ${context.toLowerCase().includes('enterprise') ? 'enterprise-level application development' : 'cutting-edge technology implementation'} across multiple domains.`
     ];
@@ -165,7 +165,7 @@ const RAGChatbot = () => {
 
       const documents = [
         'This portfolio showcases AI/ML projects including Snake AI with reinforcement learning.',
-        'The 3D portfolio uses Three.js and WebGL for interactive experiences.',
+        'The portfolio showcases modern web development with React and interactive features.',
         'Sentiment analysis project uses VADER, transformers, and NLTK.',
         'Skills include React, Python, TensorFlow, Node.js, and modern web technologies.',
         'Experience includes enterprise applications and real-time collaboration systems.'

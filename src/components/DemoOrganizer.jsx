@@ -101,16 +101,6 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       description: 'Modern frontend applications and web development',
       demos: [
         {
-          id: '3d-portfolio',
-          name: '3D Portfolio Website',
-          description: 'Interactive 3D portfolio using Three.js and WebGL',
-          icon: '🎨',
-          difficulty: 'Advanced',
-          technologies: ['Three.js', 'WebGL', 'JavaScript'],
-          features: ['3D graphics', 'Interactive elements', 'Smooth animations'],
-          hasProjectPage: true
-        },
-        {
           id: 'interactive-resume',
           name: 'Interactive Resume Web App',
           description: 'Real-time editing resume with responsive design',

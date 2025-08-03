@@ -119,8 +119,8 @@ export default WhiteboardDemo;`;
         lastUpdate: '1 minute ago',
         createdBy: 'Mike Chen',
         createdAt: '2024-01-12',
-        features: ['Floor Plans', '3D Models', 'Annotations', 'Measurements', 'Layers'],
-        tools: ['Pen', 'Shapes', 'Text', 'Measurements', 'Layers', '3D Tools'],
+            features: ['Floor Plans', 'Annotations', 'Measurements', 'Layers'],
+    tools: ['Pen', 'Shapes', 'Text', 'Measurements', 'Layers'],
         collaboration: {
           activeUsers: 3,
           totalEdits: 156,
