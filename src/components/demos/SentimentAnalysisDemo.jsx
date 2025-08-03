@@ -1,3 +1,11 @@
+/**
+ * Sentiment Analysis Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates advanced sentiment analysis using multiple
+ * approaches: VADER, Transformers, and NLTK for comprehensive text analysis.
+ */
+
 import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
 
@@ -9,7 +17,15 @@ const SentimentAnalysisDemo = () => {
   const [selectedModel, setSelectedModel] = useState('vader');
   const [analysisHistory, setAnalysisHistory] = useState([]);
 
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Sentiment Analysis Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates advanced sentiment analysis using multiple
+ * approaches: VADER, Transformers, and NLTK for comprehensive text analysis.
+ */
+
+import React, { useState, useEffect } from 'react';
 import { VADER } from 'vader-sentiment';
 import { pipeline } from '@huggingface/transformers';
 import { NLTK } from 'nltk';

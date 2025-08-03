@@ -47,7 +47,15 @@ const InteractiveResumeDemo = () => {
     ]
   });
 
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Interactive Resume Builder Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a dynamic resume builder with real-time
+ * editing, form validation, and PDF export capabilities.
+ */
+
+import React, { useState, useEffect } from 'react';
 
 const InteractiveResume = () => {
   const [activeSection, setActiveSection] = useState('personal');

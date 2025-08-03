@@ -12,7 +12,15 @@ const RAGChatbotDemo = () => {
   const [confidence, setConfidence] = useState(0);
   const messagesEndRef = useRef(null);
 
-  const demoCode = `import React, { useState, useEffect, useRef } from 'react';
+  const demoCode = `/**
+ * RAG Chatbot Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a Retrieval-Augmented Generation chatbot
+ * using LangChain, OpenAI, and vector stores for context-aware responses.
+ */
+
+import React, { useState, useEffect, useRef } from 'react';
 import { MemoryVectorStore } from 'langchain/vectorstores/memory';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAI } from 'langchain/llms/openai';

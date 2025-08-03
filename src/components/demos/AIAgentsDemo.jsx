@@ -363,7 +363,16 @@ const AIAgentsDemo = () => {
     });
   }, [agents, environment]);
 
-  const demoCode = `import React, { useState, useEffect, useRef } from 'react';
+  const demoCode = `/**
+ * AI Agents Multi-Agent System Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a multi-agent system with different
+ * agent types (explorer, collector, defender, coordinator) working together
+ * in a simulated environment.
+ */
+
+import React, { useState, useEffect, useRef } from 'react';
 
 const AIAgentsDemo = () => {
   const [agents, setAgents] = useState([]);
@@ -489,15 +498,16 @@ const AIAgentsDemo = () => {
       const dy = target.y - this.y;
       
       if (Math.abs(dx) > Math.abs(dy)) {
-        this.x += 1 if dx > 0 else -1;
+        this.x += dx > 0 ? 1 : -1;
       } else {
-        this.y += 1 if dy > 0 else -1;
+        this.y += dy > 0 ? 1 : -1;
       }
       
       // Keep within bounds
-      this.x = max(0, min(ENVIRONMENT_SIZE - 1, this.x))
-      this.y = max(0, min(ENVIRONMENT_SIZE - 1, this.y))
-    
+      this.x = Math.max(0, Math.min(ENVIRONMENT_SIZE - 1, this.x));
+      this.y = Math.max(0, Math.min(ENVIRONMENT_SIZE - 1, this.y));
+    }
+
     randomMove() {
       const directions = [
         { dx: 0, dy: -1 }, { dx: 1, dy: 0 },
@@ -598,8 +608,8 @@ const AIAgentsDemo = () => {
         agent.behavior(newEnv, newAgents);
         
         // Consume energy
-        agent.energy = max(0, agent.energy - 1);  // Consume energy
-    
+        agent.energy = Math.max(0, agent.energy - 1);
+        
         // Remove dead agents
         if (agent.energy <= 0) {
           const index = newAgents.indexOf(agent);

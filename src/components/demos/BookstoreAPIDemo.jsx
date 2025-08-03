@@ -17,7 +17,15 @@ const BookstoreAPIDemo = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterGenre, setFilterGenre] = useState('all');
 
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Bookstore REST API Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a complete REST API with CRUD operations,
+ * search functionality, and full-stack integration using React and Express.js.
+ */
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const BookstoreAPI = () => {

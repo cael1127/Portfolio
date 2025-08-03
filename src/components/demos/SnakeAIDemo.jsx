@@ -768,7 +768,15 @@ const SnakeAIDemo = () => {
     }
   }, [snake, food, aiMode, aiThinking, aiRestarting]);
 
-  const codeExample = `// Neural Network for Snake AI
+  const codeExample = `/**
+ * Snake AI Neural Network Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates reinforcement learning with neural networks
+ * and genetic algorithms for the classic Snake game.
+ */
+
+// Neural Network for Snake AI
 class NeuralNetwork {
   constructor(inputNodes, hiddenNodes, outputNodes) {
     this.inputNodes = inputNodes;
