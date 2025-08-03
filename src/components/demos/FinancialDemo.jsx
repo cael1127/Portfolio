@@ -203,7 +203,15 @@ const FinancialDemo = () => {
   };
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Financial Analytics Platform Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates advanced financial analysis
+ * with portfolio management, risk assessment, and market prediction.
+ */
+
+import React, { useState, useEffect } from 'react';
 import { TechnicalAnalysis, PortfolioOptimizer, RiskManager } from 'financial-ml';
 
 const FinancialDemo = () => {

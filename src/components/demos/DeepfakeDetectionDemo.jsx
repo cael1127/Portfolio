@@ -13,7 +13,15 @@ const DeepfakeDetectionDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Deepfake Detection Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates advanced deepfake detection
+ * using computer vision algorithms and machine learning models.
+ */
+
+import React, { useState, useEffect } from 'react';
 import { analyzeImage } from './deepfakeDetection';
 
 const DeepfakeDetectionDemo = () => {

@@ -12,6 +12,247 @@ const SocialNetworkDemo = () => {
   const [comments, setComments] = useState({});
   const [likes, setLikes] = useState({});
 
+  const demoCode = `/**
+ * Mini Social Network Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a social media platform
+ * with user authentication, real-time posts, and interactive features.
+ */
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const SocialNetworkDemo = () => {
+  const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState({});
+  const [likes, setLikes] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [newPost, setNewPost] = useState({ content: '', image: null });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // API Base URL
+  const API_BASE_URL = 'http://localhost:5000/api';
+
+  // Fetch initial data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [usersResponse, postsResponse] = await Promise.all([
+          axios.get(\`\${API_BASE_URL}/users\`),
+          axios.get(\`\${API_BASE_URL}/posts\`)
+        ]);
+        
+        setUsers(usersResponse.data);
+        setPosts(postsResponse.data);
+        setCurrentUser(usersResponse.data[0]); // Set first user as current
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Create new post
+  const createPost = async () => {
+    if (!newPost.content.trim()) return;
+
+    setIsLoading(true);
+    
+    try {
+      const response = await axios.post(\`\${API_BASE_URL}/posts\`, {
+        userId: currentUser.id,
+        content: newPost.content,
+        image: newPost.image
+      });
+
+      setPosts(prev => [response.data, ...prev]);
+      setNewPost({ content: '', image: null });
+    } catch (error) {
+      console.error('Error creating post:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Add comment to post
+  const addComment = async (postId, content) => {
+    if (!content.trim()) return;
+
+    try {
+      const response = await axios.post(\`\${API_BASE_URL}/posts/\${postId}/comments\`, {
+        userId: currentUser.id,
+        content
+      });
+
+      setComments(prev => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), response.data]
+      }));
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  };
+
+  // Toggle like on post
+  const toggleLike = async (postId) => {
+    try {
+      const isLiked = likes[postId]?.includes(currentUser.id);
+      
+      if (isLiked) {
+        await axios.delete(\`\${API_BASE_URL}/posts/\${postId}/likes/\${currentUser.id}\`);
+        setLikes(prev => ({
+          ...prev,
+          [postId]: prev[postId].filter(id => id !== currentUser.id)
+        }));
+      } else {
+        await axios.post(\`\${API_BASE_URL}/posts/\${postId}/likes\`, {
+          userId: currentUser.id
+        });
+        setLikes(prev => ({
+          ...prev,
+          [postId]: [...(prev[postId] || []), currentUser.id]
+        }));
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  };
+
+  // Get user by ID
+  const getUserById = (userId) => {
+    return users.find(user => user.id === userId);
+  };
+
+  // Format timestamp
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return \`\${minutes}m ago\`;
+    if (hours < 24) return \`\${hours}h ago\`;
+    return \`\${days}d ago\`;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-blue-400">👥 Mini Social Network</h1>
+            <p className="text-gray-400">Social media platform with real-time features</p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            View Code
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Create Post */}
+          <div className="lg:col-span-1">
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">Create Post</h2>
+              <div className="space-y-4">
+                <textarea
+                  value={newPost.content}
+                  onChange={(e) => setNewPost(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="What's on your mind?"
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white resize-none"
+                  rows={4}
+                />
+                <button
+                  onClick={createPost}
+                  disabled={isLoading || !newPost.content.trim()}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors"
+                >
+                  {isLoading ? 'Posting...' : 'Post'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Posts Feed */}
+          <div className="lg:col-span-2">
+            <div className="space-y-4">
+              {posts.map(post => {
+                const user = getUserById(post.userId);
+                const postComments = comments[post.id] || [];
+                const postLikes = likes[post.id] || [];
+                const isLiked = postLikes.includes(currentUser?.id);
+
+                return (
+                  <div key={post.id} className="bg-gray-800 rounded-lg p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="text-2xl">{user?.avatar}</div>
+                      <div>
+                        <h3 className="font-semibold">{user?.name}</h3>
+                        <p className="text-sm text-gray-400">@{user?.username}</p>
+                      </div>
+                      <span className="text-sm text-gray-400 ml-auto">
+                        {formatTimestamp(post.timestamp)}
+                      </span>
+                    </div>
+                    
+                    <p className="text-gray-300 mb-4">{post.content}</p>
+                    
+                    <div className="flex items-center space-x-4 text-sm">
+                      <button
+                        onClick={() => toggleLike(post.id)}
+                        className={\`flex items-center space-x-1 \${isLiked ? 'text-red-400' : 'text-gray-400'}\`}
+                      >
+                        <span>{isLiked ? '❤️' : '🤍'}</span>
+                        <span>{postLikes.length}</span>
+                      </button>
+                      <span className="text-gray-400">💬 {postComments.length}</span>
+                    </div>
+
+                    {/* Comments */}
+                    {postComments.length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-gray-700">
+                        <h4 className="text-sm font-semibold mb-2">Comments</h4>
+                        <div className="space-y-2">
+                          {postComments.map(comment => {
+                            const commentUser = getUserById(comment.userId);
+                            return (
+                              <div key={comment.id} className="bg-gray-700 rounded p-3">
+                                <div className="flex items-center space-x-2 mb-1">
+                                  <span className="text-sm font-medium">{commentUser?.name}</span>
+                                  <span className="text-xs text-gray-400">
+                                    {formatTimestamp(comment.timestamp)}
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-300">{comment.content}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SocialNetworkDemo;`;
+
   // Initialize with sample data
   useEffect(() => {
     const sampleUsers = [
@@ -969,7 +1210,7 @@ export default SocialNetwork;`;
       <CodeViewer
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
-        code={codeExample}
+        code={demoCode}
         language="javascript"
         title="Social Network Implementation"
       />

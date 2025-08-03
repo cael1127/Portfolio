@@ -122,7 +122,15 @@ const FraudDetectionDemo = () => {
   };
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * AI-Powered Fraud Detection Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates real-time fraud detection
+ * using machine learning algorithms and behavioral analysis.
+ */
+
+import React, { useState, useEffect } from 'react';
 import { IsolationForest, KMeans, MarkovChain } from 'ml-fraud-detection';
 
 const FraudDetectionDemo = () => {

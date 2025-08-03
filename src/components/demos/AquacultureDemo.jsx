@@ -22,161 +22,155 @@ const AquacultureDemo = () => {
   });
   const [aiInsights, setAiInsights] = useState([]);
 
-  // Initialize aquaculture data
-  useEffect(() => {
-    const initialTanks = [
-      {
-        id: 1,
-        name: 'Tank A-1',
-        status: 'active',
-        capacity: 10000,
-        currentStock: 8500,
-        lastUpdate: '2 minutes ago',
-        alerts: [],
-        sensors: {
-          temperature: 22.5,
-          oxygen: 8.2,
-          ph: 7.4,
-          salinity: 35.2,
-          waterLevel: 85,
-          ammonia: 0.02,
-          nitrite: 0.01,
-          nitrate: 5.2
-        },
-        analytics: {
-          growthRate: 0.15,
-          mortalityRate: 0.02,
-          feedEfficiency: 0.85,
-          waterQuality: 92
-        }
-      },
-      {
-        id: 2,
-        name: 'Tank B-2',
-        status: 'warning',
-        capacity: 12000,
-        currentStock: 11000,
-        lastUpdate: '1 minute ago',
-        alerts: ['High temperature', 'Low oxygen'],
-        sensors: {
-          temperature: 26.8,
-          oxygen: 5.8,
-          ph: 6.9,
-          salinity: 34.8,
-          waterLevel: 78,
-          ammonia: 0.05,
-          nitrite: 0.03,
-          nitrate: 8.5
-        },
-        analytics: {
-          growthRate: 0.12,
-          mortalityRate: 0.05,
-          feedEfficiency: 0.72,
-          waterQuality: 68
-        }
-      },
-      {
-        id: 3,
-        name: 'Tank C-3',
-        status: 'critical',
-        capacity: 8000,
-        currentStock: 7200,
-        lastUpdate: 'Just now',
-        alerts: ['Critical oxygen levels', 'High ammonia', 'Temperature spike'],
-        sensors: {
-          temperature: 29.2,
-          oxygen: 3.1,
-          ph: 6.2,
-          salinity: 33.5,
-          waterLevel: 65,
-          ammonia: 0.12,
-          nitrite: 0.08,
-          nitrate: 15.3
-        },
-        analytics: {
-          growthRate: 0.08,
-          mortalityRate: 0.12,
-          feedEfficiency: 0.58,
-          waterQuality: 42
-        }
-      }
-    ];
-    setTanks(initialTanks);
-    setSystemStats({
-      totalTanks: 12,
-      activeSensors: 48,
-      averageOxygen: 7.2,
-      averageTemperature: 24.1,
-      averagePH: 7.1,
-      waterQuality: 78.5
-    });
-  }, []);
+  const demoCode = `/**
+ * Smart Aquaculture Monitoring Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates AI-powered aquaculture monitoring
+ * with real-time sensor data, predictive analytics, and automated alerts.
+ */
 
-  // Simulate real-time sensor updates
+import React, { useState, useEffect } from 'react';
+
+const AquacultureDemo = () => {
+  const [tanks, setTanks] = useState([]);
+  const [sensors, setSensors] = useState([]);
+  const [alerts, setAlerts] = useState([]);
+  const [systemStats, setSystemStats] = useState({
+    totalTanks: 0,
+    activeSensors: 0,
+    averageOxygen: 0,
+    averageTemperature: 0,
+    averagePH: 0,
+    waterQuality: 0
+  });
+
+  // Sensor data types
+  const sensorTypes = {
+    temperature: { unit: '°C', min: 18, max: 30, critical: 32 },
+    oxygen: { unit: 'mg/L', min: 5, max: 12, critical: 3 },
+    ph: { unit: '', min: 6.5, max: 8.5, critical: 6.0 },
+    salinity: { unit: 'ppt', min: 30, max: 40, critical: 25 },
+    waterLevel: { unit: '%', min: 70, max: 100, critical: 60 },
+    ammonia: { unit: 'mg/L', min: 0, max: 0.05, critical: 0.1 },
+    nitrite: { unit: 'mg/L', min: 0, max: 0.02, critical: 0.05 },
+    nitrate: { unit: 'mg/L', min: 0, max: 10, critical: 20 }
+  };
+
+  // AI-powered water quality analysis
+  const analyzeWaterQuality = (sensorData) => {
+    const qualityScore = Object.entries(sensorData).reduce((score, [key, value]) => {
+      const sensor = sensorTypes[key];
+      if (!sensor) return score;
+      
+      const normalized = (value - sensor.min) / (sensor.max - sensor.min);
+      return score + Math.max(0, Math.min(1, normalized));
+    }, 0) / Object.keys(sensorData).length * 100;
+    
+    return Math.round(qualityScore);
+  };
+
+  // Predictive analytics for fish growth
+  const predictGrowth = (sensorData, currentWeight) => {
+    const waterQuality = analyzeWaterQuality(sensorData);
+    const temperatureFactor = sensorData.temperature / 25; // Optimal temp
+    const oxygenFactor = sensorData.oxygen / 8; // Optimal oxygen
+    
+    const growthRate = (waterQuality / 100) * temperatureFactor * oxygenFactor * 0.15;
+    const predictedWeight = currentWeight * (1 + growthRate);
+    
+    return {
+      growthRate: growthRate,
+      predictedWeight: predictedWeight,
+      daysToHarvest: Math.max(0, (targetWeight - predictedWeight) / (predictedWeight * growthRate))
+    };
+  };
+
+  // Automated alert system
+  const checkAlerts = (tankId, sensorData) => {
+    const newAlerts = [];
+    
+    Object.entries(sensorData).forEach(([key, value]) => {
+      const sensor = sensorTypes[key];
+      if (!sensor) return;
+      
+      if (value < sensor.min || value > sensor.max) {
+        newAlerts.push({
+          id: Date.now(),
+          tankId,
+          sensor: key,
+          value,
+          severity: value <= sensor.critical || value >= sensor.critical ? 'critical' : 'warning',
+          message: \`\${key} is \${value < sensor.min ? 'below' : 'above'} normal range (\${value}\${sensor.unit})\`
+        });
+      }
+    });
+    
+    return newAlerts;
+  };
+
+  // Real-time sensor monitoring
   useEffect(() => {
     const interval = setInterval(() => {
       setTanks(prevTanks => prevTanks.map(tank => {
-        const newTank = {
-          ...tank,
-          lastUpdate: 'Just now',
-          sensors: {
-            ...tank.sensors,
-            temperature: Math.max(18, Math.min(32, tank.sensors.temperature + (Math.random() - 0.5) * 2)),
-            oxygen: Math.max(3, Math.min(12, tank.sensors.oxygen + (Math.random() - 0.5) * 1)),
-            ph: Math.max(6.0, Math.min(8.5, tank.sensors.ph + (Math.random() - 0.5) * 0.3)),
-            salinity: Math.max(30, Math.min(40, tank.sensors.salinity + (Math.random() - 0.5) * 1)),
-            waterLevel: Math.max(60, Math.min(95, tank.sensors.waterLevel + (Math.random() - 0.5) * 3)),
-            ammonia: Math.max(0, Math.min(0.2, tank.sensors.ammonia + (Math.random() - 0.5) * 0.02)),
-            nitrite: Math.max(0, Math.min(0.1, tank.sensors.nitrite + (Math.random() - 0.5) * 0.01)),
-            nitrate: Math.max(0, Math.min(20, tank.sensors.nitrate + (Math.random() - 0.5) * 2))
-          }
+        // Simulate sensor fluctuations
+        const newSensors = {
+          temperature: tank.sensors.temperature + (Math.random() - 0.5) * 2,
+          oxygen: tank.sensors.oxygen + (Math.random() - 0.5) * 1,
+          ph: tank.sensors.ph + (Math.random() - 0.5) * 0.3,
+          salinity: tank.sensors.salinity + (Math.random() - 0.5) * 1,
+          waterLevel: tank.sensors.waterLevel + (Math.random() - 0.5) * 5,
+          ammonia: tank.sensors.ammonia + (Math.random() - 0.5) * 0.02,
+          nitrite: tank.sensors.nitrite + (Math.random() - 0.5) * 0.01,
+          nitrate: tank.sensors.nitrate + (Math.random() - 0.5) * 2
         };
-
-        // Update analytics based on sensor data
-        newTank.analytics = {
-          ...tank.analytics,
-          waterQuality: calculateWaterQuality(newTank.sensors),
-          growthRate: calculateGrowthRate(newTank.sensors),
-          mortalityRate: calculateMortalityRate(newTank.sensors),
-          feedEfficiency: calculateFeedEfficiency(newTank.sensors)
-        };
-
-        // Generate alerts based on conditions
-        const newAlerts = [];
-        if (newTank.sensors.temperature > 28) {
-          newAlerts.push('High temperature');
-        }
-        if (newTank.sensors.oxygen < 5) {
-          newAlerts.push('Low oxygen');
-        }
-        if (newTank.sensors.ph < 6.5) {
-          newAlerts.push('Low pH');
-        }
-        if (newTank.sensors.ammonia > 0.1) {
-          newAlerts.push('High ammonia');
-        }
-        if (newTank.sensors.oxygen < 3) {
-          newAlerts.push('Critical oxygen levels');
-        }
-
-        newTank.alerts = newAlerts;
-        newTank.status = newAlerts.length > 2 ? 'critical' : 
-                        newAlerts.length > 0 ? 'warning' : 'active';
         
-        return newTank;
+        // Check for alerts
+        const newAlerts = checkAlerts(tank.id, newSensors);
+        if (newAlerts.length > 0) {
+          setAlerts(prev => [...prev, ...newAlerts]);
+        }
+        
+        // Update analytics
+        const waterQuality = analyzeWaterQuality(newSensors);
+        const growthPrediction = predictGrowth(newSensors, tank.currentStock);
+        
+        return {
+          ...tank,
+          sensors: newSensors,
+          analytics: {
+            ...tank.analytics,
+            waterQuality,
+            growthRate: growthPrediction.growthRate,
+            predictedWeight: growthPrediction.predictedWeight
+          },
+          lastUpdate: 'Just now'
+        };
       }));
-
-      setSystemStats(prev => ({
-        ...prev,
-        averageOxygen: Math.max(5, Math.min(10, prev.averageOxygen + (Math.random() - 0.5) * 0.5)),
-        averageTemperature: Math.max(20, Math.min(28, prev.averageTemperature + (Math.random() - 0.5) * 0.3)),
-        averagePH: Math.max(6.5, Math.min(7.8, prev.averagePH + (Math.random() - 0.5) * 0.1)),
-        waterQuality: Math.max(60, Math.min(95, prev.waterQuality + (Math.random() - 0.5) * 2))
-      }));
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+
+  // System statistics calculation
+  useEffect(() => {
+    if (tanks.length > 0) {
+      const totalSensors = tanks.length * 8; // 8 sensors per tank
+      const avgOxygen = tanks.reduce((sum, tank) => sum + tank.sensors.oxygen, 0) / tanks.length;
+      const avgTemperature = tanks.reduce((sum, tank) => sum + tank.sensors.temperature, 0) / tanks.length;
+      const avgPH = tanks.reduce((sum, tank) => sum + tank.sensors.ph, 0) / tanks.length;
+      const avgWaterQuality = tanks.reduce((sum, tank) => sum + tank.analytics.waterQuality, 0) / tanks.length;
+      
+      setSystemStats({
+        totalTanks: tanks.length,
+        activeSensors: totalSensors,
+        averageOxygen: avgOxygen,
+        averageTemperature: avgTemperature,
+        averagePH: avgPH,
+        waterQuality: avgWaterQuality
+      });
+    }
+  }, [tanks]);
 
   // Update predictive analytics
   useEffect(() => {

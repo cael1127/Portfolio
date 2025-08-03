@@ -20,7 +20,15 @@ const RestaurantAppDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Restaurant Management System Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a complete restaurant management
+ * system with order tracking, table management, and kitchen operations.
+ */
+
+import React, { useState, useEffect } from 'react';
 
 const RestaurantAppDemo = () => {
   const [orders, setOrders] = useState([]);

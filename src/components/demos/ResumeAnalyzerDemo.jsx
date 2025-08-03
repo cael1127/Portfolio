@@ -19,7 +19,15 @@ const ResumeAnalyzerDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * AI Resume Analyzer Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates intelligent resume analysis with
+ * skill matching, candidate scoring, and AI-powered insights.
+ */
+
+import React, { useState, useEffect } from 'react';
 
 const ResumeAnalyzerDemo = () => {
   const [resumes, setResumes] = useState([]);

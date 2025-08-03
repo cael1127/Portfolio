@@ -198,7 +198,15 @@ const HealthcareDemo = () => {
   };
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Healthcare Analytics Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates AI-powered patient monitoring
+ * with predictive diagnostics, medical alerts, and HIPAA compliance.
+ */
+
+import React, { useState, useEffect } from 'react';
 import { MedicalAI, PatientMonitor, DrugInteractionChecker } from 'healthcare-ml';
 
 const HealthcareDemo = () => {

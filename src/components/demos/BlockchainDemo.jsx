@@ -29,7 +29,15 @@ const BlockchainDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Blockchain Supply Chain Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a complete blockchain system
+ * with smart contracts, transaction mining, and supply chain tracking.
+ */
+
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
 const BlockchainDemo = () => {

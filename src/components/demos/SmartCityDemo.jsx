@@ -25,7 +25,16 @@ const SmartCityDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Smart City Infrastructure Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates comprehensive smart city monitoring
+ * with real-time data collection, urban planning algorithms, and
+ * environmental prediction systems.
+ */
+
+import React, { useState, useEffect } from 'react';
 import webScraper from '../../utils/webScraper';
 
 const SmartCityDemo = () => {

@@ -20,7 +20,15 @@ const PortfolioBuilderDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Portfolio Builder Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a drag-and-drop portfolio builder
+ * with template system, responsive design, and deployment features.
+ */
+
+import React, { useState, useEffect } from 'react';
 
 const PortfolioBuilderDemo = () => {
   const [portfolios, setPortfolios] = useState([]);

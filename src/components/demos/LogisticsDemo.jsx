@@ -20,7 +20,15 @@ const LogisticsDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Smart Logistics Platform Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates AI-powered fleet management
+ * with route optimization, real-time tracking, and predictive analytics.
+ */
+
+import React, { useState, useEffect } from 'react';
 
 const LogisticsDemo = () => {
   const [vehicles, setVehicles] = useState([]);

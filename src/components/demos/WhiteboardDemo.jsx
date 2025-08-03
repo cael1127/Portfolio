@@ -19,13 +19,105 @@ const WhiteboardDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Collaborative Whiteboard Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a real-time collaborative whiteboard
+ * with drawing tools, user management, and project organization.
+ */
+
+import React, { useState, useEffect, useRef } from 'react';
 
 const WhiteboardDemo = () => {
   const [whiteboards, setWhiteboards] = useState([]);
   const [activeUsers, setActiveUsers] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [drawingMode, setDrawingMode] = useState('pen');
+  const [brushSize, setBrushSize] = useState(2);
+  const [brushColor, setBrushColor] = useState('#000000');
   
+  // Canvas reference for drawing
+  const canvasRef = useRef(null);
+  const contextRef = useRef(null);
+  const isDrawingRef = useRef(false);
+  
+  // Initialize canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    context.lineCap = 'round';
+    context.strokeStyle = brushColor;
+    context.lineWidth = brushSize;
+    contextRef.current = context;
+  }, [brushColor, brushSize]);
+
+  // Drawing functions
+  const startDrawing = (e) => {
+    isDrawingRef.current = true;
+    const { offsetX, offsetY } = e.nativeEvent;
+    contextRef.current.beginPath();
+    contextRef.current.moveTo(offsetX, offsetY);
+  };
+
+  const draw = (e) => {
+    if (!isDrawingRef.current) return;
+    const { offsetX, offsetY } = e.nativeEvent;
+    contextRef.current.lineTo(offsetX, offsetY);
+    contextRef.current.stroke();
+  };
+
+  const stopDrawing = () => {
+    isDrawingRef.current = false;
+  };
+
+  // Whiteboard management
+  const createWhiteboard = (projectId) => {
+    const newBoard = {
+      id: Date.now(),
+      name: 'New Whiteboard',
+      projectId,
+      elements: 0,
+      collaborators: 1,
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      createdBy: 'Current User'
+    };
+    setWhiteboards(prev => [newBoard, ...prev]);
+  };
+
+  const updateWhiteboard = (boardId, updates) => {
+    setWhiteboards(prev => prev.map(board => 
+      board.id === boardId ? { ...board, ...updates } : board
+    ));
+  };
+
+  const deleteWhiteboard = (boardId) => {
+    setWhiteboards(prev => prev.filter(board => board.id !== boardId));
+  };
+
+  // User management
+  const addUser = (userData) => {
+    setActiveUsers(prev => [...prev, { ...userData, id: Date.now() }]);
+  };
+
+  const removeUser = (userId) => {
+    setActiveUsers(prev => prev.filter(user => user.id !== userId));
+  };
+
+  // Project management
+  const createProject = (projectData) => {
+    const newProject = {
+      id: Date.now(),
+      ...projectData,
+      createdAt: new Date().toISOString(),
+      status: 'active'
+    };
+    setProjects(prev => [...prev, newProject]);
+  };
+
+  // Real-time collaboration simulation
   useEffect(() => {
     const interval = setInterval(() => {
       setWhiteboards(prev => prev.map(board => ({
@@ -38,41 +130,179 @@ const WhiteboardDemo = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const createWhiteboard = (projectId) => {
-    const newBoard = {
-      id: Date.now(),
-      name: 'New Whiteboard',
-      projectId,
-      elements: 0,
-      collaborators: 1,
-      status: 'active'
-    };
-    setWhiteboards(prev => [newBoard, ...prev]);
-  };
+  // Tool selection
+  const tools = [
+    { id: 'pen', name: 'Pen', icon: '✏️' },
+    { id: 'highlighter', name: 'Highlighter', icon: '🖍️' },
+    { id: 'eraser', name: 'Eraser', icon: '🧽' },
+    { id: 'shapes', name: 'Shapes', icon: '⬜' },
+    { id: 'text', name: 'Text', icon: 'T' },
+    { id: 'sticky', name: 'Sticky Note', icon: '📝' }
+  ];
+
+  const colors = [
+    '#000000', '#FF0000', '#00FF00', '#0000FF', 
+    '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500'
+  ];
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Whiteboard List */}
-        <div className="space-y-4">
-          {whiteboards.map((board) => (
-            <div key={board.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{board.name}</h3>
-              <p className="text-gray-300 text-sm">{board.elements} elements</p>
-              <p className="text-gray-400 text-xs">{board.collaborators} collaborators</p>
-            </div>
-          ))}
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-blue-400">🎨 Collaborative Whiteboard</h1>
+            <p className="text-gray-400">Real-time collaborative drawing and design platform</p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            View Code
+          </button>
         </div>
-        
-        {/* Active Users */}
-        <div className="space-y-4">
-          {activeUsers.map((user) => (
-            <div key={user.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{user.username}</h3>
-              <p className="text-gray-300 text-sm">Working on {user.currentBoard}</p>
-              <p className="text-gray-400 text-xs">{user.sessionTime} minutes</p>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Tools Panel */}
+          <div className="bg-gray-800 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-4">🛠️ Tools</h3>
+            <div className="space-y-2">
+              {tools.map(tool => (
+                <button
+                  key={tool.id}
+                  onClick={() => setDrawingMode(tool.id)}
+                  className={`w-full p-2 rounded text-left transition-colors ${
+                    drawingMode === tool.id ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                >
+                  <span className="mr-2">{tool.icon}</span>
+                  {tool.name}
+                </button>
+              ))}
             </div>
-          ))}
+
+            {/* Color Palette */}
+            <div className="mt-4">
+              <h4 className="text-sm font-semibold mb-2">🎨 Colors</h4>
+              <div className="grid grid-cols-4 gap-2">
+                {colors.map(color => (
+                  <button
+                    key={color}
+                    onClick={() => setBrushColor(color)}
+                    className="w-8 h-8 rounded border-2 border-gray-600 hover:border-white"
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Brush Size */}
+            <div className="mt-4">
+              <h4 className="text-sm font-semibold mb-2">📏 Size</h4>
+              <input
+                type="range"
+                min="1"
+                max="20"
+                value={brushSize}
+                onChange={(e) => setBrushSize(parseInt(e.target.value))}
+                className="w-full"
+              />
+              <span className="text-xs text-gray-400">{brushSize}px</span>
+            </div>
+          </div>
+
+          {/* Canvas */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg p-4">
+              <canvas
+                ref={canvasRef}
+                width={800}
+                height={600}
+                className="border border-gray-300 rounded cursor-crosshair"
+                onMouseDown={startDrawing}
+                onMouseMove={draw}
+                onMouseUp={stopDrawing}
+                onMouseLeave={stopDrawing}
+              />
+            </div>
+          </div>
+
+          {/* Whiteboard List */}
+          <div className="space-y-4">
+            <div className="bg-gray-800 rounded-lg p-4">
+              <h3 className="text-lg font-semibold mb-4">📋 Whiteboards</h3>
+              <div className="space-y-2">
+                {whiteboards.map((board) => (
+                  <div key={board.id} className="p-3 bg-gray-700 rounded">
+                    <h4 className="font-semibold">{board.name}</h4>
+                    <p className="text-gray-300 text-sm">{board.elements} elements</p>
+                    <p className="text-gray-400 text-xs">{board.collaborators} collaborators</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Active Users */}
+            <div className="bg-gray-800 rounded-lg p-4">
+              <h3 className="text-lg font-semibold mb-4">👥 Active Users</h3>
+              <div className="space-y-2">
+                {activeUsers.map((user) => (
+                  <div key={user.id} className="p-3 bg-gray-700 rounded">
+                    <h4 className="font-semibold">{user.username}</h4>
+                    <p className="text-gray-300 text-sm">Working on {user.currentBoard}</p>
+                    <p className="text-gray-400 text-xs">{user.sessionTime} minutes</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WhiteboardDemo;`;
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-blue-400">🎨 Collaborative Whiteboard</h1>
+            <p className="text-gray-400">Real-time collaborative drawing and design platform</p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            View Code
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Whiteboard List */}
+          <div className="space-y-4">
+            {whiteboards.map((board) => (
+              <div key={board.id} className="p-4 bg-gray-800 rounded-lg">
+                <h3 className="text-lg font-semibold">{board.name}</h3>
+                <p className="text-gray-300 text-sm">{board.elements} elements</p>
+                <p className="text-gray-400 text-xs">{board.collaborators} collaborators</p>
+              </div>
+            ))}
+          </div>
+          
+          {/* Active Users */}
+          <div className="space-y-4">
+            {activeUsers.map((user) => (
+              <div key={user.id} className="p-4 bg-gray-800 rounded-lg">
+                <h3 className="text-lg font-semibold">{user.username}</h3>
+                <p className="text-gray-300 text-sm">Working on {user.currentBoard}</p>
+                <p className="text-gray-400 text-xs">{user.sessionTime} minutes</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

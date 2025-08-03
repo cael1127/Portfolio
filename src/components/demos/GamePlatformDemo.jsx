@@ -20,7 +20,15 @@ const GamePlatformDemo = () => {
   });
 
   // Sample code for the demo
-  const demoCode = `import React, { useState, useEffect } from 'react';
+  const demoCode = `/**
+ * Multiplayer Gaming Platform Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a real-time multiplayer gaming
+ * platform with WebSocket connections, matchmaking, and leaderboards.
+ */
+
+import React, { useState, useEffect } from 'react';
 
 const GamePlatformDemo = () => {
   const [games, setGames] = useState([]);

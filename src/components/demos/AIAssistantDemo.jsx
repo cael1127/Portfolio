@@ -377,7 +377,15 @@ What would you like to work on? I'm here to provide detailed, helpful assistance
     }
   };
 
-  const demoCode = `import React, { useState, useEffect, useRef } from 'react';
+  const demoCode = `/**
+ * AI Assistant Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates an intelligent conversational AI
+ * with natural language processing and context-aware responses.
+ */
+
+import React, { useState, useEffect, useRef } from 'react';
 
 const AdvancedLLM = () => {
   const [messages, setMessages] = useState([]);

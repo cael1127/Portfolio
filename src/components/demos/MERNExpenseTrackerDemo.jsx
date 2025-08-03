@@ -22,6 +22,292 @@ const MERNExpenseTrackerDemo = () => {
     topCategory: ''
   });
 
+  const demoCode = `/**
+ * MERN Expense Tracker Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates a full-stack expense tracker
+ * using MongoDB, Express.js, React, and Node.js with real-time
+ * statistics and category management.
+ */
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const MERNExpenseTracker = () => {
+  const [expenses, setExpenses] = useState([]);
+  const [categories, setCategories] = useState([
+    'Food & Dining', 'Transportation', 'Entertainment', 'Shopping', 
+    'Bills', 'Healthcare', 'Education', 'Other'
+  ]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [newExpense, setNewExpense] = useState({
+    description: '',
+    amount: '',
+    category: 'Food & Dining',
+    date: new Date().toISOString().split('T')[0]
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [stats, setStats] = useState({
+    total: 0,
+    monthly: 0,
+    average: 0,
+    topCategory: ''
+  });
+
+  // API Base URL
+  const API_BASE_URL = 'http://localhost:5000/api/expenses';
+
+  // Fetch expenses from backend
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get(API_BASE_URL);
+      setExpenses(response.data);
+      calculateStats(response.data);
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
+  };
+
+  // Add new expense
+  const addExpense = async () => {
+    if (!newExpense.description || !newExpense.amount) return;
+
+    setIsLoading(true);
+    
+    try {
+      const response = await axios.post(API_BASE_URL, newExpense);
+      const updatedExpenses = [...expenses, response.data];
+      setExpenses(updatedExpenses);
+      calculateStats(updatedExpenses);
+      
+      setNewExpense({
+        description: '',
+        amount: '',
+        category: 'Food & Dining',
+        date: new Date().toISOString().split('T')[0]
+      });
+    } catch (error) {
+      console.error('Error adding expense:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Delete expense
+  const deleteExpense = async (id) => {
+    setIsLoading(true);
+    
+    try {
+      await axios.delete(\`\${API_BASE_URL}/\${id}\`);
+      const updatedExpenses = expenses.filter(exp => exp.id !== id);
+      setExpenses(updatedExpenses);
+      calculateStats(updatedExpenses);
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Update expense
+  const updateExpense = async (id, updates) => {
+    setIsLoading(true);
+    
+    try {
+      const response = await axios.put(\`\${API_BASE_URL}/\${id}\`, updates);
+      const updatedExpenses = expenses.map(exp => 
+        exp.id === id ? response.data : exp
+      );
+      setExpenses(updatedExpenses);
+      calculateStats(updatedExpenses);
+    } catch (error) {
+      console.error('Error updating expense:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Calculate statistics
+  const calculateStats = (expenseList) => {
+    const total = expenseList.reduce((sum, exp) => sum + exp.amount, 0);
+    const monthly = expenseList.filter(exp => {
+      const expDate = new Date(exp.date);
+      const now = new Date();
+      return expDate.getMonth() === now.getMonth() && 
+             expDate.getFullYear() === now.getFullYear();
+    }).reduce((sum, exp) => sum + exp.amount, 0);
+    const average = expenseList.length > 0 ? total / expenseList.length : 0;
+    
+    const categoryTotals = {};
+    expenseList.forEach(exp => {
+      categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + exp.amount;
+    });
+    const topCategory = Object.keys(categoryTotals).reduce((a, b) => 
+      categoryTotals[a] > categoryTotals[b] ? a : b, 'None'
+    );
+
+    setStats({ total, monthly, average, topCategory });
+  };
+
+  // Filter expenses by category
+  const filteredExpenses = selectedCategory === 'All' 
+    ? expenses 
+    : expenses.filter(exp => exp.category === selectedCategory);
+
+  // Load expenses on component mount
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-green-400">💰 MERN Expense Tracker</h1>
+            <p className="text-gray-400">Full-stack expense tracking with MongoDB and React</p>
+          </div>
+          <button
+            onClick={() => setShowCodeViewer(true)}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            View Code
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Add Expense Form */}
+          <div className="lg:col-span-1">
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">Add Expense</h2>
+              <form onSubmit={(e) => { e.preventDefault(); addExpense(); }}>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Description</label>
+                    <input
+                      type="text"
+                      value={newExpense.description}
+                      onChange={(e) => setNewExpense(prev => ({ ...prev, description: e.target.value }))}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                      placeholder="Enter expense description"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Amount</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={newExpense.amount}
+                      onChange={(e) => setNewExpense(prev => ({ ...prev, amount: e.target.value }))}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                      placeholder="0.00"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Category</label>
+                    <select
+                      value={newExpense.category}
+                      onChange={(e) => setNewExpense(prev => ({ ...prev, category: e.target.value }))}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    >
+                      {categories.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Date</label>
+                    <input
+                      type="date"
+                      value={newExpense.date}
+                      onChange={(e) => setNewExpense(prev => ({ ...prev, date: e.target.value }))}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    />
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors"
+                  >
+                    {isLoading ? 'Adding...' : 'Add Expense'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* Expense List */}
+          <div className="lg:col-span-2">
+            <div className="bg-gray-800 rounded-lg p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Expenses</h2>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-white"
+                >
+                  <option value="All">All Categories</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                {filteredExpenses.map(expense => (
+                  <div key={expense.id} className="flex justify-between items-center p-3 bg-gray-700 rounded">
+                    <div>
+                      <p className="font-medium">{expense.description}</p>
+                      <p className="text-sm text-gray-400">{expense.category} • {expense.date}</p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-green-400 font-semibold">${expense.amount.toFixed(2)}</span>
+                      <button
+                        onClick={() => deleteExpense(expense.id)}
+                        className="text-red-400 hover:text-red-300"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Statistics */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-gray-800 rounded-lg p-4">
+            <h3 className="text-lg font-semibold text-green-400">Total</h3>
+            <p className="text-2xl font-bold">${stats.total.toFixed(2)}</p>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-4">
+            <h3 className="text-lg font-semibold text-blue-400">Monthly</h3>
+            <p className="text-2xl font-bold">${stats.monthly.toFixed(2)}</p>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-4">
+            <h3 className="text-lg font-semibold text-yellow-400">Average</h3>
+            <p className="text-2xl font-bold">${stats.average.toFixed(2)}</p>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-4">
+            <h3 className="text-lg font-semibold text-purple-400">Top Category</h3>
+            <p className="text-2xl font-bold">{stats.topCategory}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MERNExpenseTracker;`;
+
   // Simulate initial data
   useEffect(() => {
     const initialExpenses = [
