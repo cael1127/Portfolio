@@ -4,355 +4,438 @@ import CodeViewer from '../CodeViewer';
 const BookstoreAPIDemo = () => {
   const [showCodeViewer, setShowCodeViewer] = useState(false);
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeEndpoint, setActiveEndpoint] = useState('GET /api/books');
-  const [requestBody, setRequestBody] = useState('');
-  const [response, setResponse] = useState(null);
-  const [logs, setLogs] = useState([]);
+  const [formData, setFormData] = useState({
+    title: '',
+    author: '',
+    genre: '',
+    price: '',
+    description: ''
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterGenre, setFilterGenre] = useState('all');
 
-  // Simulate database
-  const initialBooks = [
-    { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', genre: 'Classic', price: 12.99, stock: 15 },
-    { id: 2, title: 'To Kill a Mockingbird', author: 'Harper Lee', genre: 'Classic', price: 11.99, stock: 8 },
-    { id: 3, title: '1984', author: 'George Orwell', genre: 'Dystopian', price: 10.99, stock: 12 },
-    { id: 4, title: 'Pride and Prejudice', author: 'Jane Austen', genre: 'Romance', price: 9.99, stock: 20 },
-    { id: 5, title: 'The Hobbit', author: 'J.R.R. Tolkien', genre: 'Fantasy', price: 14.99, stock: 6 }
-  ];
+  const demoCode = `import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-  useEffect(() => {
-    setBooks(initialBooks);
-  }, []);
+const BookstoreAPI = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    author: '',
+    genre: '',
+    price: '',
+    description: ''
+  });
+  const [isEditing, setIsEditing] = useState(false);
 
-  const addLog = (message, type = 'info') => {
-    const timestamp = new Date().toLocaleTimeString();
-    setLogs(prev => [...prev, { message, type, timestamp }]);
-  };
+  // API Base URL
+  const API_BASE_URL = 'http://localhost:3001/api/books';
 
-  // Simulate API calls
-  const simulateAPI = async (method, endpoint, data = null) => {
-    setIsLoading(true);
-    addLog(`${method} ${endpoint}`, 'request');
-    
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-
-    let result;
-    switch (endpoint) {
-      case '/api/books':
-        if (method === 'GET') {
-          result = { status: 200, data: books };
-        } else if (method === 'POST') {
-          const newBook = { ...data, id: books.length + 1 };
-          setBooks(prev => [...prev, newBook]);
-          result = { status: 201, data: newBook };
-        }
-        break;
-        
-      case '/api/books/1':
-      case '/api/books/2':
-      case '/api/books/3':
-      case '/api/books/4':
-      case '/api/books/5':
-        const id = parseInt(endpoint.split('/').pop());
-        const book = books.find(b => b.id === id);
-        
-        if (method === 'GET') {
-          result = book ? { status: 200, data: book } : { status: 404, error: 'Book not found' };
-        } else if (method === 'PUT') {
-          const updatedBooks = books.map(b => b.id === id ? { ...b, ...data } : b);
-          setBooks(updatedBooks);
-          result = { status: 200, data: { ...book, ...data } };
-        } else if (method === 'DELETE') {
-          setBooks(prev => prev.filter(b => b.id !== id));
-          result = { status: 204 };
-        }
-        break;
-        
-      case '/api/books/search':
-        const query = data?.query?.toLowerCase() || '';
-        const filteredBooks = books.filter(book => 
-          book.title.toLowerCase().includes(query) ||
-          book.author.toLowerCase().includes(query) ||
-          book.genre.toLowerCase().includes(query)
-        );
-        result = { status: 200, data: filteredBooks };
-        break;
-        
-      default:
-        result = { status: 404, error: 'Endpoint not found' };
-    }
-
-    addLog(`Response: ${result.status}`, result.status >= 400 ? 'error' : 'success');
-    setResponse(result);
-    setIsLoading(false);
-    return result;
-  };
-
-  const handleEndpointClick = (method, endpoint) => {
-    setActiveEndpoint(`${method} ${endpoint}`);
-    setRequestBody('');
-    setResponse(null);
-    
-    if (method === 'GET') {
-      simulateAPI(method, endpoint);
+  // Fetch all books
+  const fetchBooks = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(API_BASE_URL);
+      setBooks(response.data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSendRequest = () => {
-    const [method, endpoint] = activeEndpoint.split(' ');
+  // Create new book
+  const createBook = async (bookData) => {
+    try {
+      const response = await axios.post(API_BASE_URL, bookData);
+      setBooks(prev => [...prev, response.data]);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating book:', error);
+      throw error;
+    }
+  };
+
+  // Update existing book
+  const updateBook = async (id, bookData) => {
+    try {
+      const response = await axios.put(\`\${API_BASE_URL}/\${id}\`, bookData);
+      setBooks(prev => prev.map(book => 
+        book.id === id ? response.data : book
+      ));
+      return response.data;
+    } catch (error) {
+      console.error('Error updating book:', error);
+      throw error;
+    }
+  };
+
+  // Delete book
+  const deleteBook = async (id) => {
+    try {
+      await axios.delete(\`\${API_BASE_URL}/\${id}\`);
+      setBooks(prev => prev.filter(book => book.id !== id));
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      throw error;
+    }
+  };
+
+  // Search books
+  const searchBooks = async (query) => {
+    try {
+      const response = await axios.get(\`\${API_BASE_URL}/search?q=\${query}\`);
+      return response.data;
+    } catch (error) {
+      console.error('Error searching books:', error);
+      return [];
+    }
+  };
+
+  // Filter books by genre
+  const filterBooksByGenre = async (genre) => {
+    try {
+      const response = await axios.get(\`\${API_BASE_URL}/filter?genre=\${genre}\`);
+      return response.data;
+    } catch (error) {
+      console.error('Error filtering books:', error);
+      return [];
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-    let data = null;
-    if (requestBody.trim()) {
+    const bookData = {
+      title: formData.title,
+      author: formData.author,
+      genre: formData.genre,
+      price: parseFloat(formData.price),
+      description: formData.description,
+      publishedDate: new Date().toISOString(),
+      isbn: generateISBN()
+    };
+
+    try {
+      if (isEditing && selectedBook) {
+        await updateBook(selectedBook.id, bookData);
+        setIsEditing(false);
+        setSelectedBook(null);
+      } else {
+        await createBook(bookData);
+      }
+      
+      resetForm();
+    } catch (error) {
+      console.error('Error saving book:', error);
+    }
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Edit book
+  const handleEdit = (book) => {
+    setSelectedBook(book);
+    setFormData({
+      title: book.title,
+      author: book.author,
+      genre: book.genre,
+      price: book.price.toString(),
+      description: book.description
+    });
+    setIsEditing(true);
+  };
+
+  // Delete book
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this book?')) {
       try {
-        data = JSON.parse(requestBody);
+        await deleteBook(id);
       } catch (error) {
-        addLog('Invalid JSON in request body', 'error');
-        return;
+        console.error('Error deleting book:', error);
       }
     }
-    
-    simulateAPI(method, endpoint, data);
   };
 
-  const endpoints = [
-    { method: 'GET', path: '/api/books', description: 'Get all books' },
-    { method: 'GET', path: '/api/books/1', description: 'Get book by ID' },
-    { method: 'POST', path: '/api/books', description: 'Create new book' },
-    { method: 'PUT', path: '/api/books/1', description: 'Update book' },
-    { method: 'DELETE', path: '/api/books/1', description: 'Delete book' },
-    { method: 'GET', path: '/api/books/search', description: 'Search books' }
-  ];
+  // Reset form
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      author: '',
+      genre: '',
+      price: '',
+      description: ''
+    });
+    setIsEditing(false);
+    setSelectedBook(null);
+  };
 
-  const codeExample = `// Bookstore REST API with Express.js
+  // Generate ISBN
+  const generateISBN = () => {
+    return '978-' + Math.random().toString().slice(2, 5) + '-' + 
+           Math.random().toString().slice(2, 5) + '-' + 
+           Math.random().toString().slice(2, 3);
+  };
+
+  // Load books on component mount
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  return (
+    <div className="bookstore-api">
+      <div className="api-header">
+        <h1>Bookstore REST API</h1>
+        <p>Complete CRUD operations with Express.js backend</p>
+      </div>
+
+      <div className="api-content">
+        {/* Book Form */}
+        <div className="book-form">
+          <h2>{isEditing ? 'Edit Book' : 'Add New Book'}</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Title:</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Author:</label>
+              <input
+                type="text"
+                name="author"
+                value={formData.author}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Genre:</label>
+              <select
+                name="genre"
+                value={formData.genre}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select Genre</option>
+                <option value="fiction">Fiction</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="science-fiction">Science Fiction</option>
+                <option value="mystery">Mystery</option>
+                <option value="romance">Romance</option>
+                <option value="biography">Biography</option>
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label>Price:</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleInputChange}
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Description:</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                rows="3"
+              />
+            </div>
+            
+            <div className="form-actions">
+              <button type="submit" className="btn-primary">
+                {isEditing ? 'Update Book' : 'Add Book'}
+              </button>
+              {isEditing && (
+                <button type="button" onClick={resetForm} className="btn-secondary">
+                  Cancel
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+
+        {/* Books List */}
+        <div className="books-list">
+          <h2>Books ({books.length})</h2>
+          {loading ? (
+            <div className="loading">Loading books...</div>
+          ) : (
+            <div className="books-grid">
+              {books.map(book => (
+                <div key={book.id} className="book-card">
+                  <h3>{book.title}</h3>
+                  <p className="author">by {book.author}</p>
+                  <p className="genre">{book.genre}</p>
+                  <p className="price">$ {book.price}</p>
+                  {book.description && (
+                    <p className="description">{book.description}</p>
+                  )}
+                  <div className="book-actions">
+                    <button onClick={() => handleEdit(book)} className="btn-edit">
+                      Edit
+                    </button>
+                    <button onClick={() => handleDelete(book.id)} className="btn-delete">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Backend API Implementation (Express.js)
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 3001;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// In-memory database (replace with real database in production)
+// In-memory database (replace with real database)
 let books = [
-  { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', genre: 'Classic', price: 12.99, stock: 15 },
-  { id: 2, title: 'To Kill a Mockingbird', author: 'Harper Lee', genre: 'Classic', price: 11.99, stock: 8 },
-  { id: 3, title: '1984', author: 'George Orwell', genre: 'Dystopian', price: 10.99, stock: 12 },
-  { id: 4, title: 'Pride and Prejudice', author: 'Jane Austen', genre: 'Romance', price: 9.99, stock: 20 },
-  { id: 5, title: 'The Hobbit', author: 'J.R.R. Tolkien', genre: 'Fantasy', price: 14.99, stock: 6 }
+  {
+    id: 1,
+    title: 'The Great Gatsby',
+    author: 'F. Scott Fitzgerald',
+    genre: 'fiction',
+    price: 12.99,
+    description: 'A story of the fabulously wealthy Jay Gatsby.',
+    publishedDate: '1925-04-10T00:00:00.000Z',
+    isbn: '978-0743273565'
+  }
 ];
-
-// Validation middleware
-const validateBook = (req, res, next) => {
-  const { title, author, genre, price, stock } = req.body;
-  
-  if (!title || !author || !genre || !price || !stock) {
-    return res.status(400).json({ 
-      error: 'Missing required fields: title, author, genre, price, stock' 
-    });
-  }
-  
-  if (typeof price !== 'number' || price <= 0) {
-    return res.status(400).json({ error: 'Price must be a positive number' });
-  }
-  
-  if (typeof stock !== 'number' || stock < 0) {
-    return res.status(400).json({ error: 'Stock must be a non-negative number' });
-  }
-  
-  next();
-};
-
-// Routes
 
 // GET /api/books - Get all books
 app.get('/api/books', (req, res) => {
-  try {
-    const { genre, author, minPrice, maxPrice } = req.query;
-    let filteredBooks = [...books];
-    
-    // Apply filters
-    if (genre) {
-      filteredBooks = filteredBooks.filter(book => 
-        book.genre.toLowerCase().includes(genre.toLowerCase())
-      );
-    }
-    
-    if (author) {
-      filteredBooks = filteredBooks.filter(book => 
-        book.author.toLowerCase().includes(author.toLowerCase())
-      );
-    }
-    
-    if (minPrice) {
-      filteredBooks = filteredBooks.filter(book => book.price >= parseFloat(minPrice));
-    }
-    
-    if (maxPrice) {
-      filteredBooks = filteredBooks.filter(book => book.price <= parseFloat(maxPrice));
-    }
-    
-    res.json({
-      success: true,
-      data: filteredBooks,
-      count: filteredBooks.length
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
+  res.json(books);
 });
 
 // GET /api/books/:id - Get book by ID
 app.get('/api/books/:id', (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const book = books.find(b => b.id === id);
-    
-    if (!book) {
-      return res.status(404).json({ error: 'Book not found' });
-    }
-    
-    res.json({
-      success: true,
-      data: book
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+  const book = books.find(b => b.id === parseInt(req.params.id));
+  if (!book) {
+    return res.status(404).json({ message: 'Book not found' });
   }
+  res.json(book);
 });
 
 // POST /api/books - Create new book
-app.post('/api/books', validateBook, (req, res) => {
-  try {
-    const { title, author, genre, price, stock } = req.body;
-    
-    // Check if book already exists
-    const existingBook = books.find(book => 
-      book.title.toLowerCase() === title.toLowerCase() &&
-      book.author.toLowerCase() === author.toLowerCase()
-    );
-    
-    if (existingBook) {
-      return res.status(409).json({ error: 'Book already exists' });
-    }
-    
-    const newBook = {
-      id: Math.max(...books.map(b => b.id)) + 1,
-      title,
-      author,
-      genre,
-      price,
-      stock,
-      createdAt: new Date().toISOString()
-    };
-    
-    books.push(newBook);
-    
-    res.status(201).json({
-      success: true,
-      data: newBook,
-      message: 'Book created successfully'
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+app.post('/api/books', (req, res) => {
+  const { title, author, genre, price, description } = req.body;
+  
+  if (!title || !author || !genre || !price) {
+    return res.status(400).json({ message: 'Missing required fields' });
   }
+  
+  const newBook = {
+    id: books.length + 1,
+    title,
+    author,
+    genre,
+    price: parseFloat(price),
+    description: description || '',
+    publishedDate: new Date().toISOString(),
+    isbn: generateISBN()
+  };
+  
+  books.push(newBook);
+  res.status(201).json(newBook);
 });
 
 // PUT /api/books/:id - Update book
-app.put('/api/books/:id', validateBook, (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const bookIndex = books.findIndex(b => b.id === id);
-    
-    if (bookIndex === -1) {
-      return res.status(404).json({ error: 'Book not found' });
-    }
-    
-    const updatedBook = {
-      ...books[bookIndex],
-      ...req.body,
-      id, // Ensure ID doesn't change
-      updatedAt: new Date().toISOString()
-    };
-    
-    books[bookIndex] = updatedBook;
-    
-    res.json({
-      success: true,
-      data: updatedBook,
-      message: 'Book updated successfully'
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+app.put('/api/books/:id', (req, res) => {
+  const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id));
+  if (bookIndex === -1) {
+    return res.status(404).json({ message: 'Book not found' });
   }
+  
+  const { title, author, genre, price, description } = req.body;
+  
+  books[bookIndex] = {
+    ...books[bookIndex],
+    title: title || books[bookIndex].title,
+    author: author || books[bookIndex].author,
+    genre: genre || books[bookIndex].genre,
+    price: price ? parseFloat(price) : books[bookIndex].price,
+    description: description || books[bookIndex].description
+  };
+  
+  res.json(books[bookIndex]);
 });
 
 // DELETE /api/books/:id - Delete book
 app.delete('/api/books/:id', (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const bookIndex = books.findIndex(b => b.id === id);
-    
-    if (bookIndex === -1) {
-      return res.status(404).json({ error: 'Book not found' });
-    }
-    
-    const deletedBook = books.splice(bookIndex, 1)[0];
-    
-    res.status(204).json({
-      success: true,
-      message: 'Book deleted successfully',
-      data: deletedBook
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+  const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id));
+  if (bookIndex === -1) {
+    return res.status(404).json({ message: 'Book not found' });
   }
+  
+  books.splice(bookIndex, 1);
+  res.status(204).send();
 });
 
-// GET /api/books/search - Search books
+// GET /api/books/search?q=query - Search books
 app.get('/api/books/search', (req, res) => {
-  try {
-    const { q } = req.query;
-    
-    if (!q) {
-      return res.status(400).json({ error: 'Search query required' });
-    }
-    
-    const query = q.toLowerCase();
-    const searchResults = books.filter(book => 
-      book.title.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query) ||
-      book.genre.toLowerCase().includes(query)
-    );
-    
-    res.json({
-      success: true,
-      data: searchResults,
-      count: searchResults.length,
-      query: q
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+  const query = req.query.q.toLowerCase();
+  const results = books.filter(book => 
+    book.title.toLowerCase().includes(query) ||
+    book.author.toLowerCase().includes(query) ||
+    book.description.toLowerCase().includes(query)
+  );
+  res.json(results);
+});
+
+// GET /api/books/filter?genre=genre - Filter by genre
+app.get('/api/books/filter', (req, res) => {
+  const genre = req.query.genre;
+  if (genre === 'all') {
+    return res.json(books);
   }
+  
+  const results = books.filter(book => book.genre === genre);
+  res.json(results);
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
-
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
-
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(\`Server running on port \${PORT}\`);
 });
 
-module.exports = app;`;
+export default BookstoreAPI;`;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -378,32 +461,7 @@ module.exports = app;`;
             <div className="bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4 text-blue-400">🔗 API Endpoints</h3>
               <div className="grid grid-cols-1 gap-2">
-                {endpoints.map((endpoint, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleEndpointClick(endpoint.method, endpoint.path)}
-                    className={`p-3 rounded-lg text-left transition-colors ${
-                      activeEndpoint === `${endpoint.method} ${endpoint.path}`
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-semibold">{endpoint.method} {endpoint.path}</div>
-                        <div className="text-xs opacity-70">{endpoint.description}</div>
-                      </div>
-                      <div className={`px-2 py-1 rounded text-xs ${
-                        endpoint.method === 'GET' ? 'bg-blue-600' :
-                        endpoint.method === 'POST' ? 'bg-green-600' :
-                        endpoint.method === 'PUT' ? 'bg-yellow-600' :
-                        'bg-red-600'
-                      }`}>
-                        {endpoint.method}
-                      </div>
-                    </div>
-                  </button>
-                ))}
+                {/* The endpoints array is removed as per the new_code, so this section is now empty */}
               </div>
             </div>
 
@@ -594,7 +652,7 @@ module.exports = app;`;
       <CodeViewer
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
-        code={codeExample}
+        code={demoCode}
         language="javascript"
         title="Bookstore REST API Implementation"
       />

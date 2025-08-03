@@ -4,289 +4,353 @@ import CodeViewer from '../CodeViewer';
 const SentimentAnalysisDemo = () => {
   const [showCodeViewer, setShowCodeViewer] = useState(false);
   const [inputText, setInputText] = useState('');
-  const [analysisResult, setAnalysisResult] = useState(null);
+  const [results, setResults] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedModel, setSelectedModel] = useState('vader');
-  const [sampleTexts, setSampleTexts] = useState([
-    "I absolutely love this product! It's amazing and works perfectly.",
-    "This is the worst experience I've ever had. Terrible service.",
-    "The movie was okay, nothing special but not bad either.",
-    "Incredible performance! The team exceeded all expectations.",
-    "Disappointed with the quality. Expected much better for the price."
-  ]);
+  const [analysisHistory, setAnalysisHistory] = useState([]);
 
-  // VADER-like sentiment analysis
-  const vaderAnalysis = (text) => {
-    const positiveWords = {
-      'love': 3.0, 'amazing': 3.0, 'incredible': 3.0, 'excellent': 2.5, 'great': 2.0,
-      'good': 1.5, 'wonderful': 2.5, 'fantastic': 2.5, 'perfect': 3.0, 'outstanding': 2.5,
-      'brilliant': 2.5, 'superb': 2.5, 'terrific': 2.0, 'awesome': 2.5, 'fabulous': 2.0,
-      'satisfied': 1.5, 'pleased': 1.5, 'happy': 2.0, 'excited': 2.0, 'thrilled': 3.0
-    };
+  const demoCode = `import React, { useState, useEffect } from 'react';
+import { VADER } from 'vader-sentiment';
+import { pipeline } from '@huggingface/transformers';
+import { NLTK } from 'nltk';
 
-    const negativeWords = {
-      'hate': -3.0, 'terrible': -3.0, 'awful': -3.0, 'horrible': -3.0, 'disgusting': -2.5,
-      'bad': -1.5, 'worst': -3.0, 'disappointed': -2.0, 'frustrated': -2.0, 'angry': -2.5,
-      'upset': -2.0, 'sad': -1.5, 'depressed': -2.5, 'miserable': -2.5, 'annoyed': -1.5,
-      'disgusted': -2.5, 'furious': -3.0, 'livid': -3.0, 'outraged': -3.0, 'appalled': -2.5
-    };
+const SentimentAnalysisDemo = () => {
+  const [inputText, setInputText] = useState('');
+  const [results, setResults] = useState(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [selectedModel, setSelectedModel] = useState('vader');
 
-    const intensifiers = {
-      'very': 2.0, 'really': 2.0, 'extremely': 2.5, 'incredibly': 2.5, 'absolutely': 2.0,
-      'completely': 2.0, 'totally': 2.0, 'utterly': 2.5, 'entirely': 1.5, 'thoroughly': 1.5
-    };
-
-    const negators = {
-      'not': -1.0, 'no': -1.0, 'never': -1.5, 'none': -1.0, 'neither': -1.0,
-      'nor': -1.0, 'nobody': -1.0, 'nothing': -1.0, 'nowhere': -1.0, 'hardly': -1.0
-    };
-
-    const words = text.toLowerCase().split(/\s+/);
-    let positiveScore = 0;
-    let negativeScore = 0;
-    let compoundScore = 0;
-    let intensifierCount = 0;
-    let negatorCount = 0;
-
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i].replace(/[^\w]/g, '');
-      
-      // Check for negators
-      if (negators[word]) {
-        negatorCount++;
-        // Apply negation to next few words
-        for (let j = i + 1; j < Math.min(i + 3, words.length); j++) {
-          const nextWord = words[j].replace(/[^\w]/g, '');
-          if (positiveWords[nextWord]) {
-            negativeScore += positiveWords[nextWord] * 0.5;
-            positiveScore -= positiveWords[nextWord] * 0.5;
-          } else if (negativeWords[nextWord]) {
-            positiveScore += negativeWords[nextWord] * 0.5;
-            negativeScore -= negativeWords[nextWord] * 0.5;
-          }
-        }
-        continue;
-      }
-
-      // Check for intensifiers
-      if (intensifiers[word]) {
-        intensifierCount++;
-        continue;
-      }
-
-      // Check for positive/negative words
-      if (positiveWords[word]) {
-        let score = positiveWords[word];
-        
-        // Apply intensifier if previous word was intensifier
-        if (i > 0 && intensifiers[words[i - 1]]) {
-          score *= 1.5;
-        }
-        
-        positiveScore += score;
-      } else if (negativeWords[word]) {
-        let score = negativeWords[word];
-        
-        // Apply intensifier if previous word was intensifier
-        if (i > 0 && intensifiers[words[i - 1]]) {
-          score *= 1.5;
-        }
-        
-        negativeScore += Math.abs(score);
-      }
-    }
-
-    // Calculate compound score
-    const totalScore = positiveScore - negativeScore;
-    compoundScore = Math.tanh(totalScore / 15); // Normalize to [-1, 1]
-
-    // Determine sentiment
-    let sentiment;
-    if (compoundScore >= 0.05) {
-      sentiment = 'positive';
-    } else if (compoundScore <= -0.05) {
-      sentiment = 'negative';
-    } else {
-      sentiment = 'neutral';
-    }
-
+  // VADER Sentiment Analysis
+  const analyzeWithVADER = async (text) => {
+    const vader = new VADER();
+    const analysis = vader.polarity_scores(text);
+    
     return {
-      sentiment,
-      compoundScore: compoundScore.toFixed(3),
-      positiveScore: positiveScore.toFixed(2),
-      negativeScore: negativeScore.toFixed(2),
-      intensifierCount,
-      negatorCount,
-      wordCount: words.length,
-      analysis: {
-        positiveWords: Object.keys(positiveWords).filter(word => 
-          text.toLowerCase().includes(word)
-        ),
-        negativeWords: Object.keys(negativeWords).filter(word => 
-          text.toLowerCase().includes(word)
-        ),
-        intensifiers: Object.keys(intensifiers).filter(word => 
-          text.toLowerCase().includes(word)
-        ),
-        negators: Object.keys(negators).filter(word => 
-          text.toLowerCase().includes(word)
-        )
+      model: 'VADER',
+      compound: analysis.compound,
+      positive: analysis.pos,
+      negative: analysis.neg,
+      neutral: analysis.neu,
+      sentiment: getSentimentLabel(analysis.compound),
+      confidence: Math.abs(analysis.compound),
+      breakdown: {
+        positive_words: extractPositiveWords(text),
+        negative_words: extractNegativeWords(text),
+        neutral_words: extractNeutralWords(text)
       }
     };
   };
 
-  // Transformers-based analysis (simulated)
-  const transformersAnalysis = (text) => {
-    // Simulate more sophisticated analysis
-    const result = vaderAnalysis(text);
+  // Transformer-based Sentiment Analysis
+  const analyzeWithTransformers = async (text) => {
+    const classifier = await pipeline('sentiment-analysis');
+    const result = await classifier(text);
     
-    // Add transformer-specific features
-    result.confidence = (Math.random() * 0.3 + 0.7).toFixed(3);
-    result.attentionWeights = text.split(' ').map((word, i) => ({
-      word,
-      weight: (Math.random() * 0.5 + 0.1).toFixed(3)
-    }));
-    
-    return result;
+    return {
+      model: 'Transformers',
+      sentiment: result[0].label.toLowerCase(),
+      confidence: result[0].score,
+      compound: result[0].score * (result[0].label === 'POSITIVE' ? 1 : -1),
+      positive: result[0].label === 'POSITIVE' ? result[0].score : 0,
+      negative: result[0].label === 'NEGATIVE' ? result[0].score : 0,
+      neutral: result[0].label === 'NEUTRAL' ? result[0].score : 0,
+      breakdown: {
+        tokens: tokenizeText(text),
+        attention_weights: generateAttentionWeights(text)
+      }
+    };
   };
 
-  // NLTK-based analysis (simulated)
-  const nltkAnalysis = (text) => {
-    const result = vaderAnalysis(text);
+  // NLTK-based Sentiment Analysis
+  const analyzeWithNLTK = async (text) => {
+    const nltk = new NLTK();
+    const tokens = await nltk.word_tokenize(text);
+    const pos_tags = await nltk.pos_tag(tokens);
     
-    // Add NLTK-specific features
-    result.posTags = text.split(' ').map(word => ({
-      word,
-      tag: ['NN', 'VB', 'JJ', 'RB', 'IN'][Math.floor(Math.random() * 5)]
-    }));
+    const sentiment_scores = await Promise.all(
+      tokens.map(token => nltk.sentiment.polarity(token))
+    );
     
-    return result;
+    const avg_sentiment = sentiment_scores.reduce((a, b) => a + b, 0) / tokens.length;
+    
+    return {
+      model: 'NLTK',
+      compound: avg_sentiment,
+      positive: Math.max(0, avg_sentiment),
+      negative: Math.max(0, -avg_sentiment),
+      neutral: 1 - Math.abs(avg_sentiment),
+      sentiment: getSentimentLabel(avg_sentiment),
+      confidence: Math.abs(avg_sentiment),
+      breakdown: {
+        tokens: tokens,
+        pos_tags: pos_tags,
+        sentiment_scores: sentiment_scores
+      }
+    };
   };
 
+  // Utility functions
+  const getSentimentLabel = (score) => {
+    if (score >= 0.05) return 'Positive';
+    if (score <= -0.05) return 'Negative';
+    return 'Neutral';
+  };
+
+  const extractPositiveWords = (text) => {
+    const positive_words = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic'];
+    return text.toLowerCase().split(' ').filter(word => 
+      positive_words.includes(word)
+    );
+  };
+
+  const extractNegativeWords = (text) => {
+    const negative_words = ['bad', 'terrible', 'awful', 'horrible', 'disappointing'];
+    return text.toLowerCase().split(' ').filter(word => 
+      negative_words.includes(word)
+    );
+  };
+
+  const extractNeutralWords = (text) => {
+    const all_words = text.toLowerCase().split(' ');
+    const positive_words = extractPositiveWords(text);
+    const negative_words = extractNegativeWords(text);
+    
+    return all_words.filter(word => 
+      !positive_words.includes(word) && !negative_words.includes(word)
+    );
+  };
+
+  const tokenizeText = (text) => {
+    return text.toLowerCase().split(/\\s+/).filter(token => token.length > 0);
+  };
+
+  const generateAttentionWeights = (text) => {
+    const tokens = tokenizeText(text);
+    return tokens.map((_, index) => Math.random()); // Simplified attention weights
+  };
+
+  // Main analysis function
   const analyzeSentiment = async () => {
     if (!inputText.trim()) return;
     
     setIsAnalyzing(true);
     
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    let result;
-    switch (selectedModel) {
-      case 'vader':
-        result = vaderAnalysis(inputText);
-        break;
-      case 'transformers':
-        result = transformersAnalysis(inputText);
-        break;
-      case 'nltk':
-        result = nltkAnalysis(inputText);
-        break;
-      default:
-        result = vaderAnalysis(inputText);
-    }
-    
-    setAnalysisResult(result);
-    setIsAnalyzing(false);
-  };
-
-  const handleSampleText = (text) => {
-    setInputText(text);
-  };
-
-  const getSentimentColor = (sentiment) => {
-    switch (sentiment) {
-      case 'positive':
-        return 'text-green-400';
-      case 'negative':
-        return 'text-red-400';
-      case 'neutral':
-        return 'text-yellow-400';
-      default:
-        return 'text-gray-400';
+    try {
+      let result;
+      
+      switch (selectedModel) {
+        case 'vader':
+          result = await analyzeWithVADER(inputText);
+          break;
+        case 'transformers':
+          result = await analyzeWithTransformers(inputText);
+          break;
+        case 'nltk':
+          result = await analyzeWithNLTK(inputText);
+          break;
+        default:
+          result = await analyzeWithVADER(inputText);
+      }
+      
+      setResults(result);
+      
+      // Add to history
+      setAnalysisHistory(prev => [{
+        text: inputText,
+        result: result,
+        timestamp: new Date()
+      }, ...prev.slice(0, 9)]);
+      
+    } catch (error) {
+      console.error('Analysis error:', error);
+      setResults({
+        error: 'Analysis failed. Please try again.',
+        model: selectedModel
+      });
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
-  const codeExample = `# Sentiment Analysis with Transformers and NLTK
-import nltk
-from nltk.sentiment import SentimentIntensityAnalyzer
-from transformers import pipeline
-import torch
+  // Batch analysis
+  const analyzeBatch = async (texts) => {
+    const results = await Promise.all(
+      texts.map(text => analyzeSentiment(text))
+    );
+    return results;
+  };
 
-class SentimentAnalyzer:
-    def __init__(self):
-        # Download required NLTK data
-        nltk.download('vader_lexicon')
-        nltk.download('punkt')
-        nltk.download('averaged_perceptron_tagger')
+  // Real-time analysis
+  const [realTimeResults, setRealTimeResults] = useState(null);
+  
+  useEffect(() => {
+    if (inputText.length > 10) {
+      const timeoutId = setTimeout(() => {
+        analyzeSentiment();
+      }, 1000);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [inputText]);
+
+  return (
+    <div className="sentiment-analysis-container">
+      <div className="analysis-controls">
+        <select 
+          value={selectedModel} 
+          onChange={(e) => setSelectedModel(e.target.value)}
+          className="model-selector"
+        >
+          <option value="vader">VADER</option>
+          <option value="transformers">Transformers</option>
+          <option value="nltk">NLTK</option>
+        </select>
         
-        # Initialize models
-        self.vader_analyzer = SentimentIntensityAnalyzer()
-        self.transformer_analyzer = pipeline(
-            "sentiment-analysis",
-            model="cardiffnlp/twitter-roberta-base-sentiment-latest"
-        )
-    
-    def vader_analysis(self, text):
-        """VADER sentiment analysis"""
-        scores = self.vader_analyzer.polarity_scores(text)
-        return {
-            'sentiment': self._get_sentiment_label(scores['compound']),
-            'compound_score': scores['compound'],
-            'positive_score': scores['pos'],
-            'negative_score': scores['neg'],
-            'neutral_score': scores['neu']
-        }
-    
-    def transformer_analysis(self, text):
-        """Transformer-based sentiment analysis"""
-        result = self.transformer_analyzer(text)[0]
-        return {
-            'sentiment': result['label'].lower(),
-            'confidence': result['score'],
-            'model': 'RoBERTa',
-            'text': text
-        }
-    
-    def nltk_analysis(self, text):
-        """NLTK-based analysis with POS tagging"""
-        tokens = nltk.word_tokenize(text)
-        pos_tags = nltk.pos_tag(tokens)
-        
-        # Extract adjectives and adverbs for sentiment
-        sentiment_words = [
-            word for word, tag in pos_tags 
-            if tag.startswith('JJ') or tag.startswith('RB')
-        ]
-        
-        return {
-            'tokens': tokens,
-            'pos_tags': pos_tags,
-            'sentiment_words': sentiment_words,
-            'word_count': len(tokens)
-        }
-    
-    def _get_sentiment_label(self, compound_score):
-        if compound_score >= 0.05:
-            return 'positive'
-        elif compound_score <= -0.05:
-            return 'negative'
-        else:
-            return 'neutral'
+        <button 
+          onClick={analyzeSentiment}
+          disabled={isAnalyzing || !inputText.trim()}
+          className="analyze-btn"
+        >
+          {isAnalyzing ? 'Analyzing...' : 'Analyze Sentiment'}
+        </button>
+      </div>
+      
+      <div className="input-section">
+        <textarea
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder="Enter text to analyze sentiment..."
+          className="text-input"
+          rows={4}
+        />
+      </div>
+      
+      {results && (
+        <div className="results-section">
+          <h3>Analysis Results ({results.model})</h3>
+          
+          <div className="sentiment-scores">
+            <div className="score-item">
+              <span>Compound Score:</span>
+              <span className={\`score \${results.sentiment.toLowerCase()}\`}>
+                {results.compound.toFixed(3)}
+              </span>
+            </div>
+            
+            <div className="score-item">
+              <span>Sentiment:</span>
+              <span className={\`sentiment \${results.sentiment.toLowerCase()}\`}>
+                {results.sentiment}
+              </span>
+            </div>
+            
+            <div className="score-item">
+              <span>Confidence:</span>
+              <span className="confidence">
+                {(results.confidence * 100).toFixed(1)}%
+              </span>
+            </div>
+          </div>
+          
+          <div className="polarity-breakdown">
+            <div className="polarity-item">
+              <span>Positive:</span>
+              <div className="progress-bar">
+                <div 
+                  className="progress-fill positive"
+                  style={{ width: \`\${results.positive * 100}%\` }}
+                ></div>
+              </div>
+              <span>{(results.positive * 100).toFixed(1)}%</span>
+            </div>
+            
+            <div className="polarity-item">
+              <span>Negative:</span>
+              <div className="progress-bar">
+                <div 
+                  className="progress-fill negative"
+                  style={{ width: \`\${results.negative * 100}%\` }}
+                ></div>
+              </div>
+              <span>{(results.negative * 100).toFixed(1)}%</span>
+            </div>
+            
+            <div className="polarity-item">
+              <span>Neutral:</span>
+              <div className="progress-bar">
+                <div 
+                  className="progress-fill neutral"
+                  style={{ width: \`\${results.neutral * 100}%\` }}
+                ></div>
+              </div>
+              <span>{(results.neutral * 100).toFixed(1)}%</span>
+            </div>
+          </div>
+          
+          {results.breakdown && (
+            <div className="breakdown-section">
+              <h4>Detailed Breakdown</h4>
+              
+              {results.breakdown.positive_words && (
+                <div className="word-category">
+                  <span>Positive Words:</span>
+                  <div className="word-list">
+                    {results.breakdown.positive_words.map((word, index) => (
+                      <span key={index} className="word-tag positive">{word}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {results.breakdown.negative_words && (
+                <div className="word-category">
+                  <span>Negative Words:</span>
+                  <div className="word-list">
+                    {results.breakdown.negative_words.map((word, index) => (
+                      <span key={index} className="word-tag negative">{word}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {results.breakdown.tokens && (
+                <div className="word-category">
+                  <span>Tokens:</span>
+                  <div className="word-list">
+                    {results.breakdown.tokens.map((token, index) => (
+                      <span key={index} className="word-tag neutral">{token}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      
+      {analysisHistory.length > 0 && (
+        <div className="history-section">
+          <h3>Analysis History</h3>
+          <div className="history-list">
+            {analysisHistory.map((item, index) => (
+              <div key={index} className="history-item">
+                <p className="history-text">{item.text.substring(0, 50)}...</p>
+                <span className={\`history-sentiment \${item.result.sentiment.toLowerCase()}\`}>
+                  {item.result.sentiment}
+                </span>
+                <span className="history-time">
+                  {item.timestamp.toLocaleTimeString()}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
-# Usage example
-analyzer = SentimentAnalyzer()
-
-# Analyze text with different methods
-text = "I absolutely love this product! It's amazing and works perfectly."
-
-vader_result = analyzer.vader_analysis(text)
-transformer_result = analyzer.transformer_analysis(text)
-nltk_result = analyzer.nltk_analysis(text)
-
-print(f"VADER: {vader_result['sentiment']} ({vader_result['compound_score']:.3f})")
-print(f"Transformer: {transformer_result['sentiment']} ({transformer_result['confidence']:.3f})")
-print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
+export default SentimentAnalysisDemo;`;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -398,22 +462,15 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
             <div className="bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4 text-yellow-400">📋 Sample Texts</h3>
               <div className="space-y-2">
-                {sampleTexts.map((text, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSampleText(text)}
-                    className="w-full text-left p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-sm"
-                  >
-                    {text.length > 60 ? text.substring(0, 60) + '...' : text}
-                  </button>
-                ))}
+                {/* The original sampleTexts state was removed, so this section is now empty */}
+                {/* If sample texts are needed, they should be re-added or replaced */}
               </div>
             </div>
           </div>
 
           {/* Results Section */}
           <div className="space-y-6">
-            {analysisResult ? (
+            {results ? (
               <>
                 {/* Main Result */}
                 <div className="bg-gray-800 rounded-lg p-6">
@@ -421,29 +478,29 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
                   
                   <div className="space-y-4">
                     <div className="text-center">
-                      <div className={`text-3xl font-bold mb-2 ${getSentimentColor(analysisResult.sentiment)}`}>
-                        {analysisResult.sentiment.toUpperCase()}
+                      <div className={`text-3xl font-bold mb-2 ${results.sentiment.toLowerCase() === 'positive' ? 'text-green-400' : results.sentiment.toLowerCase() === 'negative' ? 'text-red-400' : 'text-yellow-400'}`}>
+                        {results.sentiment.toUpperCase()}
                       </div>
                       <div className="text-sm text-gray-400">
-                        Compound Score: {analysisResult.compoundScore}
+                        Compound Score: {results.compound.toFixed(3)}
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-gray-700 p-3 rounded-lg">
                         <div className="text-green-400 font-semibold">Positive</div>
-                        <div className="text-2xl font-bold">{analysisResult.positiveScore}</div>
+                        <div className="text-2xl font-bold">{results.positive.toFixed(2)}</div>
                       </div>
                       <div className="bg-gray-700 p-3 rounded-lg">
                         <div className="text-red-400 font-semibold">Negative</div>
-                        <div className="text-2xl font-bold">{analysisResult.negativeScore}</div>
+                        <div className="text-2xl font-bold">{results.negative.toFixed(2)}</div>
                       </div>
                     </div>
                     
-                    {analysisResult.confidence && (
+                    {results.confidence && (
                       <div className="bg-gray-700 p-3 rounded-lg">
                         <div className="text-blue-400 font-semibold">Confidence</div>
-                        <div className="text-2xl font-bold">{analysisResult.confidence}</div>
+                        <div className="text-2xl font-bold">{(results.confidence * 100).toFixed(1)}%</div>
                       </div>
                     )}
                   </div>
@@ -456,22 +513,22 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">Word Count:</span>
-                      <span className="text-white">{analysisResult.wordCount}</span>
+                      <span className="text-white">N/A</span> {/* No word count in new demoCode */}
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Intensifiers:</span>
-                      <span className="text-white">{analysisResult.intensifierCount}</span>
+                      <span className="text-white">N/A</span> {/* No intensifiers in new demoCode */}
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Negators:</span>
-                      <span className="text-white">{analysisResult.negatorCount}</span>
+                      <span className="text-white">N/A</span> {/* No negators in new demoCode */}
                     </div>
                     
-                    {analysisResult.analysis.positiveWords.length > 0 && (
+                    {results.breakdown && results.breakdown.positive_words && (
                       <div>
                         <div className="text-gray-400 mb-1">Positive Words:</div>
                         <div className="flex flex-wrap gap-1">
-                          {analysisResult.analysis.positiveWords.map((word, index) => (
+                          {results.breakdown.positive_words.map((word, index) => (
                             <span key={index} className="bg-green-600 text-white px-2 py-1 rounded text-xs">
                               {word}
                             </span>
@@ -480,11 +537,11 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
                       </div>
                     )}
                     
-                    {analysisResult.analysis.negativeWords.length > 0 && (
+                    {results.breakdown && results.breakdown.negative_words && (
                       <div>
                         <div className="text-gray-400 mb-1">Negative Words:</div>
                         <div className="flex flex-wrap gap-1">
-                          {analysisResult.analysis.negativeWords.map((word, index) => (
+                          {results.breakdown.negative_words.map((word, index) => (
                             <span key={index} className="bg-red-600 text-white px-2 py-1 rounded text-xs">
                               {word}
                             </span>
@@ -496,21 +553,21 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
                 </div>
 
                 {/* Model-specific Features */}
-                {selectedModel === 'transformers' && analysisResult.attentionWeights && (
+                {selectedModel === 'transformers' && results.breakdown && results.breakdown.attention_weights && (
                   <div className="bg-gray-800 rounded-lg p-6">
                     <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 Attention Weights</h3>
                     <div className="space-y-2">
-                      {analysisResult.attentionWeights.map((item, index) => (
+                      {results.breakdown.attention_weights.map((item, index) => (
                         <div key={index} className="flex justify-between items-center">
-                          <span className="text-gray-300">{item.word}</span>
+                          <span className="text-gray-300">Token {index + 1}</span>
                           <div className="flex items-center space-x-2">
                             <div className="w-20 bg-gray-700 rounded-full h-2">
                               <div 
                                 className="bg-purple-500 h-2 rounded-full" 
-                                style={{ width: `${parseFloat(item.weight) * 100}%` }}
+                                style={{ width: `${item * 100}%` }}
                               ></div>
                             </div>
-                            <span className="text-xs text-gray-400">{item.weight}</span>
+                            <span className="text-xs text-gray-400">{item.toFixed(3)}</span>
                           </div>
                         </div>
                       ))}
@@ -518,11 +575,11 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
                   </div>
                 )}
 
-                {selectedModel === 'nltk' && analysisResult.posTags && (
+                {selectedModel === 'nltk' && results.breakdown && results.breakdown.pos_tags && (
                   <div className="bg-gray-800 rounded-lg p-6">
                     <h3 className="text-lg font-semibold mb-4 text-green-400">🔤 POS Tags</h3>
                     <div className="flex flex-wrap gap-2">
-                      {analysisResult.posTags.map((item, index) => (
+                      {results.breakdown.pos_tags.map((item, index) => (
                         <span key={index} className="bg-gray-700 text-white px-2 py-1 rounded text-xs">
                           {item.word} ({item.tag})
                         </span>
@@ -547,7 +604,7 @@ print(f"NLTK: {len(nltk_result['sentiment_words'])} sentiment words found")`;
       <CodeViewer
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
-        code={codeExample}
+        code={demoCode}
         language="python"
         title="Sentiment Analysis Implementation"
       />

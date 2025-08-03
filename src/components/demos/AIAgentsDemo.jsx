@@ -363,104 +363,306 @@ const AIAgentsDemo = () => {
     });
   }, [agents, environment]);
 
-  const codeExample = `// AI Agent System in Pure Python
-class Agent:
-    def __init__(self, agent_id, agent_type, x, y):
-        self.id = agent_id
-        self.type = agent_type
-        self.x = x
-        self.y = y
-        self.energy = 100
-        self.resources = 0
-        self.target = None
-        self.memory = []
-        self.behavior = self.get_behavior()
-    
-    def get_behavior(self):
-        behaviors = {
-            'explorer': self.explorer_behavior,
-            'collector': self.collector_behavior,
-            'defender': self.defender_behavior,
-            'coordinator': self.coordinator_behavior
-        }
-        return behaviors.get(self.type, self.explorer_behavior)
-    
-    def explorer_behavior(self, environment, agents):
-        # Explore unknown areas and mark resources
-        nearby_resources = self.scan_environment(environment, range=3)
-        if nearby_resources:
-            self.target = nearby_resources[0]
-            self.move_towards(self.target)
-        else:
-            self.random_move()
-        
-        # Mark discovered resources
-        self.mark_resources(environment)
-    
-    def collector_behavior(self, environment, agents):
-        # Collect resources efficiently
-        nearby_resources = self.scan_environment(environment, range=5)
-        if nearby_resources:
-            self.target = nearby_resources[0]
-            self.move_towards(self.target)
-            
-            if self.distance_to(self.target) < 2:
-                self.collect_resource(environment)
-        else:
-            # Ask coordinator for resource locations
-            coordinator = next((a for a in agents if a.type == 'coordinator'), None)
-            if coordinator and coordinator.memory:
-                self.target = coordinator.memory[0]
-                self.move_towards(self.target)
-            else:
-                self.random_move()
-    
-    def move_towards(self, target):
-        if not target:
-            return
-        
-        dx = target.x - self.x
-        dy = target.y - self.y
-        
-        if abs(dx) > abs(dy):
-            self.x += 1 if dx > 0 else -1
-        else:
-            self.y += 1 if dy > 0 else -1
-        
-        # Keep within bounds
-        self.x = max(0, min(ENVIRONMENT_SIZE - 1, self.x))
-        self.y = max(0, min(ENVIRONMENT_SIZE - 1, self.y))
-    
-    def scan_environment(self, environment, range):
-        resources = []
-        for dx in range(-range, range + 1):
-            for dy in range(-range, range + 1):
-                nx, ny = self.x + dx, self.y + dy
-                if (0 <= nx < ENVIRONMENT_SIZE and 
-                    0 <= ny < ENVIRONMENT_SIZE and
-                    environment[ny][nx] == 'resource'):
-                    resources.append({'x': nx, 'y': ny})
-        return resources
+  const demoCode = `import React, { useState, useEffect, useRef } from 'react';
 
-# Multi-Agent System
-class MultiAgentSystem:
-    def __init__(self, environment_size):
-        self.environment = self.initialize_environment(environment_size)
-        self.agents = self.initialize_agents()
-        self.step = 0
+const AIAgentsDemo = () => {
+  const [agents, setAgents] = useState([]);
+  const [environment, setEnvironment] = useState([]);
+  const [simulationRunning, setSimulationRunning] = useState(false);
+  
+  // Agent class with different behaviors
+  class Agent {
+    constructor(id, type, x, y) {
+      this.id = id;
+      this.type = type;
+      this.x = x;
+      this.y = y;
+      this.energy = 100;
+      this.resources = 0;
+      this.target = null;
+      this.memory = [];
+      this.behavior = this.getBehavior();
+    }
+
+    getBehavior() {
+      switch (this.type) {
+        case 'explorer':
+          return this.explorerBehavior;
+        case 'collector':
+          return this.collectorBehavior;
+        case 'defender':
+          return this.defenderBehavior;
+        case 'coordinator':
+          return this.coordinatorBehavior;
+        default:
+          return this.explorerBehavior;
+      }
+    }
+
+    // Explorer behavior: Find new resources
+    explorerBehavior(env, agents) {
+      const nearbyResources = this.scanEnvironment(env, 3);
+      if (nearbyResources.length > 0) {
+        this.target = nearbyResources[0];
+        this.moveTowards(this.target);
+      } else {
+        this.randomMove();
+      }
+      this.markResources(env);
+    }
+
+    // Collector behavior: Gather resources efficiently
+    collectorBehavior(env, agents) {
+      const nearbyResources = this.scanEnvironment(env, 5);
+      if (nearbyResources.length > 0) {
+        this.target = nearbyResources[0];
+        this.moveTowards(this.target);
+        
+        if (this.distanceTo(this.target) < 2) {
+          this.collectResource(env);
+        }
+      } else {
+        // Ask coordinator for resource locations
+        const coordinator = agents.find(a => a.type === 'coordinator');
+        if (coordinator && coordinator.memory.length > 0) {
+          this.target = coordinator.memory[0];
+          this.moveTowards(this.target);
+        } else {
+          this.randomMove();
+        }
+      }
+    }
+
+    // Defender behavior: Protect resources and agents
+    defenderBehavior(env, agents) {
+      const threats = this.detectThreats(agents);
+      if (threats.length > 0) {
+        this.target = threats[0];
+        this.moveTowards(this.target);
+        this.attackThreat(threats[0]);
+      } else {
+        // Patrol around base
+        const base = { x: ENVIRONMENT_SIZE / 2, y: ENVIRONMENT_SIZE / 2 };
+        this.moveTowards(base);
+      }
+    }
+
+    // Coordinator behavior: Manage other agents
+    coordinatorBehavior(env, agents) {
+      // Collect information from other agents
+      const explorers = agents.filter(a => a.type === 'explorer');
+      const collectors = agents.filter(a => a.type === 'collector');
+      
+      // Share resource locations with collectors
+      explorers.forEach(explorer => {
+        if (explorer.memory.length > 0) {
+          this.memory = [...this.memory, ...explorer.memory];
+        }
+      });
+      
+      // Coordinate defense
+      const defenders = agents.filter(a => a.type === 'defender');
+      if (defenders.length > 0) {
+        this.coordinateDefense(defenders, env);
+      }
+    }
+
+    // Utility methods
+    scanEnvironment(env, range) {
+      const resources = [];
+      for (let dx = -range; dx <= range; dx++) {
+        for (let dy = -range; dy <= range; dy++) {
+          const x = this.x + dx;
+          const y = this.y + dy;
+          if (x >= 0 && x < ENVIRONMENT_SIZE && y >= 0 && y < ENVIRONMENT_SIZE) {
+            if (env[y][x] === 'resource') {
+              resources.push({ x, y });
+            }
+          }
+        }
+      }
+      return resources;
+    }
+
+    moveTowards(target) {
+      const dx = target.x - this.x;
+      const dy = target.y - this.y;
+      
+      if (Math.abs(dx) > Math.abs(dy)) {
+        this.x += 1 if dx > 0 else -1;
+      } else {
+        this.y += 1 if dy > 0 else -1;
+      }
+      
+      // Keep within bounds
+      this.x = max(0, min(ENVIRONMENT_SIZE - 1, this.x))
+      this.y = max(0, min(ENVIRONMENT_SIZE - 1, this.y))
     
-    def step_simulation(self):
-        self.step += 1
-        for agent in self.agents:
-            agent.behavior(agent, self.environment, self.agents)
-            agent.energy = max(0, agent.energy - 1)  # Consume energy
+    randomMove() {
+      const directions = [
+        { dx: 0, dy: -1 }, { dx: 1, dy: 0 },
+        { dx: 0, dy: 1 }, { dx: -1, dy: 0 }
+      ];
+      const direction = directions[Math.floor(Math.random() * directions.length)];
+      
+      this.x = Math.max(0, Math.min(ENVIRONMENT_SIZE - 1, this.x + direction.dx));
+      this.y = Math.max(0, Math.min(ENVIRONMENT_SIZE - 1, this.y + direction.dy));
+    }
+
+    distanceTo(target) {
+      return Math.abs(this.x - target.x) + Math.abs(this.y - target.y);
+    }
+
+    markResources(env) {
+      const nearbyResources = this.scanEnvironment(env, 2);
+      nearbyResources.forEach(resource => {
+        this.memory.push(resource);
+      });
+    }
+
+    collectResource(env) {
+      if (env[this.y][this.x] === 'resource') {
+        env[this.y][this.x] = 'empty';
+        this.resources++;
+        this.energy = Math.min(100, this.energy + 10);
+      }
+    }
+
+    detectThreats(agents) {
+      return agents.filter(agent => 
+        agent.type !== this.type && 
+        this.distanceTo(agent) < 5
+      );
+    }
+
+    attackThreat(threat) {
+      if (this.distanceTo(threat) < 2) {
+        threat.energy -= 20;
+        this.energy -= 5;
+      }
+    }
+
+    coordinateDefense(defenders, env) {
+      // Strategic positioning of defenders
+      defenders.forEach((defender, index) => {
+        const angle = (index / defenders.length) * 2 * Math.PI;
+        const radius = 5;
+        defender.target = {
+          x: ENVIRONMENT_SIZE / 2 + Math.cos(angle) * radius,
+          y: ENVIRONMENT_SIZE / 2 + Math.sin(angle) * radius
+        };
+      });
+    }
+  }
+
+  // Initialize environment with resources
+  const initializeEnvironment = () => {
+    const env = Array(ENVIRONMENT_SIZE).fill().map(() => 
+      Array(ENVIRONMENT_SIZE).fill('empty')
+    );
     
-    def get_statistics(self):
-        return {
-            'total_resources': sum(agent.resources for agent in self.agents),
-            'average_energy': sum(agent.energy for agent in self.agents) / len(self.agents),
-            'explored_area': len(set((agent.x, agent.y) for agent in self.agents))
-        }`;
+    // Add random resources
+    for (let i = 0; i < 20; i++) {
+      const x = Math.floor(Math.random() * ENVIRONMENT_SIZE);
+      const y = Math.floor(Math.random() * ENVIRONMENT_SIZE);
+      env[y][x] = 'resource';
+    }
+    
+    return env;
+  };
+
+  // Initialize agents
+  const initializeAgents = () => {
+    const agents = [];
+    let id = 0;
+    
+    Object.entries(agentTypes).forEach(([type, config]) => {
+      for (let i = 0; i < config.count; i++) {
+        const x = Math.floor(Math.random() * ENVIRONMENT_SIZE);
+        const y = Math.floor(Math.random() * ENVIRONMENT_SIZE);
+        agents.push(new Agent(id++, type, x, y));
+      }
+    });
+    
+    return agents;
+  };
+
+  // Simulation step
+  const runSimulationStep = () => {
+    setAgents(prevAgents => {
+      const newAgents = [...prevAgents];
+      const newEnv = [...environment];
+      
+      // Update each agent
+      newAgents.forEach(agent => {
+        agent.behavior(newEnv, newAgents);
+        
+        // Consume energy
+        agent.energy = max(0, agent.energy - 1);  // Consume energy
+    
+        // Remove dead agents
+        if (agent.energy <= 0) {
+          const index = newAgents.indexOf(agent);
+          if (index > -1) {
+            newAgents.splice(index, 1);
+          }
+        }
+      });
+      
+      setEnvironment(newEnv);
+      return newAgents;
+    });
+    
+    setStep(prev => prev + 1);
+  };
+
+  // Start simulation
+  const startSimulation = () => {
+    setSimulationRunning(true);
+    const interval = setInterval(runSimulationStep, 100);
+    
+    return () => clearInterval(interval);
+  };
+
+  // Stop simulation
+  const stopSimulation = () => {
+    setSimulationRunning(false);
+  };
+
+  // Reset simulation
+  const resetSimulation = () => {
+    setSimulationRunning(false);
+    setStep(0);
+    setEnvironment(initializeEnvironment());
+    setAgents(initializeAgents());
+  };
+
+  return (
+    <div className="ai-agents-container">
+      <div className="simulation-controls">
+        <button onClick={startSimulation} disabled={simulationRunning}>
+          Start Simulation
+        </button>
+        <button onClick={stopSimulation} disabled={!simulationRunning}>
+          Stop Simulation
+        </button>
+        <button onClick={resetSimulation}>
+          Reset
+        </button>
+      </div>
+      
+      <div className="simulation-stats">
+        <p>Step: {step}</p>
+        <p>Agents: {agents.length}</p>
+        <p>Resources: {environment.flat().filter(cell => cell === 'resource').length}</p>
+      </div>
+      
+      <canvas ref={canvasRef} className="simulation-canvas" />
+    </div>
+  );
+};
+
+export default AIAgentsDemo;`;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -668,7 +870,7 @@ class MultiAgentSystem:
       <CodeViewer
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
-        code={codeExample}
+        code={demoCode}
         language="python"
         title="AI Agents Implementation"
       />
