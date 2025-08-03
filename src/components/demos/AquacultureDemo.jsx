@@ -219,6 +219,8 @@ const AquacultureDemo = () => {
     return () => clearInterval(interval);
   }, []);
 
+  `;
+
   // Calculate water quality score
   const calculateWaterQuality = (sensors) => {
     let score = 100;
