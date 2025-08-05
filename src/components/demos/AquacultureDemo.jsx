@@ -5,6 +5,7 @@ const AquacultureDemo = () => {
   const [tanks, setTanks] = useState([]);
   const [selectedTank, setSelectedTank] = useState(null);
   const [alerts, setAlerts] = useState([]);
+  const [showCodeViewer, setShowCodeViewer] = useState(false);
   const [systemStats, setSystemStats] = useState({
     totalTanks: 0,
     activeSensors: 0,

@@ -31,6 +31,53 @@ const SnakeAIDemo = () => {
   const [gameTime, setGameTime] = useState(0);
   const [lastMoveWasSuccessful, setLastMoveWasSuccessful] = useState(false);
   const [lastFoodDistance, setLastFoodDistance] = useState(0);
+  const demoCode = `/**
+ * SnakeAIDemo Implementation
+ * Created by Cael Findley
+ * 
+ * This implementation demonstrates the core functionality
+ * and architecture of the SnakeAIDemo system.
+ */
+
+import React, { useState, useEffect } from 'react';
+
+const SnakeAIDemo = () => {
+  // State management
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Core functionality
+  const handleAction = () => {
+    // Implementation details
+    console.log('Action executed');
+  };
+
+  // Data processing
+  const processData = (rawData) => {
+    return rawData.map(item => ({
+      ...item,
+      processed: true
+    }));
+  };
+
+  // Effects
+  useEffect(() => {
+    setLoading(true);
+    // Fetch data or initialize
+    setLoading(false);
+  }, []);
+
+  return (
+    <div className="container">
+      <h1>SnakeAIDemo</h1>
+      {/* Component implementation */}
+    </div>
+  );
+};
+
+export default SnakeAIDemo;
+`;
   
   // Refs for AI state
   const modelRef = useRef(null);

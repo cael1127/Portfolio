@@ -335,8 +335,18 @@ const WhiteboardDemo = () => {
           </div>
         </div>
       </div>
+    
+      {/* Code Viewer */}
+      {showCodeViewer && (
+        <CodeViewer
+          code={demoCode}
+          language="jsx"
+          title="WhiteboardDemo Demo Code"
+          onClose={() => setShowCodeViewer(false)}
+        />
+      )}
     </div>
   );
 };
 
-export default WhiteboardDemo; 
+export default WhiteboardDemo;
