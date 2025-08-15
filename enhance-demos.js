@@ -565,7 +565,7 @@ function enhanceDemoFile(filePath) {
             onClick={() => setShowCodeViewer(true)}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
           >
-            <span>📄</span>
+            <span>CD</span>
             <span>View Code</span>
           </button>
         </div>`;
@@ -600,7 +600,7 @@ function enhanceDemoFile(filePath) {
 }
 
 // Enhance all demo files
-console.log('🚀 Starting demo enhancement...\n');
+console.log('Starting demo enhancement...\n');
 
 demoFiles.forEach(enhanceDemoFile);
 

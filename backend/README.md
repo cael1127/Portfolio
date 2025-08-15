@@ -4,11 +4,11 @@ This is the backend API for ACF (AI Cael Findley), the AI assistant integrated i
 
 ## Features
 
-- 🤖 **Real LLM Integration**: Uses actual large language models for dynamic responses
-- 🔄 **Multiple Providers**: Support for OpenAI, Anthropic, and local LLMs
-- 💬 **Conversation Memory**: Maintains context across chat sessions
-- 🎯 **Portfolio-Aware**: Understands Cael's work, skills, and services
-- 🛡️ **Error Handling**: Graceful fallbacks when LLM is unavailable
+- **Real LLM Integration**: Uses actual large language models for dynamic responses
+- **Multiple Providers**: Support for OpenAI, Anthropic, and local LLMs
+- **Conversation Memory**: Maintains context across chat sessions
+- **Portfolio-Aware**: Understands Cael's work, skills, and services
+- **Error Handling**: Graceful fallbacks when LLM is unavailable
 
 ## Setup
 

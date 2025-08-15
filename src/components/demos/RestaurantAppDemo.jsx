@@ -771,7 +771,7 @@ export default RestaurantAppDemo;`;
 
         {/* Restaurant Features */}
         <div className="mt-8 bg-gradient-to-br from-orange-900 via-orange-800 to-orange-700 p-6 rounded-xl border border-orange-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🍽️ Advanced Restaurant Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced Restaurant Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-orange-400 mb-2">Order Management</h3>
@@ -808,14 +808,13 @@ export default RestaurantAppDemo;`;
       </div>
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="Restaurant App Demo Code"
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Restaurant App Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };

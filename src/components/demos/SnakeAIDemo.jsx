@@ -985,7 +985,7 @@ const getAIMove = (snake, food, direction, model) => {
               {/* Neural Network Visualization */}
               {aiMode && (
                 <div className="mt-6 bg-gray-800 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 Neural Network Live Visualization</h3>
+                  <h3 className="text-lg font-semibold mb-4 text-purple-400">Neural Network Live Visualization</h3>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {/* Input Layer */}
@@ -1074,7 +1074,7 @@ const getAIMove = (snake, food, direction, model) => {
           <div className="space-y-6">
             {/* AI Information */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">🤖 AI Learning</h3>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">AI Learning</h3>
               
               {aiMode && (
                 <div className="space-y-3">
@@ -1118,7 +1118,7 @@ const getAIMove = (snake, food, direction, model) => {
 
             {/* Neural Network Architecture */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 Neural Network</h3>
+              <h3 className="text-lg font-semibold mb-4 text-purple-400">Neural Network</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Input Nodes:</span>
@@ -1141,7 +1141,7 @@ const getAIMove = (snake, food, direction, model) => {
 
             {/* Features */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">✨ Features</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">Features</h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>• Genetic Algorithm Evolution</li>
                 <li>• Neural Network Decision Making</li>

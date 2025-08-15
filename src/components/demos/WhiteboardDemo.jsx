@@ -300,7 +300,7 @@ const WhiteboardDemo = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-blue-400">🎨 Collaborative Whiteboard</h1>
+            <h1 className="text-3xl font-bold text-blue-400">Collaborative Whiteboard</h1>
             <p className="text-gray-400">Real-time collaborative drawing and design platform</p>
           </div>
           <button
@@ -337,14 +337,13 @@ const WhiteboardDemo = () => {
       </div>
     
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="WhiteboardDemo Demo Code"
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Whiteboard Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };

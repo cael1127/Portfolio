@@ -690,7 +690,7 @@ export default BlockchainDemo;`;
         {/* Header with Code Viewer Button */}
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-green-400 mb-4">🔗 Blockchain Supply Chain Platform</h1>
+            <h1 className="text-4xl font-bold text-green-400 mb-4">Blockchain Supply Chain Platform</h1>
             <p className="text-gray-300 text-lg">
               Complete blockchain implementation with smart contracts, real-time transactions, and mining simulation
             </p>
@@ -699,7 +699,7 @@ export default BlockchainDemo;`;
             onClick={() => setShowCodeViewer(true)}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
           >
-            <span>📄</span>
+            <span>CD</span>
             <span>View Code</span>
           </button>
         </div>
@@ -707,25 +707,25 @@ export default BlockchainDemo;`;
         {/* Network Stats Dashboard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
-            <div className="text-3xl mb-2">📊</div>
+            <div className="text-3xl mb-2">TX</div>
             <h3 className="text-xl font-semibold text-white mb-2">Total Transactions</h3>
             <p className="text-3xl font-bold text-green-400">{networkStats.totalTransactions.toLocaleString()}</p>
             <p className="text-green-300 text-sm">+{Math.floor(Math.random() * 5) + 1} last minute</p>
           </div>
           <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-            <div className="text-3xl mb-2">⛏️</div>
+            <div className="text-3xl mb-2">MH</div>
             <h3 className="text-xl font-semibold text-white mb-2">Network Hashrate</h3>
             <p className="text-3xl font-bold text-blue-400">{(networkStats.networkHashrate / 1000).toFixed(1)} TH/s</p>
             <p className="text-blue-300 text-sm">{networkStats.activeMiners} active miners</p>
           </div>
           <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="text-3xl mb-2">⏱️</div>
+            <div className="text-3xl mb-2">BT</div>
             <h3 className="text-xl font-semibold text-white mb-2">Avg Block Time</h3>
             <p className="text-3xl font-bold text-purple-400">{networkStats.averageBlockTime.toFixed(1)}s</p>
             <p className="text-purple-300 text-sm">Difficulty: {(networkStats.difficulty / 1000000).toFixed(1)}M</p>
           </div>
           <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="text-3xl mb-2">⛽</div>
+            <div className="text-3xl mb-2">GP</div>
             <h3 className="text-xl font-semibold text-white mb-2">Gas Price</h3>
             <p className="text-3xl font-bold text-yellow-400">{networkStats.gasPrice} Gwei</p>
             <p className="text-yellow-300 text-sm">{networkStats.pendingTransactions} pending</p>
@@ -737,7 +737,7 @@ export default BlockchainDemo;`;
           <div className="lg:col-span-2">
             <div className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-xl border border-green-800">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">💸 Live Transaction Monitor</h2>
+                <h2 className="text-2xl font-bold text-white">Live Transaction Monitor</h2>
                 <div className="text-sm text-green-300">Real-time updates every 2s</div>
               </div>
               <div className="space-y-3 max-h-96 overflow-y-auto">

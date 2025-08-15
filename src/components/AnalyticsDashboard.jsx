@@ -97,7 +97,7 @@ const AnalyticsDashboard = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">📊 Analytics Dashboard</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Analytics Dashboard</h1>
           <p className="text-gray-400">Real-time insights and performance metrics</p>
         </div>
 
@@ -129,7 +129,7 @@ const AnalyticsDashboard = () => {
                 <p className="text-3xl font-bold text-white">{analytics.visitors.total.toLocaleString()}</p>
                 <p className="text-green-400 text-sm">+12.5% from last month</p>
               </div>
-              <div className="text-4xl">👥</div>
+                              <div className="text-4xl">US</div>
             </div>
           </div>
 
@@ -151,7 +151,7 @@ const AnalyticsDashboard = () => {
                 <p className="text-3xl font-bold text-white">{analytics.demos.averageSessionTime}m</p>
                 <p className="text-green-400 text-sm">+2.1m from last month</p>
               </div>
-              <div className="text-4xl">⏱️</div>
+                              <div className="text-4xl">TM</div>
             </div>
           </div>
 
@@ -170,7 +170,7 @@ const AnalyticsDashboard = () => {
         {/* Performance Metrics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">🚀 Performance Metrics</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">Performance Metrics</h2>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-300">Load Time</span>
@@ -196,7 +196,7 @@ const AnalyticsDashboard = () => {
           </div>
 
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">📊 Engagement Metrics</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">Engagement Metrics</h2>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-300">Time on Site</span>
@@ -243,7 +243,7 @@ const AnalyticsDashboard = () => {
 
         {/* Real-time Activity */}
         <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">⚡ Real-time Activity</h2>
+                      <h2 className="text-2xl font-bold text-white mb-4">Real-time Activity</h2>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {realTimeData.map((data, index) => (
               <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">

@@ -19,7 +19,7 @@ const BlockchainDemoPage = ({ setCurrentPage }) => {
             </button>
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🔗 Blockchain Demo</h1>
+            <h1 className="text-2xl font-bold text-white">Blockchain Demo</h1>
             <p className="text-gray-400 text-sm">Supply chain with real-time transactions</p>
           </div>
           <div className="w-24"></div> {/* Spacer for centering */}

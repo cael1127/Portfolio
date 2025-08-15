@@ -17,7 +17,7 @@ const AIAssistantDemoPage = ({ setCurrentPage }) => {
             </button>
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🤖 AI Assistant Demo</h1>
+            <h1 className="text-2xl font-bold text-white">AI Assistant Demo</h1>
             <p className="text-gray-400 text-sm">ACF - Your AI companion</p>
           </div>
           <div className="w-24"></div> {/* Spacer for centering */}

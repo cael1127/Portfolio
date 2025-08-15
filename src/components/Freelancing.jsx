@@ -36,7 +36,7 @@ const Freelancing = () => {
           {/* Services Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">🌐</div>
+              <div className="text-3xl mb-4">WD</div>
               <h3 className="text-xl font-semibold mb-3">Web Development</h3>
               <p className="text-gray-400 mb-4">
                 Full-stack web applications using React, Node.js, and modern technologies
@@ -50,7 +50,7 @@ const Freelancing = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">☁️</div>
+              <div className="text-3xl mb-4">CL</div>
               <h3 className="text-xl font-semibold mb-3">Cloud Architecture</h3>
               <p className="text-gray-400 mb-4">
                 Scalable cloud solutions using AWS, Docker, and Kubernetes
@@ -64,7 +64,7 @@ const Freelancing = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">🤖</div>
+              <div className="text-3xl mb-4">AI</div>
               <h3 className="text-xl font-semibold mb-3">AI/ML Integration</h3>
               <p className="text-gray-400 mb-4">
                 Machine learning solutions and AI-powered applications
@@ -78,7 +78,7 @@ const Freelancing = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">🔒</div>
+              <div className="text-3xl mb-4">CS</div>
               <h3 className="text-xl font-semibold mb-3">Cybersecurity</h3>
               <p className="text-gray-400 mb-4">
                 Security audits, penetration testing, and secure development
@@ -92,7 +92,7 @@ const Freelancing = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">📊</div>
+              <div className="text-3xl mb-4">DS</div>
               <h3 className="text-xl font-semibold mb-3">Data Solutions</h3>
               <p className="text-gray-400 mb-4">
                 Data engineering, analytics, and business intelligence
@@ -106,7 +106,7 @@ const Freelancing = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">📱</div>
+              <div className="text-3xl mb-4">MD</div>
               <h3 className="text-xl font-semibold mb-3">Mobile Development</h3>
               <p className="text-gray-400 mb-4">
                 Cross-platform mobile applications and PWA development

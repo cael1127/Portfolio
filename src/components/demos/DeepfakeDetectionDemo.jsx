@@ -489,7 +489,7 @@ export default DeepfakeDetectionDemo;`;
 
             {/* Detection Methods */}
             <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h2 className="text-2xl font-bold text-white mb-4">🔬 Detection Methods</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Detection Methods</h2>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-purple-200">Face Consistency</span>
@@ -516,7 +516,7 @@ export default DeepfakeDetectionDemo;`;
 
             {/* Quick Actions */}
             <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-              <h2 className="text-2xl font-bold text-white mb-4">⚙️ Analysis Controls</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Analysis Controls</h2>
               <div className="space-y-3">
                 <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
                   Upload Image
@@ -534,7 +534,7 @@ export default DeepfakeDetectionDemo;`;
 
         {/* AI Features Section */}
         <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced AI Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced AI Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-purple-400 mb-2">Computer Vision</h3>
@@ -571,14 +571,13 @@ export default DeepfakeDetectionDemo;`;
       </div>
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="Deepfake Detection Demo Code"
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Deepfake Detection Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };

@@ -53,15 +53,15 @@ const AIInterviewSimulator = () => {
     let response = '';
     const fullResponse = `Great answer! Here's my analysis:
 
-🎯 **Strengths:**
+**Strengths:**
 ${analysis.strengths.map(s => `• ${s}`).join('\n')}
 
-💡 **Areas for Improvement:**
+**Areas for Improvement:**
 ${analysis.improvements.map(i => `• ${i}`).join('\n')}
 
-📊 **Score: ${analysis.score}/10**
+**Score: ${analysis.score}/10**
 
-💬 **Follow-up Question:** ${analysis.followUp}`;
+**Follow-up Question:** ${analysis.followUp}`;
 
     for (let i = 0; i < fullResponse.length; i++) {
       await new Promise(resolve => setTimeout(resolve, 30));
@@ -114,15 +114,15 @@ ${analysis.improvements.map(i => `• ${i}`).join('\n')}
       setAiResponse('');
     } else {
       const finalScore = Math.round((score / questions.length) * 10);
-      setAiResponse(`🎉 **Interview Complete!**
+      setAiResponse(`**Interview Complete!**
 
-📊 **Final Score: ${finalScore}/10**
+**Final Score: ${finalScore}/10**
 
-${finalScore >= 8 ? '🌟 Excellent! You\'re well-prepared for technical interviews.' : 
-  finalScore >= 6 ? '👍 Good job! A few areas to polish.' : 
-  '📚 Keep practicing! Focus on specific examples and technical details.'}
+${finalScore >= 8 ? 'Excellent! You\'re well-prepared for technical interviews.' : 
+  finalScore >= 6 ? 'Good job! A few areas to polish.' : 
+  'Keep practicing! Focus on specific examples and technical details.'}
 
-💡 **Key Takeaways:**
+**Key Takeaways:**
 • Practice with specific examples
 • Quantify your achievements
 • Research the company thoroughly
@@ -178,7 +178,7 @@ const AIInterviewSimulator = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-green-400 mb-8">
-          🤖 AI Interview Simulator
+          AI Interview Simulator
         </h1>
         
         {/* Interview Interface */}
@@ -196,7 +196,7 @@ const AIInterviewSimulator = () => {
             
             {/* Speech Recognition */}
             <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
-              <h3 className="text-lg font-bold text-white mb-4">🎤 Voice Recognition</h3>
+              <h3 className="text-lg font-bold text-white mb-4">Voice Recognition</h3>
               <button
                 onClick={() => setIsRecording(!isRecording)}
                 className={\`px-4 py-2 rounded-lg transition-colors \${
@@ -205,7 +205,7 @@ const AIInterviewSimulator = () => {
                     : 'bg-gray-600 text-white hover:bg-gray-700'
                 }\`}
               >
-                {isRecording ? '⏹️ Stop Recording' : '🎙️ Start Recording'}
+                {isRecording ? 'Stop Recording' : 'Start Recording'}
               </button>
               
               <div className="bg-gray-800 p-4 rounded-lg mt-4 min-h-[100px]">
@@ -251,14 +251,14 @@ export default AIInterviewSimulator;`;
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-green-400 mb-2">🤖 AI Interview Simulator</h1>
+              <h1 className="text-4xl font-bold text-green-400 mb-2">AI Interview Simulator</h1>
               <p className="text-gray-400">Advanced speech recognition and AI-powered interview coaching</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>
@@ -310,7 +310,7 @@ export default AIInterviewSimulator;`;
                         : 'bg-gray-600 text-white hover:bg-gray-700'
                     }`}
                   >
-                    {isRecording ? '⏹️ Stop Recording' : '🎙️ Start Recording'}
+                    {isRecording ? 'Stop Recording' : 'Start Recording'}
                   </button>
                   {isRecording && (
                     <div className="flex items-center space-x-2">
@@ -335,7 +335,7 @@ export default AIInterviewSimulator;`;
                   disabled={!transcript || isTyping}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  🤖 Analyze Response
+                  Analyze Response
                 </button>
               </div>
             </div>
@@ -366,7 +366,7 @@ export default AIInterviewSimulator;`;
 
             {/* Progress & Navigation */}
             <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-              <h3 className="text-lg font-bold text-white mb-4">📊 Progress</h3>
+                              <h3 className="text-lg font-bold text-white mb-4">Progress</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-white">Current Score:</span>
@@ -388,7 +388,7 @@ export default AIInterviewSimulator;`;
                     onClick={handleNextQuestion}
                     className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
                   >
-                    ➡️ Next Question
+                    Next Question
                   </button>
                 )}
               </div>
@@ -398,10 +398,10 @@ export default AIInterviewSimulator;`;
 
         {/* Advanced Features */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Features</h2>
+                      <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">🎤 Real-time Speech Recognition</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">Real-time Speech Recognition</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Live voice-to-text conversion</li>
                 <li>• Multiple language support</li>
@@ -410,7 +410,7 @@ export default AIInterviewSimulator;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">🧠 AI-Powered Analysis</h3>
+              <h3 className="text-lg font-semibold text-blue-400 mb-2">AI-Powered Analysis</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Natural language processing</li>
                 <li>• Sentiment analysis</li>
@@ -419,7 +419,7 @@ export default AIInterviewSimulator;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">📊 Performance Analytics</h3>
+                              <h3 className="text-lg font-semibold text-purple-400 mb-2">Performance Analytics</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Real-time scoring</li>
                 <li>• Progress tracking</li>
@@ -431,22 +431,13 @@ export default AIInterviewSimulator;`;
         </div>
 
         {/* Code Viewer Modal */}
-        {showCodeViewer && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-white">AI Interview Simulator Code</h3>
-                <button
-                  onClick={() => setShowCodeViewer(false)}
-                  className="text-gray-400 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <CodeViewer code={demoCode} language="javascript" />
-            </div>
-          </div>
-        )}
+        <CodeViewer 
+          code={demoCode} 
+          language="javascript" 
+          title="AI Interview Simulator Code"
+          isOpen={showCodeViewer} 
+          onClose={() => setShowCodeViewer(false)} 
+        />
       </div>
     </div>
   );

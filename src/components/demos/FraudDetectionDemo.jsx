@@ -457,7 +457,7 @@ export default FraudDetectionDemo;`;
               onClick={() => setShowCodeViewer(true)}
               className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>
@@ -543,7 +543,7 @@ export default FraudDetectionDemo;`;
           {/* ML Model Performance */}
           <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">🤖 ML Model Performance</h2>
+              <h2 className="text-2xl font-bold text-white">ML Model Performance</h2>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
                 <span className="text-blue-400 text-sm">Real-time</span>
@@ -577,7 +577,7 @@ export default FraudDetectionDemo;`;
 
         {/* Analytics Dashboard */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">📊 Analytics Dashboard</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Analytics Dashboard</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-gray-800 p-4 rounded-lg">
               <p className="text-gray-400 text-sm">Total Transactions</p>
@@ -599,15 +599,13 @@ export default FraudDetectionDemo;`;
         </div>
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="Fraud Detection Demo Code"
-          isOpen={showCodeViewer}
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Fraud Detection Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
       </div>
     </div>
   );

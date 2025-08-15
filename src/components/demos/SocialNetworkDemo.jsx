@@ -958,7 +958,7 @@ export default SocialNetwork;`;
           <div className="lg:col-span-1 space-y-6">
             {/* Current User */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">👤 Profile</h3>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">Profile</h3>
               {currentUser && (
                 <div className="text-center">
                   <div className="text-4xl mb-3">{currentUser.avatar}</div>
@@ -971,7 +971,7 @@ export default SocialNetwork;`;
 
             {/* Navigation */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">🧭 Navigation</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">Navigation</h3>
               <div className="space-y-2">
                 <button
                   onClick={() => setActiveTab('feed')}
@@ -981,7 +981,7 @@ export default SocialNetwork;`;
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  📰 Feed
+                  Feed
                 </button>
                 <button
                   onClick={() => setActiveTab('profile')}
@@ -991,7 +991,7 @@ export default SocialNetwork;`;
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  👤 Profile
+                  Profile
                 </button>
                 <button
                   onClick={() => setActiveTab('users')}
@@ -1001,14 +1001,14 @@ export default SocialNetwork;`;
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  👥 Users
+                  Users
                 </button>
               </div>
             </div>
 
             {/* Users List */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-yellow-400">👥 Users</h3>
+              <h3 className="text-lg font-semibold mb-4 text-yellow-400">Users</h3>
               <div className="space-y-3">
                 {users.map(user => (
                   <div key={user.id} className="flex items-center space-x-3 p-2 rounded hover:bg-gray-700">
@@ -1027,7 +1027,7 @@ export default SocialNetwork;`;
           <div className="lg:col-span-3 space-y-6">
             {/* Create Post */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">✍️ Create Post</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">Create Post</h3>
               
               <div className="space-y-4">
                 <textarea
@@ -1040,13 +1040,13 @@ export default SocialNetwork;`;
                 <div className="flex justify-between items-center">
                   <div className="flex space-x-2">
                     <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
-                      📷
+                      IMG
                     </button>
                     <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
-                      😊
+                      EMO
                     </button>
                     <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
-                      📍
+                      LOC
                     </button>
                   </div>
                   
@@ -1178,10 +1178,10 @@ export default SocialNetwork;`;
 
         {/* Features */}
         <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ Social Network Features</h3>
+          <h3 className="text-lg font-semibold mb-4 text-teal-400">Social Network Features</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h4 className="font-semibold text-blue-400 mb-2">🔗 Backend Features</h4>
+              <h4 className="font-semibold text-blue-400 mb-2">Backend Features</h4>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>• User Authentication & Authorization</li>
                 <li>• JWT Token Management</li>
@@ -1192,7 +1192,7 @@ export default SocialNetwork;`;
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">🎨 Frontend Features</h4>
+              <h4 className="font-semibold text-green-400 mb-2">Frontend Features</h4>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>• Real-time Feed Updates</li>
                 <li>• Like & Comment System</li>

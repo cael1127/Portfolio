@@ -17,7 +17,7 @@ const AquacultureDemoPage = ({ setCurrentPage }) => {
             </button>
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🌊 Aquaculture Demo</h1>
+            <h1 className="text-2xl font-bold text-white">Aquaculture Demo</h1>
             <p className="text-gray-400 text-sm">Live sensor and tank data monitoring</p>
           </div>
           <div className="w-24"></div> {/* Spacer for centering */}

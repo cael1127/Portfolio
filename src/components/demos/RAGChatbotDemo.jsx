@@ -274,13 +274,13 @@ export default RAGChatbot;`;
           {/* Chat Interface */}
           <div className="lg:col-span-2">
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">🤖 Chat Interface</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">Chat Interface</h3>
               
               {/* Messages */}
               <div className="h-96 overflow-y-auto mb-4 p-4 bg-gray-700 rounded-lg">
                 {messages.length === 0 ? (
                   <div className="text-center text-gray-400 py-8">
-                    <div className="text-4xl mb-4">💬</div>
+                    <div className="text-4xl mb-4">CH</div>
                     <p className="text-lg font-semibold mb-2">Welcome to RAG Chatbot!</p>
                     <p className="text-sm">Ask me about the portfolio, projects, skills, or experience.</p>
                     <div className="mt-4 space-y-2 text-sm">
@@ -312,7 +312,7 @@ export default RAGChatbot;`;
                           
                           {message.sources && (
                             <div className="mt-2 pt-2 border-t border-gray-500">
-                              <p className="text-xs font-semibold text-blue-300">📚 Sources:</p>
+                              <p className="text-xs font-semibold text-blue-300">Sources:</p>
                               {message.sources.map((source, index) => (
                                 <div key={index} className="text-xs opacity-70 mt-1">
                                   <div className="flex items-center space-x-2">
@@ -425,7 +425,7 @@ export default RAGChatbot;`;
 
             {/* Knowledge Base */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">📚 Knowledge Base</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">Knowledge Base</h3>
               <div className="space-y-2 text-sm">
                 {Object.entries(knowledgeBase).map(([key, data]) => (
                   <div key={key} className="bg-gray-700 p-2 rounded">
@@ -440,7 +440,7 @@ export default RAGChatbot;`;
 
             {/* RAG Process */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">🔄 RAG Process</h3>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">RAG Process</h3>
               <div className="space-y-3 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs">1</div>
@@ -463,7 +463,7 @@ export default RAGChatbot;`;
 
             {/* Features */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ Features</h3>
+              <h3 className="text-lg font-semibold mb-4 text-teal-400">Features</h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>• Retrieval-Augmented Generation</li>
                 <li>• Context-Aware Responses</li>

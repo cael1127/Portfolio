@@ -2,7 +2,7 @@
 
 A modern, responsive portfolio website showcasing full-stack development projects, live demos, and professional services.
 
-## 🚀 Features
+## Features
 
 - **Dark Mode Design** - Modern dark theme with green and teal accents
 - **Interactive Live Demos** - Real-time data visualization and project demonstrations
@@ -11,7 +11,7 @@ A modern, responsive portfolio website showcasing full-stack development project
 - **Responsive Design** - Optimized for all devices and screen sizes
 - **Search & Filter** - Easy navigation through projects and categories
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ### Frontend
 - **React** - Modern UI framework
@@ -39,7 +39,7 @@ Portfolio/
 └── .gitignore           # Git ignore rules
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -76,7 +76,7 @@ Portfolio/
      npx serve .
      ```
 
-## 🌟 Live Demos
+## Live Demos
 
 The portfolio includes several interactive live demos:
 
@@ -90,7 +90,7 @@ The portfolio includes several interactive live demos:
 - **Sales Forecasting Model** - Data analysis and predictions
 - **Environmental Impact Dashboard** - Sustainability metrics
 
-## 📊 Project Categories
+## Project Categories
 
 - **Software Development** - Full-stack applications and systems
 - **IT & Infrastructure** - DevOps and infrastructure projects
@@ -100,7 +100,7 @@ The portfolio includes several interactive live demos:
 - **DevOps & Infrastructure** - Cloud and deployment solutions
 - **Blockchain & Emerging Tech** - Next-generation technologies
 
-## 💼 Freelancing Services
+## Freelancing Services
 
 Professional services offered:
 
@@ -108,7 +108,7 @@ Professional services offered:
 - **Security Consulting** - Cybersecurity assessments and implementations
 - **Data Analytics** - Business intelligence and reporting solutions
 
-## 🎨 Design Features
+## Design Features
 
 - **Dark Mode** - Easy on the eyes with green and teal accents
 - **Responsive Layout** - Works perfectly on desktop, tablet, and mobile
@@ -142,14 +142,14 @@ Professional services offered:
 4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 📞 Contact
+## Contact
 
 - **Email**: findleytechs@gmail.com
 
 ---
 
-Built with ❤️ by Cael Findley 
+Built with passion by Cael Findley 

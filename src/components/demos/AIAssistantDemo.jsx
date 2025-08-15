@@ -613,7 +613,7 @@ export default AdvancedLLM;`;
               onClick={() => setShowCodeViewer(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>
@@ -635,7 +635,7 @@ export default AdvancedLLM;`;
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center space-x-2">
                         <span className="font-semibold text-white">
-                          {message.role === 'user' ? '👤 You' : '🤖 AI Assistant'}
+                          {message.role === 'user' ? 'You' : 'AI Assistant'}
                         </span>
                         {message.confidence && (
                           <span className="text-xs bg-green-600 px-2 py-1 rounded">
@@ -742,7 +742,7 @@ export default AdvancedLLM;`;
 
             {/* System Stats */}
             <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-              <h3 className="text-lg font-bold text-white mb-4">📊 Stats</h3>
+              <h3 className="text-lg font-bold text-white mb-4">Stats</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-300">Total Tokens</span>
@@ -767,10 +767,10 @@ export default AdvancedLLM;`;
 
         {/* Advanced Features */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced LLM Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced LLM Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">🧠 Context Awareness</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">Context Awareness</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Conversation memory</li>
                 <li>• Topic tracking</li>
@@ -779,7 +779,7 @@ export default AdvancedLLM;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">💡 Intelligent Responses</h3>
+              <h3 className="text-lg font-semibold text-blue-400 mb-2">Intelligent Responses</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Contextual generation</li>
                 <li>• Multi-domain expertise</li>
@@ -788,7 +788,7 @@ export default AdvancedLLM;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">🔍 Advanced Analysis</h3>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Advanced Analysis</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• NLP processing</li>
                 <li>• Entity recognition</li>
@@ -797,7 +797,7 @@ export default AdvancedLLM;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-2">⚡ Real-time Processing</h3>
+              <h3 className="text-lg font-semibold text-yellow-400 mb-2">Real-time Processing</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Streaming responses</li>
                 <li>• Token management</li>
@@ -809,15 +809,13 @@ export default AdvancedLLM;`;
         </div>
 
         {/* Code Viewer */}
-        {showCodeViewer && (
-          <CodeViewer
-            code={demoCode}
-            language="jsx"
-            title="AI Assistant Demo Code"
-            isOpen={showCodeViewer}
-            onClose={() => setShowCodeViewer(false)}
-          />
-        )}
+        <CodeViewer
+          code={demoCode}
+          language="jsx"
+          title="AI Assistant Demo Code"
+          isOpen={showCodeViewer}
+          onClose={() => setShowCodeViewer(false)}
+        />
       </div>
     </div>
   );

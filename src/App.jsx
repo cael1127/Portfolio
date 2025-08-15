@@ -141,19 +141,19 @@ function App() {
   // Navigation component
   const Navigation = () => {
     const navItems = [
-      { id: 'home', label: '🏠 Home', icon: '🏠' },
-      { id: 'demo-organizer', label: '🚀 Projects', icon: '🚀' },
-      { id: 'freelancing', label: '💼 Services', icon: '💼' },
-      { id: 'contact', label: '📞 Contact', icon: '📞' },
+      { id: 'home', label: 'Home', icon: '' },
+      { id: 'demo-organizer', label: 'Projects', icon: '' },
+      { id: 'freelancing', label: 'Services', icon: '' },
+      { id: 'contact', label: 'Contact', icon: '' },
     ];
 
     const enterpriseItems = [
-      { id: 'ai-interview-simulator', label: '🤖 AI Interview', icon: '🤖' },
-      { id: 'real-time-collaboration', label: '👥 Collaboration', icon: '👥' },
-      { id: 'advanced-analytics', label: '📊 Analytics', icon: '📊' },
-      { id: 'blockchain-advanced', label: '⛓️ Blockchain', icon: '⛓️' },
-      { id: 'edge-computing', label: '🌐 Edge Computing', icon: '🌐' },
-      { id: 'quantum-computing', label: '⚛️ Quantum', icon: '⚛️' },
+      { id: 'ai-interview-simulator', label: 'AI Interview', icon: '' },
+      { id: 'real-time-collaboration', label: 'Collaboration', icon: '' },
+      { id: 'advanced-analytics', label: 'Analytics', icon: '' },
+      { id: 'blockchain-advanced', label: 'Blockchain', icon: '' },
+      { id: 'edge-computing', label: 'Edge Computing', icon: '' },
+      { id: 'quantum-computing', label: 'Quantum', icon: '' },
     ];
 
     return (
@@ -166,7 +166,7 @@ function App() {
                 onClick={() => setCurrentPage('home')}
                 className="flex items-center space-x-2 text-white font-bold text-lg hover:text-teal-400 transition-colors"
               >
-                <span className="text-2xl">💻</span>
+                <span className="text-2xl">CF</span>
                 <span>Cael Findley</span>
               </button>
             </div>
@@ -191,7 +191,7 @@ function App() {
                 {/* Enterprise Features Dropdown */}
                 <div className="relative group">
                   <button className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
-                    🚀 Enterprise
+                    Enterprise
                   </button>
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     {enterpriseItems.map((item) => (

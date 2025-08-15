@@ -624,7 +624,7 @@ const AquacultureDemo = () => {
 
         {/* AI Features */}
         <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🤖 Advanced Aquaculture Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced Aquaculture Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-purple-400 mb-2">Real-time Monitoring</h3>
@@ -661,14 +661,13 @@ const AquacultureDemo = () => {
       </div>
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="Aquaculture Demo Code"
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Aquaculture Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };

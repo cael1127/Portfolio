@@ -17,19 +17,19 @@ const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', isOpen
     switch (lang.toLowerCase()) {
       case 'javascript':
       case 'js':
-        return '🟨';
+        return 'JS';
       case 'jsx':
-        return '⚛️';
+        return 'RX';
       case 'python':
-        return '🐍';
+        return 'PY';
       case 'html':
-        return '🌐';
+        return 'HT';
       case 'css':
-        return '🎨';
+        return 'CS';
       case 'sql':
-        return '🗄️';
+        return 'SQ';
       default:
-        return '📄';
+        return 'CD';
     }
   };
 
@@ -55,13 +55,13 @@ const CodeViewer = ({ code, language = 'javascript', title = 'Demo Code', isOpen
               onClick={copyToClipboard}
               className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
             >
-              {copied ? '✅ Copied!' : '📋 Copy'}
+              {copied ? 'Copied!' : 'Copy'}
             </button>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-white text-2xl transition-colors"
             >
-              ✕
+              ×
             </button>
           </div>
         </div>

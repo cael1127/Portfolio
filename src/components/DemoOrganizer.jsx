@@ -6,14 +6,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
   const demoCategories = {
     'ai-ml': {
-      name: '🤖 AI & Machine Learning',
+      name: 'AI & Machine Learning',
       description: 'Artificial intelligence and machine learning applications',
       demos: [
         {
           id: 'fraud-detection',
           name: 'Fraud Detection System',
           description: 'AI-powered financial fraud detection with real-time analysis',
-          icon: '🔍',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['Python', 'TensorFlow', 'Scikit-learn'],
           features: ['Real-time analysis', 'Pattern recognition', 'Risk scoring']
@@ -22,7 +22,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'deepfake-detection',
           name: 'Deepfake Detection',
           description: 'Advanced deepfake detection using computer vision',
-          icon: '🎭',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['Python', 'OpenCV', 'TensorFlow'],
           features: ['Face analysis', 'Video processing', 'Confidence scoring'],
@@ -32,7 +32,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'resumeanalyzer',
           name: 'AI Resume Analyzer',
           description: 'Intelligent resume analysis with skill matching',
-          icon: '📄',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['React', 'NLP', 'Machine Learning'],
           features: ['Skill extraction', 'Candidate scoring', 'Recommendations'],
@@ -42,7 +42,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'aiassistant',
           name: 'AI Assistant',
           description: 'Intelligent conversational AI with natural language processing',
-          icon: '💬',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['React', 'NLP', 'API Integration'],
           features: ['Natural conversations', 'Context awareness', 'Smart responses'],
@@ -52,7 +52,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'snake-ai',
           name: 'Snake AI with Reinforcement Learning',
           description: 'AI learns to play Snake using neural networks and genetic algorithms',
-          icon: '🐍',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['Python', 'Neural Networks', 'Genetic Algorithms'],
           features: ['Reinforcement Learning', 'Real-time training', 'Performance metrics'],
@@ -62,7 +62,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'ai-agents',
           name: 'AI Agents in Pure Python',
           description: 'Multi-agent system with different AI behaviors and coordination',
-          icon: '🤖',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['Python', 'Multi-Agent Systems', 'Behavior Trees'],
           features: ['Agent coordination', 'Behavior patterns', 'Environment simulation'],
@@ -72,7 +72,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'sentiment-analysis',
           name: 'Sentiment Analysis with Transformers',
           description: 'Advanced sentiment analysis using VADER, Transformers, and NLTK',
-          icon: '📊',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['Python', 'Transformers', 'NLTK', 'VADER'],
           features: ['Text analysis', 'Sentiment scoring', 'Detailed breakdowns'],
@@ -81,14 +81,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'blockchain': {
-      name: '🔗 Blockchain & Web3',
+      name: 'Blockchain & Web3',
       description: 'Decentralized applications and blockchain technology',
       demos: [
         {
           id: 'blockchain',
           name: 'Blockchain Supply Chain',
           description: 'Complete blockchain implementation with smart contracts',
-          icon: '🔗',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['Solidity', 'Web3.js', 'React'],
           features: ['Smart contracts', 'Transaction mining', 'Supply chain tracking'],
@@ -97,14 +97,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'frontend': {
-      name: '🌐 Frontend & Web Development',
+      name: 'Frontend & Web Development',
       description: 'Modern frontend applications and web development',
       demos: [
         {
           id: 'interactive-resume',
           name: 'Interactive Resume Web App',
           description: 'Real-time editing resume with responsive design',
-          icon: '📝',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['React', 'CSS3', 'Form Validation'],
           features: ['Real-time editing', 'Responsive design', 'Auto-save'],
@@ -113,14 +113,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'backend': {
-      name: '⚙️ Backend & Full-Stack',
+      name: 'Backend & Full-Stack',
       description: 'Backend APIs and full-stack applications',
       demos: [
         {
           id: 'rag-chatbot',
           name: 'RAG Chatbot with Next.js',
           description: 'Retrieval-Augmented Generation chatbot with context awareness',
-          icon: '💬',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['Next.js', 'LangChain', 'OpenAI'],
           features: ['Context awareness', 'Source attribution', 'Smart responses'],
@@ -130,7 +130,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'bookstore-api',
           name: 'Bookstore REST API',
           description: 'Complete REST API for bookstore management',
-          icon: '📚',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['Express.js', 'REST API', 'CRUD Operations'],
           features: ['Full CRUD', 'Data validation', 'Error handling'],
@@ -140,7 +140,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'mern-expense-tracker',
           name: 'MERN Expense Tracker',
           description: 'Full-stack expense tracker with MongoDB and React',
-          icon: '💰',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['MERN Stack', 'MongoDB', 'Express', 'React'],
           features: ['Real-time stats', 'Category breakdown', 'Data visualization'],
@@ -150,7 +150,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'social-network',
           name: 'Mini Social Network',
           description: 'Social media platform with user authentication and posts',
-          icon: '👥',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['React', 'Node.js', 'MongoDB', 'Auth'],
           features: ['User authentication', 'Real-time posts', 'Comments & likes'],
@@ -159,14 +159,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'iot-sensors': {
-      name: '📡 IoT & Sensor Systems',
+      name: 'IoT & Sensor Systems',
       description: 'Internet of Things and sensor monitoring applications',
       demos: [
         {
           id: 'aquaculture',
           name: 'Smart Aquaculture',
           description: 'AI-powered aquaculture monitoring with predictive analytics',
-          icon: '🌊',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['IoT Sensors', 'React', 'Machine Learning'],
           features: ['Real-time monitoring', 'Predictive analytics', 'Water quality'],
@@ -176,7 +176,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'smart-city',
           name: 'Smart City Infrastructure',
           description: 'Comprehensive smart city monitoring and management',
-          icon: '🏙️',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['IoT', 'React', 'Data Analytics'],
           features: ['Traffic management', 'Energy monitoring', 'Infrastructure'],
@@ -185,14 +185,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'business-apps': {
-      name: '💼 Business Applications',
+      name: 'Business Applications',
       description: 'Enterprise and business management solutions',
       demos: [
         {
           id: 'logistics',
           name: 'Smart Logistics Platform',
           description: 'AI-powered fleet management and route optimization',
-          icon: '🚚',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['React', 'AI/ML', 'GPS Integration'],
           features: ['Route optimization', 'Fleet tracking', 'Predictive analytics'],
@@ -202,7 +202,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'healthcare',
           name: 'Healthcare Analytics',
           description: 'AI-powered patient monitoring and medical analytics',
-          icon: '🏥',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['React', 'AI/ML', 'HIPAA Compliance'],
           features: ['Patient monitoring', 'Predictive diagnostics', 'Medical alerts'],
@@ -212,7 +212,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'financial',
           name: 'Financial Analytics Platform',
           description: 'Advanced financial analysis and portfolio management',
-          icon: '💰',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['React', 'Financial APIs', 'Data Visualization'],
           features: ['Portfolio management', 'Market analysis', 'Risk assessment'],
@@ -222,7 +222,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'restaurantapp',
           name: 'Restaurant Management System',
           description: 'Complete restaurant management and ordering platform',
-          icon: '🍽️',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['React', 'Node.js', 'Real-time updates'],
           features: ['Order management', 'Inventory tracking', 'Analytics'],
@@ -231,14 +231,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'creative-tools': {
-      name: '🎨 Creative & Development Tools',
+      name: 'Creative & Development Tools',
       description: 'Creative applications and development tools',
       demos: [
         {
           id: 'whiteboard',
           name: 'Collaborative Whiteboard',
           description: 'Real-time collaborative drawing and design platform',
-          icon: '🎨',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['React', 'Canvas API', 'WebRTC'],
           features: ['Real-time collaboration', 'Drawing tools', 'Project management'],
@@ -248,7 +248,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           id: 'portfoliobuilder',
           name: 'Portfolio Builder',
           description: 'Drag-and-drop website builder for portfolios',
-          icon: '🌐',
+          icon: '',
           difficulty: 'Intermediate',
           technologies: ['React', 'Drag & Drop', 'Template System'],
           features: ['Visual editor', 'Template library', 'Deployment'],
@@ -257,14 +257,14 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       ]
     },
     'entertainment': {
-      name: '🎮 Entertainment & Gaming',
+      name: 'Entertainment & Gaming',
       description: 'Gaming and entertainment applications',
       demos: [
         {
           id: 'gameplatform',
           name: 'Multiplayer Gaming Platform',
           description: 'Interactive multiplayer gaming with real-time features',
-          icon: '🎮',
+          icon: '',
           difficulty: 'Advanced',
           technologies: ['React', 'WebSocket', 'Game Engine'],
           features: ['Multiplayer games', 'Real-time chat', 'Leaderboards'],
@@ -310,7 +310,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🎯 Demo Collection</h1>
+          <h1 className="text-4xl font-bold text-green-400 mb-4">Demo Collection</h1>
           <p className="text-gray-300 text-lg">
             Explore our comprehensive collection of interactive demos organized by category
           </p>
@@ -359,7 +359,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
         {/* Category Overview */}
         {selectedCategory === 'all' && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-6">📂 Categories</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Categories</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Object.entries(demoCategories).map(([key, category]) => (
                 <div
@@ -458,7 +458,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       }}
                       className="text-green-400 hover:text-green-300 text-xs font-semibold"
                     >
-                      📋 View Project Details →
+                      View Project Details →
                     </button>
                   </div>
                 )}
@@ -469,7 +469,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
         {/* Quick Stats */}
         <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">📊 Demo Statistics</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Demo Statistics</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-400">{allDemos.length}</div>
@@ -502,7 +502,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               }}
               className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
-              🧪 Test Navigation to Blockchain Demo
+              Test Navigation to Blockchain Demo
             </button>
           </div>
         </div>

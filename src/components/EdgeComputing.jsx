@@ -153,7 +153,7 @@ const EdgeComputing = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-blue-400 mb-8">
-          🌐 Edge Computing Platform
+          Edge Computing Platform
         </h1>
         
         {/* Edge Computing Interface */}
@@ -161,7 +161,7 @@ const EdgeComputing = () => {
           <div className="space-y-6">
             {/* Edge Nodes */}
             <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">🖥️ Edge Nodes</h2>
+                              <h2 className="text-2xl font-bold text-white mb-4">Edge Nodes</h2>
               <div className="space-y-4">
                 {edgeNodes.map(node => (
                   <div key={node.id} className="bg-blue-800/50 p-4 rounded-lg">
@@ -217,7 +217,7 @@ const EdgeComputing = () => {
           
           {/* Data Streams */}
           <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
-            <h2 className="text-2xl font-bold text-white mb-4">📊 Data Streams</h2>
+                            <h2 className="text-2xl font-bold text-white mb-4">Data Streams</h2>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {dataStreams.map(stream => (
                 <div key={stream.id} className={\`p-3 rounded-lg \${
@@ -306,14 +306,14 @@ export default EdgeComputing;`;
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-blue-400 mb-2">🌐 Edge Computing Platform</h1>
+              <h1 className="text-4xl font-bold text-blue-400 mb-2">Edge Computing Platform</h1>
               <p className="text-gray-400">Distributed computing and edge analytics for IoT and real-time processing</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>
@@ -323,7 +323,7 @@ export default EdgeComputing;`;
           <div className="space-y-6">
             <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">🖥️ Edge Nodes</h2>
+                <h2 className="text-2xl font-bold text-white">Edge Nodes</h2>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
                   <span className="text-blue-400 text-sm">{edgeNodes.filter(n => n.status === 'online').length} online</span>
@@ -412,7 +412,7 @@ export default EdgeComputing;`;
           {/* Data Streams */}
           <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">📊 Data Streams</h2>
+                              <h2 className="text-2xl font-bold text-white">Data Streams</h2>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
                 <span className="text-purple-400 text-sm">{dataStreams.filter(s => s.status === 'active').length} active</span>
@@ -483,7 +483,7 @@ export default EdgeComputing;`;
 
             <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">⚠️ Alerts</h2>
+                <h2 className="text-2xl font-bold text-white">Alerts</h2>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   <span className="text-red-400 text-sm">Monitoring</span>
@@ -510,10 +510,10 @@ export default EdgeComputing;`;
 
         {/* Advanced Features */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">🌐 Edge Computing</h3>
+              <h3 className="text-lg font-semibold text-blue-400 mb-2">Edge Computing</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Distributed processing nodes</li>
                 <li>• Local data processing</li>
@@ -522,7 +522,7 @@ export default EdgeComputing;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">📱 IoT Integration</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">IoT Integration</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Device management and monitoring</li>
                 <li>• Real-time data collection</li>
@@ -531,7 +531,7 @@ export default EdgeComputing;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">📊 Edge Analytics</h3>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Edge Analytics</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Local machine learning models</li>
                 <li>• Real-time anomaly detection</li>
@@ -543,22 +543,13 @@ export default EdgeComputing;`;
         </div>
 
         {/* Code Viewer Modal */}
-        {showCodeViewer && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-white">Edge Computing Code</h3>
-                <button
-                  onClick={() => setShowCodeViewer(false)}
-                  className="text-gray-400 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <CodeViewer code={demoCode} language="javascript" />
-            </div>
-          </div>
-        )}
+        <CodeViewer 
+          code={demoCode} 
+          language="javascript" 
+          title="Edge Computing Code"
+          isOpen={showCodeViewer} 
+          onClose={() => setShowCodeViewer(false)} 
+        />
       </div>
     </div>
   );

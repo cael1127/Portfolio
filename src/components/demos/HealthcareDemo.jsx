@@ -440,15 +440,13 @@ const HealthcareDemo = () => {
 
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="HealthcareDemo Demo Code"
-          isOpen={showCodeViewer}
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Healthcare Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };
@@ -609,7 +607,7 @@ export default HealthcareDemo;`;
               onClick={() => setShowCodeViewer(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>

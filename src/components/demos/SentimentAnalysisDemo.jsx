@@ -390,7 +390,7 @@ export default SentimentAnalysisDemo;`;
           <div className="space-y-6">
             {/* Model Selection */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">🤖 Analysis Model</h3>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">Analysis Model</h3>
               <div className="grid grid-cols-3 gap-3">
                 <button
                   onClick={() => setSelectedModel('vader')}
@@ -401,7 +401,7 @@ export default SentimentAnalysisDemo;`;
                   }`}
                 >
                   <div className="text-center">
-                    <div className="text-2xl mb-2">📊</div>
+                    <div className="text-2xl mb-2">VD</div>
                     <div className="font-semibold">VADER</div>
                     <div className="text-xs text-gray-400">Lexicon-based</div>
                   </div>
@@ -416,7 +416,7 @@ export default SentimentAnalysisDemo;`;
                   }`}
                 >
                   <div className="text-center">
-                    <div className="text-2xl mb-2">🧠</div>
+                    <div className="text-2xl mb-2">TR</div>
                     <div className="font-semibold">Transformers</div>
                     <div className="text-xs text-gray-400">Deep learning</div>
                   </div>
@@ -431,7 +431,7 @@ export default SentimentAnalysisDemo;`;
                   }`}
                 >
                   <div className="text-center">
-                    <div className="text-2xl mb-2">🔤</div>
+                    <div className="text-2xl mb-2">NL</div>
                     <div className="font-semibold">NLTK</div>
                     <div className="text-xs text-gray-400">POS tagging</div>
                   </div>
@@ -441,7 +441,7 @@ export default SentimentAnalysisDemo;`;
 
             {/* Text Input */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">📝 Input Text</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">Input Text</h3>
               <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
@@ -462,7 +462,7 @@ export default SentimentAnalysisDemo;`;
                     </>
                   ) : (
                     <>
-                      <span>🔍</span>
+                      <span>AS</span>
                       <span>Analyze Sentiment</span>
                     </>
                   )}
@@ -476,7 +476,7 @@ export default SentimentAnalysisDemo;`;
 
             {/* Sample Texts */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-yellow-400">📋 Sample Texts</h3>
+              <h3 className="text-lg font-semibold mb-4 text-yellow-400">Sample Texts</h3>
               <div className="space-y-2">
                 {/* The original sampleTexts state was removed, so this section is now empty */}
                 {/* If sample texts are needed, they should be re-added or replaced */}
@@ -571,7 +571,7 @@ export default SentimentAnalysisDemo;`;
                 {/* Model-specific Features */}
                 {selectedModel === 'transformers' && results.breakdown && results.breakdown.attention_weights && (
                   <div className="bg-gray-800 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 Attention Weights</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-purple-400">Attention Weights</h3>
                     <div className="space-y-2">
                       {results.breakdown.attention_weights.map((item, index) => (
                         <div key={index} className="flex justify-between items-center">
@@ -593,7 +593,7 @@ export default SentimentAnalysisDemo;`;
 
                 {selectedModel === 'nltk' && results.breakdown && results.breakdown.pos_tags && (
                   <div className="bg-gray-800 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-green-400">🔤 POS Tags</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-green-400">POS Tags</h3>
                     <div className="flex flex-wrap gap-2">
                       {results.breakdown.pos_tags.map((item, index) => (
                         <span key={index} className="bg-gray-700 text-white px-2 py-1 rounded text-xs">
@@ -606,7 +606,7 @@ export default SentimentAnalysisDemo;`;
               </>
             ) : (
               <div className="bg-gray-800 rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-4 text-gray-400">📊 Results</h3>
+                <h3 className="text-lg font-semibold mb-4 text-gray-400">Results</h3>
                 <p className="text-gray-400 text-center">
                   Enter text and click "Analyze Sentiment" to see results
                 </p>

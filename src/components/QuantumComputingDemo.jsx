@@ -251,7 +251,7 @@ const QuantumComputingDemo = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-purple-400 mb-8">
-          ⚛️ Quantum Computing Platform
+          Quantum Computing Platform
         </h1>
         
         {/* Quantum Interface */}
@@ -384,14 +384,14 @@ export default QuantumComputingDemo;`;
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-purple-400 mb-2">⚛️ Quantum Computing Platform</h1>
+              <h1 className="text-4xl font-bold text-purple-400 mb-2">Quantum Computing Platform</h1>
               <p className="text-gray-400">Quantum algorithms and quantum simulation for advanced computing</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
               className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>
@@ -474,7 +474,7 @@ export default QuantumComputingDemo;`;
           <div className="space-y-6">
             <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">📊 Quantum Results</h2>
+                <h2 className="text-2xl font-bold text-white">Quantum Results</h2>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-green-400 text-sm">Measurement</span>
@@ -528,7 +528,7 @@ export default QuantumComputingDemo;`;
 
             <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">⚡ Quantum Circuit</h2>
+                <h2 className="text-2xl font-bold text-white">Quantum Circuit</h2>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
                   <span className="text-yellow-400 text-sm">{circuit.length} gates</span>
@@ -558,10 +558,10 @@ export default QuantumComputingDemo;`;
 
         {/* Advanced Features */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">⚛️ Quantum Algorithms</h3>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Quantum Algorithms</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Grover's search algorithm</li>
                 <li>• Shor's factoring algorithm</li>
@@ -570,7 +570,7 @@ export default QuantumComputingDemo;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">🔬 Quantum Gates</h3>
+              <h3 className="text-lg font-semibold text-blue-400 mb-2">Quantum Gates</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Hadamard (H) gate</li>
                 <li>• CNOT gate operations</li>
@@ -579,7 +579,7 @@ export default QuantumComputingDemo;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">📊 Quantum Measurement</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">Quantum Measurement</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• State vector simulation</li>
                 <li>• Probability distribution</li>
@@ -591,22 +591,13 @@ export default QuantumComputingDemo;`;
         </div>
 
         {/* Code Viewer Modal */}
-        {showCodeViewer && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-white">Quantum Computing Code</h3>
-                <button
-                  onClick={() => setShowCodeViewer(false)}
-                  className="text-gray-400 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <CodeViewer code={demoCode} language="javascript" />
-            </div>
-          </div>
-        )}
+        <CodeViewer 
+          code={demoCode} 
+          language="javascript" 
+          title="Quantum Computing Code"
+          isOpen={showCodeViewer} 
+          onClose={() => setShowCodeViewer(false)} 
+        />
       </div>
     </div>
   );

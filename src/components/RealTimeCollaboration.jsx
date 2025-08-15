@@ -156,7 +156,7 @@ const RealTimeCollaboration = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-blue-400 mb-8">
-          🌐 Real-Time Collaboration Platform
+          Real-Time Collaboration Platform
         </h1>
         
         {/* Collaboration Interface */}
@@ -239,14 +239,14 @@ export default RealTimeCollaboration;`;
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-blue-400 mb-2">🌐 Real-Time Collaboration Platform</h1>
+              <h1 className="text-4xl font-bold text-blue-400 mb-2">Real-Time Collaboration Platform</h1>
               <p className="text-gray-400">Advanced WebSocket, WebRTC, and operational transform for seamless teamwork</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>
@@ -255,7 +255,7 @@ export default RealTimeCollaboration;`;
           {/* Active Users */}
           <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">👥 Active Users</h2>
+                              <h2 className="text-2xl font-bold text-white">Active Users</h2>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-green-400 text-sm">{users.filter(u => u.status === 'online').length} online</span>
@@ -283,7 +283,7 @@ export default RealTimeCollaboration;`;
           {/* Real-Time Chat */}
           <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">💬 Live Chat</h2>
+                              <h2 className="text-2xl font-bold text-white">Live Chat</h2>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
                 <span className="text-blue-400 text-sm">Real-time</span>
@@ -318,7 +318,7 @@ export default RealTimeCollaboration;`;
           {/* Collaborative Documents */}
           <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">📄 Documents</h2>
+              <h2 className="text-2xl font-bold text-white">Documents</h2>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
                 <span className="text-purple-400 text-sm">Live editing</span>
@@ -344,10 +344,10 @@ export default RealTimeCollaboration;`;
 
         {/* Advanced Features */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">🚀 Advanced Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">🔌 WebSocket Integration</h3>
+              <h3 className="text-lg font-semibold text-green-400 mb-2">WebSocket Integration</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Real-time bidirectional communication</li>
                 <li>• Automatic reconnection handling</li>
@@ -356,7 +356,7 @@ export default RealTimeCollaboration;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">📡 WebRTC Implementation</h3>
+              <h3 className="text-lg font-semibold text-blue-400 mb-2">WebRTC Implementation</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Peer-to-peer video/audio calls</li>
                 <li>• Screen sharing capabilities</li>
@@ -365,7 +365,7 @@ export default RealTimeCollaboration;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">✏️ Operational Transform</h3>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">Operational Transform</h3>
               <ul className="space-y-1 text-gray-300 text-sm">
                 <li>• Conflict-free document editing</li>
                 <li>• Real-time cursor synchronization</li>
@@ -377,22 +377,13 @@ export default RealTimeCollaboration;`;
         </div>
 
         {/* Code Viewer Modal */}
-        {showCodeViewer && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-white">Real-Time Collaboration Code</h3>
-                <button
-                  onClick={() => setShowCodeViewer(false)}
-                  className="text-gray-400 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <CodeViewer code={demoCode} language="javascript" />
-            </div>
-          </div>
-        )}
+        <CodeViewer 
+          code={demoCode} 
+          language="javascript" 
+          title="Real-Time Collaboration Code"
+          isOpen={showCodeViewer} 
+          onClose={() => setShowCodeViewer(false)} 
+        />
       </div>
     </div>
   );

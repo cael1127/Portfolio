@@ -398,15 +398,13 @@ const FinancialDemo = () => {
 
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="FinancialDemo Demo Code"
-          isOpen={showCodeViewer}
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Financial Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };
@@ -723,7 +721,7 @@ export default FinancialDemo;`;
               onClick={() => setShowCodeViewer(true)}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
             >
-              📄 View Code
+              View Code
             </button>
           </div>
         </div>

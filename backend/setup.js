@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-console.log('🤖 ACF AI Assistant Setup');
+console.log('ACF AI Assistant Setup');
 console.log('========================\n');
 
 // Available providers
@@ -29,4 +29,4 @@ console.log('PORT=3002');
 console.log('LLM_PROVIDER=local');
 console.log('LOCAL_LLM_URL=http://localhost:11434/api/chat');
 
-console.log('\n📝 Note: Make sure to restart the server after updating the .env file'); 
+console.log('\nNote: Make sure to restart the server after updating the .env file'); 

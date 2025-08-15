@@ -714,7 +714,7 @@ export default PortfolioBuilderDemo;`;
 
         {/* Portfolio Builder Features */}
         <div className="mt-8 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🎨 Advanced Portfolio Builder Features</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Advanced Portfolio Builder Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="text-lg font-semibold text-blue-400 mb-2">Template System</h3>
@@ -751,14 +751,13 @@ export default PortfolioBuilderDemo;`;
       </div>
 
       {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="Portfolio Builder Demo Code"
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
+      <CodeViewer
+        code={demoCode}
+        language="jsx"
+        title="Portfolio Builder Demo Code"
+        isOpen={showCodeViewer}
+        onClose={() => setShowCodeViewer(false)}
+      />
     </div>
   );
 };

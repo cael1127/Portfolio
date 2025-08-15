@@ -45,28 +45,28 @@ const Home = ({ setCurrentPage }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚛️</span>
+                <span className="text-2xl">FE</span>
               </div>
               <h3 className="font-semibold mb-2">Frontend</h3>
               <p className="text-gray-400 text-sm">React, TypeScript, Next.js</p>
             </div>
             <div className="text-center">
               <div className="bg-green-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🚀</span>
+                <span className="text-2xl">BE</span>
               </div>
               <h3 className="font-semibold mb-2">Backend</h3>
               <p className="text-gray-400 text-sm">Node.js, Python, GraphQL</p>
             </div>
             <div className="text-center">
               <div className="bg-emerald-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">☁️</span>
+                <span className="text-2xl">CL</span>
               </div>
               <h3 className="font-semibold mb-2">Cloud</h3>
               <p className="text-gray-400 text-sm">AWS, Docker, Kubernetes</p>
             </div>
             <div className="text-center">
               <div className="bg-teal-500 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🤖</span>
+                <span className="text-2xl">AI</span>
               </div>
               <h3 className="font-semibold mb-2">AI/ML</h3>
               <p className="text-gray-400 text-sm">TensorFlow, OpenAI, NLP</p>
@@ -137,7 +137,7 @@ const Home = ({ setCurrentPage }) => {
               onClick={() => setCurrentPage('advanced-analytics')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
-              <div className="text-2xl mb-3">📊</div>
+              <div className="text-2xl mb-3">AD</div>
               <h3 className="font-semibold mb-2">Analytics Dashboard</h3>
               <p className="text-gray-400 text-sm">Real-time data visualization and insights</p>
             </button>
@@ -145,7 +145,7 @@ const Home = ({ setCurrentPage }) => {
               onClick={() => setCurrentPage('ai-interview-simulator')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
-              <div className="text-2xl mb-3">🤖</div>
+              <div className="text-2xl mb-3">AI</div>
               <h3 className="font-semibold mb-2">AI Interview Simulator</h3>
               <p className="text-gray-400 text-sm">Advanced speech recognition and AI coaching</p>
             </button>
@@ -153,7 +153,7 @@ const Home = ({ setCurrentPage }) => {
               onClick={() => setCurrentPage('real-time-collaboration')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
-              <div className="text-2xl mb-3">👥</div>
+              <div className="text-2xl mb-3">CO</div>
               <h3 className="font-semibold mb-2">Collaborative Features</h3>
               <p className="text-gray-400 text-sm">Real-time collaboration tools</p>
             </button>
@@ -161,7 +161,7 @@ const Home = ({ setCurrentPage }) => {
               onClick={() => setCurrentPage('edge-computing')}
               className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-colors text-left"
             >
-              <div className="text-2xl mb-3">🌐</div>
+              <div className="text-2xl mb-3">EC</div>
               <h3 className="font-semibold mb-2">Edge Computing</h3>
               <p className="text-gray-400 text-sm">IoT and distributed systems</p>
             </button>
@@ -177,7 +177,7 @@ const Home = ({ setCurrentPage }) => {
             onClick={() => setCurrentPage('quantum-computing')}
             className="bg-gradient-to-br from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 p-6 rounded-lg transition-colors text-left"
           >
-            <div className="text-2xl mb-3">⚛️</div>
+            <div className="text-2xl mb-3">QC</div>
             <h3 className="font-semibold mb-2">Quantum Computing</h3>
             <p className="text-gray-200 text-sm">Quantum algorithms and simulations</p>
           </button>
@@ -185,7 +185,7 @@ const Home = ({ setCurrentPage }) => {
             onClick={() => setCurrentPage('blockchain-advanced')}
             className="bg-gradient-to-br from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 p-6 rounded-lg transition-colors text-left"
           >
-            <div className="text-2xl mb-3">🔗</div>
+            <div className="text-2xl mb-3">BC</div>
             <h3 className="font-semibold mb-2">Advanced Blockchain</h3>
             <p className="text-gray-200 text-sm">Smart contracts and DeFi protocols</p>
           </button>
@@ -193,7 +193,7 @@ const Home = ({ setCurrentPage }) => {
             onClick={() => setCurrentPage('edge-computing')}
             className="bg-gradient-to-br from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 p-6 rounded-lg transition-colors text-left"
           >
-            <div className="text-2xl mb-3">🌐</div>
+            <div className="text-2xl mb-3">EC</div>
             <h3 className="font-semibold mb-2">Edge Computing</h3>
             <p className="text-gray-200 text-sm">IoT and distributed systems</p>
           </button>
