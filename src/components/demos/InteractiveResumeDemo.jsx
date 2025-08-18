@@ -457,7 +457,7 @@ export default InteractiveResume;`;
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-blue-400">Interactive Resume Web App</h1>
+            <h1 className="text-3xl font-bold text-blue-400">📄 Interactive Resume Web App</h1>
             <p className="text-gray-400">React and CSS with real-time editing capabilities</p>
           </div>
           <button
@@ -476,16 +476,16 @@ export default InteractiveResume;`;
                 <h1 className="text-4xl font-bold mb-2">{resumeData.personal.name}</h1>
                 <h2 className="text-xl opacity-90 mb-4">{resumeData.personal.title}</h2>
                 <div className="flex flex-wrap gap-4 text-sm opacity-80">
-                  <span>EM {resumeData.personal.email}</span>
-                  <span>PH {resumeData.personal.phone}</span>
-                  <span>LO {resumeData.personal.location}</span>
+                  <span>📧 {resumeData.personal.email}</span>
+                  <span>📱 {resumeData.personal.phone}</span>
+                  <span>📍 {resumeData.personal.location}</span>
                 </div>
               </div>
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all duration-300 border border-white border-opacity-30"
               >
-                {isEditing ? 'Cancel' : 'Edit Resume'}
+                {isEditing ? 'Cancel' : '✏️ Edit Resume'}
               </button>
             </div>
           </div>
@@ -657,13 +657,13 @@ export default InteractiveResume;`;
                   onClick={handleSave}
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
-                  Save Changes
+                  💾 Save Changes
                 </button>
                 <button
                   onClick={handleCancel}
                   className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
-                  Cancel
+                  ❌ Cancel
                 </button>
               </div>
             </div>
@@ -672,10 +672,10 @@ export default InteractiveResume;`;
 
         {/* Features */}
         <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-teal-400">Interactive Resume Features</h3>
+          <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ Interactive Resume Features</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h4 className="font-semibold text-blue-400 mb-2">Frontend Features</h4>
+              <h4 className="font-semibold text-blue-400 mb-2">🎨 Frontend Features</h4>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>• Real-time editing capabilities</li>
                 <li>• Responsive design</li>
@@ -686,7 +686,7 @@ export default InteractiveResume;`;
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">Technical Features</h4>
+              <h4 className="font-semibold text-green-400 mb-2">⚡ Technical Features</h4>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>• React state management</li>
                 <li>• Component-based architecture</li>

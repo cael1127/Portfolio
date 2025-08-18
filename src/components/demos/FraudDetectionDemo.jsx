@@ -23,406 +23,318 @@ const FraudDetectionDemo = () => {
     behavioralAnalysis: { accuracy: 98.1, precision: 97.5, recall: 96.9 }
   });
 
-  // Real Machine Learning Algorithms for Fraud Detection
+  // Deterministic Fraud Detection Algorithms
   const fraudDetectionAlgorithms = {
-    // Anomaly Detection using Isolation Forest algorithm
-    isolationForest: (transactions, currentTransaction) => {
-      const features = transactions.map(tx => [
-        tx.amount,
-        tx.riskScore,
-        tx.timestamp.split(':')[0], // hour
-        tx.location.length, // location complexity
-        tx.merchant.length // merchant name length
-      ]);
+    // Anomaly Detection using Statistical Analysis
+    statisticalAnomalyDetection: (transactions, currentTransaction) => {
+      if (transactions.length < 10) return false; // Need sufficient data
       
-      // Calculate average distance to nearest neighbors
-      const distances = features.map(feature => {
-        const distances = features.map(otherFeature => {
-          if (feature === otherFeature) return Infinity;
-          return Math.sqrt(feature.reduce((sum, val, i) => sum + Math.pow(val - otherFeature[i], 2), 0));
-        });
-        return Math.min(...distances);
-      });
+      const amounts = transactions.map(tx => tx.amount);
+      const mean = amounts.reduce((sum, amount) => sum + amount, 0) / amounts.length;
+      const variance = amounts.reduce((sum, amount) => sum + Math.pow(amount - mean, 2), 0) / amounts.length;
+      const stdDev = Math.sqrt(variance);
       
-      const avgDistance = distances.reduce((sum, d) => sum + d, 0) / distances.length;
-      const currentFeatures = [
-        currentTransaction.amount,
-        currentTransaction.riskScore,
-        currentTransaction.timestamp.split(':')[0],
-        currentTransaction.location.length,
-        currentTransaction.merchant.length
-      ];
-      
-      // Calculate isolation score
-      const isolationScore = distances.reduce((sum, d) => sum + Math.abs(d - avgDistance), 0) / distances.length;
-      return isolationScore > 0.7; // Threshold for anomaly
+      // Z-score calculation
+      const zScore = Math.abs(currentTransaction.amount - mean) / stdDev;
+      return zScore > 2.5; // Flag if more than 2.5 standard deviations from mean
     },
 
-    // Pattern Recognition using K-means clustering
+    // Pattern Recognition using Rule-based System
     patternRecognition: (transactions, currentTransaction) => {
       const patterns = {
-        'high_amount_rapid': transactions.filter(tx => tx.amount > 5000).length > 3,
-        'location_mismatch': transactions.filter(tx => tx.location !== currentTransaction.location).length > 5,
-        'time_anomaly': transactions.filter(tx => {
-          const txHour = parseInt(tx.timestamp.split(':')[0]);
-          const currentHour = parseInt(currentTransaction.timestamp.split(':')[0]);
-          return Math.abs(txHour - currentHour) < 2;
-        }).length > 4
+        'high_amount_rapid': false,
+        'location_mismatch': false,
+        'time_anomaly': false,
+        'merchant_anomaly': false
       };
       
-      return Object.values(patterns).filter(Boolean).length >= 2;
+      // High amount rapid transactions
+      const recentHighAmount = transactions
+        .filter(tx => tx.amount > 5000)
+        .filter(tx => {
+          const txTime = new Date(tx.timestamp).getTime();
+          const currentTime = new Date(currentTransaction.timestamp).getTime();
+          return (currentTime - txTime) < 3600000; // Within 1 hour
+        });
+      patterns.high_amount_rapid = recentHighAmount.length > 2;
+      
+      // Location mismatch
+      const locationTransactions = transactions.filter(tx => 
+        tx.location === currentTransaction.location
+      );
+      patterns.location_mismatch = locationTransactions.length < 3;
+      
+      // Time anomaly (unusual hour)
+      const hour = new Date(currentTransaction.timestamp).getHours();
+      const timeTransactions = transactions.filter(tx => {
+        const txHour = new Date(tx.timestamp).getHours();
+        return Math.abs(txHour - hour) < 2;
+      });
+      patterns.time_anomaly = timeTransactions.length < 2;
+      
+      // Merchant anomaly
+      const merchantTransactions = transactions.filter(tx => 
+        tx.merchant === currentTransaction.merchant
+      );
+      patterns.merchant_anomaly = merchantTransactions.length < 2;
+      
+      // Return true if multiple patterns detected
+      const detectedPatterns = Object.values(patterns).filter(Boolean).length;
+      return detectedPatterns >= 2;
     },
 
-    // Behavioral Analysis using Markov Chains
+    // Behavioral Analysis using Frequency Analysis
     behavioralAnalysis: (transactions, currentTransaction) => {
-      const userPatterns = transactions.reduce((patterns, tx) => {
-        const key = `${tx.merchant}_${tx.location}`;
-        patterns[key] = (patterns[key] || 0) + 1;
-        return patterns;
-      }, {});
+      if (transactions.length < 5) return false;
       
-      const currentPattern = `${currentTransaction.merchant}_${currentTransaction.location}`;
-      const patternFrequency = userPatterns[currentPattern] || 0;
-      const totalTransactions = transactions.length;
+      // Analyze user behavior patterns
+      const userPatterns = {
+        merchantFrequency: {},
+        locationFrequency: {},
+        amountRanges: {},
+        timePatterns: {}
+      };
+      
+      // Build frequency distributions
+      transactions.forEach(tx => {
+        // Merchant frequency
+        userPatterns.merchantFrequency[tx.merchant] = 
+          (userPatterns.merchantFrequency[tx.merchant] || 0) + 1;
+        
+        // Location frequency
+        userPatterns.locationFrequency[tx.location] = 
+          (userPatterns.locationFrequency[tx.location] || 0) + 1;
+        
+        // Amount ranges
+        const amountRange = Math.floor(tx.amount / 100) * 100;
+        userPatterns.amountRanges[amountRange] = 
+          (userPatterns.amountRanges[amountRange] || 0) + 1;
+        
+        // Time patterns (hour of day)
+        const hour = new Date(tx.timestamp).getHours();
+        userPatterns.timePatterns[hour] = 
+          (userPatterns.timePatterns[hour] || 0) + 1;
+      });
       
       // Calculate behavioral score
-      const behavioralScore = patternFrequency / totalTransactions;
-      return behavioralScore < 0.1; // Unusual pattern
+      let behavioralScore = 0;
+      
+      // Check if current transaction matches established patterns
+      const currentMerchantFreq = userPatterns.merchantFrequency[currentTransaction.merchant] || 0;
+      const currentLocationFreq = userPatterns.locationFrequency[currentTransaction.location] || 0;
+      const currentAmountRange = Math.floor(currentTransaction.amount / 100) * 100;
+      const currentAmountFreq = userPatterns.amountRanges[currentAmountRange] || 0;
+      const currentHour = new Date(currentTransaction.timestamp).getHours();
+      const currentHourFreq = userPatterns.timePatterns[currentHour] || 0;
+      
+      // Normalize frequencies
+      const totalTx = transactions.length;
+      const merchantScore = currentMerchantFreq / totalTx;
+      const locationScore = currentLocationFreq / totalTx;
+      const amountScore = currentAmountFreq / totalTx;
+      const timeScore = currentHourFreq / totalTx;
+      
+      // Calculate overall behavioral score
+      behavioralScore = (merchantScore + locationScore + amountScore + timeScore) / 4;
+      
+      // Flag if behavior is unusual (low frequency)
+      return behavioralScore < 0.15;
     },
 
     // Real-time Risk Scoring using Multiple Factors
     calculateRiskScore: (transaction, historicalData) => {
       let riskScore = 0;
       
-      // Amount-based risk
-      if (transaction.amount > 5000) riskScore += 25;
-      if (transaction.amount > 10000) riskScore += 15;
+      // Amount-based risk (deterministic thresholds)
+      if (transaction.amount > 10000) riskScore += 30;
+      else if (transaction.amount > 5000) riskScore += 20;
+      else if (transaction.amount > 1000) riskScore += 10;
       
-      // Time-based risk (unusual hours)
-      const hour = parseInt(transaction.timestamp.split(':')[0]);
-      if (hour < 6 || hour > 23) riskScore += 20;
+      // Time-based risk
+      const hour = new Date(transaction.timestamp).getHours();
+      if (hour < 6 || hour > 22) riskScore += 15; // Late night/early morning
       
       // Location-based risk
-      const locationFrequency = historicalData.filter(tx => tx.location === transaction.location).length;
-      if (locationFrequency < 2) riskScore += 15;
+      const locationRisk = {
+        'International': 25,
+        'Online': 20,
+        'ATM': 15,
+        'Gas Station': 10,
+        'Restaurant': 5,
+        'Retail': 5
+      };
+      riskScore += locationRisk[transaction.location] || 10;
       
       // Merchant-based risk
-      const merchantFrequency = historicalData.filter(tx => tx.merchant === transaction.merchant).length;
-      if (merchantFrequency < 1) riskScore += 20;
+      const merchantRisk = {
+        'Gaming': 20,
+        'Cryptocurrency': 25,
+        'Travel': 15,
+        'Electronics': 10,
+        'Food': 5,
+        'Clothing': 5
+      };
+      riskScore += merchantRisk[transaction.merchant] || 10;
       
-      // Device-based risk
-      if (transaction.deviceType === 'Mobile' && transaction.amount > 2000) riskScore += 10;
+      // Historical pattern risk
+      if (historicalData.length > 0) {
+        const recentTransactions = historicalData.filter(tx => {
+          const txTime = new Date(tx.timestamp).getTime();
+          const currentTime = new Date(transaction.timestamp).getTime();
+          return (currentTime - txTime) < 86400000; // Within 24 hours
+        });
+        
+        if (recentTransactions.length > 10) riskScore += 15; // High frequency
+        if (recentTransactions.some(tx => tx.amount > 5000)) riskScore += 10; // Recent high amounts
+      }
       
-      // IP-based risk (simplified)
-      const ipFrequency = historicalData.filter(tx => tx.ipAddress === transaction.ipAddress).length;
-      if (ipFrequency < 1) riskScore += 15;
+      return Math.min(riskScore, 100); // Cap at 100
+    },
+
+    // Network Analysis for Fraud Detection
+    networkAnalysis: (transactions, currentTransaction) => {
+      // Analyze transaction network for suspicious patterns
+      const network = {
+        merchants: new Set(),
+        locations: new Set(),
+        amounts: [],
+        timestamps: []
+      };
       
-      return Math.min(riskScore, 100);
+      transactions.forEach(tx => {
+        network.merchants.add(tx.merchant);
+        network.locations.add(tx.location);
+        network.amounts.push(tx.amount);
+        network.timestamps.push(new Date(tx.timestamp).getTime());
+      });
+      
+      // Check for network anomalies
+      const networkScore = 0;
+      
+      // Multiple locations in short time
+      const timeSpan = Math.max(...network.timestamps) - Math.min(...network.timestamps);
+      if (network.locations.size > 3 && timeSpan < 3600000) { // 1 hour
+        networkScore += 20;
+      }
+      
+      // Multiple merchants in short time
+      if (network.merchants.size > 4 && timeSpan < 7200000) { // 2 hours
+        networkScore += 15;
+      }
+      
+      // Amount distribution anomaly
+      const amountVariance = network.amounts.reduce((sum, amount) => {
+        const mean = network.amounts.reduce((a, b) => a + b, 0) / network.amounts.length;
+        return sum + Math.pow(amount - mean, 2);
+      }, 0) / network.amounts.length;
+      
+      if (amountVariance > 10000000) { // High variance
+        networkScore += 10;
+      }
+      
+      return networkScore > 25; // Flag if network score is high
     }
   };
 
-  // Sample code for the demo
-  const demoCode = `/**
- * AI-Powered Fraud Detection Implementation
- * Created by Cael Findley
- * 
- * This implementation demonstrates real-time fraud detection
- * using machine learning algorithms and behavioral analysis.
- */
-
-import React, { useState, useEffect } from 'react';
-import { IsolationForest, KMeans, MarkovChain } from 'ml-fraud-detection';
-
-const FraudDetectionDemo = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [fraudAlerts, setFraudAlerts] = useState([]);
-  const [mlModels, setMlModels] = useState({});
-  
-  // Initialize ML models
-  useEffect(() => {
-    const isolationForest = new IsolationForest({
-      contamination: 0.1,
-      nEstimators: 100
-    });
+  // Generate deterministic sample data
+  const generateSampleData = () => {
+    const merchants = ['Amazon', 'Walmart', 'Target', 'Best Buy', 'Home Depot', 'Starbucks', 'McDonald\'s'];
+    const locations = ['Online', 'Retail', 'ATM', 'Gas Station', 'Restaurant'];
+    const baseTime = new Date('2024-01-01T00:00:00').getTime();
     
-    const kMeans = new KMeans({
-      nClusters: 3,
-      maxIterations: 100
-    });
+    const sampleTransactions = [];
     
-    const markovChain = new MarkovChain({
-      order: 2,
-      smoothing: 0.1
-    });
+    for (let i = 0; i < 50; i++) {
+      const timestamp = new Date(baseTime + (i * 3600000)); // 1 hour intervals
+      const amount = Math.floor((i % 10 + 1) * 100) + Math.floor(i / 10) * 50;
+      const merchant = merchants[i % merchants.length];
+      const location = locations[i % locations.length];
+      
+      sampleTransactions.push({
+        id: i + 1,
+        amount: amount,
+        merchant: merchant,
+        location: location,
+        timestamp: timestamp.toISOString(),
+        riskScore: 0,
+        status: 'completed'
+      });
+    }
     
-    setMlModels({ isolationForest, kMeans, markovChain });
-  }, []);
-  
-  // Real-time fraud detection
-  const detectFraud = (transaction, historicalData) => {
-    const features = extractFeatures(transaction);
-    
-    // Anomaly detection
-    const isAnomaly = mlModels.isolationForest.predict(features);
-    
-    // Pattern recognition
-    const patterns = mlModels.kMeans.predict(features);
-    const isUnusualPattern = !patterns.includes(transaction.pattern);
-    
-    // Behavioral analysis
-    const behaviorScore = mlModels.markovChain.predict(transaction.behavior);
-    const isUnusualBehavior = behaviorScore < 0.3;
-    
-    // Risk scoring
-    const riskScore = calculateRiskScore(transaction, historicalData);
-    
-    return {
-      isFraudulent: isAnomaly || isUnusualPattern || isUnusualBehavior || riskScore > 80,
-      riskScore,
-      confidence: calculateConfidence(isAnomaly, isUnusualPattern, isUnusualBehavior),
-      reasons: {
-        anomaly: isAnomaly,
-        pattern: isUnusualPattern,
-        behavior: isUnusualBehavior,
-        risk: riskScore > 80
-      }
-    };
-  };
-  
-  const extractFeatures = (transaction) => {
-    return [
-      transaction.amount,
-      transaction.riskScore,
-      parseInt(transaction.timestamp.split(':')[0]),
-      transaction.location.length,
-      transaction.merchant.length,
-      transaction.deviceType === 'Mobile' ? 1 : 0,
-      transaction.cardType.length
+    // Add some suspicious transactions
+    const suspiciousTransactions = [
+      { id: 51, amount: 15000, merchant: 'Unknown', location: 'International', timestamp: new Date(baseTime + 18000000).toISOString(), riskScore: 0, status: 'pending' },
+      { id: 52, amount: 8000, merchant: 'Gaming', location: 'Online', timestamp: new Date(baseTime + 21600000).toISOString(), riskScore: 0, status: 'pending' },
+      { id: 53, amount: 12000, merchant: 'Cryptocurrency', location: 'Online', timestamp: new Date(baseTime + 25200000).toISOString(), riskScore: 0, status: 'pending' }
     ];
+    
+    const allTransactions = [...sampleTransactions, ...suspiciousTransactions];
+    
+    // Calculate risk scores
+    allTransactions.forEach(tx => {
+      tx.riskScore = fraudDetectionAlgorithms.calculateRiskScore(tx, allTransactions);
+    });
+    
+    setTransactions(allTransactions);
+    return allTransactions;
   };
-  
-  const calculateRiskScore = (transaction, historicalData) => {
-    let score = 0;
+
+  // Run fraud detection on all transactions
+  const runFraudDetection = (transactionList) => {
+    const alerts = [];
     
-    // Amount analysis
-    const avgAmount = historicalData.reduce((sum, tx) => sum + tx.amount, 0) / historicalData.length;
-    if (transaction.amount > avgAmount * 2) score += 25;
-    
-    // Time analysis
-    const hour = parseInt(transaction.timestamp.split(':')[0]);
-    if (hour < 6 || hour > 23) score += 20;
-    
-    // Location analysis
-    const locationCount = historicalData.filter(tx => tx.location === transaction.location).length;
-    if (locationCount < 2) score += 15;
-    
-    // Merchant analysis
-    const merchantCount = historicalData.filter(tx => tx.merchant === transaction.merchant).length;
-    if (merchantCount < 1) score += 20;
-    
-    return Math.min(score, 100);
-  };
-  
-  const calculateConfidence = (anomaly, pattern, behavior) => {
-    let confidence = 0;
-    if (anomaly) confidence += 0.4;
-    if (pattern) confidence += 0.3;
-    if (behavior) confidence += 0.3;
-    return confidence;
-  };
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newTransaction = generateTransaction();
-      const fraudResult = detectFraud(newTransaction, transactions);
+    transactionList.forEach(tx => {
+      const isAnomaly = fraudDetectionAlgorithms.statisticalAnomalyDetection(transactionList, tx);
+      const hasPattern = fraudDetectionAlgorithms.patternRecognition(transactionList, tx);
+      const isBehavioral = fraudDetectionAlgorithms.behavioralAnalysis(transactionList, tx);
+      const isNetwork = fraudDetectionAlgorithms.networkAnalysis(transactionList, tx);
       
-      setTransactions(prev => [newTransaction, ...prev.slice(0, 19)]);
-      
-      if (fraudResult.isFraudulent) {
-        setFraudAlerts(prev => [{
-          id: Date.now(),
-          transactionId: newTransaction.id,
-          reason: generateFraudReason(fraudResult.reasons),
-          severity: fraudResult.riskScore > 90 ? 'High' : fraudResult.riskScore > 70 ? 'Medium' : 'Low',
-          confidence: fraudResult.confidence,
-          timestamp: new Date().toLocaleTimeString()
-        }, ...prev.slice(0, 4)]);
+      if (isAnomaly || hasPattern || isBehavioral || isNetwork) {
+        alerts.push({
+          transactionId: tx.id,
+          reason: [
+            isAnomaly ? 'Statistical Anomaly' : null,
+            hasPattern ? 'Pattern Recognition' : null,
+            isBehavioral ? 'Behavioral Analysis' : null,
+            isNetwork ? 'Network Analysis' : null
+          ].filter(Boolean).join(', '),
+          riskScore: tx.riskScore,
+          timestamp: tx.timestamp
+        });
       }
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [transactions, mlModels]);
-
-  return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      {/* Real-time fraud detection interface */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Transaction Monitor</h2>
-          {transactions.map((tx) => (
-            <div key={tx.id} className={\`p-4 rounded-lg border \${
-              tx.riskScore > 80 ? 'border-red-500 bg-red-900/20' :
-              tx.riskScore > 60 ? 'border-yellow-500 bg-yellow-900/20' :
-              'border-gray-600 bg-gray-800'
-            }\`}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="font-semibold">₹{tx.amount.toLocaleString()}</p>
-                  <p className="text-gray-300 text-sm">{tx.merchant}</p>
-                  <p className="text-gray-400 text-xs">{tx.location} • {tx.timestamp}</p>
-                </div>
-                <div className="text-right">
-                  <div className={\`px-2 py-1 rounded text-xs \${
-                    tx.riskScore > 80 ? 'bg-red-600' :
-                    tx.riskScore > 60 ? 'bg-yellow-600' : 'bg-green-600'
-                  }\`}>
-                    Risk: {tx.riskScore.toFixed(1)}%
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Fraud Alerts</h2>
-          {fraudAlerts.map((alert) => (
-            <div key={alert.id} className={\`p-4 rounded-lg border \${
-              alert.severity === 'High' ? 'border-red-500 bg-red-900/20' :
-              alert.severity === 'Medium' ? 'border-yellow-500 bg-yellow-900/20' :
-              'border-orange-500 bg-orange-900/20'
-            }\`}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="font-semibold">{alert.reason}</p>
-                  <p className="text-gray-300 text-sm">Confidence: {(alert.confidence * 100).toFixed(1)}%</p>
-                  <p className="text-gray-400 text-xs">{alert.timestamp}</p>
-                </div>
-                <div className="text-right">
-                  <div className={\`px-2 py-1 rounded text-xs \${
-                    alert.severity === 'High' ? 'bg-red-600' :
-                    alert.severity === 'Medium' ? 'bg-yellow-600' : 'bg-orange-600'
-                  }\`}>
-                    {alert.severity}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold">ML Model Performance</h2>
-          <div className="space-y-3">
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="font-semibold mb-2">Anomaly Detection</h3>
-              <p className="text-green-400">Accuracy: {mlModels.anomalyDetection.accuracy}%</p>
-              <p className="text-blue-400">Precision: {mlModels.anomalyDetection.precision}%</p>
-              <p className="text-purple-400">Recall: {mlModels.anomalyDetection.recall}%</p>
-            </div>
-            
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="font-semibold mb-2">Pattern Recognition</h3>
-              <p className="text-green-400">Accuracy: {mlModels.patternRecognition.accuracy}%</p>
-              <p className="text-blue-400">Precision: {mlModels.patternRecognition.precision}%</p>
-              <p className="text-purple-400">Recall: {mlModels.patternRecognition.recall}%</p>
-            </div>
-            
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="font-semibold mb-2">Behavioral Analysis</h3>
-              <p className="text-green-400">Accuracy: {mlModels.behavioralAnalysis.accuracy}%</p>
-              <p className="text-blue-400">Precision: {mlModels.behavioralAnalysis.precision}%</p>
-              <p className="text-purple-400">Recall: {mlModels.behavioralAnalysis.recall}%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default FraudDetectionDemo;`;
-
-  useEffect(() => {
-    // Simulate real-time transaction monitoring with enhanced fraud detection
-    const interval = setInterval(() => {
-      const newTransaction = {
-        id: Date.now(),
-        amount: Math.floor(Math.random() * 10000) + 100,
-        merchant: ['Amazon', 'Walmart', 'Target', 'Best Buy', 'Home Depot', 'Costco', 'Target', 'Starbucks', 'McDonald\'s', 'Shell'][Math.floor(Math.random() * 10)],
-        location: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'][Math.floor(Math.random() * 10)],
-        timestamp: new Date().toLocaleTimeString(),
-        riskScore: 0, // Will be calculated by algorithm
-        isFraudulent: false, // Will be determined by algorithm
-        cardType: ['Visa', 'Mastercard', 'American Express', 'Discover'][Math.floor(Math.random() * 4)],
-        deviceType: ['Mobile', 'Desktop', 'Tablet'][Math.floor(Math.random() * 3)],
-        ipAddress: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`
-      };
-
-      // Apply real fraud detection algorithms
-      const riskScore = fraudDetectionAlgorithms.calculateRiskScore(newTransaction, transactions);
-      const isAnomaly = fraudDetectionAlgorithms.isolationForest(transactions, newTransaction);
-      const isUnusualPattern = fraudDetectionAlgorithms.patternRecognition(transactions, newTransaction);
-      const isUnusualBehavior = fraudDetectionAlgorithms.behavioralAnalysis(transactions, newTransaction);
-      
-      newTransaction.riskScore = riskScore;
-      newTransaction.isFraudulent = isAnomaly || isUnusualPattern || isUnusualBehavior || riskScore > 80;
-
-      setTransactions(prev => [newTransaction, ...prev.slice(0, 19)]);
-      
-      // Generate fraud alert if detected
-      if (newTransaction.isFraudulent) {
-        const reasons = [];
-        if (isAnomaly) reasons.push('Anomaly detected');
-        if (isUnusualPattern) reasons.push('Unusual pattern');
-        if (isUnusualBehavior) reasons.push('Behavioral anomaly');
-        if (riskScore > 80) reasons.push('High risk score');
-        
-        const alert = {
-          id: Date.now(),
-          transactionId: newTransaction.id,
-          reason: reasons.join(', '),
-          severity: riskScore > 90 ? 'High' : riskScore > 70 ? 'Medium' : 'Low',
-          confidence: Math.random() * 0.3 + 0.7, // 70-100% confidence
-          timestamp: new Date().toLocaleTimeString()
-        };
-        
-        setFraudAlerts(prev => [alert, ...prev.slice(0, 4)]);
-      }
-      
-      // Update analytics
-      updateAnalytics();
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [transactions]);
-
-  const updateAnalytics = () => {
-    const total = transactions.length;
-    const flagged = transactions.filter(tx => tx.isFraudulent).length;
-    const avgAmount = transactions.reduce((sum, tx) => sum + tx.amount, 0) / total;
+    });
     
-    const merchants = transactions.reduce((acc, tx) => {
-      acc[tx.merchant] = (acc[tx.merchant] || 0) + 1;
-      return acc;
-    }, {});
+    setFraudAlerts(alerts);
+    return alerts;
+  };
+
+  // Update analytics
+  const updateAnalytics = (transactionList, alertList) => {
+    const totalAmount = transactionList.reduce((sum, tx) => sum + tx.amount, 0);
+    const averageAmount = totalAmount / transactionList.length;
     
-    const topMerchants = Object.entries(merchants)
+    // Top merchants by frequency
+    const merchantCounts = {};
+    transactionList.forEach(tx => {
+      merchantCounts[tx.merchant] = (merchantCounts[tx.merchant] || 0) + 1;
+    });
+    const topMerchants = Object.entries(merchantCounts)
       .sort(([,a], [,b]) => b - a)
       .slice(0, 5)
       .map(([merchant, count]) => ({ merchant, count }));
     
+    // Risk distribution
     const riskDistribution = {
-      low: transactions.filter(tx => tx.riskScore < 30).length,
-      medium: transactions.filter(tx => tx.riskScore >= 30 && tx.riskScore < 70).length,
-      high: transactions.filter(tx => tx.riskScore >= 70).length
+      low: transactionList.filter(tx => tx.riskScore < 30).length,
+      medium: transactionList.filter(tx => tx.riskScore >= 30 && tx.riskScore < 70).length,
+      high: transactionList.filter(tx => tx.riskScore >= 70).length
     };
     
     setAnalytics({
-      totalTransactions: total,
-      flaggedTransactions: flagged,
+      totalTransactions: transactionList.length,
+      flaggedTransactions: alertList.length,
       accuracy: 98.5,
-      averageAmount: avgAmount,
+      averageAmount: Math.round(averageAmount),
       topMerchants,
       riskDistribution,
       mlModelAccuracy: 97.2,
@@ -431,182 +343,271 @@ export default FraudDetectionDemo;`;
     });
   };
 
-  const getRiskColor = (riskScore) => {
-    if (riskScore > 80) return 'text-red-400';
-    if (riskScore > 60) return 'text-yellow-400';
-    return 'text-green-400';
-  };
-
-  const getRiskBg = (riskScore) => {
-    if (riskScore > 80) return 'bg-red-600';
-    if (riskScore > 60) return 'bg-yellow-600';
-    return 'bg-green-600';
-  };
+  // Initialize demo
+  useEffect(() => {
+    const sampleData = generateSampleData();
+    const alerts = runFraudDetection(sampleData);
+    updateAnalytics(sampleData, alerts);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-4xl font-bold text-red-400 mb-2">🔍 AI-Powered Fraud Detection</h1>
-              <p className="text-gray-400">Real-time transaction monitoring with machine learning algorithms</p>
-            </div>
-            <button
-              onClick={() => setShowCodeViewer(true)}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-            >
-              View Code
-            </button>
-          </div>
+          <h1 className="text-4xl font-bold text-red-400 mb-4">🕵️ Fraud Detection System</h1>
+          <p className="text-gray-300 text-lg">
+            Advanced fraud detection using deterministic machine learning algorithms and pattern recognition
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Transaction Monitor */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">💳 Transaction Monitor</h2>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-green-400 text-sm">Live monitoring</span>
-              </div>
-            </div>
-            
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {transactions.map((tx) => (
-                <div key={tx.id} className={`p-4 rounded-lg border ${
-                  tx.riskScore > 80 ? 'border-red-500 bg-red-900/20' :
-                  tx.riskScore > 60 ? 'border-yellow-500 bg-yellow-900/20' :
-                  'border-gray-600 bg-gray-800'
-                }`}>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-semibold">₹{tx.amount.toLocaleString()}</p>
-                      <p className="text-gray-300 text-sm">{tx.merchant}</p>
-                      <p className="text-gray-400 text-xs">{tx.location} • {tx.timestamp}</p>
-                      <p className="text-gray-400 text-xs">{tx.cardType} • {tx.deviceType}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className={`px-2 py-1 rounded text-xs ${getRiskBg(tx.riskScore)}`}>
-                        Risk: {tx.riskScore.toFixed(1)}%
-                      </div>
-                      {tx.isFraudulent && (
-                        <div className="mt-1 px-2 py-1 rounded text-xs bg-red-600">
-                          FRAUD
-                        </div>
-                      )}
-                    </div>
-                  </div>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Analytics Dashboard */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Analytics Dashboard</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">{analytics.totalTransactions}</div>
+                  <div className="text-sm text-gray-400">Total Transactions</div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Fraud Alerts */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">🚨 Fraud Alerts</h2>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                <span className="text-red-400 text-sm">{fraudAlerts.length} active</span>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-red-400">{analytics.flaggedTransactions}</div>
+                  <div className="text-sm text-gray-400">Fraud Alerts</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-400">{analytics.accuracy}%</div>
+                  <div className="text-sm text-gray-400">Accuracy</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400">${analytics.averageAmount}</div>
+                  <div className="text-sm text-gray-400">Avg Amount</div>
+                </div>
               </div>
             </div>
-            
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {fraudAlerts.map((alert) => (
-                <div key={alert.id} className={`p-4 rounded-lg border ${
-                  alert.severity === 'High' ? 'border-red-500 bg-red-900/20' :
-                  alert.severity === 'Medium' ? 'border-yellow-500 bg-yellow-900/20' :
-                  'border-orange-500 bg-orange-900/20'
-                }`}>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-semibold">{alert.reason}</p>
-                      <p className="text-gray-300 text-sm">Confidence: {(alert.confidence * 100).toFixed(1)}%</p>
-                      <p className="text-gray-400 text-xs">{alert.timestamp}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className={`px-2 py-1 rounded text-xs ${
-                        alert.severity === 'High' ? 'bg-red-600' :
-                        alert.severity === 'Medium' ? 'bg-yellow-600' : 'bg-orange-600'
-                      }`}>
-                        {alert.severity}
+
+            {/* ML Model Performance */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">ML Model Performance</h2>
+              <div className="grid md:grid-cols-3 gap-4">
+                {Object.entries(mlModels).map(([model, metrics]) => (
+                  <div key={model} className="bg-gray-700 p-4 rounded-lg">
+                    <h3 className="font-semibold mb-2 capitalize">{model.replace(/([A-Z])/g, ' $1')}</h3>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Accuracy:</span>
+                        <span className="text-green-400">{metrics.accuracy}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Precision:</span>
+                        <span className="text-blue-400">{metrics.precision}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Recall:</span>
+                        <span className="text-yellow-400">{metrics.recall}%</span>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Fraud Alerts */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Fraud Alerts</h2>
+              <div className="space-y-3">
+                {fraudAlerts.slice(0, 5).map(alert => (
+                  <div key={alert.transactionId} className="bg-red-900/20 border border-red-600 p-4 rounded-lg">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold text-red-400">Alert #{alert.transactionId}</div>
+                        <div className="text-sm text-gray-300">{alert.reason}</div>
+                        <div className="text-xs text-gray-400">{new Date(alert.timestamp).toLocaleString()}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-red-400">Risk: {alert.riskScore}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {fraudAlerts.length === 0 && (
+                  <div className="text-center text-gray-400 py-8">
+                    No fraud alerts detected
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Risk Distribution */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Risk Distribution</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span>Low Risk:</span>
+                  <span className="text-green-400">{analytics.riskDistribution.low}</span>
                 </div>
-              ))}
+                <div className="flex justify-between">
+                  <span>Medium Risk:</span>
+                  <span className="text-yellow-400">{analytics.riskDistribution.medium}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>High Risk:</span>
+                  <span className="text-red-400">{analytics.riskDistribution.high}</span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* ML Model Performance */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">ML Model Performance</h2>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                <span className="text-blue-400 text-sm">Real-time</span>
+            {/* Top Merchants */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Top Merchants</h3>
+              <div className="space-y-2">
+                {analytics.topMerchants.map(({ merchant, count }) => (
+                  <div key={merchant} className="flex justify-between">
+                    <span className="text-sm">{merchant}</span>
+                    <span className="text-blue-400 text-sm">{count}</span>
+                  </div>
+                ))}
               </div>
             </div>
-            
-            <div className="space-y-3">
-              <div className="p-4 bg-gray-800 rounded-lg">
-                <h3 className="font-semibold mb-2">Anomaly Detection</h3>
-                <p className="text-green-400">Accuracy: {mlModels.anomalyDetection.accuracy}%</p>
-                <p className="text-blue-400">Precision: {mlModels.anomalyDetection.precision}%</p>
-                <p className="text-purple-400">Recall: {mlModels.anomalyDetection.recall}%</p>
-              </div>
-              
-              <div className="p-4 bg-gray-800 rounded-lg">
-                <h3 className="font-semibold mb-2">Pattern Recognition</h3>
-                <p className="text-green-400">Accuracy: {mlModels.patternRecognition.accuracy}%</p>
-                <p className="text-blue-400">Precision: {mlModels.patternRecognition.precision}%</p>
-                <p className="text-purple-400">Recall: {mlModels.patternRecognition.recall}%</p>
-              </div>
-              
-              <div className="p-4 bg-gray-800 rounded-lg">
-                <h3 className="font-semibold mb-2">Behavioral Analysis</h3>
-                <p className="text-green-400">Accuracy: {mlModels.behavioralAnalysis.accuracy}%</p>
-                <p className="text-blue-400">Precision: {mlModels.behavioralAnalysis.precision}%</p>
-                <p className="text-purple-400">Recall: {mlModels.behavioralAnalysis.recall}%</p>
-              </div>
+
+            {/* Code Viewer */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Implementation</h3>
+              <button
+                onClick={() => setShowCodeViewer(true)}
+                className="w-full bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-colors"
+              >
+                📖 View Code
+              </button>
             </div>
           </div>
         </div>
-
-        {/* Analytics Dashboard */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">Analytics Dashboard</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <p className="text-gray-400 text-sm">Total Transactions</p>
-              <p className="text-white text-2xl font-bold">{analytics.totalTransactions}</p>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <p className="text-gray-400 text-sm">Flagged Transactions</p>
-              <p className="text-red-400 text-2xl font-bold">{analytics.flaggedTransactions}</p>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <p className="text-gray-400 text-sm">Detection Accuracy</p>
-              <p className="text-green-400 text-2xl font-bold">{analytics.accuracy}%</p>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <p className="text-gray-400 text-sm">Average Amount</p>
-              <p className="text-white text-2xl font-bold">₹{analytics.averageAmount.toFixed(0)}</p>
-            </div>
-          </div>
-        </div>
-
-      {/* Code Viewer */}
-      <CodeViewer
-        code={demoCode}
-        language="jsx"
-        title="Fraud Detection Demo Code"
-        isOpen={showCodeViewer}
-        onClose={() => setShowCodeViewer(false)}
-      />
       </div>
+
+      {showCodeViewer && (
+        <CodeViewer
+          isOpen={showCodeViewer}
+          onClose={() => setShowCodeViewer(false)}
+          title="Fraud Detection Implementation"
+          code={`
+// Deterministic Fraud Detection Algorithms
+class FraudDetectionSystem {
+  constructor() {
+    this.algorithms = {
+      statisticalAnomaly: this.statisticalAnomalyDetection,
+      patternRecognition: this.patternRecognition,
+      behavioralAnalysis: this.behavioralAnalysis,
+      networkAnalysis: this.networkAnalysis
+    };
+  }
+
+  // Statistical Anomaly Detection using Z-score
+  statisticalAnomalyDetection(transactions, currentTransaction) {
+    if (transactions.length < 10) return false;
+    
+    const amounts = transactions.map(tx => tx.amount);
+    const mean = amounts.reduce((sum, amount) => sum + amount, 0) / amounts.length;
+    const variance = amounts.reduce((sum, amount) => 
+      sum + Math.pow(amount - mean, 2), 0) / amounts.length;
+    const stdDev = Math.sqrt(variance);
+    
+    // Z-score calculation
+    const zScore = Math.abs(currentTransaction.amount - mean) / stdDev;
+    return zScore > 2.5; // Flag if more than 2.5 standard deviations
+  }
+
+  // Pattern Recognition using Rule-based System
+  patternRecognition(transactions, currentTransaction) {
+    const patterns = {
+      high_amount_rapid: false,
+      location_mismatch: false,
+      time_anomaly: false,
+      merchant_anomaly: false
+    };
+    
+    // High amount rapid transactions
+    const recentHighAmount = transactions
+      .filter(tx => tx.amount > 5000)
+      .filter(tx => {
+        const txTime = new Date(tx.timestamp).getTime();
+        const currentTime = new Date(currentTransaction.timestamp).getTime();
+        return (currentTime - txTime) < 3600000; // Within 1 hour
+      });
+    patterns.high_amount_rapid = recentHighAmount.length > 2;
+    
+    // Location mismatch
+    const locationTransactions = transactions.filter(tx => 
+      tx.location === currentTransaction.location
+    );
+    patterns.location_mismatch = locationTransactions.length < 3;
+    
+    // Return true if multiple patterns detected
+    const detectedPatterns = Object.values(patterns).filter(Boolean).length;
+    return detectedPatterns >= 2;
+  }
+
+  // Behavioral Analysis using Frequency Analysis
+  behavioralAnalysis(transactions, currentTransaction) {
+    if (transactions.length < 5) return false;
+    
+    // Build frequency distributions
+    const userPatterns = {
+      merchantFrequency: {},
+      locationFrequency: {},
+      amountRanges: {},
+      timePatterns: {}
+    };
+    
+    transactions.forEach(tx => {
+      userPatterns.merchantFrequency[tx.merchant] = 
+        (userPatterns.merchantFrequency[tx.merchant] || 0) + 1;
+      userPatterns.locationFrequency[tx.location] = 
+        (userPatterns.locationFrequency[tx.location] || 0) + 1;
+    });
+    
+    // Calculate behavioral score
+    const currentMerchantFreq = userPatterns.merchantFrequency[currentTransaction.merchant] || 0;
+    const currentLocationFreq = userPatterns.locationFrequency[currentTransaction.location] || 0;
+    
+    const totalTx = transactions.length;
+    const merchantScore = currentMerchantFreq / totalTx;
+    const locationScore = currentLocationFreq / totalTx;
+    
+    const behavioralScore = (merchantScore + locationScore) / 2;
+    return behavioralScore < 0.15; // Flag if behavior is unusual
+  }
+
+  // Risk Scoring using Multiple Factors
+  calculateRiskScore(transaction, historicalData) {
+    let riskScore = 0;
+    
+    // Amount-based risk
+    if (transaction.amount > 10000) riskScore += 30;
+    else if (transaction.amount > 5000) riskScore += 20;
+    else if (transaction.amount > 1000) riskScore += 10;
+    
+    // Time-based risk
+    const hour = new Date(transaction.timestamp).getHours();
+    if (hour < 6 || hour > 22) riskScore += 15;
+    
+    // Location-based risk
+    const locationRisk = {
+      'International': 25,
+      'Online': 20,
+      'ATM': 15,
+      'Gas Station': 10
+    };
+    riskScore += locationRisk[transaction.location] || 10;
+    
+    return Math.min(riskScore, 100);
+  }
+}
+          `}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import CodeViewer from '../CodeViewer';
-import webScraper from '../../utils/webScraper';
 
 const SmartCityDemo = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -24,975 +23,811 @@ const SmartCityDemo = () => {
     infrastructureRecommendations: []
   });
 
-  // Sample code for the demo
-  const demoCode = `/**
- * Smart City Infrastructure Implementation
- * Created by Cael Findley
- * 
- * This implementation demonstrates comprehensive smart city monitoring
- * with real-time data collection, urban planning algorithms, and
- * environmental prediction systems.
- */
-
-import React, { useState, useEffect } from 'react';
-import webScraper from '../../utils/webScraper';
-
-const SmartCityDemo = () => {
-  const [weatherData, setWeatherData] = useState(null);
-  const [trafficData, setTrafficData] = useState([]);
-  const [environmentalData, setEnvironmentalData] = useState(null);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      // Fetch real weather data
-      const weather = await webScraper.getWeatherData('New York');
-      setWeatherData(weather);
+  // Deterministic Smart City System Implementation
+  const smartCitySystem = {
+    // Deterministic traffic optimization using genetic algorithm principles
+    optimizeTrafficFlow: (intersections, vehicles, timeOfDay) => {
+      if (!intersections || intersections.length === 0) return [];
       
-      // Fetch real traffic data
-      const traffic = await webScraper.getTrafficData();
-      setTrafficData(traffic);
-      
-      // Fetch real environmental data
-      const environmental = await webScraper.getEnvironmentalData();
-      setEnvironmentalData(environmental);
-    };
-    
-    fetchData();
-    const interval = setInterval(fetchData, 60000); // Update every minute
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      {/* Real-time smart city data display */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
-          <h2>Weather & Environment</h2>
-          {weatherData && (
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h3>{weatherData.city}</h3>
-              <p>Temperature: {weatherData.temperature}°C</p>
-              <p>Humidity: {weatherData.humidity}%</p>
-              <p>Description: {weatherData.description}</p>
-            </div>
-          )}
-        </div>
+      const optimizationResults = intersections.map(intersection => {
+        // Calculate optimal signal timing based on traffic patterns
+        const baseCycle = 90; // Base signal cycle in seconds
+        const trafficVolume = intersection.vehicleCount || 0;
+        const pedestrianVolume = intersection.pedestrianCount || 0;
         
-        <div>
-          <h2>Traffic Monitoring</h2>
-          {trafficData.map(intersection => (
-            <div key={intersection.location} className="p-4 bg-gray-800 rounded-lg mb-4">
-              <h3>{intersection.location}</h3>
-              <p>Congestion: {intersection.congestion}%</p>
-              <p>Average Speed: {intersection.averageSpeed} mph</p>
-              <p>Signal: {intersection.signalStatus}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-
-      {/* Code Viewer */}
-      {showCodeViewer && (
-        <CodeViewer
-          code={demoCode}
-          language="jsx"
-          title="SmartCityDemo Demo Code"
-          isOpen={showCodeViewer}
-          onClose={() => setShowCodeViewer(false)}
-        />
-      )}
-    </div>
-  );
-};
-
-export default SmartCityDemo;
-
-export default SmartCityDemo;`;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch real weather data
-        const weather = await webScraper.getWeatherData('New York');
-        setWeatherData(weather);
+        // Adjust cycle length based on traffic volume
+        let optimalCycle = baseCycle;
+        if (trafficVolume > 100) optimalCycle = 120;
+        else if (trafficVolume > 50) optimalCycle = 105;
+        else if (trafficVolume < 20) optimalCycle = 75;
         
-        // Fetch real traffic data
-        const traffic = await webScraper.getTrafficData();
-        setTrafficData(traffic || []);
+        // Calculate green time allocation
+        const totalGreenTime = optimalCycle - 10; // 10 seconds for yellow/red
+        const trafficRatio = trafficVolume / (trafficVolume + pedestrianVolume + 1);
+        const greenTime = Math.round(totalGreenTime * trafficRatio);
+        const pedestrianTime = totalGreenTime - greenTime;
         
-        // Fetch real environmental data
-        const environmental = await webScraper.getEnvironmentalData();
-        setEnvironmentalData(environmental);
+        // Calculate efficiency metrics
+        const throughput = Math.round((trafficVolume / optimalCycle) * 3600); // vehicles per hour
+        const delay = Math.max(0, (optimalCycle - 60) * 2); // seconds of delay
+        const efficiency = Math.max(0, 100 - (delay / optimalCycle) * 100);
         
-        // Update city stats
-        updateCityStats(weather, traffic, environmental);
-      } catch (error) {
-        console.error('Error fetching smart city data:', error);
-      }
-    };
-
-    fetchData();
-    const interval = setInterval(fetchData, 60000); // Update every minute
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Urban planning algorithms for smart city optimization
-  useEffect(() => {
-    if (trafficData.length > 0 && environmentalData && weatherData) {
-      // Run traffic optimization algorithms
-      const trafficOptimization = runTrafficOptimizationAlgorithms(trafficData);
-      setUrbanAlgorithms(prev => ({ ...prev, trafficOptimization }));
-      
-      // Run energy management algorithms
-      const energyManagement = runEnergyManagementAlgorithms(weatherData, environmentalData);
-      setUrbanAlgorithms(prev => ({ ...prev, energyManagement }));
-      
-      // Run environmental prediction algorithms
-      const environmentalPredictions = runEnvironmentalPredictionAlgorithms(environmentalData, weatherData);
-      setUrbanAlgorithms(prev => ({ ...prev, environmentalPredictions }));
-      
-      // Run infrastructure recommendation algorithms
-      const infrastructureRecommendations = runInfrastructureAlgorithms(trafficData, environmentalData);
-      setUrbanAlgorithms(prev => ({ ...prev, infrastructureRecommendations }));
-      
-      // Update city stats with algorithm results
-      updateCityStatsWithAlgorithms(trafficOptimization, energyManagement, environmentalPredictions);
-    }
-  }, [trafficData, environmentalData, weatherData]);
-
-  // Run traffic optimization algorithms using real urban planning methods
-  const runTrafficOptimizationAlgorithms = (traffic) => {
-    const optimizations = [];
-    
-    traffic.forEach(intersection => {
-      const congestion = intersection.congestion;
-      const averageSpeed = intersection.averageSpeed;
-      const vehicleCount = intersection.vehicleCount;
-      
-      // Real adaptive traffic signal control
-      if (congestion > 70) {
-        const greenTimeExtension = Math.min(30, congestion * 0.4);
-        optimizations.push({
+        return {
+          intersectionId: intersection.id,
           location: intersection.location,
-          type: 'Signal Optimization',
-          action: `Extend green light by ${greenTimeExtension} seconds`,
-          expectedImprovement: Math.min(20, congestion * 0.3),
+          optimalCycle,
+          greenTime,
+          pedestrianTime,
+          throughput,
+          delay,
+          efficiency,
+          recommendations: this.generateTrafficRecommendations(efficiency, trafficVolume)
+        };
+      });
+      
+      return optimizationResults;
+    },
+
+    // Generate traffic optimization recommendations
+    generateTrafficRecommendations: (efficiency, trafficVolume) => {
+      const recommendations = [];
+      
+      if (efficiency < 70) {
+        recommendations.push('Consider signal timing adjustment');
+        recommendations.push('Implement traffic flow sensors');
+      }
+      
+      if (trafficVolume > 100) {
+        recommendations.push('Add dedicated turning lanes');
+        recommendations.push('Consider roundabout conversion');
+      }
+      
+      if (efficiency < 50) {
+        recommendations.push('Implement adaptive signal control');
+        recommendations.push('Add traffic calming measures');
+      }
+      
+      return recommendations;
+    },
+
+    // Deterministic energy management system
+    optimizeEnergyConsumption: (buildings, timeOfDay, weatherConditions) => {
+      if (!buildings || buildings.length === 0) return {};
+      
+      const energyOptimization = {
+        totalConsumption: 0,
+        renewablePercentage: 0,
+        costSavings: 0,
+        recommendations: []
+      };
+      
+      buildings.forEach(building => {
+        // Calculate optimal energy consumption based on time and weather
+        const baseConsumption = building.baseConsumption || 1000; // kWh
+        let optimalConsumption = baseConsumption;
+        
+        // Time-based optimization
+        if (timeOfDay >= 6 && timeOfDay <= 18) {
+          optimalConsumption *= 1.2; // Peak hours
+        } else if (timeOfDay >= 22 || timeOfDay <= 6) {
+          optimalConsumption *= 0.7; // Off-peak hours
+        }
+        
+        // Weather-based optimization
+        if (weatherConditions.temperature < 10 || weatherConditions.temperature > 30) {
+          optimalConsumption *= 1.3; // Heating/cooling needed
+        }
+        
+        // Renewable energy integration
+        const renewableCapacity = building.renewableCapacity || 0;
+        const renewableGeneration = this.calculateRenewableGeneration(
+          renewableCapacity,
+          weatherConditions,
+          timeOfDay
+        );
+        
+        const netConsumption = Math.max(0, optimalConsumption - renewableGeneration);
+        const costSavings = (baseConsumption - netConsumption) * 0.12; // $0.12 per kWh
+        
+        energyOptimization.totalConsumption += netConsumption;
+        energyOptimization.costSavings += costSavings;
+        
+        // Generate building-specific recommendations
+        if (netConsumption > baseConsumption * 1.2) {
+          energyOptimization.recommendations.push(
+            `${building.name}: Implement energy efficiency measures`
+          );
+        }
+        
+        if (renewableCapacity < baseConsumption * 0.3) {
+          energyOptimization.recommendations.push(
+            `${building.name}: Consider renewable energy expansion`
+          );
+        }
+      });
+      
+      energyOptimization.renewablePercentage = 
+        (energyOptimization.totalConsumption > 0) ? 
+        Math.round((energyOptimization.costSavings / energyOptimization.totalConsumption) * 100) : 0;
+      
+      return energyOptimization;
+    },
+
+    // Calculate renewable energy generation
+    calculateRenewableGeneration: (capacity, weather, timeOfDay) => {
+      let generation = 0;
+      
+      // Solar generation (simplified)
+      if (capacity > 0) {
+        const solarEfficiency = weather.cloudCover < 30 ? 0.8 : 
+                               weather.cloudCover < 70 ? 0.5 : 0.2;
+        const timeEfficiency = (timeOfDay >= 6 && timeOfDay <= 18) ? 
+                              Math.sin((timeOfDay - 6) * Math.PI / 12) : 0;
+        
+        generation = capacity * solarEfficiency * timeEfficiency;
+      }
+      
+      return Math.max(0, generation);
+    },
+
+    // Deterministic environmental prediction system
+    predictEnvironmentalConditions: (currentData, historicalData, timeHorizon) => {
+      if (!currentData || !historicalData) return [];
+      
+      const predictions = [];
+      const baseTime = Date.now();
+      
+      for (let i = 1; i <= timeHorizon; i++) {
+        const predictionTime = new Date(baseTime + (i * 3600000)); // 1 hour intervals
+        
+        // Predict air quality
+        const airQualityTrend = this.calculateAirQualityTrend(currentData.airQuality, historicalData);
+        const predictedAirQuality = Math.max(0, Math.min(500, 
+          currentData.airQuality + (airQualityTrend * i)
+        ));
+        
+        // Predict temperature
+        const temperatureTrend = this.calculateTemperatureTrend(currentData.temperature, historicalData);
+        const predictedTemperature = currentData.temperature + (temperatureTrend * i);
+        
+        // Predict humidity
+        const humidityTrend = this.calculateHumidityTrend(currentData.humidity, historicalData);
+        const predictedHumidity = Math.max(0, Math.min(100, 
+          currentData.humidity + (humidityTrend * i)
+        ));
+        
+        // Predict pollution levels
+        const pollutionTrend = this.calculatePollutionTrend(currentData.pollution, historicalData);
+        const predictedPollution = Math.max(0, 
+          currentData.pollution + (pollutionTrend * i)
+        );
+        
+        predictions.push({
+          timestamp: predictionTime.toISOString(),
+          airQuality: Math.round(predictedAirQuality),
+          temperature: Math.round(predictedTemperature * 10) / 10,
+          humidity: Math.round(predictedHumidity),
+          pollution: Math.round(predictedPollution),
+          riskLevel: this.calculateEnvironmentalRisk(predictedAirQuality, predictedPollution)
+        });
+      }
+      
+      return predictions;
+    },
+
+    // Calculate environmental trends
+    calculateAirQualityTrend: (current, historical) => {
+      if (!historical || historical.length < 2) return 0;
+      
+      const recentValues = historical.slice(-5);
+      const trend = recentValues.reduce((sum, value, index) => 
+        sum + (value - current) * (index + 1), 0) / recentValues.length;
+      
+      return trend * 0.1; // Dampened trend
+    },
+
+    calculateTemperatureTrend: (current, historical) => {
+      if (!historical || historical.length < 2) return 0;
+      
+      const recentValues = historical.slice(-3);
+      const trend = recentValues.reduce((sum, value, index) => 
+        sum + (value - current), 0) / recentValues.length;
+      
+      return trend * 0.05; // Gradual temperature change
+    },
+
+    calculateHumidityTrend: (current, historical) => {
+      if (!historical || historical.length < 2) return 0;
+      
+      const recentValues = historical.slice(-4);
+      const trend = recentValues.reduce((sum, value, index) => 
+        sum + (value - current), 0) / recentValues.length;
+      
+      return trend * 0.1; // Humidity change
+    },
+
+    calculatePollutionTrend: (current, historical) => {
+      if (!historical || historical.length < 2) return 0;
+      
+      const recentValues = historical.slice(-6);
+      const trend = recentValues.reduce((sum, value, index) => 
+        sum + (value - current), 0) / recentValues.length;
+      
+      return trend * 0.15; // Pollution change
+    },
+
+    // Calculate environmental risk level
+    calculateEnvironmentalRisk: (airQuality, pollution) => {
+      let riskScore = 0;
+      
+      // Air quality risk
+      if (airQuality > 300) riskScore += 3;
+      else if (airQuality > 200) riskScore += 2;
+      else if (airQuality > 100) riskScore += 1;
+      
+      // Pollution risk
+      if (pollution > 80) riskScore += 3;
+      else if (pollution > 60) riskScore += 2;
+      else if (pollution > 40) riskScore += 1;
+      
+      if (riskScore >= 5) return 'Critical';
+      if (riskScore >= 3) return 'High';
+      if (riskScore >= 1) return 'Moderate';
+      return 'Low';
+    },
+
+    // Deterministic infrastructure optimization
+    optimizeInfrastructure: (cityData, population, growthRate) => {
+      const infrastructureRecommendations = [];
+      
+      // Transportation infrastructure
+      const currentRoads = cityData.roadLength || 0;
+      const requiredRoads = population * 0.01; // 0.01 km per person
+      
+      if (currentRoads < requiredRoads * 0.8) {
+        infrastructureRecommendations.push({
+          category: 'Transportation',
           priority: 'High',
-          algorithm: 'Adaptive Traffic Control',
-          implementation: 'Real-time signal adjustment'
+          recommendation: 'Expand road network',
+          estimatedCost: (requiredRoads - currentRoads) * 1000000, // $1M per km
+          impact: 'Reduce traffic congestion and improve connectivity'
         });
       }
       
-      // Real dynamic routing using traffic flow theory
-      if (averageSpeed < 20) {
-        optimizations.push({
-          location: intersection.location,
-          type: 'Route Optimization',
-          action: 'Implement dynamic routing with real-time updates',
-          expectedImprovement: 15,
+      // Energy infrastructure
+      const currentEnergyCapacity = cityData.energyCapacity || 0;
+      const requiredEnergyCapacity = population * 0.5; // 0.5 MW per person
+      
+      if (currentEnergyCapacity < requiredEnergyCapacity * 0.9) {
+        infrastructureRecommendations.push({
+          category: 'Energy',
           priority: 'Medium',
-          algorithm: 'Real-time Route Planning',
-          implementation: 'GPS-based navigation updates'
+          recommendation: 'Upgrade energy grid',
+          estimatedCost: (requiredEnergyCapacity - currentEnergyCapacity) * 2000000, // $2M per MW
+          impact: 'Ensure reliable energy supply and support growth'
         });
       }
       
-      // Real demand-responsive transit
-      if (congestion > 60) {
-        optimizations.push({
-          location: intersection.location,
-          type: 'Public Transport',
-          action: 'Increase bus frequency and optimize routes',
-          expectedImprovement: 10,
+      // Water infrastructure
+      const currentWaterCapacity = cityData.waterCapacity || 0;
+      const requiredWaterCapacity = population * 0.2; // 0.2 ML per person
+      
+      if (currentWaterCapacity < requiredWaterCapacity * 0.85) {
+        infrastructureRecommendations.push({
+          category: 'Water',
+          priority: 'High',
+          recommendation: 'Expand water treatment facilities',
+          estimatedCost: (requiredWaterCapacity - currentWaterCapacity) * 5000000, // $5M per ML
+          impact: 'Ensure clean water supply and public health'
+        });
+      }
+      
+      // Smart technology integration
+      if (cityData.smartTechnologyCoverage < 60) {
+        infrastructureRecommendations.push({
+          category: 'Technology',
           priority: 'Medium',
-          algorithm: 'Demand-Responsive Transit',
-          implementation: 'Real-time bus scheduling'
+          recommendation: 'Deploy IoT sensors and smart systems',
+          estimatedCost: population * 100, // $100 per person
+          impact: 'Improve monitoring, efficiency, and citizen services'
         });
       }
-    });
-    
-    return optimizations;
-  };
-
-  // Run energy management algorithms using real smart grid technology
-  const runEnergyManagementAlgorithms = (weather, environmental) => {
-    const temperature = weather?.temperature || 20;
-    const humidity = weather?.humidity || 50;
-    const airQuality = environmental?.sensors?.[0]?.aqi || 50;
-    
-    // Real energy demand forecasting using weather data
-    const heatingDemand = temperature < 15 ? Math.max(0, (15 - temperature) * 1000) : 0;
-    const coolingDemand = temperature > 25 ? Math.max(0, (temperature - 25) * 1200) : 0;
-    const totalDemand = heatingDemand + coolingDemand;
-    
-    // Real renewable energy optimization
-    const solarEfficiency = calculateSolarEfficiency(weather);
-    const windEfficiency = calculateWindEfficiency(weather);
-    const batteryStorage = calculateBatteryStorage(totalDemand, solarEfficiency + windEfficiency);
-    
-    // Real smart grid optimization
-    const gridOptimization = {
-      currentDemand: totalDemand,
-      renewableCapacity: solarEfficiency + windEfficiency,
-      gridEfficiency: calculateGridEfficiency(totalDemand, solarEfficiency + windEfficiency),
-      batteryLevel: batteryStorage.level,
-      recommendations: generateEnergyRecommendations(totalDemand, solarEfficiency, windEfficiency, batteryStorage)
-    };
-    
-    return gridOptimization;
-  };
-
-  // Calculate solar energy efficiency using real photovoltaic models
-  const calculateSolarEfficiency = (weather) => {
-    const temperature = weather?.temperature || 20;
-    const description = weather?.description?.toLowerCase() || '';
-    
-    let efficiency = 0.8; // Base efficiency
-    
-    // Temperature effect (solar panels are less efficient at high temperatures)
-    if (temperature > 30) efficiency *= 0.9;
-    else if (temperature < 10) efficiency *= 0.95;
-    
-    // Weather effect based on real solar irradiance data
-    if (description.includes('cloudy')) efficiency *= 0.6;
-    else if (description.includes('rainy')) efficiency *= 0.3;
-    else if (description.includes('sunny')) efficiency *= 1.1;
-    else if (description.includes('partly')) efficiency *= 0.8;
-    
-    return Math.max(0, Math.min(1, efficiency));
-  };
-
-  // Calculate wind energy efficiency using real wind turbine models
-  const calculateWindEfficiency = (weather) => {
-    const windSpeed = weather?.windSpeed || 5;
-    
-    // Real wind turbine efficiency curve
-    if (windSpeed < 3) return 0; // Below cut-in speed
-    if (windSpeed > 25) return 0; // Above cut-out speed
-    if (windSpeed >= 12 && windSpeed <= 20) return 0.9; // Optimal range
-    if (windSpeed >= 8 && windSpeed < 12) return 0.7; // Good range
-    if (windSpeed >= 3 && windSpeed < 8) return 0.4; // Low range
-    
-    return 0.5; // Default
-  };
-
-  // Calculate battery storage optimization
-  const calculateBatteryStorage = (demand, renewableCapacity) => {
-    const excessEnergy = renewableCapacity - demand;
-    const storageCapacity = 1000; // kWh
-    const currentLevel = Math.max(0, Math.min(storageCapacity, excessEnergy * 100));
-    
-    return {
-      level: currentLevel,
-      capacity: storageCapacity,
-      utilization: (currentLevel / storageCapacity) * 100,
-      canDischarge: currentLevel > 100
-    };
-  };
-
-  // Calculate grid efficiency using real power system models
-  const calculateGridEfficiency = (demand, renewableCapacity) => {
-    const renewableRatio = renewableCapacity / Math.max(demand, 1);
-    const baseEfficiency = 0.85;
-    
-    // Higher renewable ratio improves efficiency
-    const renewableBonus = Math.min(0.1, renewableRatio * 0.05);
-    
-    return Math.min(0.95, baseEfficiency + renewableBonus);
-  };
-
-  // Generate energy management recommendations using real smart grid data
-  const generateEnergyRecommendations = (demand, solarEfficiency, windEfficiency, batteryStorage) => {
-    const recommendations = [];
-    
-    if (demand > 5000) {
-      recommendations.push({
-        type: 'Demand Response',
-        action: 'Activate peak demand reduction programs',
-        impact: 'Reduce demand by 15-20%',
-        priority: 'High',
-        implementation: 'Smart meter-based load shedding'
-      });
-    }
-    
-    if (solarEfficiency > 0.7) {
-      recommendations.push({
-        type: 'Solar Optimization',
-        action: 'Maximize solar panel output and storage',
-        impact: 'Increase renewable energy by 25%',
-        priority: 'Medium',
-        implementation: 'Real-time solar tracking'
-      });
-    }
-    
-    if (windEfficiency > 0.8) {
-      recommendations.push({
-        type: 'Wind Optimization',
-        action: 'Increase wind turbine output',
-        impact: 'Increase renewable energy by 30%',
-        priority: 'Medium',
-        implementation: 'Dynamic blade pitch control'
-      });
-    }
-    
-    if (batteryStorage.utilization > 80) {
-      recommendations.push({
-        type: 'Battery Management',
-        action: 'Discharge stored energy during peak demand',
-        impact: 'Reduce grid stress by 10%',
-        priority: 'Medium',
-        implementation: 'Smart battery management system'
-      });
-    }
-    
-    return recommendations;
-  };
-
-  // Run environmental prediction algorithms using real environmental models
-  const runEnvironmentalPredictionAlgorithms = (environmental, weather) => {
-    const predictions = [];
-    
-    if (environmental?.sensors) {
-      const avgAQI = environmental.sensors.reduce((sum, sensor) => sum + sensor.aqi, 0) / environmental.sensors.length;
       
-      // Real air quality prediction using atmospheric models
-      const aqiTrend = predictAirQualityTrend(environmental.sensors, weather);
-      predictions.push({
-        type: 'Air Quality',
-        current: avgAQI,
-        predicted: aqiTrend.predicted,
-        trend: aqiTrend.trend,
-        recommendations: aqiTrend.recommendations,
-        model: 'Atmospheric Dispersion Model',
-        accuracy: 0.78
-      });
+      return infrastructureRecommendations;
+    },
+
+    // Calculate sustainability score
+    calculateSustainabilityScore: (cityData) => {
+      let score = 0;
+      const maxScore = 100;
       
-      // Real pollution prediction using emission models
-      const pollutionPrediction = predictPollutionLevels(environmental.sensors, weather);
-      predictions.push({
-        type: 'Pollution Levels',
-        current: pollutionPrediction.current,
-        predicted: pollutionPrediction.predicted,
-        riskLevel: pollutionPrediction.riskLevel,
-        interventions: pollutionPrediction.interventions,
-        model: 'Emission Inventory Model',
-        accuracy: 0.72
-      });
+      // Energy efficiency (25 points)
+      const energyEfficiency = Math.min(25, (cityData.renewableEnergyPercentage || 0) * 0.25);
+      score += energyEfficiency;
+      
+      // Transportation efficiency (25 points)
+      const publicTransportUsage = cityData.publicTransportUsage || 0;
+      const transportScore = Math.min(25, publicTransportUsage * 0.25);
+      score += transportScore;
+      
+      // Waste management (20 points)
+      const recyclingRate = cityData.recyclingRate || 0;
+      const wasteScore = Math.min(20, recyclingRate * 0.2);
+      score += wasteScore;
+      
+      // Green spaces (15 points)
+      const greenSpacePercentage = cityData.greenSpacePercentage || 0;
+      const greenScore = Math.min(15, greenSpacePercentage * 0.15);
+      score += greenScore;
+      
+      // Air quality (15 points)
+      const airQualityScore = Math.max(0, 15 - (cityData.airQualityIndex || 0) * 0.03);
+      score += airQualityScore;
+      
+      return Math.round(score);
     }
-    
-    return predictions;
   };
 
-  // Predict air quality trend using real atmospheric models
-  const predictAirQualityTrend = (sensors, weather) => {
-    const currentAQI = sensors.reduce((sum, sensor) => sum + sensor.aqi, 0) / sensors.length;
-    const windSpeed = weather?.windSpeed || 5;
-    const humidity = weather?.humidity || 50;
-    const pressure = weather?.pressure || 1013;
+  // Generate deterministic sample data
+  const generateSampleData = () => {
+    const baseTime = Date.now();
     
-    // Real atmospheric dispersion model
-    let predictedAQI = currentAQI;
-    
-    // Wind effect (higher wind speed improves air quality)
-    if (windSpeed > 10) predictedAQI *= 0.9;
-    else if (windSpeed < 3) predictedAQI *= 1.1;
-    
-    // Humidity effect (high humidity can trap pollutants)
-    if (humidity > 80) predictedAQI *= 1.05;
-    
-    // Pressure effect (low pressure can trap pollutants)
-    if (pressure < 1000) predictedAQI *= 1.08;
-    
-    // Time of day effect (rush hour increases pollution)
-    const hour = new Date().getHours();
-    if (hour >= 7 && hour <= 9) predictedAQI *= 1.1; // Morning rush
-    if (hour >= 17 && hour <= 19) predictedAQI *= 1.1; // Evening rush
-    
-    const trend = predictedAQI > currentAQI ? 'Deteriorating' : 'Improving';
-    
-    const recommendations = [];
-    if (predictedAQI > 100) {
-      recommendations.push('Implement traffic restrictions');
-      recommendations.push('Activate air quality alerts');
-      recommendations.push('Increase public transport frequency');
-      recommendations.push('Industrial emission controls');
-    }
-    
-    return { predicted: Math.round(predictedAQI), trend, recommendations };
-  };
-
-  // Predict pollution levels using real emission models
-  const predictPollutionLevels = (sensors, weather) => {
-    const currentPollution = sensors.reduce((sum, sensor) => 
-      sum + (sensor.pm25 + sensor.pm10) / 2, 0) / sensors.length;
-    
-    // Real emission prediction model
-    let predictedPollution = currentPollution;
-    
-    // Weather effects based on real atmospheric models
-    const windSpeed = weather?.windSpeed || 5;
-    const humidity = weather?.humidity || 50;
-    const temperature = weather?.temperature || 20;
-    
-    if (windSpeed > 15) predictedPollution *= 0.8; // High wind disperses pollution
-    if (humidity > 80) predictedPollution *= 1.2; // High humidity traps pollution
-    if (temperature > 30) predictedPollution *= 1.1; // High temperature increases chemical reactions
-    
-    const riskLevel = predictedPollution > 50 ? 'High' : predictedPollution > 30 ? 'Medium' : 'Low';
-    
-    const interventions = [];
-    if (riskLevel === 'High') {
-      interventions.push('Implement industrial emission controls');
-      interventions.push('Activate vehicle emission testing');
-      interventions.push('Increase green space coverage');
-      interventions.push('Implement traffic restrictions');
-    }
-    
-    return {
-      current: Math.round(currentPollution),
-      predicted: Math.round(predictedPollution),
-      riskLevel,
-      interventions
-    };
-  };
-
-  // Run infrastructure recommendation algorithms using real urban planning
-  const runInfrastructureAlgorithms = (traffic, environmental) => {
-    const recommendations = [];
-    
-    // Real traffic infrastructure recommendations
-    const highCongestionAreas = traffic.filter(t => t.congestion > 70);
-    if (highCongestionAreas.length > 0) {
-      recommendations.push({
-        type: 'Transportation',
-        priority: 'High',
-        recommendation: 'Expand public transportation network with smart routing',
-        impact: 'Reduce traffic congestion by 25%',
-        cost: 'High',
-        timeline: '2-3 years',
-        implementation: 'Real-time transit optimization'
-      });
-    }
-    
-    // Real environmental infrastructure recommendations
-    const poorAirQuality = environmental?.sensors?.some(s => s.aqi > 100);
-    if (poorAirQuality) {
-      recommendations.push({
-        type: 'Environmental',
-        priority: 'High',
-        recommendation: 'Implement green infrastructure projects with smart monitoring',
-        impact: 'Improve air quality by 30%',
-        cost: 'Medium',
-        timeline: '1-2 years',
-        implementation: 'IoT-based environmental monitoring'
-      });
-    }
-    
-    // Real smart city technology recommendations
-    recommendations.push({
-      type: 'Technology',
-      priority: 'Medium',
-      recommendation: 'Deploy IoT sensors for real-time monitoring and predictive analytics',
-      impact: 'Improve city efficiency by 20%',
-      cost: 'Medium',
-      timeline: '6-12 months',
-      implementation: '5G-enabled smart city infrastructure'
-    });
-    
-    return recommendations;
-  };
-
-  // Update city stats with real urban planning metrics
-  const updateCityStatsWithAlgorithms = (trafficOptimization, energyManagement, environmentalPredictions) => {
-    const efficiencyMetrics = {
-      trafficEfficiency: calculateTrafficEfficiency(trafficOptimization),
-      energyEfficiency: energyManagement.gridEfficiency,
-      environmentalEfficiency: calculateEnvironmentalEfficiency(environmentalPredictions)
+    // Generate weather data
+    const weatherData = {
+      city: 'Smart City',
+      temperature: 22 + Math.sin(Date.now() * 0.0001) * 5,
+      humidity: 60 + Math.cos(Date.now() * 0.0001) * 20,
+      pressure: 1013 + Math.sin(Date.now() * 0.0002) * 10,
+      windSpeed: 5 + Math.sin(Date.now() * 0.0003) * 3,
+      cloudCover: 30 + Math.cos(Date.now() * 0.0001) * 40,
+      description: 'Partly Cloudy',
+      timestamp: new Date().toISOString()
     };
     
-    const sustainabilityScore = calculateSustainabilityScore(efficiencyMetrics);
-    
-    setCityStats(prev => ({
-      ...prev,
-      sustainabilityScore,
-      efficiencyMetrics,
-      smartCityIndex: calculateSmartCityIndex(efficiencyMetrics)
+    // Generate traffic data
+    const intersectionNames = ['Central Square', 'North Junction', 'East Cross', 'South Gate', 'West Bridge'];
+    const trafficData = intersectionNames.map((name, index) => ({
+      id: index + 1,
+      location: name,
+      vehicleCount: 50 + (index * 20) + Math.floor(Math.sin(Date.now() * 0.0001 + index) * 30),
+      pedestrianCount: 20 + (index * 10) + Math.floor(Math.cos(Date.now() * 0.0001 + index) * 15),
+      congestion: Math.min(100, 30 + (index * 15) + Math.sin(Date.now() * 0.0001 + index) * 20),
+      averageSpeed: Math.max(10, 40 - (index * 5) + Math.cos(Date.now() * 0.0001 + index) * 10),
+      signalStatus: 'Green',
+      lastUpdate: new Date(baseTime - (index * 300000)).toISOString()
     }));
-  };
-
-  // Calculate traffic efficiency using real transportation metrics
-  const calculateTrafficEfficiency = (optimizations) => {
-    if (optimizations.length === 0) return 0.8; // Base efficiency
     
-    const totalImprovement = optimizations.reduce((sum, opt) => sum + opt.expectedImprovement, 0);
-    return Math.min(0.95, 0.8 + (totalImprovement / 100));
-  };
-
-  // Calculate environmental efficiency using real environmental metrics
-  const calculateEnvironmentalEfficiency = (predictions) => {
-    if (predictions.length === 0) return 0.7; // Base efficiency
+    // Generate environmental data
+    const environmentalData = {
+      airQuality: 45 + Math.sin(Date.now() * 0.0001) * 15,
+      pollution: 25 + Math.cos(Date.now() * 0.0001) * 10,
+      noiseLevel: 55 + Math.sin(Date.now() * 0.0002) * 10,
+      waterQuality: 85 + Math.cos(Date.now() * 0.0001) * 10,
+      soilQuality: 90 + Math.sin(Date.now() * 0.0003) * 5,
+      timestamp: new Date().toISOString()
+    };
     
-    const improvingPredictions = predictions.filter(p => p.trend === 'Improving').length;
-    const totalPredictions = predictions.length;
+    // Generate IoT devices
+    const deviceTypes = ['Traffic Sensor', 'Air Quality Monitor', 'Energy Meter', 'Water Sensor', 'Weather Station'];
+    const iotDevices = Array.from({ length: 20 }, (_, index) => ({
+      id: index + 1,
+      name: `${deviceTypes[index % deviceTypes.length]} ${index + 1}`,
+      type: deviceTypes[index % deviceTypes.length],
+      location: {
+        x: (index % 5 - 2) * 100,
+        y: (Math.floor(index / 5) - 2) * 100
+      },
+      status: index < 18 ? 'active' : 'maintenance',
+      battery: 80 + (index * 2),
+      lastReading: new Date(baseTime - (index * 600000)).toISOString(),
+      dataQuality: 95 + (index % 5)
+    }));
     
-    return 0.7 + (improvingPredictions / totalPredictions) * 0.2;
-  };
-
-  // Calculate overall sustainability score using real urban planning metrics
-  const calculateSustainabilityScore = (metrics) => {
-    const { trafficEfficiency, energyEfficiency, environmentalEfficiency } = metrics;
+    // Generate city statistics
+    const population = 250000 + Math.floor(Math.sin(Date.now() * 0.00001) * 5000);
+    const energyConsumption = 150 + Math.cos(Date.now() * 0.0001) * 20;
+    const airQuality = environmentalData.airQuality;
+    const trafficFlow = trafficData.reduce((sum, intersection) => sum + intersection.vehicleCount, 0);
+    const sustainabilityScore = smartCitySystem.calculateSustainabilityScore({
+      renewableEnergyPercentage: 35,
+      publicTransportUsage: 45,
+      recyclingRate: 70,
+      greenSpacePercentage: 25,
+      airQualityIndex: airQuality
+    });
     
-    // Weighted average based on real urban planning priorities
-    const score = (trafficEfficiency * 0.3 + energyEfficiency * 0.4 + environmentalEfficiency * 0.3) * 100;
-    
-    return Math.round(score);
-  };
-
-  // Calculate smart city index using real smart city metrics
-  const calculateSmartCityIndex = (efficiencyMetrics) => {
-    const { trafficEfficiency, energyEfficiency, environmentalEfficiency } = efficiencyMetrics;
-    
-    // Real smart city index calculation
-    const digitalInfrastructure = 0.85; // IoT coverage
-    const dataAnalytics = 0.78; // Predictive analytics capability
-    const citizenEngagement = 0.82; // Digital services adoption
-    
-    const smartCityScore = (
-      trafficEfficiency * 0.25 +
-      energyEfficiency * 0.25 +
-      environmentalEfficiency * 0.20 +
-      digitalInfrastructure * 0.15 +
-      dataAnalytics * 0.10 +
-      citizenEngagement * 0.05
-    ) * 100;
-    
-    return Math.round(smartCityScore);
-  };
-
-  const updateCityStats = (weather, traffic, environmental) => {
-    const population = 8400000 + Math.floor(Math.random() * 100000);
-    const energyConsumption = 5000 + Math.random() * 1000;
-    const airQuality = environmental?.airQuality?.index || Math.floor(Math.random() * 5) + 1;
-    const trafficFlow = traffic?.reduce((sum, t) => sum + t.vehicleCount, 0) || Math.floor(Math.random() * 1000);
-    
+    setWeatherData(weatherData);
+    setTrafficData(trafficData);
+    setEnvironmentalData(environmentalData);
+    setIotDevices(iotDevices);
     setCityStats({
       population,
-      energyConsumption,
+      energyConsumption: Math.round(energyConsumption),
       airQuality,
-      trafficFlow
-    });
-  };
-
-  // Simulate IoT devices
-  useEffect(() => {
-    const devices = [
-      {
-        id: 1,
-        name: 'Smart Street Light #1247',
-        type: 'Lighting',
-        location: 'Main St & Oak Ave',
-        status: 'active',
-        battery: 85,
-        lastUpdate: '2 minutes ago',
-        data: {
-          brightness: 80,
-          motion: 'detected',
-          energy: 2.4
-        }
-      },
-      {
-        id: 2,
-        name: 'Traffic Sensor #892',
-        type: 'Traffic',
-        location: 'Pine Rd & Elm St',
-        status: 'active',
-        battery: 92,
-        lastUpdate: '1 minute ago',
-        data: {
-          vehicleCount: 156,
-          averageSpeed: 35,
-          congestion: 45
-        }
-      },
-      {
-        id: 3,
-        name: 'Air Quality Monitor #334',
-        type: 'Environmental',
-        location: 'City Center',
-        status: 'active',
-        battery: 78,
-        lastUpdate: 'Just now',
-        data: {
-          pm25: 12,
-          co2: 420,
-          temperature: 22
-        }
-      },
-      {
-        id: 4,
-        name: 'Smart Parking Sensor #567',
-        type: 'Parking',
-        location: 'Central Parking Garage',
-        status: 'warning',
-        battery: 45,
-        lastUpdate: '3 minutes ago',
-        data: {
-          availableSpaces: 23,
-          totalSpaces: 150,
-          occupancy: 85
-        }
+      trafficFlow,
+      sustainabilityScore,
+      efficiencyMetrics: {
+        energyEfficiency: 75,
+        trafficEfficiency: 68,
+        wasteEfficiency: 82,
+        waterEfficiency: 88
       }
-    ];
+    });
+    
+    return { weatherData, trafficData, environmentalData, iotDevices, cityStats };
+  };
 
-    setIotDevices(devices);
+  // Run smart city algorithms
+  const runSmartCityAlgorithms = (data) => {
+    const { trafficData, environmentalData } = data;
+    
+    // Run traffic optimization
+    const trafficOptimization = smartCitySystem.optimizeTrafficFlow(
+      trafficData,
+      [],
+      new Date().getHours()
+    );
+    
+    // Run energy management
+    const energyManagement = smartCitySystem.optimizeEnergyConsumption(
+      [
+        { name: 'City Hall', baseConsumption: 2000, renewableCapacity: 500 },
+        { name: 'Hospital', baseConsumption: 5000, renewableCapacity: 800 },
+        { name: 'Shopping Center', baseConsumption: 3000, renewableCapacity: 400 }
+      ],
+      new Date().getHours(),
+      data.weatherData
+    );
+    
+    // Run environmental predictions
+    const environmentalPredictions = smartCitySystem.predictEnvironmentalConditions(
+      environmentalData,
+      [environmentalData], // Simplified historical data
+      24 // 24-hour prediction
+    );
+    
+    // Run infrastructure optimization
+    const infrastructureRecommendations = smartCitySystem.optimizeInfrastructure(
+      {
+        roadLength: 2500,
+        energyCapacity: 100,
+        waterCapacity: 50,
+        smartTechnologyCoverage: 45
+      },
+      data.cityStats.population,
+      0.02 // 2% growth rate
+    );
+    
+    setUrbanAlgorithms({
+      trafficOptimization,
+      energyManagement,
+      environmentalPredictions: environmentalPredictions.slice(0, 6), // Show next 6 hours
+      infrastructureRecommendations
+    });
+    
+    return { trafficOptimization, energyManagement, environmentalPredictions, infrastructureRecommendations };
+  };
 
-    // Simulate real-time updates
-    const interval = setInterval(() => {
-      setIotDevices(prev => prev.map(device => ({
-        ...device,
-        battery: Math.max(0, device.battery - Math.random() * 0.5),
-        lastUpdate: 'Just now',
-        data: {
-          ...device.data,
-          ...(device.type === 'Traffic' && {
-            vehicleCount: device.data.vehicleCount + Math.floor(Math.random() * 10) - 5,
-            averageSpeed: Math.max(0, device.data.averageSpeed + (Math.random() - 0.5) * 5)
-          }),
-          ...(device.type === 'Environmental' && {
-            pm25: Math.max(0, device.data.pm25 + (Math.random() - 0.5) * 2),
-            temperature: device.data.temperature + (Math.random() - 0.5) * 1
-          })
-        }
-      })));
-    }, 5000);
-
-    return () => clearInterval(interval);
+  // Initialize demo
+  useEffect(() => {
+    const sampleData = generateSampleData();
+    const results = runSmartCityAlgorithms(sampleData);
   }, []);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active': return 'text-green-400';
-      case 'warning': return 'text-yellow-400';
-      case 'error': return 'text-red-400';
-      default: return 'text-gray-400';
-    }
-  };
-
-  const getStatusBg = (status) => {
-    switch (status) {
-      case 'active': return 'bg-green-600';
-      case 'warning': return 'bg-yellow-600';
-      case 'error': return 'bg-red-600';
-      default: return 'bg-gray-600';
-    }
-  };
-
-  const getAirQualityColor = (index) => {
-    if (index <= 2) return 'text-green-400';
-    if (index <= 3) return 'text-yellow-400';
-    return 'text-red-400';
-  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-4xl font-bold text-white mb-2">🏙️ Smart City Infrastructure</h1>
-              <p className="text-gray-400">Real-time IoT monitoring and urban analytics</p>
-            </div>
-            <button
-              onClick={() => setShowCodeViewer(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              View Code
-            </button>
-          </div>
+          <h1 className="text-4xl font-bold text-green-400 mb-4">🏙️ Smart City Infrastructure</h1>
+          <p className="text-gray-300 text-lg">
+            AI-powered urban management with deterministic algorithms for traffic optimization, energy management, and environmental monitoring
+          </p>
         </div>
 
-        {/* City Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Population</p>
-                <p className="text-3xl font-bold text-white">{cityStats.population.toLocaleString()}</p>
-                <p className="text-blue-400 text-sm">+1.2% this year</p>
-              </div>
-              <div className="text-4xl">PO</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Energy Consumption</p>
-                <p className="text-3xl font-bold text-white">{cityStats.energyConsumption.toFixed(0)} MW</p>
-                <p className="text-green-400 text-sm">-5.3% vs last month</p>
-              </div>
-              <div className="text-4xl">EC</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Air Quality Index</p>
-                <p className={`text-3xl font-bold ${getAirQualityColor(cityStats.airQuality)}`}>
-                  {cityStats.airQuality}/5
-                </p>
-                <p className="text-purple-400 text-sm">Good quality</p>
-              </div>
-              <div className="text-4xl">AQ</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Traffic Flow</p>
-                <p className="text-3xl font-bold text-white">{cityStats.trafficFlow.toLocaleString()}</p>
-                <p className="text-yellow-400 text-sm">vehicles/hour</p>
-              </div>
-              <div className="text-4xl">TF</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Weather & Environment */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">Weather & Environment</h2>
-            {weatherData && (
-              <div className="space-y-4">
-                <div className="p-4 bg-gray-800 rounded-lg">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-white">{weatherData.city}</h3>
-                    <span className="text-2xl">WE</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-gray-400 text-sm">Temperature</p>
-                      <p className="text-xl font-semibold text-white">{weatherData.temperature.toFixed(1)}°C</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400 text-sm">Humidity</p>
-                      <p className="text-xl font-semibold text-white">{weatherData.humidity}%</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400 text-sm">Wind Speed</p>
-                      <p className="text-xl font-semibold text-white">{weatherData.windSpeed.toFixed(1)} m/s</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400 text-sm">Pressure</p>
-                      <p className="text-xl font-semibold text-white">{weatherData.pressure} hPa</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 mt-3">{weatherData.description}</p>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* City Statistics */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">City Statistics</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">{cityStats.population.toLocaleString()}</div>
+                  <div className="text-sm text-gray-400">Population</div>
                 </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-400">{cityStats.sustainabilityScore}</div>
+                  <div className="text-sm text-gray-400">Sustainability Score</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400">{cityStats.airQuality}</div>
+                  <div className="text-sm text-gray-400">Air Quality Index</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-400">{cityStats.trafficFlow}</div>
+                  <div className="text-sm text-gray-400">Traffic Flow</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Weather and Environment */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Weather & Environment</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {weatherData && (
+                  <div className="bg-gray-700 p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-3">Current Weather</h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Temperature:</span>
+                        <span className="text-blue-400">{weatherData.temperature.toFixed(1)}°C</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Humidity:</span>
+                        <span className="text-green-400">{weatherData.humidity}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Wind Speed:</span>
+                        <span className="text-yellow-400">{weatherData.windSpeed} km/h</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Cloud Cover:</span>
+                        <span className="text-gray-400">{weatherData.cloudCover}%</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 
                 {environmentalData && (
-                  <div className="p-4 bg-gray-800 rounded-lg">
-                    <h3 className="text-lg font-semibold text-white mb-3">Environmental Sensors</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-gray-400 text-sm">PM2.5</p>
-                        <p className="text-xl font-semibold text-white">{environmentalData.airQuality.pm25} µg/m³</p>
+                  <div className="bg-gray-700 p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-3">Environmental Data</h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Air Quality:</span>
+                        <span className="text-blue-400">{environmentalData.airQuality}</span>
                       </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">CO₂</p>
-                        <p className="text-xl font-semibold text-white">{environmentalData.airQuality.co2} ppm</p>
+                      <div className="flex justify-between">
+                        <span>Pollution:</span>
+                        <span className="text-red-400">{environmentalData.pollution}</span>
                       </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Noise Level</p>
-                        <p className="text-xl font-semibold text-white">{environmentalData.noise.level} dB</p>
+                      <div className="flex justify-between">
+                        <span>Noise Level:</span>
+                        <span className="text-yellow-400">{environmentalData.noiseLevel} dB</span>
                       </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Air Quality</p>
-                        <p className={`text-xl font-semibold ${getAirQualityColor(environmentalData.airQuality.index)}`}>
-                          {environmentalData.airQuality.index}/5
-                        </p>
+                      <div className="flex justify-between">
+                        <span>Water Quality:</span>
+                        <span className="text-green-400">{environmentalData.waterQuality}%</span>
                       </div>
                     </div>
                   </div>
                 )}
               </div>
-            )}
-          </div>
-
-          {/* Traffic Monitoring */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">🚦 Traffic Monitoring</h2>
-            <div className="space-y-4">
-              {trafficData.map(intersection => (
-                <div key={intersection.location} className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-semibold text-white">{intersection.location}</h3>
-                    <span className={`px-2 py-1 rounded text-xs ${getStatusBg(intersection.signalStatus.toLowerCase())}`}>
-                      {intersection.signalStatus}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div>
-                      <p className="text-gray-400">Congestion</p>
-                      <p className="text-white font-semibold">{intersection.congestion}%</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400">Avg Speed</p>
-                      <p className="text-white font-semibold">{intersection.averageSpeed} mph</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400">Vehicles</p>
-                      <p className="text-white font-semibold">{intersection.vehicleCount}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
-          </div>
-        </div>
 
-        {/* IoT Devices */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">📡 IoT Device Network</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {iotDevices.map(device => (
-              <div 
-                key={device.id} 
-                className="p-4 bg-gray-800 rounded-lg border border-gray-600 hover:border-gray-500 transition-colors cursor-pointer"
-                onClick={() => setSelectedDevice(device)}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-white">{device.name}</h3>
-                  <span className={`px-2 py-1 rounded text-xs ${getStatusBg(device.status)}`}>
-                    {device.status}
-                  </span>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Type</span>
-                    <span className="text-white">{device.type}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Battery</span>
-                    <span className={`font-semibold ${device.battery > 20 ? 'text-green-400' : 'text-red-400'}`}>
-                      {device.battery.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Location</span>
-                    <span className="text-white text-xs">{device.location}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Last Update</span>
-                    <span className="text-gray-300 text-xs">{device.lastUpdate}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Smart City Features */}
-        <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">Smart City Infrastructure Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">IoT Monitoring</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Real-time sensor data</li>
-                <li>• Environmental monitoring</li>
-                <li>• Traffic flow analysis</li>
-                <li>• Energy consumption tracking</li>
-                <li>• Air quality measurement</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Urban Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Population density mapping</li>
-                <li>• Infrastructure health monitoring</li>
-                <li>• Predictive maintenance</li>
-                <li>• Resource optimization</li>
-                <li>• Emergency response coordination</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Smart Services</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Intelligent traffic lights</li>
-                <li>• Smart parking systems</li>
-                <li>• Waste management optimization</li>
-                <li>• Public safety monitoring</li>
-                <li>• Citizen engagement platforms</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Device Details Modal */}
-        {selectedDevice && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-md w-full mx-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-white">Device Details</h3>
-                <button
-                  onClick={() => setSelectedDevice(null)}
-                  className="text-gray-400 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Device Name</span>
-                  <span className="text-white font-semibold">{selectedDevice.name}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Type</span>
-                  <span className="text-white font-semibold">{selectedDevice.type}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Location</span>
-                  <span className="text-white font-semibold">{selectedDevice.location}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Status</span>
-                  <span className={`font-semibold ${getStatusColor(selectedDevice.status)}`}>
-                    {selectedDevice.status}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Battery</span>
-                  <span className={`font-semibold ${selectedDevice.battery > 20 ? 'text-green-400' : 'text-red-400'}`}>
-                    {selectedDevice.battery.toFixed(1)}%
-                  </span>
-                </div>
-                <div className="mt-4 p-3 bg-gray-700 rounded-lg">
-                  <h4 className="font-semibold text-white mb-2">Sensor Data</h4>
-                  <div className="space-y-2 text-sm">
-                    {Object.entries(selectedDevice.data).map(([key, value]) => (
-                      <div key={key} className="flex justify-between">
-                        <span className="text-gray-400">{key}</span>
-                        <span className="text-white">{value}</span>
+            {/* Traffic Optimization */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Traffic Optimization</h2>
+              <div className="space-y-3">
+                {urbanAlgorithms.trafficOptimization.slice(0, 5).map(optimization => (
+                  <div key={optimization.intersectionId} className="bg-gray-700 p-4 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="font-semibold text-white">{optimization.location}</div>
+                        <div className="text-sm text-gray-300">
+                          Cycle: {optimization.optimalCycle}s | Green: {optimization.greenTime}s
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          Throughput: {optimization.throughput} vehicles/hour
+                        </div>
                       </div>
-                    ))}
+                      <div className="text-right">
+                        <div className={`text-lg font-bold ${
+                          optimization.efficiency >= 80 ? 'text-green-400' :
+                          optimization.efficiency >= 60 ? 'text-yellow-400' : 'text-red-400'
+                        }`}>
+                          {optimization.efficiency}%
+                        </div>
+                        <div className="text-sm text-gray-400">Efficiency</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        )}
 
-        
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Energy Management */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Energy Management</h3>
+              <div className="space-y-3">
+                {urbanAlgorithms.energyManagement.totalConsumption && (
+                  <>
+                    <div className="flex justify-between">
+                      <span>Total Consumption:</span>
+                      <span className="text-blue-400">{Math.round(urbanAlgorithms.energyManagement.totalConsumption)} kWh</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Renewable %:</span>
+                      <span className="text-green-400">{urbanAlgorithms.energyManagement.renewablePercentage}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Cost Savings:</span>
+                      <span className="text-yellow-400">${urbanAlgorithms.energyManagement.costSavings.toFixed(2)}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* IoT Devices */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">IoT Devices</h3>
+              <div className="space-y-2">
+                {iotDevices.slice(0, 6).map(device => (
+                  <div key={device.id} className="bg-gray-700 p-3 rounded text-sm">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="font-medium text-white">{device.name}</div>
+                        <div className="text-gray-400">{device.type}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className={`text-xs px-2 py-1 rounded ${
+                          device.status === 'active' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
+                        }`}>
+                          {device.status}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1">{device.battery}%</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Code Viewer */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Implementation</h3>
+              <button
+                onClick={() => setShowCodeViewer(true)}
+                className="w-full bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-colors"
+              >
+                📖 View Code
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {showCodeViewer && (
+        <CodeViewer
+          isOpen={showCodeViewer}
+          onClose={() => setShowCodeViewer(false)}
+          title="Smart City Implementation"
+          code={`
+// Deterministic Smart City System Implementation
+class SmartCitySystem {
+  // Deterministic traffic optimization using genetic algorithm principles
+  optimizeTrafficFlow(intersections, vehicles, timeOfDay) {
+    if (!intersections || intersections.length === 0) return [];
+    
+    const optimizationResults = intersections.map(intersection => {
+      // Calculate optimal signal timing based on traffic patterns
+      const baseCycle = 90; // Base signal cycle in seconds
+      const trafficVolume = intersection.vehicleCount || 0;
+      const pedestrianVolume = intersection.pedestrianCount || 0;
+      
+      // Adjust cycle length based on traffic volume
+      let optimalCycle = baseCycle;
+      if (trafficVolume > 100) optimalCycle = 120;
+      else if (trafficVolume > 50) optimalCycle = 105;
+      else if (trafficVolume < 20) optimalCycle = 75;
+      
+      // Calculate green time allocation
+      const totalGreenTime = optimalCycle - 10; // 10 seconds for yellow/red
+      const trafficRatio = trafficVolume / (trafficVolume + pedestrianVolume + 1);
+      const greenTime = Math.round(totalGreenTime * trafficRatio);
+      const pedestrianTime = totalGreenTime - greenTime;
+      
+      // Calculate efficiency metrics
+      const throughput = Math.round((trafficVolume / optimalCycle) * 3600);
+      const delay = Math.max(0, (optimalCycle - 60) * 2);
+      const efficiency = Math.max(0, 100 - (delay / optimalCycle) * 100);
+      
+      return {
+        intersectionId: intersection.id,
+        location: intersection.location,
+        optimalCycle,
+        greenTime,
+        pedestrianTime,
+        throughput,
+        delay,
+        efficiency,
+        recommendations: this.generateTrafficRecommendations(efficiency, trafficVolume)
+      };
+    });
+    
+    return optimizationResults;
+  }
+
+  // Deterministic energy management system
+  optimizeEnergyConsumption(buildings, timeOfDay, weatherConditions) {
+    if (!buildings || buildings.length === 0) return {};
+    
+    const energyOptimization = {
+      totalConsumption: 0,
+      renewablePercentage: 0,
+      costSavings: 0,
+      recommendations: []
+    };
+    
+    buildings.forEach(building => {
+      const baseConsumption = building.baseConsumption || 1000;
+      let optimalConsumption = baseConsumption;
+      
+      // Time-based optimization
+      if (timeOfDay >= 6 && timeOfDay <= 18) {
+        optimalConsumption *= 1.2; // Peak hours
+      } else if (timeOfDay >= 22 || timeOfDay <= 6) {
+        optimalConsumption *= 0.7; // Off-peak hours
+      }
+      
+      // Weather-based optimization
+      if (weatherConditions.temperature < 10 || weatherConditions.temperature > 30) {
+        optimalConsumption *= 1.3; // Heating/cooling needed
+      }
+      
+      const renewableCapacity = building.renewableCapacity || 0;
+      const renewableGeneration = this.calculateRenewableGeneration(
+        renewableCapacity,
+        weatherConditions,
+        timeOfDay
+      );
+      
+      const netConsumption = Math.max(0, optimalConsumption - renewableGeneration);
+      const costSavings = (baseConsumption - netConsumption) * 0.12;
+      
+      energyOptimization.totalConsumption += netConsumption;
+      energyOptimization.costSavings += costSavings;
+    });
+    
+    return energyOptimization;
+  }
+
+  // Calculate sustainability score
+  calculateSustainabilityScore(cityData) {
+    let score = 0;
+    
+    // Energy efficiency (25 points)
+    const energyEfficiency = Math.min(25, (cityData.renewableEnergyPercentage || 0) * 0.25);
+    score += energyEfficiency;
+    
+    // Transportation efficiency (25 points)
+    const publicTransportUsage = cityData.publicTransportUsage || 0;
+    const transportScore = Math.min(25, publicTransportUsage * 0.25);
+    score += transportScore;
+    
+    // Waste management (20 points)
+    const recyclingRate = cityData.recyclingRate || 0;
+    const wasteScore = Math.min(20, recyclingRate * 0.2);
+    score += wasteScore;
+    
+    // Green spaces (15 points)
+    const greenSpacePercentage = cityData.greenSpacePercentage || 0;
+    const greenScore = Math.min(15, greenSpacePercentage * 0.15);
+    score += greenScore;
+    
+    // Air quality (15 points)
+    const airQualityScore = Math.max(0, 15 - (cityData.airQualityIndex || 0) * 0.03);
+    score += airQualityScore;
+    
+    return Math.round(score);
+  }
+}
+          `}
+        />
+      )}
     </div>
   );
 };

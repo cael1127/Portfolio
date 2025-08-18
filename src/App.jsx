@@ -9,6 +9,8 @@ import AdvancedAnalytics from './components/AdvancedAnalytics';
 import BlockchainAdvanced from './components/BlockchainAdvanced';
 import EdgeComputing from './components/EdgeComputing';
 import QuantumComputingDemo from './components/QuantumComputingDemo';
+import FloatingParticles from './components/FloatingParticles';
+import ScrollToTop from './components/ScrollToTop';
 
 // Import all demo pages
 import BlockchainDemoPage from './pages/BlockchainDemoPage';
@@ -178,19 +180,23 @@ function App() {
                   <button
                     key={item.id}
                     onClick={() => setCurrentPage(item.id)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 relative overflow-hidden group ${
                       currentPage === item.id
-                        ? 'bg-teal-600 text-white'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                        ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/30'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-700 hover:shadow-lg hover:shadow-gray-500/30'
                     }`}
                   >
-                    {item.label}
+                    <span className="relative z-10">{item.label}</span>
+                    {currentPage === item.id && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 animate-pulse"></div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                   </button>
                 ))}
                 
                 {/* Enterprise Features Dropdown */}
                 <div className="relative group">
-                  <button className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+                  <button className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-gray-500/30">
                     Enterprise
                   </button>
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
@@ -264,11 +270,13 @@ function App() {
   };
 
   return (
-    <div className="App min-h-screen bg-gray-900">
+    <div className="App min-h-screen bg-gray-900 relative overflow-x-hidden overscroll-behavior scroll-smooth">
+      <FloatingParticles />
       <Navigation />
-      <main>
+      <main className="relative z-10 overflow-x-hidden snap-container">
         {renderContent()}
       </main>
+      <ScrollToTop />
     </div>
   );
 }

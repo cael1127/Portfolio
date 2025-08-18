@@ -19,502 +19,367 @@ const GamePlatformDemo = () => {
     monthlyRevenue: 0
   });
 
-  // Sample code for the demo
-  const demoCode = `/**
- * Multiplayer Gaming Platform Implementation
- * Created by Cael Findley
- * 
- * This implementation demonstrates a real-time multiplayer gaming
- * platform with WebSocket connections, matchmaking, and leaderboards.
- */
-
-import React, { useState, useEffect } from 'react';
-
-const GamePlatformDemo = () => {
-  const [games, setGames] = useState([]);
-  const [activePlayers, setActivePlayers] = useState([]);
-  const [gameStats, setGameStats] = useState({});
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGames(prev => prev.map(game => ({
-        ...game,
-        players: game.players + Math.floor(Math.random() * 10) - 5,
-        revenue: game.revenue + Math.random() * 100,
-        lastUpdate: 'Just now'
-      })));
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const startMatch = (gameId) => {
-    const game = games.find(g => g.id === gameId);
-    if (game && game.players >= 2) {
-      console.log('Starting match for:', game.name);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Game List */}
-        <div className="space-y-4">
-          {games.map((game) => (
-            <div key={game.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{game.name}</h3>
-              <p className="text-gray-300 text-sm">{game.players} players online</p>
-              <p className="text-gray-400 text-xs">${game.revenue.toFixed(2)} revenue</p>
-            </div>
-          ))}
-        </div>
+  // Deterministic Game Platform Implementation
+  const gamePlatformSystem = {
+    // Deterministic matchmaking algorithm
+    matchmaking: (players, gameMode, skillLevel) => {
+      if (players.length < 2) return null;
+      
+      // Sort players by skill level for balanced matches
+      const sortedPlayers = [...players].sort((a, b) => a.skillLevel - b.skillLevel);
+      
+      // Create balanced teams
+      const teams = [];
+      const teamSize = gameMode === 'solo' ? 1 : gameMode === 'duo' ? 2 : 4;
+      
+      for (let i = 0; i < sortedPlayers.length; i += teamSize * 2) {
+        const team1 = sortedPlayers.slice(i, i + teamSize);
+        const team2 = sortedPlayers.slice(i + teamSize, i + teamSize * 2);
         
-        {/* Active Players */}
-        <div className="space-y-4">
-          {activePlayers.map((player) => (
-            <div key={player.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{player.username}</h3>
-              <p className="text-gray-300 text-sm">Playing {player.currentGame}</p>
-              <p className="text-gray-400 text-xs">{player.sessionTime} minutes</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+        if (team1.length === teamSize && team2.length === teamSize) {
+          teams.push({
+            id: teams.length + 1,
+            team1,
+            team2,
+            skillDifference: Math.abs(
+              team1.reduce((sum, p) => sum + p.skillLevel, 0) / team1.length -
+              team2.reduce((sum, p) => sum + p.skillLevel, 0) / team2.length
+            ),
+            timestamp: new Date().toISOString()
+          });
+        }
+      }
+      
+      return teams;
+    },
 
-export default GamePlatformDemo;`;
+    // Deterministic skill rating calculation
+    calculateSkillRating: (player, matchResult, opponentSkill) => {
+      const kFactor = player.matches < 30 ? 40 : player.matches < 100 ? 20 : 10;
+      const expectedScore = 1 / (1 + Math.pow(10, (opponentSkill - player.skillLevel) / 400));
+      const actualScore = matchResult === 'win' ? 1 : matchResult === 'draw' ? 0.5 : 0;
+      
+      const newRating = player.skillLevel + kFactor * (actualScore - expectedScore);
+      return Math.max(0, Math.round(newRating));
+    },
 
+    // Deterministic leaderboard ranking
+    calculateLeaderboard: (players) => {
+      return players
+        .map(player => ({
+          ...player,
+          score: player.skillLevel * 10 + player.wins * 100 + player.totalKills * 5
+        }))
+        .sort((a, b) => b.score - a.score)
+        .map((player, index) => ({
+          ...player,
+          rank: index + 1,
+          tier: this.getTier(player.score)
+        }));
+    },
+
+    // Determine player tier based on score
+    getTier: (score) => {
+      if (score >= 5000) return 'Legendary';
+      if (score >= 4000) return 'Master';
+      if (score >= 3000) return 'Diamond';
+      if (score >= 2000) return 'Platinum';
+      if (score >= 1000) return 'Gold';
+      if (score >= 500) return 'Silver';
+      return 'Bronze';
+    },
+
+    // Deterministic game balance algorithm
+    balanceGame: (game, players) => {
+      const totalPlayers = players.length;
+      const targetTeams = Math.floor(totalPlayers / 4); // 4 players per team
+      
+      // Calculate average skill per team
+      const sortedPlayers = [...players].sort((a, b) => a.skillLevel - b.skillLevel);
+      const teams = [];
+      
+      for (let i = 0; i < targetTeams; i++) {
+        const team = [];
+        for (let j = 0; j < 4; j++) {
+          const playerIndex = i + (j * targetTeams);
+          if (playerIndex < sortedPlayers.length) {
+            team.push(sortedPlayers[playerIndex]);
+          }
+        }
+        if (team.length === 4) {
+          teams.push({
+            id: i + 1,
+            players: team,
+            averageSkill: team.reduce((sum, p) => sum + p.skillLevel, 0) / team.length,
+            totalKills: team.reduce((sum, p) => sum + p.totalKills, 0)
+          });
+        }
+      }
+      
+      return teams;
+    },
+
+    // Deterministic revenue calculation
+    calculateRevenue: (game, players, timeSpent) => {
+      const baseRevenue = game.basePrice || 0;
+      const playerRevenue = players * (game.pricePerPlayer || 0);
+      const timeRevenue = timeSpent * (game.pricePerMinute || 0);
+      const premiumRevenue = players * (game.premiumFeatures || 0);
+      
+      return baseRevenue + playerRevenue + timeRevenue + premiumRevenue;
+    },
+
+    // Deterministic server load calculation
+    calculateServerLoad: (games, players) => {
+      const totalConnections = players.length;
+      const activeGames = games.filter(g => g.status === 'active').length;
+      const maxCapacity = 10000; // Simplified server capacity
+      
+      const loadPercentage = Math.min(100, (totalConnections / maxCapacity) * 100);
+      const serverHealth = loadPercentage < 70 ? 'Healthy' : loadPercentage < 90 ? 'Moderate' : 'Critical';
+      
+      return {
+        loadPercentage: Math.round(loadPercentage),
+        serverHealth,
+        activeConnections: totalConnections,
+        activeGames,
+        capacity: maxCapacity
+      };
+    },
+
+    // Deterministic matchmaking queue management
+    manageQueue: (queue, gameMode) => {
+      const minPlayers = gameMode === 'solo' ? 2 : gameMode === 'duo' ? 4 : 8;
+      const maxWaitTime = 300; // 5 minutes
+      
+      // Filter players who have been waiting too long
+      const currentTime = Date.now();
+      const validPlayers = queue.filter(player => 
+        (currentTime - new Date(player.joinTime).getTime()) < maxWaitTime * 1000
+      );
+      
+      // Group players by skill level for balanced matchmaking
+      const skillGroups = {};
+      validPlayers.forEach(player => {
+        const skillGroup = Math.floor(player.skillLevel / 100) * 100;
+        if (!skillGroups[skillGroup]) skillGroups[skillGroup] = [];
+        skillGroups[skillGroup].push(player);
+      });
+      
+      // Create matches within skill groups
+      const matches = [];
+      Object.values(skillGroups).forEach(group => {
+        if (group.length >= minPlayers) {
+          const match = this.matchmaking(group, gameMode);
+          if (match) {
+            matches.push(...match);
+          }
+        }
+      });
+      
+      return {
+        queueLength: validPlayers.length,
+        matchesCreated: matches.length,
+        averageWaitTime: validPlayers.reduce((sum, p) => 
+          sum + (currentTime - new Date(p.joinTime).getTime()) / 1000, 0) / validPlayers.length || 0
+      };
+    }
+  };
+
+  // Generate deterministic sample data
+  const generateSampleData = () => {
+    const baseTime = Date.now();
+    
+    // Generate games
+    const gameTypes = ['Action RPG', 'FPS', 'Strategy', 'Sports', 'Racing'];
+    const gameNames = ['Cyber Warriors', 'Neon Strike', 'Empire Builder', 'Champion League', 'Speed Demon'];
+    
+    const games = gameNames.map((name, index) => {
+      const basePrice = 10 + (index * 5);
+      const pricePerPlayer = 2 + (index % 3);
+      const pricePerMinute = 0.1 + (index * 0.05);
+      const premiumFeatures = index % 2 === 0 ? 5 : 0;
+      
+      return {
+        id: index + 1,
+        name,
+        genre: gameTypes[index % gameTypes.length],
+        players: 500 + (index * 200) + Math.floor(Math.sin(index * 0.5) * 100),
+        maxPlayers: 1000 + (index * 500),
+        revenue: basePrice + (index * 1000) + Math.floor(Math.cos(index * 0.3) * 500),
+        rating: 4.0 + (index * 0.2) + Math.sin(index * 0.7) * 0.3,
+        status: 'active',
+        basePrice,
+        pricePerPlayer,
+        pricePerMinute,
+        premiumFeatures,
+        lastUpdate: new Date(baseTime - (index * 60000)).toISOString()
+      };
+    });
+    
+    // Generate players
+    const playerNames = [
+      'ShadowHunter', 'NeonBlade', 'CyberQueen', 'DigitalKing', 'PixelWarrior',
+      'QuantumPlayer', 'VoidRunner', 'EchoStriker', 'FrostByte', 'ThunderCore'
+    ];
+    
+    const activePlayers = playerNames.map((username, index) => {
+      const skillLevel = 800 + (index * 100) + Math.floor(Math.sin(index * 0.4) * 50);
+      const wins = 50 + (index * 10) + Math.floor(Math.cos(index * 0.6) * 20);
+      const losses = 30 + (index * 8) + Math.floor(Math.sin(index * 0.8) * 15);
+      const totalKills = 200 + (index * 25) + Math.floor(Math.cos(index * 0.3) * 50);
+      
+      return {
+        id: index + 1,
+        username,
+        skillLevel: Math.max(0, Math.min(2000, skillLevel)),
+        wins,
+        losses,
+        totalKills,
+        matches: wins + losses,
+        currentGame: games[index % games.length].name,
+        sessionTime: 15 + (index * 5) + Math.floor(Math.sin(index * 0.5) * 10),
+        joinTime: new Date(baseTime - (index * 300000)).toISOString(),
+        status: 'online'
+      };
+    });
+    
+    // Generate game stats
+    const gameStats = {};
+    games.forEach(game => {
+      const players = activePlayers.filter(p => p.currentGame === game.name);
+      const timeSpent = players.reduce((sum, p) => sum + p.sessionTime, 0);
+      
+      gameStats[game.id] = {
+        totalPlayers: players.length,
+        averageSkill: players.length > 0 ? 
+          players.reduce((sum, p) => sum + p.skillLevel, 0) / players.length : 0,
+        totalKills: players.reduce((sum, p) => sum + p.totalKills, 0),
+        totalWins: players.reduce((sum, p) => sum + p.wins, 0),
+        revenue: gamePlatformSystem.calculateRevenue(game, players.length, timeSpent),
+        serverLoad: Math.min(100, (players.length / game.maxPlayers) * 100)
+      };
+    });
+    
+    // Generate leaderboard
+    const leaderboard = gamePlatformSystem.calculateLeaderboard(activePlayers);
+    
+    // Calculate platform stats
+    const totalGames = games.length;
+    const totalPlayers = activePlayers.length;
+    const totalRevenue = games.reduce((sum, game) => sum + game.revenue, 0);
+    const averageSessionTime = activePlayers.reduce((sum, player) => sum + player.sessionTime, 0) / totalPlayers;
+    const serverLoad = gamePlatformSystem.calculateServerLoad(games, activePlayers);
+    const matchmakingQueue = Math.floor(totalPlayers * 0.3); // 30% in queue
+    const dailyActiveUsers = Math.floor(totalPlayers * 1.5); // 50% more than current
+    const monthlyRevenue = totalRevenue * 30; // 30 days
+    
+    setGames(games);
+    setActivePlayers(activePlayers);
+    setGameStats(gameStats);
+    setLeaderboard(leaderboard);
+    setPlatformStats({
+      totalGames,
+      activePlayers: totalPlayers,
+      totalRevenue,
+      averageSessionTime: Math.round(averageSessionTime),
+      serverLoad: serverLoad.loadPercentage,
+      matchmakingQueue,
+      dailyActiveUsers,
+      monthlyRevenue
+    });
+    
+    return { games, activePlayers, gameStats, leaderboard, platformStats };
+  };
+
+  // Run game platform algorithms
+  const runGamePlatformAlgorithms = (data) => {
+    const { games, activePlayers } = data;
+    
+    // Run matchmaking for different game modes
+    const matchmakingResults = {
+      solo: gamePlatformSystem.matchmaking(activePlayers, 'solo'),
+      duo: gamePlatformSystem.matchmaking(activePlayers, 'duo'),
+      squad: gamePlatformSystem.matchmaking(activePlayers, 'squad')
+    };
+    
+    // Balance games
+    const balancedGames = games.map(game => {
+      const gamePlayers = activePlayers.filter(p => p.currentGame === game.name);
+      const balancedTeams = gamePlatformSystem.balanceGame(game, gamePlayers);
+      return { ...game, balancedTeams };
+    });
+    
+    // Manage matchmaking queue
+    const queueManagement = gamePlatformSystem.manageQueue(activePlayers, 'squad');
+    
+    // Update games with new data
+    setGames(balancedGames);
+    
+    return { matchmakingResults, balancedGames, queueManagement };
+  };
+
+  // Initialize demo
   useEffect(() => {
-    // Initialize game platform data
-    const initialGames = [
-      {
-        id: 1,
-        name: 'Cyber Warriors',
-        genre: 'Action RPG',
-        players: 1247,
-        maxPlayers: 2000,
-        revenue: 15420.50,
-        rating: 4.8,
-        status: 'active',
-        lastUpdate: 'Just now',
-        features: ['Multiplayer', 'PvP', 'Guilds', 'Trading'],
-        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia'],
-        matchmakingTime: 12,
-        averageSessionTime: 45,
-        dailyActiveUsers: 8500,
-        monthlyRevenue: 125000
-      },
-      {
-        id: 2,
-        name: 'Space Explorers',
-        genre: 'Strategy',
-        players: 892,
-        maxPlayers: 1500,
-        revenue: 9875.30,
-        rating: 4.6,
-        status: 'active',
-        lastUpdate: '1 minute ago',
-        features: ['Co-op', 'Resource Management', 'Exploration'],
-        serverRegions: ['US-East', 'Europe'],
-        matchmakingTime: 8,
-        averageSessionTime: 32,
-        dailyActiveUsers: 6200,
-        monthlyRevenue: 89000
-      },
-      {
-        id: 3,
-        name: 'Racing Legends',
-        genre: 'Racing',
-        players: 2156,
-        maxPlayers: 3000,
-        revenue: 22340.80,
-        rating: 4.9,
-        status: 'active',
-        lastUpdate: '2 minutes ago',
-        features: ['Multiplayer Racing', 'Custom Cars', 'Tournaments'],
-        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia', 'Australia'],
-        matchmakingTime: 5,
-        averageSessionTime: 28,
-        dailyActiveUsers: 12000,
-        monthlyRevenue: 180000
-      },
-      {
-        id: 4,
-        name: 'Fantasy Quest',
-        genre: 'MMORPG',
-        players: 3456,
-        maxPlayers: 5000,
-        revenue: 45670.20,
-        rating: 4.7,
-        status: 'maintenance',
-        lastUpdate: '3 minutes ago',
-        features: ['Open World', 'Guilds', 'Raids', 'Crafting'],
-        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia'],
-        matchmakingTime: 15,
-        averageSessionTime: 120,
-        dailyActiveUsers: 25000,
-        monthlyRevenue: 320000
-      },
-      {
-        id: 5,
-        name: 'Battle Royale',
-        genre: 'FPS',
-        players: 5678,
-        maxPlayers: 8000,
-        revenue: 67890.40,
-        rating: 4.5,
-        status: 'active',
-        lastUpdate: '4 minutes ago',
-        features: ['Battle Royale', 'Squad Mode', 'Custom Skins'],
-        serverRegions: ['US-East', 'US-West', 'Europe', 'Asia', 'South America'],
-        matchmakingTime: 3,
-        averageSessionTime: 18,
-        dailyActiveUsers: 45000,
-        monthlyRevenue: 520000
-      }
-    ];
-
-    const initialActivePlayers = [
-      {
-        id: 1,
-        username: 'DragonSlayer',
-        level: 85,
-        currentGame: 'Cyber Warriors',
-        sessionTime: 127,
-        rank: 'Diamond',
-        region: 'US-East',
-        status: 'in-game',
-        achievements: 156,
-        playtime: 1247
-      },
-      {
-        id: 2,
-        username: 'SpacePilot',
-        level: 42,
-        currentGame: 'Space Explorers',
-        sessionTime: 89,
-        rank: 'Gold',
-        region: 'Europe',
-        status: 'in-game',
-        achievements: 89,
-        playtime: 567
-      },
-      {
-        id: 3,
-        username: 'SpeedDemon',
-        level: 67,
-        currentGame: 'Racing Legends',
-        sessionTime: 45,
-        rank: 'Platinum',
-        region: 'US-West',
-        status: 'in-game',
-        achievements: 234,
-        playtime: 892
-      },
-      {
-        id: 4,
-        username: 'MageMaster',
-        level: 128,
-        currentGame: 'Fantasy Quest',
-        sessionTime: 203,
-        rank: 'Legend',
-        region: 'Asia',
-        status: 'in-game',
-        achievements: 445,
-        playtime: 2156
-      },
-      {
-        id: 5,
-        username: 'SniperElite',
-        level: 73,
-        currentGame: 'Battle Royale',
-        sessionTime: 67,
-        rank: 'Master',
-        region: 'US-East',
-        status: 'in-game',
-        achievements: 178,
-        playtime: 945
-      }
-    ];
-
-    const initialLeaderboard = [
-      {
-        rank: 1,
-        username: 'DragonSlayer',
-        score: 15420,
-        game: 'Cyber Warriors',
-        level: 85,
-        region: 'US-East'
-      },
-      {
-        rank: 2,
-        username: 'MageMaster',
-        score: 14230,
-        game: 'Fantasy Quest',
-        level: 128,
-        region: 'Asia'
-      },
-      {
-        rank: 3,
-        username: 'SniperElite',
-        score: 12890,
-        game: 'Battle Royale',
-        level: 73,
-        region: 'US-East'
-      },
-      {
-        rank: 4,
-        username: 'SpeedDemon',
-        score: 11560,
-        game: 'Racing Legends',
-        level: 67,
-        region: 'US-West'
-      },
-      {
-        rank: 5,
-        username: 'SpacePilot',
-        score: 9870,
-        game: 'Space Explorers',
-        level: 42,
-        region: 'Europe'
-      }
-    ];
-
-    setGames(initialGames);
-    setActivePlayers(initialActivePlayers);
-    setLeaderboard(initialLeaderboard);
+    const sampleData = generateSampleData();
+    const results = runGamePlatformAlgorithms(sampleData);
   }, []);
-
-  useEffect(() => {
-    // Simulate real-time game platform updates
-    const interval = setInterval(() => {
-      // Update games
-      setGames(prev => prev.map(game => ({
-        ...game,
-        players: Math.max(0, Math.min(game.maxPlayers, game.players + Math.floor(Math.random() * 20) - 10)),
-        revenue: game.revenue + Math.random() * 100,
-        lastUpdate: 'Just now'
-      })));
-
-      // Update active players
-      setActivePlayers(prev => prev.map(player => ({
-        ...player,
-        sessionTime: player.sessionTime + 1,
-        level: player.level + (Math.random() > 0.95 ? 1 : 0)
-      })));
-
-      // Update platform stats
-      setPlatformStats(prev => ({
-        totalGames: games.length,
-        activePlayers: activePlayers.length,
-        totalRevenue: games.reduce((sum, game) => sum + game.revenue, 0),
-        averageSessionTime: Math.floor(activePlayers.reduce((sum, player) => sum + player.sessionTime, 0) / activePlayers.length),
-        serverLoad: Math.max(20, Math.min(95, prev.serverLoad + (Math.random() - 0.5) * 10)),
-        matchmakingQueue: Math.floor(Math.random() * 500) + 100,
-        dailyActiveUsers: Math.floor(Math.random() * 10000) + 50000,
-        monthlyRevenue: prev.monthlyRevenue + Math.random() * 1000
-      }));
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [games, activePlayers]);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active': return 'text-green-400';
-      case 'maintenance': return 'text-yellow-400';
-      case 'offline': return 'text-red-400';
-      default: return 'text-gray-400';
-    }
-  };
-
-  const getStatusBg = (status) => {
-    switch (status) {
-      case 'active': return 'bg-green-600';
-      case 'maintenance': return 'bg-yellow-600';
-      case 'offline': return 'bg-red-600';
-      default: return 'bg-gray-600';
-    }
-  };
-
-  const getRankColor = (rank) => {
-    switch (rank) {
-      case 'Legend': return 'text-purple-400';
-      case 'Master': return 'text-red-400';
-      case 'Diamond': return 'text-blue-400';
-      case 'Platinum': return 'text-cyan-400';
-      case 'Gold': return 'text-yellow-400';
-      case 'Silver': return 'text-gray-400';
-      default: return 'text-gray-400';
-    }
-  };
-
-  const getRankBg = (rank) => {
-    switch (rank) {
-      case 'Legend': return 'bg-purple-600';
-      case 'Master': return 'bg-red-600';
-      case 'Diamond': return 'bg-blue-600';
-      case 'Platinum': return 'bg-cyan-600';
-      case 'Gold': return 'bg-yellow-600';
-      case 'Silver': return 'bg-gray-600';
-      default: return 'bg-gray-600';
-    }
-  };
-
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
-    }).format(value);
-  };
-
-  const formatNumber = (value) => {
-    return new Intl.NumberFormat('en-US').format(value);
-  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header with Code Viewer Button */}
-        <div className="mb-8 flex justify-between items-start">
-          <div>
-            <h1 className="text-4xl font-bold text-purple-400 mb-4">🎮 Advanced Game Platform</h1>
-            <p className="text-gray-300 text-lg">
-              Multiplayer gaming platform with real-time analytics, matchmaking, and comprehensive game management
-            </p>
-          </div>
-          <button
-            onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-          >
-            <span>📄</span>
-            <span>View Code</span>
-          </button>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-purple-400 mb-4">🎮 Multiplayer Gaming Platform</h1>
+          <p className="text-gray-300 text-lg">
+            Advanced gaming platform with deterministic matchmaking, skill rating, and game balance algorithms
+          </p>
         </div>
 
-        {/* Platform Stats Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="text-3xl mb-2">🎮</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Active Games</h3>
-            <p className="text-3xl font-bold text-purple-400">{platformStats.totalGames}</p>
-            <p className="text-purple-300 text-sm">{platformStats.activePlayers} players online</p>
-          </div>
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-            <div className="text-3xl mb-2">💰</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Total Revenue</h3>
-            <p className="text-3xl font-bold text-blue-400">{formatCurrency(platformStats.totalRevenue)}</p>
-            <p className="text-blue-300 text-sm">{formatCurrency(platformStats.monthlyRevenue)} monthly</p>
-          </div>
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-            <div className="text-3xl mb-2">⚡</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Server Load</h3>
-            <p className="text-3xl font-bold text-green-400">{platformStats.serverLoad.toFixed(1)}%</p>
-            <p className="text-green-300 text-sm">{platformStats.matchmakingQueue} in queue</p>
-          </div>
-          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="text-3xl mb-2">👥</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Daily Users</h3>
-            <p className="text-3xl font-bold text-yellow-400">{formatNumber(platformStats.dailyActiveUsers)}</p>
-            <p className="text-yellow-300 text-sm">{platformStats.averageSessionTime} min avg session</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Game Management */}
-          <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">🎮 Game Management</h2>
-                <div className="text-sm text-purple-300">Real-time updates every 3s</div>
-              </div>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {games.map((game) => (
-                  <div
-                    key={game.id}
-                    className={'p-4 rounded-lg border cursor-pointer transition-all hover:scale-105 ' + (
-                      selectedGame?.id === game.id
-                        ? 'border-purple-400 bg-purple-900/30'
-                        : 'border-gray-600 hover:border-gray-500'
-                    )}
-                    onClick={() => setSelectedGame(game)}
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h3 className="text-lg font-semibold text-white">{game.name}</h3>
-                        <p className="text-purple-200 text-sm">{game.genre}</p>
-                        <p className="text-purple-200 text-xs">⭐ {game.rating} • {game.features.join(', ')}</p>
-                        <p className="text-gray-300 text-xs">{game.lastUpdate}</p>
-                      </div>
-                      <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs font-medium ' + getStatusBg(game.status)}>
-                          {game.status.toUpperCase()}
-                        </div>
-                        <p className="text-white text-lg font-semibold mt-1">{game.players}/{game.maxPlayers}</p>
-                        <p className="text-gray-300 text-xs">{formatCurrency(game.revenue)}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4 text-sm">
-                      <div>
-                        <p className="text-gray-400">Matchmaking</p>
-                        <p className="text-white font-semibold">{game.matchmakingTime}s</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400">Session Time</p>
-                        <p className="text-white font-semibold">{game.averageSessionTime}m</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400">Daily Users</p>
-                        <p className="text-white font-semibold">{formatNumber(game.dailyActiveUsers)}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-3">
-                      <div className="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Server Load</span>
-                        <span>{Math.floor((game.players / game.maxPlayers) * 100)}%</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className={'h-2 rounded-full transition-all ' + (
-                            game.players / game.maxPlayers > 0.8 ? 'bg-red-500' : 
-                            game.players / game.maxPlayers > 0.6 ? 'bg-yellow-500' : 'bg-green-500'
-                          )}
-                          style={{ width: Math.min((game.players / game.maxPlayers) * 100, 100) + '%' }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Platform Statistics */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Platform Statistics</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">{platformStats.totalGames}</div>
+                  <div className="text-sm text-gray-400">Total Games</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-400">{platformStats.activePlayers}</div>
+                  <div className="text-sm text-gray-400">Active Players</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400">${platformStats.totalRevenue.toLocaleString()}</div>
+                  <div className="text-sm text-gray-400">Total Revenue</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-400">{platformStats.serverLoad}%</div>
+                  <div className="text-sm text-gray-400">Server Load</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Gaming Analytics */}
-          <div className="space-y-6">
-            {/* Active Players */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-              <h2 className="text-2xl font-bold text-white mb-4">👥 Active Players</h2>
-              <div className="space-y-3 max-h-48 overflow-y-auto">
-                {activePlayers.map((player) => (
-                  <div key={player.id} className="bg-blue-800/50 p-3 rounded-lg border border-blue-600">
+            {/* Games List */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Active Games</h2>
+              <div className="space-y-4">
+                {games.map(game => (
+                  <div key={game.id} className="bg-gray-700 p-4 rounded-lg">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-white font-semibold">{player.username}</p>
-                        <p className="text-blue-200 text-sm">Level {player.level} • {player.currentGame}</p>
-                        <p className="text-blue-200 text-xs">{player.sessionTime}m session</p>
-                        <p className="text-gray-300 text-xs">{player.region}</p>
+                        <div className="font-semibold text-white">{game.name}</div>
+                        <div className="text-sm text-gray-300">{game.genre}</div>
+                        <div className="text-xs text-gray-400">
+                          Players: {game.players}/{game.maxPlayers} | Rating: {game.rating.toFixed(1)}⭐
+                        </div>
                       </div>
                       <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs ' + getRankBg(player.rank)}>
-                          {player.rank}
+                        <div className="text-lg font-bold text-green-400">${game.revenue.toLocaleString()}</div>
+                        <div className="text-sm text-gray-400">
+                          Server Load: {gameStats[game.id]?.serverLoad || 0}%
                         </div>
-                        <p className="text-white text-xs mt-1">{player.achievements} achievements</p>
-                        <p className="text-gray-300 text-xs">{player.playtime}h total</p>
                       </div>
                     </div>
                   </div>
@@ -523,29 +388,55 @@ export default GamePlatformDemo;`;
             </div>
 
             {/* Leaderboard */}
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-              <h2 className="text-2xl font-bold text-white mb-4">🏆 Leaderboard</h2>
-              <div className="space-y-3 max-h-48 overflow-y-auto">
-                {leaderboard.map((player) => (
-                  <div key={player.rank} className="bg-yellow-800/50 p-3 rounded-lg border border-yellow-600">
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-center space-x-2">
-                        <div className={'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ' + (
-                          player.rank === 1 ? 'bg-yellow-500' :
-                          player.rank === 2 ? 'bg-gray-400' :
-                          player.rank === 3 ? 'bg-orange-600' : 'bg-gray-600'
-                        )}>
-                          {player.rank}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
+              <div className="space-y-3">
+                {leaderboard.slice(0, 10).map((player, index) => (
+                  <div key={player.id} className="bg-gray-700 p-3 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                          index === 0 ? 'bg-yellow-500 text-black' :
+                          index === 1 ? 'bg-gray-400 text-black' :
+                          index === 2 ? 'bg-amber-600 text-white' :
+                          'bg-gray-600 text-white'
+                        }`}>
+                          {index + 1}
                         </div>
                         <div>
-                          <p className="text-white font-semibold">{player.username}</p>
-                          <p className="text-yellow-200 text-sm">{player.game}</p>
-                          <p className="text-yellow-200 text-xs">Level {player.level}</p>
+                          <div className="font-semibold text-white">{player.username}</div>
+                          <div className="text-xs text-gray-400">{player.tier}</div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-white font-semibold">{formatNumber(player.score)}</p>
-                        <p className="text-gray-300 text-xs">{player.region}</p>
+                        <div className="text-sm text-blue-400">{player.score} pts</div>
+                        <div className="text-xs text-gray-400">
+                          {player.wins}W/{player.losses}L | {player.totalKills} kills
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Active Players */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Active Players</h3>
+              <div className="space-y-3">
+                {activePlayers.slice(0, 8).map(player => (
+                  <div key={player.id} className="bg-gray-700 p-3 rounded text-sm">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="font-medium text-white">{player.username}</div>
+                        <div className="text-gray-400">{player.currentGame}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-blue-400">{player.skillLevel}</div>
+                        <div className="text-xs text-gray-400">{player.sessionTime}m</div>
                       </div>
                     </div>
                   </div>
@@ -553,188 +444,152 @@ export default GamePlatformDemo;`;
               </div>
             </div>
 
-            {/* Server Status */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-              <h2 className="text-2xl font-bold text-white mb-4">🖥️ Server Status</h2>
+            {/* Matchmaking Queue */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Matchmaking Queue</h3>
               <div className="space-y-3">
-                <div className="bg-green-800/50 p-3 rounded-lg border border-green-600">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-white font-semibold">US-East</p>
-                      <p className="text-green-200 text-sm">Primary Server</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                      <p className="text-green-300 text-xs">Online</p>
-                    </div>
-                  </div>
+                <div className="flex justify-between">
+                  <span>Queue Length:</span>
+                  <span className="text-blue-400">{platformStats.matchmakingQueue}</span>
                 </div>
-                <div className="bg-green-800/50 p-3 rounded-lg border border-green-600">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-white font-semibold">Europe</p>
-                      <p className="text-green-200 text-sm">Secondary Server</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                      <p className="text-green-300 text-xs">Online</p>
-                    </div>
-                  </div>
+                <div className="flex justify-between">
+                  <span>Daily Active:</span>
+                  <span className="text-green-400">{platformStats.dailyActiveUsers}</span>
                 </div>
-                <div className="bg-green-800/50 p-3 rounded-lg border border-green-600">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-white font-semibold">Asia</p>
-                      <p className="text-green-200 text-sm">Regional Server</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                      <p className="text-green-300 text-xs">Online</p>
-                    </div>
-                  </div>
+                <div className="flex justify-between">
+                  <span>Monthly Revenue:</span>
+                  <span className="text-yellow-400">${platformStats.monthlyRevenue.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Avg Session:</span>
+                  <span className="text-purple-400">{platformStats.averageSessionTime}m</span>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Game Details Modal */}
-        {selectedGame && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
-            <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-4xl w-full p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">Game Details</h2>
-                <button
-                  onClick={() => setSelectedGame(null)}
-                  className="text-gray-400 hover:text-white text-2xl"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Game Information</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Name:</span>
-                      <span className="text-white font-semibold">{selectedGame.name}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Genre:</span>
-                      <span className="text-white font-semibold">{selectedGame.genre}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Status:</span>
-                      <span className={'font-semibold ' + getStatusColor(selectedGame.status)}>
-                        {selectedGame.status.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Rating:</span>
-                      <span className="text-white font-semibold">⭐ {selectedGame.rating}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Players:</span>
-                      <span className="text-white font-semibold">{selectedGame.players}/{selectedGame.maxPlayers}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Revenue:</span>
-                      <span className="text-white font-semibold">{formatCurrency(selectedGame.revenue)}</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Performance Metrics</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Matchmaking Time:</span>
-                      <span className="text-white font-semibold">{selectedGame.matchmakingTime}s</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Avg Session:</span>
-                      <span className="text-white font-semibold">{selectedGame.averageSessionTime}m</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Daily Users:</span>
-                      <span className="text-white font-semibold">{formatNumber(selectedGame.dailyActiveUsers)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Monthly Revenue:</span>
-                      <span className="text-white font-semibold">{formatCurrency(selectedGame.monthlyRevenue)}</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-lg font-semibold text-green-400 mb-3 mt-4">Features</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedGame.features.map((feature, index) => (
-                      <span key={index} className="px-2 py-1 bg-green-600 text-white text-xs rounded">
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3 mt-4">Server Regions</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedGame.serverRegions.map((region, index) => (
-                      <span key={index} className="px-2 py-1 bg-yellow-600 text-white text-xs rounded">
-                        {region}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Gaming Features */}
-        <div className="mt-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-          <h2 className="text-2xl font-bold text-white mb-4">Advanced Gaming Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Multiplayer System</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Real-time matchmaking</li>
-                <li>• Cross-platform play</li>
-                <li>• Server load balancing</li>
-                <li>• Regional servers</li>
-                <li>• Anti-cheat protection</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Game Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Player behavior tracking</li>
-                <li>• Performance metrics</li>
-                <li>• Revenue analytics</li>
-                <li>• Server monitoring</li>
-                <li>• Real-time dashboards</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Social Features</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Friend system</li>
-                <li>• Guilds & clans</li>
-                <li>• Leaderboards</li>
-                <li>• Achievements</li>
-                <li>• Chat system</li>
-              </ul>
+            {/* Code Viewer */}
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <h3 className="text-xl font-bold mb-4">Implementation</h3>
+              <button
+                onClick={() => setShowCodeViewer(true)}
+                className="w-full bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-colors"
+              >
+                📖 View Code
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Code Viewer */}
-      <CodeViewer
-        code={demoCode}
-        language="jsx"
-        title="Game Platform Demo Code"
-        isOpen={showCodeViewer}
-        onClose={() => setShowCodeViewer(false)}
-      />
+      {showCodeViewer && (
+        <CodeViewer
+          isOpen={showCodeViewer}
+          onClose={() => setShowCodeViewer(false)}
+          title="Game Platform Implementation"
+          code={`
+// Deterministic Game Platform Implementation
+class GamePlatformSystem {
+  // Deterministic matchmaking algorithm
+  matchmaking(players, gameMode, skillLevel) {
+    if (players.length < 2) return null;
+    
+    // Sort players by skill level for balanced matches
+    const sortedPlayers = [...players].sort((a, b) => a.skillLevel - b.skillLevel);
+    
+    // Create balanced teams
+    const teams = [];
+    const teamSize = gameMode === 'solo' ? 1 : gameMode === 'duo' ? 2 : 4;
+    
+    for (let i = 0; i < sortedPlayers.length; i += teamSize * 2) {
+      const team1 = sortedPlayers.slice(i, i + teamSize);
+      const team2 = sortedPlayers.slice(i + teamSize, i + teamSize * 2);
+      
+      if (team1.length === teamSize && team2.length === teamSize) {
+        teams.push({
+          id: teams.length + 1,
+          team1,
+          team2,
+          skillDifference: Math.abs(
+            team1.reduce((sum, p) => sum + p.skillLevel, 0) / team1.length -
+            team2.reduce((sum, p) => sum + p.skillLevel, 0) / team2.length
+          ),
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+    
+    return teams;
+  }
+
+  // Deterministic skill rating calculation
+  calculateSkillRating(player, matchResult, opponentSkill) {
+    const kFactor = player.matches < 30 ? 40 : player.matches < 100 ? 20 : 10;
+    const expectedScore = 1 / (1 + Math.pow(10, (opponentSkill - player.skillLevel) / 400));
+    const actualScore = matchResult === 'win' ? 1 : matchResult === 'draw' ? 0.5 : 0;
+    
+    const newRating = player.skillLevel + kFactor * (actualScore - expectedScore);
+    return Math.max(0, Math.round(newRating));
+  }
+
+  // Deterministic leaderboard ranking
+  calculateLeaderboard(players) {
+    return players
+      .map(player => ({
+        ...player,
+        score: player.skillLevel * 10 + player.wins * 100 + player.totalKills * 5
+      }))
+      .sort((a, b) => b.score - a.score)
+      .map((player, index) => ({
+        ...player,
+        rank: index + 1,
+        tier: this.getTier(player.score)
+      }));
+  }
+
+  // Determine player tier based on score
+  getTier(score) {
+    if (score >= 5000) return 'Legendary';
+    if (score >= 4000) return 'Master';
+    if (score >= 3000) return 'Diamond';
+    if (score >= 2000) return 'Platinum';
+    if (score >= 1000) return 'Gold';
+    if (score >= 500) return 'Silver';
+    return 'Bronze';
+  }
+
+  // Deterministic game balance algorithm
+  balanceGame(game, players) {
+    const totalPlayers = players.length;
+    const targetTeams = Math.floor(totalPlayers / 4); // 4 players per team
+    
+    // Calculate average skill per team
+    const sortedPlayers = [...players].sort((a, b) => a.skillLevel - b.skillLevel);
+    const teams = [];
+    
+    for (let i = 0; i < targetTeams; i++) {
+      const team = [];
+      for (let j = 0; j < 4; j++) {
+        const playerIndex = i + (j * targetTeams);
+        if (playerIndex < sortedPlayers.length) {
+          team.push(sortedPlayers[playerIndex]);
+        }
+      }
+      if (team.length === 4) {
+        teams.push({
+          id: i + 1,
+          players: team,
+          averageSkill: team.reduce((sum, p) => sum + p.skillLevel, 0) / team.length,
+          totalKills: team.reduce((sum, p) => sum + p.totalKills, 0)
+        });
+      }
+    }
+    
+    return teams;
+  }
+}
+          `}
+        />
+      )}
     </div>
   );
 };

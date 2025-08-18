@@ -467,7 +467,7 @@ export default BookstoreAPI;`;
           <div className="space-y-6">
             {/* Endpoints */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">API Endpoints</h3>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">🔗 API Endpoints</h3>
               <div className="grid grid-cols-1 gap-2">
                 {/* The endpoints array is removed as per the new_code, so this section is now empty */}
               </div>
@@ -475,7 +475,7 @@ export default BookstoreAPI;`;
 
             {/* Request Body */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-purple-400">Request Body</h3>
+              <h3 className="text-lg font-semibold mb-4 text-purple-400">📝 Request Body</h3>
               <textarea
                 value={requestBody}
                 onChange={(e) => setRequestBody(e.target.value)}
@@ -489,7 +489,7 @@ export default BookstoreAPI;`;
 
             {/* Send Request */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-yellow-400">Send Request</h3>
+              <h3 className="text-lg font-semibold mb-4 text-yellow-400">🚀 Send Request</h3>
               <button
                 onClick={handleSendRequest}
                 disabled={isLoading}
@@ -502,7 +502,7 @@ export default BookstoreAPI;`;
                   </>
                 ) : (
                   <>
-                    <span>SR</span>
+                    <span>📡</span>
                     <span>Send {activeEndpoint}</span>
                   </>
                 )}
@@ -514,7 +514,7 @@ export default BookstoreAPI;`;
           <div className="space-y-6">
             {/* Response */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">Response</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">📥 Response</h3>
               {response ? (
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
@@ -539,7 +539,7 @@ export default BookstoreAPI;`;
 
             {/* Books Database */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">Books Database</h3>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">📚 Books Database</h3>
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {books.map((book) => (
                   <div
@@ -585,7 +585,7 @@ export default BookstoreAPI;`;
         {/* Selected Book Details */}
         {selectedBook && (
           <div className="mt-6 bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4 text-yellow-400">Book Details</h3>
+            <h3 className="text-lg font-semibold mb-4 text-yellow-400">📖 Book Details</h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <div className="space-y-2">
@@ -630,10 +630,10 @@ export default BookstoreAPI;`;
 
         {/* Features */}
         <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-teal-400">API Features</h3>
+          <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ API Features</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h4 className="font-semibold text-blue-400 mb-2">RESTful Endpoints</h4>
+              <h4 className="font-semibold text-blue-400 mb-2">🔗 RESTful Endpoints</h4>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>• GET /api/books - Retrieve all books</li>
                 <li>• GET /api/books/:id - Get specific book</li>
@@ -643,7 +643,7 @@ export default BookstoreAPI;`;
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">Advanced Features</h4>
+              <h4 className="font-semibold text-green-400 mb-2">🛡️ Advanced Features</h4>
               <ul className="space-y-1 text-sm text-gray-300">
                 <li>• Input validation middleware</li>
                 <li>• Error handling & logging</li>

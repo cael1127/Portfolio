@@ -749,7 +749,7 @@ export default ExpenseTracker;`;
           {/* Add Expense Form */}
           <div className="lg:col-span-2">
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">Add New Expense</h3>
+              <h3 className="text-lg font-semibold mb-4 text-green-400">➕ Add New Expense</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
@@ -812,7 +812,7 @@ export default ExpenseTracker;`;
                   </>
                 ) : (
                   <>
-                    <span>AE</span>
+                    <span>➕</span>
                     <span>Add Expense</span>
                   </>
                 )}
@@ -824,7 +824,7 @@ export default ExpenseTracker;`;
           <div className="space-y-6">
             {/* Stats Cards */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-purple-400">Statistics</h3>
+              <h3 className="text-lg font-semibold mb-4 text-purple-400">📊 Statistics</h3>
               <div className="space-y-4">
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <div className="text-gray-400 text-sm">Total Expenses</div>
@@ -865,7 +865,7 @@ export default ExpenseTracker;`;
 
             {/* Features */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-teal-400">MERN Features</h3>
+              <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ MERN Features</h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>• MongoDB Database</li>
                 <li>• Express.js Backend</li>
@@ -880,11 +880,11 @@ export default ExpenseTracker;`;
 
         {/* Expenses List */}
         <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-blue-400">Expenses List</h3>
+          <h3 className="text-lg font-semibold mb-4 text-blue-400">📋 Expenses List</h3>
           
           {filteredExpenses.length === 0 ? (
             <div className="text-center text-gray-400 py-8">
-              <div className="text-4xl mb-4">EX</div>
+              <div className="text-4xl mb-4">💰</div>
               <p>No expenses found</p>
               <p className="text-sm">Add your first expense to get started!</p>
             </div>
@@ -914,7 +914,7 @@ export default ExpenseTracker;`;
                       onClick={() => deleteExpense(expense.id)}
                       className="text-red-400 hover:text-red-300 transition-colors"
                     >
-                      DEL
+                      🗑️
                     </button>
                   </div>
                 </div>
@@ -925,7 +925,7 @@ export default ExpenseTracker;`;
 
         {/* Category Breakdown */}
         <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-green-400">Category Breakdown</h3>
+          <h3 className="text-lg font-semibold mb-4 text-green-400">📈 Category Breakdown</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map(category => {
               const categoryExpenses = expenses.filter(exp => exp.category === category);
