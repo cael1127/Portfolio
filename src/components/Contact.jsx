@@ -203,6 +203,39 @@ const Contact = () => {
             </div>
           </div>
 
+          {/* Contact Form */}
+          <div className="max-w-4xl mx-auto mt-10">
+            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+              <h2 className="text-2xl font-semibold mb-4">Send a message</h2>
+              <p className="text-gray-300 mb-6">Prefer email? Use the form below and I’ll reply within 24 hours.</p>
+              <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="contact" />
+                <p className="hidden">
+                  <label>
+                    Don’t fill this out: <input name="bot-field" />
+                  </label>
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-300 mb-1" htmlFor="name">Name</label>
+                    <input id="name" name="name" type="text" required className="w-full p-3 rounded bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:border-teal-500 focus:outline-none" placeholder="Your name" />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-300 mb-1" htmlFor="email">Email</label>
+                    <input id="email" name="email" type="email" required className="w-full p-3 rounded bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:border-teal-500 focus:outline-none" placeholder="you@example.com" />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm text-gray-300 mb-1" htmlFor="message">Message</label>
+                  <textarea id="message" name="message" rows="5" required className="w-full p-3 rounded bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:border-teal-500 focus:outline-none" placeholder="How can I help?" />
+                </div>
+                <div className="mt-6">
+                  <button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 px-6 rounded-lg transition-colors">Send Message</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
           {/* Call to Action */}
           <div className="mt-12 text-center">
             <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>

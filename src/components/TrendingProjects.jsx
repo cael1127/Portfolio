@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const TrendingProjects = ({ setCurrentPage }) => {
   const [selectedProject, setSelectedProject] = useState(null);
 
+  // Only include projects that correspond to existing demo routes in App.jsx
   const trendingProjects = [
     {
       id: 1,
@@ -50,7 +51,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "NLP", "TensorFlow", "React", "MongoDB"],
       difficulty: "Intermediate",
-      demoPage: "ai-learning-assistant"
+      demoPage: "ai-assistant-demo"
     },
     {
       id: 4,
@@ -66,7 +67,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "NLTK", "TensorFlow", "PostGIS", "Socket.IO"],
       difficulty: "Advanced",
-      demoPage: "disaster-prediction"
+      demoPage: "sentiment-analysis-demo"
     },
     {
       id: 5,
@@ -82,7 +83,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "Scikit-learn", "React", "Node.js", "MongoDB"],
       difficulty: "Intermediate",
-      demoPage: "gadget-addiction-prediction"
+      demoPage: "financial-demo"
     },
     {
       id: 6,
@@ -98,7 +99,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "TensorFlow", "React Native", "PostgreSQL", "Redis"],
       difficulty: "Intermediate",
-      demoPage: "crop-price-prediction"
+      demoPage: "aquaculture-demo"
     },
     {
       id: 7,
@@ -114,7 +115,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "Scikit-learn", "React", "Node.js", "MongoDB"],
       difficulty: "Intermediate",
-      demoPage: "career-advisor"
+      demoPage: "resumeanalyzer-demo"
     },
     {
       id: 8,
@@ -130,7 +131,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "TensorFlow", "PostGIS", "React", "Socket.IO"],
       difficulty: "Advanced",
-      demoPage: "flood-prediction"
+      demoPage: "smartcity-demo"
     },
     {
       id: 9,
@@ -146,7 +147,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "OpenCV", "TensorFlow", "Flask", "PostgreSQL"],
       difficulty: "Advanced",
-      demoPage: "blood-group-detection"
+      demoPage: "healthcare-demo"
     },
     {
       id: 10,
@@ -162,7 +163,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "TensorFlow", "Scikit-learn", "React", "HIPAA"],
       difficulty: "Advanced",
-      demoPage: "alzheimers-detection"
+      demoPage: "healthcare-demo"
     },
     {
       id: 11,
@@ -178,7 +179,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
       ],
       technologies: ["Python", "TensorFlow", "OpenCV", "React Native", "MongoDB"],
       difficulty: "Intermediate",
-      demoPage: "food-recognition"
+      demoPage: "restaurantapp-demo"
     },
     {
       id: 12,
