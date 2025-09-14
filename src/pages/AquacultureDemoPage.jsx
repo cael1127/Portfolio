@@ -1,34 +1,33 @@
 import React from 'react';
 import AquacultureDemo from '../components/demos/AquacultureDemo';
+import ProjectLayout from '../components/ProjectLayout';
+import Reveal from '../components/Reveal';
+import CaseStudy from '../components/CaseStudy';
+import ProjectThumb from '../components/ProjectThumb';
 
 const AquacultureDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">Aquaculture Demo</h1>
-            <p className="text-gray-400 text-sm">Live sensor and tank data monitoring</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+    <ProjectLayout
+      title="Aquaculture Demo"
+      subtitle="Live sensor and tank data monitoring"
+      emoji="🌊"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Smart City', onClick: () => setCurrentPage('smart-city-demo') }}
+    >
+      <Reveal>
+        <ProjectThumb emoji="🌊" accent="#10b981" />
         <AquacultureDemo />
-      </div>
-    </div>
+      </Reveal>
+      <Reveal delay={150}>
+        <CaseStudy
+          overview="Sensor ingestion and health scoring for tanks with predictive alerts."
+          role="Edge ingestion, dashboard, alert rules."
+          stack={["React", "Node.js", "IoT", "Tailwind"]}
+          challenges={["Noisy sensor data", "Predictive thresholds"]}
+          results={["Actionable alerts", "Operator confidence"]}
+        />
+      </Reveal>
+    </ProjectLayout>
   );
 };
 

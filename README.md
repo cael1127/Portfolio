@@ -1,15 +1,14 @@
-# Cael Findley - Portfolio
+# Cael Findley — Portfolio
 
-A modern, responsive portfolio website showcasing full-stack development projects, live demos, and professional services.
+Modern, fast, and accessible portfolio showcasing interactive demos, selected client work, and services. Each demo includes an embedded “View code” panel and a short README so employers can quickly grok the approach.
 
-## Features
+## ✨ Highlights
 
-- **Dark Mode Design** - Modern dark theme with green and teal accents
-- **Interactive Live Demos** - Real-time data visualization and project demonstrations
-- **Comprehensive Project Showcase** - Detailed project descriptions with technical specifications
-- **Freelancing Services** - Professional service offerings with pricing
-- **Responsive Design** - Optimized for all devices and screen sizes
-- **Search & Filter** - Easy navigation through projects and categories
+- Modern design system (Inter, clean spacing, subtle motion)
+- Consistent demo layout (ProjectLayout → Thumb → Reveal → CaseStudy → README)
+- History API navigation with clean URLs; Netlify SPA rewrites
+- Deterministic demo logic with embedded CodeViewer
+- Accessibility & SEO improvements (skip link, meta)
 
 ## Technologies Used
 
@@ -25,21 +24,26 @@ A modern, responsive portfolio website showcasing full-stack development project
 - **Socket.io** - Real-time bidirectional communication
 - **CORS** - Cross-origin resource sharing
 
-## 📁 Project Structure
+## 📁 Project Structure (frontend)
 
 ```
-Portfolio/
-├── App.jsx                 # Main React application
-├── index.html             # HTML entry point
-├── backend/               # Node.js backend server
-│   ├── server.js         # Express server setup
-│   ├── package.json      # Backend dependencies
-│   └── ...
-├── README.md             # Project documentation
-└── .gitignore           # Git ignore rules
+src/
+  App.jsx                        # App shell, routing, navigation
+  components/
+    ProjectLayout.jsx            # Sticky TOC + next project + content
+    ProjectThumb.jsx             # Lightweight SVG thumbnail
+    Reveal.jsx                   # IntersectionObserver reveal
+    CaseStudy.jsx                # Overview/Role/Stack/Challenges/Results
+    DemoReadme.jsx               # Short problem/approach/highlights panel
+    demos/                       # Demo components with embedded CodeViewer
+  pages/                         # Demo pages wired to ProjectLayout
+public/
+  index.html                     # Fonts/meta
+  _redirects                     # SPA rewrites
+netlify.toml                     # Build and headers
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -65,30 +69,23 @@ Portfolio/
    ```
    The backend will run on `http://localhost:4000`
 
-4. **Open the frontend**
-   - Open `index.html` in your browser, or
-   - Serve it with a local server:
-     ```bash
-     # Using Python
-     python -m http.server 8000
-     
-     # Using Node.js
-     npx serve .
-     ```
+4. **Run the app**
+   ```bash
+   npm start
+   # open http://localhost:3000
+   ```
 
-## Live Demos
+## 🧪 Live Demos (in‑app)
 
-The portfolio includes several interactive live demos:
+Open Projects to explore interactive demos. Each includes a “View code” button and a README panel.
 
-- **Aquaculture Tracking System** - Real-time sensor data visualization
-- **Cloud Migration Toolset** - Migration simulation and planning
-- **IT Helpdesk Portal** - Ticket management system
-- **Network Vulnerability Scanner** - Security scanning interface
-- **Zero Trust Authentication** - Multi-factor authentication demo
-- **Customer Chatbot** - AI-powered customer service
-- **Predictive Maintenance AI** - Equipment monitoring dashboard
-- **Sales Forecasting Model** - Data analysis and predictions
-- **Environmental Impact Dashboard** - Sustainability metrics
+- Object Detection — deterministic overlay algorithm
+- Audio Transcription — timestamps & diarization
+- E‑commerce Storefront — catalog, cart, totals
+- Real‑time Chat — presence via BroadcastChannel
+- SaaS Analytics — cohort retention SVG
+- 3D Product Configurator — variant switching
+- Plus: Smart City, Aquaculture, Resume Analyzer, Whiteboard, Blockchain, etc.
 
 ## Project Categories
 
@@ -146,10 +143,10 @@ Professional services offered:
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## Contact
+## 📬 Contact
 
 - **Email**: findleytechs@gmail.com
 
 ---
 
-Built with passion by Cael Findley 
+Built with ❤️ by Cael Findley

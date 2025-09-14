@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import ContactModal from './ContactModal';
 import FloatingParticles from './FloatingParticles';
 import AnimatedCard from './AnimatedCard';
+const InspirationSection = React.lazy(() => import('./InspirationSection'));
+const TestimonialsSection = React.lazy(() => import('./TestimonialsSection'));
+const StackStrip = React.lazy(() => import('./StackStrip'));
 
 const Home = ({ setCurrentPage }) => {
   const [showContactModal, setShowContactModal] = useState(false);
@@ -214,6 +217,12 @@ const Home = ({ setCurrentPage }) => {
           </button>
         </div>
       </div>
+
+      <React.Suspense fallback={null}>
+        <InspirationSection />
+        <TestimonialsSection />
+        <StackStrip />
+      </React.Suspense>
 
       {/* Contact Modal */}
       <ContactModal 

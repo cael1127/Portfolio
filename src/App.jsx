@@ -36,6 +36,12 @@ import SocialNetworkDemoPage from './pages/SocialNetworkDemoPage';
 import InteractiveResumeDemoPage from './pages/InteractiveResumeDemoPage';
 import FraudDetectionDemoPage from './pages/FraudDetectionDemoPage';
 import DeepfakeDetectionDemoPage from './pages/DeepfakeDetectionDemoPage';
+import ObjectDetectionDemoPage from './pages/ObjectDetectionDemoPage';
+import AudioTranscriptionDemoPage from './pages/AudioTranscriptionDemoPage';
+import EcommerceDemoPage from './pages/EcommerceDemoPage';
+import RealtimeChatDemoPage from './pages/RealtimeChatDemoPage';
+import SaaSAnalyticsDemoPage from './pages/SaaSAnalyticsDemoPage';
+import ProductConfiguratorDemoPage from './pages/ProductConfiguratorDemoPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -114,6 +120,18 @@ function App() {
         return <FraudDetectionDemoPage setCurrentPage={setCurrentPage} />;
       case 'deepfake-detection-demo':
         return <DeepfakeDetectionDemoPage setCurrentPage={setCurrentPage} />;
+      case 'object-detection-demo':
+        return <ObjectDetectionDemoPage setCurrentPage={setCurrentPage} />;
+      case 'audio-transcription-demo':
+        return <AudioTranscriptionDemoPage setCurrentPage={setCurrentPage} />;
+      case 'ecommerce-demo':
+        return <EcommerceDemoPage setCurrentPage={setCurrentPage} />;
+      case 'realtime-chat-demo':
+        return <RealtimeChatDemoPage setCurrentPage={setCurrentPage} />;
+      case 'saas-analytics-demo':
+        return <SaaSAnalyticsDemoPage setCurrentPage={setCurrentPage} />;
+      case 'product-configurator-demo':
+        return <ProductConfiguratorDemoPage setCurrentPage={setCurrentPage} />;
       case 'resumeanalyzer-demo':
         return <ResumeAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
       case 'aiassistant-demo':

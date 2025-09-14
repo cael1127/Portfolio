@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProjectLayout = ({ title, subtitle, emoji, onBack, children }) => {
+const ProjectLayout = ({ title, subtitle, emoji, onBack, next, children }) => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="border-b border-gray-800 bg-gray-900/80 backdrop-blur supports-[backdrop-filter]:bg-gray-900/60">
@@ -27,7 +27,29 @@ const ProjectLayout = ({ title, subtitle, emoji, onBack, children }) => {
         </div>
       </div>
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        {children}
+        <div className="grid lg:grid-cols-[220px,1fr] gap-6 items-start">
+          <aside className="hidden lg:block sticky top-24 self-start">
+            <nav className="text-sm">
+              <div className="text-gray-400 uppercase tracking-wide mb-2">On this page</div>
+              <ul className="space-y-2 text-gray-300">
+                <li><a href="#overview" className="hover:text-white">Overview</a></li>
+                <li><a href="#role" className="hover:text-white">My role</a></li>
+                <li><a href="#tech-stack" className="hover:text-white">Tech stack</a></li>
+                <li><a href="#challenges" className="hover:text-white">Challenges</a></li>
+                <li><a href="#results" className="hover:text-white">Results</a></li>
+              </ul>
+            </nav>
+          </aside>
+          <div>
+            {children}
+            {next && (
+              <div className="mt-10 pt-6 border-t border-gray-800 flex items-center justify-between">
+                <span className="text-gray-400 text-sm">Next project</span>
+                <button onClick={next.onClick} className="text-primary hover:text-emerald-300">{next.label} →</button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -82,6 +82,26 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['Python', 'Transformers', 'NLTK', 'VADER'],
           features: ['Text analysis', 'Sentiment scoring', 'Detailed breakdowns'],
           hasProjectPage: true
+        },
+        {
+          id: 'object-detection',
+          name: '🎯 Real-time Object Detection',
+          description: 'Live webcam detection with bounding boxes and confidence',
+          icon: '🎯',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'TensorFlow', 'OpenCV'],
+          features: ['Live detection', 'Bounding boxes', 'Confidence heatmap'],
+          hasProjectPage: true
+        },
+        {
+          id: 'audio-transcription',
+          name: '🎙️ Audio Transcription',
+          description: 'Accurate audio-to-text with timestamps and speaker segments',
+          icon: '🎙️',
+          difficulty: 'Intermediate',
+          technologies: ['Python', 'ASR', 'WebAudio'],
+          features: ['Upload audio', 'Timestamps', 'Export SRT'],
+          hasProjectPage: true
         }
       ]
     },
@@ -113,6 +133,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           difficulty: 'Intermediate',
           technologies: ['React', 'CSS3', 'Form Validation'],
           features: ['Real-time editing', 'Responsive design', 'Auto-save'],
+          hasProjectPage: true
+        },
+        {
+          id: 'ecommerce',
+          name: '🛍️ E-commerce Storefront',
+          description: 'Product catalog, cart, and checkout with Stripe',
+          icon: '🛍️',
+          difficulty: 'Intermediate',
+          technologies: ['React', 'Stripe', 'Tailwind'],
+          features: ['Product catalog', 'Cart', 'Checkout'],
           hasProjectPage: true
         }
       ]
@@ -159,6 +189,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           difficulty: 'Intermediate',
           technologies: ['React', 'Node.js', 'MongoDB', 'Auth'],
           features: ['User authentication', 'Real-time posts', 'Comments & likes'],
+          hasProjectPage: true
+        },
+        {
+          id: 'realtime-chat',
+          name: '💬 Real-time Chat',
+          description: 'Rooms, presence, and typing indicators with WebSocket',
+          icon: '💬',
+          difficulty: 'Intermediate',
+          technologies: ['WebSocket', 'Node.js', 'React'],
+          features: ['Rooms', 'Typing indicator', 'Presence'],
           hasProjectPage: true
         }
       ]
@@ -232,6 +272,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['React', 'Node.js', 'Real-time updates'],
           features: ['Order management', 'Inventory tracking', 'Analytics'],
           hasProjectPage: true
+        },
+        {
+          id: 'saas-analytics',
+          name: '📈 SaaS Analytics Dashboard',
+          description: 'Cohorts, retention, and funnels for product analytics',
+          icon: '📈',
+          difficulty: 'Intermediate',
+          technologies: ['React', 'D3', 'Node.js'],
+          features: ['Cohorts', 'Retention', 'Funnels'],
+          hasProjectPage: true
         }
       ]
     },
@@ -257,6 +307,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           difficulty: 'Intermediate',
           technologies: ['React', 'Drag & Drop', 'Template System'],
           features: ['Visual editor', 'Template library', 'Deployment'],
+          hasProjectPage: true
+        },
+        {
+          id: 'product-configurator',
+          name: '🧩 3D Product Configurator',
+          description: 'Configure colors, materials, and variants in 3D',
+          icon: '🧩',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Three.js', 'WebGL'],
+          features: ['Color/material variants', 'Orbit controls', 'Export'],
           hasProjectPage: true
         }
       ]
@@ -601,6 +661,15 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                         className="text-green-400 hover:text-green-300 text-xs font-semibold group-hover:scale-105 transition-transform duration-300"
                       >
                         View Project Details →
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentPage(demo.id + '-demo');
+                        }}
+                        className="ml-4 text-xs text-gray-300 hover:text-white"
+                      >
+                        View code →
                       </button>
                     </div>
                   )}
