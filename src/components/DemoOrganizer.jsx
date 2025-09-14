@@ -582,6 +582,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   delay={index * 75}
                   direction="up"
                   className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 overflow-hidden"
+                  onClick={() => setCurrentPage(demo.id + '-demo')}
                 >
                   {/* Hover Background Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
