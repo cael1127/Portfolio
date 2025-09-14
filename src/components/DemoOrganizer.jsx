@@ -714,8 +714,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           <div className="mt-6 text-center">
             <button
               onClick={() => {
-                console.log('Test button clicked - going to blockchain');
-                setCurrentPage('blockchain');
+                console.log('Test button clicked - going to blockchain-demo');
+                setCurrentPage('blockchain-demo');
               }}
               className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
