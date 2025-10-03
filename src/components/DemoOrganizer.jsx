@@ -584,14 +584,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   key={demo.id}
                   delay={index * 100}
                   direction="up"
-                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative overflow-hidden"
+                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer relative overflow-hidden"
                   onClick={() => setCurrentPage(demo.id + '-demo')}
                 >
-                  {/* Hover Background Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Shimmer Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   
                   <button
                     className="absolute inset-0 w-full h-full bg-transparent"
@@ -604,9 +599,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   
                   <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
                     <div className="flex items-center">
-                      <div className="text-3xl mr-3 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-12">{demo.icon}</div>
+                      <div className="text-3xl mr-3 transition-transform duration-300">{demo.icon}</div>
                       <div>
-                        <h3 className="text-lg font-semibold text-white group-hover:text-green-400 transition-colors">
+                        <h3 className="text-lg font-semibold text-white transition-colors">
                           {demo.name}
                         </h3>
                         <div className={'px-2 py-1 rounded text-xs font-medium transition-all duration-300 ' + getDifficultyBg(demo.difficulty)}>
@@ -614,20 +609,20 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 group-hover:scale-110">
+                    <div className="text-green-400 opacity-0 transition-all duration-300 transform translate-x-2">
                       →
                     </div>
                   </div>
                   
-                  <p className="text-gray-300 text-sm mb-4 group-hover:text-gray-200 transition-colors">{demo.description}</p>
+                  <p className="text-gray-300 text-sm mb-4 transition-colors">{demo.description}</p>
                   
                   <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2 group-hover:text-gray-300 transition-colors">Technologies</h4>
+                    <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Technologies</h4>
                     <div className="flex flex-wrap gap-1">
                       {demo.technologies.map((tech, index) => (
                         <span 
                           key={index} 
-                          className="bg-gray-600 text-white px-2 py-1 rounded text-xs group-hover:bg-gray-500 transition-all duration-300 hover:scale-105"
+                          className="bg-gray-600 text-white px-2 py-1 rounded text-xs transition-all duration-300 hover:scale-105"
                           style={{ transitionDelay: `${index * 50}ms` }}
                         >
                           {tech}
@@ -637,32 +632,32 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   </div>
                   
                   <div>
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2 group-hover:text-gray-300 transition-colors">Key Features</h4>
+                    <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
                     <ul className="space-y-1">
                       {demo.features.slice(0, 3).map((feature, index) => (
                         <li 
                           key={index} 
-                          className="text-gray-300 text-xs flex items-center group-hover:text-gray-200 transition-all duration-300"
+                          className="text-gray-300 text-xs flex items-center transition-all duration-300"
                           style={{ transitionDelay: `${index * 100}ms` }}
                         >
-                          <span className="text-green-400 mr-1 group-hover:scale-110 transition-transform duration-300">•</span>
+                          <span className="text-green-400 mr-1 transition-transform duration-300">•</span>
                           {feature}
                         </li>
                       ))}
                       {demo.features.length > 3 && (
-                        <li className="text-gray-400 text-xs group-hover:text-gray-300 transition-colors">+{demo.features.length - 3} more features</li>
+                        <li className="text-gray-400 text-xs transition-colors">+{demo.features.length - 3} more features</li>
                       )}
                     </ul>
                   </div>
                   
                   {demo.hasProjectPage && (
-                    <div className="mt-4 pt-4 border-t border-gray-600 group-hover:border-green-400/50 transition-colors">
+                    <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setCurrentPage(demo.id + '-demo');
                         }}
-                        className="text-green-400 hover:text-green-300 text-xs font-semibold group-hover:scale-105 transition-transform duration-300"
+                        className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
                       >
                         View Project Details →
                       </button>
@@ -680,7 +675,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   
                   {/* Progress Bar */}
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
-                    <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+                    <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 transition-transform duration-700 origin-left"></div>
                   </div>
                 </AnimatedCard>
               ))}
