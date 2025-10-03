@@ -451,6 +451,79 @@ const SkillsSection = ({ data, editMode, onUpdate }) => {
 
 export default InteractiveResume;`;
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// InteractiveResume Implementation
+// Add your implementation code here
+`,
+    explanation: `Interactive resume with dynamic content, animations, and engaging user experience.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Interactive elements and Smooth animations using modern web technologies.
+
+**Architecture**: Built with Interactive Design and Animation for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Interactive Design",
+            "description": "Engaging user interactions",
+            "tags": [
+                  "UI",
+                  "Interactions",
+                  "Animation"
+            ]
+      },
+      {
+            "name": "Animation",
+            "description": "Smooth transitions and effects",
+            "tags": [
+                  "Animation",
+                  "CSS",
+                  "Transitions"
+            ]
+      },
+      {
+            "name": "Responsive Design",
+            "description": "Mobile-friendly layout",
+            "tags": [
+                  "Responsive",
+                  "Mobile",
+                  "Layout"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Interactive Design",
+            "description": "Engaging user experience",
+            "example": "Hover effects and animations"
+      },
+      {
+            "name": "Progressive Enhancement",
+            "description": "Enhancing basic functionality",
+            "example": "Adding animations to static content"
+      }
+],
+
+    features: [
+      "Interactive elements",
+      "Smooth animations",
+      "Responsive design",
+      "Engaging UX"
+]
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
@@ -567,7 +640,25 @@ export default InteractiveResume;`;
             {activeSection === 'skills' && (
               <div>
                 <h3 className="text-2xl font-bold mb-6 text-gray-800">Skills</h3>
-                <div className="grid md:grid-cols-3 gap-8">
+                    <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🌐 InteractiveResume Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Interactive resume with dynamic content, animations, and engaging user experience.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
                   <div>
                     <h4 className="text-lg font-semibold mb-4 text-gray-800">Technical Skills</h4>
                     <div className="flex flex-wrap gap-2">

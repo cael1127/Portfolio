@@ -49,7 +49,25 @@ const DeepfakeDetectionDemo = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 DeepfakeDetection Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Advanced deepfake detection using computer vision and machine learning to identify manipulated media.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
         {/* Image Upload and Analysis */}
         <div className="space-y-4">
           <div className="p-4 border-2 border-dashed border-gray-600 rounded-lg">
@@ -296,6 +314,79 @@ export default DeepfakeDetectionDemo;`;
     if (confidence > 80) return 'bg-green-600';
     if (confidence > 60) return 'bg-yellow-600';
     return 'bg-red-600';
+  };
+
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// DeepfakeDetection Implementation
+// Add your implementation code here
+`,
+    explanation: `Advanced deepfake detection using computer vision and machine learning to identify manipulated media.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Deepfake detection and Video analysis using modern web technologies.
+
+**Architecture**: Built with Computer Vision and Deep Learning for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Computer Vision",
+            "description": "Image and video analysis",
+            "tags": [
+                  "CV",
+                  "Image Processing",
+                  "Detection"
+            ]
+      },
+      {
+            "name": "Deep Learning",
+            "description": "Neural network models",
+            "tags": [
+                  "AI",
+                  "Neural Networks",
+                  "Classification"
+            ]
+      },
+      {
+            "name": "TensorFlow",
+            "description": "Machine learning framework",
+            "tags": [
+                  "ML",
+                  "Framework",
+                  "Models"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Deepfake Detection",
+            "description": "Identifying manipulated media",
+            "example": "Analyzing facial features for authenticity"
+      },
+      {
+            "name": "Computer Vision",
+            "description": "Processing visual data",
+            "example": "Extracting features from images/videos"
+      }
+],
+
+    features: [
+      "Deepfake detection",
+      "Video analysis",
+      "Confidence scoring",
+      "Real-time processing"
+]
   };
 
   return (

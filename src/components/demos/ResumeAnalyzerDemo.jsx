@@ -54,7 +54,25 @@ const ResumeAnalyzerDemo = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 ResumeAnalyzer Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          AI-powered resume analysis with skill extraction, candidate scoring, and intelligent recommendations using natural language processing.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
         {/* Resume List */}
         <div className="space-y-4">
           {resumes.map((resume) => (
@@ -454,6 +472,79 @@ export default ResumeAnalyzerDemo;`;
 
   const formatNumber = (value) => {
     return new Intl.NumberFormat('en-US').format(value);
+  };
+
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// ResumeAnalyzer Implementation
+// Add your implementation code here
+`,
+    explanation: `AI-powered resume analysis with skill extraction, candidate scoring, and intelligent recommendations using natural language processing.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Skill extraction and Candidate scoring using modern web technologies.
+
+**Architecture**: Built with Natural Language Processing and Machine Learning for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Natural Language Processing",
+            "description": "Text analysis and understanding",
+            "tags": [
+                  "NLP",
+                  "Text Processing",
+                  "AI"
+            ]
+      },
+      {
+            "name": "Machine Learning",
+            "description": "Pattern recognition and scoring",
+            "tags": [
+                  "ML",
+                  "Classification",
+                  "Scoring"
+            ]
+      },
+      {
+            "name": "React",
+            "description": "Interactive user interface",
+            "tags": [
+                  "UI",
+                  "Components",
+                  "State"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Text Analysis",
+            "description": "Extracting information from text",
+            "example": "Identifying skills and experience from resume text"
+      },
+      {
+            "name": "Scoring Algorithm",
+            "description": "Quantifying candidate quality",
+            "example": "Weighted scoring based on multiple factors"
+      }
+],
+
+    features: [
+      "Skill extraction",
+      "Candidate scoring",
+      "Recommendations",
+      "Resume parsing"
+]
   };
 
   return (

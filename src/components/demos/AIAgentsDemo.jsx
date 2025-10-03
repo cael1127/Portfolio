@@ -320,6 +320,79 @@ const AIAgentsDemo = () => {
     return colors[type] || '#6b7280';
   };
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// AIAgents Implementation
+// Add your implementation code here
+`,
+    explanation: `Multi-agent AI system with autonomous agents, coordination protocols, and distributed decision making.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Multi-agent coordination and Autonomous decision making using modern web technologies.
+
+**Architecture**: Built with Multi-Agent Systems and Coordination for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Multi-Agent Systems",
+            "description": "Distributed AI agents",
+            "tags": [
+                  "AI",
+                  "Agents",
+                  "Distributed"
+            ]
+      },
+      {
+            "name": "Coordination",
+            "description": "Agent communication",
+            "tags": [
+                  "Coordination",
+                  "Communication",
+                  "Protocols"
+            ]
+      },
+      {
+            "name": "Autonomous Systems",
+            "description": "Self-directed agents",
+            "tags": [
+                  "Autonomous",
+                  "AI",
+                  "Decision Making"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Multi-Agent Systems",
+            "description": "Multiple AI agents working together",
+            "example": "Coordinated decision making"
+      },
+      {
+            "name": "Agent Communication",
+            "description": "Inter-agent messaging",
+            "example": "Protocols for agent interaction"
+      }
+],
+
+    features: [
+      "Multi-agent coordination",
+      "Autonomous decision making",
+      "Distributed systems",
+      "Agent communication"
+]
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -330,7 +403,25 @@ const AIAgentsDemo = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+            <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 AIAgents Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Multi-agent AI system with autonomous agents, coordination protocols, and distributed decision making.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* Simulation Canvas */}
           <div className="lg:col-span-2">
             <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">

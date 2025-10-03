@@ -177,7 +177,25 @@ const MERNExpenseTracker = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">⚡ MERNExpenseTracker Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Full-stack expense tracking application with MongoDB, Express, React, and Node.js.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* Add Expense Form */}
           <div className="lg:col-span-1">
             <div className="bg-gray-800 rounded-lg p-6">
@@ -932,7 +950,80 @@ export default ExpenseTracker;`;
               const total = categoryExpenses.reduce((sum, exp) => sum + exp.amount, 0);
               const percentage = stats.total > 0 ? (total / stats.total * 100).toFixed(1) : 0;
               
-              return (
+              // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// MERNExpenseTracker Implementation
+// Add your implementation code here
+`,
+    explanation: `Full-stack expense tracking application with MongoDB, Express, React, and Node.js.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Expense tracking and User authentication using modern web technologies.
+
+**Architecture**: Built with MERN Stack and MongoDB for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "MERN Stack",
+            "description": "MongoDB, Express, React, Node.js",
+            "tags": [
+                  "Full-Stack",
+                  "MERN",
+                  "JavaScript"
+            ]
+      },
+      {
+            "name": "MongoDB",
+            "description": "NoSQL database",
+            "tags": [
+                  "Database",
+                  "NoSQL",
+                  "Document"
+            ]
+      },
+      {
+            "name": "Express.js",
+            "description": "Backend framework",
+            "tags": [
+                  "Backend",
+                  "API",
+                  "Server"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Full-Stack Development",
+            "description": "Complete application stack",
+            "example": "Frontend, backend, and database"
+      },
+      {
+            "name": "RESTful APIs",
+            "description": "API design and implementation",
+            "example": "CRUD operations for expenses"
+      }
+],
+
+    features: [
+      "Expense tracking",
+      "User authentication",
+      "Data visualization",
+      "CRUD operations"
+]
+  };
+
+  return (
                 <div key={category} className="bg-gray-700 p-4 rounded-lg">
                   <div className="flex items-center space-x-2 mb-2">
                     <div className={`w-3 h-3 rounded-full ${getCategoryColor(category)}`}></div>

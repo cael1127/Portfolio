@@ -368,6 +368,79 @@ const SentimentAnalysisDemo = () => {
 
 export default SentimentAnalysisDemo;`;
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// SentimentAnalysis Implementation
+// Add your implementation code here
+`,
+    explanation: `Text sentiment analysis with emotion detection, polarity scoring, and real-time processing.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Sentiment analysis and Emotion detection using modern web technologies.
+
+**Architecture**: Built with Sentiment Analysis and Natural Language Processing for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Sentiment Analysis",
+            "description": "Text emotion analysis",
+            "tags": [
+                  "NLP",
+                  "Sentiment",
+                  "Emotion"
+            ]
+      },
+      {
+            "name": "Natural Language Processing",
+            "description": "Text understanding",
+            "tags": [
+                  "NLP",
+                  "Text",
+                  "Processing"
+            ]
+      },
+      {
+            "name": "Machine Learning",
+            "description": "Pattern recognition",
+            "tags": [
+                  "ML",
+                  "AI",
+                  "Classification"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Sentiment Analysis",
+            "description": "Determining emotional tone",
+            "example": "Positive, negative, or neutral sentiment"
+      },
+      {
+            "name": "Text Classification",
+            "description": "Categorizing text content",
+            "example": "Classifying emotions in text"
+      }
+],
+
+    features: [
+      "Sentiment analysis",
+      "Emotion detection",
+      "Real-time processing",
+      "Text classification"
+]
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
@@ -385,7 +458,25 @@ export default SentimentAnalysisDemo;`;
           </button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+            <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 SentimentAnalysis Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Text sentiment analysis with emotion detection, polarity scoring, and real-time processing.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* Input Section */}
           <div className="space-y-6">
             {/* Model Selection */}

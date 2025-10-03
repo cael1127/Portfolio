@@ -445,6 +445,79 @@ app.listen(PORT, () => {
 
 export default BookstoreAPI;`;
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// BookstoreAPI Implementation
+// Add your implementation code here
+`,
+    explanation: `RESTful API for bookstore management with CRUD operations, data validation, and error handling.
+
+## Core Implementation
+
+**Key Features**: This demo showcases CRUD operations and Data validation using modern web technologies.
+
+**Architecture**: Built with REST API and Data Validation for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "REST API",
+            "description": "RESTful web services",
+            "tags": [
+                  "API",
+                  "REST",
+                  "Web Services"
+            ]
+      },
+      {
+            "name": "Data Validation",
+            "description": "Input validation and sanitization",
+            "tags": [
+                  "Validation",
+                  "Security",
+                  "Data"
+            ]
+      },
+      {
+            "name": "Error Handling",
+            "description": "Robust error management",
+            "tags": [
+                  "Errors",
+                  "Handling",
+                  "Robustness"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "RESTful Design",
+            "description": "REST API principles",
+            "example": "HTTP methods and status codes"
+      },
+      {
+            "name": "Data Validation",
+            "description": "Ensuring data integrity",
+            "example": "Input validation and sanitization"
+      }
+],
+
+    features: [
+      "CRUD operations",
+      "Data validation",
+      "Error handling",
+      "API documentation"
+]
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
@@ -462,7 +535,25 @@ export default BookstoreAPI;`;
           </button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+            <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🔧 BookstoreAPI Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          RESTful API for bookstore management with CRUD operations, data validation, and error handling.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* API Testing Interface */}
           <div className="space-y-6">
             {/* Endpoints */}

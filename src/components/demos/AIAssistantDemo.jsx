@@ -556,7 +556,25 @@ const AdvancedLLM = () => {
         {/* Context Information */}
         <div className="bg-gray-800 rounded-xl p-6">
           <h2 className="text-xl font-bold mb-4">🧠 Context & Memory</h2>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 AIAssistant Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Intelligent AI assistant with natural language processing, task automation, and conversational interface.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
             <div>
               <p className="text-gray-400">Current Topic</p>
               <p className="text-white font-semibold">{context.currentTopic || 'General'}</p>
@@ -598,6 +616,79 @@ const AdvancedLLM = () => {
 export default AIAssistantDemo;
 
 export default AdvancedLLM;`;
+
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// AIAssistant Implementation
+// Add your implementation code here
+`,
+    explanation: `Intelligent AI assistant with natural language processing, task automation, and conversational interface.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Natural language processing and Task automation using modern web technologies.
+
+**Architecture**: Built with Natural Language Processing and Conversational AI for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Natural Language Processing",
+            "description": "Understanding human language",
+            "tags": [
+                  "NLP",
+                  "AI",
+                  "Language"
+            ]
+      },
+      {
+            "name": "Conversational AI",
+            "description": "Dialog systems",
+            "tags": [
+                  "Chatbot",
+                  "Conversation",
+                  "AI"
+            ]
+      },
+      {
+            "name": "Task Automation",
+            "description": "Automating user tasks",
+            "tags": [
+                  "Automation",
+                  "Tasks",
+                  "Productivity"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Conversational AI",
+            "description": "Natural language interaction",
+            "example": "Understanding and responding to queries"
+      },
+      {
+            "name": "Task Automation",
+            "description": "Automating repetitive tasks",
+            "example": "Scheduling and reminders"
+      }
+],
+
+    features: [
+      "Natural language processing",
+      "Task automation",
+      "Conversational interface",
+      "Smart responses"
+]
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">

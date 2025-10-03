@@ -159,7 +159,25 @@ const SocialNetworkDemo = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">👥 SocialNetwork Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Social networking platform with user profiles, content sharing, and real-time interactions.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* Create Post */}
           <div className="lg:col-span-1">
             <div className="bg-gray-800 rounded-lg p-6">
@@ -1131,7 +1149,80 @@ export default SocialNetwork;`;
                         <div className="space-y-3">
                           {postComments.map((comment) => {
                             const commentUser = getUserById(comment.userId);
-                            return (
+                            // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// SocialNetwork Implementation
+// Add your implementation code here
+`,
+    explanation: `Social networking platform with user profiles, content sharing, and real-time interactions.
+
+## Core Implementation
+
+**Key Features**: This demo showcases User profiles and Content sharing using modern web technologies.
+
+**Architecture**: Built with Social Features and Real-time Updates for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Social Features",
+            "description": "User interaction and sharing",
+            "tags": [
+                  "Social",
+                  "Sharing",
+                  "Interaction"
+            ]
+      },
+      {
+            "name": "Real-time Updates",
+            "description": "Live social interactions",
+            "tags": [
+                  "Real-time",
+                  "Social",
+                  "Updates"
+            ]
+      },
+      {
+            "name": "Content Management",
+            "description": "User-generated content",
+            "tags": [
+                  "Content",
+                  "Management",
+                  "User Generated"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Social Networking",
+            "description": "User connections and interactions",
+            "example": "Friend networks and social graphs"
+      },
+      {
+            "name": "Content Sharing",
+            "description": "User-generated content",
+            "example": "Posts, images, and media sharing"
+      }
+],
+
+    features: [
+      "User profiles",
+      "Content sharing",
+      "Real-time interactions",
+      "Social features"
+]
+  };
+
+  return (
                               <div key={comment.id} className="flex space-x-3">
                                 <div className="text-lg">{commentUser?.avatar}</div>
                                 <div className="flex-1">

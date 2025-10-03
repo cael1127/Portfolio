@@ -1,40 +1,41 @@
 import React from 'react';
 import ProjectLayout from '../components/ProjectLayout';
-import Reveal from '../components/Reveal';
-import CaseStudy from '../components/CaseStudy';
-import ProjectThumb from '../components/ProjectThumb';
-import DemoReadme from '../components/DemoReadme';
 import ProductConfiguratorDemo from '../components/demos/ProductConfiguratorDemo';
 
 const ProductConfiguratorDemoPage = ({ setCurrentPage }) => {
   return (
     <ProjectLayout
-      title="3D Product Configurator"
-      subtitle="Color and material variants in 3D"
+      title="Product Configurator"
+      subtitle="Interactive product customization"
       emoji="🧩"
       onBack={() => setCurrentPage('demo-organizer')}
-    >
-      <Reveal>
-        <ProjectThumb emoji="🧩" accent="#a78bfa" />
-        <ProductConfiguratorDemo />
-      </Reveal>
-      <Reveal delay={150}>
-        <CaseStudy
-          overview="WebGL-based configurator with orbit controls and variant switching."
-          role="3D integration, controls, and UX."
-          stack={["React", "Three.js", "WebGL"]}
-          challenges={["Asset optimization", "Mobile performance"]}
-          results={["Smooth orbit controls", "Quick variant changes"]}
-        />
-      </Reveal>
-      <Reveal delay={250}>
-        <DemoReadme
-          problem="Let users preview product variants quickly and responsively."
-          approach="Start with deterministic variant colors; optionally swap in real meshes later."
-          highlights={["Variant chips", "Responsive preview", "Minimal state"]}
-        />
-      </Reveal>
-    </ProjectLayout>
+      demo={<ProductConfiguratorDemo />}
+      overview="Interactive product configurator that allows users to customize products with different colors, materials, and variants in real-time. Built with modern web technologies to provide an engaging shopping experience with instant visual feedback."
+      role="Frontend development, 3D integration, user experience design, and state management"
+      stack={["React", "CSS3", "JavaScript", "State Management", "Responsive Design", "WebGL"]}
+      challenges={[
+        "Managing complex product variant states",
+        "Implementing smooth visual transitions",
+        "Creating responsive design for all devices",
+        "Optimizing performance for real-time updates"
+      ]}
+      results={[
+        "Instant variant switching with smooth transitions",
+        "Responsive design for mobile and desktop",
+        "Clean state management with React hooks",
+        "Intuitive user interface design"
+      ]}
+      problem="Create an interactive product configurator that allows customers to visualize different product variants and customizations in real-time, improving the shopping experience and reducing return rates."
+      approach="Implemented a deterministic demo using CSS gradients and React state to showcase product variant switching. Created a clean interface with color-coded options and instant visual feedback to demonstrate the configuration workflow."
+      highlights={[
+        "Real-time variant switching",
+        "Color-coded option selection",
+        "Responsive grid layout",
+        "Smooth visual transitions",
+        "Clean state management",
+        "Intuitive user interface"
+      ]}
+    />
   );
 };
 

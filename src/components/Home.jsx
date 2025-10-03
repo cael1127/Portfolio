@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import ContactModal from './ContactModal';
 import FloatingParticles from './FloatingParticles';
 import AnimatedCard from './AnimatedCard';
+import AnimatedText from './AnimatedText';
+import AnimatedCounter from './AnimatedCounter';
+import AnimatedHeroBackground from './AnimatedHeroBackground';
 const InspirationSection = React.lazy(() => import('./InspirationSection'));
 const TestimonialsSection = React.lazy(() => import('./TestimonialsSection'));
 const StackStrip = React.lazy(() => import('./StackStrip'));
@@ -11,85 +15,271 @@ const Home = ({ setCurrentPage }) => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-x-hidden">
-      <FloatingParticles />
+      <AnimatedHeroBackground />
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16 relative z-10 snap-section">
         <div className="text-center max-w-4xl mx-auto">
-          <AnimatedCard delay={0} direction="down" className="mb-6">
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-400 via-teal-500 to-emerald-500 bg-clip-text text-transparent">
-              Cael Findley
-            </h1>
-          </AnimatedCard>
-          <AnimatedCard delay={150} direction="down" className="mb-8">
-            <p className="text-2xl md:text-3xl text-gray-300">
-              Full-Stack Software Engineer & Cloud Architect
-            </p>
-          </AnimatedCard>
-          <AnimatedCard delay={300} direction="down" className="mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mb-6"
+          >
+            <AnimatedText
+              text="Cael Findley"
+              className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-400 via-teal-500 to-emerald-500 bg-clip-text text-transparent leading-none pb-2"
+              stagger={0.03}
+              delay={0.1}
+            />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+            className="mb-8"
+          >
+            <AnimatedText
+              text="Full-Stack Software Engineer & Cloud Architect"
+              className="text-2xl md:text-3xl text-gray-300"
+              stagger={0.02}
+            />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+            className="mb-12"
+          >
             <p className="text-lg text-gray-400 max-w-3xl mx-auto">
               Specializing in modern web technologies, cloud infrastructure, and innovative solutions 
               that drive business growth. From concept to deployment, I build scalable applications 
               that make a difference.
             </p>
-          </AnimatedCard>
+          </motion.div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.7 }}
+          >
+            <motion.button
               onClick={() => setCurrentPage('demo-organizer')}
-              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-teal-500/30 text-lg animate-pulse-slow group relative overflow-hidden"
+              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg text-lg group relative overflow-hidden"
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 20px 40px rgba(20, 184, 166, 0.3)"
+              }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.8 }}
             >
               <span className="relative z-10">🚀 View My Work</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-            </button>
-            <button
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.5 }}
+                style={{ originX: 0 }}
+              />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.7 }}
+              />
+            </motion.button>
+            
+            <motion.button
               onClick={() => setShowContactModal(true)}
-              className="bg-transparent border-2 border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-teal-500/30 text-lg group relative overflow-hidden"
+              className="bg-transparent border-2 border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white font-bold py-4 px-8 rounded-lg text-lg group relative overflow-hidden"
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 20px 40px rgba(20, 184, 166, 0.3)"
+              }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.9 }}
             >
               <span className="relative z-10">💬 Get In Touch</span>
-              <div className="absolute inset-0 bg-teal-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-            </button>
-          </div>
+              <motion.div 
+                className="absolute inset-0 bg-teal-600"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.5 }}
+                style={{ originX: 0 }}
+              />
+            </motion.button>
+          </motion.div>
         </div>
       </div>
 
       {/* Skills Section */}
       <div className="bg-gray-800 py-16 relative z-10 snap-section">
         <div className="container mx-auto px-4">
-          <AnimatedCard delay={0} direction="down" className="mb-12">
-            <h2 className="text-3xl font-bold text-center">Technical Expertise</h2>
-          </AnimatedCard>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <AnimatedCard delay={200} direction="left" className="text-center hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-teal-500/20 group cursor-pointer">
-              <div className="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 group-hover:bg-teal-500">
-                <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🌐</span>
-              </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <h2 className="text-3xl font-bold text-center mb-4">Technical Expertise</h2>
+            <p className="text-gray-400 text-center max-w-2xl mx-auto">
+              Years of experience building scalable applications with modern technologies
+            </p>
+          </motion.div>
+
+          {/* Stats Row */}
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <motion.div 
+              className="text-center bg-gray-700 p-6 rounded-lg"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <AnimatedCounter 
+                value={5} 
+                className="text-3xl font-bold text-teal-400 block"
+                suffix="+"
+              />
+              <p className="text-gray-400 text-sm mt-2">Years Experience</p>
+            </motion.div>
+            <motion.div 
+              className="text-center bg-gray-700 p-6 rounded-lg"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <AnimatedCounter 
+                value={50} 
+                className="text-3xl font-bold text-green-400 block"
+                suffix="+"
+              />
+              <p className="text-gray-400 text-sm mt-2">Projects Completed</p>
+            </motion.div>
+            <motion.div 
+              className="text-center bg-gray-700 p-6 rounded-lg"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <AnimatedCounter 
+                value={15} 
+                className="text-3xl font-bold text-emerald-400 block"
+                suffix="+"
+              />
+              <p className="text-gray-400 text-sm mt-2">Technologies</p>
+            </motion.div>
+            <motion.div 
+              className="text-center bg-gray-700 p-6 rounded-lg"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <AnimatedCounter 
+                value={100} 
+                className="text-3xl font-bold text-blue-400 block"
+                suffix="%"
+              />
+              <p className="text-gray-400 text-sm mt-2">Client Satisfaction</p>
+            </motion.div>
+          </motion.div>
+
+          {/* Skills Grid */}
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <motion.div 
+              className="text-center group cursor-pointer"
+              whileHover={{ scale: 1.05, y: -10 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+            >
+              <motion.div 
+                className="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-teal-500 transition-colors duration-300"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="text-2xl">🌐</span>
+              </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-teal-400 transition-colors">Frontend</h3>
               <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">React, TypeScript, Next.js</p>
-            </AnimatedCard>
-            <AnimatedCard delay={300} direction="up" className="text-center hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/20 group cursor-pointer">
-              <div className="bg-green-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 group-hover:bg-green-500">
-                <span className="text-2xl group-hover:scale-110 transition-transform duration-300">⚙️</span>
-              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="text-center group cursor-pointer"
+              whileHover={{ scale: 1.05, y: -10 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.4 }}
+            >
+              <motion.div 
+                className="bg-green-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500 transition-colors duration-300"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="text-2xl">⚙️</span>
+              </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-green-400 transition-colors">Backend</h3>
               <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Node.js, Python, GraphQL</p>
-            </AnimatedCard>
-            <AnimatedCard delay={400} direction="up" className="text-center hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/20 group cursor-pointer">
-              <div className="bg-emerald-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 group-hover:bg-emerald-500">
-                <span className="text-2xl group-hover:scale-110 transition-transform duration-300">☁️</span>
-              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="text-center group cursor-pointer"
+              whileHover={{ scale: 1.05, y: -10 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.5 }}
+            >
+              <motion.div 
+                className="bg-emerald-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-500 transition-colors duration-300"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="text-2xl">☁️</span>
+              </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-emerald-400 transition-colors">Cloud</h3>
               <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">AWS, Docker, Kubernetes</p>
-            </AnimatedCard>
-            <AnimatedCard delay={500} direction="right" className="text-center hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-teal-500/20 group cursor-pointer">
-              <div className="bg-teal-500 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 group-hover:bg-teal-400">
-                <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🤖</span>
-              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="text-center group cursor-pointer"
+              whileHover={{ scale: 1.05, y: -10 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.6 }}
+            >
+              <motion.div 
+                className="bg-teal-500 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-teal-400 transition-colors duration-300"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="text-2xl">🤖</span>
+              </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-teal-400 transition-colors">AI/ML</h3>
               <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">TensorFlow, OpenAI, NLP</p>
-            </AnimatedCard>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 

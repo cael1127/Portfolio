@@ -63,7 +63,25 @@ const RestaurantAppDemo = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🍽️ RestaurantApp Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Complete restaurant management system with online ordering, table management, and kitchen operations.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
         {/* Orders */}
         <div className="space-y-4">
           {orders.map((order) => (
@@ -481,6 +499,79 @@ export default RestaurantAppDemo;`;
 
   const formatNumber = (value) => {
     return new Intl.NumberFormat('en-US').format(value);
+  };
+
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// RestaurantApp Implementation
+// Add your implementation code here
+`,
+    explanation: `Complete restaurant management system with online ordering, table management, and kitchen operations.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Online ordering and Table management using modern web technologies.
+
+**Architecture**: Built with Real-time Updates and Order Management for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "Real-time Updates",
+            "description": "Live order and table status",
+            "tags": [
+                  "Real-time",
+                  "Updates",
+                  "Sync"
+            ]
+      },
+      {
+            "name": "Order Management",
+            "description": "Processing and tracking orders",
+            "tags": [
+                  "Orders",
+                  "Management",
+                  "Tracking"
+            ]
+      },
+      {
+            "name": "Payment Integration",
+            "description": "Secure payment processing",
+            "tags": [
+                  "Payments",
+                  "Security",
+                  "Integration"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Order Management",
+            "description": "Processing customer orders",
+            "example": "From order placement to delivery"
+      },
+      {
+            "name": "Table Management",
+            "description": "Restaurant seating optimization",
+            "example": "Assigning and tracking tables"
+      }
+],
+
+    features: [
+      "Online ordering",
+      "Table management",
+      "Kitchen operations",
+      "Payment processing"
+]
   };
 
   return (

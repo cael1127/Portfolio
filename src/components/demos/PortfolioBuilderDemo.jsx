@@ -61,7 +61,25 @@ const PortfolioBuilderDemo = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🌐 PortfolioBuilder Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Dynamic portfolio builder with drag-and-drop interface, real-time preview, and customizable templates.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
         {/* Portfolio List */}
         <div className="space-y-4">
           {portfolios.map((portfolio) => (
@@ -413,6 +431,79 @@ export default PortfolioBuilderDemo;`;
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+  };
+
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// PortfolioBuilder Implementation
+// Add your implementation code here
+`,
+    explanation: `Dynamic portfolio builder with drag-and-drop interface, real-time preview, and customizable templates.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Drag and drop and Real-time preview using modern web technologies.
+
+**Architecture**: Built with React DnD and CSS Grid for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "React DnD",
+            "description": "Drag and drop functionality",
+            "tags": [
+                  "DnD",
+                  "UI",
+                  "Interactions"
+            ]
+      },
+      {
+            "name": "CSS Grid",
+            "description": "Layout system",
+            "tags": [
+                  "Layout",
+                  "Responsive",
+                  "Grid"
+            ]
+      },
+      {
+            "name": "Local Storage",
+            "description": "Client-side data persistence",
+            "tags": [
+                  "Storage",
+                  "Persistence",
+                  "Data"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Drag and Drop",
+            "description": "Interactive element manipulation",
+            "example": "Moving components around the layout"
+      },
+      {
+            "name": "Template System",
+            "description": "Reusable design patterns",
+            "example": "Pre-built portfolio layouts"
+      }
+],
+
+    features: [
+      "Drag and drop",
+      "Real-time preview",
+      "Templates",
+      "Export functionality"
+]
   };
 
   return (

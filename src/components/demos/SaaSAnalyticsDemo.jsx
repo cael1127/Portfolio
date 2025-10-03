@@ -39,6 +39,78 @@ const SaaSAnalyticsDemo = () => {
     { month:'2025-03', d30: 61, d60: 46 },
     { month:'2025-04', d30: 63, d60: 47 },
   ],[]);
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// SaaSAnalytics Implementation
+// Add your implementation code here
+`,
+    explanation: `Advanced SaaS analytics dashboard with cohort analysis, retention metrics, and real-time data visualization using deterministic algorithms.
+
+## Core Implementation
+
+**Key Features**: This demo showcases [main features] using [primary technologies].
+
+**Architecture**: [Architecture description]
+
+**Performance**: [Performance considerations]
+
+## Technical Benefits
+
+- **Benefit 1**: [Description]
+- **Benefit 2**: [Description]
+- **Benefit 3**: [Description]`,
+
+    technologies: [
+      {
+            "name": "React",
+            "description": "Frontend framework for interactive dashboards",
+            "tags": [
+                  "Hooks",
+                  "Components",
+                  "State Management"
+            ]
+      },
+      {
+            "name": "D3.js",
+            "description": "Data visualization library for charts and graphs",
+            "tags": [
+                  "SVG",
+                  "Data Binding",
+                  "Animations"
+            ]
+      },
+      {
+            "name": "JavaScript",
+            "description": "Core implementation language",
+            "tags": [
+                  "ES6+",
+                  "Async/Await",
+                  "Data Processing"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Cohort Analysis",
+            "description": "Analyzing user behavior over time",
+            "example": "Tracking user retention by signup cohort"
+      },
+      {
+            "name": "Data Visualization",
+            "description": "Presenting data in visual formats",
+            "example": "Charts, graphs, and interactive elements"
+      }
+],
+
+    features: [
+      "Real-time analytics",
+      "Cohort analysis",
+      "Retention metrics",
+      "Interactive charts"
+]
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">

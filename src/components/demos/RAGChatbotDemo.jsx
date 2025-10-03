@@ -253,6 +253,79 @@ Response:\`;
 
 export default RAGChatbot;`;
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// RAGChatbot Implementation
+// Add your implementation code here
+`,
+    explanation: `Retrieval-Augmented Generation chatbot with context awareness and intelligent responses.
+
+## Core Implementation
+
+**Key Features**: This demo showcases Context awareness and Knowledge retrieval using modern web technologies.
+
+**Architecture**: Built with RAG Architecture and Vector Databases for optimal performance and user experience.
+
+**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+
+## Technical Benefits
+
+- **Modern Technologies**: Uses cutting-edge web technologies and best practices
+- **Performance Optimized**: Efficient algorithms and data structures
+- **User Experience**: Intuitive interface with smooth interactions
+- **Scalable Design**: Built to handle growing data and user demands`,
+
+    technologies: [
+      {
+            "name": "RAG Architecture",
+            "description": "Retrieval-Augmented Generation",
+            "tags": [
+                  "AI",
+                  "RAG",
+                  "NLP"
+            ]
+      },
+      {
+            "name": "Vector Databases",
+            "description": "Semantic search and retrieval",
+            "tags": [
+                  "Vector",
+                  "Search",
+                  "Semantic"
+            ]
+      },
+      {
+            "name": "Language Models",
+            "description": "Large language models",
+            "tags": [
+                  "LLM",
+                  "AI",
+                  "Generation"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "RAG Architecture",
+            "description": "Combining retrieval and generation",
+            "example": "Searching knowledge base before generating responses"
+      },
+      {
+            "name": "Context Awareness",
+            "description": "Maintaining conversation context",
+            "example": "Remembering previous interactions"
+      }
+],
+
+    features: [
+      "Context awareness",
+      "Knowledge retrieval",
+      "Intelligent responses",
+      "Source attribution"
+]
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
@@ -270,7 +343,25 @@ export default RAGChatbot;`;
           </button>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+            <div className="space-y-6">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 RAGChatbot Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Retrieval-Augmented Generation chatbot with context awareness and intelligent responses.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() => setOpenCode(true)}
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <span>💻</span>
+            View Implementation
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* Chat Interface */}
           <div className="lg:col-span-2">
             <div className="bg-gray-800 rounded-lg p-6">

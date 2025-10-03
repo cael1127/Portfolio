@@ -344,13 +344,15 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   );
 
   const filteredDemos = allDemos.filter(demo => {
-    const matchesCategory = selectedCategory === 'all' || 
-      demoCategories[selectedCategory]?.demos.some(categoryDemo => categoryDemo.id === demo.id);
-    const matchesSearch = demo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    // Simplified category matching
+    const matchesCategory = selectedCategory === 'all' || demo.category === demoCategories[selectedCategory]?.name;
+    const matchesSearch = searchTerm === '' || 
+                         demo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          demo.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          demo.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
+
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
@@ -555,6 +557,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             </div>
           </div>
 
+
           {filteredDemos.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
@@ -579,9 +582,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               {filteredDemos.map((demo, index) => (
                 <AnimatedCard
                   key={demo.id}
-                  delay={index * 75}
+                  delay={index * 100}
                   direction="up"
-                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 overflow-hidden"
+                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer group relative overflow-hidden"
                   onClick={() => setCurrentPage(demo.id + '-demo')}
                 >
                   {/* Hover Background Effect */}

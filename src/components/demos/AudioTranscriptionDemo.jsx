@@ -26,6 +26,69 @@ const AudioTranscriptionDemo = () => {
     ]);
   };
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// AudioTranscription Implementation
+// Add your implementation code here
+`,
+    explanation: `Audio transcription service with real-time speech-to-text conversion, speaker diarization, and export functionality.
+
+## Core Implementation
+
+**Key Features**: This demo showcases [main features] using [primary technologies].
+
+**Architecture**: [Architecture description]
+
+**Performance**: [Performance considerations]
+
+## Technical Benefits
+
+- **Benefit 1**: [Description]
+- **Benefit 2**: [Description]
+- **Benefit 3**: [Description]`,
+
+    technologies: [
+      {
+            "name": "Web Audio API",
+            "description": "Browser API for audio processing",
+            "tags": [
+                  "Audio",
+                  "Real-time",
+                  "Processing"
+            ]
+      },
+      {
+            "name": "Speech Recognition",
+            "description": "Converting speech to text",
+            "tags": [
+                  "AI",
+                  "NLP",
+                  "Transcription"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Speech Recognition",
+            "description": "Converting audio to text",
+            "example": "Real-time transcription of speech"
+      },
+      {
+            "name": "Speaker Diarization",
+            "description": "Identifying different speakers",
+            "example": "Separating multiple speakers in audio"
+      }
+],
+
+    features: [
+      "Real-time transcription",
+      "Speaker identification",
+      "Export functionality",
+      "Audio visualization"
+]
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">

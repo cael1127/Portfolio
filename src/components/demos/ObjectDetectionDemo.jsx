@@ -60,6 +60,69 @@ const ObjectDetectionDemo = () => {
     });
   }, [detections]);
 
+  // Enhanced code data for the new CodeViewer
+  const codeData = {
+    code: `// ObjectDetection Implementation
+// Add your implementation code here
+`,
+    explanation: `Real-time object detection using computer vision with bounding boxes, confidence scores, and live webcam feed.
+
+## Core Implementation
+
+**Key Features**: This demo showcases [main features] using [primary technologies].
+
+**Architecture**: [Architecture description]
+
+**Performance**: [Performance considerations]
+
+## Technical Benefits
+
+- **Benefit 1**: [Description]
+- **Benefit 2**: [Description]
+- **Benefit 3**: [Description]`,
+
+    technologies: [
+      {
+            "name": "TensorFlow.js",
+            "description": "Machine learning library for JavaScript",
+            "tags": [
+                  "ML",
+                  "Computer Vision",
+                  "Real-time"
+            ]
+      },
+      {
+            "name": "OpenCV.js",
+            "description": "Computer vision library",
+            "tags": [
+                  "Image Processing",
+                  "Detection",
+                  "Analysis"
+            ]
+      }
+],
+
+    concepts: [
+      {
+            "name": "Computer Vision",
+            "description": "Processing and understanding images",
+            "example": "Detecting objects in video streams"
+      },
+      {
+            "name": "Bounding Boxes",
+            "description": "Identifying object locations",
+            "example": "Drawing rectangles around detected objects"
+      }
+],
+
+    features: [
+      "Real-time detection",
+      "Live webcam feed",
+      "Bounding boxes",
+      "Confidence scoring"
+]
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
