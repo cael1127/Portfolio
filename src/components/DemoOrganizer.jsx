@@ -578,15 +578,15 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
               {filteredDemos.map((demo, index) => (
-                <AnimatedCard
-                  key={demo.id}
-                  delay={index * 100}
-                  direction="up"
-                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer relative overflow-hidden"
-                  onClick={() => setCurrentPage(demo.id + '-demo')}
-                >
+                <div key={demo.id} className="isolate" style={{ position: 'relative', zIndex: 1 }}>
+                  <AnimatedCard
+                    delay={index * 100}
+                    direction="up"
+                    className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 transition-all cursor-pointer relative overflow-hidden"
+                    onClick={() => setCurrentPage(demo.id + '-demo')}
+                  >
                   
                   <button
                     className="absolute inset-0 w-full h-full bg-transparent"
@@ -677,7 +677,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
                     <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 transition-transform duration-700 origin-left"></div>
                   </div>
-                </AnimatedCard>
+                  </AnimatedCard>
+                </div>
               ))}
             </div>
           )}
