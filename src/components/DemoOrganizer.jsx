@@ -542,20 +542,22 @@ const DemoOrganizer = ({ setCurrentPage }) => {
         )}
 
         {/* Demos Grid */}
-        <AnimatedCard delay={100} direction="up" className="mb-8 snap-section">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-white">
-              {selectedCategory === 'all' ? 'All Demos' : demoCategories[selectedCategory]?.name}
-            </h2>
-            <div className="flex items-center gap-4">
-              <p className="text-gray-400">{filteredDemos.length} demos found</p>
-              {searchTerm && (
-                <span className="text-sm text-green-400 bg-green-900/20 px-2 py-1 rounded">
-                  Searching: "{searchTerm}"
-                </span>
-              )}
+        <div className="mb-8 snap-section">
+          <AnimatedCard delay={100} direction="up">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">
+                {selectedCategory === 'all' ? 'All Demos' : demoCategories[selectedCategory]?.name}
+              </h2>
+              <div className="flex items-center gap-4">
+                <p className="text-gray-400">{filteredDemos.length} demos found</p>
+                {searchTerm && (
+                  <span className="text-sm text-green-400 bg-green-900/20 px-2 py-1 rounded">
+                    Searching: "{searchTerm}"
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
+          </AnimatedCard>
 
 
           {filteredDemos.length === 0 ? (
@@ -681,7 +683,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               ))}
             </div>
           )}
-        </AnimatedCard>
+        </div>
 
         {/* Quick Stats */}
         <AnimatedCard delay={200} direction="up" className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 transition-all snap-section">
