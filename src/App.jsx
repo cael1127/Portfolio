@@ -52,6 +52,7 @@ function App() {
   }, [currentPage]);
 
   const renderContent = () => {
+    console.log('App.jsx - Current page:', currentPage);
     switch (currentPage) {
       case 'home':
         return <Home setCurrentPage={setCurrentPage} />;

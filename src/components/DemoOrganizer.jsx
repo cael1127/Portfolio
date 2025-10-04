@@ -34,7 +34,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           hasProjectPage: true
         },
         {
-          id: 'resumeanalyzer',
+          id: 'resume-analyzer',
           name: '📄 AI Resume Analyzer',
           description: 'Intelligent resume analysis with skill matching',
           icon: '📄',
@@ -44,7 +44,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           hasProjectPage: true
         },
         {
-          id: 'aiassistant',
+          id: 'ai-assistant',
           name: '🤖 AI Assistant',
           description: 'Intelligent conversational AI with natural language processing',
           icon: '🤖',
@@ -264,7 +264,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           hasProjectPage: true
         },
         {
-          id: 'restaurantapp',
+          id: 'restaurant-app',
           name: '🍽️ Restaurant Management System',
           description: 'Complete restaurant management and ordering platform',
           icon: '🍽️',
@@ -300,7 +300,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           hasProjectPage: true
         },
         {
-          id: 'portfoliobuilder',
+          id: 'portfolio-builder',
           name: '🏗️ Portfolio Builder',
           description: 'Drag-and-drop website builder for portfolios',
           icon: '🏗️',
@@ -326,7 +326,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
       description: 'Gaming and entertainment applications',
       demos: [
         {
-          id: 'gameplatform',
+          id: 'game-platform',
           name: '🎮 Multiplayer Gaming Platform',
           description: 'Interactive multiplayer gaming with real-time features',
           icon: '🎮',
@@ -593,7 +593,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   <button
                     className="absolute inset-0 w-full h-full bg-transparent"
                     onClick={() => {
-                      console.log('Demo clicked:', demo.id);
+                      console.log('Demo clicked:', demo.id, 'Setting page to:', demo.id + '-demo');
                       setCurrentPage(demo.id + '-demo');
                     }}
                     style={{ zIndex: 1 }}
@@ -711,18 +711,6 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             </div>
           </div>
           
-          {/* Test Button */}
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => {
-                console.log('Test button clicked - going to blockchain-demo');
-                setCurrentPage('blockchain-demo');
-              }}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Test Navigation to Blockchain Demo
-            </button>
-          </div>
         </AnimatedCard>
       </div>
     </div>
