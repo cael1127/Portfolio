@@ -24,7 +24,12 @@ const AnimatedCard = ({
           delay: delay / 1000,
           ease: "easeOut"
         }}
-        whileHover={false}
+        whileHover={hover ? {
+          scale: 1.05,
+          y: -8,
+          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+          transition: { duration: 0.3, ease: "easeOut" }
+        } : {}}
         whileTap={hover ? { scale: 0.98 } : {}}
         style={{ 
           position: 'relative',
