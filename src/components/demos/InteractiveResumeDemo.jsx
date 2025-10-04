@@ -20,39 +20,34 @@ const InteractiveResumeDemo = () => {
         company: 'TechCorp Inc.',
         position: 'Senior Software Engineer',
         duration: '2022 - Present',
-        description: 'Led development of AI-powered applications and microservices architecture.',
-        achievements: ['Reduced API response time by 40%', 'Implemented CI/CD pipeline']
-      }
-    ],
-    skills: {
-      technical: ['React', 'Node.js', 'Python', 'TensorFlow', 'MongoDB', 'AWS'],
-      soft: ['Leadership', 'Problem Solving', 'Team Collaboration'],
-      languages: ['JavaScript', 'Python', 'TypeScript', 'SQL']
-    },
-    projects: [
-      {
-        id: 1,
-        name: 'AI-Powered Portfolio',
-        description: 'Interactive portfolio with AI chatbot and real-time collaboration features.',
-        tech: ['React', 'Python', 'TensorFlow'],
-        link: 'github.com/cael1127/portfolio'
+        description: 'Led development of AI-powered applications and mentored junior developers.'
       },
       {
         id: 2,
-        name: 'E-commerce Platform',
-        description: 'Full-stack e-commerce solution with payment integration and analytics.',
-        tech: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-        link: 'github.com/cael1127/ecommerce'
+        company: 'StartupXYZ',
+        position: 'Full Stack Developer',
+        duration: '2020 - 2022',
+        description: 'Built scalable web applications using React, Node.js, and cloud technologies.'
       }
-    ]
+    ],
+    education: [
+      {
+        id: 1,
+        institution: 'University of Technology',
+        degree: 'Bachelor of Computer Science',
+        year: '2018',
+        gpa: '3.8'
+      }
+    ],
+    skills: ['React', 'Node.js', 'Python', 'Machine Learning', 'AWS', 'Docker']
   });
 
   const demoCode = `/**
- * Interactive Resume Builder Implementation
+ * Interactive Resume Demo Implementation
  * Created by Cael Findley
  * 
- * This implementation demonstrates a dynamic resume builder with real-time
- * editing, form validation, and PDF export capabilities.
+ * This implementation demonstrates a real-time editable resume with
+ * auto-save functionality, responsive design, and modern UI components.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -62,100 +57,17 @@ const InteractiveResume = () => {
   const [editMode, setEditMode] = useState(false);
   const [resumeData, setResumeData] = useState({
     personal: {
-      name: 'Cael Findley',
+      name: 'John Doe',
       title: 'Software Engineer',
-      email: 'cael.findley@example.com',
+      email: 'john.doe@example.com',
       phone: '+1 (555) 123-4567',
       location: 'San Francisco, CA',
-      summary: 'Passionate software engineer with expertise in AI/ML and full-stack development.'
+      summary: 'Passionate software engineer with expertise in full-stack development.'
     },
-    experience: [
-      {
-        id: 1,
-        company: 'TechCorp Inc.',
-        position: 'Senior Software Engineer',
-        duration: '2022 - Present',
-        description: 'Led development of AI-powered applications and microservices architecture.',
-        achievements: ['Reduced API response time by 40%', 'Implemented CI/CD pipeline']
-      }
-    ],
-    skills: {
-      technical: ['React', 'Node.js', 'Python', 'TensorFlow', 'MongoDB', 'AWS'],
-      soft: ['Leadership', 'Problem Solving', 'Team Collaboration'],
-      languages: ['JavaScript', 'Python', 'TypeScript', 'SQL']
-    }
+    experience: [],
+    education: [],
+    skills: []
   });
-
-  // Handle form updates
-  const handleInputChange = (section, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value
-      }
-    }));
-  };
-
-  // Handle array updates (experience, education, projects)
-  const handleArrayUpdate = (section, index, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-  };
-
-  // Add new item to array
-  const addItem = (section) => {
-    const newItem = {
-      id: Date.now(),
-      company: '',
-      position: '',
-      duration: '',
-      description: '',
-      achievements: []
-    };
-
-    setResumeData(prev => ({
-      ...prev,
-      [section]: [...prev[section], newItem]
-    }));
-  };
-
-  // Remove item from array
-  const removeItem = (section, index) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].filter((_, i) => i !== index)
-    }));
-  };
-
-  // Handle skill updates
-  const handleSkillUpdate = (category, skills) => {
-    setResumeData(prev => ({
-      ...prev,
-      skills: {
-        ...prev.skills,
-        [category]: skills
-      }
-    }));
-  };
-
-  // Export resume as PDF
-  const exportResume = () => {
-    const element = document.getElementById('resume-content');
-    const opt = {
-      margin: 1,
-      filename: 'resume.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save();
-  };
 
   // Auto-save functionality
   useEffect(() => {
@@ -174,6 +86,49 @@ const InteractiveResume = () => {
     }
   }, []);
 
+  const handleInputChange = (section, field, value) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
+      }
+    }));
+  };
+
+  const handleArrayItemChange = (section, index, field, value) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: prev[section].map((item, i) => 
+        i === index ? { ...item, [field]: value } : item
+      )
+    }));
+  };
+
+  const addArrayItem = (section, newItem) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: [...prev[section], { ...newItem, id: Date.now() }]
+    }));
+  };
+
+  const removeArrayItem = (section, index) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: prev[section].filter((_, i) => i !== index)
+    }));
+  };
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleSave = () => {
+    localStorage.setItem('resumeData', JSON.stringify(resumeData));
+    setEditMode(false);
+    alert('Resume saved successfully!');
+  };
+
   return (
     <div className="interactive-resume">
       {/* Navigation */}
@@ -182,7 +137,7 @@ const InteractiveResume = () => {
           onClick={() => setActiveSection('personal')}
           className={activeSection === 'personal' ? 'active' : ''}
         >
-          Personal Info
+          Personal
         </button>
         <button 
           onClick={() => setActiveSection('experience')}
@@ -202,247 +157,55 @@ const InteractiveResume = () => {
         >
           Skills
         </button>
-        <button 
-          onClick={() => setActiveSection('projects')}
-          className={activeSection === 'projects' ? 'active' : ''}
-        >
-          Projects
+        <button onClick={toggleEditMode} className="edit-btn">
+          {editMode ? 'Preview' : 'Edit'}
         </button>
       </nav>
 
-      {/* Edit Mode Toggle */}
-      <div className="edit-controls">
-        <button 
-          onClick={() => setEditMode(!editMode)}
-          className="edit-toggle"
-        >
-          {editMode ? 'Preview Mode' : 'Edit Mode'}
-        </button>
-        {editMode && (
-          <button onClick={exportResume} className="export-btn">
-            Export PDF
-          </button>
-        )}
-      </div>
-
       {/* Resume Content */}
-      <div id="resume-content" className="resume-content">
+      <div className="resume-content">
         {activeSection === 'personal' && (
           <PersonalSection 
-            data={resumeData.personal}
+            data={resumeData.personal} 
             editMode={editMode}
             onChange={(field, value) => handleInputChange('personal', field, value)}
           />
         )}
-
         {activeSection === 'experience' && (
           <ExperienceSection 
-            data={resumeData.experience}
+            data={resumeData.experience} 
             editMode={editMode}
-            onUpdate={(index, field, value) => handleArrayUpdate('experience', index, field, value)}
-            onAdd={() => addItem('experience')}
-            onRemove={(index) => removeItem('experience', index)}
+            onChange={(index, field, value) => handleArrayItemChange('experience', index, field, value)}
+            onAdd={(newItem) => addArrayItem('experience', newItem)}
+            onRemove={(index) => removeArrayItem('experience', index)}
           />
         )}
-
+        {activeSection === 'education' && (
+          <EducationSection 
+            data={resumeData.education} 
+            editMode={editMode}
+            onChange={(index, field, value) => handleArrayItemChange('education', index, field, value)}
+            onAdd={(newItem) => addArrayItem('education', newItem)}
+            onRemove={(index) => removeArrayItem('education', index)}
+          />
+        )}
         {activeSection === 'skills' && (
           <SkillsSection 
-            data={resumeData.skills}
+            data={resumeData.skills} 
             editMode={editMode}
-            onUpdate={handleSkillUpdate}
-          />
-        )}
-
-        {activeSection === 'projects' && (
-          <ProjectsSection 
-            data={resumeData.projects}
-            editMode={editMode}
-            onUpdate={(index, field, value) => handleArrayUpdate('projects', index, field, value)}
-            onAdd={() => addItem('projects')}
-            onRemove={(index) => removeItem('projects', index)}
+            onChange={(index, value) => handleArrayItemChange('skills', index, 'name', value)}
+            onAdd={(newSkill) => addArrayItem('skills', { name: newSkill })}
+            onRemove={(index) => removeArrayItem('skills', index)}
           />
         )}
       </div>
-    </div>
-  );
-};
 
-// Personal Information Component
-const PersonalSection = ({ data, editMode, onChange }) => {
-  return (
-    <div className="personal-section">
-      <h2>Personal Information</h2>
-      {editMode ? (
-        <div className="edit-form">
-          <input
-            type="text"
-            value={data.name}
-            onChange={(e) => onChange('name', e.target.value)}
-            placeholder="Full Name"
-          />
-          <input
-            type="text"
-            value={data.title}
-            onChange={(e) => onChange('title', e.target.value)}
-            placeholder="Job Title"
-          />
-          <input
-            type="email"
-            value={data.email}
-            onChange={(e) => onChange('email', e.target.value)}
-            placeholder="Email"
-          />
-          <input
-            type="tel"
-            value={data.phone}
-            onChange={(e) => onChange('phone', e.target.value)}
-            placeholder="Phone"
-          />
-          <input
-            type="text"
-            value={data.location}
-            onChange={(e) => onChange('location', e.target.value)}
-            placeholder="Location"
-          />
-          <textarea
-            value={data.summary}
-            onChange={(e) => onChange('summary', e.target.value)}
-            placeholder="Professional Summary"
-            rows={4}
-          />
-        </div>
-      ) : (
-        <div className="preview-content">
-          <h1>{data.name}</h1>
-          <h3>{data.title}</h3>
-          <p>{data.email} | {data.phone} | {data.location}</p>
-          <p>{data.summary}</p>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Experience Section Component
-const ExperienceSection = ({ data, editMode, onUpdate, onAdd, onRemove }) => {
-  return (
-    <div className="experience-section">
-      <h2>Work Experience</h2>
-      {data.map((exp, index) => (
-        <div key={exp.id} className="experience-item">
-          {editMode ? (
-            <div className="edit-form">
-              <input
-                type="text"
-                value={exp.company}
-                onChange={(e) => onUpdate(index, 'company', e.target.value)}
-                placeholder="Company"
-              />
-              <input
-                type="text"
-                value={exp.position}
-                onChange={(e) => onUpdate(index, 'position', e.target.value)}
-                placeholder="Position"
-              />
-              <input
-                type="text"
-                value={exp.duration}
-                onChange={(e) => onUpdate(index, 'duration', e.target.value)}
-                placeholder="Duration"
-              />
-              <textarea
-                value={exp.description}
-                onChange={(e) => onUpdate(index, 'description', e.target.value)}
-                placeholder="Description"
-                rows={3}
-              />
-              <button onClick={() => onRemove(index)} className="remove-btn">
-                Remove
-              </button>
-            </div>
-          ) : (
-            <div className="preview-content">
-              <h3>{exp.position} at {exp.company}</h3>
-              <p className="duration">{exp.duration}</p>
-              <p>{exp.description}</p>
-            </div>
-          )}
-        </div>
-      ))}
+      {/* Save Controls */}
       {editMode && (
-        <button onClick={onAdd} className="add-btn">
-          Add Experience
-        </button>
-      )}
-    </div>
-  );
-};
-
-// Skills Section Component
-const SkillsSection = ({ data, editMode, onUpdate }) => {
-  const handleSkillChange = (category, skills) => {
-    onUpdate(category, skills.split(',').map(s => s.trim()));
-  };
-
-  return (
-    <div className="skills-section">
-      <h2>Skills</h2>
-      {editMode ? (
-        <div className="edit-form">
-          <div>
-            <label>Technical Skills:</label>
-            <input
-              type="text"
-              value={data.technical.join(', ')}
-              onChange={(e) => handleSkillChange('technical', e.target.value)}
-              placeholder="React, Node.js, Python..."
-            />
-          </div>
-          <div>
-            <label>Soft Skills:</label>
-            <input
-              type="text"
-              value={data.soft.join(', ')}
-              onChange={(e) => handleSkillChange('soft', e.target.value)}
-              placeholder="Leadership, Communication..."
-            />
-          </div>
-          <div>
-            <label>Programming Languages:</label>
-            <input
-              type="text"
-              value={data.languages.join(', ')}
-              onChange={(e) => handleSkillChange('languages', e.target.value)}
-              placeholder="JavaScript, Python, TypeScript..."
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="preview-content">
-          <div>
-            <h3>Technical Skills</h3>
-            <div className="skills-grid">
-              {data.technical.map(skill => (
-                <span key={skill} className="skill-tag">{skill}</span>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h3>Soft Skills</h3>
-            <div className="skills-grid">
-              {data.soft.map(skill => (
-                <span key={skill} className="skill-tag">{skill}</span>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h3>Programming Languages</h3>
-            <div className="skills-grid">
-              {data.languages.map(lang => (
-                <span key={lang} className="skill-tag">{lang}</span>
-              ))}
-            </div>
-          </div>
+        <div className="save-controls">
+          <button onClick={handleSave} className="save-btn">
+            Save Resume
+          </button>
         </div>
       )}
     </div>
@@ -451,77 +214,47 @@ const SkillsSection = ({ data, editMode, onUpdate }) => {
 
 export default InteractiveResume;`;
 
-  // Enhanced code data for the new CodeViewer
-  const codeData = {
-    code: `// InteractiveResume Implementation
-// Add your implementation code here
-`,
-    explanation: `Interactive resume with dynamic content, animations, and engaging user experience.
-
-## Core Implementation
-
-**Key Features**: This demo showcases Interactive elements and Smooth animations using modern web technologies.
-
-**Architecture**: Built with Interactive Design and Animation for optimal performance and user experience.
-
-**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
-
-## Technical Benefits
-
-- **Modern Technologies**: Uses cutting-edge web technologies and best practices
-- **Performance Optimized**: Efficient algorithms and data structures
-- **User Experience**: Intuitive interface with smooth interactions
-- **Scalable Design**: Built to handle growing data and user demands`,
-
-    technologies: [
-      {
-            "name": "Interactive Design",
-            "description": "Engaging user interactions",
-            "tags": [
-                  "UI",
-                  "Interactions",
-                  "Animation"
-            ]
-      },
-      {
-            "name": "Animation",
-            "description": "Smooth transitions and effects",
-            "tags": [
-                  "Animation",
-                  "CSS",
-                  "Transitions"
-            ]
-      },
-      {
-            "name": "Responsive Design",
-            "description": "Mobile-friendly layout",
-            "tags": [
-                  "Responsive",
-                  "Mobile",
-                  "Layout"
-            ]
+  const handleInputChange = (section, field, value) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
       }
-],
+    }));
+  };
 
-    concepts: [
-      {
-            "name": "Interactive Design",
-            "description": "Engaging user experience",
-            "example": "Hover effects and animations"
-      },
-      {
-            "name": "Progressive Enhancement",
-            "description": "Enhancing basic functionality",
-            "example": "Adding animations to static content"
-      }
-],
+  const handleArrayItemChange = (section, index, field, value) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: prev[section].map((item, i) => 
+        i === index ? { ...item, [field]: value } : item
+      )
+    }));
+  };
 
-    features: [
-      "Interactive elements",
-      "Smooth animations",
-      "Responsive design",
-      "Engaging UX"
-]
+  const addArrayItem = (section, newItem) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: [...prev[section], { ...newItem, id: Date.now() }]
+    }));
+  };
+
+  const removeArrayItem = (section, index) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: prev[section].filter((_, i) => i !== index)
+    }));
+  };
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleSave = () => {
+    localStorage.setItem('resumeData', JSON.stringify(resumeData));
+    setEditMode(false);
+    alert('Resume saved successfully!');
   };
 
   return (
@@ -530,8 +263,8 @@ export default InteractiveResume;`;
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-blue-400">📄 Interactive Resume Web App</h1>
-            <p className="text-gray-400">React and CSS with real-time editing capabilities</p>
+            <h1 className="text-3xl font-bold text-green-400">📝 Interactive Resume</h1>
+            <p className="text-gray-400">Real-time editing with auto-save functionality</p>
           </div>
           <button
             onClick={() => setShowCodeViewer(true)}
@@ -541,250 +274,394 @@ export default InteractiveResume;`;
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          {/* Resume Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
-            <div className="flex justify-between items-start">
-              <div>
-                <h1 className="text-4xl font-bold mb-2">{resumeData.personal.name}</h1>
-                <h2 className="text-xl opacity-90 mb-4">{resumeData.personal.title}</h2>
-                <div className="flex flex-wrap gap-4 text-sm opacity-80">
-                  <span>📧 {resumeData.personal.email}</span>
-                  <span>📱 {resumeData.personal.phone}</span>
-                  <span>📍 {resumeData.personal.location}</span>
+        {/* Resume Navigation */}
+        <div className="bg-gray-800 p-4 rounded-xl mb-6">
+          <div className="flex flex-wrap gap-2">
+            <button 
+              onClick={() => setActiveSection('personal')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                activeSection === 'personal' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              👤 Personal Info
+            </button>
+            <button 
+              onClick={() => setActiveSection('experience')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                activeSection === 'experience' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              💼 Experience
+            </button>
+            <button 
+              onClick={() => setActiveSection('education')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                activeSection === 'education' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              🎓 Education
+            </button>
+            <button 
+              onClick={() => setActiveSection('skills')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                activeSection === 'skills' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              🛠️ Skills
+            </button>
+            <button 
+              onClick={toggleEditMode} 
+              className={`ml-auto px-4 py-2 rounded-lg transition-colors ${
+                editMode 
+                  ? 'bg-green-600 hover:bg-green-700 text-white' 
+                  : 'bg-yellow-600 hover:bg-yellow-700 text-white'
+              }`}
+            >
+              {editMode ? '👁️ Preview' : '✏️ Edit'}
+            </button>
+          </div>
+        </div>
+
+        {/* Resume Content */}
+        <div className="bg-gray-800 rounded-xl overflow-hidden">
+          {/* Personal Information */}
+          {activeSection === 'personal' && (
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-white mb-6">👤 Personal Information</h2>
+              {editMode ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                    <input
+                      type="text"
+                      value={resumeData.personal.name}
+                      onChange={(e) => handleInputChange('personal', 'name', e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Job Title</label>
+                    <input
+                      type="text"
+                      value={resumeData.personal.title}
+                      onChange={(e) => handleInputChange('personal', 'title', e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                    <input
+                      type="email"
+                      value={resumeData.personal.email}
+                      onChange={(e) => handleInputChange('personal', 'email', e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      value={resumeData.personal.phone}
+                      onChange={(e) => handleInputChange('personal', 'phone', e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+                    <input
+                      type="text"
+                      value={resumeData.personal.location}
+                      onChange={(e) => handleInputChange('personal', 'location', e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Professional Summary</label>
+                    <textarea
+                      value={resumeData.personal.summary}
+                      onChange={(e) => handleInputChange('personal', 'summary', e.target.value)}
+                      rows="3"
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
                 </div>
-              </div>
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all duration-300 border border-white border-opacity-30"
-              >
-                {isEditing ? 'Cancel' : '✏️ Edit Resume'}
-              </button>
+              ) : (
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <h1 className="text-3xl font-bold text-white">{resumeData.personal.name}</h1>
+                    <p className="text-blue-400 text-xl">{resumeData.personal.title}</p>
+                    <p className="text-gray-400">{resumeData.personal.location}</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                    <div>
+                      <p className="text-gray-300">📧 {resumeData.personal.email}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-300">📱 {resumeData.personal.phone}</p>
+                    </div>
+                  </div>
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-white mb-2">Professional Summary</h3>
+                    <p className="text-gray-300">{resumeData.personal.summary}</p>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
 
-          {/* Navigation */}
-          <div className="flex bg-gray-50 border-b">
-            {['about', 'experience', 'skills', 'projects', 'education'].map(section => (
-              <button
-                key={section}
-                onClick={() => setActiveSection(section)}
-                className={`flex-1 py-4 px-6 font-medium transition-all duration-300 ${
-                  activeSection === section
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Content */}
-          <div className="p-8 text-gray-800">
-            {/* About Section */}
-            {activeSection === 'about' && (
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">About Me</h3>
-                {isEditing ? (
-                  <textarea
-                    value={editData.about}
-                    onChange={(e) => updateField('about', 'about', e.target.value)}
-                    className="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Tell us about yourself..."
-                  />
-                ) : (
-                  <p className="text-lg leading-relaxed text-gray-700">{resumeData.about}</p>
+          {/* Experience */}
+          {activeSection === 'experience' && (
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">💼 Work Experience</h2>
+                {editMode && (
+                  <button
+                    onClick={() => addArrayItem('experience', { company: '', position: '', duration: '', description: '' })}
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    ➕ Add Experience
+                  </button>
                 )}
               </div>
-            )}
-
-            {/* Experience Section */}
-            {activeSection === 'experience' && (
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Work Experience</h3>
-                <div className="space-y-8">
-                  {resumeData.experience.map((exp, index) => (
-                    <div key={exp.id} className="border-l-4 border-blue-600 pl-6">
-                      <div className="flex justify-between items-start mb-3">
+              <div className="space-y-6">
+                {resumeData.experience.map((exp, index) => (
+                  <div key={exp.id} className="bg-gray-700 p-4 rounded-lg">
+                    {editMode ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <h4 className="text-xl font-semibold text-gray-800">{exp.position}</h4>
-                          <p className="text-blue-600 font-medium">{exp.company}</p>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Company</label>
+                          <input
+                            type="text"
+                            value={exp.company}
+                            onChange={(e) => handleArrayItemChange('experience', index, 'company', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
                         </div>
-                        <span className="text-gray-500 text-sm">{exp.duration}</span>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Position</label>
+                          <input
+                            type="text"
+                            value={exp.position}
+                            onChange={(e) => handleArrayItemChange('experience', index, 'position', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Duration</label>
+                          <input
+                            type="text"
+                            value={exp.duration}
+                            onChange={(e) => handleArrayItemChange('experience', index, 'duration', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div className="flex items-end">
+                          <button
+                            onClick={() => removeArrayItem('experience', index)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded transition-colors"
+                          >
+                            🗑️ Remove
+                          </button>
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                          <textarea
+                            value={exp.description}
+                            onChange={(e) => handleArrayItemChange('experience', index, 'description', e.target.value)}
+                            rows="3"
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
                       </div>
-                      {isEditing ? (
-                        <textarea
-                          value={editData.experience[index].description}
-                          onChange={(e) => updateArrayField('experience', index, 'description', e.target.value)}
-                          className="w-full h-20 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3"
+                    ) : (
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{exp.position}</h3>
+                        <p className="text-blue-400">{exp.company} • {exp.duration}</p>
+                        <p className="text-gray-300 mt-2">{exp.description}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {resumeData.experience.length === 0 && (
+                  <div className="text-center py-8 text-gray-400">
+                    {editMode ? 'Click "Add Experience" to get started' : 'No experience added yet'}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Education */}
+          {activeSection === 'education' && (
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">🎓 Education</h2>
+                {editMode && (
+                  <button
+                    onClick={() => addArrayItem('education', { institution: '', degree: '', year: '', gpa: '' })}
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    ➕ Add Education
+                  </button>
+                )}
+              </div>
+              <div className="space-y-6">
+                {resumeData.education.map((edu, index) => (
+                  <div key={edu.id} className="bg-gray-700 p-4 rounded-lg">
+                    {editMode ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Institution</label>
+                          <input
+                            type="text"
+                            value={edu.institution}
+                            onChange={(e) => handleArrayItemChange('education', index, 'institution', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Degree</label>
+                          <input
+                            type="text"
+                            value={edu.degree}
+                            onChange={(e) => handleArrayItemChange('education', index, 'degree', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">Year</label>
+                          <input
+                            type="text"
+                            value={edu.year}
+                            onChange={(e) => handleArrayItemChange('education', index, 'year', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">GPA</label>
+                          <input
+                            type="text"
+                            value={edu.gpa}
+                            onChange={(e) => handleArrayItemChange('education', index, 'gpa', e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div className="md:col-span-2 flex justify-end">
+                          <button
+                            onClick={() => removeArrayItem('education', index)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded transition-colors"
+                          >
+                            🗑️ Remove
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{edu.degree}</h3>
+                        <p className="text-blue-400">{edu.institution} • {edu.year} • GPA: {edu.gpa}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {resumeData.education.length === 0 && (
+                  <div className="text-center py-8 text-gray-400">
+                    {editMode ? 'Click "Add Education" to get started' : 'No education added yet'}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Skills */}
+          {activeSection === 'skills' && (
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">🛠️ Skills</h2>
+                {editMode && (
+                  <button
+                    onClick={() => {
+                      const newSkill = prompt('Enter a new skill:');
+                      if (newSkill) addArrayItem('skills', { name: newSkill });
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    ➕ Add Skill
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {resumeData.skills.map((skill, index) => (
+                  <div key={index} className="bg-gray-700 px-3 py-2 rounded-lg flex items-center gap-2">
+                    {editMode ? (
+                      <>
+                        <input
+                          type="text"
+                          value={skill}
+                          onChange={(e) => handleArrayItemChange('skills', index, 'name', e.target.value)}
+                          className="bg-transparent text-white focus:outline-none"
                         />
-                      ) : (
-                        <p className="text-gray-700 mb-3">{exp.description}</p>
-                      )}
-                      <ul className="space-y-1">
-                        {exp.achievements.map((achievement, i) => (
-                          <li key={i} className="text-gray-600 flex items-start">
-                            <span className="text-blue-600 mr-2">•</span>
-                            {achievement}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Skills Section */}
-            {activeSection === 'skills' && (
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Skills</h3>
-                    <div className="space-y-6">
-      {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🌐 InteractiveResume Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-          Interactive resume with dynamic content, animations, and engaging user experience.
-        </p>
-        <div className="mt-4 flex justify-center gap-4">
-          <button
-            onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
-          >
-            <span>💻</span>
-            View Implementation
-          </button>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-[1fr,320px] gap-6">
-                  <div>
-                    <h4 className="text-lg font-semibold mb-4 text-gray-800">Technical Skills</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {resumeData.skills.technical.map(skill => (
-                        <span key={skill} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                        <button
+                          onClick={() => removeArrayItem('skills', index)}
+                          className="text-red-400 hover:text-red-300"
+                        >
+                          ✕
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-white">{skill}</span>
+                    )}
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold mb-4 text-gray-800">Soft Skills</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {resumeData.skills.soft.map(skill => (
-                        <span key={skill} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                ))}
+                {resumeData.skills.length === 0 && (
+                  <div className="text-center py-8 text-gray-400 w-full">
+                    {editMode ? 'Click "Add Skill" to get started' : 'No skills added yet'}
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold mb-4 text-gray-800">Programming Languages</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {resumeData.skills.languages.map(lang => (
-                        <span key={lang} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-                          {lang}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Projects Section */}
-            {activeSection === 'projects' && (
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Projects</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {resumeData.projects.map(project => (
-                    <div key={project.id} className="bg-gray-50 p-6 rounded-lg border hover:shadow-lg transition-shadow">
-                      <h4 className="text-lg font-semibold mb-2 text-gray-800">{project.name}</h4>
-                      <p className="text-gray-600 mb-4">{project.description}</p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.map(tech => (
-                          <span key={tech} className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                      <a
-                        href={`https://${project.link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 font-medium text-sm"
-                      >
-                        View Project →
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Education Section */}
-            {activeSection === 'education' && (
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Education</h3>
-                <div className="space-y-6">
-                  {resumeData.education.map(edu => (
-                    <div key={edu.id} className="border-l-4 border-green-600 pl-6">
-                      <h4 className="text-xl font-semibold text-gray-800">{edu.degree}</h4>
-                      <p className="text-green-600 font-medium">{edu.school}</p>
-                      <p className="text-gray-500">{edu.year} • GPA: {edu.gpa}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Save Controls */}
-          {isEditing && (
-            <div className="bg-gray-50 p-6 border-t">
-              <div className="flex justify-center space-x-4">
-                <button
-                  onClick={handleSave}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors"
-                >
-                  💾 Save Changes
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
-                >
-                  ❌ Cancel
-                </button>
+                )}
               </div>
             </div>
           )}
         </div>
 
-        {/* Features */}
-        <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ Interactive Resume Features</h3>
-          <div className="grid md:grid-cols-2 gap-4">
+        {/* Save Controls */}
+        {editMode && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={handleSave}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors text-lg font-semibold"
+            >
+              💾 Save Resume
+            </button>
+          </div>
+        )}
+
+        {/* Demo Features */}
+        <div className="mt-8 bg-gray-800 p-6 rounded-xl">
+          <h3 className="text-xl font-semibold text-white mb-4">✨ Demo Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-blue-400 mb-2">🎨 Frontend Features</h4>
-              <ul className="space-y-1 text-sm text-gray-300">
-                <li>• Real-time editing capabilities</li>
-                <li>• Responsive design</li>
-                <li>• Modern CSS styling</li>
-                <li>• Interactive navigation</li>
-                <li>• Form validation</li>
-                <li>• Auto-save functionality</li>
+              <h4 className="text-lg font-medium text-blue-400 mb-3">Interactive Features</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>• Real-time editing with live preview</li>
+                <li>• Auto-save to localStorage</li>
+                <li>• Responsive design for all devices</li>
+                <li>• Dynamic form validation</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">⚡ Technical Features</h4>
-              <ul className="space-y-1 text-sm text-gray-300">
-                <li>• React state management</li>
-                <li>• Component-based architecture</li>
-                <li>• CSS Grid and Flexbox</li>
-                <li>• Smooth animations</li>
-                <li>• Mobile-first design</li>
-                <li>• Accessibility features</li>
+              <h4 className="text-lg font-medium text-green-400 mb-3">Technical Implementation</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>• React hooks for state management</li>
+                <li>• Local storage persistence</li>
+                <li>• Modular component architecture</li>
+                <li>• Modern CSS styling</li>
               </ul>
             </div>
           </div>
@@ -795,7 +672,7 @@ export default InteractiveResume;`;
       <CodeViewer
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
-        code={codeExample}
+        code={demoCode}
         language="javascript"
         title="Interactive Resume Implementation"
       />
@@ -803,4 +680,4 @@ export default InteractiveResume;`;
   );
 };
 
-export default InteractiveResumeDemo; 
+export default InteractiveResumeDemo;

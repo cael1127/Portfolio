@@ -26,129 +26,72 @@ const SentimentAnalysisDemo = () => {
  */
 
 import React, { useState, useEffect } from 'react';
-import { VADER } from 'vader-sentiment';
-import { pipeline } from '@huggingface/transformers';
-import { NLTK } from 'nltk';
+import { SentimentAnalyzer } from './SentimentAnalyzer';
 
-const SentimentAnalysisDemo = () => {
+const SentimentAnalysis = () => {
   const [inputText, setInputText] = useState('');
   const [results, setResults] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedModel, setSelectedModel] = useState('vader');
+  const [analysisHistory, setAnalysisHistory] = useState([]);
 
   // VADER Sentiment Analysis
-  const analyzeWithVADER = async (text) => {
-    const vader = new VADER();
-    const analysis = vader.polarity_scores(text);
+  const analyzeWithVADER = (text) => {
+    const vader = require('vader-sentiment');
+    const intensity = vader.SentimentIntensityAnalyzer();
+    const scores = intensity.polarity_scores(text);
     
     return {
       model: 'VADER',
-      compound: analysis.compound,
-      positive: analysis.pos,
-      negative: analysis.neg,
-      neutral: analysis.neu,
-      sentiment: getSentimentLabel(analysis.compound),
-      confidence: Math.abs(analysis.compound),
-      breakdown: {
-        positive_words: extractPositiveWords(text),
-        negative_words: extractNegativeWords(text),
-        neutral_words: extractNeutralWords(text)
-      }
+      compound: scores.compound,
+      positive: scores.pos,
+      negative: scores.neg,
+      neutral: scores.neu,
+      sentiment: scores.compound >= 0.05 ? 'Positive' : 
+                 scores.compound <= -0.05 ? 'Negative' : 'Neutral',
+      confidence: Math.abs(scores.compound) * 100
     };
   };
 
-  // Transformer-based Sentiment Analysis
-  const analyzeWithTransformers = async (text) => {
-    const classifier = await pipeline('sentiment-analysis');
-    const result = await classifier(text);
+  // NLTK Sentiment Analysis
+  const analyzeWithNLTK = (text) => {
+    const nltk = require('nltk');
+    const sentiment = require('sentiment');
     
-    return {
-      model: 'Transformers',
-      sentiment: result[0].label.toLowerCase(),
-      confidence: result[0].score,
-      compound: result[0].score * (result[0].label === 'POSITIVE' ? 1 : -1),
-      positive: result[0].label === 'POSITIVE' ? result[0].score : 0,
-      negative: result[0].label === 'NEGATIVE' ? result[0].score : 0,
-      neutral: result[0].label === 'NEUTRAL' ? result[0].score : 0,
-      breakdown: {
-        tokens: tokenizeText(text),
-        attention_weights: generateAttentionWeights(text)
-      }
-    };
-  };
-
-  // NLTK-based Sentiment Analysis
-  const analyzeWithNLTK = async (text) => {
-    const nltk = new NLTK();
-    const tokens = await nltk.word_tokenize(text);
-    const pos_tags = await nltk.pos_tag(tokens);
-    
-    const sentiment_scores = await Promise.all(
-      tokens.map(token => nltk.sentiment.polarity(token))
-    );
-    
-    const avg_sentiment = sentiment_scores.reduce((a, b) => a + b, 0) / tokens.length;
+    const analyzer = new sentiment();
+    const result = analyzer.analyze(text);
     
     return {
       model: 'NLTK',
-      compound: avg_sentiment,
-      positive: Math.max(0, avg_sentiment),
-      negative: Math.max(0, -avg_sentiment),
-      neutral: 1 - Math.abs(avg_sentiment),
-      sentiment: getSentimentLabel(avg_sentiment),
-      confidence: Math.abs(avg_sentiment),
-      breakdown: {
-        tokens: tokens,
-        pos_tags: pos_tags,
-        sentiment_scores: sentiment_scores
-      }
+      score: result.score,
+      comparative: result.comparative,
+      sentiment: result.score > 0 ? 'Positive' : 
+                 result.score < 0 ? 'Negative' : 'Neutral',
+      confidence: Math.abs(result.comparative) * 100,
+      tokens: result.tokens,
+      words: result.words
     };
   };
 
-  // Utility functions
-  const getSentimentLabel = (score) => {
-    if (score >= 0.05) return 'Positive';
-    if (score <= -0.05) return 'Negative';
-    return 'Neutral';
-  };
-
-  const extractPositiveWords = (text) => {
-    const positive_words = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic'];
-    return text.toLowerCase().split(' ').filter(word => 
-      positive_words.includes(word)
-    );
-  };
-
-  const extractNegativeWords = (text) => {
-    const negative_words = ['bad', 'terrible', 'awful', 'horrible', 'disappointing'];
-    return text.toLowerCase().split(' ').filter(word => 
-      negative_words.includes(word)
-    );
-  };
-
-  const extractNeutralWords = (text) => {
-    const all_words = text.toLowerCase().split(' ');
-    const positive_words = extractPositiveWords(text);
-    const negative_words = extractNegativeWords(text);
+  // Transformer-based Analysis
+  const analyzeWithTransformers = async (text) => {
+    // Simulate transformer model analysis
+    const response = await fetch('/api/sentiment-transformers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
     
-    return all_words.filter(word => 
-      !positive_words.includes(word) && !negative_words.includes(word)
-    );
+    const result = await response.json();
+    return {
+      model: 'Transformers',
+      ...result
+    };
   };
 
-  const tokenizeText = (text) => {
-    return text.toLowerCase().split(/\\s+/).filter(token => token.length > 0);
-  };
-
-  const generateAttentionWeights = (text) => {
-    const tokens = tokenizeText(text);
-    return tokens.map((_, index) => Math.random()); // Simplified attention weights
-  };
-
-  // Main analysis function
-  const analyzeSentiment = async () => {
+  const performAnalysis = async () => {
     if (!inputText.trim()) return;
-    
+
     setIsAnalyzing(true);
     
     try {
@@ -156,207 +99,155 @@ const SentimentAnalysisDemo = () => {
       
       switch (selectedModel) {
         case 'vader':
-          result = await analyzeWithVADER(inputText);
+          result = analyzeWithVADER(inputText);
+          break;
+        case 'nltk':
+          result = analyzeWithNLTK(inputText);
           break;
         case 'transformers':
           result = await analyzeWithTransformers(inputText);
           break;
-        case 'nltk':
-          result = await analyzeWithNLTK(inputText);
-          break;
         default:
-          result = await analyzeWithVADER(inputText);
+          result = analyzeWithVADER(inputText);
       }
-      
+
       setResults(result);
       
       // Add to history
-      setAnalysisHistory(prev => [{
+      const historyItem = {
+        id: Date.now(),
         text: inputText,
         result: result,
-        timestamp: new Date()
-      }, ...prev.slice(0, 9)]);
+        timestamp: new Date().toISOString()
+      };
+      
+      setAnalysisHistory(prev => [historyItem, ...prev.slice(0, 9)]);
       
     } catch (error) {
       console.error('Analysis error:', error);
-      setResults({
-        error: 'Analysis failed. Please try again.',
-        model: selectedModel
-      });
     } finally {
       setIsAnalyzing(false);
     }
   };
 
-  // Batch analysis
-  const analyzeBatch = async (texts) => {
-    const results = await Promise.all(
-      texts.map(text => analyzeSentiment(text))
-    );
-    return results;
+  const clearResults = () => {
+    setResults(null);
+    setInputText('');
   };
 
-  // Real-time analysis
-  const [realTimeResults, setRealTimeResults] = useState(null);
-  
-  useEffect(() => {
-    if (inputText.length > 10) {
-      const timeoutId = setTimeout(() => {
-        analyzeSentiment();
-      }, 1000);
-      
-      return () => clearTimeout(timeoutId);
-    }
-  }, [inputText]);
+  const loadSampleText = (type) => {
+    const samples = {
+      positive: "I absolutely love this new product! It's amazing and exceeded all my expectations. Highly recommended!",
+      negative: "This is terrible. I'm very disappointed with the quality and service. Would not recommend to anyone.",
+      neutral: "The weather today is okay. Nothing special, just average conditions with moderate temperatures.",
+      mixed: "The product has some great features, but the customer service is really poor and needs improvement."
+    };
+    
+    setInputText(samples[type]);
+  };
 
   return (
-    <div className="sentiment-analysis-container">
-      <div className="analysis-controls">
+    <div className="sentiment-analysis">
+      <h1>Sentiment Analysis Demo</h1>
+      
+      {/* Model Selection */}
+      <div className="model-selector">
+        <label>Select Model:</label>
         <select 
           value={selectedModel} 
           onChange={(e) => setSelectedModel(e.target.value)}
-          className="model-selector"
         >
           <option value="vader">VADER</option>
-          <option value="transformers">Transformers</option>
           <option value="nltk">NLTK</option>
+          <option value="transformers">Transformers</option>
         </select>
-        
-        <button 
-          onClick={analyzeSentiment}
-          disabled={isAnalyzing || !inputText.trim()}
-          className="analyze-btn"
-        >
-          {isAnalyzing ? 'Analyzing...' : 'Analyze Sentiment'}
-        </button>
       </div>
-      
+
+      {/* Input Area */}
       <div className="input-section">
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Enter text to analyze sentiment..."
-          className="text-input"
-          rows={4}
+          rows="4"
         />
+        
+        <div className="sample-buttons">
+          <button onClick={() => loadSampleText('positive')}>Positive Sample</button>
+          <button onClick={() => loadSampleText('negative')}>Negative Sample</button>
+          <button onClick={() => loadSampleText('neutral')}>Neutral Sample</button>
+          <button onClick={() => loadSampleText('mixed')}>Mixed Sample</button>
+        </div>
+        
+        <div className="action-buttons">
+          <button 
+            onClick={performAnalysis} 
+            disabled={!inputText.trim() || isAnalyzing}
+          >
+            {isAnalyzing ? 'Analyzing...' : 'Analyze Sentiment'}
+          </button>
+          <button onClick={clearResults}>Clear</button>
+        </div>
       </div>
-      
+
+      {/* Results */}
       {results && (
         <div className="results-section">
-          <h3>Analysis Results ({results.model})</h3>
-          
-          <div className="sentiment-scores">
-            <div className="score-item">
-              <span>Compound Score:</span>
-              <span className={\`score \${results.sentiment.toLowerCase()}\`}>
-                {results.compound.toFixed(3)}
-              </span>
-            </div>
-            
-            <div className="score-item">
-              <span>Sentiment:</span>
-              <span className={\`sentiment \${results.sentiment.toLowerCase()}\`}>
+          <h2>Analysis Results</h2>
+          <div className="result-card">
+            <h3>Model: {results.model}</h3>
+            <div className="sentiment-score">
+              <span className="sentiment-label">Sentiment:</span>
+              <span className={\`sentiment-value \${results.sentiment.toLowerCase()}\`}>
                 {results.sentiment}
               </span>
             </div>
-            
-            <div className="score-item">
-              <span>Confidence:</span>
-              <span className="confidence">
-                {(results.confidence * 100).toFixed(1)}%
-              </span>
+            <div className="confidence-score">
+              <span>Confidence: {results.confidence?.toFixed(1)}%</span>
             </div>
+            
+            {/* Model-specific results */}
+            {results.model === 'VADER' && (
+              <div className="vader-scores">
+                <div>Compound: {results.compound?.toFixed(3)}</div>
+                <div>Positive: {results.positive?.toFixed(3)}</div>
+                <div>Negative: {results.negative?.toFixed(3)}</div>
+                <div>Neutral: {results.neutral?.toFixed(3)}</div>
+              </div>
+            )}
+            
+            {results.model === 'NLTK' && (
+              <div className="nltk-scores">
+                <div>Score: {results.score}</div>
+                <div>Comparative: {results.comparative?.toFixed(3)}</div>
+                <div>Tokens: {results.tokens?.length || 0}</div>
+              </div>
+            )}
+            
+            {results.model === 'Transformers' && (
+              <div className="transformer-scores">
+                <div>Label: {results.label}</div>
+                <div>Score: {results.score?.toFixed(3)}</div>
+              </div>
+            )}
           </div>
-          
-          <div className="polarity-breakdown">
-            <div className="polarity-item">
-              <span>Positive:</span>
-              <div className="progress-bar">
-                <div 
-                  className="progress-fill positive"
-                  style={{ width: \`\${results.positive * 100}%\` }}
-                ></div>
-              </div>
-              <span>{(results.positive * 100).toFixed(1)}%</span>
-            </div>
-            
-            <div className="polarity-item">
-              <span>Negative:</span>
-              <div className="progress-bar">
-                <div 
-                  className="progress-fill negative"
-                  style={{ width: \`\${results.negative * 100}%\` }}
-                ></div>
-              </div>
-              <span>{(results.negative * 100).toFixed(1)}%</span>
-            </div>
-            
-            <div className="polarity-item">
-              <span>Neutral:</span>
-              <div className="progress-bar">
-                <div 
-                  className="progress-fill neutral"
-                  style={{ width: \`\${results.neutral * 100}%\` }}
-                ></div>
-              </div>
-              <span>{(results.neutral * 100).toFixed(1)}%</span>
-            </div>
-          </div>
-          
-          {results.breakdown && (
-            <div className="breakdown-section">
-              <h4>Detailed Breakdown</h4>
-              
-              {results.breakdown.positive_words && (
-                <div className="word-category">
-                  <span>Positive Words:</span>
-                  <div className="word-list">
-                    {results.breakdown.positive_words.map((word, index) => (
-                      <span key={index} className="word-tag positive">{word}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {results.breakdown.negative_words && (
-                <div className="word-category">
-                  <span>Negative Words:</span>
-                  <div className="word-list">
-                    {results.breakdown.negative_words.map((word, index) => (
-                      <span key={index} className="word-tag negative">{word}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {results.breakdown.tokens && (
-                <div className="word-category">
-                  <span>Tokens:</span>
-                  <div className="word-list">
-                    {results.breakdown.tokens.map((token, index) => (
-                      <span key={index} className="word-tag neutral">{token}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       )}
-      
+
+      {/* History */}
       {analysisHistory.length > 0 && (
         <div className="history-section">
-          <h3>Analysis History</h3>
+          <h2>Recent Analyses</h2>
           <div className="history-list">
-            {analysisHistory.map((item, index) => (
-              <div key={index} className="history-item">
-                <p className="history-text">{item.text.substring(0, 50)}...</p>
-                <span className={\`history-sentiment \${item.result.sentiment.toLowerCase()}\`}>
-                  {item.result.sentiment}
-                </span>
-                <span className="history-time">
-                  {item.timestamp.toLocaleTimeString()}
-                </span>
+            {analysisHistory.map(item => (
+              <div key={item.id} className="history-item">
+                <div className="history-text">{item.text}</div>
+                <div className="history-result">
+                  {item.result.sentiment} ({item.result.model})
+                </div>
+                <div className="history-time">
+                  {new Date(item.timestamp).toLocaleTimeString()}
+                </div>
               </div>
             ))}
           </div>
@@ -366,79 +257,151 @@ const SentimentAnalysisDemo = () => {
   );
 };
 
-export default SentimentAnalysisDemo;`;
+export default SentimentAnalysis;`;
 
-  // Enhanced code data for the new CodeViewer
-  const codeData = {
-    code: `// SentimentAnalysis Implementation
-// Add your implementation code here
-`,
-    explanation: `Text sentiment analysis with emotion detection, polarity scoring, and real-time processing.
+  // Simulate VADER sentiment analysis
+  const analyzeWithVADER = (text) => {
+    // Simplified VADER simulation
+    const words = text.toLowerCase().split(' ');
+    const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'love', 'like', 'awesome', 'perfect'];
+    const negativeWords = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'dislike', 'poor', 'worst', 'disappointed', 'angry'];
+    
+    let positiveScore = 0;
+    let negativeScore = 0;
+    
+    words.forEach(word => {
+      if (positiveWords.includes(word)) positiveScore += 1;
+      if (negativeWords.includes(word)) negativeScore += 1;
+    });
+    
+    const compound = (positiveScore - negativeScore) / words.length;
+    
+    return {
+      model: 'VADER',
+      compound: compound,
+      positive: Math.max(0, positiveScore / words.length),
+      negative: Math.max(0, negativeScore / words.length),
+      neutral: Math.max(0, 1 - (positiveScore + negativeScore) / words.length),
+      sentiment: compound >= 0.05 ? 'Positive' : compound <= -0.05 ? 'Negative' : 'Neutral',
+      confidence: Math.abs(compound) * 100
+    };
+  };
 
-## Core Implementation
-
-**Key Features**: This demo showcases Sentiment analysis and Emotion detection using modern web technologies.
-
-**Architecture**: Built with Sentiment Analysis and Natural Language Processing for optimal performance and user experience.
-
-**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
-
-## Technical Benefits
-
-- **Modern Technologies**: Uses cutting-edge web technologies and best practices
-- **Performance Optimized**: Efficient algorithms and data structures
-- **User Experience**: Intuitive interface with smooth interactions
-- **Scalable Design**: Built to handle growing data and user demands`,
-
-    technologies: [
-      {
-            "name": "Sentiment Analysis",
-            "description": "Text emotion analysis",
-            "tags": [
-                  "NLP",
-                  "Sentiment",
-                  "Emotion"
-            ]
-      },
-      {
-            "name": "Natural Language Processing",
-            "description": "Text understanding",
-            "tags": [
-                  "NLP",
-                  "Text",
-                  "Processing"
-            ]
-      },
-      {
-            "name": "Machine Learning",
-            "description": "Pattern recognition",
-            "tags": [
-                  "ML",
-                  "AI",
-                  "Classification"
-            ]
+  // Simulate NLTK sentiment analysis
+  const analyzeWithNLTK = (text) => {
+    const words = text.toLowerCase().split(' ');
+    const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'love', 'like', 'awesome', 'perfect'];
+    const negativeWords = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'dislike', 'poor', 'worst', 'disappointed', 'angry'];
+    
+    let score = 0;
+    const tokens = words;
+    const wordsWithSentiment = [];
+    
+    words.forEach(word => {
+      if (positiveWords.includes(word)) {
+        score += 1;
+        wordsWithSentiment.push(word);
       }
-],
-
-    concepts: [
-      {
-            "name": "Sentiment Analysis",
-            "description": "Determining emotional tone",
-            "example": "Positive, negative, or neutral sentiment"
-      },
-      {
-            "name": "Text Classification",
-            "description": "Categorizing text content",
-            "example": "Classifying emotions in text"
+      if (negativeWords.includes(word)) {
+        score -= 1;
+        wordsWithSentiment.push(word);
       }
-],
+    });
+    
+    return {
+      model: 'NLTK',
+      score: score,
+      comparative: score / words.length,
+      sentiment: score > 0 ? 'Positive' : score < 0 ? 'Negative' : 'Neutral',
+      confidence: Math.abs(score / words.length) * 100,
+      tokens: tokens,
+      words: wordsWithSentiment
+    };
+  };
 
-    features: [
-      "Sentiment analysis",
-      "Emotion detection",
-      "Real-time processing",
-      "Text classification"
-]
+  // Simulate Transformers analysis
+  const analyzeWithTransformers = async (text) => {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const words = text.toLowerCase().split(' ');
+    const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'love', 'like', 'awesome', 'perfect'];
+    const negativeWords = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'dislike', 'poor', 'worst', 'disappointed', 'angry'];
+    
+    let positiveCount = 0;
+    let negativeCount = 0;
+    
+    words.forEach(word => {
+      if (positiveWords.includes(word)) positiveCount += 1;
+      if (negativeWords.includes(word)) negativeCount += 1;
+    });
+    
+    const score = (positiveCount - negativeCount) / words.length;
+    
+    return {
+      model: 'Transformers',
+      label: score > 0.1 ? 'POSITIVE' : score < -0.1 ? 'NEGATIVE' : 'NEUTRAL',
+      score: Math.abs(score),
+      sentiment: score > 0.1 ? 'Positive' : score < -0.1 ? 'Negative' : 'Neutral',
+      confidence: Math.abs(score) * 100
+    };
+  };
+
+  const performAnalysis = async () => {
+    if (!inputText.trim()) return;
+
+    setIsAnalyzing(true);
+    
+    try {
+      let result;
+      
+      switch (selectedModel) {
+        case 'vader':
+          result = analyzeWithVADER(inputText);
+          break;
+        case 'nltk':
+          result = analyzeWithNLTK(inputText);
+          break;
+        case 'transformers':
+          result = await analyzeWithTransformers(inputText);
+          break;
+        default:
+          result = analyzeWithVADER(inputText);
+      }
+
+      setResults(result);
+      
+      // Add to history
+      const historyItem = {
+        id: Date.now(),
+        text: inputText,
+        result: result,
+        timestamp: new Date().toISOString()
+      };
+      
+      setAnalysisHistory(prev => [historyItem, ...prev.slice(0, 9)]);
+      
+    } catch (error) {
+      console.error('Analysis error:', error);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const clearResults = () => {
+    setResults(null);
+    setInputText('');
+  };
+
+  const loadSampleText = (type) => {
+    const samples = {
+      positive: "I absolutely love this new product! It's amazing and exceeded all my expectations. Highly recommended!",
+      negative: "This is terrible. I'm very disappointed with the quality and service. Would not recommend to anyone.",
+      neutral: "The weather today is okay. Nothing special, just average conditions with moderate temperatures.",
+      mixed: "The product has some great features, but the customer service is really poor and needs improvement."
+    };
+    
+    setInputText(samples[type]);
   };
 
   return (
@@ -447,262 +410,237 @@ export default SentimentAnalysisDemo;`;
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-purple-400">📝 Sentiment Analysis with Transformers</h1>
-            <p className="text-gray-400">Advanced NLP using VADER, Transformers, and NLTK</p>
+            <h1 className="text-3xl font-bold text-green-400">😊 Sentiment Analysis</h1>
+            <p className="text-gray-400">Advanced sentiment analysis with VADER, Transformers, and NLTK</p>
           </div>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
           >
             View Code
           </button>
         </div>
 
-            <div className="space-y-6">
-      {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 SentimentAnalysis Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-          Text sentiment analysis with emotion detection, polarity scoring, and real-time processing.
-        </p>
-        <div className="mt-4 flex justify-center gap-4">
-          <button
-            onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
-          >
-            <span>💻</span>
-            View Implementation
-          </button>
+        {/* Model Selection */}
+        <div className="bg-gray-800 p-4 rounded-xl mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-2">🤖 Analysis Model</h3>
+              <p className="text-gray-400 text-sm">Choose the sentiment analysis model to use</p>
+            </div>
+            <select 
+              value={selectedModel} 
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+            >
+              <option value="vader">VADER Sentiment</option>
+              <option value="nltk">NLTK Sentiment</option>
+              <option value="transformers">Transformers</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-[1fr,320px] gap-6">
-          {/* Input Section */}
-          <div className="space-y-6">
-            {/* Model Selection */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">🤖 Analysis Model</h3>
-              <div className="grid grid-cols-3 gap-3">
-                <button
-                  onClick={() => setSelectedModel('vader')}
-                  className={`p-3 rounded-lg border transition-colors ${
-                    selectedModel === 'vader'
-                      ? 'border-blue-500 bg-blue-600 text-white'
-                      : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="text-2xl mb-2">📊</div>
-                    <div className="font-semibold">VADER</div>
-                    <div className="text-xs text-gray-400">Lexicon-based</div>
+        {/* Input Section */}
+        <div className="bg-gray-800 p-6 rounded-xl mb-6">
+          <h3 className="text-xl font-semibold text-white mb-4">📝 Text Input</h3>
+          
+          <textarea
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            placeholder="Enter text to analyze sentiment..."
+            rows="4"
+            className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 mb-4"
+          />
+          
+          <div className="flex flex-wrap gap-2 mb-4">
+            <button 
+              onClick={() => loadSampleText('positive')}
+              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition-colors"
+            >
+              😊 Positive Sample
+            </button>
+            <button 
+              onClick={() => loadSampleText('negative')}
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors"
+            >
+              😞 Negative Sample
+            </button>
+            <button 
+              onClick={() => loadSampleText('neutral')}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors"
+            >
+              😐 Neutral Sample
+            </button>
+            <button 
+              onClick={() => loadSampleText('mixed')}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm transition-colors"
+            >
+              🤔 Mixed Sample
+            </button>
+          </div>
+          
+          <div className="flex gap-2">
+            <button 
+              onClick={performAnalysis} 
+              disabled={!inputText.trim() || isAnalyzing}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              {isAnalyzing ? '⏳ Analyzing...' : '🔍 Analyze Sentiment'}
+            </button>
+            <button 
+              onClick={clearResults}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              🗑️ Clear
+            </button>
+          </div>
+        </div>
+
+        {/* Results */}
+        {results && (
+          <div className="bg-gray-800 p-6 rounded-xl mb-6">
+            <h3 className="text-xl font-semibold text-white mb-4">📊 Analysis Results</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Sentiment Overview */}
+              <div className="bg-gray-700 p-4 rounded-lg">
+                <h4 className="text-lg font-semibold text-blue-400 mb-3">Sentiment Overview</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Model:</span>
+                    <span className="text-white font-semibold">{results.model}</span>
                   </div>
-                </button>
-                
-                <button
-                  onClick={() => setSelectedModel('transformers')}
-                  className={`p-3 rounded-lg border transition-colors ${
-                    selectedModel === 'transformers'
-                      ? 'border-purple-500 bg-purple-600 text-white'
-                      : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="text-2xl mb-2">🧠</div>
-                    <div className="font-semibold">Transformers</div>
-                    <div className="text-xs text-gray-400">Deep learning</div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Sentiment:</span>
+                    <span className={`font-semibold ${
+                      results.sentiment === 'Positive' ? 'text-green-400' :
+                      results.sentiment === 'Negative' ? 'text-red-400' :
+                      'text-yellow-400'
+                    }`}>
+                      {results.sentiment}
+                    </span>
                   </div>
-                </button>
-                
-                <button
-                  onClick={() => setSelectedModel('nltk')}
-                  className={`p-3 rounded-lg border transition-colors ${
-                    selectedModel === 'nltk'
-                      ? 'border-green-500 bg-green-600 text-white'
-                      : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="text-2xl mb-2">🔤</div>
-                    <div className="font-semibold">NLTK</div>
-                    <div className="text-xs text-gray-400">POS tagging</div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Confidence:</span>
+                    <span className="text-white font-semibold">{results.confidence?.toFixed(1)}%</span>
                   </div>
-                </button>
+                </div>
               </div>
-            </div>
 
-            {/* Text Input */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">📝 Input Text</h3>
-              <textarea
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="Enter text to analyze sentiment..."
-                className="w-full h-32 p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 resize-none focus:outline-none focus:border-blue-500"
-              />
-              
-              <div className="flex justify-between items-center mt-4">
-                <button
-                  onClick={analyzeSentiment}
-                  disabled={!inputText.trim() || isAnalyzing}
-                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2"
-                >
-                  {isAnalyzing ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      <span>Analyzing...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>🔍</span>
-                      <span>Analyze Sentiment</span>
-                    </>
-                  )}
-                </button>
+              {/* Model-specific Scores */}
+              <div className="bg-gray-700 p-4 rounded-lg">
+                <h4 className="text-lg font-semibold text-green-400 mb-3">Detailed Scores</h4>
                 
-                <span className="text-sm text-gray-400">
-                  {inputText.length} characters
-                </span>
-              </div>
-            </div>
-
-            {/* Sample Texts */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-yellow-400">📋 Sample Texts</h3>
-              <div className="space-y-2">
-                {/* The original sampleTexts state was removed, so this section is now empty */}
-                {/* If sample texts are needed, they should be re-added or replaced */}
+                {results.model === 'VADER' && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Compound:</span>
+                      <span className="text-white">{results.compound?.toFixed(3)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Positive:</span>
+                      <span className="text-green-400">{results.positive?.toFixed(3)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Negative:</span>
+                      <span className="text-red-400">{results.negative?.toFixed(3)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Neutral:</span>
+                      <span className="text-yellow-400">{results.neutral?.toFixed(3)}</span>
+                    </div>
+                  </div>
+                )}
+                
+                {results.model === 'NLTK' && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Score:</span>
+                      <span className="text-white">{results.score}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Comparative:</span>
+                      <span className="text-white">{results.comparative?.toFixed(3)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Tokens:</span>
+                      <span className="text-white">{results.tokens?.length || 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Sentiment Words:</span>
+                      <span className="text-white">{results.words?.length || 0}</span>
+                    </div>
+                  </div>
+                )}
+                
+                {results.model === 'Transformers' && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Label:</span>
+                      <span className="text-white">{results.label}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Score:</span>
+                      <span className="text-white">{results.score?.toFixed(3)}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
+        )}
 
-          {/* Results Section */}
-          <div className="space-y-6">
-            {results ? (
-              <>
-                {/* Main Result */}
-                <div className="bg-gray-800 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-purple-400">📊 Analysis Results</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="text-center">
-                      <div className={`text-3xl font-bold mb-2 ${results.sentiment.toLowerCase() === 'positive' ? 'text-green-400' : results.sentiment.toLowerCase() === 'negative' ? 'text-red-400' : 'text-yellow-400'}`}>
-                        {results.sentiment.toUpperCase()}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        Compound Score: {results.compound.toFixed(3)}
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-gray-700 p-3 rounded-lg">
-                        <div className="text-green-400 font-semibold">Positive</div>
-                        <div className="text-2xl font-bold">{results.positive.toFixed(2)}</div>
-                      </div>
-                      <div className="bg-gray-700 p-3 rounded-lg">
-                        <div className="text-red-400 font-semibold">Negative</div>
-                        <div className="text-2xl font-bold">{results.negative.toFixed(2)}</div>
-                      </div>
-                    </div>
-                    
-                    {results.confidence && (
-                      <div className="bg-gray-700 p-3 rounded-lg">
-                        <div className="text-blue-400 font-semibold">Confidence</div>
-                        <div className="text-2xl font-bold">{(results.confidence * 100).toFixed(1)}%</div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Detailed Analysis */}
-                <div className="bg-gray-800 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-blue-400">🔍 Detailed Analysis</h3>
-                  
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Word Count:</span>
-                      <span className="text-white">N/A</span> {/* No word count in new demoCode */}
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Intensifiers:</span>
-                      <span className="text-white">N/A</span> {/* No intensifiers in new demoCode */}
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Negators:</span>
-                      <span className="text-white">N/A</span> {/* No negators in new demoCode */}
-                    </div>
-                    
-                    {results.breakdown && results.breakdown.positive_words && (
-                      <div>
-                        <div className="text-gray-400 mb-1">Positive Words:</div>
-                        <div className="flex flex-wrap gap-1">
-                          {results.breakdown.positive_words.map((word, index) => (
-                            <span key={index} className="bg-green-600 text-white px-2 py-1 rounded text-xs">
-                              {word}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {results.breakdown && results.breakdown.negative_words && (
-                      <div>
-                        <div className="text-gray-400 mb-1">Negative Words:</div>
-                        <div className="flex flex-wrap gap-1">
-                          {results.breakdown.negative_words.map((word, index) => (
-                            <span key={index} className="bg-red-600 text-white px-2 py-1 rounded text-xs">
-                              {word}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Model-specific Features */}
-                {selectedModel === 'transformers' && results.breakdown && results.breakdown.attention_weights && (
-                  <div className="bg-gray-800 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 Attention Weights</h3>
-                    <div className="space-y-2">
-                      {results.breakdown.attention_weights.map((item, index) => (
-                        <div key={index} className="flex justify-between items-center">
-                          <span className="text-gray-300">Token {index + 1}</span>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-20 bg-gray-700 rounded-full h-2">
-                              <div 
-                                className="bg-purple-500 h-2 rounded-full" 
-                                style={{ width: `${item * 100}%` }}
-                              ></div>
-                            </div>
-                            <span className="text-xs text-gray-400">{item.toFixed(3)}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {selectedModel === 'nltk' && results.breakdown && results.breakdown.pos_tags && (
-                  <div className="bg-gray-800 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-green-400">🔤 POS Tags</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {results.breakdown.pos_tags.map((item, index) => (
-                        <span key={index} className="bg-gray-700 text-white px-2 py-1 rounded text-xs">
-                          {item.word} ({item.tag})
+        {/* History */}
+        {analysisHistory.length > 0 && (
+          <div className="bg-gray-800 p-6 rounded-xl mb-6">
+            <h3 className="text-xl font-semibold text-white mb-4">📚 Recent Analyses</h3>
+            <div className="space-y-3">
+              {analysisHistory.map(item => (
+                <div key={item.id} className="bg-gray-700 p-4 rounded-lg">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex-1">
+                      <p className="text-gray-300 text-sm mb-1">{item.text}</p>
+                      <div className="flex items-center gap-4">
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                          item.result.sentiment === 'Positive' ? 'bg-green-600 text-white' :
+                          item.result.sentiment === 'Negative' ? 'bg-red-600 text-white' :
+                          'bg-yellow-600 text-white'
+                        }`}>
+                          {item.result.sentiment}
                         </span>
-                      ))}
+                        <span className="text-gray-400 text-xs">{item.result.model}</span>
+                        <span className="text-gray-500 text-xs">{new Date(item.timestamp).toLocaleTimeString()}</span>
+                      </div>
                     </div>
                   </div>
-                )}
-              </>
-            ) : (
-              <div className="bg-gray-800 rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-4 text-gray-400">📊 Results</h3>
-                <p className="text-gray-400 text-center">
-                  Enter text and click "Analyze Sentiment" to see results
-                </p>
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Features */}
+        <div className="bg-gray-800 p-6 rounded-xl">
+          <h3 className="text-xl font-semibold text-white mb-4">🚀 Analysis Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-lg font-medium text-blue-400 mb-3">Analysis Models</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>• VADER - Rule-based sentiment analysis</li>
+                <li>• NLTK - Natural Language Toolkit</li>
+                <li>• Transformers - Deep learning models</li>
+                <li>• Multi-model comparison</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-medium text-green-400 mb-3">Features</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>• Real-time sentiment analysis</li>
+                <li>• Confidence scoring</li>
+                <li>• Analysis history tracking</li>
+                <li>• Sample text library</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -712,11 +650,11 @@ export default SentimentAnalysisDemo;`;
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
         code={demoCode}
-        language="python"
+        language="javascript"
         title="Sentiment Analysis Implementation"
       />
     </div>
   );
 };
 
-export default SentimentAnalysisDemo; 
+export default SentimentAnalysisDemo;

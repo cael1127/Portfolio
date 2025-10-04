@@ -18,72 +18,14 @@ const RAGChatbotDemo = () => {
       content: 'This is a comprehensive portfolio showcasing AI/ML projects and full-stack applications. The portfolio includes Snake AI with reinforcement learning, sentiment analysis with transformers, and various other cutting-edge projects.',
       source: 'Portfolio Documentation'
     },
-    'projects': {
-      content: 'Key projects include: 1) Snake AI with neural networks and genetic algorithms, 2) Multi-agent AI system with behavior-based coordination, 3) Sentiment analysis using VADER, transformers, and NLTK, 4) RAG chatbot with LangChain and Next.js.',
-      source: 'Project Database'
+    'ai-projects': {
+      content: 'AI projects include fraud detection systems, deepfake detection, resume analysis with NLP, AI assistants, and reinforcement learning applications like Snake AI.',
+      source: 'AI Projects Database'
     },
-    'skills': {
-      content: 'Technical skills include: React, Python, TensorFlow, PyTorch, Node.js, Next.js, LangChain, JavaScript, TypeScript, Machine Learning, AI/ML, Blockchain, Web3, and various other modern technologies.',
-      source: 'Skills Database'
-    },
-    'experience': {
-      content: 'Experience includes building enterprise-level applications, implementing real-time collaboration systems, developing AI-powered features, and deploying scalable web applications.',
-      source: 'Experience Records'
+    'technologies': {
+      content: 'Technologies used include React, Node.js, Python, TensorFlow, OpenAI GPT, WebSocket, MongoDB, and various cloud platforms.',
+      source: 'Technology Stack'
     }
-  };
-
-  // Process message function for the demo
-  const processMessage = async (userMessage) => {
-    setIsTyping(true);
-    
-    // Simulate processing time
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Generate mock response based on input
-    const responses = [
-      "This portfolio showcases advanced AI/ML projects including neural networks and reinforcement learning.",
-      "The projects demonstrate expertise in React, Python, TensorFlow, and modern web technologies.",
-      "Key skills include machine learning, full-stack development, and real-time applications.",
-      "Experience includes building enterprise applications and AI-powered features."
-    ];
-    
-    const response = responses[Math.floor(Math.random() * responses.length)];
-    
-    setIsTyping(false);
-    
-    return {
-      text: response,
-      sources: [{ title: 'Portfolio Database', relevance: 0.85 }],
-      confidence: 0.8
-    };
-  };
-
-  // Send message function for the demo
-  const sendMessage = async () => {
-    if (!inputMessage.trim()) return;
-    
-    const userMessage = {
-      id: Date.now(),
-      text: inputMessage,
-      sender: 'user',
-      timestamp: new Date()
-    };
-    
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
-    
-    const response = await processMessage(inputMessage);
-    
-    const botMessage = {
-      id: Date.now() + 1,
-      text: response.text,
-      sender: 'bot',
-      timestamp: new Date(),
-      sources: response.sources,
-      confidence: response.confidence
-    };
-    
-    setMessages(prev => [...prev, botMessage]);
   };
 
   const demoCode = `/**
@@ -91,161 +33,188 @@ const RAGChatbotDemo = () => {
  * Created by Cael Findley
  * 
  * This implementation demonstrates a Retrieval-Augmented Generation chatbot
- * using LangChain, OpenAI, and vector stores for context-aware responses.
+ * with context awareness, source attribution, and intelligent responses.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { MemoryVectorStore } from 'langchain/vectorstores/memory';
-import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
-import { OpenAI } from 'langchain/llms/openai';
 
 const RAGChatbot = () => {
   const [messages, setMessages] = useState([]);
+  const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [selectedContext, setSelectedContext] = useState('portfolio');
   const [sources, setSources] = useState([]);
-  
-  // Knowledge Base Setup
+  const [confidence, setConfidence] = useState(0);
+  const messagesEndRef = useRef(null);
+
+  // Knowledge Base
   const knowledgeBase = {
     'portfolio': {
-      content: 'This is a comprehensive portfolio showcasing AI/ML projects and full-stack applications. The portfolio includes Snake AI with reinforcement learning, sentiment analysis with transformers, and various other cutting-edge projects.',
+      content: 'Portfolio content...',
       source: 'Portfolio Documentation'
     },
-    'projects': {
-      content: 'Key projects include: 1) Snake AI with neural networks and genetic algorithms, 2) Multi-agent AI system with behavior-based coordination, 3) Sentiment analysis using VADER, transformers, and NLTK, 4) RAG chatbot with LangChain and Next.js.',
-      source: 'Project Database'
+    'ai-projects': {
+      content: 'AI projects content...',
+      source: 'AI Projects Database'
     },
-    'skills': {
-      content: 'Technical skills include: React, Python, TensorFlow, PyTorch, Node.js, Next.js, LangChain, JavaScript, TypeScript, Machine Learning, AI/ML, Blockchain, Web3, and various other modern technologies.',
-      source: 'Skills Database'
-    },
-    'experience': {
-      content: 'Experience includes building enterprise-level applications, implementing real-time collaboration systems, developing AI-powered features, and deploying scalable web applications.',
-      source: 'Experience Records'
+    'technologies': {
+      content: 'Technology stack content...',
+      source: 'Technology Stack'
     }
   };
 
-  // Initialize Vector Store
-  const initializeVectorStore = async () => {
-    const documents = [
-      'This portfolio showcases AI/ML projects including Snake AI with reinforcement learning.',
-      'The portfolio showcases modern web development with React and interactive features.',
-      'Sentiment analysis project uses VADER, transformers, and NLTK.',
-      'Skills include React, Python, TensorFlow, Node.js, and modern web technologies.',
-      'Experience includes building enterprise applications and AI-powered features.'
-    ];
+  // RAG Implementation
+  const retrieveRelevantContext = (query) => {
+    const context = knowledgeBase[selectedContext];
+    const relevanceScore = calculateRelevance(query, context.content);
     
-    const vectorStore = await MemoryVectorStore.fromTexts(
-      documents,
-      documents.map((_, i) => ({ id: i })),
-      new OpenAIEmbeddings()
-    );
-    
-    return vectorStore;
+    return {
+      content: context.content,
+      source: context.source,
+      relevanceScore
+    };
   };
 
-  // Generate Contextual Response
-  const generateResponse = async (query, context) => {
-    const llm = new OpenAI({ temperature: 0.7 });
+  const calculateRelevance = (query, content) => {
+    const queryWords = query.toLowerCase().split(' ');
+    const contentWords = content.toLowerCase().split(' ');
     
-    const prompt = \`Based on the following context, provide a helpful and accurate response to the user's question. If the context doesn't contain relevant information, say so politely.
-
-Context: \${context}
-
-User Question: \${query}
-
-Response:\`;
+    let matches = 0;
+    queryWords.forEach(word => {
+      if (contentWords.includes(word)) {
+        matches++;
+      }
+    });
     
-    const response = await llm.call(prompt);
-    return response.trim();
+    return (matches / queryWords.length) * 100;
   };
 
-  // Process User Message
-  const processMessage = async (userMessage) => {
+  const generateResponse = async (userMessage, context) => {
     setIsTyping(true);
     
-    try {
-      // Retrieve relevant context
-      const vectorStore = await initializeVectorStore();
-      const results = await vectorStore.similaritySearch(userMessage, 3);
-      
-      const context = results.map(doc => doc.pageContent).join(' ');
-      const response = await generateResponse(userMessage, context);
-      
-      // Calculate confidence based on context relevance
-      const confidence = Math.min(0.9, Math.random() * 0.3 + 0.7);
-      
-      return {
-        text: response,
-        sources: results.map(doc => doc.metadata),
-        confidence: confidence
-      };
-    } catch (error) {
-      return {
-        text: 'I apologize, but I encountered an error processing your request. Please try again.',
-        sources: [],
-        confidence: 0.5
-      };
-    } finally {
-      setIsTyping(false);
-    }
+    // Simulate API call to LLM with context
+    const response = await new Promise(resolve => {
+      setTimeout(() => {
+        const responses = [
+          \`Based on the context about \${context.source.toLowerCase()}, I can help you with that. \${context.content}\`,
+          \`According to the information in \${context.source}, here's what I found: \${context.content}\`,
+          \`I found relevant information in \${context.source}: \${context.content}\`
+        ];
+        resolve(responses[Math.floor(Math.random() * responses.length)]);
+      }, 1500);
+    });
+    
+    setIsTyping(false);
+    return response;
   };
 
-  // Send Message
-  const sendMessage = async () => {
+  const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
-    
+
     const userMessage = {
       id: Date.now(),
       text: inputMessage,
       sender: 'user',
-      timestamp: new Date()
+      timestamp: new Date().toISOString()
     };
-    
+
     setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
-    
-    const response = await processMessage(inputMessage);
+
+    // Retrieve relevant context
+    const context = retrieveRelevantContext(inputMessage);
+    setSources([context]);
+    setConfidence(context.relevanceScore);
+
+    // Generate response
+    const response = await generateResponse(inputMessage, context);
     
     const botMessage = {
       id: Date.now() + 1,
-      text: response.text,
+      text: response,
       sender: 'bot',
-      timestamp: new Date(),
-      sources: response.sources,
-      confidence: response.confidence
+      timestamp: new Date().toISOString(),
+      sources: [context]
     };
-    
+
     setMessages(prev => [...prev, botMessage]);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  // Scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   return (
-    <div className="chatbot-container">
-      <div className="messages">
-        {messages.map(message => (
-          <div key={message.id} className={\`message \${message.sender}\`}>
-            <p>{message.text}</p>
-            {message.sources && message.sources.length > 0 && (
-              <div className="sources">
-                <small>Sources: {message.sources.length}</small>
-              </div>
-            )}
-          </div>
-        ))}
-        {isTyping && (
-          <div className="message bot typing">
-            <span>Typing...</span>
-          </div>
-        )}
+    <div className="rag-chatbot">
+      {/* Context Selector */}
+      <div className="context-selector">
+        <h3>Select Knowledge Base:</h3>
+        <select 
+          value={selectedContext} 
+          onChange={(e) => setSelectedContext(e.target.value)}
+        >
+          <option value="portfolio">Portfolio</option>
+          <option value="ai-projects">AI Projects</option>
+          <option value="technologies">Technologies</option>
+        </select>
       </div>
-      
-      <div className="input-area">
-        <input
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Ask me about the portfolio..."
-        />
-        <button onClick={sendMessage}>Send</button>
+
+      {/* Chat Interface */}
+      <div className="chat-interface">
+        <div className="messages-container">
+          {messages.map(message => (
+            <div key={message.id} className={\`message \${message.sender}\`}>
+              <div className="message-content">
+                {message.text}
+              </div>
+              {message.sources && (
+                <div className="message-sources">
+                  <small>Sources: {message.sources.map(s => s.source).join(', ')}</small>
+                </div>
+              )}
+              <div className="message-timestamp">
+                {new Date(message.timestamp).toLocaleTimeString()}
+              </div>
+            </div>
+          ))}
+          {isTyping && (
+            <div className="message bot typing">
+              <div className="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input Area */}
+        <div className="input-area">
+          <textarea
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Ask me anything about the selected context..."
+            rows="3"
+          />
+          <button onClick={handleSendMessage} disabled={!inputMessage.trim()}>
+            Send
+          </button>
+        </div>
+      </div>
+
+      {/* Confidence Score */}
+      <div className="confidence-score">
+        <span>Relevance: {confidence.toFixed(1)}%</span>
       </div>
     </div>
   );
@@ -253,78 +222,96 @@ Response:\`;
 
 export default RAGChatbot;`;
 
-  // Enhanced code data for the new CodeViewer
-  const codeData = {
-    code: `// RAGChatbot Implementation
-// Add your implementation code here
-`,
-    explanation: `Retrieval-Augmented Generation chatbot with context awareness and intelligent responses.
-
-## Core Implementation
-
-**Key Features**: This demo showcases Context awareness and Knowledge retrieval using modern web technologies.
-
-**Architecture**: Built with RAG Architecture and Vector Databases for optimal performance and user experience.
-
-**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
-
-## Technical Benefits
-
-- **Modern Technologies**: Uses cutting-edge web technologies and best practices
-- **Performance Optimized**: Efficient algorithms and data structures
-- **User Experience**: Intuitive interface with smooth interactions
-- **Scalable Design**: Built to handle growing data and user demands`,
-
-    technologies: [
-      {
-            "name": "RAG Architecture",
-            "description": "Retrieval-Augmented Generation",
-            "tags": [
-                  "AI",
-                  "RAG",
-                  "NLP"
-            ]
-      },
-      {
-            "name": "Vector Databases",
-            "description": "Semantic search and retrieval",
-            "tags": [
-                  "Vector",
-                  "Search",
-                  "Semantic"
-            ]
-      },
-      {
-            "name": "Language Models",
-            "description": "Large language models",
-            "tags": [
-                  "LLM",
-                  "AI",
-                  "Generation"
-            ]
-      }
-],
-
-    concepts: [
-      {
-            "name": "RAG Architecture",
-            "description": "Combining retrieval and generation",
-            "example": "Searching knowledge base before generating responses"
-      },
-      {
-            "name": "Context Awareness",
-            "description": "Maintaining conversation context",
-            "example": "Remembering previous interactions"
-      }
-],
-
-    features: [
-      "Context awareness",
-      "Knowledge retrieval",
-      "Intelligent responses",
-      "Source attribution"
-]
+  // RAG Implementation
+  const retrieveRelevantContext = (query) => {
+    const context = knowledgeBase[selectedContext];
+    const relevanceScore = calculateRelevance(query, context.content);
+    
+    return {
+      content: context.content,
+      source: context.source,
+      relevanceScore
+    };
   };
+
+  const calculateRelevance = (query, content) => {
+    const queryWords = query.toLowerCase().split(' ');
+    const contentWords = content.toLowerCase().split(' ');
+    
+    let matches = 0;
+    queryWords.forEach(word => {
+      if (contentWords.includes(word)) {
+        matches++;
+      }
+    });
+    
+    return Math.min((matches / queryWords.length) * 100, 95); // Cap at 95%
+  };
+
+  const generateResponse = async (userMessage, context) => {
+    setIsTyping(true);
+    
+    // Simulate API call to LLM with context
+    const response = await new Promise(resolve => {
+      setTimeout(() => {
+        const responses = [
+          `Based on the context about ${context.source.toLowerCase()}, I can help you with that. ${context.content}`,
+          `According to the information in ${context.source}, here's what I found: ${context.content}`,
+          `I found relevant information in ${context.source}: ${context.content}`,
+          `Let me share what I know from ${context.source}: ${context.content}`,
+          `Here's the relevant information from ${context.source}: ${context.content}`
+        ];
+        resolve(responses[Math.floor(Math.random() * responses.length)]);
+      }, 1500);
+    });
+    
+    setIsTyping(false);
+    return response;
+  };
+
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim()) return;
+
+    const userMessage = {
+      id: Date.now(),
+      text: inputMessage,
+      sender: 'user',
+      timestamp: new Date().toISOString()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputMessage('');
+
+    // Retrieve relevant context
+    const context = retrieveRelevantContext(inputMessage);
+    setSources([context]);
+    setConfidence(context.relevanceScore);
+
+    // Generate response
+    const response = await generateResponse(inputMessage, context);
+    
+    const botMessage = {
+      id: Date.now() + 1,
+      text: response,
+      sender: 'bot',
+      timestamp: new Date().toISOString(),
+      sources: [context]
+    };
+
+    setMessages(prev => [...prev, botMessage]);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  // Scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -332,8 +319,8 @@ export default RAGChatbot;`;
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-blue-400">💬 RAG Chatbot with Next.js</h1>
-            <p className="text-gray-400">Retrieval-Augmented Generation using LangChain and OpenAI</p>
+            <h1 className="text-3xl font-bold text-green-400">🤖 RAG Chatbot</h1>
+            <p className="text-gray-400">Retrieval-Augmented Generation with context awareness</p>
           </div>
           <button
             onClick={() => setShowCodeViewer(true)}
@@ -343,225 +330,149 @@ export default RAGChatbot;`;
           </button>
         </div>
 
-            <div className="space-y-6">
-      {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 RAGChatbot Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-          Retrieval-Augmented Generation chatbot with context awareness and intelligent responses.
-        </p>
-        <div className="mt-4 flex justify-center gap-4">
-          <button
-            onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
-          >
-            <span>💻</span>
-            View Implementation
-          </button>
+        {/* Context Selector */}
+        <div className="bg-gray-800 p-4 rounded-xl mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-2">📚 Knowledge Base</h3>
+              <p className="text-gray-400 text-sm">Select the context for the chatbot to reference</p>
+            </div>
+            <select 
+              value={selectedContext} 
+              onChange={(e) => setSelectedContext(e.target.value)}
+              className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+            >
+              <option value="portfolio">📁 Portfolio</option>
+              <option value="ai-projects">🤖 AI Projects</option>
+              <option value="technologies">💻 Technologies</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-[1fr,320px] gap-6">
-          {/* Chat Interface */}
-          <div className="lg:col-span-2">
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">🤖 Chat Interface</h3>
-              
-              {/* Messages */}
-              <div className="h-96 overflow-y-auto mb-4 p-4 bg-gray-700 rounded-lg">
-                {messages.length === 0 ? (
-                  <div className="text-center text-gray-400 py-8">
-                    <div className="text-4xl mb-4">💬</div>
-                    <p className="text-lg font-semibold mb-2">Welcome to RAG Chatbot!</p>
-                    <p className="text-sm">Ask me about the portfolio, projects, skills, or experience.</p>
-                    <div className="mt-4 space-y-2 text-sm">
-                      <p>Try asking:</p>
-                      <ul className="space-y-1 text-gray-300">
-                        <li>• "What projects are in the portfolio?"</li>
-                        <li>• "Tell me about the AI/ML projects"</li>
-                        <li>• "What skills are demonstrated?"</li>
-                        <li>• "What technologies are used?"</li>
-                      </ul>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {messages.map((message) => (
-                      <div
-                        key={message.id}
-                        className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div
-                          className={`max-w-xs lg:max-w-md px-4 py-3 rounded-lg ${
-                            message.sender === 'user'
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-gray-600 text-white'
-                          }`}
-                        >
-                          <p className="text-sm">{message.text}</p>
-                          <p className="text-xs opacity-70 mt-1">{message.timestamp}</p>
-                          
-                          {message.sources && (
-                            <div className="mt-2 pt-2 border-t border-gray-500">
-                              <p className="text-xs font-semibold text-blue-300">📚 Sources:</p>
-                              {message.sources.map((source, index) => (
-                                <div key={index} className="text-xs opacity-70 mt-1">
-                                  <div className="flex items-center space-x-2">
-                                    <span className="text-green-400">•</span>
-                                    <span>{source.title}</span>
-                                    <span className="text-gray-400">({(source.relevance * 100).toFixed(0)}% relevant)</span>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                    
-                    {isTyping && (
-                      <div className="flex justify-start">
-                        <div className="bg-gray-600 text-white px-4 py-3 rounded-lg">
-                          <div className="flex items-center space-x-2">
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-400"></div>
-                            <span className="text-sm">Typing...</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
+        {/* Confidence Score */}
+        <div className="bg-gray-800 p-4 rounded-xl mb-6">
+          <div className="flex items-center justify-between">
+            <span className="text-gray-300">Relevance Score:</span>
+            <div className="flex items-center gap-2">
+              <div className="w-32 bg-gray-700 rounded-full h-2">
+                <div 
+                  className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${confidence}%` }}
+                ></div>
               </div>
-
-              {/* Input */}
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder="Ask about the portfolio..."
-                  className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                />
-                <button
-                  onClick={sendMessage}
-                  disabled={isTyping}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg transition-colors"
-                >
-                  Send
-                </button>
-              </div>
+              <span className="text-green-400 font-semibold">{confidence.toFixed(1)}%</span>
             </div>
           </div>
+        </div>
 
-          {/* RAG Information */}
-          <div className="space-y-6">
-            {/* Model Selection */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-purple-400">🧠 AI Model</h3>
-              <div className="space-y-2">
-                <button
-                  onClick={() => setSelectedContext('portfolio')}
-                  className={`w-full p-3 rounded-lg transition-colors text-left ${
-                    selectedContext === 'portfolio'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="font-semibold">Portfolio Context</div>
-                  <div className="text-xs opacity-70">Focus on portfolio details</div>
-                </button>
-                
-                <button
-                  onClick={() => setSelectedContext('projects')}
-                  className={`w-full p-3 rounded-lg transition-colors text-left ${
-                    selectedContext === 'projects'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="font-semibold">Projects Context</div>
-                  <div className="text-xs opacity-70">Focus on specific projects</div>
-                </button>
-
-                <button
-                  onClick={() => setSelectedContext('skills')}
-                  className={`w-full p-3 rounded-lg transition-colors text-left ${
-                    selectedContext === 'skills'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="font-semibold">Skills Context</div>
-                  <div className="text-xs opacity-70">Focus on technical skills</div>
-                </button>
-
-                <button
-                  onClick={() => setSelectedContext('experience')}
-                  className={`w-full p-3 rounded-lg transition-colors text-left ${
-                    selectedContext === 'experience'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="font-semibold">Experience Context</div>
-                  <div className="text-xs opacity-70">Focus on professional experience</div>
-                </button>
+        {/* Chat Interface */}
+        <div className="bg-gray-800 rounded-xl overflow-hidden mb-6">
+          {/* Messages Container */}
+          <div className="h-96 overflow-y-auto p-4 space-y-4">
+            {messages.length === 0 && (
+              <div className="text-center text-gray-400 py-8">
+                <div className="text-4xl mb-4">🤖</div>
+                <p>Ask me anything about the selected knowledge base!</p>
+                <p className="text-sm mt-2">Try: "What AI projects do you have?" or "What technologies are used?"</p>
               </div>
-            </div>
-
-            {/* Retrieved Context */}
-            {/* The context display is removed as per the new_code, as it's no longer part of the chat interface */}
-
-            {/* Knowledge Base */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">📚 Knowledge Base</h3>
-              <div className="space-y-2 text-sm">
-                {Object.entries(knowledgeBase).map(([key, data]) => (
-                  <div key={key} className="bg-gray-700 p-2 rounded">
-                    <div className="font-semibold text-blue-400 capitalize">{key}</div>
-                    <div className="text-gray-300 text-xs mt-1">
-                      {data.content.substring(0, 80)}...
+            )}
+            
+            {messages.map(message => (
+              <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                  message.sender === 'user' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-700 text-gray-100'
+                }`}>
+                  <div className="text-sm">{message.text}</div>
+                  {message.sources && (
+                    <div className="mt-2 pt-2 border-t border-gray-600">
+                      <div className="text-xs text-gray-400">
+                        📚 Sources: {message.sources.map(s => s.source).join(', ')}
+                      </div>
                     </div>
+                  )}
+                  <div className="text-xs opacity-70 mt-1">
+                    {new Date(message.timestamp).toLocaleTimeString()}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* RAG Process */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">🔄 RAG Process</h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs">1</div>
-                  <span className="text-gray-300">Query Processing</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center text-xs">2</div>
-                  <span className="text-gray-300">Context Retrieval</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-xs">3</div>
-                  <span className="text-gray-300">Response Generation</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-yellow-600 rounded-full flex items-center justify-center text-xs">4</div>
-                  <span className="text-gray-300">Source Attribution</span>
                 </div>
               </div>
-            </div>
+            ))}
+            
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-gray-700 text-gray-100 px-4 py-2 rounded-lg">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
 
-            {/* Features */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ Features</h3>
-              <ul className="space-y-2 text-sm text-gray-300">
+          {/* Input Area */}
+          <div className="border-t border-gray-700 p-4">
+            <div className="flex gap-2">
+              <textarea
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask me anything about the selected context..."
+                rows="2"
+                className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 resize-none"
+              />
+              <button 
+                onClick={handleSendMessage} 
+                disabled={!inputMessage.trim()}
+                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Sources */}
+        {sources.length > 0 && (
+          <div className="bg-gray-800 p-6 rounded-xl mb-6">
+            <h3 className="text-lg font-semibold text-white mb-4">📚 Current Sources</h3>
+            <div className="space-y-3">
+              {sources.map((source, index) => (
+                <div key={index} className="bg-gray-700 p-4 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-blue-400">{source.source}</h4>
+                    <span className="text-green-400 text-sm">Relevance: {source.relevanceScore.toFixed(1)}%</span>
+                  </div>
+                  <p className="text-gray-300 text-sm">{source.content}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* RAG Features */}
+        <div className="bg-gray-800 p-6 rounded-xl">
+          <h3 className="text-xl font-semibold text-white mb-4">🚀 RAG Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-lg font-medium text-blue-400 mb-3">Core Functionality</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>• Context-aware responses</li>
+                <li>• Source attribution</li>
+                <li>• Relevance scoring</li>
+                <li>• Real-time chat interface</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-medium text-green-400 mb-3">Technical Implementation</h4>
+              <ul className="space-y-2 text-gray-300">
                 <li>• Retrieval-Augmented Generation</li>
-                <li>• Context-Aware Responses</li>
-                <li>• Source Attribution</li>
-                <li>• Real-time Processing</li>
-                <li>• Multiple AI Models</li>
-                <li>• Knowledge Base Integration</li>
+                <li>• Knowledge base integration</li>
+                <li>• Context relevance calculation</li>
+                <li>• LLM response generation</li>
               </ul>
             </div>
           </div>
@@ -580,4 +491,4 @@ export default RAGChatbot;`;
   );
 };
 
-export default RAGChatbotDemo; 
+export default RAGChatbotDemo;
