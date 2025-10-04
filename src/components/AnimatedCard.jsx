@@ -11,36 +11,34 @@ const AnimatedCard = ({
   ...props
 }) => {
   return (
-    <div className="relative">
-      <motion.div
-        className={className}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ 
-          opacity: 1, 
-          y: 0
-        }}
-        transition={{
-          duration: 0.5,
-          delay: delay / 1000,
-          ease: "easeOut"
-        }}
-        whileHover={hover ? {
-          scale: 1.05,
-          y: -8,
-          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
-          transition: { duration: 0.3, ease: "easeOut" }
-        } : {}}
-        whileTap={hover ? { scale: 0.98 } : {}}
-        style={{ 
-          position: 'relative',
-          zIndex: 1,
-          isolation: 'isolate'
-        }}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    </div>
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0
+      }}
+      transition={{
+        duration: 0.5,
+        delay: delay / 1000,
+        ease: "easeOut"
+      }}
+      whileHover={hover ? {
+        scale: 1.05,
+        y: -8,
+        boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+        transition: { duration: 0.3, ease: "easeOut" }
+      } : {}}
+      whileTap={hover ? { scale: 0.98 } : {}}
+      style={{ 
+        position: 'relative',
+        zIndex: 1,
+        isolation: 'isolate'
+      }}
+      {...props}
+    >
+      {children}
+    </motion.div>
   );
 };
 
