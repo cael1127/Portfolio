@@ -64,10 +64,18 @@ const Projects = ({ setCurrentPage }) => {
                   <p className="text-gray-300 text-sm mb-4">
                     A modern, responsive portfolio website showcasing my skills and projects with interactive demos.
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">Tailwind CSS</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">JavaScript</span>
+                  </div>
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
+                    <button className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Project
+                    </button>
+                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Code
+                    </button>
                   </div>
                 </div>
 
@@ -82,10 +90,21 @@ const Projects = ({ setCurrentPage }) => {
                   <p className="text-gray-300 text-sm mb-4">
                     A complete blockchain implementation for supply chain transparency with smart contracts.
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">Solidity</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">Web3.js</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
+                  </div>
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
+                    <button 
+                      onClick={() => setCurrentPage('blockchain-demo')}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                    >
+                      View Project
+                    </button>
+                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Code
+                    </button>
                   </div>
                 </div>
 
@@ -100,10 +119,21 @@ const Projects = ({ setCurrentPage }) => {
                   <p className="text-gray-300 text-sm mb-4">
                     AI-powered aquaculture monitoring system with real-time sensor data and predictive analytics.
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">IoT</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">ML</span>
+                  </div>
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
+                    <button 
+                      onClick={() => setCurrentPage('aquaculture-demo')}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                    >
+                      View Project
+                    </button>
+                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Code
+                    </button>
                   </div>
                 </div>
 
@@ -118,10 +148,21 @@ const Projects = ({ setCurrentPage }) => {
                   <p className="text-gray-300 text-sm mb-4">
                     AI-powered fleet management and route optimization platform with real-time tracking.
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">AI/ML</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">GPS</span>
+                  </div>
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
+                    <button 
+                      onClick={() => setCurrentPage('logistics-demo')}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                    >
+                      View Project
+                    </button>
+                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Code
+                    </button>
                   </div>
                 </div>
 
@@ -136,10 +177,21 @@ const Projects = ({ setCurrentPage }) => {
                   <p className="text-gray-300 text-sm mb-4">
                     AI-powered patient monitoring and medical analytics platform with predictive diagnostics.
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">AI/ML</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">HIPAA</span>
+                  </div>
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
+                    <button 
+                      onClick={() => setCurrentPage('healthcare-demo')}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                    >
+                      View Project
+                    </button>
+                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Code
+                    </button>
                   </div>
                 </div>
 
@@ -154,12 +206,158 @@ const Projects = ({ setCurrentPage }) => {
                   <p className="text-gray-300 text-sm mb-4">
                     Advanced financial analysis and portfolio management platform with real-time market data.
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">APIs</span>
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">Data Viz</span>
                   </div>
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
+                    <button 
+                      onClick={() => setCurrentPage('financial-demo')}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                    >
+                      View Project
+                    </button>
+                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                      View Code
+                    </button>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Live Websites Section */}
+            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800 mb-8">
+              <h3 className="text-2xl font-bold text-white mb-4">🌐 Live Websites & Deployments</h3>
+              <p className="text-gray-300 mb-6">
+                Production websites and applications currently running and serving users
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a 
+                  href="https://threesistersoyster.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg border border-blue-600 hover:border-blue-400 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-white">Three Sisters Oyster</h4>
+                    <span className="text-blue-300 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-2">threesistersoyster.com</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-300 text-xs">Live</span>
+                  </div>
+                </a>
+
+                <a 
+                  href="https://uilacademy.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg border border-blue-600 hover:border-blue-400 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-white">UIL Academy</h4>
+                    <span className="text-blue-300 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-2">uilacademy.netlify.app</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-300 text-xs">Live</span>
+                  </div>
+                </a>
+
+                <a 
+                  href="https://minbod.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg border border-blue-600 hover:border-blue-400 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-white">MinBod</h4>
+                    <span className="text-blue-300 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-2">minbod.netlify.app</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-300 text-xs">Live</span>
+                  </div>
+                </a>
+
+                <a 
+                  href="https://jfresume.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg border border-blue-600 hover:border-blue-400 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-white">JF Resume</h4>
+                    <span className="text-blue-300 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-2">jfresume.netlify.app</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-300 text-xs">Live</span>
+                  </div>
+                </a>
+
+                <a 
+                  href="https://bapux.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg border border-blue-600 hover:border-blue-400 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-white">Bapux</h4>
+                    <span className="text-blue-300 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-2">bapux.netlify.app</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-300 text-xs">Live</span>
+                  </div>
+                </a>
+
+                <a 
+                  href="https://bpawd.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg border border-blue-600 hover:border-blue-400 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-white">BPAWD</h4>
+                    <span className="text-blue-300 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-2">bpawd.netlify.app</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-300 text-xs">Live</span>
+                  </div>
+                </a>
+              </div>
+
+              {/* GitHub Section */}
+              <div className="mt-6 pt-6 border-t border-blue-600">
+                <a 
+                  href="https://github.com/cael1127" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between bg-gray-800 hover:bg-gray-700 p-4 rounded-lg border border-gray-600 hover:border-green-400 transition-all group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-4xl">💻</div>
+                    <div>
+                      <h4 className="text-xl font-semibold text-white mb-1">GitHub Profile</h4>
+                      <p className="text-gray-400">github.com/cael1127</p>
+                      <p className="text-sm text-gray-500 mt-1">View all repositories and open source contributions</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-400 text-sm font-semibold">View Profile</span>
+                    <span className="text-green-400 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                </a>
               </div>
             </div>
 

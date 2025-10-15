@@ -1,680 +1,776 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import CodeViewer from '../CodeViewer';
 
 const InteractiveResumeDemo = () => {
   const [showCodeViewer, setShowCodeViewer] = useState(false);
-  const [activeSection, setActiveSection] = useState('personal');
-  const [editMode, setEditMode] = useState(false);
-  const [resumeData, setResumeData] = useState({
+  const [activeSection, setActiveSection] = useState('experience');
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
+  const resumeData = {
     personal: {
-      name: 'Cael Findley',
-      title: 'Software Engineer',
-      email: 'cael.findley@example.com',
+      name: 'Jane Developer',
+      title: 'Senior Full-Stack Engineer',
+      email: 'jane@example.com',
       phone: '+1 (555) 123-4567',
       location: 'San Francisco, CA',
-      summary: 'Passionate software engineer with expertise in AI/ML and full-stack development.'
+      website: 'janedeveloper.com',
+      github: 'github.com/janedeveloper',
+      linkedin: 'linkedin.com/in/janedeveloper',
+      summary: 'Passionate full-stack engineer with 8+ years of experience building scalable web applications. Specialized in React, Node.js, and cloud architecture.'
     },
     experience: [
       {
         id: 1,
-        company: 'TechCorp Inc.',
+        company: 'Tech Corp',
         position: 'Senior Software Engineer',
-        duration: '2022 - Present',
-        description: 'Led development of AI-powered applications and mentored junior developers.'
+        period: '2020 - Present',
+        location: 'San Francisco, CA',
+        description: 'Lead development of microservices architecture serving 10M+ users',
+        achievements: [
+          'Architected and implemented microservices platform reducing latency by 40%',
+          'Led team of 6 engineers in building real-time analytics dashboard',
+          'Reduced infrastructure costs by 30% through optimization',
+          'Mentored junior developers and conducted code reviews'
+        ],
+        technologies: ['React', 'Node.js', 'AWS', 'PostgreSQL', 'Redis']
       },
       {
         id: 2,
         company: 'StartupXYZ',
-        position: 'Full Stack Developer',
-        duration: '2020 - 2022',
-        description: 'Built scalable web applications using React, Node.js, and cloud technologies.'
+        position: 'Full-Stack Developer',
+        period: '2018 - 2020',
+        location: 'Remote',
+        description: 'Built and scaled e-commerce platform from 0 to 1M users',
+        achievements: [
+          'Developed responsive web application using React and TypeScript',
+          'Implemented payment processing with Stripe integration',
+          'Built REST API serving 100K+ requests/day',
+          'Optimized database queries reducing response time by 60%'
+        ],
+        technologies: ['React', 'TypeScript', 'Express', 'MongoDB', 'Stripe']
+      },
+      {
+        id: 3,
+        company: 'Digital Agency',
+        position: 'Junior Developer',
+        period: '2016 - 2018',
+        location: 'New York, NY',
+        description: 'Developed client websites and web applications',
+        achievements: [
+          'Built 15+ responsive websites for enterprise clients',
+          'Implemented custom CMS using WordPress and React',
+          'Collaborated with designers to create pixel-perfect UIs',
+          'Maintained and improved existing codebases'
+        ],
+        technologies: ['JavaScript', 'React', 'WordPress', 'PHP', 'MySQL']
       }
     ],
+    skills: {
+      frontend: [
+        { name: 'React', level: 95, years: 6 },
+        { name: 'TypeScript', level: 90, years: 4 },
+        { name: 'Next.js', level: 85, years: 3 },
+        { name: 'Vue.js', level: 75, years: 2 }
+      ],
+      backend: [
+        { name: 'Node.js', level: 90, years: 6 },
+        { name: 'Express', level: 90, years: 6 },
+        { name: 'Python', level: 80, years: 4 },
+        { name: 'GraphQL', level: 85, years: 3 }
+      ],
+      database: [
+        { name: 'PostgreSQL', level: 85, years: 5 },
+        { name: 'MongoDB', level: 90, years: 6 },
+        { name: 'Redis', level: 80, years: 4 }
+      ],
+      cloud: [
+        { name: 'AWS', level: 85, years: 5 },
+        { name: 'Docker', level: 90, years: 4 },
+        { name: 'Kubernetes', level: 75, years: 2 }
+      ]
+    },
     education: [
       {
-        id: 1,
-        institution: 'University of Technology',
-        degree: 'Bachelor of Computer Science',
-        year: '2018',
-        gpa: '3.8'
+        degree: 'BS in Computer Science',
+        school: 'University of California',
+        period: '2012 - 2016',
+        gpa: '3.8/4.0',
+        achievements: ['Dean\'s List', 'CS Department Award']
       }
     ],
-    skills: ['React', 'Node.js', 'Python', 'Machine Learning', 'AWS', 'Docker']
-  });
-
-  const demoCode = `/**
- * Interactive Resume Demo Implementation
- * Created by Cael Findley
- * 
- * This implementation demonstrates a real-time editable resume with
- * auto-save functionality, responsive design, and modern UI components.
- */
-
-import React, { useState, useEffect } from 'react';
-
-const InteractiveResume = () => {
-  const [activeSection, setActiveSection] = useState('personal');
-  const [editMode, setEditMode] = useState(false);
-  const [resumeData, setResumeData] = useState({
-    personal: {
-      name: 'John Doe',
-      title: 'Software Engineer',
-      email: 'john.doe@example.com',
-      phone: '+1 (555) 123-4567',
-      location: 'San Francisco, CA',
-      summary: 'Passionate software engineer with expertise in full-stack development.'
-    },
-    experience: [],
-    education: [],
-    skills: []
-  });
-
-  // Auto-save functionality
-  useEffect(() => {
-    const saveTimeout = setTimeout(() => {
-      localStorage.setItem('resumeData', JSON.stringify(resumeData));
-    }, 1000);
-
-    return () => clearTimeout(saveTimeout);
-  }, [resumeData]);
-
-  // Load saved data
-  useEffect(() => {
-    const savedData = localStorage.getItem('resumeData');
-    if (savedData) {
-      setResumeData(JSON.parse(savedData));
-    }
-  }, []);
-
-  const handleInputChange = (section, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value
+    projects: [
+      {
+        name: 'Open Source Contribution',
+        description: 'Active contributor to React ecosystem',
+        stats: '500+ commits, 50+ PRs merged'
+      },
+      {
+        name: 'Tech Blog',
+        description: 'Writing about web development and architecture',
+        stats: '100K+ monthly readers'
       }
-    }));
+    ]
   };
 
-  const handleArrayItemChange = (section, index, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-  };
+  const codeData = {
+    code: `import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Text3D } from '@react-three/drei';
 
-  const addArrayItem = (section, newItem) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: [...prev[section], { ...newItem, id: Date.now() }]
-    }));
-  };
+// 3D Interactive Resume Component
+const InteractiveResume = () => {
+  const [activeSection, setActiveSection] = useState('experience');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  const removeArrayItem = (section, index) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].filter((_, i) => i !== index)
-    }));
-  };
-
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
-
-  const handleSave = () => {
-    localStorage.setItem('resumeData', JSON.stringify(resumeData));
-    setEditMode(false);
-    alert('Resume saved successfully!');
-  };
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
     <div className="interactive-resume">
-      {/* Navigation */}
-      <nav className="resume-nav">
-        <button 
-          onClick={() => setActiveSection('personal')}
-          className={activeSection === 'personal' ? 'active' : ''}
-        >
-          Personal
-        </button>
-        <button 
-          onClick={() => setActiveSection('experience')}
-          className={activeSection === 'experience' ? 'active' : ''}
-        >
-          Experience
-        </button>
-        <button 
-          onClick={() => setActiveSection('education')}
-          className={activeSection === 'education' ? 'active' : ''}
-        >
-          Education
-        </button>
-        <button 
-          onClick={() => setActiveSection('skills')}
-          className={activeSection === 'skills' ? 'active' : ''}
-        >
-          Skills
-        </button>
-        <button onClick={toggleEditMode} className="edit-btn">
-          {editMode ? 'Preview' : 'Edit'}
-        </button>
-      </nav>
+      {/* Hero Section with 3D Name */}
+      <section className="hero-3d">
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <spotLight position={[10, 10, 10]} angle={0.15} />
+          <Text3D
+            font="/fonts/helvetiker_regular.typeface.json"
+            size={1}
+            height={0.2}
+            curveSegments={12}
+          >
+            Your Name
+            <meshNormalMaterial />
+          </Text3D>
+          <OrbitControls enableZoom={false} />
+        </Canvas>
+      </section>
 
-      {/* Resume Content */}
-      <div className="resume-content">
-        {activeSection === 'personal' && (
-          <PersonalSection 
-            data={resumeData.personal} 
-            editMode={editMode}
-            onChange={(field, value) => handleInputChange('personal', field, value)}
-          />
-        )}
-        {activeSection === 'experience' && (
-          <ExperienceSection 
-            data={resumeData.experience} 
-            editMode={editMode}
-            onChange={(index, field, value) => handleArrayItemChange('experience', index, field, value)}
-            onAdd={(newItem) => addArrayItem('experience', newItem)}
-            onRemove={(index) => removeArrayItem('experience', index)}
-          />
-        )}
-        {activeSection === 'education' && (
-          <EducationSection 
-            data={resumeData.education} 
-            editMode={editMode}
-            onChange={(index, field, value) => handleArrayItemChange('education', index, field, value)}
-            onAdd={(newItem) => addArrayItem('education', newItem)}
-            onRemove={(index) => removeArrayItem('education', index)}
-          />
-        )}
-        {activeSection === 'skills' && (
-          <SkillsSection 
-            data={resumeData.skills} 
-            editMode={editMode}
-            onChange={(index, value) => handleArrayItemChange('skills', index, 'name', value)}
-            onAdd={(newSkill) => addArrayItem('skills', { name: newSkill })}
-            onRemove={(index) => removeArrayItem('skills', index)}
-          />
-        )}
-      </div>
+      {/* Animated Timeline */}
+      <section className="experience-timeline">
+        <h2>Experience</h2>
+        {experiences.map((exp, index) => (
+          <motion.div
+            key={exp.id}
+            className="timeline-item"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.2 }}
+          >
+            <div className="timeline-marker" />
+            <div className="timeline-content">
+              <h3>{exp.position}</h3>
+              <h4>{exp.company}</h4>
+              <p>{exp.period}</p>
+              <ul>
+                {exp.achievements.map((achievement, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    {achievement}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        ))}
+      </section>
 
-      {/* Save Controls */}
-      {editMode && (
-        <div className="save-controls">
-          <button onClick={handleSave} className="save-btn">
-            Save Resume
-          </button>
+      {/* Interactive Skills Visualization */}
+      <section className="skills-interactive">
+        <h2>Skills</h2>
+        <div className="skills-graph">
+          {skills.map((skill, index) => (
+            <motion.div
+              key={skill.name}
+              className="skill-bar"
+              initial={{ width: 0 }}
+              whileInView={{ width: \`\${skill.level}%\` }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <span className="skill-name">{skill.name}</span>
+              <span className="skill-level">{skill.level}%</span>
+            </motion.div>
+          ))}
         </div>
-      )}
+      </section>
+
+      {/* Parallax Projects Section */}
+      <section className="projects-parallax">
+        <h2>Projects</h2>
+        <div className="projects-grid">
+          {projects.map((project, index) => {
+            const y = useTransform(
+              scrollYProgress,
+              [0, 1],
+              [0, -50 * (index + 1)]
+            );
+
+            return (
+              <motion.div
+                key={project.id}
+                className="project-card"
+                style={{ y }}
+                whileHover={{ scale: 1.05, rotateY: 5 }}
+              >
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+                <div className="project-tech">
+                  {project.technologies.map(tech => (
+                    <span key={tech} className="tech-tag">{tech}</span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Animated Contact Form */}
+      <section className="contact-animated">
+        <h2>Get In Touch</h2>
+        <motion.form
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <motion.input
+            type="text"
+            placeholder="Your Name"
+            whileFocus={{ scale: 1.02 }}
+          />
+          <motion.input
+            type="email"
+            placeholder="Your Email"
+            whileFocus={{ scale: 1.02 }}
+          />
+          <motion.textarea
+            placeholder="Your Message"
+            whileFocus={{ scale: 1.02 }}
+          />
+          <motion.button
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Send Message
+          </motion.button>
+        </motion.form>
+      </section>
+
+      {/* Scroll Progress Indicator */}
+      <motion.div
+        className="scroll-progress"
+        style={{ scaleX: scrollYProgress }}
+      />
     </div>
   );
 };
 
-export default InteractiveResume;`;
+// Advanced Features
 
-  const handleInputChange = (section, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value
+// PDF Generation
+import { jsPDF } from 'jspdf';
+
+const generatePDF = (resumeData) => {
+  const doc = new jsPDF();
+  
+  // Header
+  doc.setFontSize(24);
+  doc.text(resumeData.personal.name, 20, 20);
+  doc.setFontSize(14);
+  doc.text(resumeData.personal.title, 20, 30);
+  
+  // Experience
+  let y = 50;
+  doc.setFontSize(16);
+  doc.text('Experience', 20, y);
+  y += 10;
+  
+  resumeData.experience.forEach(exp => {
+    doc.setFontSize(12);
+    doc.text(\`\${exp.position} at \${exp.company}\`, 20, y);
+    y += 6;
+    doc.setFontSize(10);
+    doc.text(exp.period, 20, y);
+    y += 6;
+    
+    exp.achievements.forEach(achievement => {
+      doc.text(\`• \${achievement}\`, 25, y);
+      y += 6;
+    });
+    
+    y += 5;
+  });
+  
+  doc.save('resume.pdf');
+};
+
+// Analytics Tracking
+const trackResumeInteraction = (section) => {
+  // Track which sections viewers spend time on
+  analytics.track('resume_section_view', {
+    section,
+    timestamp: new Date(),
+    duration: performance.now()
+  });
+};
+
+// Export as JSON (for ATS systems)
+const exportResumeJSON = (resumeData) => {
+  const json = {
+    basics: {
+      name: resumeData.personal.name,
+      label: resumeData.personal.title,
+      email: resumeData.personal.email,
+      phone: resumeData.personal.phone,
+      website: resumeData.personal.website,
+      summary: resumeData.personal.summary,
+      location: {
+        city: resumeData.personal.location
       }
-    }));
+    },
+    work: resumeData.experience.map(exp => ({
+      company: exp.company,
+      position: exp.position,
+      startDate: exp.period.split('-')[0].trim(),
+      endDate: exp.period.split('-')[1].trim(),
+      summary: exp.description,
+      highlights: exp.achievements
+    })),
+    skills: Object.entries(resumeData.skills).flatMap(([category, skills]) =>
+      skills.map(skill => ({
+        name: skill.name,
+        level: skill.level,
+        keywords: [category]
+      }))
+    )
+  };
+  
+  return JSON.stringify(json, null, 2);
+};
+
+export { InteractiveResume, generatePDF, exportResumeJSON };`,
+    explanation: `Interactive digital resume with animations, 3D elements, and dynamic visualizations to showcase professional experience in an engaging way.
+
+## Core Implementation
+
+**Key Features**: This demo showcases an interactive resume builder with smooth animations, skill visualizations, timeline effects, and export capabilities (PDF, JSON).
+
+**Architecture**: Built with React, Framer Motion for animations, Three.js for 3D elements, and jsPDF for export functionality.
+
+**Performance**: Implements efficient rendering, lazy loading, scroll-based animations, and optimized asset delivery for smooth user experience.
+
+## Technical Benefits
+
+- **Engaging Visuals**: Smooth animations and 3D elements
+- **Multi-Format Export**: PDF, JSON (ATS-compatible), HTML
+- **Mobile Responsive**: Optimized for all device sizes
+- **Analytics Integration**: Track viewer engagement and behavior`,
+    technologies: [
+      {
+        name: 'React',
+        description: 'Component-based UI library',
+        tags: ['Frontend', 'UI', 'JavaScript']
+      },
+      {
+        name: 'Framer Motion',
+        description: 'Production-ready animation library',
+        tags: ['Animation', 'UI', 'React']
+      },
+      {
+        name: 'Three.js',
+        description: '3D graphics library for the web',
+        tags: ['3D', 'Graphics', 'WebGL']
+      },
+      {
+        name: 'jsPDF',
+        description: 'Client-side PDF generation',
+        tags: ['PDF', 'Export', 'JavaScript']
+      }
+    ],
+    concepts: [
+      {
+        name: 'Scroll-Based Animations',
+        description: 'Animations triggered by scroll position',
+        example: 'useScroll, useTransform from Framer Motion'
+      },
+      {
+        name: 'Component Composition',
+        description: 'Building complex UIs from simple components',
+        example: 'Reusable section components with consistent styling'
+      },
+      {
+        name: '3D Web Graphics',
+        description: 'Rendering 3D content in the browser',
+        example: 'Three.js with React Three Fiber'
+      },
+      {
+        name: 'Data Visualization',
+        description: 'Visual representation of skills and experience',
+        example: 'Progress bars, timelines, skill charts'
+      }
+    ],
+    features: [
+      'Animated section transitions',
+      '3D name and visual elements',
+      'Interactive skill visualizations',
+      'Timeline-based experience display',
+      'Parallax scrolling effects',
+      'Export to PDF format',
+      'Export to JSON (ATS-compatible)',
+      'Mobile-responsive design',
+      'Dark/light theme support',
+      'Print-optimized layout'
+    ]
   };
 
-  const handleArrayItemChange = (section, index, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
   };
 
-  const addArrayItem = (section, newItem) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: [...prev[section], { ...newItem, id: Date.now() }]
-    }));
-  };
-
-  const removeArrayItem = (section, index) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].filter((_, i) => i !== index)
-    }));
-  };
-
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
-
-  const handleSave = () => {
-    localStorage.setItem('resumeData', JSON.stringify(resumeData));
-    setEditMode(false);
-    alert('Resume saved successfully!');
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-green-400">📝 Interactive Resume</h1>
-            <p className="text-gray-400">Real-time editing with auto-save functionality</p>
-          </div>
-          <button
+    <div className="space-y-6">
+      {/* Header Section */}
+      <motion.div 
+        className="text-center mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">📄 Interactive Resume Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Modern, interactive digital resume with smooth animations, skill visualizations, and professional presentation.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            View Code
-          </button>
+            <span>💻</span>
+            View Implementation
+          </motion.button>
         </div>
+      </motion.div>
 
-        {/* Resume Navigation */}
-        <div className="bg-gray-800 p-4 rounded-xl mb-6">
-          <div className="flex flex-wrap gap-2">
-            <button 
-              onClick={() => setActiveSection('personal')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                activeSection === 'personal' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              👤 Personal Info
-            </button>
-            <button 
-              onClick={() => setActiveSection('experience')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                activeSection === 'experience' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              💼 Experience
-            </button>
-            <button 
-              onClick={() => setActiveSection('education')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                activeSection === 'education' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              🎓 Education
-            </button>
-            <button 
-              onClick={() => setActiveSection('skills')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                activeSection === 'skills' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              🛠️ Skills
-            </button>
-            <button 
-              onClick={toggleEditMode} 
-              className={`ml-auto px-4 py-2 rounded-lg transition-colors ${
-                editMode 
-                  ? 'bg-green-600 hover:bg-green-700 text-white' 
-                  : 'bg-yellow-600 hover:bg-yellow-700 text-white'
-              }`}
-            >
-              {editMode ? '👁️ Preview' : '✏️ Edit'}
-            </button>
+      <motion.div 
+        className="grid md:grid-cols-[1fr,320px] gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Main Content */}
+        <div className="space-y-6">
+          {/* Personal Info */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h2 className="text-3xl font-bold text-white mb-2">{resumeData.personal.name}</h2>
+                <p className="text-xl text-blue-400 mb-4">{resumeData.personal.title}</p>
+                <p className="text-gray-300 leading-relaxed">{resumeData.personal.summary}</p>
           </div>
+              <div className="text-6xl">👨‍💻</div>
         </div>
 
-        {/* Resume Content */}
-        <div className="bg-gray-800 rounded-xl overflow-hidden">
-          {/* Personal Information */}
-          {activeSection === 'personal' && (
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-white mb-6">👤 Personal Information</h2>
-              {editMode ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-                    <input
-                      type="text"
-                      value={resumeData.personal.name}
-                      onChange={(e) => handleInputChange('personal', 'name', e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    />
+            <div className="grid md:grid-cols-2 gap-4 mt-4">
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span>📧</span>
+                  <span>{resumeData.personal.email}</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Job Title</label>
-                    <input
-                      type="text"
-                      value={resumeData.personal.title}
-                      onChange={(e) => handleInputChange('personal', 'title', e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    />
+                <div className="flex items-center gap-2">
+                  <span>📱</span>
+                  <span>{resumeData.personal.phone}</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                    <input
-                      type="email"
-                      value={resumeData.personal.email}
-                      onChange={(e) => handleInputChange('personal', 'email', e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
-                    <input
-                      type="tel"
-                      value={resumeData.personal.phone}
-                      onChange={(e) => handleInputChange('personal', 'phone', e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
-                    <input
-                      type="text"
-                      value={resumeData.personal.location}
-                      onChange={(e) => handleInputChange('personal', 'location', e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Professional Summary</label>
-                    <textarea
-                      value={resumeData.personal.summary}
-                      onChange={(e) => handleInputChange('personal', 'summary', e.target.value)}
-                      rows="3"
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    />
+                <div className="flex items-center gap-2">
+                  <span>📍</span>
+                  <span>{resumeData.personal.location}</span>
                   </div>
                 </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <h1 className="text-3xl font-bold text-white">{resumeData.personal.name}</h1>
-                    <p className="text-blue-400 text-xl">{resumeData.personal.title}</p>
-                    <p className="text-gray-400">{resumeData.personal.location}</p>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span>🌐</span>
+                  <span>{resumeData.personal.website}</span>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-                    <div>
-                      <p className="text-gray-300">📧 {resumeData.personal.email}</p>
+                <div className="flex items-center gap-2">
+                  <span>💼</span>
+                  <span>{resumeData.personal.linkedin}</span>
                     </div>
-                    <div>
-                      <p className="text-gray-300">📱 {resumeData.personal.phone}</p>
+                <div className="flex items-center gap-2">
+                  <span>💻</span>
+                  <span>{resumeData.personal.github}</span>
                     </div>
                   </div>
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold text-white mb-2">Professional Summary</h3>
-                    <p className="text-gray-300">{resumeData.personal.summary}</p>
                   </div>
-                </div>
-              )}
-            </div>
-          )}
+          </motion.div>
 
           {/* Experience */}
-          {activeSection === 'experience' && (
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">💼 Work Experience</h2>
-                {editMode && (
-                  <button
-                    onClick={() => addArrayItem('experience', { company: '', position: '', duration: '', description: '' })}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    ➕ Add Experience
-                  </button>
-                )}
-              </div>
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-2xl font-bold mb-6">💼 Experience</h3>
+            
               <div className="space-y-6">
                 {resumeData.experience.map((exp, index) => (
-                  <div key={exp.id} className="bg-gray-700 p-4 rounded-lg">
-                    {editMode ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <motion.div
+                  key={exp.id}
+                  className="border-l-2 border-blue-600 pl-4 relative"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-600 rounded-full" />
+                  
+                  <div className="flex justify-between items-start mb-2">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Company</label>
-                          <input
-                            type="text"
-                            value={exp.company}
-                            onChange={(e) => handleArrayItemChange('experience', index, 'company', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
+                      <h4 className="text-xl font-bold text-white">{exp.position}</h4>
+                      <p className="text-blue-400">{exp.company} • {exp.location}</p>
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Position</label>
-                          <input
-                            type="text"
-                            value={exp.position}
-                            onChange={(e) => handleArrayItemChange('experience', index, 'position', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
+                    <span className="text-sm text-gray-400">{exp.period}</span>
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Duration</label>
-                          <input
-                            type="text"
-                            value={exp.duration}
-                            onChange={(e) => handleArrayItemChange('experience', index, 'duration', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
+                  
+                  <p className="text-gray-300 mb-3">{exp.description}</p>
+                  
+                  <ul className="space-y-2 mb-3">
+                    {exp.achievements.map((achievement, i) => (
+                      <motion.li
+                        key={i}
+                        className="text-sm text-gray-300 flex items-start gap-2"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                      >
+                        <span className="text-green-400 mt-0.5">✓</span>
+                        <span>{achievement}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {exp.technologies.map(tech => (
+                      <span key={tech} className="text-xs bg-gray-700 px-2 py-1 rounded">
+                        {tech}
+                      </span>
+                    ))}
                         </div>
-                        <div className="flex items-end">
-                          <button
-                            onClick={() => removeArrayItem('experience', index)}
-                            className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded transition-colors"
-                          >
-                            🗑️ Remove
-                          </button>
-                        </div>
-                        <div className="md:col-span-2">
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
-                          <textarea
-                            value={exp.description}
-                            onChange={(e) => handleArrayItemChange('experience', index, 'description', e.target.value)}
-                            rows="3"
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <h3 className="text-lg font-semibold text-white">{exp.position}</h3>
-                        <p className="text-blue-400">{exp.company} • {exp.duration}</p>
-                        <p className="text-gray-300 mt-2">{exp.description}</p>
-                      </div>
-                    )}
+                </motion.div>
+              ))}
                   </div>
-                ))}
-                {resumeData.experience.length === 0 && (
-                  <div className="text-center py-8 text-gray-400">
-                    {editMode ? 'Click "Add Experience" to get started' : 'No experience added yet'}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Education */}
-          {activeSection === 'education' && (
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">🎓 Education</h2>
-                {editMode && (
-                  <button
-                    onClick={() => addArrayItem('education', { institution: '', degree: '', year: '', gpa: '' })}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    ➕ Add Education
-                  </button>
-                )}
-              </div>
-              <div className="space-y-6">
-                {resumeData.education.map((edu, index) => (
-                  <div key={edu.id} className="bg-gray-700 p-4 rounded-lg">
-                    {editMode ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Institution</label>
-                          <input
-                            type="text"
-                            value={edu.institution}
-                            onChange={(e) => handleArrayItemChange('education', index, 'institution', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Degree</label>
-                          <input
-                            type="text"
-                            value={edu.degree}
-                            onChange={(e) => handleArrayItemChange('education', index, 'degree', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Year</label>
-                          <input
-                            type="text"
-                            value={edu.year}
-                            onChange={(e) => handleArrayItemChange('education', index, 'year', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">GPA</label>
-                          <input
-                            type="text"
-                            value={edu.gpa}
-                            onChange={(e) => handleArrayItemChange('education', index, 'gpa', e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        </div>
-                        <div className="md:col-span-2 flex justify-end">
-                          <button
-                            onClick={() => removeArrayItem('education', index)}
-                            className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded transition-colors"
-                          >
-                            🗑️ Remove
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <h3 className="text-lg font-semibold text-white">{edu.degree}</h3>
-                        <p className="text-blue-400">{edu.institution} • {edu.year} • GPA: {edu.gpa}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                {resumeData.education.length === 0 && (
-                  <div className="text-center py-8 text-gray-400">
-                    {editMode ? 'Click "Add Education" to get started' : 'No education added yet'}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+          </motion.div>
 
           {/* Skills */}
-          {activeSection === 'skills' && (
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">🛠️ Skills</h2>
-                {editMode && (
-                  <button
-                    onClick={() => {
-                      const newSkill = prompt('Enter a new skill:');
-                      if (newSkill) addArrayItem('skills', { name: newSkill });
-                    }}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    ➕ Add Skill
-                  </button>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {resumeData.skills.map((skill, index) => (
-                  <div key={index} className="bg-gray-700 px-3 py-2 rounded-lg flex items-center gap-2">
-                    {editMode ? (
-                      <>
-                        <input
-                          type="text"
-                          value={skill}
-                          onChange={(e) => handleArrayItemChange('skills', index, 'name', e.target.value)}
-                          className="bg-transparent text-white focus:outline-none"
-                        />
-                        <button
-                          onClick={() => removeArrayItem('skills', index)}
-                          className="text-red-400 hover:text-red-300"
-                        >
-                          ✕
-                        </button>
-                      </>
-                    ) : (
-                      <span className="text-white">{skill}</span>
-                    )}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-2xl font-bold mb-6">🛠️ Skills</h3>
+            
+              <div className="space-y-6">
+              {Object.entries(resumeData.skills).map(([category, skills], catIndex) => (
+                <div key={category}>
+                  <h4 className="text-lg font-semibold text-blue-400 mb-3 capitalize">{category}</h4>
+                  <div className="space-y-3">
+                    {skills.map((skill, index) => (
+                      <motion.div
+                        key={skill.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.05 }}
+                        onMouseEnter={() => setSelectedSkill(skill)}
+                        onMouseLeave={() => setSelectedSkill(null)}
+                      >
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm font-medium">{skill.name}</span>
+                          <span className="text-xs text-gray-400">{skill.years} years</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                          <motion.div
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${skill.level}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: index * 0.05 }}
+                          />
+                        </div>
+                      </motion.div>
+                    ))}
+                        </div>
                   </div>
                 ))}
-                {resumeData.skills.length === 0 && (
-                  <div className="text-center py-8 text-gray-400 w-full">
-                    {editMode ? 'Click "Add Skill" to get started' : 'No skills added yet'}
                   </div>
-                )}
+          </motion.div>
+
+          {/* Education & Projects */}
+          <motion.div 
+            className="grid md:grid-cols-2 gap-6"
+            variants={itemVariants}
+          >
+            <div className="bg-gray-800 p-6 rounded-xl">
+              <h3 className="text-2xl font-bold mb-4">🎓 Education</h3>
+              {resumeData.education.map((edu, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <h4 className="font-bold text-white">{edu.degree}</h4>
+                  <p className="text-blue-400">{edu.school}</p>
+                  <p className="text-sm text-gray-400">{edu.period}</p>
+                  <p className="text-sm text-gray-300 mt-2">GPA: {edu.gpa}</p>
+                  <div className="mt-2 space-y-1">
+                    {edu.achievements.map((achievement, i) => (
+                      <p key={i} className="text-sm text-gray-300">• {achievement}</p>
+                    ))}
+                  </div>
+                </motion.div>
+                ))}
+                  </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl">
+              <h3 className="text-2xl font-bold mb-4">🚀 Projects</h3>
+              <div className="space-y-4">
+                {resumeData.projects.map((project, index) => (
+                  <motion.div
+                    key={index}
+                    className="bg-gray-700 p-4 rounded-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <h4 className="font-bold text-white mb-1">{project.name}</h4>
+                    <p className="text-sm text-gray-300 mb-2">{project.description}</p>
+                    <p className="text-xs text-blue-400">{project.stats}</p>
+                  </motion.div>
+                ))}
               </div>
             </div>
-          )}
+          </motion.div>
         </div>
 
-        {/* Save Controls */}
-        {editMode && (
-          <div className="mt-6 text-center">
-            <button
-              onClick={handleSave}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors text-lg font-semibold"
+        {/* Sidebar */}
+        <div className="space-y-6">
+          {/* Actions */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold mb-4 text-purple-400">📥 Export</h3>
+            <div className="space-y-2">
+              <motion.button
+                className="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                📄 Download PDF
+              </motion.button>
+              <motion.button
+                className="w-full bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                📋 Copy Link
+              </motion.button>
+              <motion.button
+                className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                📊 Export JSON
+              </motion.button>
+          </div>
+          </motion.div>
+
+          {/* Skill Detail */}
+          {selectedSkill && (
+            <motion.div 
+              className="bg-gray-800 p-6 rounded-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             >
-              💾 Save Resume
-            </button>
-          </div>
-        )}
-
-        {/* Demo Features */}
-        <div className="mt-8 bg-gray-800 p-6 rounded-xl">
-          <h3 className="text-xl font-semibold text-white mb-4">✨ Demo Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="text-lg font-medium text-blue-400 mb-3">Interactive Features</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>• Real-time editing with live preview</li>
-                <li>• Auto-save to localStorage</li>
-                <li>• Responsive design for all devices</li>
-                <li>• Dynamic form validation</li>
-              </ul>
+              <h3 className="text-xl font-bold mb-4 text-blue-400">Skill Detail</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Name:</span>
+                  <span className="font-semibold">{selectedSkill.name}</span>
             </div>
-            <div>
-              <h4 className="text-lg font-medium text-green-400 mb-3">Technical Implementation</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>• React hooks for state management</li>
-                <li>• Local storage persistence</li>
-                <li>• Modular component architecture</li>
-                <li>• Modern CSS styling</li>
-              </ul>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Proficiency:</span>
+                  <span className="font-semibold text-green-400">{selectedSkill.level}%</span>
             </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Experience:</span>
+                  <span className="font-semibold">{selectedSkill.years} years</span>
           </div>
         </div>
-      </div>
+            </motion.div>
+          )}
 
-      {/* Code Viewer */}
+          {/* Features */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>Smooth Animations</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>Interactive Skills</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>PDF Export</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>Mobile Responsive</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>Print Optimized</span>
+              </li>
+            </ul>
+          </motion.div>
+      </div>
+      </motion.div>
+
+      {/* CodeViewer */}
       <CodeViewer
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
-        code={demoCode}
-        language="javascript"
-        title="Interactive Resume Implementation"
+        {...codeData}
       />
     </div>
   );

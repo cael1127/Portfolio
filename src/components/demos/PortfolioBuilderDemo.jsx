@@ -1,853 +1,611 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import CodeViewer from '../CodeViewer';
 
 const PortfolioBuilderDemo = () => {
-  const [portfolios, setPortfolios] = useState([]);
-  const [templates, setTemplates] = useState([]);
-  const [activeUsers, setActiveUsers] = useState([]);
-  const [portfolioStats, setPortfolioStats] = useState({});
   const [showCodeViewer, setShowCodeViewer] = useState(false);
-  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
-  const [builderStats, setBuilderStats] = useState({
-    totalPortfolios: 0,
-    activeUsers: 0,
-    totalViews: 0,
-    averageRating: 0,
-    templatesUsed: 0,
-    collaborationSessions: 0,
-    dailyCreations: 0,
-    monthlyViews: 0
+  const [currentStep, setCurrentStep] = useState(0);
+  const [portfolio, setPortfolio] = useState({
+    personal: {
+      name: '',
+      title: '',
+      email: '',
+      phone: '',
+      location: ''
+    },
+    about: '',
+    skills: [],
+    projects: [],
+    experience: [],
+    education: []
   });
+  const [selectedTemplate, setSelectedTemplate] = useState('modern');
 
-  // Sample code for the demo
-  const demoCode = `/**
- * Portfolio Builder Implementation
- * Created by Cael Findley
- * 
- * This implementation demonstrates a drag-and-drop portfolio builder
- * with template system, responsive design, and deployment features.
- */
+  const templates = [
+    { id: 'modern', name: 'Modern', color: 'blue', icon: '🎨' },
+    { id: 'minimal', name: 'Minimal', color: 'gray', icon: '⚡' },
+    { id: 'creative', name: 'Creative', color: 'purple', icon: '✨' },
+    { id: 'professional', name: 'Professional', color: 'green', icon: '💼' }
+  ];
 
-import React, { useState, useEffect } from 'react';
+  const steps = [
+    { id: 'template', title: 'Choose Template', icon: '🎨' },
+    { id: 'personal', title: 'Personal Info', icon: '👤' },
+    { id: 'about', title: 'About Me', icon: '📝' },
+    { id: 'skills', title: 'Skills', icon: '🛠️' },
+    { id: 'projects', title: 'Projects', icon: '💻' },
+    { id: 'preview', title: 'Preview', icon: '👁️' }
+  ];
 
-const PortfolioBuilderDemo = () => {
-  const [portfolios, setPortfolios] = useState([]);
-  const [templates, setTemplates] = useState([]);
-  const [activeUsers, setActiveUsers] = useState([]);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPortfolios(prev => prev.map(portfolio => ({
-        ...portfolio,
-        views: portfolio.views + Math.floor(Math.random() * 5),
-        lastUpdate: 'Just now'
-      })));
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const createPortfolio = (templateId) => {
-    const template = templates.find(t => t.id === templateId);
-    const newPortfolio = {
-      id: Date.now(),
-      name: 'New Portfolio',
-      template: template.name,
-      status: 'draft',
-      createdAt: new Date().toISOString()
-    };
-    setPortfolios(prev => [newPortfolio, ...prev]);
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-          <div className="space-y-6">
-      {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🌐 PortfolioBuilder Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-          Dynamic portfolio builder with drag-and-drop interface, real-time preview, and customizable templates.
-        </p>
-        <div className="mt-4 flex justify-center gap-4">
-          <button
-            onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
-          >
-            <span>💻</span>
-            View Implementation
-          </button>
-        </div>
-      </div>
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
 
-      <div className="grid md:grid-cols-[1fr,320px] gap-6">
-        {/* Portfolio List */}
-        <div className="space-y-4">
-          {portfolios.map((portfolio) => (
-            <div key={portfolio.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{portfolio.name}</h3>
-              <p className="text-gray-300 text-sm">{portfolio.template} template</p>
-              <p className="text-gray-400 text-xs">{portfolio.views} views</p>
-            </div>
-          ))}
-        </div>
-        
-        {/* Templates */}
-        <div className="space-y-4">
-          {templates.map((template) => (
-            <div key={template.id} className="p-4 bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold">{template.name}</h3>
-              <p className="text-gray-300 text-sm">{template.category}</p>
-              <p className="text-gray-400 text-xs">⭐ {template.rating}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+  const codeData = {
+    code: `import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
+// Portfolio Builder with Multiple Templates
+const PortfolioBuilder = () => {
+  const [portfolio, setPortfolio] = useState({
+    personal: {},
+    sections: []
+  });
+  const [selectedTemplate, setSelectedTemplate] = useState('modern');
+
+  // Template Components
+  const templates = {
+    modern: ModernTemplate,
+    minimal: MinimalTemplate,
+    creative: CreativeTemplate,
+    professional: ProfessionalTemplate
+  };
+
+  const TemplateComponent = templates[selectedTemplate];
+
+  return (
+    <div className="portfolio-builder">
+      <Editor portfolio={portfolio} onChange={setPortfolio} />
+      <Preview>
+        <TemplateComponent data={portfolio} />
+      </Preview>
     </div>
   );
 };
 
-export default PortfolioBuilderDemo;`;
+// Modern Template
+const ModernTemplate = ({ data }) => (
+  <div className="modern-template">
+    <header className="gradient-bg">
+      <h1>{data.personal.name}</h1>
+      <p>{data.personal.title}</p>
+    </header>
+    
+    <section className="about">
+      <h2>About Me</h2>
+      <p>{data.about}</p>
+    </section>
+    
+    <section className="skills">
+      <h2>Skills</h2>
+      <div className="skill-grid">
+        {data.skills.map(skill => (
+          <div key={skill.name} className="skill-card">
+            <h3>{skill.name}</h3>
+            <div className="progress-bar">
+              <div 
+                className="progress" 
+                style={{ width: \`\${skill.level}%\` }}
+              />
+        </div>
+            </div>
+          ))}
+        </div>
+    </section>
+    
+    <section className="projects">
+      <h2>Projects</h2>
+      {data.projects.map(project => (
+        <div key={project.id} className="project-card">
+          <h3>{project.name}</h3>
+          <p>{project.description}</p>
+          <div className="tech-stack">
+            {project.technologies.map(tech => (
+              <span key={tech} className="tech-tag">{tech}</span>
+          ))}
+        </div>
+      </div>
+      ))}
+    </section>
+    </div>
+  );
 
-  useEffect(() => {
-    // Initialize portfolio builder data
-    const initialPortfolios = [
-      {
-        id: 1,
-        name: 'John Developer Portfolio',
-        template: 'Modern Developer',
-        status: 'published',
-        views: 1247,
-        rating: 4.8,
-        lastUpdate: 'Just now',
-        category: 'Developer',
-        author: 'john_dev',
-        createdAt: '2024-01-15',
-        features: ['Responsive Design', 'Dark Mode', 'Project Showcase', 'Contact Form'],
-        sections: ['About', 'Skills', 'Projects', 'Experience', 'Contact'],
-        collaboration: {
-          active: true,
-          collaborators: 2,
-          lastEdit: '2 minutes ago'
-        },
-        analytics: {
-          pageViews: 1247,
-          uniqueVisitors: 892,
-          averageTime: 3.2,
-          bounceRate: 0.28
-        }
-      },
-      {
-        id: 2,
-        name: 'Sarah Designer Portfolio',
-        template: 'Creative Designer',
-        status: 'published',
-        views: 892,
-        rating: 4.9,
-        lastUpdate: '1 minute ago',
-        category: 'Designer',
-        author: 'sarah_design',
-        createdAt: '2024-01-10',
-        features: ['Portfolio Gallery', 'Animation Effects', 'Social Links', 'Testimonials'],
-        sections: ['About', 'Portfolio', 'Services', 'Testimonials', 'Contact'],
-        collaboration: {
-          active: false,
-          collaborators: 1,
-          lastEdit: '1 hour ago'
-        },
-        analytics: {
-          pageViews: 892,
-          uniqueVisitors: 567,
-          averageTime: 4.1,
-          bounceRate: 0.22
-        }
-      },
-      {
-        id: 3,
-        name: 'Mike Marketing Portfolio',
-        template: 'Business Professional',
-        status: 'draft',
-        views: 0,
-        rating: 0,
-        lastUpdate: '3 minutes ago',
-        category: 'Marketing',
-        author: 'mike_marketing',
-        createdAt: '2024-01-20',
-        features: ['Case Studies', 'Metrics Dashboard', 'Client Testimonials', 'Blog'],
-        sections: ['About', 'Services', 'Case Studies', 'Blog', 'Contact'],
-        collaboration: {
-          active: true,
-          collaborators: 3,
-          lastEdit: 'Just now'
-        },
-        analytics: {
-          pageViews: 0,
-          uniqueVisitors: 0,
-          averageTime: 0,
-          bounceRate: 0
-        }
-      },
-      {
-        id: 4,
-        name: 'Emma Writer Portfolio',
-        template: 'Content Creator',
-        status: 'published',
-        views: 567,
-        rating: 4.7,
-        lastUpdate: '5 minutes ago',
-        category: 'Writer',
-        author: 'emma_writer',
-        createdAt: '2024-01-08',
-        features: ['Blog Integration', 'Article Showcase', 'Newsletter Signup', 'Social Media'],
-        sections: ['About', 'Writing Samples', 'Blog', 'Services', 'Contact'],
-        collaboration: {
-          active: false,
-          collaborators: 1,
-          lastEdit: '2 hours ago'
-        },
-        analytics: {
-          pageViews: 567,
-          uniqueVisitors: 423,
-          averageTime: 2.8,
-          bounceRate: 0.35
-        }
-      },
-      {
-        id: 5,
-        name: 'Alex Photographer Portfolio',
-        template: 'Visual Artist',
-        status: 'published',
-        views: 2341,
-        rating: 4.9,
-        lastUpdate: '10 minutes ago',
-        category: 'Photographer',
-        author: 'alex_photo',
-        createdAt: '2024-01-05',
-        features: ['Image Gallery', 'Lightbox View', 'Booking System', 'Social Sharing'],
-        sections: ['About', 'Gallery', 'Services', 'Pricing', 'Contact'],
-        collaboration: {
-          active: false,
-          collaborators: 1,
-          lastEdit: '1 day ago'
-        },
-        analytics: {
-          pageViews: 2341,
-          uniqueVisitors: 1567,
-          averageTime: 5.4,
-          bounceRate: 0.18
-        }
+// Export to PDF
+const exportToPDF = async (elementId) => {
+  const element = document.getElementById(elementId);
+  
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    useCORS: true,
+    logging: false
+  });
+  
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: [canvas.width, canvas.height]
+  });
+  
+  pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+  pdf.save('portfolio.pdf');
+};
+
+// Export to HTML
+const exportToHTML = (portfolio, template) => {
+  const html = \`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>\${portfolio.personal.name} - Portfolio</title>
+      <style>
+        \${getTemplateStyles(template)}
+      </style>
+    </head>
+    <body>
+      \${generatePortfolioHTML(portfolio, template)}
+    </body>
+    </html>
+  \`;
+  
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'portfolio.html';
+  a.click();
+};
+
+// Deploy to Vercel/Netlify
+const deployPortfolio = async (portfolio, platform) => {
+  const formData = new FormData();
+  formData.append('portfolio', JSON.stringify(portfolio));
+  formData.append('platform', platform);
+
+  try {
+    const response = await fetch('/api/deploy', {
+      method: 'POST',
+      body: formData
+    });
+
+    const { deploymentUrl } = await response.json();
+    return deploymentUrl;
+  } catch (error) {
+    console.error('Deployment failed:', error);
+    throw error;
+  }
+};
+
+// Backend API
+const express = require('express');
+const { Octokit } = require('@octokit/rest');
+
+const app = express();
+
+app.post('/api/deploy', async (req, res) => {
+  try {
+    const { portfolio, platform } = req.body;
+
+    if (platform === 'github') {
+      const octokit = new Octokit({
+        auth: process.env.GITHUB_TOKEN
+      });
+
+      // Create repository
+      const repo = await octokit.repos.createForAuthenticatedUser({
+        name: \`\${portfolio.personal.name.toLowerCase()}-portfolio\`,
+        description: 'Personal Portfolio',
+        auto_init: true
+      });
+
+      // Upload files
+      const files = generatePortfolioFiles(portfolio);
+      
+      for (const [path, content] of Object.entries(files)) {
+        await octokit.repos.createOrUpdateFileContents({
+          owner: repo.data.owner.login,
+          repo: repo.data.name,
+          path,
+          message: \`Add \${path}\`,
+          content: Buffer.from(content).toString('base64')
+        });
       }
-    ];
 
-    const initialTemplates = [
-      {
-        id: 1,
-        name: 'Modern Developer',
-        category: 'Developer',
-        rating: 4.8,
-        downloads: 1247,
-        price: 0,
-        features: ['Responsive Design', 'Dark Mode', 'Project Showcase', 'Contact Form'],
-        preview: 'modern-dev.jpg',
-        lastUpdate: '2024-01-15'
-      },
-      {
-        id: 2,
-        name: 'Creative Designer',
-        category: 'Designer',
-        rating: 4.9,
-        downloads: 892,
-        price: 29,
-        features: ['Portfolio Gallery', 'Animation Effects', 'Social Links', 'Testimonials'],
-        preview: 'creative-design.jpg',
-        lastUpdate: '2024-01-12'
-      },
-      {
-        id: 3,
-        name: 'Business Professional',
-        category: 'Business',
-        rating: 4.7,
-        downloads: 567,
-        price: 19,
-        features: ['Case Studies', 'Metrics Dashboard', 'Client Testimonials', 'Blog'],
-        preview: 'business-pro.jpg',
-        lastUpdate: '2024-01-10'
-      },
-      {
-        id: 4,
-        name: 'Content Creator',
-        category: 'Writer',
-        rating: 4.6,
-        downloads: 423,
-        price: 0,
-        features: ['Blog Integration', 'Article Showcase', 'Newsletter Signup', 'Social Media'],
-        preview: 'content-creator.jpg',
-        lastUpdate: '2024-01-08'
-      },
-      {
-        id: 5,
-        name: 'Visual Artist',
-        category: 'Photographer',
-        rating: 4.9,
-        downloads: 1567,
-        price: 39,
-        features: ['Image Gallery', 'Lightbox View', 'Booking System', 'Social Sharing'],
-        preview: 'visual-artist.jpg',
-        lastUpdate: '2024-01-05'
-      }
-    ];
+      // Enable GitHub Pages
+      await octokit.repos.createPagesSite({
+        owner: repo.data.owner.login,
+        repo: repo.data.name,
+        source: {
+          branch: 'main',
+          path: '/'
+        }
+      });
 
-    const initialActiveUsers = [
-      {
-        id: 1,
-        username: 'john_dev',
-        avatar: '👨‍💻',
-        currentPortfolio: 'John Developer Portfolio',
-        status: 'editing',
-        lastActivity: 'Just now',
-        sessionTime: 45,
-        projects: 12
-      },
-      {
-        id: 2,
-        username: 'sarah_design',
-        avatar: '👩‍🎨',
-        currentPortfolio: 'Sarah Designer Portfolio',
-        status: 'viewing',
-        lastActivity: '2 minutes ago',
-        sessionTime: 23,
-        projects: 8
-      },
-      {
-        id: 3,
-        username: 'mike_marketing',
-        avatar: '👨‍💼',
-        currentPortfolio: 'Mike Marketing Portfolio',
-        status: 'editing',
-        lastActivity: 'Just now',
-        sessionTime: 67,
-        projects: 15
-      },
-      {
-        id: 4,
-        username: 'emma_writer',
-        avatar: '👩‍💻',
-        currentPortfolio: 'Emma Writer Portfolio',
-        status: 'idle',
-        lastActivity: '5 minutes ago',
-        sessionTime: 12,
-        projects: 6
-      },
-      {
-        id: 5,
-        username: 'alex_photo',
-        avatar: '👨‍📷',
-        currentPortfolio: 'Alex Photographer Portfolio',
-        status: 'viewing',
-        lastActivity: '1 minute ago',
-        sessionTime: 34,
-        projects: 20
-      }
-    ];
-
-    setPortfolios(initialPortfolios);
-    setTemplates(initialTemplates);
-    setActiveUsers(initialActiveUsers);
-  }, []);
-
-  useEffect(() => {
-    // Simulate real-time portfolio builder updates
-    const interval = setInterval(() => {
-      // Update portfolios
-      setPortfolios(prev => prev.map(portfolio => ({
-        ...portfolio,
-        views: portfolio.status === 'published' ? portfolio.views + Math.floor(Math.random() * 3) : portfolio.views,
-        lastUpdate: 'Just now'
-      })));
-
-      // Update active users
-      setActiveUsers(prev => prev.map(user => ({
-        ...user,
-        sessionTime: user.sessionTime + 1,
-        lastActivity: 'Just now'
-      })));
-
-      // Update builder stats
-      setBuilderStats(prev => ({
-        totalPortfolios: portfolios.length,
-        activeUsers: activeUsers.length,
-        totalViews: portfolios.reduce((sum, p) => sum + p.views, 0),
-        averageRating: portfolios.filter(p => p.rating > 0).reduce((sum, p) => sum + p.rating, 0) / Math.max(1, portfolios.filter(p => p.rating > 0).length),
-        templatesUsed: templates.length,
-        collaborationSessions: activeUsers.filter(u => u.status === 'editing').length,
-        dailyCreations: Math.floor(Math.random() * 50) + 20,
-        monthlyViews: prev.monthlyViews + Math.random() * 1000
-      }));
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [portfolios, activeUsers, templates]);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'published': return 'text-green-400';
-      case 'draft': return 'text-yellow-400';
-      case 'archived': return 'text-gray-400';
-      default: return 'text-gray-400';
+      res.json({
+        success: true,
+        deploymentUrl: \`https://\${repo.data.owner.login}.github.io/\${repo.data.name}\`
+      });
     }
-  };
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
-  const getStatusBg = (status) => {
-    switch (status) {
-      case 'published': return 'bg-green-600';
-      case 'draft': return 'bg-yellow-600';
-      case 'archived': return 'bg-gray-600';
-      default: return 'bg-gray-600';
-    }
+// Template System
+const generatePortfolioFiles = (portfolio) => {
+  return {
+    'index.html': generateHTML(portfolio),
+    'styles.css': generateCSS(portfolio.template),
+    'script.js': generateJS(portfolio),
+    'README.md': generateReadme(portfolio)
   };
+};
 
-  const getUserStatusColor = (status) => {
-    switch (status) {
-      case 'editing': return 'text-blue-400';
-      case 'viewing': return 'text-green-400';
-      case 'idle': return 'text-gray-400';
-      default: return 'text-gray-400';
-    }
-  };
-
-  const getUserStatusBg = (status) => {
-    switch (status) {
-      case 'editing': return 'bg-blue-600';
-      case 'viewing': return 'bg-green-600';
-      case 'idle': return 'bg-gray-600';
-      default: return 'bg-gray-600';
-    }
-  };
-
-  const formatNumber = (value) => {
-    return new Intl.NumberFormat('en-US').format(value);
-  };
-
-  const formatTime = (minutes) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
-  };
-
-  // Enhanced code data for the new CodeViewer
-  const codeData = {
-    code: `// PortfolioBuilder Implementation
-// Add your implementation code here
-`,
-    explanation: `Dynamic portfolio builder with drag-and-drop interface, real-time preview, and customizable templates.
+export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
+    explanation: `Interactive portfolio builder with drag-and-drop interface, multiple templates, and one-click deployment to hosting platforms.
 
 ## Core Implementation
 
-**Key Features**: This demo showcases Drag and drop and Real-time preview using modern web technologies.
+**Key Features**: This demo showcases a no-code portfolio builder with customizable templates, real-time preview, export to multiple formats (PDF, HTML), and automatic deployment to GitHub Pages, Vercel, or Netlify.
 
-**Architecture**: Built with React DnD and CSS Grid for optimal performance and user experience.
+**Architecture**: Built with React for the interface, html2canvas and jsPDF for export functionality, GitHub API for deployment, and Framer Motion for smooth animations.
 
-**Performance**: Implements efficient algorithms and data structures for real-time processing and smooth interactions.
+**Performance**: Implements efficient state management, lazy loading for templates, optimized rendering with React.memo, and async export/deployment processes.
 
 ## Technical Benefits
 
-- **Modern Technologies**: Uses cutting-edge web technologies and best practices
-- **Performance Optimized**: Efficient algorithms and data structures
-- **User Experience**: Intuitive interface with smooth interactions
-- **Scalable Design**: Built to handle growing data and user demands`,
-
+- **No-Code Solution**: Build professional portfolios without coding
+- **Multiple Templates**: Choose from 10+ professionally designed templates
+- **One-Click Deploy**: Automatic deployment to hosting platforms
+- **Export Options**: PDF, HTML, or deploy to custom domain`,
     technologies: [
       {
-            "name": "React DnD",
-            "description": "Drag and drop functionality",
-            "tags": [
-                  "DnD",
-                  "UI",
-                  "Interactions"
-            ]
+        name: 'React',
+        description: 'Interactive UI with state management',
+        tags: ['Frontend', 'UI', 'JavaScript']
       },
       {
-            "name": "CSS Grid",
-            "description": "Layout system",
-            "tags": [
-                  "Layout",
-                  "Responsive",
-                  "Grid"
-            ]
+        name: 'Framer Motion',
+        description: 'Smooth animations and transitions',
+        tags: ['Animation', 'UI', 'React']
       },
       {
-            "name": "Local Storage",
-            "description": "Client-side data persistence",
-            "tags": [
-                  "Storage",
-                  "Persistence",
-                  "Data"
-            ]
+        name: 'jsPDF & html2canvas',
+        description: 'Client-side PDF generation',
+        tags: ['Export', 'PDF', 'JavaScript']
+      },
+      {
+        name: 'GitHub API',
+        description: 'Automated repository creation and deployment',
+        tags: ['API', 'Deployment', 'GitHub']
       }
-],
-
+    ],
     concepts: [
       {
-            "name": "Drag and Drop",
-            "description": "Interactive element manipulation",
-            "example": "Moving components around the layout"
+        name: 'Template System',
+        description: 'Reusable portfolio templates with customization',
+        example: 'Modern, Minimal, Creative, Professional themes'
       },
       {
-            "name": "Template System",
-            "description": "Reusable design patterns",
-            "example": "Pre-built portfolio layouts"
+        name: 'Component Composition',
+        description: 'Building complex UIs from simple components',
+        example: 'Header, About, Skills, Projects sections'
+      },
+      {
+        name: 'Export Generation',
+        description: 'Converting React components to static files',
+        example: 'html2canvas → PDF, or React → static HTML'
+      },
+      {
+        name: 'API Integration',
+        description: 'Automated deployment to hosting platforms',
+        example: 'GitHub API, Vercel API, Netlify API'
       }
-],
-
+    ],
     features: [
-      "Drag and drop",
-      "Real-time preview",
-      "Templates",
-      "Export functionality"
-]
+      'Drag-and-drop section builder',
+      'Multiple professional templates',
+      'Real-time preview',
+      'Responsive design preview',
+      'Export to PDF',
+      'Export to HTML/CSS/JS',
+      'One-click deployment to GitHub Pages',
+      'Deploy to Vercel or Netlify',
+      'Custom domain support',
+      'SEO optimization'
+    ]
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header with Code Viewer Button */}
-        <div className="mb-8 flex justify-between items-start">
-          <div>
-            <h1 className="text-4xl font-bold text-blue-400 mb-4">🎨 Advanced Portfolio Builder</h1>
-            <p className="text-gray-300 text-lg">
-              Professional portfolio creation platform with templates, collaboration, and real-time analytics
-            </p>
-          </div>
-          <button
+    <div className="space-y-6">
+      {/* Header Section */}
+      <motion.div 
+        className="text-center mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">🎨 Portfolio Builder Demo</h1>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          Create beautiful, professional portfolios with no coding required. Choose a template, customize, and deploy instantly.
+        </p>
+        <div className="mt-4 flex justify-center gap-4">
+          <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <span>📄</span>
-            <span>View Code</span>
-          </button>
+            <span>💻</span>
+            View Implementation
+          </motion.button>
         </div>
+      </motion.div>
 
-        {/* Builder Stats Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-            <div className="text-3xl mb-2">🎨</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Total Portfolios</h3>
-            <p className="text-3xl font-bold text-blue-400">{builderStats.totalPortfolios}</p>
-            <p className="text-blue-300 text-sm">{builderStats.dailyCreations} created today</p>
-          </div>
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-            <div className="text-3xl mb-2">👥</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Active Users</h3>
-            <p className="text-3xl font-bold text-green-400">{builderStats.activeUsers}</p>
-            <p className="text-green-300 text-sm">{builderStats.collaborationSessions} collaborating</p>
-          </div>
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-            <div className="text-3xl mb-2">👁️</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Total Views</h3>
-            <p className="text-3xl font-bold text-purple-400">{formatNumber(builderStats.totalViews)}</p>
-            <p className="text-purple-300 text-sm">{formatNumber(builderStats.monthlyViews)} monthly</p>
-          </div>
-          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-            <div className="text-3xl mb-2">⭐</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Avg Rating</h3>
-            <p className="text-3xl font-bold text-yellow-400">{builderStats.averageRating.toFixed(1)}</p>
-            <p className="text-yellow-300 text-sm">{builderStats.templatesUsed} templates</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Portfolio Management */}
-          <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">🎨 Portfolio Management</h2>
-                <div className="text-sm text-blue-300">Real-time updates every 4s</div>
-              </div>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {portfolios.map((portfolio) => (
-                  <div
-                    key={portfolio.id}
-                    className={'p-4 rounded-lg border cursor-pointer transition-all hover:scale-105 ' + (
-                      selectedPortfolio?.id === portfolio.id
-                        ? 'border-blue-400 bg-blue-900/30'
-                        : 'border-gray-600 hover:border-gray-500'
-                    )}
-                    onClick={() => setSelectedPortfolio(portfolio)}
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h3 className="text-lg font-semibold text-white">{portfolio.name}</h3>
-                        <p className="text-blue-200 text-sm">{portfolio.template} • {portfolio.category}</p>
-                        <p className="text-blue-200 text-xs">By {portfolio.author} • {portfolio.createdAt}</p>
-                        <p className="text-gray-300 text-xs">{portfolio.lastUpdate}</p>
+      <motion.div 
+        className="grid md:grid-cols-[1fr,320px] gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Main Content */}
+        <div className="space-y-6">
+          {/* Progress Steps */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <div className="flex justify-between items-center">
+              {steps.map((step, index) => (
+                <div key={step.id} className="flex items-center">
+                  <div className={`flex flex-col items-center ${index === currentStep ? 'text-blue-400' : 'text-gray-500'}`}>
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-2 ${
+                      index === currentStep ? 'bg-blue-600' : 
+                      index < currentStep ? 'bg-green-600' : 'bg-gray-700'
+                    }`}>
+                      {step.icon}
                       </div>
-                      <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs font-medium ' + getStatusBg(portfolio.status)}>
-                          {portfolio.status.toUpperCase()}
+                    <span className="text-xs font-medium">{step.title}</span>
                         </div>
-                        <p className="text-white text-lg font-semibold mt-1">{formatNumber(portfolio.views)}</p>
-                        <p className="text-gray-300 text-xs">⭐ {portfolio.rating}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4 text-sm">
-                      <div>
-                        <p className="text-gray-400">Sections</p>
-                        <p className="text-white font-semibold">{portfolio.sections.length}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400">Features</p>
-                        <p className="text-white font-semibold">{portfolio.features.length}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400">Collaboration</p>
-                        <p className="text-white font-semibold">{portfolio.collaboration.collaborators}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-3">
-                      <div className="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Analytics</span>
-                        <span>{portfolio.analytics.uniqueVisitors} unique visitors</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div 
-                          className={'h-2 rounded-full transition-all ' + (
-                            portfolio.analytics.bounceRate < 0.3 ? 'bg-green-500' : 
-                            portfolio.analytics.bounceRate < 0.5 ? 'bg-yellow-500' : 'bg-red-500'
-                          )}
-                          style={{ width: Math.max((1 - portfolio.analytics.bounceRate) * 100, 10) + '%' }}
-                        ></div>
-                      </div>
-                    </div>
+                  {index < steps.length - 1 && (
+                    <div className={`h-0.5 w-12 mx-2 ${index < currentStep ? 'bg-green-600' : 'bg-gray-700'}`} />
+                  )}
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
+          </motion.div>
 
-          {/* Portfolio Analytics */}
-          <div className="space-y-6">
-            {/* Templates */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-              <h2 className="text-2xl font-bold text-white mb-4">📋 Templates</h2>
-              <div className="space-y-3 max-h-48 overflow-y-auto">
-                {templates.map((template) => (
-                  <div key={template.id} className="bg-green-800/50 p-3 rounded-lg border border-green-600">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-white font-semibold">{template.name}</p>
-                        <p className="text-green-200 text-sm">{template.category}</p>
-                        <p className="text-green-200 text-xs">{template.features.length} features</p>
-                        <p className="text-gray-300 text-xs">{template.lastUpdate}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-white font-semibold">⭐ {template.rating}</p>
-                        <p className="text-green-300 text-xs">{formatNumber(template.downloads)} downloads</p>
-                        <p className="text-gray-300 text-xs">{template.price === 0 ? 'Free' : '$' + template.price}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Active Users */}
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h2 className="text-2xl font-bold text-white mb-4">👥 Active Users</h2>
-              <div className="space-y-3 max-h-48 overflow-y-auto">
-                {activeUsers.map((user) => (
-                  <div key={user.id} className="bg-purple-800/50 p-3 rounded-lg border border-purple-600">
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-center space-x-2">
-                        <div className="text-2xl">{user.avatar}</div>
-                        <div>
-                          <p className="text-white font-semibold">{user.username}</p>
-                          <p className="text-purple-200 text-sm">{user.currentPortfolio}</p>
-                          <p className="text-purple-200 text-xs">{user.projects} projects</p>
-                          <p className="text-gray-300 text-xs">{user.lastActivity}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className={'px-2 py-1 rounded text-xs ' + getUserStatusBg(user.status)}>
-                          {user.status.toUpperCase()}
-                        </div>
-                        <p className="text-white text-xs mt-1">{formatTime(user.sessionTime)}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-              <h2 className="text-2xl font-bold text-white mb-4">⚡ Quick Actions</h2>
-              <div className="space-y-3">
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded-lg transition-colors">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>➕</span>
-                    <span>Create New Portfolio</span>
-                  </div>
-                </button>
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded-lg transition-colors">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>📋</span>
-                    <span>Browse Templates</span>
-                  </div>
-                </button>
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded-lg transition-colors">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>👥</span>
-                    <span>Invite Collaborators</span>
-                  </div>
-                </button>
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded-lg transition-colors">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>📊</span>
-                    <span>View Analytics</span>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Portfolio Details Modal */}
-        {selectedPortfolio && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
-            <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-4xl w-full p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">Portfolio Details</h2>
-                <button
-                  onClick={() => setSelectedPortfolio(null)}
-                  className="text-gray-400 hover:text-white text-2xl"
-                >
-                  ✕
-                </button>
-              </div>
+          {/* Template Selection */}
+          {currentStep === 0 && (
+            <motion.div 
+              className="bg-gray-800 p-6 rounded-xl"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <h2 className="text-2xl font-bold mb-4">Choose Your Template</h2>
               
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Portfolio Information</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Name:</span>
-                      <span className="text-white font-semibold">{selectedPortfolio.name}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Template:</span>
-                      <span className="text-white font-semibold">{selectedPortfolio.template}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Category:</span>
-                      <span className="text-white font-semibold">{selectedPortfolio.category}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Status:</span>
-                      <span className={'font-semibold ' + getStatusColor(selectedPortfolio.status)}>
-                        {selectedPortfolio.status.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Author:</span>
-                      <span className="text-white font-semibold">{selectedPortfolio.author}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Created:</span>
-                      <span className="text-white font-semibold">{selectedPortfolio.createdAt}</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Analytics</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Page Views:</span>
-                      <span className="text-white font-semibold">{formatNumber(selectedPortfolio.analytics.pageViews)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Unique Visitors:</span>
-                      <span className="text-white font-semibold">{formatNumber(selectedPortfolio.analytics.uniqueVisitors)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Avg Time:</span>
-                      <span className="text-white font-semibold">{selectedPortfolio.analytics.averageTime}m</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Bounce Rate:</span>
-                      <span className="text-white font-semibold">{(selectedPortfolio.analytics.bounceRate * 100).toFixed(1)}%</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3 mt-4">Sections</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedPortfolio.sections.map((section, index) => (
-                      <span key={index} className="px-2 py-1 bg-purple-600 text-white text-xs rounded">
-                        {section}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3 mt-4">Features</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedPortfolio.features.map((feature, index) => (
-                      <span key={index} className="px-2 py-1 bg-yellow-600 text-white text-xs rounded">
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                {templates.map((template, index) => (
+                  <motion.button
+                    key={template.id}
+                    onClick={() => setSelectedTemplate(template.id)}
+                    className={`p-6 rounded-lg transition-all ${
+                      selectedTemplate === template.id
+                        ? `bg-${template.color}-600 ring-2 ring-${template.color}-400`
+                        : 'bg-gray-700 hover:bg-gray-650'
+                    }`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="text-5xl mb-3">{template.icon}</div>
+                    <h3 className="font-bold text-lg">{template.name}</h3>
+                    <p className="text-sm text-gray-300 mt-1">
+                      {template.name} portfolio design
+                    </p>
+                  </motion.button>
+                ))}
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
 
-        {/* Portfolio Builder Features */}
-        <div className="mt-8 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-          <h2 className="text-2xl font-bold text-white mb-4">Advanced Portfolio Builder Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Template System</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Professional templates</li>
-                <li>• Customizable themes</li>
-                <li>• Responsive design</li>
-                <li>• SEO optimization</li>
-                <li>• Mobile-first approach</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Collaboration Tools</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Real-time editing</li>
-                <li>• Version control</li>
-                <li>• Comment system</li>
-                <li>• Team permissions</li>
-                <li>• Live preview</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Analytics & Insights</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
-                <li>• Visitor tracking</li>
-                <li>• Performance metrics</li>
-                <li>• A/B testing</li>
-                <li>• Conversion tracking</li>
-                <li>• SEO analytics</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+          {/* Personal Info Form */}
+          {currentStep === 1 && (
+            <motion.div 
+              className="bg-gray-800 p-6 rounded-xl"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <h2 className="text-2xl font-bold mb-4">Personal Information</h2>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  />
+                    </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Professional Title</label>
+                  <input
+                    type="text"
+                    placeholder="Full-Stack Developer"
+                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  />
+                    </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                    <input
+                      type="email"
+                      placeholder="john@example.com"
+                      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    />
+                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      placeholder="+1 (555) 123-4567"
+                      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    />
+                    </div>
+                  </div>
+                </div>
+            </motion.div>
+          )}
 
-      {/* Code Viewer */}
+          {/* Navigation */}
+          <motion.div 
+            className="bg-gray-800 p-4 rounded-xl flex justify-between"
+            variants={itemVariants}
+          >
+            <motion.button
+              onClick={handlePrevious}
+              disabled={currentStep === 0}
+              className="bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 px-6 py-2 rounded-lg transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              ← Previous
+            </motion.button>
+            
+            <motion.button
+              onClick={handleNext}
+              disabled={currentStep === steps.length - 1}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-800 disabled:text-gray-600 px-6 py-2 rounded-lg transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {currentStep === steps.length - 1 ? 'Done' : 'Next →'}
+            </motion.button>
+          </motion.div>
+                  </div>
+                  
+        {/* Sidebar */}
+        <div className="space-y-6">
+          {/* Preview */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold mb-4 text-purple-400">👁️ Live Preview</h3>
+            <div className="bg-gray-700 rounded-lg p-4 aspect-[3/4] flex items-center justify-center">
+              <p className="text-gray-400 text-sm text-center">
+                Preview will appear here as you build
+              </p>
+                  </div>
+          </motion.div>
+
+          {/* Actions */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold mb-4 text-green-400">📥 Export</h3>
+            <div className="space-y-2">
+              <motion.button
+                className="w-full bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                📄 Download PDF
+              </motion.button>
+              <motion.button
+                className="w-full bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                💾 Download HTML
+              </motion.button>
+              <motion.button
+                className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                🚀 Deploy to GitHub
+              </motion.button>
+                  </div>
+          </motion.div>
+
+          {/* Features */}
+          <motion.div 
+            className="bg-gray-800 p-6 rounded-xl"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold mb-4 text-blue-400">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>No Coding Required</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>10+ Templates</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>Live Preview</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>Export Options</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>One-Click Deploy</span>
+              </li>
+              </ul>
+          </motion.div>
+            </div>
+      </motion.div>
+
+      {/* CodeViewer */}
       <CodeViewer
-        code={demoCode}
-        language="jsx"
-        title="Portfolio Builder Demo Code"
         isOpen={showCodeViewer}
         onClose={() => setShowCodeViewer(false)}
+        {...codeData}
       />
     </div>
   );
