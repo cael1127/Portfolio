@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import AnimatedCard from './AnimatedCard';
 import FloatingParticles from './FloatingParticles';
+import GlassCard from './reactbits/GlassCard';
+import BounceCard from './reactbits/BounceCard';
+import SpotlightCard from './reactbits/SpotlightCard';
+import ScrollReveal from './reactbits/ScrollReveal';
+import GlareHover from './reactbits/GlareHover';
 
 const DemoOrganizer = ({ setCurrentPage }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -101,6 +106,204 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           difficulty: 'Intermediate',
           technologies: ['Python', 'ASR', 'WebAudio'],
           features: ['Upload audio', 'Timestamps', 'Export SRT'],
+          hasProjectPage: true
+        },
+        {
+          id: 'ai-code-generation',
+          name: '🤖 AI Code Generation Assistant',
+          description: 'Multi-model code generation with GPT-4, Claude, and CodeLlama',
+          icon: '🤖',
+          difficulty: 'Advanced',
+          technologies: ['React', 'OpenAI API', 'Anthropic API', 'Python'],
+          features: ['Multi-model support', 'Real-time generation', 'Code history', 'Syntax highlighting'],
+          hasProjectPage: true
+        },
+        {
+          id: 'ml-training-dashboard',
+          name: '📊 ML Model Training Dashboard',
+          description: 'Real-time training visualization and hyperparameter tuning',
+          icon: '📊',
+          difficulty: 'Advanced',
+          technologies: ['TensorFlow', 'Keras', 'Python', 'React'],
+          features: ['Real-time metrics', 'Hyperparameter tuning', 'Model comparison', 'Visualization'],
+          hasProjectPage: true
+        },
+        {
+          id: 'computer-vision-pipeline',
+          name: '👁️ Computer Vision Pipeline',
+          description: 'End-to-end image processing, augmentation, and model inference',
+          icon: '👁️',
+          difficulty: 'Advanced',
+          technologies: ['OpenCV', 'TensorFlow', 'Python', 'NumPy'],
+          features: ['Image preprocessing', 'Data augmentation', 'Feature extraction', 'Model inference'],
+          hasProjectPage: true
+        },
+        {
+          id: 'nlp-sentiment-api',
+          name: '💬 NLP Sentiment Analysis API',
+          description: 'Production-ready REST API for multi-language sentiment analysis',
+          icon: '💬',
+          difficulty: 'Intermediate',
+          technologies: ['Flask', 'Python', 'Transformers', 'BERT'],
+          features: ['Multi-language support', 'Batch processing', 'REST API', 'Real-time analysis'],
+          hasProjectPage: true
+        }
+      ]
+    },
+    'devops': {
+      name: '⚙️ DevOps & Infrastructure',
+      description: 'CI/CD, containerization, orchestration, and infrastructure as code',
+      demos: [
+        {
+          id: 'cicd-pipeline',
+          name: '🚀 CI/CD Pipeline with GitHub Actions',
+          description: 'Automated testing, deployment, and monitoring',
+          icon: '🚀',
+          difficulty: 'Intermediate',
+          technologies: ['GitHub Actions', 'YAML', 'Docker', 'Node.js'],
+          features: ['Automated build', 'Testing', 'Deployment', 'Monitoring'],
+          hasProjectPage: true
+        },
+        {
+          id: 'docker-platform',
+          name: '🐳 Docker Containerization Platform',
+          description: 'Multi-stage builds, orchestration, and production deployment',
+          icon: '🐳',
+          difficulty: 'Intermediate',
+          technologies: ['Docker', 'Docker Compose', 'Multi-stage Builds', 'Health Checks'],
+          features: ['Containerization', 'Orchestration', 'Health checks', 'Volume management'],
+          hasProjectPage: true
+        },
+        {
+          id: 'kubernetes-management',
+          name: '☸️ Kubernetes Cluster Management',
+          description: 'Deployment, service mesh, auto-scaling, and monitoring',
+          icon: '☸️',
+          difficulty: 'Advanced',
+          technologies: ['Kubernetes', 'Kubectl', 'Helm', 'Prometheus'],
+          features: ['Deployment management', 'Auto-scaling', 'Service discovery', 'Monitoring'],
+          hasProjectPage: true
+        },
+        {
+          id: 'terraform-iac',
+          name: '🏗️ Infrastructure as Code (Terraform)',
+          description: 'AWS/GCP infrastructure provisioning, state management, and modules',
+          icon: '🏗️',
+          difficulty: 'Advanced',
+          technologies: ['Terraform', 'AWS', 'GCP', 'HCL'],
+          features: ['Infrastructure as code', 'State management', 'Modules', 'Multi-cloud'],
+          hasProjectPage: true
+        }
+      ]
+    },
+    'security': {
+      name: '🔒 Security & Cybersecurity',
+      description: 'Vulnerability assessment, penetration testing, encryption, and monitoring',
+      demos: [
+        {
+          id: 'vulnerability-scanner',
+          name: '🔍 Vulnerability Scanner',
+          description: 'Automated scanning, risk assessment, reporting, and remediation guides',
+          icon: '🔍',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'Nmap', 'CVE Database', 'OWASP'],
+          features: ['Automated scanning', 'SQL injection detection', 'XSS detection', 'Security headers'],
+          hasProjectPage: true
+        },
+        {
+          id: 'penetration-testing',
+          name: '🛡️ Penetration Testing Framework',
+          description: 'Reconnaissance, exploitation, post-exploitation, and reporting',
+          icon: '🛡️',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'Nmap', 'SQLMap', 'Metasploit'],
+          features: ['Reconnaissance', 'Vulnerability assessment', 'Exploitation', 'Reporting'],
+          hasProjectPage: true
+        },
+        {
+          id: 'encryption-system',
+          name: '🔒 Encryption & Key Management System',
+          description: 'AES/RSA encryption, key rotation, secure storage, and API integration',
+          icon: '🔒',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'Cryptography', 'AES', 'RSA'],
+          features: ['Symmetric encryption', 'Asymmetric encryption', 'Key rotation', 'Secure storage'],
+          hasProjectPage: true
+        },
+        {
+          id: 'security-monitoring',
+          name: '📡 Security Monitoring Dashboard',
+          description: 'Real-time threat detection, log analysis, alerting, and incident response',
+          icon: '📡',
+          difficulty: 'Advanced',
+          technologies: ['Python', 'ELK Stack', 'Splunk', 'SIEM'],
+          features: ['Threat detection', 'Log analysis', 'Alerting', 'Incident response'],
+          hasProjectPage: true
+        }
+      ]
+    },
+    'external-websites': {
+      name: '🌐 Live Websites & Deployments',
+      description: 'Production websites and applications currently running and serving users',
+      demos: [
+        {
+          id: 'three-sisters-oyster-project',
+          name: '🦪 Three Sisters Oyster Co.',
+          description: 'Full-stack e-commerce platform for premium Texas oysters',
+          icon: '🦪',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+          features: ['E-commerce', 'Inventory management', 'Payment processing', 'Responsive design'],
+          hasProjectPage: true
+        },
+        {
+          id: 'bapux-project',
+          name: '🌐 Bapux',
+          description: 'Full-stack web application',
+          icon: '🌐',
+          difficulty: 'Intermediate',
+          technologies: ['React', 'Node.js', 'Tailwind CSS'],
+          features: ['Full-stack', 'Responsive design', 'Modern UI'],
+          hasProjectPage: true
+        },
+        {
+          id: 'bpawd-project',
+          name: '🚀 BPAWD',
+          description: 'Full-stack web application',
+          icon: '🚀',
+          difficulty: 'Intermediate',
+          technologies: ['React', 'Node.js', 'Tailwind CSS'],
+          features: ['Full-stack', 'Modern stack', 'Fast performance'],
+          hasProjectPage: true
+        },
+        {
+          id: 'uil-academy-project',
+          name: '📚 UIL Academy',
+          description: 'Educational platform with learning management features',
+          icon: '📚',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Node.js', 'MongoDB'],
+          features: ['Learning management', 'Course catalog', 'Progress tracking'],
+          hasProjectPage: true
+        },
+        {
+          id: 'minbod-project',
+          name: '💪 MinBod',
+          description: 'Health and wellness application with health tracking features',
+          icon: '💪',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Node.js', 'MongoDB'],
+          features: ['Health directory', 'Professional listings', 'Health tracking'],
+          hasProjectPage: true
+        },
+        {
+          id: 'jf-resume-project',
+          name: '📄 JF Resume',
+          description: 'Interactive resume builder application',
+          icon: '📄',
+          difficulty: 'Intermediate',
+          technologies: ['React', 'Node.js', 'PDF Generation'],
+          features: ['Resume builder', 'Real-time editing', 'PDF export'],
           hasProjectPage: true
         }
       ]
@@ -514,32 +717,35 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           </div>
         </AnimatedCard>
 
-        {/* Category Overview */}
-        {selectedCategory === 'all' && (
-          <div className="mb-8 snap-section">
-            <h2 className="text-2xl font-bold text-white mb-6">Categories</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Object.entries(demoCategories).map(([key, category], index) => (
-                <AnimatedCard
-                  key={key}
-                  delay={index * 50}
-                  direction="up"
-                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:border-green-400 transition-all cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20"
-                  onClick={() => setSelectedCategory(key)}
-                >
-                  <div className="flex items-center mb-4">
-                    <div className="text-3xl mr-3">{category.name.split(' ')[0]}</div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{category.name.split(' ').slice(1).join(' ')}</h3>
-                      <p className="text-gray-400 text-sm">{category.demos.length} demos</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 text-sm">{category.description}</p>
-                </AnimatedCard>
-              ))}
-            </div>
-          </div>
-        )}
+         {/* Category Overview */}
+         {selectedCategory === 'all' && (
+           <div className="mb-8 snap-section">
+             <h2 className="text-2xl font-bold text-white mb-6">Categories</h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               {Object.entries(demoCategories).map(([key, category], index) => (
+                 <BounceCard
+                   key={key}
+                   delay={index * 0.05}
+                   className="cursor-pointer"
+                   onClick={() => setSelectedCategory(key)}
+                 >
+                   <GlareHover intensity={0.6}>
+                     <GlassCard className="p-6 hover:border-green-400 transition-all" glow>
+                       <div className="flex items-center mb-4">
+                         <div className="text-3xl mr-3">{category.name.split(' ')[0]}</div>
+                         <div>
+                           <h3 className="text-lg font-semibold text-white">{category.name.split(' ').slice(1).join(' ')}</h3>
+                           <p className="text-gray-400 text-sm">{category.demos.length} demos</p>
+                         </div>
+                       </div>
+                       <p className="text-gray-300 text-sm">{category.description}</p>
+                     </GlassCard>
+                   </GlareHover>
+                 </BounceCard>
+               ))}
+             </div>
+           </div>
+         )}
 
         {/* Demos Grid */}
         <div className="mb-8 snap-section">
@@ -580,138 +786,144 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
-              {filteredDemos.map((demo, index) => (
-                <AnimatedCard
-                  key={demo.id}
-                  delay={index * 100}
-                  direction="up"
-                  className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 transition-all cursor-pointer relative overflow-hidden"
-                  onClick={() => setCurrentPage(demo.id + '-demo')}
-                >
-                  
-                  <button
-                    className="absolute inset-0 w-full h-full bg-transparent"
-                    onClick={() => {
-                      console.log('Demo clicked:', demo.id, 'Setting page to:', demo.id + '-demo');
-                      setCurrentPage(demo.id + '-demo');
-                    }}
-                    style={{ zIndex: 1 }}
-                  />
-                  
-                  <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
-                    <div className="flex items-center">
-                      <div className="text-3xl mr-3 transition-transform duration-300">{demo.icon}</div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-white transition-colors">
-                          {demo.name}
-                        </h3>
-                        <div className={'px-2 py-1 rounded text-xs font-medium transition-all duration-300 ' + getDifficultyBg(demo.difficulty)}>
-                          {demo.difficulty}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-green-400 opacity-0 transition-all duration-300 transform translate-x-2">
-                      →
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-300 text-sm mb-4 transition-colors">{demo.description}</p>
-                  
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Technologies</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {demo.technologies.map((tech, index) => (
-                        <span 
-                          key={index} 
-                          className="bg-gray-600 text-white px-2 py-1 rounded text-xs transition-all duration-300 hover:scale-105"
-                          style={{ transitionDelay: `${index * 50}ms` }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
-                    <ul className="space-y-1">
-                      {demo.features.slice(0, 3).map((feature, index) => (
-                        <li 
-                          key={index} 
-                          className="text-gray-300 text-xs flex items-center transition-all duration-300"
-                          style={{ transitionDelay: `${index * 100}ms` }}
-                        >
-                          <span className="text-green-400 mr-1 transition-transform duration-300">•</span>
-                          {feature}
-                        </li>
-                      ))}
-                      {demo.features.length > 3 && (
-                        <li className="text-gray-400 text-xs transition-colors">+{demo.features.length - 3} more features</li>
-                      )}
-                    </ul>
-                  </div>
-                  
-                  {demo.hasProjectPage && (
-                    <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setCurrentPage(demo.id + '-demo');
-                        }}
-                        className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
-                      >
-                        View Project Details →
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setCurrentPage(demo.id + '-demo');
-                        }}
-                        className="ml-4 text-xs text-gray-300 hover:text-white"
-                      >
-                        View code →
-                      </button>
-                    </div>
-                  )}
-                  
-                  {/* Progress Bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
-                    <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 transition-transform duration-700 origin-left"></div>
-                  </div>
-                </AnimatedCard>
-              ))}
-            </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
+               {filteredDemos.map((demo, index) => (
+                 <BounceCard
+                   key={demo.id}
+                   delay={index * 0.1}
+                   className="cursor-pointer"
+                   onClick={() => setCurrentPage(demo.id + '-demo')}
+                 >
+                   <SpotlightCard
+                     className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 border border-gray-600 relative overflow-hidden group"
+                     spotlightColor="rgba(34, 197, 94, 0.3)"
+                   >
+                     <button
+                       className="absolute inset-0 w-full h-full bg-transparent"
+                       onClick={() => {
+                         console.log('Demo clicked:', demo.id, 'Setting page to:', demo.id + '-demo');
+                         setCurrentPage(demo.id + '-demo');
+                       }}
+                       style={{ zIndex: 1 }}
+                     />
+                     
+                     <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
+                       <div className="flex items-center">
+                         <div className="text-3xl mr-3 transition-transform duration-300 group-hover:scale-110">{demo.icon}</div>
+                         <div>
+                           <h3 className="text-lg font-semibold text-white transition-colors">
+                             {demo.name}
+                           </h3>
+                           <div className={'px-2 py-1 rounded text-xs font-medium transition-all duration-300 ' + getDifficultyBg(demo.difficulty)}>
+                             {demo.difficulty}
+                           </div>
+                         </div>
+                       </div>
+                       <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                         →
+                       </div>
+                     </div>
+                     
+                     <p className="text-gray-300 text-sm mb-4 transition-colors">{demo.description}</p>
+                     
+                     <div className="mb-4">
+                       <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Technologies</h4>
+                       <div className="flex flex-wrap gap-1">
+                         {demo.technologies.map((tech, index) => (
+                           <span 
+                             key={index} 
+                             className="bg-gray-600 text-white px-2 py-1 rounded text-xs transition-all duration-300 hover:scale-105"
+                             style={{ transitionDelay: `${index * 50}ms` }}
+                           >
+                             {tech}
+                           </span>
+                         ))}
+                       </div>
+                     </div>
+                     
+                     <div>
+                       <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
+                       <ul className="space-y-1">
+                         {demo.features.slice(0, 3).map((feature, index) => (
+                           <li 
+                             key={index} 
+                             className="text-gray-300 text-xs flex items-center transition-all duration-300"
+                             style={{ transitionDelay: `${index * 100}ms` }}
+                           >
+                             <span className="text-green-400 mr-1 transition-transform duration-300">•</span>
+                             {feature}
+                           </li>
+                         ))}
+                         {demo.features.length > 3 && (
+                           <li className="text-gray-400 text-xs transition-colors">+{demo.features.length - 3} more features</li>
+                         )}
+                       </ul>
+                     </div>
+                     
+                     {demo.hasProjectPage && (
+                       <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
+                         <button
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             setCurrentPage(demo.id + '-demo');
+                           }}
+                           className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
+                         >
+                           View Project Details →
+                         </button>
+                         <button
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             setCurrentPage(demo.id + '-demo');
+                           }}
+                           className="ml-4 text-xs text-gray-300 hover:text-white"
+                         >
+                           View code →
+                         </button>
+                       </div>
+                     )}
+                     
+                     {/* Progress Bar */}
+                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+                       <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+                     </div>
+                   </SpotlightCard>
+                 </BounceCard>
+               ))}
+             </div>
           )}
         </div>
 
-        {/* Quick Stats */}
-        <AnimatedCard delay={200} direction="up" className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 transition-all snap-section">
-          <h2 className="text-2xl font-bold text-white mb-4">Demo Statistics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">{allDemos.length}</div>
-              <div className="text-gray-300 text-sm">Total Demos</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">{Object.keys(demoCategories).length}</div>
-              <div className="text-gray-300 text-sm">Categories</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">
-                {allDemos.filter(demo => demo.difficulty === 'Advanced').length}
-              </div>
-              <div className="text-gray-300 text-sm">Advanced Projects</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">
-                {new Set(allDemos.flatMap(demo => demo.technologies)).size}
-              </div>
-              <div className="text-gray-300 text-sm">Technologies Used</div>
-            </div>
-          </div>
-          
-        </AnimatedCard>
+         {/* Quick Stats */}
+         <ScrollReveal delay={0.2} direction="up" className="snap-section">
+           <GlareHover intensity={0.4}>
+             <GlassCard className="bg-gradient-to-br from-purple-900/50 via-purple-800/50 to-purple-700/50 p-6 border-purple-800 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 transition-all" glow>
+               <h2 className="text-2xl font-bold text-white mb-4">Demo Statistics</h2>
+               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-purple-400">{allDemos.length}</div>
+                   <div className="text-gray-300 text-sm">Total Demos</div>
+                 </div>
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-purple-400">{Object.keys(demoCategories).length}</div>
+                   <div className="text-gray-300 text-sm">Categories</div>
+                 </div>
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-purple-400">
+                     {allDemos.filter(demo => demo.difficulty === 'Advanced').length}
+                   </div>
+                   <div className="text-gray-300 text-sm">Advanced Projects</div>
+                 </div>
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-purple-400">
+                     {new Set(allDemos.flatMap(demo => demo.technologies)).size}
+                   </div>
+                   <div className="text-gray-300 text-sm">Technologies Used</div>
+                 </div>
+               </div>
+             </GlassCard>
+           </GlareHover>
+         </ScrollReveal>
       </div>
     </div>
   );

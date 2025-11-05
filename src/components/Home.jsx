@@ -6,6 +6,11 @@ import AnimatedCard from './AnimatedCard';
 import AnimatedText from './AnimatedText';
 import AnimatedCounter from './AnimatedCounter';
 import AnimatedHeroBackground from './AnimatedHeroBackground';
+import SpotlightCard from './reactbits/SpotlightCard';
+import GlassCard from './reactbits/GlassCard';
+import BounceCard from './reactbits/BounceCard';
+import GlareHover from './reactbits/GlareHover';
+import ScrollReveal from './reactbits/ScrollReveal';
 const InspirationSection = React.lazy(() => import('./InspirationSection'));
 const TestimonialsSection = React.lazy(() => import('./TestimonialsSection'));
 const StackStrip = React.lazy(() => import('./StackStrip'));
@@ -341,38 +346,58 @@ const Home = ({ setCurrentPage }) => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Enhanced Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <button
-              onClick={() => setCurrentPage('advanced-analytics')}
-              className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-500/20 text-left"
-            >
-              <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">📊</div>
-              <h3 className="font-semibold mb-2">Analytics Dashboard</h3>
-              <p className="text-gray-400 text-sm">Real-time data visualization and insights</p>
-            </button>
-            <button
-              onClick={() => setCurrentPage('ai-interview-simulator')}
-              className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-500/20 text-left"
-            >
-              <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">🤖</div>
-              <h3 className="font-semibold mb-2">AI Interview Simulator</h3>
-              <p className="text-gray-400 text-sm">Advanced speech recognition and AI coaching</p>
-            </button>
-            <button
-              onClick={() => setCurrentPage('real-time-collaboration')}
-              className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-500/20 text-left"
-            >
-              <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">👥</div>
-              <h3 className="font-semibold mb-2">Collaborative Features</h3>
-              <p className="text-gray-400 text-sm">Real-time collaboration tools</p>
-            </button>
-            <button
-              onClick={() => setCurrentPage('edge-computing')}
-              className="bg-gray-700 hover:bg-gray-600 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gray-500/20 text-left"
-            >
-              <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">📡</div>
-              <h3 className="font-semibold mb-2">Edge Computing</h3>
-              <p className="text-gray-400 text-sm">IoT and distributed systems</p>
-            </button>
+            <BounceCard delay={0.1}>
+              <GlareHover intensity={0.5}>
+                <SpotlightCard
+                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
+                  spotlightColor="rgba(20, 184, 166, 0.3)"
+                  onClick={() => setCurrentPage('advanced-analytics')}
+                >
+                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">📊</div>
+                  <h3 className="font-semibold mb-2">Analytics Dashboard</h3>
+                  <p className="text-gray-400 text-sm">Real-time data visualization and insights</p>
+                </SpotlightCard>
+              </GlareHover>
+            </BounceCard>
+            <BounceCard delay={0.15}>
+              <GlareHover intensity={0.5}>
+                <SpotlightCard
+                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
+                  spotlightColor="rgba(20, 184, 166, 0.3)"
+                  onClick={() => setCurrentPage('ai-interview-simulator')}
+                >
+                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">🤖</div>
+                  <h3 className="font-semibold mb-2">AI Interview Simulator</h3>
+                  <p className="text-gray-400 text-sm">Advanced speech recognition and AI coaching</p>
+                </SpotlightCard>
+              </GlareHover>
+            </BounceCard>
+            <BounceCard delay={0.2}>
+              <GlareHover intensity={0.5}>
+                <SpotlightCard
+                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
+                  spotlightColor="rgba(20, 184, 166, 0.3)"
+                  onClick={() => setCurrentPage('real-time-collaboration')}
+                >
+                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">👥</div>
+                  <h3 className="font-semibold mb-2">Collaborative Features</h3>
+                  <p className="text-gray-400 text-sm">Real-time collaboration tools</p>
+                </SpotlightCard>
+              </GlareHover>
+            </BounceCard>
+            <BounceCard delay={0.25}>
+              <GlareHover intensity={0.5}>
+                <SpotlightCard
+                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
+                  spotlightColor="rgba(20, 184, 166, 0.3)"
+                  onClick={() => setCurrentPage('edge-computing')}
+                >
+                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">📡</div>
+                  <h3 className="font-semibold mb-2">Edge Computing</h3>
+                  <p className="text-gray-400 text-sm">IoT and distributed systems</p>
+                </SpotlightCard>
+              </GlareHover>
+            </BounceCard>
           </div>
         </div>
       </div>
@@ -381,30 +406,45 @@ const Home = ({ setCurrentPage }) => {
       <div className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-12">Cutting-Edge Technologies</h2>
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <button
-            onClick={() => setCurrentPage('quantum-computing')}
-            className="bg-gradient-to-br from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-teal-500/20 text-left"
-          >
-            <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">⚛️</div>
-            <h3 className="font-semibold mb-2">Quantum Computing</h3>
-            <p className="text-gray-200 text-sm">Quantum algorithms and simulations</p>
-          </button>
-          <button
-            onClick={() => setCurrentPage('blockchain-advanced')}
-            className="bg-gradient-to-br from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 text-left"
-          >
-            <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">⛓️</div>
-            <h3 className="font-semibold mb-2">Advanced Blockchain</h3>
-            <p className="text-gray-200 text-sm">Smart contracts and DeFi protocols</p>
-          </button>
-          <button
-            onClick={() => setCurrentPage('edge-computing')}
-            className="bg-gradient-to-br from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/20 text-left"
-          >
-            <div className="text-2xl mb-3 hover:scale-110 transition-transform duration-300">📡</div>
-            <h3 className="font-semibold mb-2">Edge Computing</h3>
-            <p className="text-gray-200 text-sm">IoT and distributed systems</p>
-          </button>
+          <BounceCard delay={0.1}>
+            <GlareHover intensity={0.6}>
+              <SpotlightCard
+                className="bg-gradient-to-br from-teal-600 to-emerald-600 p-6 rounded-lg cursor-pointer text-left"
+                spotlightColor="rgba(255, 255, 255, 0.3)"
+                onClick={() => setCurrentPage('quantum-computing')}
+              >
+                <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">⚛️</div>
+                <h3 className="font-semibold mb-2">Quantum Computing</h3>
+                <p className="text-gray-200 text-sm">Quantum algorithms and simulations</p>
+              </SpotlightCard>
+            </GlareHover>
+          </BounceCard>
+          <BounceCard delay={0.15}>
+            <GlareHover intensity={0.6}>
+              <SpotlightCard
+                className="bg-gradient-to-br from-green-600 to-teal-600 p-6 rounded-lg cursor-pointer text-left"
+                spotlightColor="rgba(255, 255, 255, 0.3)"
+                onClick={() => setCurrentPage('blockchain-advanced')}
+              >
+                <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">⛓️</div>
+                <h3 className="font-semibold mb-2">Advanced Blockchain</h3>
+                <p className="text-gray-200 text-sm">Smart contracts and DeFi protocols</p>
+              </SpotlightCard>
+            </GlareHover>
+          </BounceCard>
+          <BounceCard delay={0.2}>
+            <GlareHover intensity={0.6}>
+              <SpotlightCard
+                className="bg-gradient-to-br from-emerald-600 to-teal-600 p-6 rounded-lg cursor-pointer text-left"
+                spotlightColor="rgba(255, 255, 255, 0.3)"
+                onClick={() => setCurrentPage('edge-computing')}
+              >
+                <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">📡</div>
+                <h3 className="font-semibold mb-2">Edge Computing</h3>
+                <p className="text-gray-200 text-sm">IoT and distributed systems</p>
+              </SpotlightCard>
+            </GlareHover>
+          </BounceCard>
         </div>
       </div>
 

@@ -43,6 +43,32 @@ import RealtimeChatDemoPage from './pages/RealtimeChatDemoPage';
 import SaaSAnalyticsDemoPage from './pages/SaaSAnalyticsDemoPage';
 import ProductConfiguratorDemoPage from './pages/ProductConfiguratorDemoPage';
 
+// New AI/ML projects
+import AICodeGenerationDemoPage from './pages/AICodeGenerationDemoPage';
+import MLTrainingDashboardDemoPage from './pages/MLTrainingDashboardDemoPage';
+import ComputerVisionPipelineDemoPage from './pages/ComputerVisionPipelineDemoPage';
+import NLPSentimentAPIDemoPage from './pages/NLPSentimentAPIDemoPage';
+
+// DevOps projects
+import CICDPipelineDemoPage from './pages/CICDPipelineDemoPage';
+import DockerPlatformDemoPage from './pages/DockerPlatformDemoPage';
+import KubernetesManagementDemoPage from './pages/KubernetesManagementDemoPage';
+import TerraformIaCDemoPage from './pages/TerraformIaCDemoPage';
+
+// Security projects
+import VulnerabilityScannerDemoPage from './pages/VulnerabilityScannerDemoPage';
+import PenetrationTestingDemoPage from './pages/PenetrationTestingDemoPage';
+import EncryptionSystemDemoPage from './pages/EncryptionSystemDemoPage';
+import SecurityMonitoringDemoPage from './pages/SecurityMonitoringDemoPage';
+
+// External website projects
+import ThreeSistersOysterProjectPage from './components/ProjectPages/ThreeSistersOysterProjectPage';
+import BapuxProjectPage from './components/ProjectPages/BapuxProjectPage';
+import BPAWDProjectPage from './components/ProjectPages/BPAWDProjectPage';
+import UILAcademyProjectPage from './components/ProjectPages/UILAcademyProjectPage';
+import MinBodProjectPage from './components/ProjectPages/MinBodProjectPage';
+import JFResumeProjectPage from './components/ProjectPages/JFResumeProjectPage';
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
 
@@ -133,6 +159,50 @@ function App() {
         return <SaaSAnalyticsDemoPage setCurrentPage={setCurrentPage} />;
       case 'product-configurator-demo':
         return <ProductConfiguratorDemoPage setCurrentPage={setCurrentPage} />;
+      
+      // New AI/ML projects
+      case 'ai-code-generation-demo':
+        return <AICodeGenerationDemoPage setCurrentPage={setCurrentPage} />;
+      case 'ml-training-dashboard-demo':
+        return <MLTrainingDashboardDemoPage setCurrentPage={setCurrentPage} />;
+      case 'computer-vision-pipeline-demo':
+        return <ComputerVisionPipelineDemoPage setCurrentPage={setCurrentPage} />;
+      case 'nlp-sentiment-api-demo':
+        return <NLPSentimentAPIDemoPage setCurrentPage={setCurrentPage} />;
+      
+      // DevOps projects
+      case 'cicd-pipeline-demo':
+        return <CICDPipelineDemoPage setCurrentPage={setCurrentPage} />;
+      case 'docker-platform-demo':
+        return <DockerPlatformDemoPage setCurrentPage={setCurrentPage} />;
+      case 'kubernetes-management-demo':
+        return <KubernetesManagementDemoPage setCurrentPage={setCurrentPage} />;
+      case 'terraform-iac-demo':
+        return <TerraformIaCDemoPage setCurrentPage={setCurrentPage} />;
+      
+      // Security projects
+      case 'vulnerability-scanner-demo':
+        return <VulnerabilityScannerDemoPage setCurrentPage={setCurrentPage} />;
+      case 'penetration-testing-demo':
+        return <PenetrationTestingDemoPage setCurrentPage={setCurrentPage} />;
+      case 'encryption-system-demo':
+        return <EncryptionSystemDemoPage setCurrentPage={setCurrentPage} />;
+      case 'security-monitoring-demo':
+        return <SecurityMonitoringDemoPage setCurrentPage={setCurrentPage} />;
+      
+      // External website projects
+      case 'three-sisters-oyster-project':
+        return <ThreeSistersOysterProjectPage setCurrentPage={setCurrentPage} />;
+      case 'bapux-project':
+        return <BapuxProjectPage setCurrentPage={setCurrentPage} />;
+      case 'bpawd-project':
+        return <BPAWDProjectPage setCurrentPage={setCurrentPage} />;
+      case 'uil-academy-project':
+        return <UILAcademyProjectPage setCurrentPage={setCurrentPage} />;
+      case 'minbod-project':
+        return <MinBodProjectPage setCurrentPage={setCurrentPage} />;
+      case 'jf-resume-project':
+        return <JFResumeProjectPage setCurrentPage={setCurrentPage} />;
       
       default:
         return <Home setCurrentPage={setCurrentPage} />;

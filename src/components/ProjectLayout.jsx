@@ -3,6 +3,10 @@ import Reveal from './Reveal';
 import CaseStudy from './CaseStudy';
 import ProjectThumb from './ProjectThumb';
 import DemoReadme from './DemoReadme';
+import ProjectTutorial from './ProjectTutorial';
+import GlassCard from './reactbits/GlassCard';
+import ScrollReveal from './reactbits/ScrollReveal';
+import GlareHover from './reactbits/GlareHover';
 
 const ProjectLayout = ({ 
   title, 
@@ -19,7 +23,16 @@ const ProjectLayout = ({
   results,
   problem,
   approach,
-  highlights 
+  highlights,
+  // New tutorial props
+  tutorialSummary,
+  difficulty,
+  timeEstimate,
+  keyConcepts,
+  tutorialSteps,
+  setupInstructions,
+  deploymentGuide,
+  troubleshooting
 }) => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -59,27 +72,35 @@ const ProjectLayout = ({
                 <li><a href="#tech-stack" className="hover:text-white">Tech Stack</a></li>
                 <li><a href="#challenges" className="hover:text-white">Challenges</a></li>
                 <li><a href="#results" className="hover:text-white">Results</a></li>
+                {(tutorialSummary || tutorialSteps) && (
+                  <li><a href="#tutorial" className="hover:text-white">Tutorial</a></li>
+                )}
               </ul>
             </nav>
           </aside>
           <div className="space-y-8">
             {/* Live Demo Section */}
-            <Reveal>
-              <div id="demo" className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                <div className="flex items-center gap-3 mb-4">
-                  <ProjectThumb emoji={emoji} accent="#10b981" />
-                  <div>
-                    <h2 className="text-xl font-semibold">Live Demo</h2>
-                    <p className="text-gray-400 text-sm">Interactive demonstration of the project</p>
+            <ScrollReveal delay={0} direction="up">
+              <GlareHover intensity={0.3}>
+                <GlassCard className="p-6" glow>
+                  <div id="demo">
+                    <div className="flex items-center gap-3 mb-4">
+                      <ProjectThumb emoji={emoji} accent="#10b981" />
+                      <div>
+                        <h2 className="text-xl font-semibold">Live Demo</h2>
+                        <p className="text-gray-400 text-sm">Interactive demonstration of the project</p>
+                      </div>
+                    </div>
+                    {demo || children}
                   </div>
-                </div>
-                {demo || children}
-              </div>
-            </Reveal>
+                </GlassCard>
+              </GlareHover>
+            </ScrollReveal>
 
             {/* Code & Skills Section */}
-            <Reveal delay={150}>
-              <div id="code" className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <ScrollReveal delay={0.15} direction="up">
+              <GlassCard className="p-6" glow>
+                <div id="code">
                 <h2 className="text-xl font-semibold mb-4">Code & Skills</h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -104,19 +125,22 @@ const ProjectLayout = ({
                     </ul>
                   </div>
                 </div>
-              </div>
-            </Reveal>
+                </div>
+              </GlassCard>
+            </ScrollReveal>
 
             {/* Overview Section */}
-            <Reveal delay={250}>
-              <div id="overview" className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                <h2 className="text-xl font-semibold mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">{overview}</p>
-              </div>
-            </Reveal>
+            <ScrollReveal delay={0.25} direction="up">
+              <GlassCard className="p-6" glow>
+                <div id="overview">
+                  <h2 className="text-xl font-semibold mb-4">Project Overview</h2>
+                  <p className="text-gray-300 leading-relaxed">{overview}</p>
+                </div>
+              </GlassCard>
+            </ScrollReveal>
 
             {/* Case Study Section */}
-            <Reveal delay={350}>
+            <ScrollReveal delay={0.35} direction="up">
               <div id="role">
                 <CaseStudy
                   overview={overview}
@@ -126,7 +150,7 @@ const ProjectLayout = ({
                   results={results}
                 />
               </div>
-            </Reveal>
+            </ScrollReveal>
 
             {/* Demo Readme Section */}
             {problem && approach && (
@@ -136,6 +160,24 @@ const ProjectLayout = ({
                     problem={problem}
                     approach={approach}
                     highlights={highlights}
+                  />
+                </div>
+              </Reveal>
+            )}
+
+            {/* Tutorial Section - Blended Format */}
+            {(tutorialSummary || tutorialSteps || keyConcepts) && (
+              <Reveal delay={500}>
+                <div id="tutorial">
+                  <ProjectTutorial
+                    summary={tutorialSummary}
+                    difficulty={difficulty}
+                    timeEstimate={timeEstimate}
+                    keyConcepts={keyConcepts}
+                    steps={tutorialSteps}
+                    setupInstructions={setupInstructions}
+                    deploymentGuide={deploymentGuide}
+                    troubleshooting={troubleshooting}
                   />
                 </div>
               </Reveal>
