@@ -577,7 +577,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 relative overflow-x-hidden">
-      <FloatingParticles />
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <FloatingParticles />
+      </div>
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-8 snap-section">
@@ -658,24 +660,30 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       {/* Search Results Preview */}
                       <div className="p-3">
                         <div className="text-xs text-gray-400 mb-2">Found {filteredDemos.length} results:</div>
-                        {filteredDemos.slice(0, 3).map((demo) => (
-                          <button
-                            key={demo.id}
-                            onClick={() => {
-                              setSearchTerm(demo.name);
-                              setShowSearchSuggestions(false);
-                            }}
-                            className="w-full text-left p-2 hover:bg-gray-700 rounded transition-colors"
-                          >
-                            <div className="flex items-center">
-                              <span className="mr-2">{demo.icon}</span>
-                              <div>
-                                <div className="text-sm text-white font-medium">{demo.name}</div>
-                                <div className="text-xs text-gray-400">{demo.description}</div>
+                        {filteredDemos.slice(0, 3).map((demo) => {
+                          const isExternalWebsite = demo.id.includes('-project');
+                          const routeId = isExternalWebsite ? demo.id : demo.id + '-demo';
+                          return (
+                            <button
+                              key={demo.id}
+                              onClick={() => {
+                                setSearchTerm('');
+                                setShowSearchSuggestions(false);
+                                setCurrentPage(routeId);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }}
+                              className="w-full text-left p-2 hover:bg-gray-700 rounded transition-colors"
+                            >
+                              <div className="flex items-center">
+                                <span className="mr-2">{demo.icon}</span>
+                                <div>
+                                  <div className="text-sm text-white font-medium">{demo.name}</div>
+                                  <div className="text-xs text-gray-400">{demo.description}</div>
+                                </div>
                               </div>
-                            </div>
-                          </button>
-                        ))}
+                            </button>
+                          );
+                        })}
                       </div>
                     </>
                   )}
@@ -787,12 +795,20 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             </div>
           ) : (
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
-               {filteredDemos.map((demo, index) => (
+               {filteredDemos.map((demo, index) => {
+                 // External website projects don't have '-demo' suffix
+                 const isExternalWebsite = demo.id.includes('-project');
+                 const routeId = isExternalWebsite ? demo.id : demo.id + '-demo';
+                 
+                 return (
                  <BounceCard
                    key={demo.id}
                    delay={index * 0.1}
                    className="cursor-pointer"
-                   onClick={() => setCurrentPage(demo.id + '-demo')}
+                   onClick={() => {
+                     setCurrentPage(routeId);
+                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                   }}
                  >
                    <SpotlightCard
                      className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 border border-gray-600 relative overflow-hidden group"
@@ -801,8 +817,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                      <button
                        className="absolute inset-0 w-full h-full bg-transparent"
                        onClick={() => {
-                         console.log('Demo clicked:', demo.id, 'Setting page to:', demo.id + '-demo');
-                         setCurrentPage(demo.id + '-demo');
+                         console.log('Demo clicked:', demo.id, 'Setting page to:', routeId);
+                         setCurrentPage(routeId);
+                         window.scrollTo({ top: 0, behavior: 'smooth' });
                        }}
                        style={{ zIndex: 1 }}
                      />
@@ -865,7 +882,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                          <button
                            onClick={(e) => {
                              e.stopPropagation();
-                             setCurrentPage(demo.id + '-demo');
+                             setCurrentPage(routeId);
+                             window.scrollTo({ top: 0, behavior: 'smooth' });
                            }}
                            className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
                          >
@@ -874,7 +892,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                          <button
                            onClick={(e) => {
                              e.stopPropagation();
-                             setCurrentPage(demo.id + '-demo');
+                             setCurrentPage(routeId);
+                             window.scrollTo({ top: 0, behavior: 'smooth' });
                            }}
                            className="ml-4 text-xs text-gray-300 hover:text-white"
                          >
@@ -889,7 +908,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                      </div>
                    </SpotlightCard>
                  </BounceCard>
-               ))}
+               );
+               })}
              </div>
           )}
         </div>

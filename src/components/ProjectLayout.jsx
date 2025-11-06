@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Reveal from './Reveal';
 import CaseStudy from './CaseStudy';
 import ProjectThumb from './ProjectThumb';
@@ -34,6 +34,11 @@ const ProjectLayout = ({
   deploymentGuide,
   troubleshooting
 }) => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="border-b border-gray-800 bg-gray-900/80 backdrop-blur supports-[backdrop-filter]:bg-gray-900/60">
@@ -83,7 +88,7 @@ const ProjectLayout = ({
             <ScrollReveal delay={0} direction="up">
               <GlareHover intensity={0.3}>
                 <GlassCard className="p-6" glow>
-                  <div id="demo">
+                  <div id="demo" className="overflow-x-auto">
                     <div className="flex items-center gap-3 mb-4">
                       <ProjectThumb emoji={emoji} accent="#10b981" />
                       <div>
@@ -91,7 +96,9 @@ const ProjectLayout = ({
                         <p className="text-gray-400 text-sm">Interactive demonstration of the project</p>
                       </div>
                     </div>
-                    {demo || children}
+                    <div className="w-full max-w-full">
+                      {demo || children}
+                    </div>
                   </div>
                 </GlassCard>
               </GlareHover>

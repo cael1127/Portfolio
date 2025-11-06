@@ -13,17 +13,32 @@ const AnimatedHeroBackground = () => {
     let particles = [];
     let mouse = { x: 0, y: 0 };
 
-    // Resize canvas
+    // Resize canvas with proper aspect ratio
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      
+      // Set actual size in memory (scaled for device pixel ratio)
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      
+      // Reset transform and scale context to match device pixel ratio
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      
+      // Set display size (CSS pixels)
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      
+      return rect;
     };
 
     // Particle class
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        const rect = canvas.getBoundingClientRect();
+        this.x = Math.random() * rect.width;
+        this.y = Math.random() * rect.height;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * 2 + 1;
@@ -34,6 +49,8 @@ const AnimatedHeroBackground = () => {
       update() {
         this.x += this.vx;
         this.y += this.vy;
+
+        const rect = canvas.getBoundingClientRect();
 
         // Mouse interaction
         const dx = mouse.x - this.x;
@@ -47,10 +64,10 @@ const AnimatedHeroBackground = () => {
         }
 
         // Wrap around edges
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
-        if (this.y > canvas.height) this.y = 0;
+        if (this.x < 0) this.x = rect.width;
+        if (this.x > rect.width) this.x = 0;
+        if (this.y < 0) this.y = rect.height;
+        if (this.y > rect.height) this.y = 0;
       }
 
       draw() {
@@ -67,13 +84,18 @@ const AnimatedHeroBackground = () => {
     // Create particles
     const createParticles = () => {
       particles = [];
+      const rect = canvas.getBoundingClientRect();
       for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
+        const particle = new Particle();
+        particle.x = Math.random() * rect.width;
+        particle.y = Math.random() * rect.height;
+        particles.push(particle);
       }
     };
 
     // Draw connections
     const drawConnections = () => {
+      const rect = canvas.getBoundingClientRect();
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -97,7 +119,9 @@ const AnimatedHeroBackground = () => {
 
     // Animation loop
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      ctx.clearRect(0, 0, rect.width, rect.height);
       
       particles.forEach(particle => {
         particle.update();
@@ -115,10 +139,16 @@ const AnimatedHeroBackground = () => {
       mouse.y = e.clientY;
     };
 
-    // Initialize
-    resizeCanvas();
-    createParticles();
-    animate();
+    // Initialize - wait for canvas to be ready
+    const init = () => {
+      resizeCanvas();
+      // Recreate particles after resize to use correct dimensions
+      createParticles();
+      animate();
+    };
+    
+    // Small delay to ensure canvas is mounted
+    setTimeout(init, 0);
 
     // Event listeners
     window.addEventListener('resize', resizeCanvas);
@@ -212,7 +242,13 @@ const AnimatedHeroBackground = () => {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
-        style={{ zIndex: 1 }}
+        style={{ 
+          zIndex: 1,
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain'
+        }}
       />
       
       {/* Animated grid pattern */}

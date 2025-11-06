@@ -8,19 +8,31 @@ const FloatingParticles = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    // Set canvas size
+    // Set canvas size with proper aspect ratio
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      
+      // Set actual size in memory (scaled for device pixel ratio)
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      
+      // Reset transform and scale context to match device pixel ratio
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      
+      // Set display size (CSS pixels)
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      
+      return rect;
     };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
     // Enhanced Particle class with better physics
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        const rect = canvas.getBoundingClientRect();
+        this.x = Math.random() * (rect.width || window.innerWidth);
+        this.y = Math.random() * (rect.height || window.innerHeight);
         this.size = Math.random() * 2 + 0.5;
         this.speedX = (Math.random() - 0.5) * 0.8;
         this.speedY = (Math.random() - 0.5) * 0.8;
@@ -35,11 +47,13 @@ const FloatingParticles = () => {
         this.x += this.speedX;
         this.y += this.speedY;
 
+        const rect = canvas.getBoundingClientRect();
+
         // Wrap around edges with smooth transition
-        if (this.x > canvas.width + 10) this.x = -10;
-        if (this.x < -10) this.x = canvas.width + 10;
-        if (this.y > canvas.height + 10) this.y = -10;
-        if (this.y < -10) this.y = canvas.height + 10;
+        if (this.x > rect.width + 10) this.x = -10;
+        if (this.x < -10) this.x = rect.width + 10;
+        if (this.y > rect.height + 10) this.y = -10;
+        if (this.y < -10) this.y = rect.height + 10;
 
         // Enhanced breathing effect with pulse
         this.pulse += this.pulseSpeed;
@@ -67,11 +81,28 @@ const FloatingParticles = () => {
     }
 
     // Create particles - reduced for better performance
-    const particles = Array.from({ length: 30 }, () => new Particle());
+    let particles = [];
+    const createParticles = () => {
+      const rect = canvas.getBoundingClientRect();
+      particles = Array.from({ length: 30 }, () => {
+        const p = new Particle();
+        p.x = Math.random() * (rect.width || window.innerWidth);
+        p.y = Math.random() * (rect.height || window.innerHeight);
+        return p;
+      });
+    };
+
+    resizeCanvas();
+    createParticles();
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createParticles();
+    });
 
     // Animation loop
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
       
       particles.forEach(particle => {
         particle.update();
@@ -131,7 +162,13 @@ const FloatingParticles = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'transparent' }}
+      style={{ 
+        background: 'transparent',
+        display: 'block',
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain'
+      }}
     />
   );
 };

@@ -74,7 +74,7 @@ function App() {
 
   // Scroll to top when page changes
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
 
   const renderContent = () => {

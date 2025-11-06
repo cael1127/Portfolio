@@ -20,7 +20,9 @@ const Home = ({ setCurrentPage }) => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-x-hidden">
-      <AnimatedHeroBackground />
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <AnimatedHeroBackground />
+      </div>
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16 relative z-10 snap-section">
         <div className="text-center max-w-4xl mx-auto">
