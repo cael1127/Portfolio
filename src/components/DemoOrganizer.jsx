@@ -670,7 +670,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                                 setSearchTerm('');
                                 setShowSearchSuggestions(false);
                                 setCurrentPage(routeId);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                window.scrollTo({ top: 0, behavior: 'instant' });
                               }}
                               className="w-full text-left p-2 hover:bg-gray-700 rounded transition-colors"
                             >
@@ -805,10 +805,10 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                    key={demo.id}
                    delay={index * 0.1}
                    className="cursor-pointer"
-                   onClick={() => {
-                     setCurrentPage(routeId);
-                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                   }}
+                  onClick={() => {
+                    setCurrentPage(routeId);
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }}
                  >
                    <SpotlightCard
                      className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 border border-gray-600 relative overflow-hidden group"
@@ -816,11 +816,11 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                    >
                      <button
                        className="absolute inset-0 w-full h-full bg-transparent"
-                       onClick={() => {
-                         console.log('Demo clicked:', demo.id, 'Setting page to:', routeId);
-                         setCurrentPage(routeId);
-                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                       }}
+                      onClick={() => {
+                        console.log('Demo clicked:', demo.id, 'Setting page to:', routeId);
+                        setCurrentPage(routeId);
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                      }}
                        style={{ zIndex: 1 }}
                      />
                      
@@ -880,21 +880,21 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                      {demo.hasProjectPage && (
                        <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
                          <button
-                           onClick={(e) => {
-                             e.stopPropagation();
-                             setCurrentPage(routeId);
-                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                           }}
-                           className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
-                         >
-                           View Project Details →
-                         </button>
-                         <button
-                           onClick={(e) => {
-                             e.stopPropagation();
-                             setCurrentPage(routeId);
-                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                           }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCurrentPage(routeId);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                          }}
+                          className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
+                        >
+                          View Project Details →
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCurrentPage(routeId);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                          }}
                            className="ml-4 text-xs text-gray-300 hover:text-white"
                          >
                            View code →

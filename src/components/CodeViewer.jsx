@@ -62,9 +62,9 @@ const CodeViewer = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-6xl w-full max-h-[95vh] overflow-hidden">
-        {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-700">
+      <div className="bg-gray-900 rounded-xl border border-gray-700 max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col">
+        {/* Header - Fixed at top */}
+        <div className="flex justify-between items-center p-4 border-b border-gray-700 flex-shrink-0 bg-gray-900">
           <div className="flex items-center space-x-2">
             <span className="text-2xl">{getLanguageIcon(language)}</span>
             <h2 className="text-xl font-bold text-white">{title}</h2>
@@ -88,8 +88,8 @@ const CodeViewer = ({
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-gray-700">
+        {/* Tabs - Fixed below header */}
+        <div className="flex border-b border-gray-700 flex-shrink-0 bg-gray-900">
           {tabs.map(tab => (
             <button
               key={tab.id}
@@ -106,8 +106,8 @@ const CodeViewer = ({
           ))}
         </div>
 
-        {/* Content */}
-        <div className="p-6 overflow-auto max-h-[calc(95vh-140px)]">
+        {/* Content - Scrollable area */}
+        <div className="p-6 overflow-y-auto flex-1 min-h-0">
           {activeTab === 'code' && (
             <div>
               <pre className="text-sm text-gray-300 bg-gray-800 p-4 rounded-lg overflow-x-auto">
@@ -187,8 +187,8 @@ const CodeViewer = ({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-gray-700 bg-gray-800">
+        {/* Footer - Fixed at bottom */}
+        <div className="p-4 border-t border-gray-700 bg-gray-800 flex-shrink-0">
           <div className="flex justify-between items-center text-sm text-gray-400">
             <span>Lines: {code ? code.split('\n').length : 0}</span>
             <span>Characters: {code ? code.length : 0}</span>

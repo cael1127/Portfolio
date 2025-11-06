@@ -74,7 +74,13 @@ function App() {
 
   // Scroll to top when page changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Use instant scroll for immediate positioning, then smooth if needed
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Also ensure it happens after a brief delay to catch any late-rendering content
+    const timeoutId = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 100);
+    return () => clearTimeout(timeoutId);
   }, [currentPage]);
 
   const renderContent = () => {
