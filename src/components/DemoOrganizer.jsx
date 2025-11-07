@@ -485,6 +485,66 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           technologies: ['React', 'D3', 'Node.js'],
           features: ['Cohorts', 'Retention', 'Funnels'],
           hasProjectPage: true
+        },
+        {
+          id: 'advanced-analytics',
+          routeId: 'advanced-analytics',
+          name: '📊 Advanced Analytics Suite',
+          description: 'Predictive BI dashboards with ML-driven forecasting',
+          icon: '📊',
+          difficulty: 'Advanced',
+          technologies: ['React', 'Machine Learning', 'Data Pipelines'],
+          features: ['Predictive analytics', 'Anomaly detection', 'Executive dashboards']
+        },
+        {
+          id: 'real-time-collaboration',
+          routeId: 'real-time-collaboration',
+          name: '🤝 Enterprise Collaboration Hub',
+          description: 'Real-time workspace with shared canvases and task sync',
+          icon: '🤝',
+          difficulty: 'Advanced',
+          technologies: ['WebRTC', 'Realtime Presence', 'React'],
+          features: ['Live presence', 'Shared documents', 'Enterprise SSO']
+        },
+        {
+          id: 'ai-interview-simulator',
+          routeId: 'ai-interview-simulator',
+          name: '🧠 AI Interview Simulator',
+          description: 'Adaptive hiring assistant with scenario-based evaluations',
+          icon: '🧠',
+          difficulty: 'Advanced',
+          technologies: ['AI Assistants', 'Speech Analysis', 'React'],
+          features: ['Context aware Q&A', 'Feedback reports', 'Skill scoring']
+        },
+        {
+          id: 'edge-computing',
+          routeId: 'edge-computing',
+          name: '🌐 Edge Computing Platform',
+          description: 'Distributed orchestration across edge clusters',
+          icon: '🌐',
+          difficulty: 'Advanced',
+          technologies: ['Edge Devices', 'Kubernetes', 'Realtime Metrics'],
+          features: ['Latency monitoring', 'Edge orchestration', 'Failover automation']
+        },
+        {
+          id: 'quantum-computing',
+          routeId: 'quantum-computing',
+          name: '⚛️ Quantum Computing Lab',
+          description: 'Visualize qubits, circuits, and post-quantum workflows',
+          icon: '⚛️',
+          difficulty: 'Advanced',
+          technologies: ['Qiskit', 'Visualization', 'React'],
+          features: ['Circuit composer', 'State visualization', 'Quantum tutorials']
+        },
+        {
+          id: 'blockchain-advanced',
+          routeId: 'blockchain-advanced',
+          name: '⛓️ Blockchain Operations Center',
+          description: 'Enterprise blockchain governance & monitoring console',
+          icon: '⛓️',
+          difficulty: 'Advanced',
+          technologies: ['Smart Contracts', 'Node Monitoring', 'Security'],
+          features: ['Network health', 'Contract audits', 'Compliance tooling']
         }
       ]
     },
@@ -540,6 +600,15 @@ const DemoOrganizer = ({ setCurrentPage }) => {
         }
       ]
     }
+  };
+
+  const getDemoRouteId = (demo) => {
+    if (demo.routeId) {
+      return demo.routeId;
+    }
+
+    const isExternalWebsite = demo.id.includes('-project');
+    return isExternalWebsite ? demo.id : `${demo.id}-demo`;
   };
 
   const allDemos = Object.values(demoCategories).flatMap(category => 
@@ -661,8 +730,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       <div className="p-3">
                         <div className="text-xs text-gray-400 mb-2">Found {filteredDemos.length} results:</div>
                         {filteredDemos.slice(0, 3).map((demo) => {
-                          const isExternalWebsite = demo.id.includes('-project');
-                          const routeId = isExternalWebsite ? demo.id : demo.id + '-demo';
+                          const routeId = getDemoRouteId(demo);
                           return (
                             <button
                               key={demo.id}
@@ -797,8 +865,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
                {filteredDemos.map((demo, index) => {
                  // External website projects don't have '-demo' suffix
-                 const isExternalWebsite = demo.id.includes('-project');
-                 const routeId = isExternalWebsite ? demo.id : demo.id + '-demo';
+                 const routeId = getDemoRouteId(demo);
                  
                  return (
                  <BounceCard
