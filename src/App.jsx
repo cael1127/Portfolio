@@ -3,12 +3,12 @@ import Home from './components/Home';
 import DemoOrganizer from './components/DemoOrganizer';
 import Freelancing from './components/Freelancing';
 import Contact from './components/Contact';
-import AIInterviewSimulator from './components/AIInterviewSimulator';
-import RealTimeCollaboration from './components/RealTimeCollaboration';
-import AdvancedAnalytics from './components/AdvancedAnalytics';
-import BlockchainAdvanced from './components/BlockchainAdvanced';
-import EdgeComputing from './components/EdgeComputing';
-import QuantumComputingDemo from './components/QuantumComputingDemo';
+import AIInterviewSimulatorProjectPage from './components/ProjectPages/AIInterviewSimulatorProjectPage';
+import RealTimeCollaborationProjectPage from './components/ProjectPages/RealTimeCollaborationProjectPage';
+import AdvancedAnalyticsProjectPage from './components/ProjectPages/AdvancedAnalyticsProjectPage';
+import BlockchainAdvancedProjectPage from './components/ProjectPages/BlockchainAdvancedProjectPage';
+import EdgeComputingProjectPage from './components/ProjectPages/EdgeComputingProjectPage';
+import QuantumComputingProjectPage from './components/ProjectPages/QuantumComputingProjectPage';
 import FloatingParticles from './components/FloatingParticles';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -95,17 +95,17 @@ function App() {
       case 'contact':
         return <Contact setCurrentPage={setCurrentPage} />;
       case 'ai-interview-simulator':
-        return <AIInterviewSimulator setCurrentPage={setCurrentPage} />;
+        return <AIInterviewSimulatorProjectPage setCurrentPage={setCurrentPage} />;
       case 'real-time-collaboration':
-        return <RealTimeCollaboration setCurrentPage={setCurrentPage} />;
+        return <RealTimeCollaborationProjectPage setCurrentPage={setCurrentPage} />;
       case 'advanced-analytics':
-        return <AdvancedAnalytics setCurrentPage={setCurrentPage} />;
+        return <AdvancedAnalyticsProjectPage setCurrentPage={setCurrentPage} />;
       case 'blockchain-advanced':
-        return <BlockchainAdvanced setCurrentPage={setCurrentPage} />;
+        return <BlockchainAdvancedProjectPage setCurrentPage={setCurrentPage} />;
       case 'edge-computing':
-        return <EdgeComputing setCurrentPage={setCurrentPage} />;
+        return <EdgeComputingProjectPage setCurrentPage={setCurrentPage} />;
       case 'quantum-computing':
-        return <QuantumComputingDemo setCurrentPage={setCurrentPage} />;
+        return <QuantumComputingProjectPage setCurrentPage={setCurrentPage} />;
       
       // Demo pages
       case 'blockchain-demo':
@@ -224,15 +224,6 @@ function App() {
       { id: 'contact', label: 'Contact', icon: '' },
     ];
 
-    const enterpriseItems = [
-      { id: 'ai-interview-simulator', label: 'AI Interview', icon: '' },
-      { id: 'real-time-collaboration', label: 'Collaboration', icon: '' },
-      { id: 'advanced-analytics', label: 'Analytics', icon: '' },
-      { id: 'blockchain-advanced', label: 'Blockchain', icon: '' },
-      { id: 'edge-computing', label: 'Edge Computing', icon: '' },
-      { id: 'quantum-computing', label: 'Quantum', icon: '' },
-    ];
-
     return (
       <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -269,23 +260,6 @@ function App() {
                   </button>
                 ))}
                 
-                {/* Enterprise Features Dropdown */}
-                <div className="relative group">
-                  <button className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-gray-500/30">
-                    Enterprise
-                  </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    {enterpriseItems.map((item) => (
-                      <button
-                        key={item.id}
-                        onClick={() => setCurrentPage(item.id)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -322,21 +296,6 @@ function App() {
                 </button>
               ))}
               
-              {/* Mobile Enterprise Features */}
-              <div className="pt-4 pb-3 border-t border-gray-700">
-                <div className="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                  Enterprise Features
-                </div>
-                {enterpriseItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setCurrentPage(item.id)}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         </div>

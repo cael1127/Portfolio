@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CodeViewer from './CodeViewer';
 
-const AIInterviewSimulator = () => {
+const AIInterviewSimulator = ({ isEmbedded = false }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [aiResponse, setAiResponse] = useState('');
@@ -244,9 +244,15 @@ const AIInterviewSimulator = () => {
 
 export default AIInterviewSimulator;`;
 
+  const containerClass = isEmbedded
+    ? 'space-y-8 text-white'
+    : 'min-h-screen bg-gray-900 text-white p-6';
+
+  const innerClass = isEmbedded ? 'space-y-8' : 'max-w-6xl mx-auto';
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className={containerClass}>
+      <div className={innerClass}>
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">

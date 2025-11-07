@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CodeViewer from './CodeViewer';
 
-const EdgeComputing = () => {
+const EdgeComputing = ({ isEmbedded = false }) => {
   const [edgeNodes, setEdgeNodes] = useState([]);
   const [iotDevices, setIotDevices] = useState([]);
   const [dataStreams, setDataStreams] = useState([]);
@@ -149,9 +149,15 @@ const EdgeComputing = () => {
     return analytics;
   };
   
+  const containerClass = isEmbedded
+    ? 'space-y-8 text-white'
+    : 'min-h-screen bg-gray-900 text-white p-6';
+
+  const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className={containerClass}>
+      <div className={innerClass}>
         <h1 className="text-4xl font-bold text-blue-400 mb-8">
           Edge Computing Platform
         </h1>

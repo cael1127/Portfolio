@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CodeViewer from './CodeViewer';
 
-const QuantumComputingDemo = () => {
+const QuantumComputingDemo = ({ isEmbedded = false }) => {
   const [quantumState, setQuantumState] = useState({
     qubits: 4,
     superposition: true,
@@ -247,9 +247,15 @@ const QuantumComputingDemo = () => {
     return results;
   };
   
+  const containerClass = isEmbedded
+    ? 'space-y-8 text-white'
+    : 'min-h-screen bg-gray-900 text-white p-6';
+
+  const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className={containerClass}>
+      <div className={innerClass}>
         <h1 className="text-4xl font-bold text-purple-400 mb-8">
           Quantum Computing Platform
         </h1>

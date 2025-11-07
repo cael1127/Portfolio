@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CodeViewer from './CodeViewer';
 
-const BlockchainAdvanced = () => {
+const BlockchainAdvanced = ({ isEmbedded = false }) => {
   const [blockchainData, setBlockchainData] = useState({
     blocks: [],
     transactions: [],
@@ -247,9 +247,15 @@ const BlockchainAdvanced = () => {
     return tx.hash;
   };
   
+  const containerClass = isEmbedded
+    ? 'space-y-8 text-white'
+    : 'min-h-screen bg-gray-900 text-white p-6';
+
+  const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className={containerClass}>
+      <div className={innerClass}>
         <h1 className="text-4xl font-bold text-green-400 mb-8">
           Advanced Blockchain Platform
         </h1>

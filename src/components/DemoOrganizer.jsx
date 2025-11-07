@@ -644,6 +644,121 @@ const DemoOrganizer = ({ setCurrentPage }) => {
     }
   };
 
+  const renderDemoCard = (demo, index, categoryKey = 'grid') => {
+    const routeId = getDemoRouteId(demo);
+
+    return (
+      <BounceCard
+        key={`${demo.id}-${categoryKey}-${index}`}
+        delay={index * 0.1}
+        className="cursor-pointer"
+        onClick={() => {
+          setCurrentPage(routeId);
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }}
+      >
+        <SpotlightCard
+          className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 border border-gray-600 relative overflow-hidden group"
+          spotlightColor="rgba(34, 197, 94, 0.3)"
+        >
+          <button
+            className="absolute inset-0 w-full h-full bg-transparent"
+            onClick={(event) => {
+              event.stopPropagation();
+              setCurrentPage(routeId);
+              window.scrollTo({ top: 0, behavior: 'instant' });
+            }}
+            style={{ zIndex: 1 }}
+          />
+
+          <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
+            <div className="flex items-center">
+              <div className="text-3xl mr-3 transition-transform duration-300 group-hover:scale-110">{demo.icon}</div>
+              <div>
+                <h3 className="text-lg font-semibold text-white transition-colors">
+                  {demo.name}
+                </h3>
+                <div className={'px-2 py-1 rounded text-xs font-medium transition-all duration-300 ' + getDifficultyBg(demo.difficulty)}>
+                  {demo.difficulty}
+                </div>
+              </div>
+            </div>
+            <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+              →
+            </div>
+          </div>
+
+          <p className="text-gray-300 text-sm mb-4 transition-colors">{demo.description}</p>
+
+          <div className="mb-4">
+            <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Technologies</h4>
+            <div className="flex flex-wrap gap-1">
+              {demo.technologies.map((tech, idx) => (
+                <span
+                  key={`${demo.id}-tech-${idx}`}
+                  className="bg-gray-600 text-white px-2 py-1 rounded text-xs transition-all duration-300 hover:scale-105"
+                  style={{ transitionDelay: `${idx * 50}ms` }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
+            <ul className="space-y-1">
+              {demo.features.slice(0, 3).map((feature, idx) => (
+                <li
+                  key={`${demo.id}-feature-${idx}`}
+                  className="text-gray-300 text-xs flex items-center transition-all duration-300"
+                  style={{ transitionDelay: `${idx * 100}ms` }}
+                >
+                  <span className="text-green-400 mr-1 transition-transform duration-300">•</span>
+                  {feature}
+                </li>
+              ))}
+              {demo.features.length > 3 && (
+                <li className="text-gray-400 text-xs transition-colors">+{demo.features.length - 3} more features</li>
+              )}
+            </ul>
+          </div>
+
+          {demo.hasProjectPage && (
+            <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentPage(routeId);
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }}
+                className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
+              >
+                View Project Details →
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentPage(routeId);
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }}
+                className="ml-4 text-xs text-gray-300 hover:text-white"
+              >
+                View code →
+              </button>
+            </div>
+          )}
+
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+            <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+          </div>
+        </SpotlightCard>
+      </BounceCard>
+    );
+  };
+
+  const showCategorySections = selectedCategory === 'all' && searchTerm.trim() === '';
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 relative overflow-x-hidden">
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -823,7 +938,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
            </div>
          )}
 
-        {/* Demos Grid */}
+        {/* Demos Showcase */}
         <div className="mb-8 snap-section">
           <AnimatedCard delay={100} direction="up">
             <div className="flex justify-between items-center mb-6">
@@ -841,13 +956,12 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             </div>
           </AnimatedCard>
 
-
           {filteredDemos.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-bold text-white mb-2">No demos found</h3>
               <p className="text-gray-400 mb-4">
-                {searchTerm 
+                {searchTerm
                   ? `No demos match "${searchTerm}". Try adjusting your search terms.`
                   : 'No demos available in this category.'
                 }
@@ -861,123 +975,47 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 </button>
               )}
             </div>
+          ) : showCategorySections ? (
+            <div className="space-y-12">
+              {Object.entries(demoCategories).map(([key, category], index) => (
+                <section key={key} className="space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                      <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+                        <span>{category.name.split(' ')[0]}</span>
+                        <span className="text-sm text-gray-400">{category.demos.length} demos</span>
+                      </h3>
+                      <p className="text-gray-400 text-sm max-w-2xl">{category.description}</p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedCategory(key)}
+                      className="self-start px-4 py-2 rounded-lg border border-gray-600 text-sm text-gray-300 hover:text-white hover:border-green-400 transition-colors"
+                    >
+                      View all demos
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
+                    {category.demos.slice(0, 3).map((demo, idx) => renderDemoCard(demo, idx, key))}
+                  </div>
+
+                  {category.demos.length > 3 && (
+                    <div className="text-right">
+                      <button
+                        onClick={() => setSelectedCategory(key)}
+                        className="inline-flex items-center gap-2 text-sm text-green-400 hover:text-green-300"
+                      >
+                        Explore {category.demos.length - 3} more →
+                      </button>
+                    </div>
+                  )}
+                </section>
+              ))}
+            </div>
           ) : (
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
-               {filteredDemos.map((demo, index) => {
-                 // External website projects don't have '-demo' suffix
-                 const routeId = getDemoRouteId(demo);
-                 
-                 return (
-                 <BounceCard
-                   key={demo.id}
-                   delay={index * 0.1}
-                   className="cursor-pointer"
-                  onClick={() => {
-                    setCurrentPage(routeId);
-                    window.scrollTo({ top: 0, behavior: 'instant' });
-                  }}
-                 >
-                   <SpotlightCard
-                     className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 border border-gray-600 relative overflow-hidden group"
-                     spotlightColor="rgba(34, 197, 94, 0.3)"
-                   >
-                     <button
-                       className="absolute inset-0 w-full h-full bg-transparent"
-                      onClick={() => {
-                        console.log('Demo clicked:', demo.id, 'Setting page to:', routeId);
-                        setCurrentPage(routeId);
-                        window.scrollTo({ top: 0, behavior: 'instant' });
-                      }}
-                       style={{ zIndex: 1 }}
-                     />
-                     
-                     <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
-                       <div className="flex items-center">
-                         <div className="text-3xl mr-3 transition-transform duration-300 group-hover:scale-110">{demo.icon}</div>
-                         <div>
-                           <h3 className="text-lg font-semibold text-white transition-colors">
-                             {demo.name}
-                           </h3>
-                           <div className={'px-2 py-1 rounded text-xs font-medium transition-all duration-300 ' + getDifficultyBg(demo.difficulty)}>
-                             {demo.difficulty}
-                           </div>
-                         </div>
-                       </div>
-                       <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                         →
-                       </div>
-                     </div>
-                     
-                     <p className="text-gray-300 text-sm mb-4 transition-colors">{demo.description}</p>
-                     
-                     <div className="mb-4">
-                       <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Technologies</h4>
-                       <div className="flex flex-wrap gap-1">
-                         {demo.technologies.map((tech, index) => (
-                           <span 
-                             key={index} 
-                             className="bg-gray-600 text-white px-2 py-1 rounded text-xs transition-all duration-300 hover:scale-105"
-                             style={{ transitionDelay: `${index * 50}ms` }}
-                           >
-                             {tech}
-                           </span>
-                         ))}
-                       </div>
-                     </div>
-                     
-                     <div>
-                       <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
-                       <ul className="space-y-1">
-                         {demo.features.slice(0, 3).map((feature, index) => (
-                           <li 
-                             key={index} 
-                             className="text-gray-300 text-xs flex items-center transition-all duration-300"
-                             style={{ transitionDelay: `${index * 100}ms` }}
-                           >
-                             <span className="text-green-400 mr-1 transition-transform duration-300">•</span>
-                             {feature}
-                           </li>
-                         ))}
-                         {demo.features.length > 3 && (
-                           <li className="text-gray-400 text-xs transition-colors">+{demo.features.length - 3} more features</li>
-                         )}
-                       </ul>
-                     </div>
-                     
-                     {demo.hasProjectPage && (
-                       <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
-                         <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setCurrentPage(routeId);
-                            window.scrollTo({ top: 0, behavior: 'instant' });
-                          }}
-                          className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
-                        >
-                          View Project Details →
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setCurrentPage(routeId);
-                            window.scrollTo({ top: 0, behavior: 'instant' });
-                          }}
-                           className="ml-4 text-xs text-gray-300 hover:text-white"
-                         >
-                           View code →
-                         </button>
-                       </div>
-                     )}
-                     
-                     {/* Progress Bar */}
-                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
-                       <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
-                     </div>
-                   </SpotlightCard>
-                 </BounceCard>
-               );
-               })}
-             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ isolation: 'isolate' }}>
+              {filteredDemos.map((demo, index) => renderDemoCard(demo, index, selectedCategory))}
+            </div>
           )}
         </div>
 
