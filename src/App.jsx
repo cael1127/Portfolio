@@ -69,8 +69,94 @@ import UILAcademyProjectPage from './components/ProjectPages/UILAcademyProjectPa
 import MinBodProjectPage from './components/ProjectPages/MinBodProjectPage';
 import JFResumeProjectPage from './components/ProjectPages/JFResumeProjectPage';
 
+const PAGE_SLUGS = {
+  home: '',
+  'demo-organizer': 'demo-organizer',
+  freelancing: 'freelancing',
+  contact: 'contact',
+  'ai-interview-simulator': 'ai-interview-simulator',
+  'real-time-collaboration': 'real-time-collaboration',
+  'advanced-analytics': 'advanced-analytics',
+  'blockchain-advanced': 'blockchain-advanced',
+  'edge-computing': 'edge-computing',
+  'quantum-computing': 'quantum-computing',
+  'blockchain-demo': 'blockchain-demo',
+  'aquaculture-demo': 'aquaculture-demo',
+  'financial-demo': 'financial-demo',
+  'healthcare-demo': 'healthcare-demo',
+  'logistics-demo': 'logistics-demo',
+  'portfolio-builder-demo': 'portfolio-builder-demo',
+  'restaurant-app-demo': 'restaurant-app-demo',
+  'resume-analyzer-demo': 'resume-analyzer-demo',
+  'smart-city-demo': 'smart-city-demo',
+  'whiteboard-demo': 'whiteboard-demo',
+  'game-platform-demo': 'game-platform-demo',
+  'ai-assistant-demo': 'ai-assistant-demo',
+  'snake-ai-demo': 'snake-ai-demo',
+  'ai-agents-demo': 'ai-agents-demo',
+  'sentiment-analysis-demo': 'sentiment-analysis-demo',
+  'rag-chatbot-demo': 'rag-chatbot-demo',
+  'bookstore-api-demo': 'bookstore-api-demo',
+  'mern-expense-tracker-demo': 'mern-expense-tracker-demo',
+  'social-network-demo': 'social-network-demo',
+  'interactive-resume-demo': 'interactive-resume-demo',
+  'fraud-detection-demo': 'fraud-detection-demo',
+  'deepfake-detection-demo': 'deepfake-detection-demo',
+  'object-detection-demo': 'object-detection-demo',
+  'audio-transcription-demo': 'audio-transcription-demo',
+  'ecommerce-demo': 'ecommerce-demo',
+  'realtime-chat-demo': 'realtime-chat-demo',
+  'saas-analytics-demo': 'saas-analytics-demo',
+  'product-configurator-demo': 'product-configurator-demo',
+  'ai-code-generation-demo': 'ai-code-generation-demo',
+  'ml-training-dashboard-demo': 'ml-training-dashboard-demo',
+  'computer-vision-pipeline-demo': 'computer-vision-pipeline-demo',
+  'nlp-sentiment-api-demo': 'nlp-sentiment-api-demo',
+  'cicd-pipeline-demo': 'cicd-pipeline-demo',
+  'docker-platform-demo': 'docker-platform-demo',
+  'kubernetes-management-demo': 'kubernetes-management-demo',
+  'terraform-iac-demo': 'terraform-iac-demo',
+  'vulnerability-scanner-demo': 'vulnerability-scanner-demo',
+  'penetration-testing-demo': 'penetration-testing-demo',
+  'encryption-system-demo': 'encryption-system-demo',
+  'security-monitoring-demo': 'security-monitoring-demo',
+  'three-sisters-oyster-project': 'three-sisters-oyster-project',
+  'bapux-project': 'bapux-project',
+  'bpawd-project': 'bpawd-project',
+  'uil-academy-project': 'uil-academy-project',
+  'minbod-project': 'minbod-project',
+  'jf-resume-project': 'jf-resume-project',
+};
+
+const PATH_TO_PAGE = Object.entries(PAGE_SLUGS).reduce((acc, [pageId, slug]) => {
+  const normalisedSlug = (slug || '').replace(/^\/+|\/+$/g, '');
+  acc[normalisedSlug] = pageId;
+  if (normalisedSlug !== pageId) {
+    acc[pageId] = pageId;
+  }
+  return acc;
+}, {});
+
+const normalisePathname = (pathname) => pathname.replace(/^\/+|\/+$/g, '');
+
+const deriveInitialPage = () => {
+  if (typeof window === 'undefined') {
+    return 'home';
+  }
+  const initialPath = normalisePathname(window.location.pathname);
+  if (initialPath && PATH_TO_PAGE[initialPath]) {
+    return PATH_TO_PAGE[initialPath];
+  }
+  const params = new URLSearchParams(window.location.search);
+  const pageParam = params.get('page');
+  if (pageParam && PAGE_SLUGS[pageParam] !== undefined) {
+    return pageParam;
+  }
+  return 'home';
+};
+
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState(deriveInitialPage);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -82,6 +168,30 @@ function App() {
     }, 100);
     return () => clearTimeout(timeoutId);
   }, [currentPage]);
+
+  useEffect(() => {
+    const slug = PAGE_SLUGS[currentPage] ?? '';
+    const newPath = slug ? `/${slug}` : '/';
+    if (typeof window !== 'undefined' && window.location.pathname !== newPath) {
+      window.history.replaceState({}, '', newPath);
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const handlePopState = () => {
+      const pathSlug = normalisePathname(window.location.pathname);
+      const nextPage = PATH_TO_PAGE[pathSlug] || 'home';
+      setCurrentPage(nextPage);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   const renderContent = () => {
     console.log('App.jsx - Current page:', currentPage);
