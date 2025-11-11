@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Home from './components/Home';
 import DemoOrganizer from './components/DemoOrganizer';
 import Freelancing from './components/Freelancing';
@@ -157,6 +157,8 @@ const deriveInitialPage = () => {
 
 function App() {
   const [currentPage, setCurrentPage] = useState(deriveInitialPage);
+  const hasMountedRef = useRef(false);
+  const isHandlingPopRef = useRef(false);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -172,18 +174,36 @@ function App() {
   useEffect(() => {
     const slug = PAGE_SLUGS[currentPage] ?? '';
     const newPath = slug ? `/${slug}` : '/';
-    if (typeof window !== 'undefined' && window.location.pathname !== newPath) {
-      window.history.replaceState({}, '', newPath);
+    if (typeof window === 'undefined') {
+      return;
     }
+
+    if (isHandlingPopRef.current) {
+      isHandlingPopRef.current = false;
+      return;
+    }
+
+    if (window.location.pathname === newPath) {
+      hasMountedRef.current = true;
+      return;
+    }
+
+    const historyMethod = hasMountedRef.current ? 'pushState' : 'replaceState';
+    window.history[historyMethod]({}, '', newPath);
+    hasMountedRef.current = true;
   }, [currentPage]);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
     }
+
     const handlePopState = () => {
       const pathSlug = normalisePathname(window.location.pathname);
       const nextPage = PATH_TO_PAGE[pathSlug] || 'home';
+      if (nextPage !== currentPage) {
+        isHandlingPopRef.current = true;
+      }
       setCurrentPage(nextPage);
     };
 
@@ -191,7 +211,7 @@ function App() {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []);
+  }, [currentPage]);
 
   const renderContent = () => {
     console.log('App.jsx - Current page:', currentPage);
