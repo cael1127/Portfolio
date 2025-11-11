@@ -5,6 +5,20 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Exclude static files from SPA redirect - must come BEFORE catch-all rule
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+  force = true
+
+# SPA catch-all redirect - must come AFTER static file rules
 [[redirects]]
   from = "/*"
   to = "/index.html"
