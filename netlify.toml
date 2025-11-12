@@ -5,25 +5,13 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Exclude static files from SPA redirect - must come BEFORE catch-all rule
-# These rules ensure sitemap.xml and robots.txt are served as static files
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/sitemap.xml"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/robots.txt"
-  to = "/robots.txt"
-  status = 200
-  force = true
-
-# SPA catch-all redirect - must come AFTER static file rules
+# SPA catch-all redirect - redirects everything EXCEPT static files
+# Static files (sitemap.xml, robots.txt) are served directly by Netlify
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
 [dev]
   command = "npm start"
