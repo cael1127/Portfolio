@@ -157,53 +157,51 @@ const deriveInitialPage = () => {
 
 function App() {
   const [currentPage, setCurrentPage] = useState(deriveInitialPage);
-  const hasMountedRef = useRef(false);
+  const isInitialMountRef = useRef(true);
   const isHandlingPopRef = useRef(false);
 
-  // Scroll to top when page changes
+  // Update URL when currentPage changes (but not when handling browser back/forward)
   useEffect(() => {
-    // Use instant scroll for immediate positioning, then smooth if needed
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    // Also ensure it happens after a brief delay to catch any late-rendering content
-    const timeoutId = setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }, 100);
-    return () => clearTimeout(timeoutId);
-  }, [currentPage]);
-
-  useEffect(() => {
-    const slug = PAGE_SLUGS[currentPage] ?? '';
-    const newPath = slug ? `/${slug}` : '/';
     if (typeof window === 'undefined') {
       return;
     }
 
+    // Skip URL update if we're handling a browser navigation event
     if (isHandlingPopRef.current) {
       isHandlingPopRef.current = false;
       return;
     }
 
-    if (window.location.pathname === newPath) {
-      hasMountedRef.current = true;
-      return;
-    }
+    const slug = PAGE_SLUGS[currentPage] ?? '';
+    const newPath = slug ? `/${slug}` : '/';
+    const currentPath = window.location.pathname;
 
-    const historyMethod = hasMountedRef.current ? 'pushState' : 'replaceState';
-    window.history[historyMethod]({}, '', newPath);
-    hasMountedRef.current = true;
+    // Only update if the path is different
+    if (currentPath !== newPath) {
+      // Use replaceState on initial mount, pushState for subsequent navigations
+      const historyMethod = isInitialMountRef.current ? 'replaceState' : 'pushState';
+      window.history[historyMethod]({ page: currentPage }, '', newPath);
+      isInitialMountRef.current = false;
+    } else {
+      // Path matches, but ensure we mark as mounted
+      isInitialMountRef.current = false;
+    }
   }, [currentPage]);
 
+  // Handle browser back/forward buttons
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    const handlePopState = () => {
+    const handlePopState = (event) => {
       const pathSlug = normalisePathname(window.location.pathname);
       const nextPage = PATH_TO_PAGE[pathSlug] || 'home';
-      if (nextPage !== currentPage) {
-        isHandlingPopRef.current = true;
-      }
+      
+      // Set flag to prevent URL update in the other useEffect
+      isHandlingPopRef.current = true;
+      
+      // Update the page state
       setCurrentPage(nextPage);
     };
 
@@ -211,6 +209,15 @@ function App() {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
+  }, []); // Empty deps - only set up once
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const timeoutId = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 100);
+    return () => clearTimeout(timeoutId);
   }, [currentPage]);
 
   const renderContent = () => {
