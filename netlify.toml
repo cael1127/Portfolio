@@ -6,6 +6,7 @@
   NODE_VERSION = "18"
 
 # Exclude static files from SPA redirect - must come BEFORE catch-all rule
+# These rules ensure sitemap.xml and robots.txt are served as static files
 [[redirects]]
   from = "/sitemap.xml"
   to = "/sitemap.xml"
