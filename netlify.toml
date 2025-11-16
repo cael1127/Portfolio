@@ -5,6 +5,19 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Explicit redirects for static SEO files - must come before catch-all
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+  force = true
+
 # SPA catch-all redirect - redirects everything EXCEPT static files
 # Static files (sitemap.xml, robots.txt) are served directly by Netlify
 [[redirects]]
