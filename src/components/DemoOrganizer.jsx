@@ -936,7 +936,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             }}
           >
             <SpotlightCard
-              className="p-4 relative overflow-hidden group h-full"
+              className="p-3 sm:p-4 relative overflow-hidden group h-full"
               spotlightColor="rgba(34, 197, 94, 0.2)"
             >
               <button
@@ -948,31 +948,31 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 }}
                 style={{ zIndex: 1 }}
               />
-              <div className="flex items-center gap-4 relative" style={{ zIndex: 2 }}>
-                <div className="flex-shrink-0 text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 24)}</div>
+              <div className="flex items-center gap-2 sm:gap-4 relative" style={{ zIndex: 2 }}>
+                <div className="flex-shrink-0 text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-base font-semibold text-white truncate">{demo.name}</h3>
-                    <div className={`px-2 py-0.5 rounded text-xs font-medium ${getDifficultyBg(demo.difficulty)}`}>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-1">
+                    <h3 className="text-sm sm:text-base font-semibold text-white truncate">{demo.name}</h3>
+                    <div className={`px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium ${getDifficultyBg(demo.difficulty)}`}>
                       {demo.difficulty}
                     </div>
                   </div>
-                  <p className="text-gray-300 text-sm mb-2 line-clamp-1">{demo.description}</p>
+                  <p className="text-gray-300 text-[11px] sm:text-sm mb-2 line-clamp-1">{demo.description}</p>
                   <div className="flex flex-wrap gap-1">
-                    {demo.technologies.slice(0, 5).map((tech, idx) => (
+                    {demo.technologies.slice(0, 4).map((tech, idx) => (
                       <span
                         key={`${demo.id}-tech-${idx}`}
-                        className="bg-gray-700 text-gray-300 px-2 py-0.5 rounded text-xs"
+                        className="bg-gray-700 text-gray-300 px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs"
                       >
                         {tech}
                       </span>
                     ))}
-                    {demo.technologies.length > 5 && (
-                      <span className="text-gray-500 text-xs">+{demo.technologies.length - 5}</span>
+                    {demo.technologies.length > 4 && (
+                      <span className="text-gray-500 text-[10px] sm:text-xs">+{demo.technologies.length - 4}</span>
                     )}
                   </div>
                 </div>
-                <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all">
+                <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all hidden sm:block">
                   →
                 </div>
               </div>
@@ -1004,7 +1004,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             }}
           >
             <SpotlightCard
-              className="p-4 relative overflow-hidden group h-full"
+              className="p-2 sm:p-4 relative overflow-hidden group h-full"
               spotlightColor="rgba(34, 197, 94, 0.2)"
             >
               <button
@@ -1017,23 +1017,26 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 style={{ zIndex: 1 }}
               />
               <div className="relative" style={{ zIndex: 2 }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
-                  <h3 className="text-sm font-semibold text-white truncate flex-1">{demo.name}</h3>
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1 sm:mb-2">
+                  <div className="text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 16)}</div>
+                  <h3 className="text-[11px] sm:text-sm font-semibold text-white truncate flex-1">{demo.name}</h3>
                 </div>
-                <div className={`inline-block px-2 py-0.5 rounded text-xs font-medium mb-2 ${getDifficultyBg(demo.difficulty)}`}>
+                <div className={`inline-block px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium mb-1 sm:mb-2 ${getDifficultyBg(demo.difficulty)}`}>
                   {demo.difficulty}
                 </div>
-                <p className="text-gray-400 text-xs line-clamp-2 mb-2">{demo.description}</p>
+                <p className="text-gray-400 text-[10px] sm:text-xs line-clamp-2 mb-1 sm:mb-2">{demo.description}</p>
                 <div className="flex flex-wrap gap-1">
-                  {demo.technologies.slice(0, 3).map((tech, idx) => (
+                  {demo.technologies.slice(0, 2).map((tech, idx) => (
                     <span
                       key={`${demo.id}-tech-${idx}`}
-                      className="bg-gray-700 text-gray-300 px-1.5 py-0.5 rounded text-xs"
+                      className="bg-gray-700 text-gray-300 px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-xs"
                     >
                       {tech}
                     </span>
                   ))}
+                  {demo.technologies.length > 2 && (
+                    <span className="text-gray-500 text-[9px] sm:text-xs">+{demo.technologies.length - 2}</span>
+                  )}
                 </div>
               </div>
             </SpotlightCard>
@@ -1064,7 +1067,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           }}
         >
           <SpotlightCard
-            className="p-6 relative overflow-hidden group h-full"
+            className="p-3 sm:p-6 relative overflow-hidden group h-full"
             spotlightColor="rgba(34, 197, 94, 0.3)"
           >
           <button
@@ -1077,41 +1080,44 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             style={{ zIndex: 1 }}
           />
 
-          <div className="flex items-start justify-between mb-4 relative" style={{ zIndex: 2 }}>
-            <div className="flex items-center">
-              <div className="mr-3 transition-transform duration-300 group-hover:scale-110 text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 32)}</div>
-              <div>
-                <h3 className="text-lg font-semibold text-white transition-colors">
+          <div className="flex items-start justify-between mb-2 sm:mb-4 relative" style={{ zIndex: 2 }}>
+            <div className="flex items-center flex-1 min-w-0">
+              <div className="mr-2 sm:mr-3 transition-transform duration-300 group-hover:scale-110 text-green-400 flex-shrink-0">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-sm sm:text-lg font-semibold text-white transition-colors truncate">
                   {demo.name}
                 </h3>
-                <div className={`px-2 py-1 rounded text-xs font-medium transition-all duration-300 ${getDifficultyBg(demo.difficulty)}`}>
+                <div className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-medium transition-all duration-300 ${getDifficultyBg(demo.difficulty)}`}>
                   {demo.difficulty}
                 </div>
               </div>
             </div>
-            <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+            <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 flex-shrink-0 hidden sm:block">
               →
             </div>
           </div>
 
-          <p className="text-gray-300 text-sm mb-4 transition-colors">{demo.description}</p>
+          <p className="text-gray-300 text-[11px] sm:text-sm mb-2 sm:mb-4 transition-colors line-clamp-2">{demo.description}</p>
 
-          <div className="mb-4">
-            <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Technologies</h4>
+          <div className="mb-2 sm:mb-4">
+            <h4 className="text-[10px] sm:text-sm font-semibold text-gray-400 mb-1 sm:mb-2 transition-colors">Technologies</h4>
             <div className="flex flex-wrap gap-1">
-              {demo.technologies.map((tech, idx) => (
+              {demo.technologies.slice(0, 3).map((tech, idx) => (
                 <span
                   key={`${demo.id}-tech-${idx}`}
-                  className="bg-gray-600 text-white px-2 py-1 rounded text-xs transition-all duration-300 hover:scale-105"
+                  className="bg-gray-600 text-white px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs transition-all duration-300 hover:scale-105"
                   style={{ transitionDelay: `${idx * 50}ms` }}
                 >
                   {tech}
                 </span>
               ))}
+              {demo.technologies.length > 3 && (
+                <span className="text-gray-400 text-[10px] sm:text-xs">+{demo.technologies.length - 3}</span>
+              )}
             </div>
           </div>
 
-          <div>
+          <div className="hidden sm:block">
             <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
             <ul className="space-y-1">
               {demo.features.slice(0, 3).map((feature, idx) => (
@@ -1131,16 +1137,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           </div>
 
           {demo.hasProjectPage && (
-            <div className="mt-4 pt-4 border-t border-gray-600 transition-colors">
+            <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-gray-600 transition-colors">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setCurrentPage(routeId);
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
-                className="text-green-400 hover:text-green-300 text-xs font-semibold transition-transform duration-300"
+                className="text-green-400 hover:text-green-300 text-[10px] sm:text-xs font-semibold transition-transform duration-300"
               >
-                View Project Details →
+                View Details →
               </button>
             </div>
           )}
@@ -1527,8 +1533,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                     viewMode === 'list' 
                       ? 'space-y-3' 
                       : viewMode === 'compact'
-                      ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4'
-                      : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
+                      ? 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4'
+                      : 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6'
                   } style={{ isolation: 'isolate' }}>
                     {category.demos.slice(0, viewMode === 'compact' ? 5 : 3).map((demo, idx) => renderDemoCard(demo, idx, key))}
                   </div>
@@ -1551,8 +1557,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               viewMode === 'list' 
                 ? 'space-y-3' 
                 : viewMode === 'compact'
-                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4'
-                : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                ? 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4'
+                : 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6'
             } style={{ isolation: 'isolate' }}>
               {filteredDemos.map((demo, index) => renderDemoCard(demo, index, selectedCategory))}
             </div>
