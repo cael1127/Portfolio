@@ -920,7 +920,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           key={`${demo.id}-${categoryKey}-${index}`}
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.4, delay: index * 0.03 }}
           className="cursor-pointer"
         >
@@ -988,7 +988,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
           key={`${demo.id}-${categoryKey}-${index}`}
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.3, delay: index * 0.02 }}
           className="cursor-pointer"
         >
@@ -1048,7 +1048,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
         key={`${demo.id}-${categoryKey}-${index}`}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.4, delay: index * 0.05 }}
         className="cursor-pointer"
       >
@@ -1162,11 +1162,11 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   const showCategorySections = selectedCategory === 'all' && searchTerm.trim() === '';
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6 relative overflow-x-hidden">
+    <div className="min-h-screen bg-gray-900 text-white px-4 py-6 sm:p-6 relative overflow-x-hidden overflow-y-auto">
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <FloatingParticles />
       </div>
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 pb-8">
         {/* Header */}
         <div className="mb-8 snap-section">
           <AnimatedCard delay={0} direction="down" className="mb-4">

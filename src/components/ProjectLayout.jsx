@@ -73,7 +73,7 @@ const ProjectLayout = ({
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div className="grid lg:grid-cols-[220px,1fr] gap-6 items-start">
           <aside className="hidden lg:block sticky top-24 self-start">
             <motion.nav 
@@ -117,7 +117,7 @@ const ProjectLayout = ({
             {/* Live Demo Section */}
             <ScrollReveal delay={0} direction="up">
               <GlareHover intensity={0.3}>
-                <GlassCard className="p-6" glow>
+                <GlassCard className="p-4 sm:p-6" glow>
                   <div id="demo" className="overflow-x-auto">
                     <div className="flex items-center gap-3 mb-4">
                       <ProjectThumb emoji={emoji} accent="#10b981" />
@@ -126,7 +126,7 @@ const ProjectLayout = ({
                         <p className="text-gray-400 text-sm">Interactive demonstration of the project</p>
                       </div>
                     </div>
-                    <div className="w-full max-w-full min-h-[400px] p-6 bg-gray-900/30 rounded-lg border border-gray-700/50">
+                    <div className="w-full max-w-full min-h-[400px] p-4 sm:p-6 bg-gray-900/30 rounded-lg border border-gray-700/50 overflow-x-auto">
                       {demo || children}
                     </div>
                   </div>
@@ -136,7 +136,7 @@ const ProjectLayout = ({
 
             {/* Code & Skills Section */}
             <ScrollReveal delay={0.15} direction="up">
-              <GlassCard className="p-6" glow>
+              <GlassCard className="p-4 sm:p-6" glow>
                 <div id="code">
                 <h2 className="text-xl font-semibold mb-4">Code & Skills</h2>
                 <div className="grid md:grid-cols-2 gap-6">
@@ -182,7 +182,7 @@ const ProjectLayout = ({
 
             {/* Overview Section */}
             <ScrollReveal delay={0.25} direction="up">
-              <GlassCard className="p-6" glow>
+              <GlassCard className="p-4 sm:p-6" glow>
                 <div id="overview">
                   <h2 className="text-xl font-semibold mb-4">Project Overview</h2>
                   <p className="text-gray-300 leading-relaxed">{overview}</p>
