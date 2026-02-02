@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import AnimatedCard from './AnimatedCard';
 import FloatingParticles from './FloatingParticles';
 import GlassCard from './reactbits/GlassCard';
@@ -7,7 +7,7 @@ import BounceCard from './reactbits/BounceCard';
 import SpotlightCard from './reactbits/SpotlightCard';
 import ScrollReveal from './reactbits/ScrollReveal';
 import GlareHover from './reactbits/GlareHover';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getIcon, categoryIcons } from '../utils/iconMapping';
 
 const DemoOrganizer = ({ setCurrentPage }) => {
@@ -20,6 +20,25 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   const [sortBy, setSortBy] = useState('default'); // 'default', 'name', 'difficulty', 'newest'
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
+  const [categoryMenuOpen, setCategoryMenuOpen] = useState(false);
+  const categoryMenuRef = useRef(null);
+
+  // Close category menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (categoryMenuRef.current && !categoryMenuRef.current.contains(event.target)) {
+        setCategoryMenuOpen(false);
+      }
+    };
+
+    if (categoryMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [categoryMenuOpen]);
 
   const demoCategories = {
     'ai-ml': {
@@ -1289,31 +1308,96 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
             {/* Filters and View Controls */}
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-              {/* Category Filters */}
-              <div className="flex gap-2 flex-wrap">
+              {/* Category Filters - Hamburger Menu */}
+              <div className="relative" ref={categoryMenuRef}>
                 <button
-                  onClick={() => setSelectedCategory('all')}
-                  className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                    selectedCategory === 'all'
+                  onClick={() => setCategoryMenuOpen(!categoryMenuOpen)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                    selectedCategory !== 'all'
                       ? 'bg-green-600 text-white shadow-lg shadow-green-500/30'
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  All Demos
-                </button>
-                {Object.entries(demoCategories).map(([key, category]) => (
-                  <button
-                    key={key}
-                    onClick={() => setSelectedCategory(key)}
-                    className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                      selectedCategory === key
-                        ? 'bg-green-600 text-white shadow-lg shadow-green-500/30'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  <span className="hidden sm:inline">
+                    {selectedCategory === 'all' 
+                      ? 'Categories' 
+                      : demoCategories[selectedCategory]?.name || 'Categories'}
+                  </span>
+                  <svg 
+                    className={`w-4 h-4 transition-transform ${categoryMenuOpen ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
                   >
-                    {category.name}
-                  </button>
-                ))}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Category Dropdown Menu */}
+                <AnimatePresence>
+                  {categoryMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-2 w-64 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto"
+                    >
+                    <div className="p-2">
+                      <button
+                        onClick={() => {
+                          setSelectedCategory('all');
+                          setCategoryMenuOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-300 mb-1 ${
+                          selectedCategory === 'all'
+                            ? 'bg-green-600 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span>All Demos</span>
+                          {selectedCategory === 'all' && (
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                      </button>
+                      {Object.entries(demoCategories).map(([key, category]) => (
+                        <button
+                          key={key}
+                          onClick={() => {
+                            setSelectedCategory(key);
+                            setCategoryMenuOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-300 mb-1 ${
+                            selectedCategory === key
+                              ? 'bg-green-600 text-white'
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="text-green-400">{renderIcon(category.iconKey || key, 'category', 16)}</span>
+                              <span>{category.name}</span>
+                            </div>
+                            {selectedCategory === key && (
+                              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-400 mt-1 ml-6">{category.demos.length} demos</p>
+                        </button>
+                      ))}
+                    </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* View Mode and Sort Controls */}
