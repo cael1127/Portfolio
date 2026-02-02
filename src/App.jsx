@@ -574,10 +574,10 @@ function App() {
   };
 
   return (
-    <div className="App min-h-screen bg-gray-900 relative overflow-x-hidden overscroll-behavior scroll-smooth">
+    <div className="App min-h-screen bg-gray-900 relative overflow-x-hidden scroll-smooth">
       <FloatingParticles />
       <Navigation />
-      <main className="relative z-10 overflow-x-hidden snap-container pt-16">
+      <main className="relative z-10 overflow-x-hidden pt-16">
         {renderContent()}
       </main>
       <ScrollToTop />
