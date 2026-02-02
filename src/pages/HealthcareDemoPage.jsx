@@ -1,34 +1,43 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import HealthcareDemo from '../components/demos/HealthcareDemo';
 
 const HealthcareDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🏥 Healthcare Demo</h1>
-            <p className="text-gray-400 text-sm">AI-powered patient monitoring</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <HealthcareDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Healthcare Management System"
+      subtitle="AI-powered patient monitoring and healthcare management"
+      emoji="🏥"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Financial Platform', onClick: () => setCurrentPage('financial-demo') }}
+      demo={<HealthcareDemo />}
+      overview="Comprehensive healthcare management system featuring AI-powered patient monitoring, electronic health records, appointment scheduling, and real-time health analytics. Designed to improve patient care and streamline healthcare operations."
+      role="Full-stack development, AI integration, healthcare data management, patient monitoring system design, and healthcare analytics implementation"
+      stack={["React", "Node.js", "MongoDB", "AI/ML", "Healthcare APIs", "Real-time Monitoring", "Tailwind CSS"]}
+      challenges={[
+        "Ensuring HIPAA compliance and data security",
+        "Real-time patient monitoring with accurate alerts",
+        "Managing complex healthcare data relationships",
+        "Integrating multiple healthcare systems and devices"
+      ]}
+      results={[
+        "Real-time patient monitoring with instant alerts",
+        "Comprehensive electronic health records system",
+        "Streamlined appointment scheduling and management",
+        "AI-powered health analytics and insights",
+        "Secure and compliant healthcare data management"
+      ]}
+      problem="Healthcare providers need integrated systems to monitor patients, manage health records, schedule appointments, and analyze health data efficiently. Fragmented systems lead to inefficiencies and potential patient safety issues."
+      approach="Built a comprehensive healthcare management system with AI-powered patient monitoring, electronic health records, and real-time analytics. Implemented secure data handling with HIPAA compliance considerations and created an intuitive interface for healthcare providers."
+      highlights={[
+        "AI-powered patient monitoring and alerting",
+        "Electronic health records management",
+        "Appointment scheduling and calendar integration",
+        "Real-time health analytics and insights",
+        "Secure healthcare data management",
+        "Intuitive provider and patient interfaces"
+      ]}
+    />
   );
 };
 

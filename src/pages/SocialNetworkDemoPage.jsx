@@ -1,34 +1,43 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import SocialNetworkDemo from '../components/demos/SocialNetworkDemo';
 
 const SocialNetworkDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🌐 Social Network Demo</h1>
-            <p className="text-gray-400 text-sm">Social media platform with user authentication and posts</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <SocialNetworkDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Social Network Platform"
+      subtitle="Social media platform with user authentication, posts, and interactions"
+      emoji="🌐"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Interactive Resume', onClick: () => setCurrentPage('interactive-resume-demo') }}
+      demo={<SocialNetworkDemo />}
+      overview="A comprehensive social media platform featuring user authentication, profile management, post creation, likes, comments, and social interactions. Built with modern web technologies to provide a seamless social networking experience."
+      role="Full-stack development, authentication system, real-time updates, social features implementation, and user interface design"
+      stack={["React", "Node.js", "MongoDB", "JWT Authentication", "Real-time Updates", "Social Features", "REST API"]}
+      challenges={[
+        "Implementing secure user authentication and authorization",
+        "Managing real-time updates for posts and interactions",
+        "Handling complex social relationships and feeds",
+        "Optimizing performance for large user bases"
+      ]}
+      results={[
+        "Secure user authentication and profile management",
+        "Real-time post updates and social interactions",
+        "Efficient feed generation and content delivery",
+        "Comprehensive social features (likes, comments, follows)",
+        "Responsive design for all devices"
+      ]}
+      problem="Users need a social media platform that enables connections, content sharing, and real-time interactions. The platform must be secure, performant, and provide an engaging user experience."
+      approach="Built a full-stack social media platform with secure authentication, real-time updates, and comprehensive social features. Implemented efficient database queries for feed generation and optimized the user experience for engagement."
+      highlights={[
+        "Secure user authentication and authorization",
+        "Real-time post updates and notifications",
+        "Social interactions (likes, comments, follows)",
+        "User profiles and feed management",
+        "Content creation and sharing",
+        "Responsive and intuitive user interface"
+      ]}
+    />
   );
 };
 

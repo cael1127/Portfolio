@@ -6,11 +6,13 @@ import AnimatedCard from './AnimatedCard';
 import AnimatedText from './AnimatedText';
 import AnimatedCounter from './AnimatedCounter';
 import AnimatedHeroBackground from './AnimatedHeroBackground';
+import InteractiveGradientText from './InteractiveGradientText';
 import SpotlightCard from './reactbits/SpotlightCard';
 import GlassCard from './reactbits/GlassCard';
 import BounceCard from './reactbits/BounceCard';
 import GlareHover from './reactbits/GlareHover';
 import ScrollReveal from './reactbits/ScrollReveal';
+import { getIcon } from '../utils/iconMapping';
 const InspirationSection = React.lazy(() => import('./InspirationSection'));
 const TestimonialsSection = React.lazy(() => import('./TestimonialsSection'));
 const StackStrip = React.lazy(() => import('./StackStrip'));
@@ -24,31 +26,29 @@ const Home = ({ setCurrentPage }) => {
         <AnimatedHeroBackground />
       </div>
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16 relative z-10 snap-section">
-        <div className="text-center max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 py-20 md:py-32 relative z-10 snap-section">
+        <div className="text-center max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mb-6"
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mb-8"
           >
-            <AnimatedText
+            <InteractiveGradientText
               text="Cael Findley"
-              className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-400 via-teal-500 to-emerald-500 bg-clip-text text-transparent leading-none pb-2"
-              stagger={0.03}
-              delay={0.1}
+              className="text-6xl md:text-8xl lg:text-9xl font-bold leading-none pb-2 inline-block"
             />
           </motion.div>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mb-8"
           >
             <AnimatedText
-              text="Full-Stack Software Engineer & Cloud Architect"
-              className="text-2xl md:text-3xl text-gray-300"
+              text="Full-Stack Software Engineer, AI/ML Specialist & IT Systems Administrator"
+              className="text-2xl md:text-3xl lg:text-4xl text-gray-200 font-medium"
               stagger={0.02}
             />
           </motion.div>
@@ -56,68 +56,69 @@ const Home = ({ setCurrentPage }) => {
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-            className="mb-12"
+            transition={{ duration: 0.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mb-16"
           >
-            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              Specializing in modern web technologies, cloud infrastructure, and innovative solutions 
-              that drive business growth. From concept to deployment, I build scalable applications 
-              that make a difference.
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              With over 5 years of experience, I specialize in full-stack development, AI/ML integration, 
+              IT infrastructure management, and cybersecurity solutions. From concept to deployment, 
+              I build scalable applications and systems that drive business growth and make a difference.
             </p>
           </motion.div>
           
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
+            transition={{ duration: 0.5, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <motion.button
               onClick={() => setCurrentPage('demo-organizer')}
-              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg text-lg group relative overflow-hidden"
+              className="group relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold py-4 px-10 rounded-xl text-lg overflow-hidden shadow-lg shadow-teal-500/30"
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 20px 40px rgba(20, 184, 166, 0.3)"
+                boxShadow: "0 25px 50px rgba(20, 184, 166, 0.4)"
               }}
               whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: 0.8 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
             >
-              <span className="relative z-10">🚀 View My Work</span>
+              <span className="relative z-10">View My Work</span>
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500"
+                className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500"
                 initial={{ scaleX: 0 }}
                 whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
                 style={{ originX: 0 }}
               />
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "100%" }}
-                transition={{ duration: 0.7 }}
+                transition={{ duration: 0.8 }}
               />
             </motion.button>
             
             <motion.button
               onClick={() => setShowContactModal(true)}
-              className="bg-transparent border-2 border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white font-bold py-4 px-8 rounded-lg text-lg group relative overflow-hidden"
+              className="group relative bg-gray-800/50 backdrop-blur-sm border-2 border-teal-500/50 text-teal-400 hover:text-white font-bold py-4 px-10 rounded-xl text-lg overflow-hidden"
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 20px 40px rgba(20, 184, 166, 0.3)"
+                borderColor: "rgba(20, 184, 166, 1)",
+                boxShadow: "0 25px 50px rgba(20, 184, 166, 0.3)"
               }}
               whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: 0.9 }}
+              transition={{ duration: 0.4, delay: 0.8 }}
             >
-              <span className="relative z-10">💬 Get In Touch</span>
+              <span className="relative z-10">Get In Touch</span>
               <motion.div 
-                className="absolute inset-0 bg-teal-600"
+                className="absolute inset-0 bg-gradient-to-r from-teal-600/20 to-emerald-600/20 backdrop-blur-sm"
                 initial={{ scaleX: 0 }}
                 whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
                 style={{ originX: 0 }}
               />
             </motion.button>
@@ -201,7 +202,7 @@ const Home = ({ setCurrentPage }) => {
 
           {/* Skills Grid */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -209,8 +210,8 @@ const Home = ({ setCurrentPage }) => {
           >
             <motion.div 
               className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.05, y: -10 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -218,19 +219,19 @@ const Home = ({ setCurrentPage }) => {
             >
               <motion.div 
                 className="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-teal-500 transition-colors duration-300"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
               >
                 <span className="text-2xl">🌐</span>
               </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-teal-400 transition-colors">Frontend</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">React, TypeScript, Next.js</p>
+              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">React, TypeScript, JavaScript</p>
             </motion.div>
             
             <motion.div 
               className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.05, y: -10 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -238,19 +239,19 @@ const Home = ({ setCurrentPage }) => {
             >
               <motion.div 
                 className="bg-green-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500 transition-colors duration-300"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
               >
                 <span className="text-2xl">⚙️</span>
               </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-green-400 transition-colors">Backend</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Node.js, Python, GraphQL</p>
+              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Node.js, Python, Java</p>
             </motion.div>
             
             <motion.div 
               className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.05, y: -10 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -258,19 +259,19 @@ const Home = ({ setCurrentPage }) => {
             >
               <motion.div 
                 className="bg-emerald-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-500 transition-colors duration-300"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
               >
                 <span className="text-2xl">☁️</span>
               </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-emerald-400 transition-colors">Cloud</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">AWS, Docker, Kubernetes</p>
+              <h3 className="font-semibold mb-2 group-hover:text-emerald-400 transition-colors">DevOps</h3>
+              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">AWS, Docker, CI/CD</p>
             </motion.div>
             
             <motion.div 
               className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.05, y: -10 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -278,15 +279,143 @@ const Home = ({ setCurrentPage }) => {
             >
               <motion.div 
                 className="bg-teal-500 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-teal-400 transition-colors duration-300"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
               >
                 <span className="text-2xl">🤖</span>
               </motion.div>
               <h3 className="font-semibold mb-2 group-hover:text-teal-400 transition-colors">AI/ML</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">TensorFlow, OpenAI, NLP</p>
+              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">TensorFlow, NLP, Predictive Analytics</p>
+            </motion.div>
+
+            <motion.div 
+              className="text-center group cursor-pointer"
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.7 }}
+            >
+              <motion.div 
+                className="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500 transition-colors duration-300"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="text-2xl">🖥️</span>
+              </motion.div>
+              <h3 className="font-semibold mb-2 group-hover:text-blue-400 transition-colors">IT & Systems</h3>
+              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Windows/Linux, Network Design</p>
+            </motion.div>
+
+            <motion.div 
+              className="text-center group cursor-pointer"
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.8 }}
+            >
+              <motion.div 
+                className="bg-red-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-red-500 transition-colors duration-300"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="text-2xl">🔒</span>
+              </motion.div>
+              <h3 className="font-semibold mb-2 group-hover:text-red-400 transition-colors">Cybersecurity</h3>
+              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Secure Design, Access Control</p>
             </motion.div>
           </motion.div>
+        </div>
+      </div>
+
+      {/* Accomplishments Section */}
+      <div className="bg-gray-800 py-16 relative z-10 snap-section">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <h2 className="text-3xl font-bold text-center mb-4">Key Accomplishments</h2>
+            <p className="text-gray-400 text-center max-w-2xl mx-auto">
+              Proven track record of delivering impactful solutions across full-stack development, AI/ML integration, and IT infrastructure
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {[
+              {
+                iconKey: 'cicd-pipeline',
+                title: 'Faster Deployment Times',
+                description: 'Introduced Docker and AWS for cloud application deployment and CI/CD pipelines',
+                color: 'from-teal-600 to-emerald-600'
+              },
+              {
+                iconKey: 'security-monitoring',
+                title: 'Improved System Reliability',
+                description: 'Completed Windows and Linux server administration with accuracy and efficiency',
+                color: 'from-green-600 to-teal-600'
+              },
+              {
+                iconKey: 'frontend',
+                title: 'Enhanced Web Performance',
+                description: 'Introduced responsive UI/UX design and front-end optimization techniques',
+                color: 'from-emerald-600 to-green-600'
+              },
+              {
+                iconKey: 'backend',
+                title: 'Streamlined Database Operations',
+                description: 'Completed SQL database design and management with efficiency and accuracy',
+                color: 'from-teal-500 to-emerald-500'
+              },
+              {
+                iconKey: 'ai-assistant',
+                title: 'AI/ML Model Integration',
+                description: 'Collaborated with teams to integrate AI/ML models into production applications for predictive analytics',
+                color: 'from-blue-600 to-cyan-600'
+              },
+              {
+                iconKey: 'encryption-system',
+                title: 'Stronger Cybersecurity',
+                description: 'Introduced secure system design and access control protocols for enterprise-level networks',
+                color: 'from-red-600 to-orange-600'
+              },
+              {
+                iconKey: 'cicd-pipeline',
+                title: 'Rapid Feature Deployment',
+                description: 'Completed API integrations and backend logic with high accuracy and maintainability',
+                color: 'from-purple-600 to-pink-600'
+              },
+              {
+                iconKey: 'cicd-pipeline',
+                title: 'Workflow Automation',
+                description: 'Developed workflow automation tools and internal IT systems to improve operational efficiency',
+                color: 'from-indigo-600 to-blue-600'
+              }
+            ].map((accomplishment, index) => {
+              const IconComponent = getIcon(accomplishment.iconKey, 'demo');
+              return (
+                <motion.div
+                  key={index}
+                  className={`bg-gradient-to-br ${accomplishment.color} p-6 rounded-xl border border-gray-700 hover:border-gray-500 transition-all duration-300 hover:scale-105 hover:shadow-lg`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                >
+                  <div className="mb-4 text-white"><IconComponent size={40} /></div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{accomplishment.title}</h3>
+                  <p className="text-gray-200 text-sm leading-relaxed">{accomplishment.description}</p>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -307,7 +436,7 @@ const Home = ({ setCurrentPage }) => {
                 onClick={() => setShowContactModal(true)}
                 className="text-teal-400 hover:text-teal-300 transition-colors"
               >
-                findleytechs@gmail.com
+                caelfindley@gmail.com
               </button>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg">

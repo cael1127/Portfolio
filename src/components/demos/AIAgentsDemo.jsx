@@ -403,28 +403,11 @@ const AIAgentsDemo = () => {
           </p>
         </div>
 
-            <div className="space-y-6">
-      {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 AIAgents Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-          Multi-agent AI system with autonomous agents, coordination protocols, and distributed decision making.
-        </p>
-        <div className="mt-4 flex justify-center gap-4">
-          <button
-            onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
-          >
-            <span>💻</span>
-            View Implementation
-          </button>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-[1fr,320px] gap-6">
-          {/* Simulation Canvas */}
-          <div className="lg:col-span-2">
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+        <div className="space-y-6">
+          <div className="grid md:grid-cols-[1fr,320px] gap-6">
+            {/* Simulation Canvas */}
+            <div className="lg:col-span-2">
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Simulation Environment</h2>
                 <div className="flex gap-2">
@@ -463,13 +446,13 @@ const AIAgentsDemo = () => {
                 <p>🟡 Resources | 🟣 Base | 🟢 Collected | 🤖 Agents</p>
                 <p>Step: {step} | Running: {simulationRunning ? 'Yes' : 'No'}</p>
               </div>
+              </div>
             </div>
-          </div>
 
-          {/* Controls and Stats */}
-          <div className="space-y-6">
-            {/* Agent Types */}
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+            {/* Controls and Stats */}
+            <div className="space-y-6">
+              {/* Agent Types */}
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
               <h3 className="text-xl font-bold mb-4">Agent Types</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -489,10 +472,10 @@ const AIAgentsDemo = () => {
                   <span className="text-gray-300">{agents.filter(a => a.type === 'coordinator').length}</span>
                 </div>
               </div>
-            </div>
+              </div>
 
-            {/* Statistics */}
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              {/* Statistics */}
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
               <h3 className="text-xl font-bold mb-4">Statistics</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
@@ -512,10 +495,10 @@ const AIAgentsDemo = () => {
                   <span className="text-purple-400">{stats.agentEfficiency}%</span>
                 </div>
               </div>
-            </div>
+              </div>
 
-            {/* Code Viewer */}
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              {/* Code Viewer */}
+              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
               <h3 className="text-xl font-bold mb-4">Implementation</h3>
               <button
                 onClick={() => setShowCodeViewer(true)}
@@ -523,13 +506,13 @@ const AIAgentsDemo = () => {
               >
                 📖 View Code
               </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Agent Details */}
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Agent Details</h2>
+          {/* Agent Details */}
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Agent Details</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {agents.map(agent => (
               <div key={agent.id} className="bg-gray-800 p-4 rounded-lg border border-gray-600">
@@ -545,15 +528,14 @@ const AIAgentsDemo = () => {
               </div>
             ))}
           </div>
-        </div>
-      </div>
+          </div>
 
-      {showCodeViewer && (
-        <CodeViewer
-          isOpen={showCodeViewer}
-          onClose={() => setShowCodeViewer(false)}
-          title="AI Agents Implementation"
-          code={`
+          {showCodeViewer && (
+            <CodeViewer
+              isOpen={showCodeViewer}
+              onClose={() => setShowCodeViewer(false)}
+              title="AI Agents Implementation"
+              code={`
 // Deterministic AI Agents System
 class Agent {
   constructor(id, type, x, y) {
@@ -582,7 +564,7 @@ class Agent {
         // Move towards nearest resource
         const nearest = this.findNearestResource(environment);
         if (nearest) {
-          const path = this.getDeterministicPath(nearest);
+          const path = this.getDeterministicPath({ x: this.x, y: this.y }, nearest);
           if (path.length > 1) {
             this.x = path[1].x;
             this.y = path[1].y;
@@ -611,28 +593,60 @@ class Agent {
     this.x = Math.max(0, Math.min(ENVIRONMENT_SIZE - 1, this.x));
     this.y = Math.max(0, Math.min(ENVIRONMENT_SIZE - 1, this.y));
   }
-}
 
-// Deterministic pathfinding
-getDeterministicPath(start, end) {
-  const path = [start];
-  let current = { ...start };
-  
-  while (current.x !== end.x || current.y !== end.y) {
-    if (current.x < end.x) current.x++;
-    else if (current.x > end.x) current.x--;
+  // Deterministic pathfinding
+  getDeterministicPath(start, end) {
+    const path = [start];
+    let current = { ...start };
     
-    if (current.y < end.y) current.y++;
-    else if (current.y > end.y) current.y--;
+    while (current.x !== end.x || current.y !== end.y) {
+      if (current.x < end.x) current.x++;
+      else if (current.x > end.x) current.x--;
+      
+      if (current.y < end.y) current.y++;
+      else if (current.y > end.y) current.y--;
+      
+      path.push({ ...current });
+    }
     
-    path.push({ ...current });
+    return path;
   }
-  
-  return path;
+
+  findNearestResource(environment) {
+    // Find nearest resource implementation
+    let nearest = null;
+    let minDistance = Infinity;
+    
+    for (let y = 0; y < ENVIRONMENT_SIZE; y++) {
+      for (let x = 0; x < ENVIRONMENT_SIZE; x++) {
+        if (environment[y]?.[x] === 'resource') {
+          const distance = Math.abs(x - this.x) + Math.abs(y - this.y);
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearest = { x, y };
+          }
+        }
+      }
+    }
+    
+    return nearest;
+  }
+
+  getDirectionVector() {
+    const directions = [
+      [1, 0],  // right
+      [0, 1],  // down
+      [-1, 0], // left
+      [0, -1]  // up
+    ];
+    return directions[this.direction] || [0, 0];
+  }
 }
-          `}
-        />
-      )}
+            `}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -85,7 +85,7 @@ const AnimatedHeroBackground = () => {
     const createParticles = () => {
       particles = [];
       const rect = canvas.getBoundingClientRect();
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 50; i++) {
         const particle = new Particle();
         particle.x = Math.random() * rect.width;
         particle.y = Math.random() * rect.height;
@@ -102,7 +102,7 @@ const AnimatedHeroBackground = () => {
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
+          if (distance < 150) {
             ctx.save();
             ctx.globalAlpha = (120 - distance) / 120 * 0.2;
             ctx.strokeStyle = '#20b2aa';
@@ -185,12 +185,11 @@ const AnimatedHeroBackground = () => {
       <motion.div
         className="absolute top-20 left-10 w-20 h-20 border border-teal-400/20 rounded-lg"
         animate={{
-          rotate: [0, 360],
-          scale: [1, 1.2, 1],
-          opacity: [0.2, 0.5, 0.2]
+          scale: [1, 1.1, 1],
+          opacity: [0.2, 0.4, 0.2]
         }}
         transition={{
-          duration: 6,
+          duration: 4,
           repeat: Infinity,
           ease: "easeInOut"
         }}
@@ -213,12 +212,11 @@ const AnimatedHeroBackground = () => {
       <motion.div
         className="absolute bottom-40 left-1/4 w-12 h-12 border-2 border-emerald-400/30 transform rotate-45"
         animate={{
-          rotate: [45, 405],
-          scale: [1, 1.5, 1],
-          opacity: [0.3, 0.7, 0.3]
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3]
         }}
         transition={{
-          duration: 5,
+          duration: 4,
           repeat: Infinity,
           ease: "easeInOut"
         }}

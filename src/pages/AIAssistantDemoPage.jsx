@@ -1,34 +1,42 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import AIAssistantDemo from '../components/demos/AIAssistantDemo';
 
 const AIAssistantDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">AI Assistant Demo</h1>
-            <p className="text-gray-400 text-sm">ACF - Your AI companion</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <AIAssistantDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="AI Assistant"
+      subtitle="Intelligent conversational AI with natural language processing"
+      emoji="🤖"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Snake AI', onClick: () => setCurrentPage('snake-ai-demo') }}
+      demo={<AIAssistantDemo />}
+      overview="An intelligent conversational AI assistant that provides natural language understanding, context awareness, and smart responses. Built with modern NLP techniques to deliver human-like interactions and helpful assistance across various domains."
+      role="Full-stack development, NLP integration, API design, conversation flow engineering, and user experience design"
+      stack={["React", "NLP", "API Integration", "JavaScript", "Tailwind CSS", "Context API"]}
+      challenges={[
+        "Implementing natural language understanding",
+        "Maintaining conversation context across interactions",
+        "Handling ambiguous user queries",
+        "Providing accurate and helpful responses"
+      ]}
+      results={[
+        "Natural conversation flow with context retention",
+        "Smart response generation based on user intent",
+        "Seamless API integration for real-time responses",
+        "Intuitive user interface for chat interactions"
+      ]}
+      problem="Users need an intelligent AI assistant that can understand natural language, maintain conversation context, and provide helpful, accurate responses across various topics and use cases."
+      approach="Built a conversational AI assistant using React for the frontend and integrated NLP capabilities for natural language understanding. Implemented context management to maintain conversation flow and designed an intuitive chat interface for seamless user interactions."
+      highlights={[
+        "Natural language processing and understanding",
+        "Context-aware conversation management",
+        "Real-time response generation",
+        "Intuitive chat interface",
+        "Multi-turn conversation support",
+        "Smart query interpretation"
+      ]}
+    />
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import Home from './components/Home';
 import DemoOrganizer from './components/DemoOrganizer';
-import Freelancing from './components/Freelancing';
 import Contact from './components/Contact';
 import AIInterviewSimulatorProjectPage from './components/ProjectPages/AIInterviewSimulatorProjectPage';
 import RealTimeCollaborationProjectPage from './components/ProjectPages/RealTimeCollaborationProjectPage';
@@ -11,6 +11,10 @@ import EdgeComputingProjectPage from './components/ProjectPages/EdgeComputingPro
 import QuantumComputingProjectPage from './components/ProjectPages/QuantumComputingProjectPage';
 import FloatingParticles from './components/FloatingParticles';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollProgress from './components/ScrollProgress';
+import Education from './components/Education';
+import Blog from './components/Blog';
+import BlogPost from './components/BlogPost';
 
 // Import all demo pages
 import BlockchainDemoPage from './pages/BlockchainDemoPage';
@@ -60,6 +64,22 @@ import VulnerabilityScannerDemoPage from './pages/VulnerabilityScannerDemoPage';
 import PenetrationTestingDemoPage from './pages/PenetrationTestingDemoPage';
 import EncryptionSystemDemoPage from './pages/EncryptionSystemDemoPage';
 import SecurityMonitoringDemoPage from './pages/SecurityMonitoringDemoPage';
+import WAFDemoPage from './pages/WAFDemoPage';
+import SIEMDemoPage from './pages/SIEMDemoPage';
+import APISecurityGatewayDemoPage from './pages/APISecurityGatewayDemoPage';
+import PhishingDetectionDemoPage from './pages/PhishingDetectionDemoPage';
+import OWASPScannerDemoPage from './pages/OWASPScannerDemoPage';
+import NetworkTrafficAnalyzerDemoPage from './pages/NetworkTrafficAnalyzerDemoPage';
+import IDSDemoPage from './pages/IDSDemoPage';
+import ThreatIntelligenceDemoPage from './pages/ThreatIntelligenceDemoPage';
+
+// Full-stack projects
+import MicroservicesDemoPage from './pages/MicroservicesDemoPage';
+import GraphQLAPIDemoPage from './pages/GraphQLAPIDemoPage';
+import RealtimeCollaborationDemoPage from './pages/RealtimeCollaborationDemoPage';
+import EventDrivenArchitectureDemoPage from './pages/EventDrivenArchitectureDemoPage';
+import ServerlessPlatformDemoPage from './pages/ServerlessPlatformDemoPage';
+import MultiTenantSaaSDemoPage from './pages/MultiTenantSaaSDemoPage';
 
 // External website projects
 import ThreeSistersOysterProjectPage from './components/ProjectPages/ThreeSistersOysterProjectPage';
@@ -72,7 +92,8 @@ import JFResumeProjectPage from './components/ProjectPages/JFResumeProjectPage';
 const PAGE_SLUGS = {
   home: '',
   'demo-organizer': 'demo-organizer',
-  freelancing: 'freelancing',
+  education: 'about',
+  blog: 'blog',
   contact: 'contact',
   'ai-interview-simulator': 'ai-interview-simulator',
   'real-time-collaboration': 'real-time-collaboration',
@@ -120,6 +141,20 @@ const PAGE_SLUGS = {
   'penetration-testing-demo': 'penetration-testing-demo',
   'encryption-system-demo': 'encryption-system-demo',
   'security-monitoring-demo': 'security-monitoring-demo',
+  'waf-demo': 'waf-demo',
+  'siem-demo': 'siem-demo',
+  'api-security-gateway-demo': 'api-security-gateway-demo',
+  'phishing-detection-demo': 'phishing-detection-demo',
+  'owasp-scanner-demo': 'owasp-scanner-demo',
+  'network-traffic-analyzer-demo': 'network-traffic-analyzer-demo',
+  'ids-demo': 'ids-demo',
+  'threat-intelligence-demo': 'threat-intelligence-demo',
+  'microservices-demo': 'microservices-demo',
+  'graphql-api-demo': 'graphql-api-demo',
+  'realtime-collaboration-platform-demo': 'realtime-collaboration-platform-demo',
+  'event-driven-architecture-demo': 'event-driven-architecture-demo',
+  'serverless-platform-demo': 'serverless-platform-demo',
+  'multi-tenant-saas-demo': 'multi-tenant-saas-demo',
   'three-sisters-oyster-project': 'three-sisters-oyster-project',
   'bapux-project': 'bapux-project',
   'bpawd-project': 'bpawd-project',
@@ -222,13 +257,22 @@ function App() {
 
   const renderContent = () => {
     console.log('App.jsx - Current page:', currentPage);
+    
+    // Handle blog post routes (blog-{slug})
+    if (currentPage.startsWith('blog-')) {
+      const slug = currentPage.replace('blog-', '');
+      return <BlogPost slug={slug} setCurrentPage={setCurrentPage} />;
+    }
+    
     switch (currentPage) {
       case 'home':
         return <Home setCurrentPage={setCurrentPage} />;
       case 'demo-organizer':
         return <DemoOrganizer setCurrentPage={setCurrentPage} />;
-      case 'freelancing':
-        return <Freelancing setCurrentPage={setCurrentPage} />;
+      case 'education':
+        return <Education setCurrentPage={setCurrentPage} />;
+      case 'blog':
+        return <Blog setCurrentPage={setCurrentPage} />;
       case 'contact':
         return <Contact setCurrentPage={setCurrentPage} />;
       case 'ai-interview-simulator':
@@ -332,6 +376,36 @@ function App() {
         return <EncryptionSystemDemoPage setCurrentPage={setCurrentPage} />;
       case 'security-monitoring-demo':
         return <SecurityMonitoringDemoPage setCurrentPage={setCurrentPage} />;
+      case 'waf-demo':
+        return <WAFDemoPage setCurrentPage={setCurrentPage} />;
+      case 'siem-demo':
+        return <SIEMDemoPage setCurrentPage={setCurrentPage} />;
+      case 'api-security-gateway-demo':
+        return <APISecurityGatewayDemoPage setCurrentPage={setCurrentPage} />;
+      case 'phishing-detection-demo':
+        return <PhishingDetectionDemoPage setCurrentPage={setCurrentPage} />;
+      case 'owasp-scanner-demo':
+        return <OWASPScannerDemoPage setCurrentPage={setCurrentPage} />;
+      case 'network-traffic-analyzer-demo':
+        return <NetworkTrafficAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
+      case 'ids-demo':
+        return <IDSDemoPage setCurrentPage={setCurrentPage} />;
+      case 'threat-intelligence-demo':
+        return <ThreatIntelligenceDemoPage setCurrentPage={setCurrentPage} />;
+      
+      // Full-stack projects
+      case 'microservices-demo':
+        return <MicroservicesDemoPage setCurrentPage={setCurrentPage} />;
+      case 'graphql-api-demo':
+        return <GraphQLAPIDemoPage setCurrentPage={setCurrentPage} />;
+      case 'realtime-collaboration-platform-demo':
+        return <RealtimeCollaborationDemoPage setCurrentPage={setCurrentPage} />;
+      case 'event-driven-architecture-demo':
+        return <EventDrivenArchitectureDemoPage setCurrentPage={setCurrentPage} />;
+      case 'serverless-platform-demo':
+        return <ServerlessPlatformDemoPage setCurrentPage={setCurrentPage} />;
+      case 'multi-tenant-saas-demo':
+        return <MultiTenantSaaSDemoPage setCurrentPage={setCurrentPage} />;
       
       // External website projects
       case 'three-sisters-oyster-project':
@@ -354,89 +428,148 @@ function App() {
 
   // Navigation component
   const Navigation = () => {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const navItems = [
       { id: 'home', label: 'Home', icon: '' },
       { id: 'demo-organizer', label: 'Projects', icon: '' },
-      { id: 'freelancing', label: 'Services', icon: '' },
+      { id: 'blog', label: 'Blog', icon: '' },
+      { id: 'education', label: 'About', icon: '' },
       { id: 'contact', label: 'Contact', icon: '' },
     ];
 
     return (
-      <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center">
-              <button
-                onClick={() => setCurrentPage('home')}
-                className="flex items-center space-x-2 text-white font-bold text-lg hover:text-teal-400 transition-colors"
+      <>
+        <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-900/80 border-b border-gray-700/50 shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <motion.div 
+                className="flex items-center"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="text-2xl">CF</span>
-                <span>Cael Findley</span>
-              </button>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:block">
-              <div className="flex items-center space-x-1">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setCurrentPage(item.id)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 relative overflow-hidden group ${
-                      currentPage === item.id
-                        ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/30'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-700 hover:shadow-lg hover:shadow-gray-500/30'
-                    }`}
+                <button
+                  onClick={() => setCurrentPage('home')}
+                  className="flex items-center space-x-2 text-white font-bold text-lg group"
+                >
+                  <motion.span 
+                    className="text-2xl bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <span className="relative z-10">{item.label}</span>
-                    {currentPage === item.id && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 animate-pulse"></div>
+                    CF
+                  </motion.span>
+                  <span className="group-hover:text-teal-400 transition-colors">Cael Findley</span>
+                </button>
+              </motion.div>
+
+              {/* Desktop Navigation */}
+              <div className="hidden md:block">
+                <div className="flex items-center space-x-2">
+                  {navItems.map((item) => (
+                    <motion.button
+                      key={item.id}
+                      onClick={() => setCurrentPage(item.id)}
+                      className="relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className={`relative z-10 transition-colors ${
+                        currentPage === item.id
+                          ? 'text-white'
+                          : 'text-gray-300 group-hover:text-white'
+                      }`}>
+                        {item.label}
+                      </span>
+                      
+                      {/* Active indicator */}
+                      {currentPage === item.id && (
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-teal-600/80 to-emerald-600/80 rounded-lg backdrop-blur-sm"
+                          layoutId="activeTab"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                      
+                      {/* Hover effect */}
+                      {currentPage !== item.id && (
+                        <motion.div
+                          className="absolute inset-0 bg-gray-700/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                        />
+                      )}
+                      
+                      {/* Underline animation */}
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-teal-400 to-emerald-400"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: currentPage === item.id ? 1 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile menu button */}
+              <div className="md:hidden">
+                <motion.button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="text-gray-300 hover:text-white p-2"
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <motion.svg
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {mobileMenuOpen ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  </button>
-                ))}
-                
+                  </motion.svg>
+                </motion.button>
               </div>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => {
-                  const mobileMenu = document.getElementById('mobile-menu');
-                  mobileMenu.classList.toggle('hidden');
-                }}
-                className="text-gray-300 hover:text-white p-2"
-              >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
+            {/* Mobile Navigation */}
+            <motion.div
+              initial={false}
+              animate={{
+                height: mobileMenuOpen ? "auto" : 0,
+                opacity: mobileMenuOpen ? 1 : 0
+              }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden overflow-hidden"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {navItems.map((item) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => {
+                      setCurrentPage(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all ${
+                      currentPage === item.id
+                        ? 'bg-teal-600/80 text-white shadow-lg'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                    }`}
+                    whileHover={{ x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
           </div>
-
-          {/* Mobile Navigation */}
-          <div id="mobile-menu" className="hidden md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setCurrentPage(item.id)}
-                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                    currentPage === item.id
-                      ? 'bg-teal-600 text-white'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-700'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-              
-            </div>
-          </div>
-        </div>
-      </nav>
+        </nav>
+        <ScrollProgress />
+      </>
     );
   };
 
@@ -444,7 +577,7 @@ function App() {
     <div className="App min-h-screen bg-gray-900 relative overflow-x-hidden overscroll-behavior scroll-smooth">
       <FloatingParticles />
       <Navigation />
-      <main className="relative z-10 overflow-x-hidden snap-container">
+      <main className="relative z-10 overflow-x-hidden snap-container pt-16">
         {renderContent()}
       </main>
       <ScrollToTop />

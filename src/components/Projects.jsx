@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import TrendingProjects from './TrendingProjects';
 import DemoOrganizer from './DemoOrganizer';
+import { getIcon } from '../utils/iconMapping';
+import { HiFire, HiBriefcase } from 'react-icons/hi2';
+import { FaGamepad } from 'react-icons/fa';
 
 const Projects = ({ setCurrentPage }) => {
   const [activeTab, setActiveTab] = useState('demos');
 
   const tabs = [
-    { id: 'demos', label: 'Live Demos', icon: '🎮' },
-    { id: 'trending', label: 'Trending Projects', icon: '🔥' },
-    { id: 'portfolio', label: 'Portfolio Projects', icon: '💼' }
+    { id: 'demos', label: 'Live Demos', iconKey: 'game-platform', Icon: FaGamepad },
+    { id: 'trending', label: 'Trending Projects', iconKey: 'financial', Icon: HiFire },
+    { id: 'portfolio', label: 'Portfolio Projects', iconKey: 'business-apps', Icon: HiBriefcase }
   ];
 
   return (
@@ -28,7 +31,7 @@ const Projects = ({ setCurrentPage }) => {
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               )}
             >
-              <span className="mr-2">{tab.icon}</span>
+              <span className="mr-2 inline-flex items-center"><tab.Icon size={20} /></span>
               {tab.label}
             </button>
           ))}
@@ -364,35 +367,71 @@ const Projects = ({ setCurrentPage }) => {
             {/* Skills Section */}
             <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
               <h3 className="text-2xl font-bold text-white mb-4">🛠️ Technical Skills</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Frontend Development</h4>
+                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Programming & Development</h4>
                   <ul className="space-y-1 text-gray-300 text-sm">
-                    <li>• React.js & Next.js</li>
+                    <li>• Java & Python</li>
                     <li>• TypeScript & JavaScript</li>
-                    <li>• Tailwind CSS & Styled Components</li>
-                    <li>• Redux & Context API</li>
-                    <li>• Responsive Design</li>
+                    <li>• React.js & Next.js</li>
+                    <li>• Node.js & Express</li>
+                    <li>• HTML5, CSS, SQL</li>
+                    <li>• RESTful APIs</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Backend & APIs</h4>
+                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Software Engineering & DevOps</h4>
                   <ul className="space-y-1 text-gray-300 text-sm">
-                    <li>• Node.js & Express</li>
-                    <li>• Python & Django</li>
-                    <li>• RESTful APIs & GraphQL</li>
-                    <li>• Database Design</li>
-                    <li>• Authentication & Security</li>
+                    <li>• Version Control (Git)</li>
+                    <li>• CI/CD Pipelines</li>
+                    <li>• Docker & Containerization</li>
+                    <li>• Cloud Deployment (AWS, Netlify)</li>
+                    <li>• API Integration</li>
+                    <li>• Performance Optimization</li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold text-purple-400 mb-3">AI & Machine Learning</h4>
                   <ul className="space-y-1 text-gray-300 text-sm">
-                    <li>• TensorFlow & PyTorch</li>
-                    <li>• Computer Vision</li>
-                    <li>• Natural Language Processing</li>
+                    <li>• AI/ML Model Integration</li>
                     <li>• Predictive Analytics</li>
-                    <li>• Data Science</li>
+                    <li>• Natural Language Processing</li>
+                    <li>• Intelligent Automation</li>
+                    <li>• Python/Java-Based ML Pipelines</li>
+                    <li>• TensorFlow & PyTorch</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-purple-400 mb-3">IT & Systems Administration</h4>
+                  <ul className="space-y-1 text-gray-300 text-sm">
+                    <li>• Windows & Linux Server Admin</li>
+                    <li>• System Configuration & Optimization</li>
+                    <li>• Cloud Infrastructure</li>
+                    <li>• Network Design & Maintenance</li>
+                    <li>• Hardware/Software Troubleshooting</li>
+                    <li>• Client-Based IT Consultation</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Cybersecurity & Infrastructure</h4>
+                  <ul className="space-y-1 text-gray-300 text-sm">
+                    <li>• Secure System & Network Design</li>
+                    <li>• Access Control Protocols</li>
+                    <li>• Risk Reduction Strategies</li>
+                    <li>• Reliability Maintenance</li>
+                    <li>• Cybersecurity Best Practices</li>
+                    <li>• Enterprise-Level Network Security</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Frontend & UI/UX</h4>
+                  <ul className="space-y-1 text-gray-300 text-sm">
+                    <li>• Responsive Web Design</li>
+                    <li>• UI/UX Implementation</li>
+                    <li>• Cross-Platform Development</li>
+                    <li>• Mobile App Development (Expo)</li>
+                    <li>• Tailwind CSS & Styled Components</li>
+                    <li>• Redux & Context API</li>
                   </ul>
                 </div>
               </div>

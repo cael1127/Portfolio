@@ -1,34 +1,59 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import FraudDetectionDemo from '../components/demos/FraudDetectionDemo';
 
 const FraudDetectionDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🔍 Fraud Detection Demo</h1>
-            <p className="text-gray-400 text-sm">Real-time transaction monitoring</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <FraudDetectionDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Fraud Detection System"
+      subtitle="AI-powered financial fraud detection with real-time analysis"
+      emoji="🔍"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Deepfake Detection', onClick: () => setCurrentPage('deepfake-detection-demo') }}
+      demo={<FraudDetectionDemo />}
+      overview="Advanced AI-powered fraud detection system that analyzes financial transactions in real-time to identify suspicious patterns and potential fraudulent activities. Uses machine learning algorithms to detect anomalies and assess risk scores for each transaction."
+      role="Machine learning engineering, fraud detection algorithm development, real-time data processing, risk scoring system design, and dashboard implementation"
+      stack={["Python", "TensorFlow", "Scikit-learn", "React", "Real-time Processing", "Machine Learning"]}
+      challenges={[
+        "Detecting fraud patterns in high-volume transaction streams",
+        "Reducing false positives while maintaining high detection accuracy",
+        "Processing transactions in real-time with low latency",
+        "Handling imbalanced datasets in fraud detection"
+      ]}
+      results={[
+        "Real-time fraud detection with <100ms processing time",
+        "High accuracy rate with minimal false positives",
+        "Pattern recognition across multiple transaction types",
+        "Comprehensive risk scoring system",
+        "Interactive dashboard for fraud analysis"
+      ]}
+      problem="Financial institutions need automated systems to detect fraudulent transactions in real-time. Manual review is slow and cannot scale to handle millions of transactions daily. An AI-powered solution is essential for protecting customers and reducing financial losses."
+      approach="Developed a machine learning-based fraud detection system using TensorFlow and Scikit-learn. Implemented real-time transaction analysis with pattern recognition algorithms, anomaly detection, and risk scoring. Built an interactive dashboard for monitoring and analyzing fraud patterns."
+      highlights={[
+        "Real-time transaction analysis and monitoring",
+        "Advanced pattern recognition algorithms",
+        "Risk scoring with confidence levels",
+        "Anomaly detection across multiple dimensions",
+        "Interactive fraud analysis dashboard",
+        "Scalable architecture for high-volume processing"
+      ]}
+      tutorialSummary="Build an AI-powered fraud detection system with real-time transaction monitoring, pattern recognition, and risk scoring. Learn machine learning techniques for anomaly detection and fraud prevention."
+      difficulty="Advanced"
+      timeEstimate="3-4 weeks"
+      keyConcepts={[
+        { name: "Anomaly Detection", description: "Identifying unusual patterns in transaction data" },
+        { name: "Risk Scoring", description: "Calculating fraud probability scores for transactions" },
+        { name: "Real-time Processing", description: "Analyzing transactions as they occur" },
+        { name: "Pattern Recognition", description: "Detecting fraud patterns using ML algorithms" }
+      ]}
+      tutorialSteps={[
+        "Collect and preprocess transaction data",
+        "Train machine learning models for fraud detection",
+        "Implement real-time transaction processing pipeline",
+        "Build risk scoring and alerting system",
+        "Create interactive dashboard for fraud analysis"
+      ]}
+    />
   );
 };
 

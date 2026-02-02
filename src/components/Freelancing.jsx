@@ -28,7 +28,7 @@ const Freelancing = () => {
                 Start a Project
               </button>
               <a
-                href="https://linkedin.com/in/caelfindley"
+                href="https://www.linkedin.com/in/cael-findley-a45541394/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-transparent border-2 border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-teal-500/30"

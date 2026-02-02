@@ -1,6 +1,10 @@
 import React from 'react';
+import { getIcon } from '../utils/iconMapping';
+import { HiPuzzlePiece } from 'react-icons/hi2';
 
-const ProjectThumb = ({ emoji = '🧩', accent = '#10B981' }) => {
+const ProjectThumb = ({ iconKey = 'product-configurator', Icon, accent = '#10B981' }) => {
+  const IconComponent = Icon || getIcon(iconKey, 'demo') || HiPuzzlePiece;
+  
   return (
     <div className="mb-6">
       <div className="relative overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
@@ -18,8 +22,8 @@ const ProjectThumb = ({ emoji = '🧩', accent = '#10B981' }) => {
             <circle cx="520" cy="60" r="30" fill="url(#g)" />
           </g>
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center text-4xl select-none">
-          <span>{emoji}</span>
+        <div className="absolute inset-0 flex items-center justify-center select-none text-green-400">
+          <IconComponent size={48} />
         </div>
       </div>
     </div>

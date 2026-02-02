@@ -1,34 +1,43 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import LogisticsDemo from '../components/demos/LogisticsDemo';
 
 const LogisticsDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🚚 Logistics Demo</h1>
-            <p className="text-gray-400 text-sm">Fleet and route optimization</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <LogisticsDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Logistics Management System"
+      subtitle="Fleet and route optimization for efficient delivery operations"
+      emoji="🚚"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Restaurant App', onClick: () => setCurrentPage('restaurant-app-demo') }}
+      demo={<LogisticsDemo />}
+      overview="Comprehensive logistics management system featuring fleet tracking, route optimization, delivery scheduling, and real-time shipment monitoring. Designed to maximize efficiency and reduce operational costs in supply chain and delivery operations."
+      role="Full-stack development, route optimization algorithms, fleet management system design, real-time tracking implementation, and logistics analytics"
+      stack={["React", "Node.js", "MongoDB", "Route Optimization", "GPS Tracking", "Maps API", "Real-time Updates"]}
+      challenges={[
+        "Optimizing routes for multiple vehicles and destinations",
+        "Real-time fleet tracking and location updates",
+        "Managing complex delivery schedules and constraints",
+        "Handling dynamic route changes and traffic conditions"
+      ]}
+      results={[
+        "Route optimization reducing delivery time by 25%",
+        "Real-time fleet tracking with GPS integration",
+        "Automated delivery scheduling and assignment",
+        "Comprehensive logistics analytics and reporting",
+        "Improved customer satisfaction with accurate ETAs"
+      ]}
+      problem="Logistics companies struggle with inefficient route planning, poor fleet visibility, and manual scheduling processes. This leads to increased fuel costs, delayed deliveries, and reduced customer satisfaction."
+      approach="Developed a logistics management system with advanced route optimization algorithms, real-time fleet tracking, and automated scheduling. Integrated GPS tracking and mapping APIs to provide comprehensive visibility and efficient route planning."
+      highlights={[
+        "Advanced route optimization algorithms",
+        "Real-time fleet tracking and monitoring",
+        "Automated delivery scheduling and assignment",
+        "GPS integration with live location updates",
+        "Comprehensive logistics analytics dashboard",
+        "Dynamic route adjustment for traffic conditions"
+      ]}
+    />
   );
 };
 

@@ -1,34 +1,43 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import InteractiveResumeDemo from '../components/demos/InteractiveResumeDemo';
 
 const InteractiveResumeDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">📝 Interactive Resume Demo</h1>
-            <p className="text-gray-400 text-sm">Real-time editing resume with responsive design</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <InteractiveResumeDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Interactive Resume Builder"
+      subtitle="Real-time editing resume with responsive design and live preview"
+      emoji="📝"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Deepfake Detection', onClick: () => setCurrentPage('deepfake-detection-demo') }}
+      demo={<InteractiveResumeDemo />}
+      overview="An interactive resume builder that allows users to create, edit, and customize their resumes in real-time. Features live preview, responsive design, multiple templates, and export capabilities for professional resume creation."
+      role="Frontend development, real-time editing implementation, template design, export functionality, and user experience design"
+      stack={["React", "Real-time Editing", "PDF Generation", "Responsive Design", "Template System", "Export"]}
+      challenges={[
+        "Implementing real-time editing with live preview",
+        "Creating responsive resume layouts",
+        "Generating high-quality PDF exports",
+        "Designing intuitive editing interface"
+      ]}
+      results={[
+        "Real-time resume editing with instant preview",
+        "Multiple professional resume templates",
+        "Responsive design for all screen sizes",
+        "High-quality PDF export functionality",
+        "Intuitive drag-and-drop editing interface"
+      ]}
+      problem="Job seekers need an easy way to create professional resumes without complex software. An interactive, web-based resume builder with real-time editing and export capabilities would solve this problem."
+      approach="Built an interactive resume builder with real-time editing capabilities, live preview, and multiple templates. Implemented responsive design for all devices and added PDF export functionality for professional resume generation."
+      highlights={[
+        "Real-time editing with live preview",
+        "Multiple professional resume templates",
+        "Responsive design for all devices",
+        "Drag-and-drop section organization",
+        "PDF export with high quality",
+        "Intuitive and user-friendly interface"
+      ]}
+    />
   );
 };
 

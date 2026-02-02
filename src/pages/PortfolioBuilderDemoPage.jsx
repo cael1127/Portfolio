@@ -1,34 +1,43 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import PortfolioBuilderDemo from '../components/demos/PortfolioBuilderDemo';
 
 const PortfolioBuilderDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🎨 Portfolio Builder Demo</h1>
-            <p className="text-gray-400 text-sm">Drag-and-drop website builder</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <PortfolioBuilderDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Portfolio Website Builder"
+      subtitle="Drag-and-drop website builder for creating professional portfolios"
+      emoji="🎨"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Realtime Chat', onClick: () => setCurrentPage('realtime-chat-demo') }}
+      demo={<PortfolioBuilderDemo />}
+      overview="A drag-and-drop website builder that enables users to create professional portfolio websites without coding. Features intuitive editing, multiple templates, responsive design, and live preview for building stunning portfolio sites."
+      role="Full-stack development, drag-and-drop implementation, template system design, responsive layout engine, and user experience design"
+      stack={["React", "Drag and Drop", "Template System", "Responsive Design", "Live Preview", "Export"]}
+      challenges={[
+        "Implementing smooth drag-and-drop functionality",
+        "Creating flexible layout system for various templates",
+        "Ensuring responsive design across all devices",
+        "Managing complex component state and updates"
+      ]}
+      results={[
+        "Intuitive drag-and-drop website builder",
+        "Multiple professional portfolio templates",
+        "Real-time preview of changes",
+        "Responsive design for all screen sizes",
+        "Export functionality for deployment"
+      ]}
+      problem="Professionals need an easy way to create portfolio websites without coding knowledge. A drag-and-drop builder with templates and live preview would enable anyone to create professional portfolios."
+      approach="Built a drag-and-drop website builder with an intuitive interface, multiple templates, and real-time preview. Implemented a flexible layout system that supports responsive design and created an export system for easy deployment."
+      highlights={[
+        "Drag-and-drop component placement",
+        "Multiple professional portfolio templates",
+        "Real-time preview of changes",
+        "Responsive design system",
+        "Component customization and styling",
+        "Export and deployment capabilities"
+      ]}
+    />
   );
 };
 

@@ -1,33 +1,42 @@
 import React from 'react';
-import ResumeAnalyzerDemo from '../components/demos/ResumeAnalyzerDemo';
 import ProjectLayout from '../components/ProjectLayout';
-import Reveal from '../components/Reveal';
-import CaseStudy from '../components/CaseStudy';
-import ProjectThumb from '../components/ProjectThumb';
+import ResumeAnalyzerDemo from '../components/demos/ResumeAnalyzerDemo';
 
 const ResumeAnalyzerDemoPage = ({ setCurrentPage }) => {
   return (
     <ProjectLayout
-      title="Resume Analyzer Demo"
-      subtitle="AI-powered resume analysis"
+      title="AI Resume Analyzer"
+      subtitle="Intelligent resume analysis with skill matching"
       emoji="📄"
       onBack={() => setCurrentPage('demo-organizer')}
       next={{ label: 'Whiteboard', onClick: () => setCurrentPage('whiteboard-demo') }}
-    >
-      <Reveal>
-        <ProjectThumb emoji="📄" accent="#06b6d4" />
-        <ResumeAnalyzerDemo />
-      </Reveal>
-      <Reveal delay={150}>
-        <CaseStudy
-          overview="NLP pipeline to extract skills and match resumes to roles with explainability."
-          role="Feature design, model integration, UX."
-          stack={["React", "Python", "NLP", "Tailwind"]}
-          challenges={["Entity extraction accuracy", "Latency under 1s"]}
-          results={["Candidate scoring with highlights", "<700ms typical response"]}
-        />
-      </Reveal>
-    </ProjectLayout>
+      demo={<ResumeAnalyzerDemo />}
+      overview="An AI-powered resume analysis system that extracts skills, matches candidates to job roles, and provides detailed scoring with explainability. Uses NLP techniques to analyze resumes and provide actionable insights for recruiters and candidates."
+      role="Feature design, NLP model integration, skill extraction algorithm development, candidate scoring system, and user experience design"
+      stack={["React", "Python", "NLP", "Machine Learning", "Tailwind CSS", "Text Processing"]}
+      challenges={[
+        "Achieving accurate entity extraction from unstructured resume text",
+        "Maintaining analysis latency under 1 second",
+        "Matching skills to job requirements accurately",
+        "Providing explainable scoring results"
+      ]}
+      results={[
+        "Candidate scoring with detailed highlights and explanations",
+        "Average response time under 700ms",
+        "High accuracy in skill extraction and matching",
+        "Comprehensive resume analysis with actionable insights"
+      ]}
+      problem="Recruiters need tools to quickly analyze resumes and match candidates to job requirements. Manual resume review is time-consuming and may miss relevant skills or experience. An AI-powered system can automate this process."
+      approach="Built an AI-powered resume analyzer using NLP techniques for skill extraction and matching. Implemented a scoring system that provides explainable results and highlights relevant sections of resumes for recruiters."
+      highlights={[
+        "AI-powered skill extraction from resumes",
+        "Intelligent candidate-to-job matching",
+        "Detailed scoring with explainability",
+        "Fast analysis with sub-second response times",
+        "Comprehensive resume insights",
+        "User-friendly interface for recruiters"
+      ]}
+    />
   );
 };
 

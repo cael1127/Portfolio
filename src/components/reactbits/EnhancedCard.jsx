@@ -1,0 +1,124 @@
+import React, { useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+
+const EnhancedCard = ({ 
+  children, 
+  className = '', 
+  glow = false,
+  tilt = true,
+  magnetic = true,
+  gradientBorder = false,
+  ...props 
+}) => {
+  const ref = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 50 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 50 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], tilt ? ["3deg", "-3deg"] : ["0deg", "0deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], tilt ? ["-3deg", "3deg"] : ["0deg", "0deg"]);
+
+  const handleMouseMove = (e) => {
+    if (!ref.current || (!tilt && !magnetic)) return;
+    
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    setIsHovered(false);
+  };
+
+  const magneticX = useTransform(mouseXSpring, [-0.5, 0.5], magnetic ? [-3, 3] : [0, 0]);
+  const magneticY = useTransform(mouseYSpring, [-0.5, 0.5], magnetic ? [-3, 3] : [0, 0]);
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`relative ${className}`}
+      onMouseMove={tilt || magnetic ? handleMouseMove : undefined}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: tilt ? rotateX : 0,
+        rotateY: tilt ? rotateY : 0,
+        transformStyle: "preserve-3d",
+        x: magnetic ? magneticX : 0,
+        y: magnetic ? magneticY : 0,
+      }}
+      transition={{ type: "spring", stiffness: 400, damping: 40 }}
+      {...props}
+    >
+      {/* Gradient border */}
+      {gradientBorder && (
+        <motion.div
+          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.5), rgba(16, 185, 129, 0.5), rgba(34, 197, 94, 0.5))',
+            padding: '2px',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            borderRadius: 'inherit',
+          }}
+          animate={isHovered ? {
+            background: [
+              'linear-gradient(135deg, rgba(20, 184, 166, 0.5), rgba(16, 185, 129, 0.5), rgba(34, 197, 94, 0.5))',
+              'linear-gradient(225deg, rgba(34, 197, 94, 0.5), rgba(20, 184, 166, 0.5), rgba(16, 185, 129, 0.5))',
+              'linear-gradient(135deg, rgba(20, 184, 166, 0.5), rgba(16, 185, 129, 0.5), rgba(34, 197, 94, 0.5))',
+            ]
+          } : {}}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
+      )}
+
+      {/* Glass card content */}
+      <div
+        className={`relative backdrop-blur-md bg-gray-800/40 border border-gray-700/50 rounded-xl h-full ${
+          glow && isHovered ? 'shadow-2xl shadow-teal-500/20' : 'shadow-lg'
+        }`}
+        style={{
+          background: 'linear-gradient(135deg, rgba(31, 41, 55, 0.4) 0%, rgba(17, 24, 39, 0.4) 100%)',
+          boxShadow: glow && isHovered
+            ? '0 20px 60px rgba(20, 184, 166, 0.3), 0 0 40px rgba(20, 184, 166, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05)'
+            : '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+          transform: 'translateZ(0)',
+        }}
+      >
+        {children}
+      </div>
+
+      {/* Depth shadow layers */}
+      {isHovered && (
+        <>
+          <motion.div
+            className="absolute inset-0 rounded-xl pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.1), transparent 70%)',
+              transform: 'translateZ(-20px)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        </>
+      )}
+    </motion.div>
+  );
+};
+
+export default EnhancedCard;

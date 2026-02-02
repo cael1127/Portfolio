@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getIcon } from '../utils/iconMapping';
 
 const TrendingProjects = ({ setCurrentPage }) => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -8,7 +9,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 1,
       title: "UPI Fraud Detection Using Machine Learning",
-      emoji: "🔍",
+      iconKey: "fraud-detection",
       description: "Develop a system to identify and prevent fraudulent transactions in real-time using machine learning algorithms.",
       features: [
         "Real-time transaction monitoring",
@@ -24,7 +25,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 2,
       title: "DeepFake Face Detection Using Machine Learning",
-      emoji: "🎭",
+      iconKey: "deepfake-detection",
       description: "Create a model to detect manipulated facial images and videos, enhancing digital media authenticity.",
       features: [
         "Image and video analysis",
@@ -40,7 +41,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 3,
       title: "AI-Based Learning Assistant Using Machine Learning",
-      emoji: "🤖",
+      iconKey: "ai-assistant",
       description: "Design an intelligent assistant that personalizes learning experiences based on student interactions.",
       features: [
         "Personalized learning paths",
@@ -56,7 +57,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 4,
       title: "Disaster Management with Sentiment and Earthquake/Tsunami Prediction",
-      emoji: "🌊",
+      iconKey: "sentiment-analysis",
       description: "Implement a system that analyzes social media sentiments and predicts natural disasters using machine learning.",
       features: [
         "Social media sentiment analysis",
@@ -72,7 +73,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 5,
       title: "Prediction of Electronic Gadget Addiction of Students",
-      emoji: "📱",
+      iconKey: "financial",
       description: "Develop a predictive model to assess and address gadget addiction among students.",
       features: [
         "Usage pattern analysis",
@@ -88,7 +89,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 6,
       title: "FutureCrop: AI-Powered Price Prediction for Agri and Vegetable Markets",
-      emoji: "🌾",
+      iconKey: "aquaculture",
       description: "Create a tool that forecasts agricultural product prices to aid farmers in decision-making.",
       features: [
         "Price trend analysis",
@@ -104,7 +105,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 7,
       title: "Smart Career Advisor: A Machine Learning-Based Recommendation System",
-      emoji: "💼",
+      iconKey: "resume-analyzer",
       description: "Design a system that suggests career paths based on individual skills and interests.",
       features: [
         "Skill assessment algorithms",
@@ -120,7 +121,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 8,
       title: "Flood and Landslide Prediction Using Machine Learning",
-      emoji: "🌧️",
+      iconKey: "smart-city",
       description: "Build a model to predict natural calamities, aiding in timely evacuations and resource allocation.",
       features: [
         "Weather data analysis",
@@ -136,7 +137,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 9,
       title: "Blood Group Detection Using Image Processing and Fingerprint",
-      emoji: "🩸",
+      iconKey: "healthcare",
       description: "Develop a system that determines blood groups through image analysis of fingerprints.",
       features: [
         "Image processing algorithms",
@@ -152,7 +153,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 10,
       title: "Alzheimer's Disease Detection Using Machine Learning",
-      emoji: "🧠",
+      iconKey: "healthcare",
       description: "Create a diagnostic tool that identifies early signs of Alzheimer's disease through data analysis.",
       features: [
         "Medical data analysis",
@@ -168,7 +169,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 11,
       title: "Food Recognition and Calorie Estimation Using Machine Learning",
-      emoji: "🍎",
+      iconKey: "restaurant-app",
       description: "Design an application that recognizes food items and estimates their caloric content for dietary monitoring.",
       features: [
         "Food image recognition",
@@ -184,7 +185,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 12,
       title: "Cyberbullying Prediction Using Machine Learning",
-      emoji: "🛡️",
+      iconKey: "penetration-testing",
       description: "Develop a model to detect and prevent cyberbullying incidents on digital platforms.",
       features: [
         "Text analysis and classification",
@@ -200,7 +201,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 13,
       title: "Diabetic Retinopathy Prediction Using Machine Learning",
-      emoji: "👁️",
+      iconKey: "object-detection",
       description: "Create a system that analyzes retinal images to predict the onset of diabetic retinopathy.",
       features: [
         "Medical image analysis",
@@ -216,7 +217,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 14,
       title: "AI-Based Multi-Disease Detection Using Machine Learning",
-      emoji: "🏥",
+      iconKey: "healthcare",
       description: "Implement a comprehensive diagnostic tool that identifies multiple diseases from patient data.",
       features: [
         "Multi-disease classification",
@@ -232,7 +233,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
     {
       id: 15,
       title: "Employee Layoff Prediction Using Recurrent Neural Network",
-      emoji: "📊",
+      iconKey: "financial",
       description: "Design a predictive model that assesses the likelihood of employee layoffs based on organizational data.",
       features: [
         "Employee data analysis",
@@ -263,7 +264,10 @@ const TrendingProjects = ({ setCurrentPage }) => {
             onClick={() => setSelectedProject(project)}
           >
             <div className="flex items-start justify-between mb-4">
-              <div className="text-4xl">{project.emoji}</div>
+              <div className="text-green-400">{(() => {
+                const IconComponent = getIcon(project.iconKey, 'demo');
+                return IconComponent ? <IconComponent size={40} /> : null;
+              })()}</div>
                               <span className={'px-2 py-1 rounded text-xs font-medium ' + (
                 project.difficulty === 'Advanced' ? 'bg-red-600 text-white' :
                 project.difficulty === 'Intermediate' ? 'bg-yellow-600 text-white' :
@@ -337,8 +341,11 @@ const TrendingProjects = ({ setCurrentPage }) => {
           <div className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-8">
               <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="text-5xl">{selectedProject.emoji}</div>
+              <div className="flex items-center gap-4">
+                <div className="text-green-400">{(() => {
+                  const IconComponent = getIcon(selectedProject.iconKey, 'demo');
+                  return IconComponent ? <IconComponent size={48} /> : null;
+                })()}</div>
                   <div>
                     <h2 className="text-3xl font-bold text-white mb-2">{selectedProject.title}</h2>
                     <span className={'px-3 py-1 rounded text-sm font-medium ' + (

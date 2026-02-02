@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import CodeViewer from '../CodeViewer';
 
 const EncryptionSystemDemo = () => {
   const [showCodeViewer, setShowCodeViewer] = useState(false);
+  const [inputText, setInputText] = useState('');
+  const [encryptedText, setEncryptedText] = useState('');
+  const [decryptedText, setDecryptedText] = useState('');
+  const [encryptionType, setEncryptionType] = useState('symmetric');
+  const [keyGenerated, setKeyGenerated] = useState(false);
+  const [symmetricKey, setSymmetricKey] = useState('');
+  const [operationStatus, setOperationStatus] = useState('');
 
   const codeData = {
     code: `from cryptography.fernet import Fernet
@@ -146,11 +154,100 @@ The system uses cryptography library for encryption operations, implements key r
     ]
   };
 
+  // Simulate encryption
+  const handleEncrypt = () => {
+    if (!inputText.trim()) {
+      setOperationStatus('Please enter text to encrypt');
+      return;
+    }
+    if (encryptionType === 'symmetric' && !keyGenerated) {
+      setOperationStatus('Please generate a key first');
+      return;
+    }
+    
+    // Simulate encryption (in real app, this would use actual crypto)
+    const simulatedEncrypted = btoa(inputText).substring(0, 50) + '...';
+    setEncryptedText(simulatedEncrypted);
+    setOperationStatus('Encryption successful!');
+    setTimeout(() => setOperationStatus(''), 3000);
+  };
+
+  // Simulate decryption
+  const handleDecrypt = () => {
+    if (!encryptedText.trim()) {
+      setOperationStatus('No encrypted text to decrypt');
+      return;
+    }
+    
+    // Simulate decryption
+    try {
+      const simulatedDecrypted = atob(encryptedText.replace('...', ''));
+      setDecryptedText(simulatedDecrypted);
+      setOperationStatus('Decryption successful!');
+      setTimeout(() => setOperationStatus(''), 3000);
+    } catch (e) {
+      setOperationStatus('Decryption failed - invalid encrypted data');
+    }
+  };
+
+  // Generate key
+  const handleGenerateKey = () => {
+    const randomKey = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('')
+      .substring(0, 64);
+    setSymmetricKey(randomKey);
+    setKeyGenerated(true);
+    setOperationStatus('Key generated successfully!');
+    setTimeout(() => setOperationStatus(''), 3000);
+  };
+
   return (
     <div className="space-y-6">
+      {/* Feature Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <motion.div 
+          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400 }}
+        >
+          <div className="text-2xl mb-2">🔐</div>
+          <div className="text-sm font-medium text-white">AES</div>
+          <div className="text-xs text-gray-400">Symmetric</div>
+        </motion.div>
+        <motion.div 
+          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400 }}
+        >
+          <div className="text-2xl mb-2">🔑</div>
+          <div className="text-sm font-medium text-white">RSA</div>
+          <div className="text-xs text-gray-400">Asymmetric</div>
+        </motion.div>
+        <motion.div 
+          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400 }}
+        >
+          <div className="text-2xl mb-2">🔄</div>
+          <div className="text-sm font-medium text-white">Key Rotation</div>
+          <div className="text-xs text-gray-400">Automated</div>
+        </motion.div>
+        <motion.div 
+          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400 }}
+        >
+          <div className="text-2xl mb-2">💾</div>
+          <div className="text-sm font-medium text-white">Secure Storage</div>
+          <div className="text-xs text-gray-400">Key Vault</div>
+        </motion.div>
+      </div>
+
+      {/* Interactive Encryption Interface */}
       <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Encryption & Key Management System</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold">Interactive Encryption Demo</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
@@ -158,26 +255,134 @@ The system uses cryptography library for encryption operations, implements key r
             View Code
           </button>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-2xl mb-2">🔐</div>
-            <div className="text-sm font-medium text-white">AES</div>
-            <div className="text-xs text-gray-400">Symmetric</div>
+
+        {/* Encryption Type Selector */}
+        <div className="mb-6">
+          <label className="block text-sm text-gray-400 mb-2">Encryption Type</label>
+          <div className="flex gap-4">
+            <button
+              onClick={() => setEncryptionType('symmetric')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                encryptionType === 'symmetric'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              🔐 Symmetric (AES)
+            </button>
+            <button
+              onClick={() => setEncryptionType('asymmetric')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                encryptionType === 'asymmetric'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              🔑 Asymmetric (RSA)
+            </button>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-2xl mb-2">🔑</div>
-            <div className="text-sm font-medium text-white">RSA</div>
-            <div className="text-xs text-gray-400">Asymmetric</div>
+        </div>
+
+        {/* Key Generation */}
+        {encryptionType === 'symmetric' && (
+          <div className="mb-6">
+            <div className="flex items-center gap-4 mb-4">
+              <button
+                onClick={handleGenerateKey}
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm"
+              >
+                {keyGenerated ? '🔄 Regenerate Key' : '🔑 Generate Key'}
+              </button>
+              {keyGenerated && (
+                <div className="flex-1 bg-gray-900 p-3 rounded border border-gray-700">
+                  <div className="text-xs text-gray-400 mb-1">Generated Key:</div>
+                  <div className="text-xs font-mono text-green-400 break-all">{symmetricKey}</div>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-2xl mb-2">🔄</div>
-            <div className="text-sm font-medium text-white">Key Rotation</div>
-            <div className="text-xs text-gray-400">Automated</div>
+        )}
+
+        {/* Status Message */}
+        {operationStatus && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`mb-4 p-3 rounded-lg text-sm ${
+              operationStatus.includes('successful')
+                ? 'bg-green-900/30 text-green-400 border border-green-500/50'
+                : 'bg-yellow-900/30 text-yellow-400 border border-yellow-500/50'
+            }`}
+          >
+            {operationStatus}
+          </motion.div>
+        )}
+
+        {/* Input Section */}
+        <div className="mb-6">
+          <label className="block text-sm text-gray-400 mb-2">Plain Text Input</label>
+          <textarea
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            placeholder="Enter text to encrypt..."
+            className="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-green-500"
+            rows={3}
+          />
+          <button
+            onClick={handleEncrypt}
+            disabled={!inputText.trim() || (encryptionType === 'symmetric' && !keyGenerated)}
+            className="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors text-sm"
+          >
+            🔒 Encrypt
+          </button>
+        </div>
+
+        {/* Encrypted Output */}
+        {encryptedText && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <label className="block text-sm text-gray-400 mb-2">Encrypted Output</label>
+            <div className="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg">
+              <div className="text-sm font-mono text-yellow-400 break-all">{encryptedText}</div>
+            </div>
+            <button
+              onClick={handleDecrypt}
+              className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            >
+              🔓 Decrypt
+            </button>
+          </motion.div>
+        )}
+
+        {/* Decrypted Output */}
+        {decryptedText && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <label className="block text-sm text-gray-400 mb-2">Decrypted Output</label>
+            <div className="w-full p-3 bg-gray-900 border border-green-500/50 rounded-lg">
+              <div className="text-sm text-green-400 break-words">{decryptedText}</div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Stats */}
+        <div className="mt-6 grid grid-cols-3 gap-4 pt-6 border-t border-gray-700">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-green-400">{inputText.length}</div>
+            <div className="text-xs text-gray-400">Input Length</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-2xl mb-2">💾</div>
-            <div className="text-sm font-medium text-white">Secure Storage</div>
-            <div className="text-xs text-gray-400">Key Vault</div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-yellow-400">{encryptedText ? encryptedText.length : 0}</div>
+            <div className="text-xs text-gray-400">Encrypted Length</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-400">{keyGenerated ? '✓' : '✗'}</div>
+            <div className="text-xs text-gray-400">Key Status</div>
           </div>
         </div>
       </div>

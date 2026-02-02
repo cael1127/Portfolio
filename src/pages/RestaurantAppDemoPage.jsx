@@ -1,34 +1,43 @@
 import React from 'react';
+import ProjectLayout from '../components/ProjectLayout';
 import RestaurantAppDemo from '../components/demos/RestaurantAppDemo';
 
 const RestaurantAppDemoPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header with Back Button */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-              <span>Back to Demos</span>
-            </button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white">🍽️ Restaurant App Demo</h1>
-            <p className="text-gray-400 text-sm">Complete management solution</p>
-          </div>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </div>
-      </div>
-
-      {/* Demo Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <RestaurantAppDemo />
-      </div>
-    </div>
+    <ProjectLayout
+      title="Restaurant Management System"
+      subtitle="Complete restaurant management solution with ordering, inventory, and analytics"
+      emoji="🍽️"
+      onBack={() => setCurrentPage('demo-organizer')}
+      next={{ label: 'Portfolio Builder', onClick: () => setCurrentPage('portfolio-builder-demo') }}
+      demo={<RestaurantAppDemo />}
+      overview="Comprehensive restaurant management platform featuring online ordering, table management, inventory tracking, menu management, and analytics. Streamlines restaurant operations from order taking to kitchen management and customer service."
+      role="Full-stack development, restaurant operations system design, order management, inventory tracking, and analytics dashboard implementation"
+      stack={["React", "Node.js", "MongoDB", "Real-time Updates", "Payment Processing", "Inventory Management", "Analytics"]}
+      challenges={[
+        "Managing real-time order updates across multiple systems",
+        "Synchronizing kitchen display with order management",
+        "Tracking inventory levels accurately in real-time",
+        "Handling peak-hour order volumes efficiently"
+      ]}
+      results={[
+        "Streamlined order management reducing wait times by 30%",
+        "Real-time inventory tracking preventing stockouts",
+        "Integrated kitchen display system for efficient food preparation",
+        "Comprehensive analytics for business insights",
+        "Improved customer experience with online ordering"
+      ]}
+      problem="Restaurants need integrated systems to manage orders, inventory, tables, and operations efficiently. Disconnected systems lead to errors, delays, and poor customer experience."
+      approach="Built a comprehensive restaurant management system with real-time order processing, inventory management, table reservations, and analytics. Integrated all components into a unified platform for seamless restaurant operations."
+      highlights={[
+        "Real-time order management and processing",
+        "Inventory tracking and automatic reordering",
+        "Table management and reservation system",
+        "Kitchen display system integration",
+        "Comprehensive restaurant analytics dashboard",
+        "Online ordering and payment processing"
+      ]}
+    />
   );
 };
 
