@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens */
+:root {
+  color-scheme: dark;
+}
+
 /* Global overflow control */
 html, body {
   overflow-x: hidden;
@@ -93,21 +98,22 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #1f2937;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: linear-gradient(180deg, #10b981, #14b8a6);
+  border: 1px solid #374151;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(180deg, #059669, #0d9488);
 }
 
 /* Blog Content Styling */

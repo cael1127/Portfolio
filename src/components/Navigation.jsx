@@ -88,9 +88,9 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               Projects
             </motion.button>
             <motion.button
-              onClick={() => setCurrentPage('contact')}
+              onClick={() => setCurrentPage('freelancing')}
               className={'transition-colors ' + (
-                currentPage === 'contact' 
+                currentPage === 'freelancing' 
                   ? 'text-green-400 border-b-2 border-green-400' 
                   : 'text-gray-300 hover:text-green-400'
               )}
@@ -100,7 +100,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.9 }}
             >
-              Contact
+              Freelancing
             </motion.button>
             <motion.button
               onClick={() => setCurrentPage('freelancing')}
@@ -195,22 +195,12 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                 Projects
               </motion.button>
               <motion.button
-                onClick={() => { setCurrentPage('contact'); setMobileNavOpen(false); }}
-                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'contact' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.4 }}
-                whileHover={{ scale: 1.02, x: 5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Contact
-              </motion.button>
               <motion.button
                 onClick={() => { setCurrentPage('freelancing'); setMobileNavOpen(false); }}
                 className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'freelancing' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.5 }}
+                transition={{ duration: 0.3, delay: 0.4 }}
                 whileHover={{ scale: 1.02, x: 5 }}
                 whileTap={{ scale: 0.98 }}
               >

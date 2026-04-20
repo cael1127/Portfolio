@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Home from './components/Home';
 import DemoOrganizer from './components/DemoOrganizer';
-import Contact from './components/Contact';
 import AIInterviewSimulatorProjectPage from './components/ProjectPages/AIInterviewSimulatorProjectPage';
 import RealTimeCollaborationProjectPage from './components/ProjectPages/RealTimeCollaborationProjectPage';
 import AdvancedAnalyticsProjectPage from './components/ProjectPages/AdvancedAnalyticsProjectPage';
@@ -15,6 +14,7 @@ import ScrollProgress from './components/ScrollProgress';
 import Education from './components/Education';
 import Blog from './components/Blog';
 import BlogPost from './components/BlogPost';
+import ResumePage from './pages/ResumePage';
 
 // Import all demo pages
 import BlockchainDemoPage from './pages/BlockchainDemoPage';
@@ -94,7 +94,7 @@ const PAGE_SLUGS = {
   'demo-organizer': 'demo-organizer',
   education: 'about',
   blog: 'blog',
-  contact: 'contact',
+  resume: 'resume',
   'ai-interview-simulator': 'ai-interview-simulator',
   'real-time-collaboration': 'real-time-collaboration',
   'advanced-analytics': 'advanced-analytics',
@@ -273,8 +273,8 @@ function App() {
         return <Education setCurrentPage={setCurrentPage} />;
       case 'blog':
         return <Blog setCurrentPage={setCurrentPage} />;
-      case 'contact':
-        return <Contact setCurrentPage={setCurrentPage} />;
+      case 'resume':
+        return <ResumePage setCurrentPage={setCurrentPage} />;
       case 'ai-interview-simulator':
         return <AIInterviewSimulatorProjectPage setCurrentPage={setCurrentPage} />;
       case 'real-time-collaboration':
@@ -434,7 +434,7 @@ function App() {
       { id: 'demo-organizer', label: 'Projects', icon: '' },
       { id: 'blog', label: 'Blog', icon: '' },
       { id: 'education', label: 'About', icon: '' },
-      { id: 'contact', label: 'Contact', icon: '' },
+      { id: 'resume', label: 'Resume', icon: '' },
     ];
 
     return (

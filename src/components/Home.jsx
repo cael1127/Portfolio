@@ -453,12 +453,12 @@ const Home = ({ setCurrentPage }) => {
               <div className="text-3xl mb-4">📷</div>
               <h3 className="font-semibold mb-2">Instagram</h3>
               <a 
-                href="https://instagram.com/findleytech" 
+                href="https://instagram.com/caelfindley" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-pink-400 hover:text-pink-300 transition-colors"
               >
-                @findleytech
+                @caelfindley
               </a>
             </div>
           </div>

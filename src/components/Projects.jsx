@@ -4,9 +4,45 @@ import DemoOrganizer from './DemoOrganizer';
 import { getIcon } from '../utils/iconMapping';
 import { HiFire, HiBriefcase } from 'react-icons/hi2';
 import { FaGamepad } from 'react-icons/fa';
+import Button from './ui/Button';
+import { featuredRepos } from '../data/featuredRepos';
+import { fetchRepoMeta } from '../utils/github';
 
 const Projects = ({ setCurrentPage }) => {
   const [activeTab, setActiveTab] = useState('demos');
+  const [repoMeta, setRepoMeta] = useState({});
+  const [repoMetaError, setRepoMetaError] = useState(null);
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    async function run() {
+      try {
+        setRepoMetaError(null);
+        const results = await Promise.all(
+          featuredRepos.map(async (repo) => {
+            try {
+              const data = await fetchRepoMeta(repo.fullName);
+              return [repo.fullName, { status: 'ok', data }];
+            } catch (e) {
+              return [repo.fullName, { status: 'error', error: String(e?.message || e) }];
+            }
+          })
+        );
+
+        if (cancelled) return;
+        setRepoMeta(Object.fromEntries(results));
+      } catch (e) {
+        if (cancelled) return;
+        setRepoMetaError(String(e?.message || e));
+      }
+    }
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const tabs = [
     { id: 'demos', label: 'Live Demos', iconKey: 'game-platform', Icon: FaGamepad },
@@ -22,18 +58,16 @@ const Projects = ({ setCurrentPage }) => {
         {/* Tab Navigation */}
         <div className="flex flex-wrap gap-2 mb-8">
           {tabs.map((tab) => (
-            <button
+            <Button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={'px-6 py-3 rounded-lg transition-colors ' + (
-                activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              )}
+              variant={activeTab === tab.id ? 'primary' : 'secondary'}
+              size="md"
+              className="px-6 py-3 rounded-lg"
             >
               <span className="mr-2 inline-flex items-center"><tab.Icon size={20} /></span>
               {tab.label}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -48,39 +82,99 @@ const Projects = ({ setCurrentPage }) => {
 
         {activeTab === 'portfolio' && (
           <div className="space-y-8">
+            {/* Featured GitHub Projects */}
+            <div className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-white">Featured GitHub Projects</h3>
+                  <p className="text-gray-300 mt-1">
+                    Curated projects from my GitHub, enriched with live repo stats.
+                  </p>
+                </div>
+                <Button
+                  as="a"
+                  href="https://github.com/cael1127?tab=repositories"
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="secondary"
+                >
+                  Browse all repos
+                </Button>
+              </div>
+
+              {repoMetaError && (
+                <div className="text-sm text-red-300 mb-4">
+                  Couldn’t load GitHub metadata right now: {repoMetaError}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {featuredRepos.map((repo) => {
+                  const meta = repoMeta[repo.fullName];
+                  const data = meta?.status === 'ok' ? meta.data : null;
+
+                  return (
+                    <a
+                      key={repo.fullName}
+                      href={data?.html_url || `https://github.com/${repo.fullName}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group bg-gray-900/40 hover:bg-gray-900/60 p-5 rounded-xl border border-gray-700 hover:border-emerald-400/60 transition-all"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="text-lg font-semibold text-white truncate">
+                            {repo.title}
+                          </div>
+                          <div className="text-xs text-gray-400 truncate">
+                            {repo.fullName}
+                          </div>
+                        </div>
+                        <div className="text-emerald-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                          →
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-gray-300 mt-3 line-clamp-2">
+                        {repo.blurb}
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        {repo.tags.map((t) => (
+                          <span
+                            key={`${repo.fullName}:${t}`}
+                            className="text-[11px] px-2 py-1 rounded-full bg-gray-800 text-gray-200 border border-gray-700"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t border-gray-800 text-xs text-gray-400 flex flex-wrap gap-x-4 gap-y-1">
+                        <span>
+                          {data ? `★ ${data.stargazers_count}` : meta?.status === 'error' ? '★ —' : 'Loading…'}
+                        </span>
+                        <span>
+                          {data?.language ? data.language : meta?.status === 'error' ? 'Language —' : 'Language…'}
+                        </span>
+                        <span>
+                          {data?.pushed_at ? `Updated ${new Date(data.pushed_at).toLocaleDateString()}` : meta?.status === 'error' ? 'Updated —' : 'Updated…'}
+                        </span>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600">
               <h3 className="text-2xl font-bold text-white mb-4">Portfolio Projects</h3>
               <p className="text-gray-300 mb-6">
-                A collection of my personal and professional projects showcasing various technologies and skills.
+                A tight selection of end-to-end builds: strong UX, real constraints, and clean engineering.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Portfolio Project Cards */}
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600 hover:border-green-400 transition-colors">
-                  <div className="flex items-center mb-4">
-                    <div className="text-3xl mr-3">🌐</div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Personal Portfolio</h4>
-                      <p className="text-gray-400 text-sm">React, Tailwind CSS</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 text-sm mb-4">
-                    A modern, responsive portfolio website showcasing my skills and projects with interactive demos.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
-                    <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">Tailwind CSS</span>
-                    <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">JavaScript</span>
-                  </div>
-                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
-                    <button className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors">
-                      View Project
-                    </button>
-                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
-                      View Code
-                    </button>
-                  </div>
-                </div>
 
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-600 hover:border-green-400 transition-colors">
                   <div className="flex items-center mb-4">
@@ -99,15 +193,16 @@ const Projects = ({ setCurrentPage }) => {
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">React</span>
                   </div>
                   <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
-                    <button 
+                    <Button
                       onClick={() => setCurrentPage('blockchain-demo')}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                      variant="primary"
+                      className="flex-1 px-3 py-2 rounded text-sm"
                     >
                       View Project
-                    </button>
-                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                    </Button>
+                    <Button variant="secondary" className="flex-1 px-3 py-2 rounded text-sm">
                       View Code
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -128,15 +223,16 @@ const Projects = ({ setCurrentPage }) => {
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">ML</span>
                   </div>
                   <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
-                    <button 
+                    <Button
                       onClick={() => setCurrentPage('aquaculture-demo')}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                      variant="primary"
+                      className="flex-1 px-3 py-2 rounded text-sm"
                     >
                       View Project
-                    </button>
-                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                    </Button>
+                    <Button variant="secondary" className="flex-1 px-3 py-2 rounded text-sm">
                       View Code
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -157,15 +253,16 @@ const Projects = ({ setCurrentPage }) => {
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">GPS</span>
                   </div>
                   <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
-                    <button 
+                    <Button
                       onClick={() => setCurrentPage('logistics-demo')}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                      variant="primary"
+                      className="flex-1 px-3 py-2 rounded text-sm"
                     >
                       View Project
-                    </button>
-                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                    </Button>
+                    <Button variant="secondary" className="flex-1 px-3 py-2 rounded text-sm">
                       View Code
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -186,15 +283,16 @@ const Projects = ({ setCurrentPage }) => {
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">HIPAA</span>
                   </div>
                   <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
-                    <button 
+                    <Button
                       onClick={() => setCurrentPage('healthcare-demo')}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                      variant="primary"
+                      className="flex-1 px-3 py-2 rounded text-sm"
                     >
                       View Project
-                    </button>
-                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                    </Button>
+                    <Button variant="secondary" className="flex-1 px-3 py-2 rounded text-sm">
                       View Code
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -215,15 +313,16 @@ const Projects = ({ setCurrentPage }) => {
                     <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">Data Viz</span>
                   </div>
                   <div className="flex gap-2 mt-4 pt-4 border-t border-gray-600">
-                    <button 
+                    <Button
                       onClick={() => setCurrentPage('financial-demo')}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm transition-colors"
+                      variant="primary"
+                      className="flex-1 px-3 py-2 rounded text-sm"
                     >
                       View Project
-                    </button>
-                    <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors">
+                    </Button>
+                    <Button variant="secondary" className="flex-1 px-3 py-2 rounded text-sm">
                       View Code
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
