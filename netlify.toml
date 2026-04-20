@@ -43,6 +43,15 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
+# Allow embedding the resume PDF within the site (used by /resume).
+# The global X-Frame-Options=DENY would otherwise block <object>/<iframe> embeds.
+[[headers]]
+  for = "/Cael_Findley_Resume_NSWC.pdf"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    Content-Type = "application/pdf"
+    Cache-Control = "public, max-age=3600"
+
 [[headers]]
   for = "/sitemap.xml"
   [headers.values]

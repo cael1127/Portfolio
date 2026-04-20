@@ -195,6 +195,17 @@ function App() {
   const isInitialMountRef = useRef(true);
   const isHandlingPopRef = useRef(false);
 
+  const scrollToTopInstant = () => {
+    if (typeof window === 'undefined') return;
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  };
+
+  const navigateTo = (nextPage) => {
+    // Ensure the transition starts from the top, not the previous scroll position.
+    scrollToTopInstant();
+    setCurrentPage(nextPage);
+  };
+
   // Update URL when currentPage changes (but not when handling browser back/forward)
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -235,6 +246,9 @@ function App() {
       
       // Set flag to prevent URL update in the other useEffect
       isHandlingPopRef.current = true;
+
+      // Start the next page at the top for consistent transitions
+      scrollToTopInstant();
       
       // Update the page state
       setCurrentPage(nextPage);
@@ -261,168 +275,168 @@ function App() {
     // Handle blog post routes (blog-{slug})
     if (currentPage.startsWith('blog-')) {
       const slug = currentPage.replace('blog-', '');
-      return <BlogPost slug={slug} setCurrentPage={setCurrentPage} />;
+      return <BlogPost slug={slug} setCurrentPage={navigateTo} />;
     }
     
     switch (currentPage) {
       case 'home':
-        return <Home setCurrentPage={setCurrentPage} />;
+        return <Home setCurrentPage={navigateTo} />;
       case 'demo-organizer':
-        return <DemoOrganizer setCurrentPage={setCurrentPage} />;
+        return <DemoOrganizer setCurrentPage={navigateTo} />;
       case 'education':
-        return <Education setCurrentPage={setCurrentPage} />;
+        return <Education setCurrentPage={navigateTo} />;
       case 'blog':
-        return <Blog setCurrentPage={setCurrentPage} />;
+        return <Blog setCurrentPage={navigateTo} />;
       case 'resume':
-        return <ResumePage setCurrentPage={setCurrentPage} />;
+        return <ResumePage setCurrentPage={navigateTo} />;
       case 'ai-interview-simulator':
-        return <AIInterviewSimulatorProjectPage setCurrentPage={setCurrentPage} />;
+        return <AIInterviewSimulatorProjectPage setCurrentPage={navigateTo} />;
       case 'real-time-collaboration':
-        return <RealTimeCollaborationProjectPage setCurrentPage={setCurrentPage} />;
+        return <RealTimeCollaborationProjectPage setCurrentPage={navigateTo} />;
       case 'advanced-analytics':
-        return <AdvancedAnalyticsProjectPage setCurrentPage={setCurrentPage} />;
+        return <AdvancedAnalyticsProjectPage setCurrentPage={navigateTo} />;
       case 'blockchain-advanced':
-        return <BlockchainAdvancedProjectPage setCurrentPage={setCurrentPage} />;
+        return <BlockchainAdvancedProjectPage setCurrentPage={navigateTo} />;
       case 'edge-computing':
-        return <EdgeComputingProjectPage setCurrentPage={setCurrentPage} />;
+        return <EdgeComputingProjectPage setCurrentPage={navigateTo} />;
       case 'quantum-computing':
-        return <QuantumComputingProjectPage setCurrentPage={setCurrentPage} />;
+        return <QuantumComputingProjectPage setCurrentPage={navigateTo} />;
       
       // Demo pages
       case 'blockchain-demo':
-        return <BlockchainDemoPage setCurrentPage={setCurrentPage} />;
+        return <BlockchainDemoPage setCurrentPage={navigateTo} />;
       case 'aquaculture-demo':
-        return <AquacultureDemoPage setCurrentPage={setCurrentPage} />;
+        return <AquacultureDemoPage setCurrentPage={navigateTo} />;
       case 'financial-demo':
-        return <FinancialDemoPage setCurrentPage={setCurrentPage} />;
+        return <FinancialDemoPage setCurrentPage={navigateTo} />;
       case 'healthcare-demo':
-        return <HealthcareDemoPage setCurrentPage={setCurrentPage} />;
+        return <HealthcareDemoPage setCurrentPage={navigateTo} />;
       case 'logistics-demo':
-        return <LogisticsDemoPage setCurrentPage={setCurrentPage} />;
+        return <LogisticsDemoPage setCurrentPage={navigateTo} />;
       case 'portfolio-builder-demo':
-        return <PortfolioBuilderDemoPage setCurrentPage={setCurrentPage} />;
+        return <PortfolioBuilderDemoPage setCurrentPage={navigateTo} />;
       case 'restaurant-app-demo':
-        return <RestaurantAppDemoPage setCurrentPage={setCurrentPage} />;
+        return <RestaurantAppDemoPage setCurrentPage={navigateTo} />;
       case 'resume-analyzer-demo':
-        return <ResumeAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
+        return <ResumeAnalyzerDemoPage setCurrentPage={navigateTo} />;
       case 'smart-city-demo':
-        return <SmartCityDemoPage setCurrentPage={setCurrentPage} />;
+        return <SmartCityDemoPage setCurrentPage={navigateTo} />;
       case 'whiteboard-demo':
-        return <WhiteboardDemoPage setCurrentPage={setCurrentPage} />;
+        return <WhiteboardDemoPage setCurrentPage={navigateTo} />;
       case 'game-platform-demo':
-        return <GamePlatformDemoPage setCurrentPage={setCurrentPage} />;
+        return <GamePlatformDemoPage setCurrentPage={navigateTo} />;
       case 'ai-assistant-demo':
-        return <AIAssistantDemoPage setCurrentPage={setCurrentPage} />;
+        return <AIAssistantDemoPage setCurrentPage={navigateTo} />;
       case 'snake-ai-demo':
-        return <SnakeAIDemoPage setCurrentPage={setCurrentPage} />;
+        return <SnakeAIDemoPage setCurrentPage={navigateTo} />;
       case 'ai-agents-demo':
-        return <AIAgentsDemoPage setCurrentPage={setCurrentPage} />;
+        return <AIAgentsDemoPage setCurrentPage={navigateTo} />;
       case 'sentiment-analysis-demo':
-        return <SentimentAnalysisDemoPage setCurrentPage={setCurrentPage} />;
+        return <SentimentAnalysisDemoPage setCurrentPage={navigateTo} />;
 
       case 'rag-chatbot-demo':
-        return <RAGChatbotDemoPage setCurrentPage={setCurrentPage} />;
+        return <RAGChatbotDemoPage setCurrentPage={navigateTo} />;
       case 'bookstore-api-demo':
-        return <BookstoreAPIDemoPage setCurrentPage={setCurrentPage} />;
+        return <BookstoreAPIDemoPage setCurrentPage={navigateTo} />;
       case 'mern-expense-tracker-demo':
-        return <MERNExpenseTrackerDemoPage setCurrentPage={setCurrentPage} />;
+        return <MERNExpenseTrackerDemoPage setCurrentPage={navigateTo} />;
       case 'social-network-demo':
-        return <SocialNetworkDemoPage setCurrentPage={setCurrentPage} />;
+        return <SocialNetworkDemoPage setCurrentPage={navigateTo} />;
       case 'interactive-resume-demo':
-        return <InteractiveResumeDemoPage setCurrentPage={setCurrentPage} />;
+        return <InteractiveResumeDemoPage setCurrentPage={navigateTo} />;
       case 'fraud-detection-demo':
-        return <FraudDetectionDemoPage setCurrentPage={setCurrentPage} />;
+        return <FraudDetectionDemoPage setCurrentPage={navigateTo} />;
       case 'deepfake-detection-demo':
-        return <DeepfakeDetectionDemoPage setCurrentPage={setCurrentPage} />;
+        return <DeepfakeDetectionDemoPage setCurrentPage={navigateTo} />;
       case 'object-detection-demo':
-        return <ObjectDetectionDemoPage setCurrentPage={setCurrentPage} />;
+        return <ObjectDetectionDemoPage setCurrentPage={navigateTo} />;
       case 'audio-transcription-demo':
-        return <AudioTranscriptionDemoPage setCurrentPage={setCurrentPage} />;
+        return <AudioTranscriptionDemoPage setCurrentPage={navigateTo} />;
       case 'ecommerce-demo':
-        return <EcommerceDemoPage setCurrentPage={setCurrentPage} />;
+        return <EcommerceDemoPage setCurrentPage={navigateTo} />;
       case 'realtime-chat-demo':
-        return <RealtimeChatDemoPage setCurrentPage={setCurrentPage} />;
+        return <RealtimeChatDemoPage setCurrentPage={navigateTo} />;
       case 'saas-analytics-demo':
-        return <SaaSAnalyticsDemoPage setCurrentPage={setCurrentPage} />;
+        return <SaaSAnalyticsDemoPage setCurrentPage={navigateTo} />;
       case 'product-configurator-demo':
-        return <ProductConfiguratorDemoPage setCurrentPage={setCurrentPage} />;
+        return <ProductConfiguratorDemoPage setCurrentPage={navigateTo} />;
       
       // New AI/ML projects
       case 'ai-code-generation-demo':
-        return <AICodeGenerationDemoPage setCurrentPage={setCurrentPage} />;
+        return <AICodeGenerationDemoPage setCurrentPage={navigateTo} />;
       case 'ml-training-dashboard-demo':
-        return <MLTrainingDashboardDemoPage setCurrentPage={setCurrentPage} />;
+        return <MLTrainingDashboardDemoPage setCurrentPage={navigateTo} />;
       case 'computer-vision-pipeline-demo':
-        return <ComputerVisionPipelineDemoPage setCurrentPage={setCurrentPage} />;
+        return <ComputerVisionPipelineDemoPage setCurrentPage={navigateTo} />;
       case 'nlp-sentiment-api-demo':
-        return <NLPSentimentAPIDemoPage setCurrentPage={setCurrentPage} />;
+        return <NLPSentimentAPIDemoPage setCurrentPage={navigateTo} />;
       
       // DevOps projects
       case 'cicd-pipeline-demo':
-        return <CICDPipelineDemoPage setCurrentPage={setCurrentPage} />;
+        return <CICDPipelineDemoPage setCurrentPage={navigateTo} />;
       case 'docker-platform-demo':
-        return <DockerPlatformDemoPage setCurrentPage={setCurrentPage} />;
+        return <DockerPlatformDemoPage setCurrentPage={navigateTo} />;
       case 'kubernetes-management-demo':
-        return <KubernetesManagementDemoPage setCurrentPage={setCurrentPage} />;
+        return <KubernetesManagementDemoPage setCurrentPage={navigateTo} />;
       case 'terraform-iac-demo':
-        return <TerraformIaCDemoPage setCurrentPage={setCurrentPage} />;
+        return <TerraformIaCDemoPage setCurrentPage={navigateTo} />;
       
       // Security projects
       case 'vulnerability-scanner-demo':
-        return <VulnerabilityScannerDemoPage setCurrentPage={setCurrentPage} />;
+        return <VulnerabilityScannerDemoPage setCurrentPage={navigateTo} />;
       case 'penetration-testing-demo':
-        return <PenetrationTestingDemoPage setCurrentPage={setCurrentPage} />;
+        return <PenetrationTestingDemoPage setCurrentPage={navigateTo} />;
       case 'encryption-system-demo':
-        return <EncryptionSystemDemoPage setCurrentPage={setCurrentPage} />;
+        return <EncryptionSystemDemoPage setCurrentPage={navigateTo} />;
       case 'security-monitoring-demo':
-        return <SecurityMonitoringDemoPage setCurrentPage={setCurrentPage} />;
+        return <SecurityMonitoringDemoPage setCurrentPage={navigateTo} />;
       case 'waf-demo':
-        return <WAFDemoPage setCurrentPage={setCurrentPage} />;
+        return <WAFDemoPage setCurrentPage={navigateTo} />;
       case 'siem-demo':
-        return <SIEMDemoPage setCurrentPage={setCurrentPage} />;
+        return <SIEMDemoPage setCurrentPage={navigateTo} />;
       case 'api-security-gateway-demo':
-        return <APISecurityGatewayDemoPage setCurrentPage={setCurrentPage} />;
+        return <APISecurityGatewayDemoPage setCurrentPage={navigateTo} />;
       case 'phishing-detection-demo':
-        return <PhishingDetectionDemoPage setCurrentPage={setCurrentPage} />;
+        return <PhishingDetectionDemoPage setCurrentPage={navigateTo} />;
       case 'owasp-scanner-demo':
-        return <OWASPScannerDemoPage setCurrentPage={setCurrentPage} />;
+        return <OWASPScannerDemoPage setCurrentPage={navigateTo} />;
       case 'network-traffic-analyzer-demo':
-        return <NetworkTrafficAnalyzerDemoPage setCurrentPage={setCurrentPage} />;
+        return <NetworkTrafficAnalyzerDemoPage setCurrentPage={navigateTo} />;
       case 'ids-demo':
-        return <IDSDemoPage setCurrentPage={setCurrentPage} />;
+        return <IDSDemoPage setCurrentPage={navigateTo} />;
       case 'threat-intelligence-demo':
-        return <ThreatIntelligenceDemoPage setCurrentPage={setCurrentPage} />;
+        return <ThreatIntelligenceDemoPage setCurrentPage={navigateTo} />;
       
       // Full-stack projects
       case 'microservices-demo':
-        return <MicroservicesDemoPage setCurrentPage={setCurrentPage} />;
+        return <MicroservicesDemoPage setCurrentPage={navigateTo} />;
       case 'graphql-api-demo':
-        return <GraphQLAPIDemoPage setCurrentPage={setCurrentPage} />;
+        return <GraphQLAPIDemoPage setCurrentPage={navigateTo} />;
       case 'realtime-collaboration-platform-demo':
-        return <RealtimeCollaborationDemoPage setCurrentPage={setCurrentPage} />;
+        return <RealtimeCollaborationDemoPage setCurrentPage={navigateTo} />;
       case 'event-driven-architecture-demo':
-        return <EventDrivenArchitectureDemoPage setCurrentPage={setCurrentPage} />;
+        return <EventDrivenArchitectureDemoPage setCurrentPage={navigateTo} />;
       case 'serverless-platform-demo':
-        return <ServerlessPlatformDemoPage setCurrentPage={setCurrentPage} />;
+        return <ServerlessPlatformDemoPage setCurrentPage={navigateTo} />;
       case 'multi-tenant-saas-demo':
-        return <MultiTenantSaaSDemoPage setCurrentPage={setCurrentPage} />;
+        return <MultiTenantSaaSDemoPage setCurrentPage={navigateTo} />;
       
       // External website projects
       case 'three-sisters-oyster-project':
-        return <ThreeSistersOysterProjectPage setCurrentPage={setCurrentPage} />;
+        return <ThreeSistersOysterProjectPage setCurrentPage={navigateTo} />;
       case 'bapux-project':
-        return <BapuxProjectPage setCurrentPage={setCurrentPage} />;
+        return <BapuxProjectPage setCurrentPage={navigateTo} />;
       case 'bpawd-project':
-        return <BPAWDProjectPage setCurrentPage={setCurrentPage} />;
+        return <BPAWDProjectPage setCurrentPage={navigateTo} />;
       case 'uil-academy-project':
-        return <UILAcademyProjectPage setCurrentPage={setCurrentPage} />;
+        return <UILAcademyProjectPage setCurrentPage={navigateTo} />;
       case 'minbod-project':
-        return <MinBodProjectPage setCurrentPage={setCurrentPage} />;
+        return <MinBodProjectPage setCurrentPage={navigateTo} />;
       case 'jf-resume-project':
-        return <JFResumeProjectPage setCurrentPage={setCurrentPage} />;
+        return <JFResumeProjectPage setCurrentPage={navigateTo} />;
       
       default:
-        return <Home setCurrentPage={setCurrentPage} />;
+        return <Home setCurrentPage={navigateTo} />;
     }
   };
 
@@ -449,7 +463,7 @@ function App() {
                 whileTap={{ scale: 0.95 }}
               >
                 <button
-                  onClick={() => setCurrentPage('home')}
+                  onClick={() => navigateTo('home')}
                   className="flex items-center space-x-2 text-white font-bold text-lg group"
                 >
                   <motion.span 
@@ -469,7 +483,7 @@ function App() {
                   {navItems.map((item) => (
                     <motion.button
                       key={item.id}
-                      onClick={() => setCurrentPage(item.id)}
+                      onClick={() => navigateTo(item.id)}
                       className="relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -550,7 +564,7 @@ function App() {
                   <motion.button
                     key={item.id}
                     onClick={() => {
-                      setCurrentPage(item.id);
+                      navigateTo(item.id);
                       setMobileMenuOpen(false);
                     }}
                     className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all ${
