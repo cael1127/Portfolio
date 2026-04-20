@@ -5,22 +5,9 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Explicit redirects for SEO files - processed before catch-all
-# These ensure sitemap.xml and robots.txt are served as static files
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/sitemap.xml"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/robots.txt"
-  to = "/robots.txt"
-  status = 200
-  force = true
-
-# SPA catch-all - handled by _redirects file
-# Note: netlify.toml redirects are processed first, then _redirects file
+## Redirects
+# SPA catch-all is handled by `public/_redirects`.
+# We intentionally do not add self-rewrite rules for `/sitemap.xml` or `/robots.txt` here.
 
 [dev]
   command = "npm start"
