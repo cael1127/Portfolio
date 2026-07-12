@@ -41,6 +41,38 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Interactive elements behave like controls, not text fields —
+   pointer cursor, no text caret/selection on click. */
+button,
+[role='button'],
+a,
+summary {
+  cursor: pointer;
+}
+
+button,
+[role='button'],
+a,
+summary {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* Real inputs stay fully typeable and selectable. */
+input,
+textarea,
+select,
+[contenteditable='true'] {
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+select {
+  cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
