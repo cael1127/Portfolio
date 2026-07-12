@@ -224,11 +224,13 @@ body {
   opacity: 0.5;
 }
 
-/* Word / line reveal mask */
+/* Word / line reveal mask — extra bottom room so descenders (g, j, y) aren't clipped */
 .reveal-mask {
   overflow: hidden;
   display: inline-block;
   vertical-align: top;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 }
 
 /* Marquee */

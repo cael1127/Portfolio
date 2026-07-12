@@ -33,7 +33,7 @@ export default function WordReveal({
           <motion.span
             className="inline-block"
             variants={{
-              hidden: { y: '110%' },
+              hidden: { y: '130%' },
               visible: { y: '0%', transition: { duration, ease: easeOut } },
             }}
           >
