@@ -73,6 +73,11 @@ select {
   cursor: pointer;
 }
 
+/* Hide the blinking text caret site-wide for a cleaner, non-editable feel. */
+* {
+  caret-color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
