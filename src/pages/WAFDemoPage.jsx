@@ -8,7 +8,7 @@ const WAFDemoPage = ({ setCurrentPage }) => {
       title="Web Application Firewall (WAF)"
       subtitle="Request filtering, rate limiting, SQL injection protection, and XSS blocking"
       emoji="🛡️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'SIEM System', onClick: () => setCurrentPage('siem-demo') }}
       demo={<WAFDemo />}
       overview="A comprehensive Web Application Firewall that protects web applications from common attacks including SQL injection, XSS, rate limiting, and IP-based filtering. Provides real-time request analysis and blocking capabilities with configurable security rules."

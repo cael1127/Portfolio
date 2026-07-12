@@ -8,7 +8,7 @@ const DeepfakeDetectionDemoPage = ({ setCurrentPage }) => {
       title="Deepfake Detection System"
       subtitle="AI-powered media verification using computer vision"
       emoji="🎭"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Object Detection', onClick: () => setCurrentPage('object-detection-demo') }}
       demo={<DeepfakeDetectionDemo />}
       overview="Advanced deepfake detection system that uses computer vision and machine learning to identify manipulated media. Analyzes facial features, video consistency, and audio-visual synchronization to detect deepfakes with high accuracy."

@@ -8,7 +8,7 @@ const ProductConfiguratorDemoPage = ({ setCurrentPage }) => {
       title="Product Configurator"
       subtitle="Interactive product customization"
       emoji="🧩"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       demo={<ProductConfiguratorDemo />}
       overview="Interactive product configurator that allows users to customize products with different colors, materials, and variants in real-time. Built with modern web technologies to provide an engaging shopping experience with instant visual feedback."
       role="Frontend development, 3D integration, user experience design, and state management"

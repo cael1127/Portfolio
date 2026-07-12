@@ -1,23 +1,24 @@
 import React from 'react';
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold ' +
-  'transition-[transform,background-color,border-color,color,box-shadow,opacity] duration-200 ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950 ' +
-  'disabled:opacity-60 disabled:cursor-not-allowed';
+  'inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium ' +
+  'transition-[transform,background-color,border-color,color,opacity] duration-200 ease-out ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] ' +
+  'disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]';
 
 const variants = {
   primary:
-    'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 hover:bg-emerald-500',
+    'bg-[var(--accent)] text-[var(--accent-fg)] hover:brightness-110',
   secondary:
-    'bg-gray-800/60 text-white border border-gray-700 hover:bg-gray-800 hover:border-gray-600',
-  ghost: 'bg-transparent text-gray-200 hover:bg-gray-800/60 border border-transparent hover:border-gray-700',
+    'bg-transparent text-[var(--text)] border border-[var(--border)] hover:border-[var(--border-strong)] hover:bg-[var(--surface)]',
+  ghost:
+    'bg-transparent text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]',
 };
 
 const sizes = {
   sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-sm',
-  lg: 'px-5 py-3 text-base',
+  md: 'px-4 py-2.5 text-sm',
+  lg: 'px-6 py-3 text-base',
 };
 
 export default function Button({
@@ -33,4 +34,3 @@ export default function Button({
 
   return <Comp className={classes} {...props} />;
 }
-

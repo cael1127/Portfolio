@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Home from './components/Home';
-import DemoOrganizer from './components/DemoOrganizer';
+import Work from './components/Work';
 import AIInterviewSimulatorProjectPage from './components/ProjectPages/AIInterviewSimulatorProjectPage';
 import RealTimeCollaborationProjectPage from './components/ProjectPages/RealTimeCollaborationProjectPage';
 import AdvancedAnalyticsProjectPage from './components/ProjectPages/AdvancedAnalyticsProjectPage';
 import BlockchainAdvancedProjectPage from './components/ProjectPages/BlockchainAdvancedProjectPage';
 import EdgeComputingProjectPage from './components/ProjectPages/EdgeComputingProjectPage';
 import QuantumComputingProjectPage from './components/ProjectPages/QuantumComputingProjectPage';
-import FloatingParticles from './components/FloatingParticles';
 import ScrollToTop from './components/ScrollToTop';
-import ScrollProgress from './components/ScrollProgress';
-import Education from './components/Education';
+import About from './components/About';
 import Blog from './components/Blog';
 import BlogPost from './components/BlogPost';
 import ResumePage from './pages/ResumePage';
+import CommandPalette from './components/CommandPalette';
+import ScrollProgress from './components/motion/ScrollProgress';
+import AmbientBackground from './components/motion/AmbientBackground';
 
 // Import all demo pages
 import BlockchainDemoPage from './pages/BlockchainDemoPage';
@@ -88,10 +89,11 @@ import BPAWDProjectPage from './components/ProjectPages/BPAWDProjectPage';
 import UILAcademyProjectPage from './components/ProjectPages/UILAcademyProjectPage';
 import MinBodProjectPage from './components/ProjectPages/MinBodProjectPage';
 import JFResumeProjectPage from './components/ProjectPages/JFResumeProjectPage';
+import SystemProjectPage from './components/ProjectPages/SystemProjectPage';
 
 const PAGE_SLUGS = {
   home: '',
-  'demo-organizer': 'demo-organizer',
+  work: 'work',
   education: 'about',
   blog: 'blog',
   resume: 'resume',
@@ -161,7 +163,26 @@ const PAGE_SLUGS = {
   'uil-academy-project': 'uil-academy-project',
   'minbod-project': 'minbod-project',
   'jf-resume-project': 'jf-resume-project',
+  aquaFarm: 'aquafarm',
+  boltPlanner: 'boltplanner',
+  grabby: 'grabby',
+  neurals: 'neurals',
+  AtlusPersonal: 'atlus',
+  aisw: 'aisw',
+  physics: 'physics',
+  terminalUI: 'terminal-ui',
 };
+
+const SYSTEMS_PAGE_IDS = [
+  'aquaFarm',
+  'boltPlanner',
+  'grabby',
+  'neurals',
+  'AtlusPersonal',
+  'aisw',
+  'physics',
+  'terminalUI',
+];
 
 const PATH_TO_PAGE = Object.entries(PAGE_SLUGS).reduce((acc, [pageId, slug]) => {
   const normalisedSlug = (slug || '').replace(/^\/+|\/+$/g, '');
@@ -170,7 +191,7 @@ const PATH_TO_PAGE = Object.entries(PAGE_SLUGS).reduce((acc, [pageId, slug]) => 
     acc[pageId] = pageId;
   }
   return acc;
-}, {});
+}, { 'demo-organizer': 'work', projects: 'work' });
 
 const normalisePathname = (pathname) => pathname.replace(/^\/+|\/+$/g, '');
 
@@ -270,21 +291,24 @@ function App() {
   }, [currentPage]);
 
   const renderContent = () => {
-    console.log('App.jsx - Current page:', currentPage);
-    
     // Handle blog post routes (blog-{slug})
     if (currentPage.startsWith('blog-')) {
       const slug = currentPage.replace('blog-', '');
       return <BlogPost slug={slug} setCurrentPage={navigateTo} />;
     }
+
+    // Systems / GitHub case-study pages (data-driven)
+    if (SYSTEMS_PAGE_IDS.includes(currentPage)) {
+      return <SystemProjectPage id={currentPage} setCurrentPage={navigateTo} />;
+    }
     
     switch (currentPage) {
       case 'home':
         return <Home setCurrentPage={navigateTo} />;
-      case 'demo-organizer':
-        return <DemoOrganizer setCurrentPage={navigateTo} />;
+      case 'work':
+        return <Work setCurrentPage={navigateTo} />;
       case 'education':
-        return <Education setCurrentPage={navigateTo} />;
+        return <About setCurrentPage={navigateTo} />;
       case 'blog':
         return <Blog setCurrentPage={navigateTo} />;
       case 'resume':
@@ -440,161 +464,172 @@ function App() {
     }
   };
 
-  // Navigation component
-  const Navigation = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const navItems = [
-      { id: 'home', label: 'Home', icon: '' },
-      { id: 'demo-organizer', label: 'Projects', icon: '' },
-      { id: 'blog', label: 'Blog', icon: '' },
-      { id: 'education', label: 'About', icon: '' },
-      { id: 'resume', label: 'Resume', icon: '' },
-    ];
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    return (
-      <>
-        <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-900/80 border-b border-gray-700/50 shadow-lg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              {/* Logo */}
-              <motion.div 
-                className="flex items-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <button
-                  onClick={() => navigateTo('home')}
-                  className="flex items-center space-x-2 text-white font-bold text-lg group"
-                >
-                  <motion.span 
-                    className="text-2xl bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    CF
-                  </motion.span>
-                  <span className="group-hover:text-teal-400 transition-colors">Cael Findley</span>
-                </button>
-              </motion.div>
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
-              {/* Desktop Navigation */}
-              <div className="hidden md:block">
-                <div className="flex items-center space-x-2">
-                  {navItems.map((item) => (
-                    <motion.button
-                      key={item.id}
-                      onClick={() => navigateTo(item.id)}
-                      className="relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span className={`relative z-10 transition-colors ${
-                        currentPage === item.id
-                          ? 'text-white'
-                          : 'text-gray-300 group-hover:text-white'
-                      }`}>
-                        {item.label}
-                      </span>
-                      
-                      {/* Active indicator */}
-                      {currentPage === item.id && (
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-teal-600/80 to-emerald-600/80 rounded-lg backdrop-blur-sm"
-                          layoutId="activeTab"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                        />
-                      )}
-                      
-                      {/* Hover effect */}
-                      {currentPage !== item.id && (
-                        <motion.div
-                          className="absolute inset-0 bg-gray-700/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                        />
-                      )}
-                      
-                      {/* Underline animation */}
-                      <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-teal-400 to-emerald-400"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: currentPage === item.id ? 1 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'work', label: 'Work' },
+    { id: 'blog', label: 'Blog' },
+    { id: 'education', label: 'About' },
+    { id: 'resume', label: 'Resume' },
+  ];
 
-              {/* Mobile menu button */}
-              <div className="md:hidden">
-                <motion.button
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="text-gray-300 hover:text-white p-2"
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <motion.svg
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {mobileMenuOpen ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    ) : (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                    )}
-                  </motion.svg>
-                </motion.button>
-              </div>
-            </div>
-
-            {/* Mobile Navigation */}
-            <motion.div
-              initial={false}
-              animate={{
-                height: mobileMenuOpen ? "auto" : 0,
-                opacity: mobileMenuOpen ? 1 : 0
-              }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden"
-            >
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                {navItems.map((item) => (
-                  <motion.button
-                    key={item.id}
-                    onClick={() => {
-                      navigateTo(item.id);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all ${
-                      currentPage === item.id
-                        ? 'bg-teal-600/80 text-white shadow-lg'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
-                    }`}
-                    whileHover={{ x: 4 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {item.label}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </nav>
-        <ScrollProgress />
-      </>
-    );
+  const isActive = (id) => {
+    if (id === 'work') {
+      return (
+        currentPage === 'work' ||
+        currentPage.endsWith('-demo') ||
+        currentPage.endsWith('-project') ||
+        SYSTEMS_PAGE_IDS.includes(currentPage) ||
+        [
+          'ai-interview-simulator',
+          'real-time-collaboration',
+          'advanced-analytics',
+          'blockchain-advanced',
+          'edge-computing',
+          'quantum-computing',
+        ].includes(currentPage)
+      );
+    }
+    if (id === 'blog') return currentPage === 'blog' || currentPage.startsWith('blog-');
+    return currentPage === id;
   };
 
   return (
-    <div className="App min-h-screen bg-gray-900 relative overflow-x-hidden scroll-smooth">
-      <FloatingParticles />
-      <Navigation />
-      <main className="relative z-10 overflow-x-hidden pt-16">
-        {renderContent()}
+    <div className="App min-h-screen bg-[var(--bg)] text-[var(--text)] relative overflow-x-hidden">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+
+      <AmbientBackground />
+      <ScrollProgress />
+
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-md">
+        <div className="page-shell">
+          <div className="flex h-14 items-center justify-between md:h-16">
+            <button
+              type="button"
+              onClick={() => navigateTo('home')}
+              className="flex items-baseline gap-2.5 text-[var(--text)]"
+            >
+              <span className="font-mono text-sm font-medium text-[var(--accent)]">CF</span>
+              <span className="text-sm font-medium tracking-tight">Cael Findley</span>
+            </button>
+
+            <div className="hidden items-center gap-1 md:flex">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => navigateTo(item.id)}
+                  className={`relative px-3 py-2 text-sm transition-colors duration-200 ${
+                    isActive(item.id)
+                      ? 'text-[var(--text)]'
+                      : 'text-[var(--muted)] hover:text-[var(--text)]'
+                  }`}
+                >
+                  {item.label}
+                  {isActive(item.id) && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute inset-x-3 -bottom-[1px] h-px bg-[var(--accent)]"
+                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                    />
+                  )}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setPaletteOpen(true)}
+                className="ml-2 rounded-md border border-[var(--border)] px-2.5 py-1.5 font-mono text-[10px] text-[var(--muted)] hover:text-[var(--text)]"
+                aria-label="Open command palette"
+              >
+                ⌘K
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 md:hidden">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((o) => !o)}
+                className="p-2 text-[var(--muted)] hover:text-[var(--text)]"
+                aria-label="Menu"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  {mobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7h16M4 12h16M4 17h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {mobileMenuOpen && (
+            <div className="border-t border-[var(--border)] py-3 md:hidden">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    navigateTo(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`block w-full px-1 py-2.5 text-left text-sm ${
+                    isActive(item.id) ? 'text-[var(--text)]' : 'text-[var(--muted)]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => {
+                  setPaletteOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="mt-1 block w-full px-1 py-2.5 text-left text-sm text-[var(--muted)]"
+              >
+                Search ⌘K
+              </button>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      <main id="main-content" className="relative z-10 overflow-x-hidden pt-14 md:pt-16">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {renderContent()}
+          </motion.div>
+        </AnimatePresence>
       </main>
+
       <ScrollToTop />
+      <CommandPalette
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        onNavigate={navigateTo}
+      />
     </div>
   );
 }

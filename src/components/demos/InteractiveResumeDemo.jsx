@@ -92,11 +92,11 @@ const InteractiveResumeDemo = () => {
     },
     education: [
       {
-        degree: 'BS in Computer Science',
-        school: 'University of California',
-        period: '2012 - 2016',
-        gpa: '3.8/4.0',
-        achievements: ['Dean\'s List', 'CS Department Award']
+        degree: 'B.S. Computer Science',
+        school: 'Texas A&M University College of Engineering',
+        period: 'College Station, TX',
+        gpa: '',
+        achievements: ['Computer Science', 'Engineering']
       }
     ],
     projects: [

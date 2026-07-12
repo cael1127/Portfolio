@@ -7,7 +7,7 @@ const ThreatIntelligenceDemoPage = ({ setCurrentPage }) => {
       title="Threat Intelligence Platform"
       subtitle="IOC collection, threat feed aggregation, and reputation checking"
       emoji="🔎"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Microservices Platform', onClick: () => setCurrentPage('microservices-demo') }}
       demo={null}
       overview="A comprehensive Threat Intelligence Platform that aggregates Indicators of Compromise (IOCs) from multiple threat feeds, performs reputation checking, and provides actionable threat intelligence. Integrates with various threat intelligence sources to provide real-time threat data and analysis."

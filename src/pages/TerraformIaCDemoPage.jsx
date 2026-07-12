@@ -8,7 +8,7 @@ const TerraformIaCDemoPage = ({ setCurrentPage }) => {
       title="Infrastructure as Code (Terraform)"
       subtitle="AWS/GCP infrastructure provisioning, state management, and modules"
       emoji="🏗️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Vulnerability Scanner', onClick: () => setCurrentPage('vulnerability-scanner-demo') }}
       demo={<TerraformIaCDemo />}
       overview="Complete Infrastructure as Code solution using Terraform for provisioning and managing cloud infrastructure. Includes VPC setup, compute resources, security groups, and reusable modules for AWS, GCP, and Azure."

@@ -8,7 +8,7 @@ const NetworkTrafficAnalyzerDemoPage = ({ setCurrentPage }) => {
       title="Network Traffic Analyzer"
       subtitle="Packet capture, protocol analysis, anomaly detection, and traffic visualization"
       emoji="🌐"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Microservices Platform', onClick: () => setCurrentPage('microservices-demo') }}
       demo={<NetworkTrafficAnalyzerDemo />}
       overview="A comprehensive network traffic analysis system that captures and analyzes network packets in real-time. Provides protocol breakdown, anomaly detection, traffic visualization, and security monitoring capabilities for network administrators and security teams."

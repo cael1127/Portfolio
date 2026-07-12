@@ -8,7 +8,7 @@ const AdvancedAnalyticsProjectPage = ({ setCurrentPage }) => {
       title="Advanced Analytics Platform"
       subtitle="Predictive business intelligence with real-time insights"
       emoji="📊"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Collaboration Hub', onClick: () => setCurrentPage('real-time-collaboration') }}
       demo={<AdvancedAnalytics isEmbedded />}
       overview="Enterprise analytics suite that unifies streaming telemetry, ML-powered forecasting, and anomaly detection into an executive-ready control center."

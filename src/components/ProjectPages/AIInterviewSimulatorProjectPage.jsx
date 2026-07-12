@@ -8,7 +8,7 @@ const AIInterviewSimulatorProjectPage = ({ setCurrentPage }) => {
       title="AI Interview Simulator"
       subtitle="Voice-driven behavioural and technical interview coach"
       emoji="🧠"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Advanced Analytics', onClick: () => setCurrentPage('advanced-analytics') }}
       demo={<AIInterviewSimulator isEmbedded />}
       overview="An adaptive mock-interview platform that transcribes answers, analyses tone and keywords, and generates actionable feedback in real time."

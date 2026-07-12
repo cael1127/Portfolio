@@ -8,7 +8,7 @@ const MicroservicesDemoPage = ({ setCurrentPage }) => {
       title="Microservices Architecture Platform"
       subtitle="Service discovery, load balancing, inter-service communication, and health monitoring"
       emoji="🔧"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'GraphQL API', onClick: () => setCurrentPage('graphql-api-demo') }}
       demo={<MicroservicesDemo />}
       overview="A comprehensive microservices architecture platform featuring service discovery, load balancing, API gateway, inter-service communication, and health monitoring. Demonstrates how to build, deploy, and manage distributed microservices applications with proper service orchestration."

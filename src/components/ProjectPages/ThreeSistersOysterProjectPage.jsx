@@ -5,161 +5,111 @@ const ThreeSistersOysterProjectPage = ({ setCurrentPage }) => {
   return (
     <ProjectLayout
       title="Three Sisters Oyster Co."
-      subtitle="Full-stack e-commerce platform for premium Texas oysters"
-      emoji="🦪"
-      onBack={() => setCurrentPage('demo-organizer')}
+      subtitle="Production e-commerce for a working Gulf Coast oyster farm"
+      accent="#A31F34"
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Bapux', onClick: () => setCurrentPage('bapux-project') }}
+      heroVisual={
+        <div className="flex h-full min-h-[180px] flex-col justify-between p-6 md:p-8">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+            Live product
+          </p>
+          <div>
+            <p className="display text-3xl text-[var(--text)]">threesistersoyster.com</p>
+            <p className="mt-2 text-sm text-[var(--muted)]">
+              Catalog · inventory · checkout · orders
+            </p>
+          </div>
+        </div>
+      }
       demo={
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-          <div className="text-center mb-4">
-            <h3 className="text-xl font-semibold mb-2">Three Sisters Oyster Co.</h3>
-            <p className="text-gray-300 mb-4">Premium Texas Oysters - Sustainable Aquaculture</p>
+        <div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-xl font-medium text-[var(--text)]">Three Sisters Oyster Co.</h3>
+              <p className="mt-1 text-[var(--muted)]">
+                Premium Texas oysters — sustainable aquaculture, sold online.
+              </p>
+            </div>
             <a
               href="https://threesistersoyster.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+              className="inline-flex items-center justify-center rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-fg)] transition hover:brightness-110"
             >
-              Visit Live Website →
+              Visit live site →
             </a>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <div className="bg-gray-900 p-4 rounded-lg">
-              <h4 className="font-semibold text-white mb-2">E-commerce Features</h4>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• Product catalog and inventory</li>
-                <li>• Shopping cart and checkout</li>
-                <li>• Order management system</li>
-                <li>• Customer account management</li>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="rounded-sm border border-[var(--border)] bg-[var(--bg)] p-5">
+              <h4 className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--accent)] mb-3">
+                Commerce
+              </h4>
+              <ul className="space-y-2 text-sm text-[var(--muted)]">
+                <li>Product catalog and perishable inventory</li>
+                <li>Cart, checkout, and order management</li>
+                <li>Customer accounts</li>
+                <li>Stripe payment processing</li>
               </ul>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg">
-              <h4 className="font-semibold text-white mb-2">Key Highlights</h4>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• Responsive design</li>
-                <li>• SEO optimized</li>
-                <li>• Fast loading times</li>
-                <li>• Mobile-friendly interface</li>
+            <div className="rounded-sm border border-[var(--border)] bg-[var(--bg)] p-5">
+              <h4 className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--accent)] mb-3">
+                Craft
+              </h4>
+              <ul className="space-y-2 text-sm text-[var(--muted)]">
+                <li>Mobile-first buying flows</li>
+                <li>SEO and performance budget</li>
+                <li>Ops-friendly inventory truth</li>
+                <li>Deployed for real customers</li>
               </ul>
             </div>
           </div>
         </div>
       }
-      overview="Full-stack e-commerce platform for Three Sisters Oyster Co., a sustainable aquaculture business in Port Lavaca, Texas. The platform features product catalog, inventory management, shopping cart, checkout system, and order management for premium Gulf Coast oysters."
-      role="Full-stack development, e-commerce implementation, UI/UX design, payment integration, and deployment"
-      stack={["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS", "Express", "Netlify"]}
+      problem="Three Sisters Oyster Co. needed a modern storefront that could sell perishable Gulf Coast oysters online — with inventory that matched the farm, secure payments, and a mobile experience customers would actually finish."
+      approach="Built a full-stack platform with React, Node, MongoDB, and Stripe. Prioritized inventory honesty for perishable stock, a clear browse → cart → checkout path, and deployment that the business could rely on day to day."
+      process={[
+        'Mapped farm inventory constraints and customer buying flows',
+        'Designed catalog and cart UX for mobile-first traffic',
+        'Implemented APIs for products, orders, and inventory',
+        'Integrated Stripe and hardened checkout',
+        'Shipped to production and monitored real orders',
+      ]}
+      technicalDecisions={[
+        'Chose MongoDB for flexible product and order documents',
+        'Kept inventory updates close to the order path to avoid overselling perishables',
+        'Used Stripe for PCI-sensitive payment handling',
+        'Deployed frontend on Netlify for fast static delivery',
+      ]}
+      overview="Full-stack e-commerce for Three Sisters Oyster Co. in Port Lavaca, Texas — catalog, inventory, cart, checkout, and order management for premium oysters."
+      role="Full-stack development, UI/UX, payment integration, and deployment."
+      stack={['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS', 'Express', 'Netlify']}
       challenges={[
-        "Implementing inventory management for perishable products",
-        "Creating intuitive product browsing experience",
-        "Integrating payment processing securely",
-        "Optimizing for mobile devices",
-        "Ensuring fast page load times"
+        'Inventory management for perishable products',
+        'Intuitive product browsing on small screens',
+        'Secure payment processing',
+        'Fast loads under real traffic',
       ]}
       results={[
-        "Launched production e-commerce platform",
-        "Implemented secure payment processing",
-        "Achieved 95+ Lighthouse performance score",
-        "Created responsive mobile experience",
-        "Established reliable inventory tracking"
+        'Launched production e-commerce platform',
+        'Secure payment processing in place',
+        'Strong Lighthouse performance scores',
+        'Reliable inventory tracking for ops',
       ]}
-      problem="Three Sisters Oyster Co. needed a modern e-commerce platform to sell premium oysters online. The platform needed to handle inventory management, process orders, and provide an excellent user experience for customers."
-      approach="Built a full-stack e-commerce platform with React frontend, Node.js backend, and MongoDB database. Implemented secure payment processing, inventory management, and responsive design for optimal user experience across all devices."
+      impact="The farm can sell online with an experience that matches the product — clear, fast, and trustworthy — instead of relying on ad-hoc phone and social orders alone."
+      lessons={[
+        'Perishable inventory is a product problem first, then a database problem',
+        'Mobile checkout friction kills more conversions than missing features',
+        'Ship the path customers actually take; polish the edges after revenue flows',
+      ]}
       highlights={[
-        "Full-stack e-commerce platform",
-        "Inventory management system",
-        "Secure payment processing",
-        "Responsive design",
-        "SEO optimization",
-        "Fast performance"
-      ]}
-      tutorialSummary="Built a complete e-commerce platform for Three Sisters Oyster Co., featuring product catalog, shopping cart, checkout, and order management. The platform showcases sustainable aquaculture and premium Texas oysters."
-      difficulty="Advanced"
-      timeEstimate="3-4 weeks"
-      keyConcepts={[
-        { name: "E-commerce Platform", description: "Complete online store implementation" },
-        { name: "Inventory Management", description: "Tracking and managing product inventory" },
-        { name: "Payment Processing", description: "Secure payment integration" },
-        { name: "Responsive Design", description: "Mobile-first design approach" }
-      ]}
-      tutorialSteps={[
-        {
-          title: "Requirements & Design",
-          description: "Gather requirements and design the platform",
-          steps: [
-            "Define product catalog structure",
-            "Design user interface and user flows",
-            "Plan inventory management system",
-            "Design database schema"
-          ]
-        },
-        {
-          title: "Frontend Development",
-          description: "Build React frontend with responsive design",
-          steps: [
-            "Create product catalog components",
-            "Implement shopping cart functionality",
-            "Build checkout flow",
-            "Add responsive design for mobile"
-          ]
-        },
-        {
-          title: "Backend Development",
-          description: "Implement Node.js backend and API",
-          steps: [
-            "Set up Express server",
-            "Create product and order APIs",
-            "Implement inventory management",
-            "Add authentication and authorization"
-          ]
-        },
-        {
-          title: "Payment Integration",
-          description: "Integrate secure payment processing",
-          steps: [
-            "Set up Stripe account",
-            "Implement payment processing",
-            "Add order confirmation",
-            "Test payment flows"
-          ]
-        },
-        {
-          title: "Deployment & Launch",
-          description: "Deploy and launch the platform",
-          steps: [
-            "Deploy frontend to Netlify",
-            "Deploy backend to cloud platform",
-            "Configure domain and SSL",
-            "Launch and monitor"
-          ]
-        }
-      ]}
-      setupInstructions={`The Three Sisters Oyster Co. website is live at:
-https://threesistersoyster.com
-
-For development setup:
-1. Clone repository
-2. Install dependencies (npm install)
-3. Set up environment variables
-4. Run development server (npm start)`}
-      deploymentGuide={`Production deployment:
-- Frontend: Netlify
-- Backend: Cloud platform (AWS/Heroku)
-- Database: MongoDB Atlas
-- Payment: Stripe
-- Domain: Configured via Netlify`}
-      troubleshooting={[
-        {
-          issue: "Payment processing errors",
-          solution: "Verify Stripe API keys and webhook configuration"
-        },
-        {
-          issue: "Inventory sync issues",
-          solution: "Check database connection and inventory update logic"
-        }
+        'Full-stack e-commerce platform',
+        'Inventory management for perishables',
+        'Secure payment processing',
+        'Responsive, SEO-aware storefront',
       ]}
     />
   );
 };
 
 export default ThreeSistersOysterProjectPage;
-

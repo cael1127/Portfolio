@@ -8,7 +8,7 @@ const SIEMDemoPage = ({ setCurrentPage }) => {
       title="SIEM/Log Analysis System"
       subtitle="Real-time log ingestion, threat detection, alerting, and dashboard visualization"
       emoji="📊"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'API Security Gateway', onClick: () => setCurrentPage('api-security-gateway-demo') }}
       demo={<SIEMDemo />}
       overview="A Security Information and Event Management (SIEM) system that ingests logs from multiple sources, analyzes them for security threats, and generates alerts. Features real-time log streaming, threat correlation, and comprehensive security dashboards."

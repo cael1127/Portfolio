@@ -8,7 +8,7 @@ const ResumeAnalyzerDemoPage = ({ setCurrentPage }) => {
       title="AI Resume Analyzer"
       subtitle="Intelligent resume analysis with skill matching"
       emoji="📄"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Whiteboard', onClick: () => setCurrentPage('whiteboard-demo') }}
       demo={<ResumeAnalyzerDemo />}
       overview="An AI-powered resume analysis system that extracts skills, matches candidates to job roles, and provides detailed scoring with explainability. Uses NLP techniques to analyze resumes and provide actionable insights for recruiters and candidates."

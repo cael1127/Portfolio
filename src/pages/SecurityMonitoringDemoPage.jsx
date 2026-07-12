@@ -8,7 +8,7 @@ const SecurityMonitoringDemoPage = ({ setCurrentPage }) => {
       title="Security Monitoring Dashboard"
       subtitle="Real-time threat detection, log analysis, alerting, and incident response"
       emoji="📡"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Three Sisters Oyster', onClick: () => setCurrentPage('three-sisters-oyster-project') }}
       demo={<SecurityMonitoringDemo />}
       overview="Real-time security monitoring dashboard that detects threats, analyzes logs from multiple sources, generates alerts, and provides automated incident response. The system aggregates logs, identifies security threats, and responds automatically to protect systems."

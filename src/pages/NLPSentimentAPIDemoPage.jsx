@@ -8,7 +8,7 @@ const NLPSentimentAPIDemoPage = ({ setCurrentPage }) => {
       title="NLP Sentiment Analysis API"
       subtitle="Production-ready REST API for multi-language sentiment analysis"
       emoji="💬"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'CI/CD Pipeline', onClick: () => setCurrentPage('cicd-pipeline-demo') }}
       demo={<NLPSentimentAPIDemo />}
       overview="Production-ready REST API for sentiment analysis that supports multiple languages and batch processing. Built with Flask and Hugging Face Transformers, the API provides real-time sentiment analysis with state-of-the-art transformer models."

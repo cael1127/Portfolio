@@ -8,7 +8,7 @@ const DockerPlatformDemoPage = ({ setCurrentPage }) => {
       title="Docker Containerization Platform"
       subtitle="Multi-stage builds, orchestration, and production deployment"
       emoji="🐳"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Kubernetes Management', onClick: () => setCurrentPage('kubernetes-management-demo') }}
       demo={<DockerPlatformDemo />}
       overview="Comprehensive Docker containerization platform featuring multi-stage builds, container orchestration with Docker Compose, health checks, volume management, and production-ready configurations. The platform enables consistent deployment across all environments."

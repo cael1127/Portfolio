@@ -8,7 +8,7 @@ const EventDrivenArchitectureDemoPage = ({ setCurrentPage }) => {
       title="Event-Driven Architecture System"
       subtitle="Event streaming, event replay, CQRS pattern, and event visualization"
       emoji="⚡"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Serverless Platform', onClick: () => setCurrentPage('serverless-platform-demo') }}
       demo={<EventDrivenArchitectureDemo />}
       overview="An event-driven architecture system that implements event sourcing, CQRS (Command Query Responsibility Segregation), and event streaming. Features event replay capabilities, saga pattern for distributed transactions, and comprehensive event visualization for system state reconstruction."

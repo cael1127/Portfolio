@@ -8,7 +8,7 @@ const BookstoreAPIDemoPage = ({ setCurrentPage }) => {
       title="Bookstore REST API"
       subtitle="Complete REST API for bookstore management with CRUD operations"
       emoji="📚"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'MERN Expense Tracker', onClick: () => setCurrentPage('mern-expense-tracker-demo') }}
       demo={<BookstoreAPIDemo />}
       overview="A comprehensive REST API for bookstore management featuring book catalog management, author tracking, inventory control, and order processing. Built with best practices for API design, error handling, and data validation."

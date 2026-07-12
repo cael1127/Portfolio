@@ -8,7 +8,7 @@ const HealthcareDemoPage = ({ setCurrentPage }) => {
       title="Healthcare Management System"
       subtitle="AI-powered patient monitoring and healthcare management"
       emoji="🏥"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Financial Platform', onClick: () => setCurrentPage('financial-demo') }}
       demo={<HealthcareDemo />}
       overview="Comprehensive healthcare management system featuring AI-powered patient monitoring, electronic health records, appointment scheduling, and real-time health analytics. Designed to improve patient care and streamline healthcare operations."

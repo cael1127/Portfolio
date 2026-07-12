@@ -8,7 +8,7 @@ const OWASPScannerDemoPage = ({ setCurrentPage }) => {
       title="OWASP Top 10 Security Scanner"
       subtitle="Automated vulnerability scanning with OWASP Top 10 coverage and detailed reporting"
       emoji="🔍"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Network Traffic Analyzer', onClick: () => setCurrentPage('network-traffic-analyzer-demo') }}
       demo={<OWASPScannerDemo />}
       overview="A comprehensive security scanner that tests web applications against the OWASP Top 10 vulnerabilities. Performs automated scanning for injection attacks, broken authentication, sensitive data exposure, and other critical security issues with detailed reporting and remediation recommendations."

@@ -1,63 +1,56 @@
 import React from 'react';
 import ProjectLayout from '../ProjectLayout';
 
-const UILAcademyProjectPage = ({ setCurrentPage }) => {
-  return (
-    <ProjectLayout
-      title="UIL Academy"
-      subtitle="Educational platform with learning management features"
-      emoji="📚"
-      onBack={() => setCurrentPage('demo-organizer')}
-      next={{ label: 'MinBod', onClick: () => setCurrentPage('minbod-project') }}
-      demo={
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-          <div className="text-center mb-4">
-            <h3 className="text-xl font-semibold mb-2">UIL Academy</h3>
-            <p className="text-gray-300 mb-4">Educational Learning Platform</p>
-            <a
-              href="https://uilacademy.netlify.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors"
-            >
-              Visit Live Website →
-            </a>
-          </div>
+const UILAcademyProjectPage = ({ setCurrentPage }) => (
+  <ProjectLayout
+    title="UIL Academy"
+    subtitle="Educational platform for competitive academics"
+    accent="#A31F34"
+    onBack={() => setCurrentPage('work')}
+    next={{ label: 'MinBod', onClick: () => setCurrentPage('minbod-project') }}
+    demo={
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h3 className="text-xl font-medium text-[var(--text)]">UIL Academy</h3>
+          <p className="mt-1 text-[var(--muted)]">Learning management surface</p>
         </div>
-      }
-      overview="Educational platform with learning management features including course catalog, student management, progress tracking, and interactive learning modules."
-      role="Full-stack development, learning management system implementation, and UI/UX design"
-      stack={["React", "Node.js", "MongoDB", "Tailwind CSS", "Express"]}
-      challenges={[
-        "Implementing learning management features",
-        "Creating interactive learning modules",
-        "Building progress tracking system",
-        "Designing intuitive user interface"
-      ]}
-      results={[
-        "Launched educational platform",
-        "Implemented comprehensive LMS features",
-        "Created engaging learning experience"
-      ]}
-      problem="Need for a modern educational platform with learning management capabilities."
-      approach="Built comprehensive learning management system with React frontend and Node.js backend."
-      highlights={[
-        "Learning management system",
-        "Course catalog",
-        "Progress tracking",
-        "Interactive modules",
-        "Student management"
-      ]}
-      tutorialSummary="Educational platform with comprehensive learning management features."
-      difficulty="Advanced"
-      timeEstimate="4 weeks"
-      keyConcepts={[
-        { name: "Learning Management System", description: "LMS implementation" },
-        { name: "Educational Technology", description: "EdTech platform development" }
-      ]}
-    />
-  );
-};
+        <a
+          href="https://uilacademy.netlify.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-fg)] hover:brightness-110"
+        >
+          Visit live site →
+        </a>
+      </div>
+    }
+    problem="Competitive academics needed a modern learning surface — courses, progress, and modules without enterprise LMS bloat."
+    approach="Built an LMS-style React app with catalog, progress tracking, and interactive modules backed by Node and MongoDB."
+    process={[
+      'Defined learner and admin flows',
+      'Implemented catalog and progress models',
+      'Shipped interactive module UI',
+      'Deployed and iterated on feedback',
+    ]}
+    technicalDecisions={[
+      'MongoDB for flexible course, module, and progress documents',
+      'Progress modeled explicitly so it can be shown, not guessed',
+      'Navigation designed around the lesson, not the feature list',
+    ]}
+    overview="Educational platform with course catalog, student management, progress tracking, and interactive modules."
+    role="Full-stack development, LMS implementation, UI/UX"
+    stack={['React', 'Node.js', 'MongoDB', 'Tailwind CSS', 'Express']}
+    challenges={[
+      'Learning management features',
+      'Interactive modules',
+      'Progress tracking',
+      'Intuitive UI',
+    ]}
+    results={['Launched platform', 'LMS features shipped', 'Engaging learning flows']}
+    impact="A focused education product students and coaches can actually navigate."
+    lessons={['EdTech UI fails when navigation fights the lesson', 'Track progress visibly']}
+    highlights={['LMS', 'Course catalog', 'Progress tracking', 'Interactive modules']}
+  />
+);
 
 export default UILAcademyProjectPage;
-

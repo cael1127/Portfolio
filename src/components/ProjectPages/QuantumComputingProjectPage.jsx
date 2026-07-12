@@ -8,7 +8,7 @@ const QuantumComputingProjectPage = ({ setCurrentPage }) => {
       title="Quantum Computing Lab"
       subtitle="Design and visualise qubit circuits with educational overlays"
       emoji="⚛️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Blockchain Ops Center', onClick: () => setCurrentPage('blockchain-advanced') }}
       demo={<QuantumComputingDemo isEmbedded />}
       overview="Interactive laboratory that demystifies qubit states, circuit composition, and post-quantum workflows for engineering and education teams."

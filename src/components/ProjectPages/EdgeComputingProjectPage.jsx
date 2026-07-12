@@ -8,7 +8,7 @@ const EdgeComputingProjectPage = ({ setCurrentPage }) => {
       title="Edge Orchestration Platform"
       subtitle="Manage distributed edge clusters with autonomous failover"
       emoji="🌐"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Quantum Lab', onClick: () => setCurrentPage('quantum-computing') }}
       demo={<EdgeComputing isEmbedded />}
       overview="Command-and-control cockpit for orchestrating edge nodes, IoT fleets, and AI workloads with real-time telemetry and automated remediation."

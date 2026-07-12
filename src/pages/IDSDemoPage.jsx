@@ -7,7 +7,7 @@ const IDSDemoPage = ({ setCurrentPage }) => {
       title="Network Intrusion Detection System (IDS)"
       subtitle="Signature-based detection, anomaly detection, and alert generation"
       emoji="🚨"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Threat Intelligence', onClick: () => setCurrentPage('threat-intelligence-demo') }}
       demo={null}
       overview="A Network Intrusion Detection System (IDS) that monitors network traffic for malicious activities and policy violations. Uses signature-based detection to identify known attack patterns and anomaly detection to identify unusual network behavior. Generates alerts for security incidents and provides comprehensive network security monitoring."

@@ -8,8 +8,8 @@ const BlockchainAdvancedProjectPage = ({ setCurrentPage }) => {
       title="Blockchain Operations Center"
       subtitle="Govern enterprise chains with deep observability"
       emoji="⛓️"
-      onBack={() => setCurrentPage('demo-organizer')}
-      next={{ label: 'Back to Projects', onClick: () => setCurrentPage('demo-organizer') }}
+      onBack={() => setCurrentPage('work')}
+      next={{ label: 'Back to Projects', onClick: () => setCurrentPage('work') }}
       demo={<BlockchainAdvanced isEmbedded />}
       overview="Full-stack control tower for enterprise blockchain networks covering blocks, transactions, smart contracts, NFTs, and DeFi flows."
       role="Network architecture, smart contract tooling, monitoring and UX"

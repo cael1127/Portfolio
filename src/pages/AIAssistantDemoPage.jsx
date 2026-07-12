@@ -8,7 +8,7 @@ const AIAssistantDemoPage = ({ setCurrentPage }) => {
       title="AI Assistant"
       subtitle="Intelligent conversational AI with natural language processing"
       emoji="🤖"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Snake AI', onClick: () => setCurrentPage('snake-ai-demo') }}
       demo={<AIAssistantDemo />}
       overview="An intelligent conversational AI assistant that provides natural language understanding, context awareness, and smart responses. Built with modern NLP techniques to deliver human-like interactions and helpful assistance across various domains."

@@ -8,7 +8,7 @@ const BlockchainDemoPage = ({ setCurrentPage }) => {
       title="Blockchain Platform"
       subtitle="Supply chain with real-time transactions"
       emoji="🔗"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Smart City', onClick: () => setCurrentPage('smart-city-demo') }}
       demo={<BlockchainDemo />}
       overview="Comprehensive blockchain platform featuring smart contracts, transaction processing, and supply chain tracking. Built with modern web technologies to provide transparent, secure, and efficient decentralized applications for enterprise use cases."

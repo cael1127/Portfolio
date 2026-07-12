@@ -8,7 +8,7 @@ const InteractiveResumeDemoPage = ({ setCurrentPage }) => {
       title="Interactive Resume Builder"
       subtitle="Real-time editing resume with responsive design and live preview"
       emoji="📝"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Deepfake Detection', onClick: () => setCurrentPage('deepfake-detection-demo') }}
       demo={<InteractiveResumeDemo />}
       overview="An interactive resume builder that allows users to create, edit, and customize their resumes in real-time. Features live preview, responsive design, multiple templates, and export capabilities for professional resume creation."

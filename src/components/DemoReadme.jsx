@@ -2,14 +2,22 @@ import React from 'react';
 
 const DemoReadme = ({ problem, approach, highlights = [], repoLink }) => {
   return (
-    <div className="mt-6 bg-gray-900 p-6 rounded-xl border border-gray-800">
-      <h3 className="text-xl font-semibold mb-3">README (short)</h3>
-      <div className="text-gray-300 text-sm leading-relaxed">
-        <p className="mb-3"><span className="text-gray-400">Problem:</span> {problem}</p>
-        <p className="mb-3"><span className="text-gray-400">Approach:</span> {approach}</p>
+    <div className="mt-6 rounded-sm border border-[var(--border)] bg-[var(--surface)] p-6">
+      <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--accent)] mb-4">
+        README
+      </h3>
+      <div className="text-sm leading-relaxed text-[var(--muted)] space-y-3">
+        <p>
+          <span className="text-[var(--text)]">Problem — </span>
+          {problem}
+        </p>
+        <p>
+          <span className="text-[var(--text)]">Approach — </span>
+          {approach}
+        </p>
         {highlights.length > 0 && (
-          <div className="mb-3">
-            <div className="text-gray-400 mb-1">Highlights:</div>
+          <div>
+            <div className="text-[var(--text)] mb-1">Highlights</div>
             <ul className="list-disc pl-5 space-y-1">
               {highlights.map((h, i) => (
                 <li key={i}>{h}</li>
@@ -18,7 +26,14 @@ const DemoReadme = ({ problem, approach, highlights = [], repoLink }) => {
           </div>
         )}
         {repoLink && (
-          <a href={repoLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-emerald-300 text-sm">View repository →</a>
+          <a
+            href={repoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-[var(--accent)] hover:brightness-110"
+          >
+            View repository →
+          </a>
         )}
       </div>
     </div>
@@ -26,5 +41,3 @@ const DemoReadme = ({ problem, approach, highlights = [], repoLink }) => {
 };
 
 export default DemoReadme;
-
-

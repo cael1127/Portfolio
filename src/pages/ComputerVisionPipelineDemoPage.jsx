@@ -8,7 +8,7 @@ const ComputerVisionPipelineDemoPage = ({ setCurrentPage }) => {
       title="Computer Vision Pipeline"
       subtitle="End-to-end image processing, augmentation, and model inference"
       emoji="👁️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'NLP Sentiment API', onClick: () => setCurrentPage('nlp-sentiment-api-demo') }}
       demo={<ComputerVisionPipelineDemo />}
       overview="Complete computer vision pipeline that handles image preprocessing, data augmentation, feature extraction, and model inference. The system processes images through multiple stages to prepare them for machine learning models and extract meaningful features."

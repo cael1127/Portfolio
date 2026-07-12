@@ -8,7 +8,7 @@ const GraphQLAPIDemoPage = ({ setCurrentPage }) => {
       title="GraphQL API with React Frontend"
       subtitle="Type-safe queries, real-time subscriptions, query optimization, and caching"
       emoji="📡"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Real-time Collaboration', onClick: () => setCurrentPage('realtime-collaboration-platform-demo') }}
       demo={<GraphQLAPIDemo />}
       overview="A full-stack GraphQL API with React frontend demonstrating type-safe queries, real-time subscriptions, query optimization, and intelligent caching. Features a GraphQL playground for interactive query testing and comprehensive schema documentation."

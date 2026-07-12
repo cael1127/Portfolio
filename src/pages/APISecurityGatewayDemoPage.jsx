@@ -8,7 +8,7 @@ const APISecurityGatewayDemoPage = ({ setCurrentPage }) => {
       title="API Security Gateway"
       subtitle="API authentication, authorization, rate limiting, and request validation"
       emoji="🔐"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Phishing Detection', onClick: () => setCurrentPage('phishing-detection-demo') }}
       demo={<APISecurityGatewayDemo />}
       overview="A comprehensive API security gateway that provides authentication, authorization, rate limiting, and request validation for API endpoints. Supports multiple authentication methods including API keys, JWT tokens, and OAuth2, with advanced rate limiting and request validation."

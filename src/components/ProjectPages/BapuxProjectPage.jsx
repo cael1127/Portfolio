@@ -5,56 +5,49 @@ const BapuxProjectPage = ({ setCurrentPage }) => {
   return (
     <ProjectLayout
       title="Bapux"
-      subtitle="Full-stack web application"
-      emoji="🌐"
-      onBack={() => setCurrentPage('demo-organizer')}
+      subtitle="Client web experience with clear structure and fast delivery"
+      accent="#A31F34"
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'BPAWD', onClick: () => setCurrentPage('bpawd-project') }}
       demo={
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-          <div className="text-center mb-4">
-            <h3 className="text-xl font-semibold mb-2">Bapux</h3>
-            <a
-              href="https://bapux.netlify.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-            >
-              Visit Live Website →
-            </a>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h3 className="text-xl font-medium text-[var(--text)]">Bapux</h3>
+            <p className="mt-1 text-[var(--muted)]">Live client site</p>
           </div>
+          <a
+            href="https://bapux.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-fg)] hover:brightness-110"
+          >
+            Visit live site →
+          </a>
         </div>
       }
-      overview="Full-stack web application built with modern technologies. The platform features responsive design, fast performance, and excellent user experience."
-      role="Full-stack development, UI/UX design, and deployment"
-      stack={["React", "Node.js", "Tailwind CSS", "Netlify"]}
-      challenges={[
-        "Building responsive design",
-        "Optimizing performance",
-        "Ensuring cross-browser compatibility"
+      problem="The client needed a modern, responsive web presence that loaded quickly and communicated clearly without unnecessary chrome."
+      approach="Shipped a React front end with a mobile-first layout, tight content hierarchy, and Netlify deployment for reliable static delivery."
+      process={[
+        'Clarified content and conversion goals',
+        'Designed a restrained visual system',
+        'Built responsive React views',
+        'Deployed and validated on real devices',
       ]}
-      results={[
-        "Launched production website",
-        "Achieved excellent performance scores",
-        "Created responsive mobile experience"
+      technicalDecisions={[
+        'React + Netlify for fast, reliable static delivery',
+        'Mobile-first layout to match real traffic',
+        'Kept the visual system restrained to avoid chrome for its own sake',
       ]}
-      problem="Need for a modern, responsive web application with excellent user experience."
-      approach="Built a full-stack application with React, implementing responsive design and optimizing for performance."
-      highlights={[
-        "Responsive design",
-        "Fast performance",
-        "Modern UI/UX",
-        "Cross-browser compatibility"
-      ]}
-      tutorialSummary="Full-stack web application showcasing modern development practices and responsive design."
-      difficulty="Intermediate"
-      timeEstimate="2 weeks"
-      keyConcepts={[
-        { name: "Full-stack Development", description: "Complete application development" },
-        { name: "Responsive Design", description: "Mobile-first design approach" }
-      ]}
+      overview="Full-stack web application with responsive design and a focus on performance."
+      role="Full-stack development, UI/UX, and deployment"
+      stack={['React', 'Node.js', 'Tailwind CSS', 'Netlify']}
+      challenges={['Responsive design', 'Performance budget', 'Cross-browser compatibility']}
+      results={['Production launch', 'Strong performance scores', 'Reliable mobile experience']}
+      impact="A clean, fast site that presents the product without fighting the user."
+      lessons={['Clarity beats decoration', 'Ship the primary path first']}
+      highlights={['Responsive design', 'Fast performance', 'Modern UI']}
     />
   );
 };
 
 export default BapuxProjectPage;
-

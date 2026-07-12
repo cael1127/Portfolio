@@ -8,7 +8,7 @@ const FraudDetectionDemoPage = ({ setCurrentPage }) => {
       title="Fraud Detection System"
       subtitle="AI-powered financial fraud detection with real-time analysis"
       emoji="🔍"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Deepfake Detection', onClick: () => setCurrentPage('deepfake-detection-demo') }}
       demo={<FraudDetectionDemo />}
       overview="Advanced AI-powered fraud detection system that analyzes financial transactions in real-time to identify suspicious patterns and potential fraudulent activities. Uses machine learning algorithms to detect anomalies and assess risk scores for each transaction."

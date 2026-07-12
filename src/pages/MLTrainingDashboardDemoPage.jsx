@@ -8,7 +8,7 @@ const MLTrainingDashboardDemoPage = ({ setCurrentPage }) => {
       title="ML Model Training Dashboard"
       subtitle="Real-time training visualization and hyperparameter tuning"
       emoji="📊"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Computer Vision Pipeline', onClick: () => setCurrentPage('computer-vision-pipeline-demo') }}
       demo={<MLTrainingDashboardDemo />}
       overview="Comprehensive machine learning training dashboard that provides real-time visualization of training metrics, hyperparameter tuning capabilities, and model comparison tools. The system integrates with TensorFlow/Keras to monitor loss, accuracy, and validation metrics during model training."

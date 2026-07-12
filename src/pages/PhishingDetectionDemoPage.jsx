@@ -8,7 +8,7 @@ const PhishingDetectionDemoPage = ({ setCurrentPage }) => {
       title="Phishing Detection System"
       subtitle="Email analysis, URL scanning, domain reputation checking, and ML-based classification"
       emoji="🎣"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'OWASP Scanner', onClick: () => setCurrentPage('owasp-scanner-demo') }}
       demo={<PhishingDetectionDemo />}
       overview="An advanced phishing detection system that analyzes emails and URLs to identify phishing attempts. Uses machine learning, natural language processing, domain reputation checking, and pattern matching to detect and score phishing threats with high accuracy."

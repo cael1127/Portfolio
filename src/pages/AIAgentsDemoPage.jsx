@@ -8,7 +8,7 @@ const AIAgentsDemoPage = ({ setCurrentPage }) => {
       title="AI Agents in Pure Python"
       subtitle="Multi-agent system with different AI behaviors and coordination"
       emoji="🧠"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Sentiment Analysis', onClick: () => setCurrentPage('sentiment-analysis-demo') }}
       demo={<AIAgentsDemo />}
       overview="A multi-agent system implemented in pure Python where agents with complementary behaviors coordinate to achieve composite tasks. Features behavior trees, messaging protocols, and environment simulation for demonstrating AI agent coordination."

@@ -1,27 +1,25 @@
 import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
-import GlassCard from './reactbits/GlassCard';
 
-const BlogSidebar = ({ selectedCategory, setSelectedCategory, selectedTag, setSelectedTag, posts, setCurrentPage }) => {
-  // Get all unique categories
+const BlogSidebar = ({
+  selectedCategory,
+  setSelectedCategory,
+  selectedTag,
+  setSelectedTag,
+  posts,
+}) => {
   const categories = useMemo(() => {
-    const cats = [...new Set(posts.map(post => post.category))];
-    return cats.sort();
+    return [...new Set(posts.map((post) => post.category))].sort();
   }, [posts]);
 
-  // Get all unique tags
   const allTags = useMemo(() => {
-    const tags = posts.flatMap(post => post.tags || []);
+    const tags = posts.flatMap((post) => post.tags || []);
     const uniqueTags = [...new Set(tags)];
-    // Count tag frequency
-    const tagCounts = uniqueTags.map(tag => ({
-      tag,
-      count: tags.filter(t => t === tag).length
-    }));
-    return tagCounts.sort((a, b) => b.count - a.count).slice(0, 20);
+    return uniqueTags
+      .map((tag) => ({ tag, count: tags.filter((t) => t === tag).length }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 12);
   }, [posts]);
 
-  // Get recent posts
   const recentPosts = useMemo(() => {
     return [...posts]
       .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate))
@@ -29,84 +27,75 @@ const BlogSidebar = ({ selectedCategory, setSelectedCategory, selectedTag, setSe
   }, [posts]);
 
   return (
-    <div className="space-y-6">
-      {/* Categories */}
-      <GlassCard className="p-6" glow>
-        <h3 className="text-xl font-semibold text-white mb-4">Categories</h3>
-        <div className="space-y-2">
+    <aside className="w-full shrink-0 space-y-8 lg:w-64">
+      <div>
+        <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+          Categories
+        </h3>
+        <div className="mt-3 space-y-1">
           <button
+            type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${
+            className={`block w-full rounded-md px-3 py-2 text-left text-sm ${
               selectedCategory === 'all'
-                ? 'bg-green-600 text-white'
-                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                ? 'bg-[var(--accent)] text-[var(--accent-fg)]'
+                : 'text-[var(--muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]'
             }`}
           >
-            All Posts
+            All posts
           </button>
           {categories.map((category) => (
             <button
               key={category}
+              type="button"
               onClick={() => setSelectedCategory(category)}
-              className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${
+              className={`block w-full rounded-md px-3 py-2 text-left text-sm ${
                 selectedCategory === category
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  ? 'bg-[var(--accent)] text-[var(--accent-fg)]'
+                  : 'text-[var(--muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]'
               }`}
             >
               {category}
             </button>
           ))}
         </div>
-      </GlassCard>
+      </div>
 
-      {/* Recent Posts */}
-      <GlassCard className="p-6" glow>
-        <h3 className="text-xl font-semibold text-white mb-4">Recent Posts</h3>
-        <div className="space-y-4">
+      <div>
+        <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+          Recent
+        </h3>
+        <ul className="mt-3 space-y-3">
           {recentPosts.map((post) => (
-            <motion.div
-              key={post.id}
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
-              className="cursor-pointer"
-              onClick={() => {
-                if (setCurrentPage) {
-                  setCurrentPage(`blog-${post.slug}`);
-                }
-              }}
-            >
-              <h4 className="text-sm font-semibold text-white mb-1 hover:text-green-400 transition-colors line-clamp-2">
-                {post.title}
-              </h4>
-              <p className="text-xs text-gray-400">
-                {new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-              </p>
-            </motion.div>
+            <li key={post.id} className="text-sm text-[var(--muted)]">
+              {post.title}
+            </li>
           ))}
-        </div>
-      </GlassCard>
+        </ul>
+      </div>
 
-      {/* Tag Cloud */}
-      <GlassCard className="p-6" glow>
-        <h3 className="text-xl font-semibold text-white mb-4">Popular Tags</h3>
-        <div className="flex flex-wrap gap-2">
+      <div>
+        <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+          Tags
+        </h3>
+        <div className="mt-3 flex flex-wrap gap-2">
           {allTags.map(({ tag, count }) => (
             <button
               key={tag}
+              type="button"
               onClick={() => setSelectedTag(selectedTag === tag ? '' : tag)}
-              className={`px-3 py-1 rounded-full text-sm transition-colors ${
+              className={`rounded border px-2 py-1 font-mono text-[10px] ${
                 selectedTag === tag
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  ? 'border-[var(--accent)] text-[var(--accent)]'
+                  : 'border-[var(--border)] text-[var(--muted)] hover:border-[var(--border-strong)]'
               }`}
             >
               {tag} ({count})
             </button>
           ))}
         </div>
-      </GlassCard>
-    </div>
+      </div>
+    </aside>
   );
 };
 

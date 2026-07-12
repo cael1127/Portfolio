@@ -8,7 +8,7 @@ const MERNExpenseTrackerDemoPage = ({ setCurrentPage }) => {
       title="MERN Expense Tracker"
       subtitle="Full-stack expense tracker with MongoDB, Express, React, and Node.js"
       emoji="💰"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Social Network', onClick: () => setCurrentPage('social-network-demo') }}
       demo={<MERNExpenseTrackerDemo />}
       overview="A complete full-stack expense tracking application built with the MERN stack. Features expense management, category tracking, budget planning, and financial analytics. Demonstrates full-stack development with modern web technologies."

@@ -8,7 +8,7 @@ const AudioTranscriptionDemoPage = ({ setCurrentPage }) => {
       title="Audio Transcription"
       subtitle="Audio-to-text with timestamps"
       emoji="🎙️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'E-commerce Storefront', onClick: () => setCurrentPage('ecommerce-demo') }}
       demo={<AudioTranscriptionDemo />}
       overview="Advanced audio transcription system that converts speech to text with precise timestamps and speaker identification. The system handles various audio formats and provides export capabilities for different use cases including meeting transcripts, interviews, and content creation."

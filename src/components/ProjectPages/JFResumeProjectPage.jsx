@@ -1,65 +1,54 @@
 import React from 'react';
 import ProjectLayout from '../ProjectLayout';
 
-const JFResumeProjectPage = ({ setCurrentPage }) => {
-  return (
-    <ProjectLayout
-      title="JF Resume"
-      subtitle="Interactive resume builder application"
-      emoji="📄"
-      onBack={() => setCurrentPage('demo-organizer')}
-      next={{ label: 'Back to Projects', onClick: () => setCurrentPage('demo-organizer') }}
-      demo={
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-          <div className="text-center mb-4">
-            <h3 className="text-xl font-semibold mb-2">JF Resume</h3>
-            <p className="text-gray-300 mb-4">Interactive Resume Builder</p>
-            <a
-              href="https://jfresume.netlify.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors"
-            >
-              Visit Live Website →
-            </a>
-          </div>
+const JFResumeProjectPage = ({ setCurrentPage }) => (
+  <ProjectLayout
+    title="JF Portfolio"
+    subtitle="Mechanical engineering portfolio — typography and clarity first"
+    accent="#A31F34"
+    onBack={() => setCurrentPage('work')}
+    next={{ label: 'Back to work', onClick: () => setCurrentPage('work') }}
+    demo={
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h3 className="text-xl font-medium text-[var(--text)]">JF Portfolio</h3>
+          <p className="mt-1 text-[var(--muted)]">Portfolio for mechanical engineering work</p>
         </div>
-      }
-      overview="Interactive resume builder application that allows users to create professional resumes with real-time editing, multiple templates, and export capabilities. The platform features drag-and-drop functionality, template customization, and PDF export."
-      role="Full-stack development, resume builder implementation, and UI/UX design"
-      stack={["React", "Node.js", "MongoDB", "Tailwind CSS", "PDF Generation"]}
-      challenges={[
-        "Implementing real-time resume editing",
-        "Creating multiple resume templates",
-        "Building PDF export functionality",
-        "Designing intuitive user interface"
-      ]}
-      results={[
-        "Launched resume builder platform",
-        "Implemented comprehensive editing features",
-        "Created multiple professional templates",
-        "Added PDF export functionality"
-      ]}
-      problem="Users need an easy way to create professional resumes without complex software."
-      approach="Built interactive resume builder with real-time editing, templates, and export capabilities."
-      highlights={[
-        "Interactive resume builder",
-        "Real-time editing",
-        "Multiple templates",
-        "PDF export",
-        "Template customization",
-        "User-friendly interface"
-      ]}
-      tutorialSummary="Interactive resume builder with real-time editing and professional templates."
-      difficulty="Intermediate"
-      timeEstimate="2-3 weeks"
-      keyConcepts={[
-        { name: "Resume Builder", description: "Interactive resume creation tool" },
-        { name: "PDF Generation", description: "Export resumes to PDF format" }
-      ]}
-    />
-  );
-};
+        <a
+          href="https://jfresume.netlify.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-fg)] hover:brightness-110"
+        >
+          Visit live site →
+        </a>
+      </div>
+    }
+    problem="A mechanical engineer needed a portfolio that felt professional and readable — not a template resume dump."
+    approach="Designed a typography-led portfolio with clear project storytelling and export-friendly structure."
+    process={[
+      'Interviewed for the projects worth featuring',
+      'Set a type-first hierarchy before any visual flourish',
+      'Built responsive, print-friendly layouts',
+      'Deployed and reviewed on real devices',
+    ]}
+    technicalDecisions={[
+      'Typography and hierarchy chosen before decoration',
+      'Layout kept export/print friendly for real-world use',
+      'React + Netlify for a fast, maintainable site',
+    ]}
+    overview="Interactive portfolio/resume experience with professional presentation and export paths."
+    role="Full-stack development and UI/UX design"
+    stack={['React', 'JavaScript', 'Tailwind CSS', 'Netlify']}
+    challenges={['Clear hierarchy for technical work', 'Print/export friendliness', 'Restraint in visual design']}
+    results={['Shipped portfolio site', 'Clean reading experience', 'Professional presentation']}
+    impact="Work reads as intentional craft — closer to a product than a résumé PDF."
+    lessons={[
+      'Typography does most of the work in a portfolio',
+      'Restraint reads as confidence',
+    ]}
+    highlights={['Typography-first layout', 'Project storytelling', 'Responsive']}
+  />
+);
 
 export default JFResumeProjectPage;
-

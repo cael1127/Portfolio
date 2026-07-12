@@ -8,7 +8,7 @@ const RestaurantAppDemoPage = ({ setCurrentPage }) => {
       title="Restaurant Management System"
       subtitle="Complete restaurant management solution with ordering, inventory, and analytics"
       emoji="🍽️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Portfolio Builder', onClick: () => setCurrentPage('portfolio-builder-demo') }}
       demo={<RestaurantAppDemo />}
       overview="Comprehensive restaurant management platform featuring online ordering, table management, inventory tracking, menu management, and analytics. Streamlines restaurant operations from order taking to kitchen management and customer service."

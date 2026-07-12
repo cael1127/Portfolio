@@ -8,7 +8,7 @@ const SocialNetworkDemoPage = ({ setCurrentPage }) => {
       title="Social Network Platform"
       subtitle="Social media platform with user authentication, posts, and interactions"
       emoji="🌐"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Interactive Resume', onClick: () => setCurrentPage('interactive-resume-demo') }}
       demo={<SocialNetworkDemo />}
       overview="A comprehensive social media platform featuring user authentication, profile management, post creation, likes, comments, and social interactions. Built with modern web technologies to provide a seamless social networking experience."

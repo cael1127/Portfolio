@@ -8,7 +8,7 @@ const ObjectDetectionDemoPage = ({ setCurrentPage }) => {
       title="Real-time Object Detection"
       subtitle="Live webcam detection with bounding boxes"
       emoji="🎯"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Audio Transcription', onClick: () => setCurrentPage('audio-transcription-demo') }}
       demo={<ObjectDetectionDemo />}
       overview="Advanced computer vision system that performs real-time object detection using machine learning models. The system processes video streams to identify and classify objects with high accuracy, rendering bounding boxes and confidence scores in real-time."

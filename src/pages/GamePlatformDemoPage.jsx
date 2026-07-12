@@ -8,7 +8,7 @@ const GamePlatformDemoPage = ({ setCurrentPage }) => {
       title="Multiplayer Gaming Platform"
       subtitle="Interactive multiplayer gaming with real-time features"
       emoji="🎮"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'AI Assistant', onClick: () => setCurrentPage('ai-assistant-demo') }}
       demo={<GamePlatformDemo />}
       overview="A comprehensive multiplayer gaming platform featuring real-time game sessions, player matchmaking, leaderboards, and social features. Built to provide seamless multiplayer gaming experiences with low latency and engaging gameplay."

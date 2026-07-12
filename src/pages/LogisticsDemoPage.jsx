@@ -8,7 +8,7 @@ const LogisticsDemoPage = ({ setCurrentPage }) => {
       title="Logistics Management System"
       subtitle="Fleet and route optimization for efficient delivery operations"
       emoji="🚚"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Restaurant App', onClick: () => setCurrentPage('restaurant-app-demo') }}
       demo={<LogisticsDemo />}
       overview="Comprehensive logistics management system featuring fleet tracking, route optimization, delivery scheduling, and real-time shipment monitoring. Designed to maximize efficiency and reduce operational costs in supply chain and delivery operations."

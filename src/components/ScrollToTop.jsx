@@ -5,36 +5,23 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.pageYOffset > 400);
     };
-
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+  if (!isVisible) return null;
 
   return (
-    <>
-      {isVisible && (
-                      <button
-                onClick={scrollToTop}
-                className="fixed bottom-8 right-8 bg-teal-600 hover:bg-teal-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-2xl hover:shadow-teal-500/30 transition-all duration-300 hover:scale-110 z-50 flex items-center justify-center animate-scroll-bounce"
-                aria-label="Scroll to top"
-              >
-          <span className="text-xl">↑</span>
-        </button>
-      )}
-    </>
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] transition-colors duration-200 hover:border-[var(--border-strong)] hover:text-[var(--text)]"
+      aria-label="Scroll to top"
+    >
+      ↑
+    </button>
   );
 };
 

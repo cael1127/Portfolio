@@ -8,7 +8,7 @@ const RAGChatbotDemoPage = ({ setCurrentPage }) => {
       title="RAG Chatbot"
       subtitle="Retrieval-Augmented Generation chatbot with context awareness"
       emoji="🤖"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Bookstore API', onClick: () => setCurrentPage('bookstore-api-demo') }}
       demo={<RAGChatbotDemo />}
       overview="A Retrieval-Augmented Generation (RAG) chatbot that combines information retrieval with language generation to provide accurate, context-aware responses. Uses vector embeddings and semantic search to retrieve relevant information before generating responses."

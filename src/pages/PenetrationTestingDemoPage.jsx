@@ -8,7 +8,7 @@ const PenetrationTestingDemoPage = ({ setCurrentPage }) => {
       title="Penetration Testing Framework"
       subtitle="Reconnaissance, exploitation, post-exploitation, and reporting"
       emoji="🛡️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Encryption System', onClick: () => setCurrentPage('encryption-system-demo') }}
       demo={<PenetrationTestingDemo />}
       overview="Comprehensive penetration testing framework for ethical security assessment. The framework includes reconnaissance, vulnerability assessment, exploitation testing, post-exploitation analysis, and comprehensive reporting for security improvements."

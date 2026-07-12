@@ -633,7 +633,7 @@ export default AIAssistantDashboard;`
       <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 p-6">
         <div className="max-w-7xl mx-auto">
           <button
-            onClick={() => setCurrentPage('demo-organizer')}
+            onClick={() => setCurrentPage('work')}
             className="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
           >
             ← Back to Demos

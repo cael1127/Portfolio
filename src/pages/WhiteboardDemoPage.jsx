@@ -8,7 +8,7 @@ const WhiteboardDemoPage = ({ setCurrentPage }) => {
       title="Collaborative Whiteboard"
       subtitle="Real-time collaborative drawing platform with presence and drawing tools"
       emoji="🖼️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Aquaculture', onClick: () => setCurrentPage('aquaculture-demo') }}
       demo={<WhiteboardDemo />}
       overview="A real-time collaborative whiteboard platform that enables multiple users to draw, sketch, and collaborate simultaneously. Features presence indicators, various drawing tools, and low-latency synchronization for seamless collaborative experiences."

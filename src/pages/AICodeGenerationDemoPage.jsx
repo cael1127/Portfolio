@@ -8,7 +8,7 @@ const AICodeGenerationDemoPage = ({ setCurrentPage }) => {
       title="AI Code Generation Assistant"
       subtitle="Multi-model code generation with GPT-4, Claude, and CodeLlama"
       emoji="🤖"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'ML Training Dashboard', onClick: () => setCurrentPage('ml-training-dashboard-demo') }}
       demo={<AICodeGenerationDemo />}
       overview="Advanced AI-powered code generation system that leverages multiple AI models to generate production-ready code. The system supports GPT-4, Claude 3, CodeLlama, and GitHub Copilot, allowing developers to compare outputs and choose the best solution for their needs."

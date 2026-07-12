@@ -8,7 +8,7 @@ const FinancialDemoPage = ({ setCurrentPage }) => {
       title="Financial Trading Platform"
       subtitle="Real-time market data, trading, and portfolio management"
       emoji="💰"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Healthcare System', onClick: () => setCurrentPage('healthcare-demo') }}
       demo={<FinancialDemo />}
       overview="A comprehensive financial trading platform featuring real-time market data, trading capabilities, portfolio management, and financial analytics. Built to provide traders and investors with powerful tools for market analysis and decision-making."

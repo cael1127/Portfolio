@@ -10,7 +10,7 @@ const TestDemoPage = ({ setCurrentPage }) => {
             <button
               onClick={() => {
                 console.log('Back button clicked');
-                setCurrentPage('demo-organizer');
+                setCurrentPage('work');
               }}
               className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
             >
@@ -32,7 +32,7 @@ const TestDemoPage = ({ setCurrentPage }) => {
           <h2 className="text-xl font-bold text-white mb-4">Test Page Working!</h2>
           <p className="text-gray-300 mb-4">If you can see this page, the navigation is working.</p>
           <button
-            onClick={() => setCurrentPage('demo-organizer')}
+            onClick={() => setCurrentPage('work')}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Go Back to Demo Organizer

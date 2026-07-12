@@ -8,7 +8,7 @@ const MultiTenantSaaSDemoPage = ({ setCurrentPage }) => {
       title="Multi-tenant SaaS Platform"
       subtitle="Tenant isolation, subscription management, usage tracking, and billing integration"
       emoji="🏢"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'WAF', onClick: () => setCurrentPage('waf-demo') }}
       demo={<MultiTenantSaaSDemo />}
       overview="A comprehensive multi-tenant SaaS platform that enables a single application instance to serve multiple tenants with complete data isolation. Features row-level security, subscription management, usage tracking, billing integration, and flexible plan management for scalable SaaS applications."

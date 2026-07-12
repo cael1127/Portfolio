@@ -8,7 +8,7 @@ const SnakeAIDemoPage = ({ setCurrentPage }) => {
       title="Snake AI with Reinforcement Learning"
       subtitle="AI learns to play Snake using neural networks and genetic algorithms"
       emoji="🐍"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'AI Agents', onClick: () => setCurrentPage('ai-agents-demo') }}
       demo={<SnakeAIDemo />}
       overview="An AI system that learns to play Snake using reinforcement learning, neural networks, and genetic algorithms. The AI improves its performance through training, learning optimal strategies and decision-making patterns to achieve high scores."

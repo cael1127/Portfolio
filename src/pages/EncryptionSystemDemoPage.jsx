@@ -8,7 +8,7 @@ const EncryptionSystemDemoPage = ({ setCurrentPage }) => {
       title="Encryption & Key Management System"
       subtitle="AES/RSA encryption, key rotation, secure storage, and API integration"
       emoji="🔒"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Security Monitoring', onClick: () => setCurrentPage('security-monitoring-demo') }}
       demo={<EncryptionSystemDemo />}
       overview="Comprehensive encryption and key management system supporting AES symmetric encryption and RSA asymmetric encryption. Includes key generation, rotation, secure storage, and API integration for protecting sensitive data."

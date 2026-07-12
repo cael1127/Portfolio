@@ -8,7 +8,7 @@ const SaaSAnalyticsDemoPage = ({ setCurrentPage }) => {
       title="SaaS Analytics Dashboard"
       subtitle="Cohorts, retention, and funnels"
       emoji="📈"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Product Configurator', onClick: () => setCurrentPage('product-configurator-demo') }}
       demo={<SaaSAnalyticsDemo />}
       overview="Comprehensive SaaS analytics platform providing real-time insights into user behavior, cohort analysis, retention metrics, and conversion funnels. Designed to help product managers make data-driven decisions with interactive visualizations and automated reporting."

@@ -8,7 +8,7 @@ const CICDPipelineDemoPage = ({ setCurrentPage }) => {
       title="CI/CD Pipeline with GitHub Actions"
       subtitle="Automated testing, deployment, and monitoring"
       emoji="🚀"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Docker Platform', onClick: () => setCurrentPage('docker-platform-demo') }}
       demo={<CICDPipelineDemo />}
       overview="Complete CI/CD pipeline implementation using GitHub Actions that automates the entire software delivery process. The pipeline includes automated testing, building, deployment to multiple environments, and monitoring with rollback capabilities."

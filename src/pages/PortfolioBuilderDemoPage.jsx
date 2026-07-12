@@ -8,7 +8,7 @@ const PortfolioBuilderDemoPage = ({ setCurrentPage }) => {
       title="Portfolio Website Builder"
       subtitle="Drag-and-drop website builder for creating professional portfolios"
       emoji="🎨"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Realtime Chat', onClick: () => setCurrentPage('realtime-chat-demo') }}
       demo={<PortfolioBuilderDemo />}
       overview="A drag-and-drop website builder that enables users to create professional portfolio websites without coding. Features intuitive editing, multiple templates, responsive design, and live preview for building stunning portfolio sites."

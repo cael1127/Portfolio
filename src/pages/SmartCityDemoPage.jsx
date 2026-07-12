@@ -8,7 +8,7 @@ const SmartCityDemoPage = ({ setCurrentPage }) => {
       title="Smart City Platform"
       subtitle="Real-time infrastructure and traffic monitoring with urban analytics"
       emoji="🏙️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Resume Analyzer', onClick: () => setCurrentPage('resume-analyzer-demo') }}
       demo={<SmartCityDemo />}
       overview="Comprehensive smart city platform featuring real-time urban telemetry, traffic monitoring, energy management, and environmental tracking. Provides unified dashboards with anomaly detection and analytics for efficient city management."

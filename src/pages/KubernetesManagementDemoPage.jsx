@@ -8,7 +8,7 @@ const KubernetesManagementDemoPage = ({ setCurrentPage }) => {
       title="Kubernetes Cluster Management"
       subtitle="Deployment, service mesh, auto-scaling, and monitoring"
       emoji="☸️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Terraform IaC', onClick: () => setCurrentPage('terraform-iac-demo') }}
       demo={<KubernetesManagementDemo />}
       overview="Comprehensive Kubernetes cluster management system for deploying, scaling, and managing containerized applications. Includes deployment management, service discovery, auto-scaling with HPA, health checks, and configuration management."

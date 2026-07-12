@@ -8,7 +8,7 @@ const RealTimeCollaborationProjectPage = ({ setCurrentPage }) => {
       title="Enterprise Collaboration Hub"
       subtitle="Unified co-editing, presence, and real-time communications"
       emoji="🤝"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'AI Interview Simulator', onClick: () => setCurrentPage('ai-interview-simulator') }}
       demo={<RealTimeCollaboration isEmbedded />}
       overview="A mission-critical collaboration surface that synchronises teams across chat, documents, and shared canvases with live presence and WebRTC communication."

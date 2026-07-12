@@ -8,7 +8,7 @@ const AquacultureDemoPage = ({ setCurrentPage }) => {
       title="Aquaculture Monitoring System"
       subtitle="Live sensor and tank data monitoring with predictive alerts"
       emoji="🌊"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Smart City', onClick: () => setCurrentPage('smart-city-demo') }}
       demo={<AquacultureDemo />}
       overview="An IoT-based aquaculture monitoring system that collects sensor data from fish tanks, provides health scoring, and generates predictive alerts. The system enables operators to monitor water quality, temperature, and other critical parameters in real-time."

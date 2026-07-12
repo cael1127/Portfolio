@@ -8,7 +8,7 @@ const SentimentAnalysisDemoPage = ({ setCurrentPage }) => {
       title="Sentiment Analysis with Transformers"
       subtitle="Advanced sentiment analysis using VADER, Transformers, and NLTK"
       emoji="😊"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'RAG Chatbot', onClick: () => setCurrentPage('rag-chatbot-demo') }}
       demo={<SentimentAnalysisDemo />}
       overview="Advanced sentiment analysis system that uses multiple NLP techniques including VADER, Transformer models, and NLTK to analyze text sentiment. Provides detailed sentiment scores, emotion detection, and comprehensive text analysis with high accuracy."

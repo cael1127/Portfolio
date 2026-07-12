@@ -8,7 +8,7 @@ const RealtimeChatDemoPage = ({ setCurrentPage }) => {
       title="Real-time Chat"
       subtitle="Rooms, presence, typing indicators"
       emoji="💬"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'SaaS Analytics', onClick: () => setCurrentPage('saas-analytics-demo') }}
       demo={<RealtimeChatDemo />}
       overview="Advanced real-time chat application featuring instant messaging, user presence tracking, and room-based conversations. Built with modern web technologies to provide seamless communication experiences with low latency and high reliability."

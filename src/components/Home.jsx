@@ -1,597 +1,314 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import Button from './ui/Button';
 import ContactModal from './ContactModal';
-import FloatingParticles from './FloatingParticles';
-import AnimatedCard from './AnimatedCard';
-import AnimatedText from './AnimatedText';
-import AnimatedCounter from './AnimatedCounter';
-import AnimatedHeroBackground from './AnimatedHeroBackground';
-import InteractiveGradientText from './InteractiveGradientText';
-import SpotlightCard from './reactbits/SpotlightCard';
-import GlassCard from './reactbits/GlassCard';
-import BounceCard from './reactbits/BounceCard';
-import GlareHover from './reactbits/GlareHover';
-import ScrollReveal from './reactbits/ScrollReveal';
-import { getIcon } from '../utils/iconMapping';
-const InspirationSection = React.lazy(() => import('./InspirationSection'));
-const TestimonialsSection = React.lazy(() => import('./TestimonialsSection'));
-const StackStrip = React.lazy(() => import('./StackStrip'));
+import WordReveal from './motion/WordReveal';
+import Marquee from './motion/Marquee';
+import Magnetic from './motion/Magnetic';
+import Reveal from './motion/Reveal';
+import { featuredWork } from '../data/work';
+import { easeOut } from '../utils/motion';
+
+const INTERNAL_WORK_IDS = new Set([
+  'three-sisters-oyster-project',
+  'bapux-project',
+  'bpawd-project',
+  'uil-academy-project',
+  'minbod-project',
+  'jf-resume-project',
+  'aquaFarm',
+  'boltPlanner',
+  'grabby',
+  'neurals',
+  'AtlusPersonal',
+  'aisw',
+  'physics',
+  'terminalUI',
+]);
+
+const MARQUEE_ITEMS = [
+  'React',
+  'TypeScript',
+  'Node',
+  'Rust',
+  'Systems',
+  'Aquaculture',
+  'E-commerce',
+  'Product Engineering',
+];
 
 const Home = ({ setCurrentPage }) => {
   const [showContactModal, setShowContactModal] = useState(false);
+  const spotlight = featuredWork.slice(0, 5);
+
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const nameY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const nameOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.15]);
+  const metaY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
+  const openItem = (item) => {
+    if (INTERNAL_WORK_IDS.has(item.id) || item.isLab || item.slug.includes('-demo')) {
+      setCurrentPage(item.id);
+    } else if (item.href) {
+      window.open(item.href, '_blank', 'noopener,noreferrer');
+    } else if (item.github) {
+      window.open(`https://github.com/${item.github}`, '_blank', 'noopener,noreferrer');
+    } else {
+      setCurrentPage('work');
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-x-hidden">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <AnimatedHeroBackground />
-      </div>
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 py-20 md:py-32 relative z-10 snap-section">
-        <div className="text-center max-w-5xl mx-auto">
+    <div className="relative min-h-screen text-[var(--text)]">
+      {/* ── Hero ─────────────────────────────────────── */}
+      <section ref={heroRef} className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 grid-texture" aria-hidden />
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[80vh]"
+          style={{ background: 'var(--hero-wash)' }}
+          aria-hidden
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.9, ease: easeOut }}
+        />
+
+        <div className="page-shell relative pt-20 pb-10 md:pt-28">
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mb-8"
+            className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: easeOut }}
           >
-            <InteractiveGradientText
-              text="Cael Findley"
-              className="text-6xl md:text-8xl lg:text-9xl font-bold leading-none pb-2 inline-block"
-            />
+            <span className="text-[var(--accent)]">●</span>
+            <span>Software Engineer</span>
+            <span className="text-[var(--border-strong)]">/</span>
+            <span>College Station, TX</span>
+            <span className="text-[var(--border-strong)]">/</span>
+            <span>Available for work</span>
           </motion.div>
-          
+
+          {/* Mega name */}
+          <motion.h1
+            style={{ y: nameY, opacity: nameOpacity }}
+            className="display mt-8 text-mega text-[var(--text)]"
+          >
+            <WordReveal text="Cael" className="block" duration={0.7} />
+            <span className="block">
+              <span className="text-[var(--accent)]">
+                <WordReveal text="Findley" delay={0.12} duration={0.7} />
+              </span>
+            </span>
+          </motion.h1>
+
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mb-8"
+            className="mt-10 grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end"
+            style={{ y: metaY }}
           >
-            <AnimatedText
-              text="Full-Stack Software Engineer, AI/ML Specialist & IT Systems Administrator"
-              className="text-2xl md:text-3xl lg:text-4xl text-gray-200 font-medium"
-              stagger={0.02}
-            />
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mb-16"
-          >
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              With over 5 years of experience, I specialize in full-stack development, AI/ML integration, 
-              IT infrastructure management, and cybersecurity solutions. From concept to deployment, 
-              I build scalable applications and systems that drive business growth and make a difference.
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <motion.button
-              onClick={() => setCurrentPage('demo-organizer')}
-              className="group relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold py-4 px-10 rounded-xl text-lg overflow-hidden shadow-lg shadow-teal-500/30"
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 25px 50px rgba(20, 184, 166, 0.4)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.7 }}
-            >
-              <span className="relative z-10">View My Work</span>
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.4 }}
-                style={{ originX: 0 }}
-              />
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.8 }}
-              />
-            </motion.button>
-            
-            <motion.button
-              onClick={() => setShowContactModal(true)}
-              className="group relative bg-gray-800/50 backdrop-blur-sm border-2 border-teal-500/50 text-teal-400 hover:text-white font-bold py-4 px-10 rounded-xl text-lg overflow-hidden"
-              whileHover={{ 
-                scale: 1.05,
-                borderColor: "rgba(20, 184, 166, 1)",
-                boxShadow: "0 25px 50px rgba(20, 184, 166, 0.3)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.8 }}
-            >
-              <span className="relative z-10">Get In Touch</span>
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-teal-600/20 to-emerald-600/20 backdrop-blur-sm"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.4 }}
-                style={{ originX: 0 }}
-              />
-            </motion.button>
+            <Reveal delay={0.3} className="max-w-xl text-sub text-[var(--muted)] text-balance">
+              I ship production systems for real businesses — full-stack products,
+              aquaculture ops tooling, and careful engineering you can run in the wild.
+            </Reveal>
+
+            <Reveal delay={0.4} className="flex flex-wrap gap-3 md:justify-end">
+              <Magnetic>
+                <Button onClick={() => setCurrentPage('work')} size="lg">
+                  View work
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button variant="secondary" size="lg" onClick={() => setShowContactModal(true)}>
+                  Get in touch
+                </Button>
+              </Magnetic>
+            </Reveal>
           </motion.div>
         </div>
-      </div>
 
-      {/* Skills Section */}
-      <div className="bg-gray-800 py-16 relative z-10 snap-section">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <h2 className="text-3xl font-bold text-center mb-4">Technical Expertise</h2>
-            <p className="text-gray-400 text-center max-w-2xl mx-auto">
-              Years of experience building scalable applications with modern technologies
-            </p>
-          </motion.div>
-
-          {/* Stats Row */}
-          <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          >
-            <motion.div 
-              className="text-center bg-gray-700 p-6 rounded-lg"
-              whileHover={{ scale: 1.05, y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <AnimatedCounter 
-                value={5} 
-                className="text-3xl font-bold text-teal-400 block"
-                suffix="+"
-              />
-              <p className="text-gray-400 text-sm mt-2">Years Experience</p>
-            </motion.div>
-            <motion.div 
-              className="text-center bg-gray-700 p-6 rounded-lg"
-              whileHover={{ scale: 1.05, y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <AnimatedCounter 
-                value={50} 
-                className="text-3xl font-bold text-green-400 block"
-                suffix="+"
-              />
-              <p className="text-gray-400 text-sm mt-2">Projects Completed</p>
-            </motion.div>
-            <motion.div 
-              className="text-center bg-gray-700 p-6 rounded-lg"
-              whileHover={{ scale: 1.05, y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <AnimatedCounter 
-                value={15} 
-                className="text-3xl font-bold text-emerald-400 block"
-                suffix="+"
-              />
-              <p className="text-gray-400 text-sm mt-2">Technologies</p>
-            </motion.div>
-            <motion.div 
-              className="text-center bg-gray-700 p-6 rounded-lg"
-              whileHover={{ scale: 1.05, y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <AnimatedCounter 
-                value={100} 
-                className="text-3xl font-bold text-blue-400 block"
-                suffix="%"
-              />
-              <p className="text-gray-400 text-sm mt-2">Client Satisfaction</p>
-            </motion.div>
-          </motion.div>
-
-          {/* Skills Grid */}
-          <motion.div 
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            <motion.div 
-              className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-            >
-              <motion.div 
-                className="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-teal-500 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
+        {/* Marquee ticker */}
+        <motion.div
+          className="relative border-y border-[var(--border)] bg-[var(--surface)] py-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: easeOut }}
+        >
+          <Marquee duration={34}>
+            {MARQUEE_ITEMS.map((item) => (
+              <span
+                key={item}
+                className="flex items-center gap-6 px-6 font-mono text-sm uppercase tracking-[0.14em] text-[var(--muted)]"
               >
-                <span className="text-2xl">🌐</span>
-              </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-teal-400 transition-colors">Frontend</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">React, TypeScript, JavaScript</p>
-            </motion.div>
-            
-            <motion.div 
-              className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-            >
-              <motion.div 
-                className="bg-green-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="text-2xl">⚙️</span>
-              </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-green-400 transition-colors">Backend</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Node.js, Python, Java</p>
-            </motion.div>
-            
-            <motion.div 
-              className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.5 }}
-            >
-              <motion.div 
-                className="bg-emerald-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-500 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="text-2xl">☁️</span>
-              </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-emerald-400 transition-colors">DevOps</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">AWS, Docker, CI/CD</p>
-            </motion.div>
-            
-            <motion.div 
-              className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.6 }}
-            >
-              <motion.div 
-                className="bg-teal-500 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-teal-400 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="text-2xl">🤖</span>
-              </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-teal-400 transition-colors">AI/ML</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">TensorFlow, NLP, Predictive Analytics</p>
-            </motion.div>
+                {item}
+                <span className="text-[var(--accent)]">✦</span>
+              </span>
+            ))}
+          </Marquee>
+        </motion.div>
+      </section>
 
-            <motion.div 
-              className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.7 }}
+      {/* ── Selected work ────────────────────────────── */}
+      <section className="border-b border-[var(--border)]">
+        <div className="page-shell py-20 md:py-28">
+          <Reveal className="mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
+                Selected work
+              </p>
+              <h2 className="display mt-3 text-section text-[var(--text)]">
+                Built to run, not to demo.
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => setCurrentPage('work')}
+              className="link-sweep self-start text-sm text-[var(--muted)] hover:text-[var(--text)]"
             >
-              <motion.div 
-                className="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
+              All work →
+            </button>
+          </Reveal>
+
+          <div className="border-t border-[var(--border)]">
+            {spotlight.map((item, i) => (
+              <motion.button
+                key={item.id}
+                type="button"
+                onClick={() => openItem(item)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.5, ease: easeOut, delay: i * 0.05 }}
+                whileHover="hover"
+                className="group relative grid w-full grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-[var(--border)] py-7 text-left md:gap-8 md:py-9"
               >
-                <span className="text-2xl">🖥️</span>
-              </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-blue-400 transition-colors">IT & Systems</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Windows/Linux, Network Design</p>
-            </motion.div>
-
-            <motion.div 
-              className="text-center group cursor-pointer"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.8 }}
-            >
-              <motion.div 
-                className="bg-red-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-red-500 transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="text-2xl">🔒</span>
-              </motion.div>
-              <h3 className="font-semibold mb-2 group-hover:text-red-400 transition-colors">Cybersecurity</h3>
-              <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Secure Design, Access Control</p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Accomplishments Section */}
-      <div className="bg-gray-800 py-16 relative z-10 snap-section">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <h2 className="text-3xl font-bold text-center mb-4">Key Accomplishments</h2>
-            <p className="text-gray-400 text-center max-w-2xl mx-auto">
-              Proven track record of delivering impactful solutions across full-stack development, AI/ML integration, and IT infrastructure
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {[
-              {
-                iconKey: 'cicd-pipeline',
-                title: 'Faster Deployment Times',
-                description: 'Introduced Docker and AWS for cloud application deployment and CI/CD pipelines',
-                color: 'from-teal-600 to-emerald-600'
-              },
-              {
-                iconKey: 'security-monitoring',
-                title: 'Improved System Reliability',
-                description: 'Completed Windows and Linux server administration with accuracy and efficiency',
-                color: 'from-green-600 to-teal-600'
-              },
-              {
-                iconKey: 'frontend',
-                title: 'Enhanced Web Performance',
-                description: 'Introduced responsive UI/UX design and front-end optimization techniques',
-                color: 'from-emerald-600 to-green-600'
-              },
-              {
-                iconKey: 'backend',
-                title: 'Streamlined Database Operations',
-                description: 'Completed SQL database design and management with efficiency and accuracy',
-                color: 'from-teal-500 to-emerald-500'
-              },
-              {
-                iconKey: 'ai-assistant',
-                title: 'AI/ML Model Integration',
-                description: 'Collaborated with teams to integrate AI/ML models into production applications for predictive analytics',
-                color: 'from-blue-600 to-cyan-600'
-              },
-              {
-                iconKey: 'encryption-system',
-                title: 'Stronger Cybersecurity',
-                description: 'Introduced secure system design and access control protocols for enterprise-level networks',
-                color: 'from-red-600 to-orange-600'
-              },
-              {
-                iconKey: 'cicd-pipeline',
-                title: 'Rapid Feature Deployment',
-                description: 'Completed API integrations and backend logic with high accuracy and maintainability',
-                color: 'from-purple-600 to-pink-600'
-              },
-              {
-                iconKey: 'cicd-pipeline',
-                title: 'Workflow Automation',
-                description: 'Developed workflow automation tools and internal IT systems to improve operational efficiency',
-                color: 'from-indigo-600 to-blue-600'
-              }
-            ].map((accomplishment, index) => {
-              const IconComponent = getIcon(accomplishment.iconKey, 'demo');
-              return (
-                <motion.div
-                  key={index}
-                  className={`bg-gradient-to-br ${accomplishment.color} p-6 rounded-xl border border-gray-700 hover:border-gray-500 transition-all duration-300 hover:scale-105 hover:shadow-lg`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
+                <motion.span
+                  className="absolute inset-0 -z-0 origin-left bg-[var(--surface)]"
+                  variants={{ hover: { scaleX: 1 }, initial: { scaleX: 0 } }}
+                  initial={{ scaleX: 0 }}
+                  transition={{ duration: 0.4, ease: easeOut }}
+                />
+                <span className="relative font-mono text-xs text-[var(--muted)] md:text-sm">
+                  0{i + 1}
+                </span>
+                <span className="relative min-w-0">
+                  <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span className="display text-2xl text-[var(--text)] transition-colors duration-200 group-hover:text-[var(--accent)] md:text-4xl">
+                      {item.title}
+                    </span>
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
+                      {item.category}
+                    </span>
+                  </span>
+                  <span className="mt-1.5 block max-w-xl text-sm text-[var(--muted)] md:text-base">
+                    {item.subtitle}
+                  </span>
+                </span>
+                <motion.span
+                  className="relative text-[var(--accent)]"
+                  variants={{ hover: { x: 6, opacity: 1 }, initial: { x: 0, opacity: 0.4 } }}
+                  initial={{ x: 0, opacity: 0.4 }}
+                  transition={{ duration: 0.2, ease: easeOut }}
                 >
-                  <div className="mb-4 text-white"><IconComponent size={40} /></div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{accomplishment.title}</h3>
-                  <p className="text-gray-200 text-sm leading-relaxed">{accomplishment.description}</p>
-                </motion.div>
-              );
-            })}
+                  ↗
+                </motion.span>
+              </motion.button>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Contact Section */}
-      <div className="container mx-auto px-4 py-16 relative z-10 snap-section">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6">Let's Work Together</h2>
-          <p className="text-gray-400 mb-8">
-            Ready to bring your ideas to life? I'm available for freelance projects, 
-            full-time opportunities, and technical consulting.
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">📧</div>
-              <h3 className="font-semibold mb-2">Email</h3>
-              <button 
-                onClick={() => setShowContactModal(true)}
-                className="text-teal-400 hover:text-teal-300 transition-colors"
+      {/* ── How I work ───────────────────────────────── */}
+      <section className="border-b border-[var(--border)] bg-[var(--surface)]">
+        <div className="page-shell py-20 md:py-28">
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <Reveal>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
+                Approach
+              </p>
+              <h2 className="display mt-3 text-section text-[var(--text)]">How I work</h2>
+              <p className="mt-4 max-w-sm text-[var(--muted)]">
+                Prefer clarity over spectacle. Ship something a business can run,
+                then refine the edges.
+              </p>
+            </Reveal>
+
+            <div className="grid gap-px overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2">
+              {[
+                {
+                  n: '01',
+                  title: 'Outcomes first',
+                  body: 'Inventory that doesn’t lie, checkouts that convert, dashboards ops teams actually open.',
+                },
+                {
+                  n: '02',
+                  title: 'Honest engineering',
+                  body: 'Readable code, deliberate tradeoffs, and demos that show the approach — not theater.',
+                },
+                {
+                  n: '03',
+                  title: 'Range with focus',
+                  body: 'From React storefronts to Rust and C systems work — depth where it matters.',
+                },
+                {
+                  n: '04',
+                  title: 'Field-aware',
+                  body: 'Built around real constraints: weather, perishable stock, customers who don’t wait.',
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.n}
+                  className="group relative bg-[var(--surface)] p-7 md:p-9"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.5, ease: easeOut, delay: i * 0.08 }}
+                >
+                  <span className="font-mono text-xs text-[var(--accent)]">{item.n}</span>
+                  <h3 className="mt-4 text-lg font-medium text-[var(--text)]">{item.title}</h3>
+                  <p className="mt-2 text-sm text-[var(--muted)]">{item.body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact ──────────────────────────────────── */}
+      <section className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 grid-texture rotate-180" aria-hidden />
+        <div className="page-shell relative py-24 md:py-36">
+          <Reveal className="max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
+              Contact
+            </p>
+            <h2 className="display mt-4 text-hero text-[var(--text)] text-balance">
+              Let’s build something worth shipping.
+            </h2>
+            <p className="mt-5 max-w-xl text-[var(--muted)]">
+              Available for freelance, full-time roles, and technical consulting.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Magnetic>
+                <Button size="lg" onClick={() => setShowContactModal(true)}>
+                  Start a conversation
+                </Button>
+              </Magnetic>
+              <a
+                href="mailto:caelfindley@gmail.com"
+                className="link-sweep self-center text-sm text-[var(--muted)] hover:text-[var(--text)]"
               >
                 caelfindley@gmail.com
-              </button>
-            </div>
-            <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">📱</div>
-              <h3 className="font-semibold mb-2">Phone</h3>
-              <button 
-                onClick={() => window.open('tel:+13619206493', '_blank')}
-                className="text-green-400 hover:text-green-300 transition-colors"
-              >
-                +1 (361) 920-6493
-              </button>
-            </div>
-            <div className="bg-gray-800 p-6 rounded-lg">
-              <div className="text-3xl mb-4">📷</div>
-              <h3 className="font-semibold mb-2">Instagram</h3>
-              <a 
-                href="https://instagram.com/caelfindley" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-pink-400 hover:text-pink-300 transition-colors"
-              >
-                @caelfindley
               </a>
             </div>
-          </div>
-          
-          <button
-            onClick={() => setShowContactModal(true)}
-            className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg"
-          >
-            Start a Conversation
-          </button>
+          </Reveal>
         </div>
-      </div>
+      </section>
 
-      {/* Enhanced Features Section */}
-      <div className="bg-gray-800 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Enhanced Features</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <BounceCard delay={0.1}>
-              <GlareHover intensity={0.5}>
-                <SpotlightCard
-                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
-                  spotlightColor="rgba(20, 184, 166, 0.3)"
-                  onClick={() => setCurrentPage('advanced-analytics')}
-                >
-                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">📊</div>
-                  <h3 className="font-semibold mb-2">Analytics Dashboard</h3>
-                  <p className="text-gray-400 text-sm">Real-time data visualization and insights</p>
-                </SpotlightCard>
-              </GlareHover>
-            </BounceCard>
-            <BounceCard delay={0.15}>
-              <GlareHover intensity={0.5}>
-                <SpotlightCard
-                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
-                  spotlightColor="rgba(20, 184, 166, 0.3)"
-                  onClick={() => setCurrentPage('ai-interview-simulator')}
-                >
-                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">🤖</div>
-                  <h3 className="font-semibold mb-2">AI Interview Simulator</h3>
-                  <p className="text-gray-400 text-sm">Advanced speech recognition and AI coaching</p>
-                </SpotlightCard>
-              </GlareHover>
-            </BounceCard>
-            <BounceCard delay={0.2}>
-              <GlareHover intensity={0.5}>
-                <SpotlightCard
-                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
-                  spotlightColor="rgba(20, 184, 166, 0.3)"
-                  onClick={() => setCurrentPage('real-time-collaboration')}
-                >
-                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">👥</div>
-                  <h3 className="font-semibold mb-2">Collaborative Features</h3>
-                  <p className="text-gray-400 text-sm">Real-time collaboration tools</p>
-                </SpotlightCard>
-              </GlareHover>
-            </BounceCard>
-            <BounceCard delay={0.25}>
-              <GlareHover intensity={0.5}>
-                <SpotlightCard
-                  className="bg-gray-700/50 p-6 rounded-lg cursor-pointer text-left"
-                  spotlightColor="rgba(20, 184, 166, 0.3)"
-                  onClick={() => setCurrentPage('edge-computing')}
-                >
-                  <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">📡</div>
-                  <h3 className="font-semibold mb-2">Edge Computing</h3>
-                  <p className="text-gray-400 text-sm">IoT and distributed systems</p>
-                </SpotlightCard>
-              </GlareHover>
-            </BounceCard>
-          </div>
-        </div>
-      </div>
-
-      {/* Cutting-Edge Technologies Section */}
-      <div className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">Cutting-Edge Technologies</h2>
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <BounceCard delay={0.1}>
-            <GlareHover intensity={0.6}>
-              <SpotlightCard
-                className="bg-gradient-to-br from-teal-600 to-emerald-600 p-6 rounded-lg cursor-pointer text-left"
-                spotlightColor="rgba(255, 255, 255, 0.3)"
-                onClick={() => setCurrentPage('quantum-computing')}
-              >
-                <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">⚛️</div>
-                <h3 className="font-semibold mb-2">Quantum Computing</h3>
-                <p className="text-gray-200 text-sm">Quantum algorithms and simulations</p>
-              </SpotlightCard>
-            </GlareHover>
-          </BounceCard>
-          <BounceCard delay={0.15}>
-            <GlareHover intensity={0.6}>
-              <SpotlightCard
-                className="bg-gradient-to-br from-green-600 to-teal-600 p-6 rounded-lg cursor-pointer text-left"
-                spotlightColor="rgba(255, 255, 255, 0.3)"
-                onClick={() => setCurrentPage('blockchain-advanced')}
-              >
-                <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">⛓️</div>
-                <h3 className="font-semibold mb-2">Advanced Blockchain</h3>
-                <p className="text-gray-200 text-sm">Smart contracts and DeFi protocols</p>
-              </SpotlightCard>
-            </GlareHover>
-          </BounceCard>
-          <BounceCard delay={0.2}>
-            <GlareHover intensity={0.6}>
-              <SpotlightCard
-                className="bg-gradient-to-br from-emerald-600 to-teal-600 p-6 rounded-lg cursor-pointer text-left"
-                spotlightColor="rgba(255, 255, 255, 0.3)"
-                onClick={() => setCurrentPage('edge-computing')}
-              >
-                <div className="text-2xl mb-3 transition-transform duration-300 group-hover:scale-110">📡</div>
-                <h3 className="font-semibold mb-2">Edge Computing</h3>
-                <p className="text-gray-200 text-sm">IoT and distributed systems</p>
-              </SpotlightCard>
-            </GlareHover>
-          </BounceCard>
-        </div>
-      </div>
-
-      <React.Suspense fallback={null}>
-        <InspirationSection />
-        <TestimonialsSection />
-        <StackStrip />
-      </React.Suspense>
-
-      {/* Contact Modal */}
-      <ContactModal 
-        isOpen={showContactModal} 
-        onClose={() => setShowContactModal(false)} 
-      />
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </div>
   );
 };
 
-export default Home; 
+export default Home;

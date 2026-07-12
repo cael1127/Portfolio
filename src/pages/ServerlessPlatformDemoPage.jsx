@@ -8,7 +8,7 @@ const ServerlessPlatformDemoPage = ({ setCurrentPage }) => {
       title="Serverless Application Platform"
       subtitle="Function deployment, auto-scaling, cost optimization, and monitoring"
       emoji="☁️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Multi-tenant SaaS', onClick: () => setCurrentPage('multi-tenant-saas-demo') }}
       demo={<ServerlessPlatformDemo />}
       overview="A comprehensive serverless application platform for deploying and managing serverless functions. Features automatic scaling, pay-per-use pricing, function monitoring, cost optimization, and comprehensive deployment tools. Demonstrates serverless architecture patterns and best practices."

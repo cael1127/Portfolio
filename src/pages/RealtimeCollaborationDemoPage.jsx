@@ -8,7 +8,7 @@ const RealtimeCollaborationDemoPage = ({ setCurrentPage }) => {
       title="Real-time Collaboration Platform"
       subtitle="Multi-user collaboration, presence indicators, conflict resolution, and real-time sync"
       emoji="👥"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Event-Driven Architecture', onClick: () => setCurrentPage('event-driven-architecture-demo') }}
       demo={<RealtimeCollaborationDemo />}
       overview="A real-time collaboration platform that enables multiple users to work together simultaneously. Features presence indicators, conflict resolution using operational transform, real-time synchronization, and comprehensive collaboration tools for seamless multi-user experiences."

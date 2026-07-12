@@ -8,7 +8,7 @@ const EcommerceDemoPage = ({ setCurrentPage }) => {
       title="E-commerce Storefront"
       subtitle="Catalog, cart, and checkout"
       emoji="🛍️"
-      onBack={() => setCurrentPage('demo-organizer')}
+      onBack={() => setCurrentPage('work')}
       next={{ label: 'Real-time Chat', onClick: () => setCurrentPage('realtime-chat-demo') }}
       demo={<EcommerceDemo />}
       overview="Complete e-commerce platform featuring product catalog, shopping cart, and secure checkout functionality. Built with modern web technologies to provide a seamless shopping experience with real-time inventory updates and responsive design."

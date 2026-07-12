@@ -1,6 +1,6 @@
 const author = {
   name: 'Cael Findley',
-  bio: 'Full-Stack Software Engineer with over 5 years of experience building scalable web applications.',
+  bio: 'Software engineer studying Computer Science at Texas A&M Engineering. Ships production systems for real businesses.',
   social: {
     github: 'https://github.com/cael1127',
     linkedin: 'https://www.linkedin.com/in/cael-findley-a45541394/'
