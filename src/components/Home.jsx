@@ -8,6 +8,7 @@ import Magnetic from './motion/Magnetic';
 import Reveal from './motion/Reveal';
 import { featuredWork } from '../data/work';
 import { easeOut } from '../utils/motion';
+import usePageMeta from '../hooks/usePageMeta';
 
 const INTERNAL_WORK_IDS = new Set([
   'three-sisters-oyster-project',
@@ -38,6 +39,10 @@ const MARQUEE_ITEMS = [
 ];
 
 const Home = ({ setCurrentPage }) => {
+  usePageMeta({
+    description:
+      'Cael Findley — software engineer shipping production systems for real businesses. Studying Computer Science at Texas A&M Engineering.',
+  });
   const [showContactModal, setShowContactModal] = useState(false);
   const spotlight = featuredWork.slice(0, 5);
 

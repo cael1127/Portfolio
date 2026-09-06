@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motio
 import { filterWork, workCategories } from '../data/work';
 import { fetchRepoMeta } from '../utils/github';
 import { easeOut } from '../utils/motion';
+import usePageMeta from '../hooks/usePageMeta';
 import WordReveal from './motion/WordReveal';
 import Reveal from './motion/Reveal';
 import Button from './ui/Button';
@@ -30,6 +31,11 @@ const INTERNAL_PAGES = new Set([
 ]);
 
 export default function Work({ setCurrentPage }) {
+  usePageMeta({
+    title: 'Work',
+    description:
+      'Selected client work, production systems, and interactive engineering demos by Cael Findley.',
+  });
   const [category, setCategory] = useState('featured');
   const [repoMeta, setRepoMeta] = useState({});
   const [hovered, setHovered] = useState(null);

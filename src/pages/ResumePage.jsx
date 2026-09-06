@@ -2,10 +2,15 @@ import React from 'react';
 import Button from '../components/ui/Button';
 import WordReveal from '../components/motion/WordReveal';
 import Reveal from '../components/motion/Reveal';
+import usePageMeta from '../hooks/usePageMeta';
 
 const RESUME_URL = '/Cael_Findley_Resume_NSWC.pdf';
 
 export default function ResumePage({ setCurrentPage }) {
+  usePageMeta({
+    title: 'Resume',
+    description: "Cael Findley's resume — software engineering experience, projects, and skills.",
+  });
   return (
     <div className="min-h-screen text-[var(--text)]">
       <section className="relative overflow-hidden border-b border-[var(--border)]">

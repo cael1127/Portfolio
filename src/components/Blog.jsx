@@ -5,8 +5,14 @@ import BlogSearch from './BlogSearch';
 import WordReveal from './motion/WordReveal';
 import Reveal from './motion/Reveal';
 import { blogPosts } from '../data/blogPosts';
+import usePageMeta from '../hooks/usePageMeta';
 
 const Blog = ({ setCurrentPage }) => {
+  usePageMeta({
+    title: 'Blog',
+    description:
+      'Writing on full-stack engineering, AI, infrastructure, and security from Cael Findley.',
+  });
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTag, setSelectedTag] = useState('');
   const [searchTerm, setSearchTerm] = useState('');

@@ -5,6 +5,7 @@ import ContactModal from './ContactModal';
 import WordReveal from './motion/WordReveal';
 import Reveal from './motion/Reveal';
 import { easeOut } from '../utils/motion';
+import usePageMeta from '../hooks/usePageMeta';
 
 const focusAreas = [
   {
@@ -22,6 +23,11 @@ const focusAreas = [
 ];
 
 const About = ({ setCurrentPage }) => {
+  usePageMeta({
+    title: 'About',
+    description:
+      'Background and focus areas for Cael Findley, a full-stack software engineer studying Computer Science at Texas A&M Engineering.',
+  });
   const [showContact, setShowContact] = useState(false);
 
   return (

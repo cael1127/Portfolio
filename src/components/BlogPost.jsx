@@ -6,11 +6,14 @@ import ReadingTime from './ReadingTime';
 import RelatedPosts from './RelatedPosts';
 import SocialShare from './SocialShare';
 import TableOfContents from './TableOfContents';
+import usePageMeta from '../hooks/usePageMeta';
 
 const BlogPost = ({ slug, setCurrentPage }) => {
   const post = useMemo(() => {
     return blogPosts.find(p => p.slug === slug);
   }, [slug]);
+
+  usePageMeta({ title: post?.title, description: post?.excerpt });
 
   if (!post) {
     return (

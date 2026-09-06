@@ -17,6 +17,8 @@ import CommandPalette from './components/CommandPalette';
 import ScrollProgress from './components/motion/ScrollProgress';
 import AmbientBackground from './components/motion/AmbientBackground';
 import AssistantWidget from './components/AssistantWidget';
+import { PAGE_SLUGS, SYSTEMS_PAGE_IDS, pageIdToPath, pathToPageId } from './data/routes';
+import { RouteProvider } from './context/RouteContext';
 
 // Import all demo pages
 import BlockchainDemoPage from './pages/BlockchainDemoPage';
@@ -92,99 +94,6 @@ import MinBodProjectPage from './components/ProjectPages/MinBodProjectPage';
 import JFResumeProjectPage from './components/ProjectPages/JFResumeProjectPage';
 import SystemProjectPage from './components/ProjectPages/SystemProjectPage';
 
-const PAGE_SLUGS = {
-  home: '',
-  work: 'work',
-  education: 'about',
-  blog: 'blog',
-  resume: 'resume',
-  'ai-interview-simulator': 'ai-interview-simulator',
-  'real-time-collaboration': 'real-time-collaboration',
-  'advanced-analytics': 'advanced-analytics',
-  'blockchain-advanced': 'blockchain-advanced',
-  'edge-computing': 'edge-computing',
-  'quantum-computing': 'quantum-computing',
-  'blockchain-demo': 'blockchain-demo',
-  'aquaculture-demo': 'aquaculture-demo',
-  'financial-demo': 'financial-demo',
-  'healthcare-demo': 'healthcare-demo',
-  'logistics-demo': 'logistics-demo',
-  'portfolio-builder-demo': 'portfolio-builder-demo',
-  'restaurant-app-demo': 'restaurant-app-demo',
-  'resume-analyzer-demo': 'resume-analyzer-demo',
-  'smart-city-demo': 'smart-city-demo',
-  'whiteboard-demo': 'whiteboard-demo',
-  'game-platform-demo': 'game-platform-demo',
-  'ai-assistant-demo': 'ai-assistant-demo',
-  'snake-ai-demo': 'snake-ai-demo',
-  'ai-agents-demo': 'ai-agents-demo',
-  'sentiment-analysis-demo': 'sentiment-analysis-demo',
-  'rag-chatbot-demo': 'rag-chatbot-demo',
-  'bookstore-api-demo': 'bookstore-api-demo',
-  'mern-expense-tracker-demo': 'mern-expense-tracker-demo',
-  'social-network-demo': 'social-network-demo',
-  'interactive-resume-demo': 'interactive-resume-demo',
-  'fraud-detection-demo': 'fraud-detection-demo',
-  'deepfake-detection-demo': 'deepfake-detection-demo',
-  'object-detection-demo': 'object-detection-demo',
-  'audio-transcription-demo': 'audio-transcription-demo',
-  'ecommerce-demo': 'ecommerce-demo',
-  'realtime-chat-demo': 'realtime-chat-demo',
-  'saas-analytics-demo': 'saas-analytics-demo',
-  'product-configurator-demo': 'product-configurator-demo',
-  'ai-code-generation-demo': 'ai-code-generation-demo',
-  'ml-training-dashboard-demo': 'ml-training-dashboard-demo',
-  'computer-vision-pipeline-demo': 'computer-vision-pipeline-demo',
-  'nlp-sentiment-api-demo': 'nlp-sentiment-api-demo',
-  'cicd-pipeline-demo': 'cicd-pipeline-demo',
-  'docker-platform-demo': 'docker-platform-demo',
-  'kubernetes-management-demo': 'kubernetes-management-demo',
-  'terraform-iac-demo': 'terraform-iac-demo',
-  'vulnerability-scanner-demo': 'vulnerability-scanner-demo',
-  'penetration-testing-demo': 'penetration-testing-demo',
-  'encryption-system-demo': 'encryption-system-demo',
-  'security-monitoring-demo': 'security-monitoring-demo',
-  'waf-demo': 'waf-demo',
-  'siem-demo': 'siem-demo',
-  'api-security-gateway-demo': 'api-security-gateway-demo',
-  'phishing-detection-demo': 'phishing-detection-demo',
-  'owasp-scanner-demo': 'owasp-scanner-demo',
-  'network-traffic-analyzer-demo': 'network-traffic-analyzer-demo',
-  'ids-demo': 'ids-demo',
-  'threat-intelligence-demo': 'threat-intelligence-demo',
-  'microservices-demo': 'microservices-demo',
-  'graphql-api-demo': 'graphql-api-demo',
-  'realtime-collaboration-platform-demo': 'realtime-collaboration-platform-demo',
-  'event-driven-architecture-demo': 'event-driven-architecture-demo',
-  'serverless-platform-demo': 'serverless-platform-demo',
-  'multi-tenant-saas-demo': 'multi-tenant-saas-demo',
-  'three-sisters-oyster-project': 'three-sisters-oyster-project',
-  'bapux-project': 'bapux-project',
-  'bpawd-project': 'bpawd-project',
-  'uil-academy-project': 'uil-academy-project',
-  'minbod-project': 'minbod-project',
-  'jf-resume-project': 'jf-resume-project',
-  aquaFarm: 'aquafarm',
-  boltPlanner: 'boltplanner',
-  grabby: 'grabby',
-  neurals: 'neurals',
-  AtlusPersonal: 'atlus',
-  aisw: 'aisw',
-  physics: 'physics',
-  terminalUI: 'terminal-ui',
-};
-
-const SYSTEMS_PAGE_IDS = [
-  'aquaFarm',
-  'boltPlanner',
-  'grabby',
-  'neurals',
-  'AtlusPersonal',
-  'aisw',
-  'physics',
-  'terminalUI',
-];
-
 const PATH_TO_PAGE = Object.entries(PAGE_SLUGS).reduce((acc, [pageId, slug]) => {
   const normalisedSlug = (slug || '').replace(/^\/+|\/+$/g, '');
   acc[normalisedSlug] = pageId;
@@ -201,6 +110,10 @@ const deriveInitialPage = () => {
     return 'home';
   }
   const initialPath = normalisePathname(window.location.pathname);
+  const blogPageId = pathToPageId(initialPath);
+  if (blogPageId) {
+    return blogPageId;
+  }
   if (initialPath && PATH_TO_PAGE[initialPath]) {
     return PATH_TO_PAGE[initialPath];
   }
@@ -240,8 +153,7 @@ function App() {
       return;
     }
 
-    const slug = PAGE_SLUGS[currentPage] ?? '';
-    const newPath = slug ? `/${slug}` : '/';
+    const newPath = pageIdToPath(currentPage);
     const currentPath = window.location.pathname;
 
     // Only update if the path is different
@@ -264,7 +176,7 @@ function App() {
 
     const handlePopState = (event) => {
       const pathSlug = normalisePathname(window.location.pathname);
-      const nextPage = PATH_TO_PAGE[pathSlug] || 'home';
+      const nextPage = pathToPageId(pathSlug) || PATH_TO_PAGE[pathSlug] || 'home';
       
       // Set flag to prevent URL update in the other useEffect
       isHandlingPopRef.current = true;
@@ -508,7 +420,10 @@ function App() {
     return currentPage === id;
   };
 
+  const currentPath = pageIdToPath(currentPage);
+
   return (
+    <RouteProvider path={currentPath}>
     <div className="App min-h-screen bg-[var(--bg)] text-[var(--text)] relative overflow-x-hidden">
       <a href="#main-content" className="skip-link">
         Skip to content
@@ -633,6 +548,7 @@ function App() {
       />
       <AssistantWidget />
     </div>
+    </RouteProvider>
   );
 }
 

@@ -5,6 +5,7 @@ import DemoReadme from './DemoReadme';
 import ProjectTutorial from './ProjectTutorial';
 import WordReveal from './motion/WordReveal';
 import { easeOut } from '../utils/motion';
+import usePageMeta from '../hooks/usePageMeta';
 
 const tocLinks = [
   { href: '#demo', label: 'Live surface' },
@@ -45,6 +46,7 @@ const ProjectLayout = ({
   deploymentGuide,
   troubleshooting,
 }) => {
+  usePageMeta({ title, description: overview || problem });
   const [activeSection, setActiveSection] = useState('demo');
 
   const navLinks = [
