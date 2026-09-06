@@ -16,6 +16,7 @@ import ResumePage from './pages/ResumePage';
 import CommandPalette from './components/CommandPalette';
 import ScrollProgress from './components/motion/ScrollProgress';
 import AmbientBackground from './components/motion/AmbientBackground';
+import AssistantWidget from './components/AssistantWidget';
 
 // Import all demo pages
 import BlockchainDemoPage from './pages/BlockchainDemoPage';
@@ -630,6 +631,7 @@ function App() {
         onClose={() => setPaletteOpen(false)}
         onNavigate={navigateTo}
       />
+      <AssistantWidget />
     </div>
   );
 }

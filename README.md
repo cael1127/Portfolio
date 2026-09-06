@@ -57,23 +57,18 @@ netlify.toml                     # Build and headers
    cd Portfolio
    ```
 
-2. **Install backend dependencies**
+2. **Install dependencies**
    ```bash
-   cd backend
    npm install
    ```
 
-3. **Start the backend server**
-   ```bash
-   npm start
-   ```
-   The backend will run on `http://localhost:4000`
-
-4. **Run the app**
+3. **Run the app**
    ```bash
    npm start
    # open http://localhost:3000
    ```
+
+The ACF chat assistant is a Netlify Function (`netlify/functions/chat.js`). To exercise the real LLM call path locally, run `netlify dev` instead of `npm start` and set `ANTHROPIC_API_KEY` (or `OPENAI_API_KEY` + `LLM_PROVIDER=openai`) as an environment variable — never commit it. Without a key, the assistant still renders and responds with a friendly fallback message.
 
 ## 🧪 Live Demos (in‑app)
 
