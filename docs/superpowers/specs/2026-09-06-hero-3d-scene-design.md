@@ -71,6 +71,22 @@ time and re-derived if `theme` changes.
 - The three.js/R3F chunk loads lazily and asynchronously; it must not
   appear in the main JS bundle (verified by checking the build output for
   a separate chunk, not a main-bundle size jump).
+- The render loop pauses (`<Canvas frameloop="never">`) whenever the hero
+  section is scrolled out of view, via an `IntersectionObserver` on the
+  hero, and resumes when it re-enters. Without this, a 60fps WebGL loop
+  keeps running for the entire session on pages taller than the hero,
+  burning GPU/battery for pixels nobody can see. (Added post-review —
+  the original spec covered dpr/power-preference/buffering/code-splitting
+  but missed visibility, which the final whole-branch review flagged as
+  the more consequential lever for a page this tall.)
+- A local error boundary (not the app's root one) wraps the lazy
+  `<Suspense>`/`<HeroScene>` tree with a silent (`null`) fallback. This is
+  a purely decorative layer — a WebGL context failure or a lazy-chunk
+  load failure must fall back to the existing static background, not
+  propagate to the app's root error boundary and replace the entire site
+  with an error screen. (Added post-review — the original spec's example
+  integration snippet omitted this; see the implementation plan's
+  post-implementation amendment for the corrected snippet.)
 
 ## Testing / verification
 

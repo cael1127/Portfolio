@@ -401,3 +401,30 @@ Expected: the hero shows only the existing static background (grid texture + was
 git add package.json package-lock.json src/components/HeroScene.jsx src/components/Home.jsx
 git commit -m "Add 3D constellation to the hero, lazy-loaded and reduced-motion aware"
 ```
+
+---
+
+## Post-implementation amendment
+
+The final whole-branch review (after both tasks above were individually
+reviewed and approved) found two gaps in this plan's Task 2 Step 3 code as
+originally written:
+
+1. **`@react-three/fiber` version.** Step 1's `npm install three
+   @react-three/fiber` (unpinned) resolved to a version requiring React 19,
+   which conflicts with this project's React 18. Ruling: pinned to
+   `@react-three/fiber@^8.18.0`. See the design spec and ledger for the
+   full ruling.
+2. **No error boundary, and no off-screen render pausing.** The Step 3 JSX
+   given above renders `<HeroScene />` directly inside `<Suspense>` with no
+   error boundary, and `HeroScene.jsx`'s `<Canvas>` had no `frameloop`
+   control — so it kept its WebGL render loop running even after the hero
+   scrolled out of view. Both were fixed in a post-review fix wave: a new
+   `SceneErrorBoundary` (silent `null` fallback) wraps the `<Suspense>`
+   tree, and `HeroScene` now accepts an `isVisible` prop — driven by an
+   `IntersectionObserver` on `heroRef` in `Home.jsx` — that sets
+   `frameloop={isVisible ? 'always' : 'never'}`. See the design spec's
+   Performance section (amended) and the git history for the exact diff.
+
+Both are now reflected in the design spec. This plan's task text above is
+left as the historical record of what was originally specified.
