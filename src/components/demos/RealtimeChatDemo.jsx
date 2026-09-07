@@ -136,25 +136,25 @@ const RealtimeChatDemo = () => {
   return (
     <div className="grid md:grid-cols-[1fr,260px] gap-6">
       {/* Chat Interface */}
-      <div className="bg-gray-900 border border-gray-800 rounded p-4">
+      <div className="bg-[var(--bg)] border border-[var(--border)] rounded p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold">Room: demo</h3>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400">{presence} online</span>
+            <span className="text-sm text-[var(--muted)]">{presence} online</span>
           </div>
         </div>
         
         {/* Messages Display */}
-        <div className="h-60 overflow-auto bg-gray-800 border border-gray-700 rounded p-3 text-sm space-y-2">
+        <div className="h-60 overflow-auto bg-[var(--surface)] border border-[var(--border)] rounded p-3 text-sm space-y-2">
           {messages.length === 0 ? (
-            <div className="text-gray-400">Say hello to start the conversation.</div>
+            <div className="text-[var(--muted)]">Say hello to start the conversation.</div>
           ) : messages.map((message, index) => (
             <div key={index} className="flex items-start gap-2">
-              <span className="text-emerald-400 font-medium">
+              <span className="text-[var(--accent)] font-medium">
                 {message.userId}:
               </span>
-              <span className="text-gray-300">{message.body}</span>
-              <span className="text-xs text-gray-500 ml-auto">
+              <span className="text-[var(--text)]">{message.body}</span>
+              <span className="text-xs text-[var(--muted)] ml-auto">
                 {new Date(message.ts).toLocaleTimeString()}
               </span>
             </div>
@@ -167,12 +167,12 @@ const RealtimeChatDemo = () => {
             value={text} 
             onChange={e => setText(e.target.value)}
             onKeyPress={e => e.key === 'Enter' && sendMessage()}
-            className="flex-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm" 
+            className="flex-1 bg-[var(--surface)] border border-[var(--border)] rounded px-3 py-2 text-sm" 
             placeholder="Type a message..." 
           />
           <button 
             onClick={sendMessage} 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded text-sm transition-colors"
           >
             Send
           </button>
@@ -180,26 +180,26 @@ const RealtimeChatDemo = () => {
       </div>
 
       {/* Presence Sidebar */}
-      <aside className="bg-gray-900 border border-gray-800 rounded p-4 text-sm">
+      <aside className="bg-[var(--bg)] border border-[var(--border)] rounded p-4 text-sm">
         <div className="font-semibold mb-2 flex items-center gap-2">
           👥 Presence
         </div>
-        <div className="text-gray-300 mb-2">
+        <div className="text-[var(--text)] mb-2">
           Active users: {presence}
         </div>
-        <div className="text-gray-400 text-xs">
+        <div className="text-[var(--muted)] text-xs">
           (Local-only BroadcastChannel demo)
         </div>
         
         {/* User List */}
         <div className="mt-4">
-          <div className="text-xs text-gray-500 mb-2">Connected Users:</div>
+          <div className="text-xs text-[var(--muted)] mb-2">Connected Users:</div>
           {Array.from(peers.entries()).map(([peerId, timestamp]) => (
             <div key={peerId} className="flex items-center gap-2 text-xs">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-gray-300">{peerId}</span>
+              <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
+              <span className="text-[var(--text)]">{peerId}</span>
               {peerId === userId && (
-                <span className="text-blue-400">(you)</span>
+                <span className="text-[var(--accent)]">(you)</span>
               )}
             </div>
           ))}
@@ -309,14 +309,14 @@ const RealtimeChatDemo = () => {
     <div className="space-y-6">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">💬 Real-time Chat Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">💬 Real-time Chat Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Interactive chat application showcasing real-time communication using BroadcastChannel API, presence tracking, and cross-tab messaging
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <button
             onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           >
             <span>💻</span>
             View Implementation
@@ -325,21 +325,21 @@ const RealtimeChatDemo = () => {
       </div>
 
       <div className="grid md:grid-cols-[1fr,260px] gap-6">
-        <div className="bg-gray-900 border border-gray-800 rounded p-4">
+        <div className="bg-[var(--bg)] border border-[var(--border)] rounded p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold">Room: demo</h3>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-400">{presence} online</span>
+              <span className="text-sm text-[var(--muted)]">{presence} online</span>
             </div>
           </div>
-          <div className="h-60 overflow-auto bg-gray-800 border border-gray-700 rounded p-3 text-sm space-y-2">
+          <div className="h-60 overflow-auto bg-[var(--surface)] border border-[var(--border)] rounded p-3 text-sm space-y-2">
             {messages.length === 0 ? (
-              <div className="text-gray-400">Say hello to start the conversation.</div>
+              <div className="text-[var(--muted)]">Say hello to start the conversation.</div>
             ) : messages.map((m,i)=>(
               <div key={i} className="flex items-start gap-2">
-                <span className="text-emerald-400 font-medium">{m.userId}:</span>
-                <span className="text-gray-300">{m.body}</span>
-                <span className="text-xs text-gray-500 ml-auto">
+                <span className="text-[var(--accent)] font-medium">{m.userId}:</span>
+                <span className="text-[var(--text)]">{m.body}</span>
+                <span className="text-xs text-[var(--muted)] ml-auto">
                   {new Date(m.ts).toLocaleTimeString()}
                 </span>
               </div>
@@ -350,33 +350,33 @@ const RealtimeChatDemo = () => {
               value={text} 
               onChange={e=>setText(e.target.value)} 
               onKeyPress={e => e.key === 'Enter' && send()}
-              className="flex-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm" 
+              className="flex-1 bg-[var(--surface)] border border-[var(--border)] rounded px-3 py-2 text-sm" 
               placeholder="Type a message..." 
             />
             <button 
               onClick={send} 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors"
+              className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded text-sm transition-colors"
             >
               Send
             </button>
           </div>
         </div>
-        <aside className="bg-gray-900 border border-gray-800 rounded p-4 text-sm">
+        <aside className="bg-[var(--bg)] border border-[var(--border)] rounded p-4 text-sm">
           <div className="font-semibold mb-2 flex items-center gap-2">
             👥 Presence
           </div>
-          <div className="text-gray-300 mb-2">Active users: {presence}</div>
-          <div className="text-gray-400 text-xs mb-4">(Local-only BroadcastChannel demo)</div>
+          <div className="text-[var(--text)] mb-2">Active users: {presence}</div>
+          <div className="text-[var(--muted)] text-xs mb-4">(Local-only BroadcastChannel demo)</div>
           
           {/* User List */}
           <div>
-            <div className="text-xs text-gray-500 mb-2">Connected Users:</div>
+            <div className="text-xs text-[var(--muted)] mb-2">Connected Users:</div>
             {Array.from(peers.entries()).map(([peerId, timestamp]) => (
               <div key={peerId} className="flex items-center gap-2 text-xs mb-1">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span className="text-gray-300">{peerId}</span>
+                <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
+                <span className="text-[var(--text)]">{peerId}</span>
                 {peerId === userId && (
-                  <span className="text-blue-400">(you)</span>
+                  <span className="text-[var(--accent)]">(you)</span>
                 )}
               </div>
             ))}

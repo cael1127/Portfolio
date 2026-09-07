@@ -112,12 +112,12 @@ const WhiteboardDemo = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Interactive Whiteboard</h1>
-          <p className="text-gray-400">Collaborative drawing and annotation platform</p>
+          <h1 className="text-3xl font-bold text-[var(--text)]">Interactive Whiteboard</h1>
+          <p className="text-[var(--muted)]">Collaborative drawing and annotation platform</p>
         </div>
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
+          className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded-lg transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -127,7 +127,7 @@ const WhiteboardDemo = () => {
 
       {/* Drawing Tools */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -139,7 +139,7 @@ const WhiteboardDemo = () => {
             <motion.button
               key={tool}
               className={`px-4 py-2 rounded-lg transition-colors ${
-                activeTool === tool ? 'bg-teal-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                activeTool === tool ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -157,7 +157,7 @@ const WhiteboardDemo = () => {
 
       {/* Color Palette */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -169,7 +169,7 @@ const WhiteboardDemo = () => {
             <motion.button
               key={colorOption}
               className={`w-12 h-12 rounded-lg border-2 transition-all ${
-                color === colorOption ? 'border-white scale-110' : 'border-gray-600 hover:border-gray-400'
+                color === colorOption ? 'border-[var(--border-strong)] scale-110' : 'border-[var(--border-strong)] hover:border-[var(--border-strong)]'
               }`}
               style={{ backgroundColor: colorOption }}
               whileHover={{ scale: 1.1 }}
@@ -186,7 +186,7 @@ const WhiteboardDemo = () => {
 
       {/* Brush Size */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -202,21 +202,21 @@ const WhiteboardDemo = () => {
             onChange={(e) => setBrushSize(parseInt(e.target.value))}
             className="flex-1"
           />
-          <span className="text-white font-semibold">{brushSize}px</span>
+          <span className="text-[var(--text)] font-semibold">{brushSize}px</span>
         </div>
       </motion.div>
 
       {/* Canvas Preview */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <h2 className="text-2xl font-bold mb-6">Canvas Preview</h2>
-        <div className="bg-white rounded-lg p-4 min-h-64">
-          <div className="text-gray-500 text-center">
+        <div className="bg-[var(--surface)] rounded-lg p-4 min-h-64">
+          <div className="text-[var(--muted)] text-center">
             <p className="text-lg">Canvas Area</p>
             <p className="text-sm">Draw your ideas here</p>
           </div>

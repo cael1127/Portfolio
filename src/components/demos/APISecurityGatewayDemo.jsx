@@ -164,26 +164,26 @@ module.exports = APISecurityGateway;`,
   return (
     <div className="space-y-6">
       {/* API Configuration */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">API Request</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-2">API Key</label>
+            <label className="block text-sm text-[var(--muted)] mb-2">API Key</label>
             <input
               type="text"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="Enter your API key"
-              className="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white"
+              className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)]"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Method</label>
+              <label className="block text-sm text-[var(--muted)] mb-2">Method</label>
               <select
                 value={method}
                 onChange={(e) => setMethod(e.target.value)}
-                className="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white"
+                className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)]"
               >
                 <option>GET</option>
                 <option>POST</option>
@@ -192,18 +192,18 @@ module.exports = APISecurityGateway;`,
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Endpoint</label>
+              <label className="block text-sm text-[var(--muted)] mb-2">Endpoint</label>
               <input
                 type="text"
                 value={endpoint}
                 onChange={(e) => setEndpoint(e.target.value)}
-                className="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white"
+                className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)]"
               />
             </div>
           </div>
           <button
             onClick={handleRequest}
-            className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            className="w-full px-4 py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
           >
             Send Request
           </button>
@@ -211,17 +211,17 @@ module.exports = APISecurityGateway;`,
       </div>
 
       {/* Rate Limit Status */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Rate Limit Status</h3>
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <div className="flex justify-between text-sm text-gray-400 mb-2">
+            <div className="flex justify-between text-sm text-[var(--muted)] mb-2">
               <span>Remaining</span>
               <span>{rateLimit.remaining} / {rateLimit.limit}</span>
             </div>
-            <div className="w-full bg-gray-900 rounded-full h-2">
+            <div className="w-full bg-[var(--bg)] rounded-full h-2">
               <motion.div
-                className="bg-blue-500 h-2 rounded-full"
+                className="bg-[var(--accent)] h-2 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${(rateLimit.remaining / rateLimit.limit) * 100}%` }}
               />
@@ -233,15 +233,15 @@ module.exports = APISecurityGateway;`,
       {/* Response */}
       {response && (
         <motion.div
-          className={`bg-gray-800 rounded-lg border p-6 ${
-            response.status === 200 ? 'border-green-500/50' : 'border-red-500/50'
+          className={`bg-[var(--surface)] rounded-lg border p-6 ${
+            response.status === 200 ? 'border-[var(--accent)]/50' : 'border-[var(--accent)]/50'
           }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <h3 className="text-lg font-semibold mb-4">Response</h3>
-          <div className={`text-sm font-mono p-4 rounded bg-gray-900 ${
-            response.status === 200 ? 'text-green-400' : 'text-red-400'
+          <div className={`text-sm font-mono p-4 rounded bg-[var(--bg)] ${
+            response.status === 200 ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
           }`}>
             <div>Status: {response.status}</div>
             <pre className="mt-2 overflow-x-auto">
@@ -252,20 +252,20 @@ module.exports = APISecurityGateway;`,
       )}
 
       {/* Authentication Methods */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Supported Authentication</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">API Key</div>
-            <div className="text-sm text-gray-400">Header: X-API-Key</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">API Key</div>
+            <div className="text-sm text-[var(--muted)]">Header: X-API-Key</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">JWT Token</div>
-            <div className="text-sm text-gray-400">Header: Authorization: Bearer</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">JWT Token</div>
+            <div className="text-sm text-[var(--muted)]">Header: Authorization: Bearer</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">OAuth2</div>
-            <div className="text-sm text-gray-400">Standard OAuth2 flow</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">OAuth2</div>
+            <div className="text-sm text-[var(--muted)]">Standard OAuth2 flow</div>
           </div>
         </div>
       </div>
@@ -273,7 +273,7 @@ module.exports = APISecurityGateway;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

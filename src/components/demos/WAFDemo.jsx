@@ -151,55 +151,55 @@ module.exports = WebApplicationFirewall;`,
       {/* Stats Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-gray-400 text-sm">Total Requests</div>
-          <div className="text-2xl font-bold text-white mt-1">{stats.totalRequests}</div>
+          <div className="text-[var(--muted)] text-sm">Total Requests</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{stats.totalRequests}</div>
         </motion.div>
         <motion.div 
-          className="bg-red-900/30 border-red-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="text-red-400 text-sm">Blocked</div>
-          <div className="text-2xl font-bold text-red-400 mt-1">{stats.blocked}</div>
+          <div className="text-[var(--accent)] text-sm">Blocked</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{stats.blocked}</div>
         </motion.div>
         <motion.div 
-          className="bg-green-900/30 border-green-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="text-green-400 text-sm">Allowed</div>
-          <div className="text-2xl font-bold text-green-400 mt-1">{stats.allowed}</div>
+          <div className="text-[var(--accent)] text-sm">Allowed</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{stats.allowed}</div>
         </motion.div>
         <motion.div 
-          className="bg-yellow-900/30 border-yellow-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="text-yellow-400 text-sm">Block Rate</div>
-          <div className="text-2xl font-bold text-yellow-400 mt-1">{stats.blockedPercentage}%</div>
+          <div className="text-[var(--accent)] text-sm">Block Rate</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{stats.blockedPercentage}%</div>
         </motion.div>
       </div>
 
       {/* Security Rules */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Security Rules</h3>
         <div className="space-y-3">
           {rules.map((rule) => (
-            <div key={rule.id} className="flex items-center justify-between p-3 bg-gray-900 rounded border border-gray-700">
+            <div key={rule.id} className="flex items-center justify-between p-3 bg-[var(--bg)] rounded border border-[var(--border)]">
               <div className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full ${rule.enabled ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-                <span className="text-white">{rule.name}</span>
+                <div className={`w-3 h-3 rounded-full ${rule.enabled ? 'bg-[var(--accent)]' : 'bg-[var(--border-strong)]'}`}></div>
+                <span className="text-[var(--text)]">{rule.name}</span>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-gray-400 text-sm">Blocked: {rule.blocked}</span>
-                <button className="text-blue-400 hover:text-blue-300 text-sm">Configure</button>
+                <span className="text-[var(--muted)] text-sm">Blocked: {rule.blocked}</span>
+                <button className="text-[var(--accent)] hover:text-[var(--accent)] text-sm">Configure</button>
               </div>
             </div>
           ))}
@@ -207,7 +207,7 @@ module.exports = WebApplicationFirewall;`,
       </div>
 
       {/* Request Log */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Request Log</h3>
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {requests.map((request) => (
@@ -215,21 +215,21 @@ module.exports = WebApplicationFirewall;`,
               key={request.id}
               className={`flex items-center justify-between p-3 rounded border ${
                 request.blocked 
-                  ? 'bg-red-900/20 border-red-500/50' 
-                  : 'bg-gray-900 border-gray-700'
+                  ? 'bg-[var(--accent-soft)]/20 border-[var(--accent)]/50' 
+                  : 'bg-[var(--bg)] border-[var(--border)]'
               }`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
               <div className="flex items-center gap-4">
-                <div className={`w-2 h-2 rounded-full ${request.blocked ? 'bg-red-500' : 'bg-green-500'}`}></div>
-                <span className="text-gray-400 text-sm">{request.timestamp}</span>
-                <span className="text-white font-mono text-sm">{request.method}</span>
-                <span className="text-gray-300">{request.path}</span>
-                <span className="text-gray-500 text-sm">{request.ip}</span>
+                <div className={`w-2 h-2 rounded-full ${request.blocked ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'}`}></div>
+                <span className="text-[var(--muted)] text-sm">{request.timestamp}</span>
+                <span className="text-[var(--text)] font-mono text-sm">{request.method}</span>
+                <span className="text-[var(--text)]">{request.path}</span>
+                <span className="text-[var(--muted)] text-sm">{request.ip}</span>
               </div>
               {request.blocked && (
-                <span className="text-red-400 text-sm font-semibold">{request.reason}</span>
+                <span className="text-[var(--accent)] text-sm font-semibold">{request.reason}</span>
               )}
             </motion.div>
           ))}
@@ -240,7 +240,7 @@ module.exports = WebApplicationFirewall;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

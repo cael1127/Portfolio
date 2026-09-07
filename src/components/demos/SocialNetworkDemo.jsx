@@ -143,17 +143,17 @@ const SocialNetworkDemo = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-blue-400">👥 Mini Social Network</h1>
-            <p className="text-gray-400">Social media platform with real-time features</p>
+            <h1 className="text-3xl font-bold text-[var(--accent)]">👥 Mini Social Network</h1>
+            <p className="text-[var(--muted)]">Social media platform with real-time features</p>
           </div>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded-lg transition-colors"
           >
             View Code
           </button>
@@ -162,14 +162,14 @@ const SocialNetworkDemo = () => {
             <div className="space-y-6">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">👥 SocialNetwork Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">👥 SocialNetwork Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Social networking platform with user profiles, content sharing, and real-time interactions.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <button
             onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           >
             <span>💻</span>
             View Implementation
@@ -180,20 +180,20 @@ const SocialNetworkDemo = () => {
       <div className="grid md:grid-cols-[1fr,320px] gap-6">
           {/* Create Post */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-800 rounded-lg p-6">
+            <div className="bg-[var(--surface)] rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4">Create Post</h2>
               <div className="space-y-4">
                 <textarea
                   value={newPost.content}
                   onChange={(e) => setNewPost(prev => ({ ...prev, content: e.target.value }))}
                   placeholder="What's on your mind?"
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white resize-none"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] resize-none"
                   rows={4}
                 />
                 <button
                   onClick={createPost}
                   disabled={isLoading || !newPost.content.trim()}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors"
+                  className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] text-[var(--text)] py-2 px-4 rounded-lg transition-colors"
                 >
                   {isLoading ? 'Posting...' : 'Post'}
                 </button>
@@ -211,47 +211,47 @@ const SocialNetworkDemo = () => {
                 const isLiked = postLikes.includes(currentUser?.id);
 
                 return (
-                  <div key={post.id} className="bg-gray-800 rounded-lg p-6">
+                  <div key={post.id} className="bg-[var(--surface)] rounded-lg p-6">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="text-2xl">{user?.avatar}</div>
                       <div>
                         <h3 className="font-semibold">{user?.name}</h3>
-                        <p className="text-sm text-gray-400">@{user?.username}</p>
+                        <p className="text-sm text-[var(--muted)]">@{user?.username}</p>
                       </div>
-                      <span className="text-sm text-gray-400 ml-auto">
+                      <span className="text-sm text-[var(--muted)] ml-auto">
                         {formatTimestamp(post.timestamp)}
                       </span>
                     </div>
                     
-                    <p className="text-gray-300 mb-4">{post.content}</p>
+                    <p className="text-[var(--text)] mb-4">{post.content}</p>
                     
                     <div className="flex items-center space-x-4 text-sm">
                       <button
                         onClick={() => toggleLike(post.id)}
-                        className={\`flex items-center space-x-1 \${isLiked ? 'text-red-400' : 'text-gray-400'}\`}
+                        className={\`flex items-center space-x-1 \${isLiked ? 'text-[var(--accent)]' : 'text-[var(--muted)]'}\`}
                       >
                         <span>{isLiked ? '❤️' : '🤍'}</span>
                         <span>{postLikes.length}</span>
                       </button>
-                      <span className="text-gray-400">💬 {postComments.length}</span>
+                      <span className="text-[var(--muted)]">💬 {postComments.length}</span>
                     </div>
 
                     {/* Comments */}
                     {postComments.length > 0 && (
-                      <div className="mt-4 pt-4 border-t border-gray-700">
+                      <div className="mt-4 pt-4 border-t border-[var(--border)]">
                         <h4 className="text-sm font-semibold mb-2">Comments</h4>
                         <div className="space-y-2">
                           {postComments.map(comment => {
                             const commentUser = getUserById(comment.userId);
                             return (
-                              <div key={comment.id} className="bg-gray-700 rounded p-3">
+                              <div key={comment.id} className="bg-[var(--surface-2)] rounded p-3">
                                 <div className="flex items-center space-x-2 mb-1">
                                   <span className="text-sm font-medium">{commentUser?.name}</span>
-                                  <span className="text-xs text-gray-400">
+                                  <span className="text-xs text-[var(--muted)]">
                                     {formatTimestamp(comment.timestamp)}
                                   </span>
                                 </div>
-                                <p className="text-sm text-gray-300">{comment.content}</p>
+                                <p className="text-sm text-[var(--text)]">{comment.content}</p>
                               </div>
                             );
                           })}
@@ -898,7 +898,7 @@ const SocialNetwork = () => {
   return (
     <div className="max-w-2xl mx-auto p-6">
       {/* Create Post */}
-      <form onSubmit={createPost} className="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <form onSubmit={createPost} className="bg-[var(--surface)] rounded-lg shadow-lg p-6 mb-6">
         <textarea
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
@@ -909,7 +909,7 @@ const SocialNetwork = () => {
         <button
           type="submit"
           disabled={loading || !newPost.trim()}
-          className="mt-3 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="mt-3 bg-[var(--accent)] text-[var(--text)] px-6 py-2 rounded-lg hover:bg-[var(--accent-deep)] disabled:opacity-50"
         >
           {loading ? 'Posting...' : 'Post'}
         </button>
@@ -918,22 +918,22 @@ const SocialNetwork = () => {
       {/* Posts Feed */}
       <div className="space-y-6">
         {posts.map(post => (
-          <div key={post._id} className="bg-white rounded-lg shadow-lg p-6">
+          <div key={post._id} className="bg-[var(--surface)] rounded-lg shadow-lg p-6">
             <div className="flex items-center space-x-3 mb-4">
               <div className="text-2xl">{post.userId.avatar}</div>
               <div>
                 <div className="font-semibold">{post.userId.name}</div>
-                <div className="text-gray-500 text-sm">@{post.userId.username}</div>
+                <div className="text-[var(--muted)] text-sm">@{post.userId.username}</div>
               </div>
             </div>
             
             <p className="mb-4">{post.content}</p>
             
-            <div className="flex items-center justify-between text-gray-500 text-sm">
+            <div className="flex items-center justify-between text-[var(--muted)] text-sm">
               <div className="flex items-center space-x-4">
                 <button
                   onClick={() => likePost(post._id)}
-                  className={\`flex items-center space-x-1 \${post.likes.includes(currentUser?._id) ? 'text-red-500' : ''}\`}
+                  className={\`flex items-center space-x-1 \${post.likes.includes(currentUser?._id) ? 'text-[var(--accent)]' : ''}\`}
                 >
                   <span>❤️</span>
                   <span>{post.likes.length}</span>
@@ -955,17 +955,17 @@ const SocialNetwork = () => {
 export default SocialNetwork;`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-purple-400">👥 Mini Social Network</h1>
-            <p className="text-gray-400">Django/Express backend with React frontend</p>
+            <h1 className="text-3xl font-bold text-[var(--accent)]">👥 Mini Social Network</h1>
+            <p className="text-[var(--muted)]">Django/Express backend with React frontend</p>
           </div>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded-lg transition-colors"
           >
             View Code
           </button>
@@ -975,28 +975,28 @@ export default SocialNetwork;`;
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Current User */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">👤 Profile</h3>
+            <div className="bg-[var(--surface)] rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4 text-[var(--accent)]">👤 Profile</h3>
               {currentUser && (
                 <div className="text-center">
                   <div className="text-4xl mb-3">{currentUser.avatar}</div>
-                  <div className="font-semibold text-white">{currentUser.name}</div>
-                  <div className="text-sm text-gray-400">@{currentUser.username}</div>
-                  <div className="text-xs text-gray-500 mt-2">{currentUser.bio}</div>
+                  <div className="font-semibold text-[var(--text)]">{currentUser.name}</div>
+                  <div className="text-sm text-[var(--muted)]">@{currentUser.username}</div>
+                  <div className="text-xs text-[var(--muted)] mt-2">{currentUser.bio}</div>
                 </div>
               )}
             </div>
 
             {/* Navigation */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">🧭 Navigation</h3>
+            <div className="bg-[var(--surface)] rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4 text-[var(--accent)]">🧭 Navigation</h3>
               <div className="space-y-2">
                 <button
                   onClick={() => setActiveTab('feed')}
                   className={`w-full p-3 rounded-lg transition-colors text-left ${
                     activeTab === 'feed'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      ? 'bg-[var(--accent)] text-[var(--text)]'
+                      : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                   }`}
                 >
                   📰 Feed
@@ -1005,8 +1005,8 @@ export default SocialNetwork;`;
                   onClick={() => setActiveTab('profile')}
                   className={`w-full p-3 rounded-lg transition-colors text-left ${
                     activeTab === 'profile'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      ? 'bg-[var(--accent)] text-[var(--text)]'
+                      : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                   }`}
                 >
                   👤 Profile
@@ -1015,8 +1015,8 @@ export default SocialNetwork;`;
                   onClick={() => setActiveTab('users')}
                   className={`w-full p-3 rounded-lg transition-colors text-left ${
                     activeTab === 'users'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      ? 'bg-[var(--accent)] text-[var(--text)]'
+                      : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                   }`}
                 >
                   👥 Users
@@ -1025,15 +1025,15 @@ export default SocialNetwork;`;
             </div>
 
             {/* Users List */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-yellow-400">👥 Users</h3>
+            <div className="bg-[var(--surface)] rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4 text-[var(--accent)]">👥 Users</h3>
               <div className="space-y-3">
                 {users.map(user => (
-                  <div key={user.id} className="flex items-center space-x-3 p-2 rounded hover:bg-gray-700">
+                  <div key={user.id} className="flex items-center space-x-3 p-2 rounded hover:bg-[var(--surface-2)]">
                     <div className="text-2xl">{user.avatar}</div>
                     <div>
                       <div className="font-semibold text-sm">{user.name}</div>
-                      <div className="text-xs text-gray-400">@{user.username}</div>
+                      <div className="text-xs text-[var(--muted)]">@{user.username}</div>
                     </div>
                   </div>
                 ))}
@@ -1044,26 +1044,26 @@ export default SocialNetwork;`;
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-6">
             {/* Create Post */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 text-green-400">✍️ Create Post</h3>
+            <div className="bg-[var(--surface)] rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4 text-[var(--accent)]">✍️ Create Post</h3>
               
               <div className="space-y-4">
                 <textarea
                   value={newPost.content}
                   onChange={(e) => setNewPost({...newPost, content: e.target.value})}
                   placeholder="What's on your mind?"
-                  className="w-full h-24 p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500"
+                  className="w-full h-24 p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)] resize-none focus:outline-none focus:border-[var(--accent)]"
                 />
                 
                 <div className="flex justify-between items-center">
                   <div className="flex space-x-2">
-                    <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                    <button className="p-2 bg-[var(--surface-2)] hover:bg-[var(--border-strong)] rounded-lg transition-colors">
                       📷
                     </button>
-                    <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                    <button className="p-2 bg-[var(--surface-2)] hover:bg-[var(--border-strong)] rounded-lg transition-colors">
                       😊
                     </button>
-                    <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                    <button className="p-2 bg-[var(--surface-2)] hover:bg-[var(--border-strong)] rounded-lg transition-colors">
                       📍
                     </button>
                   </div>
@@ -1071,11 +1071,11 @@ export default SocialNetwork;`;
                   <button
                     onClick={createPost}
                     disabled={!newPost.content.trim() || isLoading}
-                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                    className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] text-[var(--text)] px-6 py-2 rounded-lg transition-colors flex items-center space-x-2"
                   >
                     {isLoading ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[var(--border-strong)]"></div>
                         <span>Posting...</span>
                       </>
                     ) : (
@@ -1097,45 +1097,45 @@ export default SocialNetwork;`;
                 const postComments = comments[post.id] || [];
                 
                 return (
-                  <div key={post.id} className="bg-gray-800 rounded-lg p-6">
+                  <div key={post.id} className="bg-[var(--surface)] rounded-lg p-6">
                     {/* Post Header */}
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-3">
                         <div className="text-2xl">{postUser?.avatar}</div>
                         <div>
-                          <div className="font-semibold text-white">{postUser?.name}</div>
-                          <div className="text-sm text-gray-400">@{postUser?.username} • {formatTimestamp(post.timestamp)}</div>
+                          <div className="font-semibold text-[var(--text)]">{postUser?.name}</div>
+                          <div className="text-sm text-[var(--muted)]">@{postUser?.username} • {formatTimestamp(post.timestamp)}</div>
                         </div>
                       </div>
-                      <button className="text-gray-400 hover:text-white transition-colors">
+                      <button className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
                         ⋯
                       </button>
                     </div>
                     
                     {/* Post Content */}
                     <div className="mb-4">
-                      <p className="text-white">{post.content}</p>
+                      <p className="text-[var(--text)]">{post.content}</p>
                     </div>
                     
                     {/* Post Actions */}
-                    <div className="flex items-center justify-between py-3 border-t border-gray-700">
+                    <div className="flex items-center justify-between py-3 border-t border-[var(--border)]">
                       <div className="flex items-center space-x-6">
                         <button
                           onClick={() => toggleLike(post.id)}
                           className={`flex items-center space-x-2 transition-colors ${
-                            userLiked ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
+                            userLiked ? 'text-[var(--accent)]' : 'text-[var(--muted)] hover:text-[var(--accent)]'
                           }`}
                         >
                           <span className="text-xl">{userLiked ? '❤️' : '🤍'}</span>
                           <span>{post.likes}</span>
                         </button>
                         
-                        <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors">
+                        <button className="flex items-center space-x-2 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                           <span className="text-xl">💬</span>
                           <span>{post.comments}</span>
                         </button>
                         
-                        <button className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors">
+                        <button className="flex items-center space-x-2 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                           <span className="text-xl">🔄</span>
                           <span>Share</span>
                         </button>
@@ -1144,8 +1144,8 @@ export default SocialNetwork;`;
                     
                     {/* Comments */}
                     {postComments.length > 0 && (
-                      <div className="mt-4 pt-4 border-t border-gray-700">
-                        <h4 className="text-sm font-semibold text-gray-400 mb-3">Comments</h4>
+                      <div className="mt-4 pt-4 border-t border-[var(--border)]">
+                        <h4 className="text-sm font-semibold text-[var(--muted)] mb-3">Comments</h4>
                         <div className="space-y-3">
                           {postComments.map((comment) => {
                             const commentUser = getUserById(comment.userId);
@@ -1226,12 +1226,12 @@ export default SocialNetwork;`;
                               <div key={comment.id} className="flex space-x-3">
                                 <div className="text-lg">{commentUser?.avatar}</div>
                                 <div className="flex-1">
-                                  <div className="bg-gray-700 rounded-lg p-3">
+                                  <div className="bg-[var(--surface-2)] rounded-lg p-3">
                                     <div className="flex items-center space-x-2 mb-1">
                                       <span className="font-semibold text-sm">{commentUser?.name}</span>
-                                      <span className="text-xs text-gray-400">{formatTimestamp(comment.timestamp)}</span>
+                                      <span className="text-xs text-[var(--muted)]">{formatTimestamp(comment.timestamp)}</span>
                                     </div>
-                                    <p className="text-sm text-gray-300">{comment.content}</p>
+                                    <p className="text-sm text-[var(--text)]">{comment.content}</p>
                                   </div>
                                 </div>
                               </div>
@@ -1242,14 +1242,14 @@ export default SocialNetwork;`;
                     )}
                     
                     {/* Add Comment */}
-                    <div className="mt-4 pt-4 border-t border-gray-700">
+                    <div className="mt-4 pt-4 border-t border-[var(--border)]">
                       <div className="flex space-x-3">
                         <div className="text-lg">{currentUser?.avatar}</div>
                         <div className="flex-1">
                           <input
                             type="text"
                             placeholder="Write a comment..."
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
+                            className="w-full p-2 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)]"
                             onKeyPress={(e) => {
                               if (e.key === 'Enter' && e.target.value.trim()) {
                                 addComment(post.id, e.target.value);
@@ -1268,12 +1268,12 @@ export default SocialNetwork;`;
         </div>
 
         {/* Features */}
-        <div className="mt-6 bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 text-teal-400">✨ Social Network Features</h3>
+        <div className="mt-6 bg-[var(--surface)] rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4 text-[var(--accent)]">✨ Social Network Features</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h4 className="font-semibold text-blue-400 mb-2">🔗 Backend Features</h4>
-              <ul className="space-y-1 text-sm text-gray-300">
+              <h4 className="font-semibold text-[var(--accent)] mb-2">🔗 Backend Features</h4>
+              <ul className="space-y-1 text-sm text-[var(--text)]">
                 <li>• User Authentication & Authorization</li>
                 <li>• JWT Token Management</li>
                 <li>• Password Hashing (bcrypt)</li>
@@ -1283,8 +1283,8 @@ export default SocialNetwork;`;
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">🎨 Frontend Features</h4>
-              <ul className="space-y-1 text-sm text-gray-300">
+              <h4 className="font-semibold text-[var(--accent)] mb-2">🎨 Frontend Features</h4>
+              <ul className="space-y-1 text-sm text-[var(--text)]">
                 <li>• Real-time Feed Updates</li>
                 <li>• Like & Comment System</li>
                 <li>• User Profiles</li>

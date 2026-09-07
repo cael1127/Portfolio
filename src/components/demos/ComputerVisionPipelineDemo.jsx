@@ -173,12 +173,12 @@ The pipeline uses OpenCV for image processing, TensorFlow/Keras for deep learnin
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Computer Vision Pipeline</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
@@ -186,7 +186,7 @@ The pipeline uses OpenCV for image processing, TensorFlow/Keras for deep learnin
 
         {/* Pipeline Stages */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Pipeline Stages</label>
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">Pipeline Stages</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {pipelineStages.map(stage => (
               <button
@@ -194,8 +194,8 @@ The pipeline uses OpenCV for image processing, TensorFlow/Keras for deep learnin
                 onClick={() => setSelectedStage(stage.id)}
                 className={`p-3 rounded-lg border transition-all ${
                   selectedStage === stage.id
-                    ? 'border-blue-500 bg-blue-900/20 text-white'
-                    : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
+                    ? 'border-[var(--accent)] bg-[var(--accent-soft)]/20 text-[var(--text)]'
+                    : 'border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--text)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="text-2xl mb-1">{stage.icon}</div>
@@ -208,7 +208,7 @@ The pipeline uses OpenCV for image processing, TensorFlow/Keras for deep learnin
         {/* Process Button */}
         <button
           onClick={handleProcess}
-          className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors mb-4"
+          className="w-full py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg font-medium transition-colors mb-4"
         >
           Process Image Through {pipelineStages.find(s => s.id === selectedStage)?.name}
         </button>
@@ -220,21 +220,21 @@ The pipeline uses OpenCV for image processing, TensorFlow/Keras for deep learnin
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-              <h4 className="text-sm font-medium text-gray-300 mb-2">Processed Output</h4>
-              <div className="bg-gray-800 h-48 rounded flex items-center justify-center text-gray-400">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+              <h4 className="text-sm font-medium text-[var(--text)] mb-2">Processed Output</h4>
+              <div className="bg-[var(--surface)] h-48 rounded flex items-center justify-center text-[var(--muted)]">
                 {selectedStage} completed
               </div>
             </div>
 
             {features.length > 0 && (
-              <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-                <h4 className="text-sm font-medium text-gray-300 mb-2">Extracted Features</h4>
+              <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+                <h4 className="text-sm font-medium text-[var(--text)] mb-2">Extracted Features</h4>
                 <div className="space-y-2">
                   {features.map((feature, idx) => (
                     <div key={idx} className="flex justify-between items-center">
-                      <span className="text-gray-300 text-sm">{feature.name}</span>
-                      <span className="text-green-400 font-medium">{(feature.confidence * 100).toFixed(1)}%</span>
+                      <span className="text-[var(--text)] text-sm">{feature.name}</span>
+                      <span className="text-[var(--accent)] font-medium">{(feature.confidence * 100).toFixed(1)}%</span>
                     </div>
                   ))}
                 </div>
@@ -242,16 +242,16 @@ The pipeline uses OpenCV for image processing, TensorFlow/Keras for deep learnin
             )}
 
             {prediction && (
-              <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-                <h4 className="text-sm font-medium text-gray-300 mb-2">Model Prediction</h4>
+              <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+                <h4 className="text-sm font-medium text-[var(--text)] mb-2">Model Prediction</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-gray-300">Class:</span>
-                    <span className="text-white font-medium">{prediction.class}</span>
+                    <span className="text-[var(--text)]">Class:</span>
+                    <span className="text-[var(--text)] font-medium">{prediction.class}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">Confidence:</span>
-                    <span className="text-green-400 font-medium">{(prediction.confidence * 100).toFixed(2)}%</span>
+                    <span className="text-[var(--text)]">Confidence:</span>
+                    <span className="text-[var(--accent)] font-medium">{(prediction.confidence * 100).toFixed(2)}%</span>
                   </div>
                 </div>
               </div>

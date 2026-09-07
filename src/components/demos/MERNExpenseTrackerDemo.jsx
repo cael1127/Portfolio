@@ -149,15 +149,15 @@ const MERNExpenseTrackerDemo = () => {
 
   const getCategoryColor = (category) => {
     const colors = {
-      Food: 'bg-green-600',
-      Utilities: 'bg-blue-600',
-      Entertainment: 'bg-purple-600',
-      Transportation: 'bg-yellow-600',
-      Health: 'bg-red-600',
-      Shopping: 'bg-pink-600',
-      Other: 'bg-gray-600'
+      Food: 'bg-[var(--accent)]',
+      Utilities: 'bg-[var(--accent)]',
+      Entertainment: 'bg-[var(--accent)]',
+      Transportation: 'bg-[var(--accent)]',
+      Health: 'bg-[var(--accent)]',
+      Shopping: 'bg-[var(--accent)]',
+      Other: 'bg-[var(--border-strong)]'
     };
-    return colors[category] || 'bg-gray-600';
+    return colors[category] || 'bg-[var(--border-strong)]';
   };
 
   const codeData = {
@@ -577,14 +577,14 @@ const ExpenseTracker = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">💰 MERN Expense Tracker Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">💰 MERN Expense Tracker Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Full-stack expense tracking application with budget management, analytics, and beautiful visualizations.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -604,7 +604,7 @@ const ExpenseTracker = () => {
         <div className="space-y-6">
           {/* Add Expense Form */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Add New Expense</h2>
@@ -616,7 +616,7 @@ const ExpenseTracker = () => {
                     value={newExpense.description}
                   onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
                   placeholder="Description"
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   />
                 </div>
                 <div>
@@ -625,14 +625,14 @@ const ExpenseTracker = () => {
                     value={newExpense.amount}
                   onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
                   placeholder="Amount"
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   />
                 </div>
                 <div>
                   <select
                     value={newExpense.category}
                   onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value })}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   >
                   <option value="">Select Category</option>
                   {categories.map(cat => (
@@ -645,14 +645,14 @@ const ExpenseTracker = () => {
                     type="date"
                     value={newExpense.date}
                   onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   />
                 </div>
               </div>
               
             <motion.button
               onClick={handleAddExpense}
-              className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition-colors"
+              className="mt-4 w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] py-3 rounded-lg transition-colors"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -662,14 +662,14 @@ const ExpenseTracker = () => {
 
           {/* Filter */}
           <motion.div 
-            className="bg-gray-800 p-4 rounded-xl"
+            className="bg-[var(--surface)] p-4 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex gap-4">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="p-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                className="p-2 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
               >
                 <option value="all">All Categories</option>
                 {categories.map(cat => (
@@ -681,7 +681,7 @@ const ExpenseTracker = () => {
 
         {/* Expenses List */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Recent Expenses</h2>
@@ -690,7 +690,7 @@ const ExpenseTracker = () => {
               {filteredExpenses.map((expense, index) => (
                 <motion.div
                   key={expense.id}
-                  className="bg-gray-700 p-4 rounded-lg"
+                  className="bg-[var(--surface-2)] p-4 rounded-lg"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
@@ -699,27 +699,27 @@ const ExpenseTracker = () => {
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-bold text-white">{expense.description}</h3>
+                        <h3 className="font-bold text-[var(--text)]">{expense.description}</h3>
                         <span className={`text-xs px-2 py-1 rounded ${getCategoryColor(expense.category)}`}>
                           {expense.category}
                         </span>
                         {expense.recurring && (
-                          <span className="text-xs px-2 py-1 rounded bg-purple-600">
+                          <span className="text-xs px-2 py-1 rounded bg-[var(--accent)]">
                             Recurring
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm text-[var(--muted)]">
                         {new Date(expense.date).toLocaleDateString()} • {expense.paymentMethod}
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xl font-bold text-red-400">
+                      <span className="text-xl font-bold text-[var(--accent)]">
                         ${expense.amount.toFixed(2)}
                       </span>
                     <button
                         onClick={() => handleDeleteExpense(expense.id)}
-                      className="text-red-400 hover:text-red-300 transition-colors"
+                      className="text-[var(--accent)] hover:text-[var(--accent)] transition-colors"
                     >
                         ✕
                     </button>
@@ -735,36 +735,36 @@ const ExpenseTracker = () => {
         <div className="space-y-6">
           {/* Statistics */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📊 Statistics</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 Statistics</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Spent:</span>
-                <span className="text-red-400 font-bold">${stats.totalSpent.toFixed(2)}</span>
+                <span className="text-[var(--muted)]">Total Spent:</span>
+                <span className="text-[var(--accent)] font-bold">${stats.totalSpent.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Monthly Avg:</span>
-                <span className="text-white font-semibold">${stats.monthlyAverage}</span>
+                <span className="text-[var(--muted)]">Monthly Avg:</span>
+                <span className="text-[var(--text)] font-semibold">${stats.monthlyAverage}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Top Category:</span>
-                <span className="text-blue-400 font-semibold">{stats.topCategory}</span>
+                <span className="text-[var(--muted)]">Top Category:</span>
+                <span className="text-[var(--accent)] font-semibold">{stats.topCategory}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Transactions:</span>
-                <span className="text-white font-semibold">{stats.transactionCount}</span>
+                <span className="text-[var(--muted)]">Transactions:</span>
+                <span className="text-[var(--text)] font-semibold">{stats.transactionCount}</span>
               </div>
             </div>
           </motion.div>
 
         {/* Category Breakdown */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📈 By Category</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📈 By Category</h3>
             <div className="space-y-2 text-sm">
             {categories.map(category => {
                 const categoryExpenses = expenses.filter(e => e.category === category);
@@ -776,10 +776,10 @@ const ExpenseTracker = () => {
   return (
                   <div key={category}>
                     <div className="flex justify-between mb-1">
-                      <span className="text-gray-400">{category}</span>
+                      <span className="text-[var(--muted)]">{category}</span>
                       <span className="font-semibold">${total.toFixed(2)}</span>
                   </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div className="w-full bg-[var(--surface-2)] rounded-full h-2">
                       <motion.div
                         className={getCategoryColor(category).replace('bg-', 'bg-') + ' h-2 rounded-full'}
                         initial={{ width: 0 }}
@@ -795,29 +795,29 @@ const ExpenseTracker = () => {
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>User Authentication</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Budget Alerts</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Category Analytics</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Recurring Expenses</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Export Reports</span>
               </li>
             </ul>

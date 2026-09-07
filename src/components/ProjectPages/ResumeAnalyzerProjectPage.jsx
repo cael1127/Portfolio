@@ -482,27 +482,27 @@ const ResumeAnalyzerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           📄 Resume Analyzer
         </h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Upload Section */}
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-blue-400 mb-4">Upload Resume</h3>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Upload Resume</h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text)] mb-2">
                   Job Description (Optional)
                 </label>
                 <textarea
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
                   placeholder="Paste job description for targeted analysis..."
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded text-white resize-none"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded text-[var(--text)] resize-none"
                   rows="4"
                 />
               </div>
@@ -511,7 +511,7 @@ const ResumeAnalyzerDashboard = () => {
                 <button
                   onClick={triggerFileUpload}
                   disabled={isAnalyzing}
-                  className="w-full p-4 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                  className="w-full p-4 bg-[var(--accent)] text-[var(--text)] rounded hover:bg-[var(--accent-deep)] disabled:opacity-50"
                 >
                   {isAnalyzing ? 'Analyzing...' : 'Upload Resume'}
                 </button>
@@ -527,41 +527,41 @@ const ResumeAnalyzerDashboard = () => {
           </div>
 
           {/* Analysis Results */}
-          <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-green-400 mb-4">Analysis Results</h3>
+          <div className="lg:col-span-2 bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Analysis Results</h3>
             
             {!analysis ? (
-              <div className="text-center text-gray-400 py-8">
+              <div className="text-center text-[var(--muted)] py-8">
                 <div className="text-4xl mb-4">📄</div>
                 <p>Upload a resume to see analysis results</p>
               </div>
             ) : (
               <div className="space-y-6">
                 {/* Skills Analysis */}
-                <div className="bg-gray-700 p-4 rounded">
-                  <h4 className="font-semibold text-blue-400 mb-2">Skills Analysis</h4>
+                <div className="bg-[var(--surface-2)] p-4 rounded">
+                  <h4 className="font-semibold text-[var(--accent)] mb-2">Skills Analysis</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-300">Total Skills</p>
+                      <p className="text-sm text-[var(--text)]">Total Skills</p>
                       <p className="text-xl font-bold">{analysis.parsedData.skills?.totalSkills || 0}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-300">Categories</p>
+                      <p className="text-sm text-[var(--text)]">Categories</p>
                       <p className="text-xl font-bold">{Object.keys(analysis.parsedData.skills?.categories || {}).length}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Experience Analysis */}
-                <div className="bg-gray-700 p-4 rounded">
-                  <h4 className="font-semibold text-purple-400 mb-2">Experience Analysis</h4>
+                <div className="bg-[var(--surface-2)] p-4 rounded">
+                  <h4 className="font-semibold text-[var(--accent)] mb-2">Experience Analysis</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-300">Total Experience</p>
+                      <p className="text-sm text-[var(--text)]">Total Experience</p>
                       <p className="text-xl font-bold">{analysis.parsedData.experience?.totalExperience || 0} years</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-300">Positions</p>
+                      <p className="text-sm text-[var(--text)]">Positions</p>
                       <p className="text-xl font-bold">{analysis.parsedData.experience?.experiences?.length || 0}</p>
                     </div>
                   </div>
@@ -569,8 +569,8 @@ const ResumeAnalyzerDashboard = () => {
 
                 {/* Scores */}
                 {analysis.scores && (
-                  <div className="bg-gray-700 p-4 rounded">
-                    <h4 className="font-semibold text-yellow-400 mb-2">Match Scores</h4>
+                  <div className="bg-[var(--surface-2)] p-4 rounded">
+                    <h4 className="font-semibold text-[var(--accent)] mb-2">Match Scores</h4>
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span>Skills Match</span>
@@ -580,7 +580,7 @@ const ResumeAnalyzerDashboard = () => {
                         <span>Experience Match</span>
                         <span className="font-bold">{Math.round(analysis.scores.experience * 100)}%</span>
                       </div>
-                      <div className="flex justify-between text-green-400">
+                      <div className="flex justify-between text-[var(--accent)]">
                         <span>Overall Score</span>
                         <span className="font-bold">{Math.round(analysis.scores.overall * 100)}%</span>
                       </div>
@@ -590,14 +590,14 @@ const ResumeAnalyzerDashboard = () => {
 
                 {/* Recommendations */}
                 {analysis.recommendations && analysis.recommendations.length > 0 && (
-                  <div className="bg-gray-700 p-4 rounded">
-                    <h4 className="font-semibold text-red-400 mb-2">Recommendations</h4>
+                  <div className="bg-[var(--surface-2)] p-4 rounded">
+                    <h4 className="font-semibold text-[var(--accent)] mb-2">Recommendations</h4>
                     <div className="space-y-2">
                       {analysis.recommendations.map((rec, index) => (
                         <div key={index} className="text-sm">
                           <p className="font-semibold">{rec.message}</p>
                           {rec.suggestions && (
-                            <ul className="list-disc list-inside text-gray-300 mt-1">
+                            <ul className="list-disc list-inside text-[var(--text)] mt-1">
                               {rec.suggestions.map((suggestion, idx) => (
                                 <li key={idx}>{suggestion}</li>
                               ))}
@@ -619,18 +619,18 @@ const ResumeAnalyzerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">📄 Resume Analyzer</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">📄 Resume Analyzer</h1>
+          <p className="text-[var(--text)] text-lg">
             AI-powered resume analysis with skills matching, experience evaluation, and personalized recommendations
           </p>
         </div>
@@ -643,8 +643,8 @@ const ResumeAnalyzerDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -654,12 +654,12 @@ const ResumeAnalyzerDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Resume Analyzer is an intelligent system that uses AI and natural language processing 
                   to analyze resumes, extract key information, and provide detailed insights. It offers 
                   skills matching, experience evaluation, and personalized recommendations for career development.
@@ -668,8 +668,8 @@ const ResumeAnalyzerDashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Automated resume parsing and analysis</li>
                     <li>• Skills extraction and categorization</li>
                     <li>• Experience evaluation and scoring</li>
@@ -679,8 +679,8 @@ const ResumeAnalyzerDashboard = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for user interface</li>
                     <li>• Natural Language Processing</li>
                     <li>• PDF and document parsing</li>
@@ -695,12 +695,12 @@ const ResumeAnalyzerDashboard = () => {
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">📄 Document Processing</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📄 Document Processing</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• PDF, DOCX, and TXT support</li>
                     <li>• Text extraction and parsing</li>
                     <li>• Structured data extraction</li>
@@ -709,9 +709,9 @@ const ResumeAnalyzerDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">🧠 AI Analysis</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🧠 AI Analysis</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Skills extraction and categorization</li>
                     <li>• Experience timeline analysis</li>
                     <li>• Education verification</li>
@@ -720,9 +720,9 @@ const ResumeAnalyzerDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">🎯 Job Matching</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🎯 Job Matching</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Skills-to-job matching</li>
                     <li>• Experience relevance scoring</li>
                     <li>• Overall fit calculation</li>
@@ -731,9 +731,9 @@ const ResumeAnalyzerDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">💡 Recommendations</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">💡 Recommendations</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Skills improvement suggestions</li>
                     <li>• Experience enhancement tips</li>
                     <li>• Career development guidance</li>
@@ -747,40 +747,40 @@ const ResumeAnalyzerDashboard = () => {
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Resume Parser</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Resume Parser</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.resumeParser}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Skills Analyzer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Skills Analyzer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.skillsAnalyzer}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Experience Analyzer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Experience Analyzer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.experienceAnalyzer}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -791,13 +791,13 @@ const ResumeAnalyzerDashboard = () => {
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js upload interface</li>
                       <li>• Real-time analysis display</li>
                       <li>• Interactive results visualization</li>
@@ -808,9 +808,9 @@ const ResumeAnalyzerDashboard = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Analysis Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Analysis Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• Document parsing engine</li>
                       <li>• NLP text analysis</li>
                       <li>• Skills extraction algorithms</li>
@@ -821,28 +821,28 @@ const ResumeAnalyzerDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Data Flow</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Data Flow</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">Document Upload</p>
-                      <p className="text-gray-300 text-sm">File validation and text extraction</p>
+                      <p className="text-[var(--text)] font-semibold">Document Upload</p>
+                      <p className="text-[var(--text)] text-sm">File validation and text extraction</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Content Analysis</p>
-                      <p className="text-gray-300 text-sm">Skills, experience, and education extraction</p>
+                      <p className="text-[var(--text)] font-semibold">Content Analysis</p>
+                      <p className="text-[var(--text)] text-sm">Skills, experience, and education extraction</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">Matching & Scoring</p>
-                      <p className="text-gray-300 text-sm">Job description comparison and recommendations</p>
+                      <p className="text-[var(--text)] font-semibold">Matching & Scoring</p>
+                      <p className="text-[var(--text)] text-sm">Job description comparison and recommendations</p>
                     </div>
                   </div>
                 </div>
@@ -852,23 +852,23 @@ const ResumeAnalyzerDashboard = () => {
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the resume analyzer in action. The demo showcases document parsing, 
                 AI-powered analysis, skills matching, and personalized recommendations.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Resume Analyzer Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Resume Analyzer Demo</h3>
                   <button
                     onClick={() => setCurrentPage('resume-analyzer')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full resume analyzer with document parsing, 
                   AI-powered analysis, skills matching, and personalized recommendations.
                 </p>

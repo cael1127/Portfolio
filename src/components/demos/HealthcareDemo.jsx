@@ -119,12 +119,12 @@ const HealthcareDemo = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Healthcare Management</h1>
-          <p className="text-gray-400">Comprehensive healthcare system with patient management</p>
+          <h1 className="text-3xl font-bold text-[var(--text)]">Healthcare Management</h1>
+          <p className="text-[var(--muted)]">Comprehensive healthcare system with patient management</p>
         </div>
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
+          className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded-lg transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -143,7 +143,7 @@ const HealthcareDemo = () => {
         {patients.map((patient, index) => (
           <motion.div 
             key={patient.id}
-            className="bg-gray-800 p-4 rounded-lg"
+            className="bg-[var(--surface)] p-4 rounded-lg"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -151,25 +151,25 @@ const HealthcareDemo = () => {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold text-white">{patient.name}</h3>
+              <h3 className="font-semibold text-[var(--text)]">{patient.name}</h3>
               <span className={`text-xs px-2 py-1 rounded ${
-                patient.status === 'Stable' ? 'bg-green-600 text-green-100' : 
-                patient.status === 'Monitoring' ? 'bg-yellow-600 text-yellow-100' : 
-                'bg-red-600 text-red-100'
+                patient.status === 'Stable' ? 'bg-[var(--accent)] text-[var(--accent)]' : 
+                patient.status === 'Monitoring' ? 'bg-[var(--accent)] text-[var(--accent)]' : 
+                'bg-[var(--accent)] text-[var(--accent)]'
               }`}>
                 {patient.status}
               </span>
             </div>
-            <p className="text-sm text-gray-400">{patient.condition}</p>
-            <p className="text-lg font-bold text-blue-400">{patient.age} years</p>
-            <p className="text-xs text-gray-500 mt-1">Last visit: {patient.lastVisit}</p>
+            <p className="text-sm text-[var(--muted)]">{patient.condition}</p>
+            <p className="text-lg font-bold text-[var(--accent)]">{patient.age} years</p>
+            <p className="text-xs text-[var(--muted)] mt-1">Last visit: {patient.lastVisit}</p>
           </motion.div>
         ))}
       </motion.div>
 
       {/* Appointments */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -180,7 +180,7 @@ const HealthcareDemo = () => {
           {appointments.map((appointment, index) => (
             <motion.div 
               key={appointment.id}
-              className="bg-gray-700 p-4 rounded-lg flex justify-between items-center"
+              className="bg-[var(--surface-2)] p-4 rounded-lg flex justify-between items-center"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -188,19 +188,19 @@ const HealthcareDemo = () => {
               whileHover={{ scale: 1.02, x: 5 }}
             >
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">{appointment.time}</span>
+                <div className="w-10 h-10 bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] rounded-full flex items-center justify-center">
+                  <span className="text-[var(--text)] font-bold text-sm">{appointment.time}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">{appointment.patient}</h3>
-                  <p className="text-sm text-gray-400">with {appointment.doctor}</p>
+                  <h3 className="font-semibold text-[var(--text)]">{appointment.patient}</h3>
+                  <p className="text-sm text-[var(--muted)]">with {appointment.doctor}</p>
                 </div>
               </div>
               <div className="text-right">
                 <span className={`text-xs px-2 py-1 rounded ${
-                  appointment.type === 'Emergency' ? 'bg-red-600 text-red-100' : 
-                  appointment.type === 'Follow-up' ? 'bg-blue-600 text-blue-100' : 
-                  'bg-green-600 text-green-100'
+                  appointment.type === 'Emergency' ? 'bg-[var(--accent)] text-[var(--accent)]' : 
+                  appointment.type === 'Follow-up' ? 'bg-[var(--accent)] text-[var(--accent)]' : 
+                  'bg-[var(--accent)] text-[var(--accent)]'
                 }`}>
                   {appointment.type}
                 </span>
@@ -212,7 +212,7 @@ const HealthcareDemo = () => {
 
       {/* Medical Records */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -223,7 +223,7 @@ const HealthcareDemo = () => {
           {medicalRecords.map((record, index) => (
             <motion.div 
               key={record.id}
-              className="bg-gray-700 p-4 rounded-lg"
+              className="bg-[var(--surface-2)] p-4 rounded-lg"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -232,12 +232,12 @@ const HealthcareDemo = () => {
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-semibold text-white">{record.patient}</h3>
-                  <p className="text-sm text-gray-300">{record.diagnosis}</p>
-                  <p className="text-sm text-gray-400">Treatment: {record.treatment}</p>
+                  <h3 className="font-semibold text-[var(--text)]">{record.patient}</h3>
+                  <p className="text-sm text-[var(--text)]">{record.diagnosis}</p>
+                  <p className="text-sm text-[var(--muted)]">Treatment: {record.treatment}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-400">{record.date}</p>
+                  <p className="text-sm text-[var(--muted)]">{record.date}</p>
                 </div>
               </div>
             </motion.div>

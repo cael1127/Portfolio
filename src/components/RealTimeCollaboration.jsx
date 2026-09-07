@@ -153,15 +153,15 @@ const RealTimeCollaboration = () => {
   };
   
   const containerClass = isEmbedded
-    ? 'space-y-8 text-white'
-    : 'min-h-screen bg-gray-900 text-white p-6';
+    ? 'space-y-8 text-[var(--text)]'
+    : 'min-h-screen bg-[var(--bg)] text-[var(--text)] p-6';
 
   const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
 
   return (
     <div className={containerClass}>
       <div className={innerClass}>
-        <h1 className="text-4xl font-bold text-blue-400 mb-8">
+        <h1 className="text-4xl font-bold text-[var(--accent)] mb-8">
           Real-Time Collaboration Platform
         </h1>
         
@@ -169,18 +169,18 @@ const RealTimeCollaboration = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="space-y-6">
             {/* Active Users */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">👥 Active Users</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">👥 Active Users</h2>
               <div className="space-y-3">
                 {users.map(user => (
                   <div key={user.id} className="flex items-center space-x-3">
                     <div className="text-xl">{user.avatar}</div>
                     <div>
-                      <p className="text-white font-semibold">{user.name}</p>
-                      <p className="text-green-200 text-sm">{user.role}</p>
+                      <p className="text-[var(--text)] font-semibold">{user.name}</p>
+                      <p className="text-[var(--accent)] text-sm">{user.role}</p>
                     </div>
                     <div className={\`w-3 h-3 rounded-full \${
-                      user.status === 'online' ? 'bg-green-400' : 'bg-gray-400'
+                      user.status === 'online' ? 'bg-[var(--accent)]' : 'bg-[var(--border-strong)]'
                     }\`}></div>
                   </div>
                 ))}
@@ -188,14 +188,14 @@ const RealTimeCollaboration = () => {
             </div>
             
             {/* Real-time Chat */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">💬 Live Chat</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">💬 Live Chat</h2>
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {messages.map(message => (
-                  <div key={message.id} className="p-3 bg-blue-800/50 rounded-lg">
-                    <p className="text-white font-semibold">{message.user}</p>
-                    <p className="text-gray-200">{message.message}</p>
-                    <p className="text-gray-400 text-xs">{message.timestamp}</p>
+                  <div key={message.id} className="p-3 bg-[var(--accent-soft)]/50 rounded-lg">
+                    <p className="text-[var(--text)] font-semibold">{message.user}</p>
+                    <p className="text-[var(--text)]">{message.message}</p>
+                    <p className="text-[var(--muted)] text-xs">{message.timestamp}</p>
                   </div>
                 ))}
               </div>
@@ -203,27 +203,27 @@ const RealTimeCollaboration = () => {
           </div>
           
           {/* Collaborative Documents */}
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
-            <h2 className="text-2xl font-bold text-white mb-4">📄 Documents</h2>
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-4">📄 Documents</h2>
             <div className="space-y-3">
               {documents.map(doc => (
-                <div key={doc.id} className="p-3 bg-purple-800/50 rounded-lg">
-                  <p className="text-white font-semibold">{doc.name}</p>
-                  <p className="text-purple-200 text-sm">{doc.type}</p>
-                  <p className="text-purple-300 text-xs">{doc.collaborators} collaborators</p>
+                <div key={doc.id} className="p-3 bg-[var(--accent-soft)]/50 rounded-lg">
+                  <p className="text-[var(--text)] font-semibold">{doc.name}</p>
+                  <p className="text-[var(--accent)] text-sm">{doc.type}</p>
+                  <p className="text-[var(--accent)] text-xs">{doc.collaborators} collaborators</p>
                 </div>
               ))}
             </div>
           </div>
           
           {/* Cursor Positions */}
-          <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl">
-            <h2 className="text-2xl font-bold text-white mb-4">🖱️ Live Cursors</h2>
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-yellow-800 to-[var(--accent-deep)] p-6 rounded-xl">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🖱️ Live Cursors</h2>
             <div className="space-y-3">
               {Object.entries(cursorPositions).map(([user, position]) => (
-                <div key={user} className="p-3 bg-yellow-800/50 rounded-lg">
-                  <p className="text-white font-semibold">{user}</p>
-                  <p className="text-yellow-200 text-sm">
+                <div key={user} className="p-3 bg-[var(--accent-soft)]/50 rounded-lg">
+                  <p className="text-[var(--text)] font-semibold">{user}</p>
+                  <p className="text-[var(--accent)] text-sm">
                     Position: ({position.x.toFixed(1)}, {position.y.toFixed(1)})
                   </p>
                 </div>
@@ -239,18 +239,18 @@ const RealTimeCollaboration = () => {
 export default RealTimeCollaboration;`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-blue-400 mb-2">Real-Time Collaboration Platform</h1>
-              <p className="text-gray-400">Advanced WebSocket, WebRTC, and operational transform for seamless teamwork</p>
+              <h1 className="text-4xl font-bold text-[var(--accent)] mb-2">Real-Time Collaboration Platform</h1>
+              <p className="text-[var(--muted)]">Advanced WebSocket, WebRTC, and operational transform for seamless teamwork</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
             >
               View Code
             </button>
@@ -259,27 +259,27 @@ export default RealTimeCollaboration;`;
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Active Users */}
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between mb-6">
-                              <h2 className="text-2xl font-bold text-white">Active Users</h2>
+                              <h2 className="text-2xl font-bold text-[var(--text)]">Active Users</h2>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-green-400 text-sm">{users.filter(u => u.status === 'online').length} online</span>
+                <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                <span className="text-[var(--accent)] text-sm">{users.filter(u => u.status === 'online').length} online</span>
               </div>
             </div>
             
             <div className="space-y-4">
               {users.map(user => (
-                <div key={user.id} className="flex items-center space-x-4 p-3 bg-green-800/50 rounded-lg">
+                <div key={user.id} className="flex items-center space-x-4 p-3 bg-[var(--accent-soft)]/50 rounded-lg">
                   <div className="text-2xl">{user.avatar}</div>
                   <div className="flex-1">
-                    <p className="text-white font-semibold">{user.name}</p>
-                    <p className="text-green-200 text-sm">{user.role}</p>
-                    <p className="text-green-300 text-xs">{user.lastSeen}</p>
+                    <p className="text-[var(--text)] font-semibold">{user.name}</p>
+                    <p className="text-[var(--accent)] text-sm">{user.role}</p>
+                    <p className="text-[var(--accent)] text-xs">{user.lastSeen}</p>
                   </div>
                   <div className={`w-3 h-3 rounded-full ${
-                    user.status === 'online' ? 'bg-green-400' : 
-                    user.status === 'away' ? 'bg-yellow-400' : 'bg-gray-400'
+                    user.status === 'online' ? 'bg-[var(--accent)]' : 
+                    user.status === 'away' ? 'bg-[var(--accent)]' : 'bg-[var(--border-strong)]'
                   }`}></div>
                 </div>
               ))}
@@ -287,34 +287,34 @@ export default RealTimeCollaboration;`;
           </div>
 
           {/* Real-Time Chat */}
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between mb-6">
-                              <h2 className="text-2xl font-bold text-white">Live Chat</h2>
+                              <h2 className="text-2xl font-bold text-[var(--text)]">Live Chat</h2>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                <span className="text-blue-400 text-sm">Real-time</span>
+                <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                <span className="text-[var(--accent)] text-sm">Real-time</span>
               </div>
             </div>
             
             <div className="space-y-3 max-h-64 overflow-y-auto">
               {messages.map(message => (
                 <div key={message.id} className={`p-3 rounded-lg ${
-                  message.type === 'success' ? 'bg-green-800/50' :
-                  message.type === 'info' ? 'bg-blue-800/50' :
-                  'bg-gray-800/50'
+                  message.type === 'success' ? 'bg-[var(--accent-soft)]/50' :
+                  message.type === 'info' ? 'bg-[var(--accent-soft)]/50' :
+                  'bg-[var(--surface)]/50'
                 }`}>
                   <div className="flex justify-between items-start mb-2">
-                    <p className="text-white font-semibold">{message.user}</p>
-                    <span className="text-gray-300 text-xs">{message.timestamp}</span>
+                    <p className="text-[var(--text)] font-semibold">{message.user}</p>
+                    <span className="text-[var(--text)] text-xs">{message.timestamp}</span>
                   </div>
-                  <p className="text-gray-200 text-sm">{message.message}</p>
+                  <p className="text-[var(--text)] text-sm">{message.message}</p>
                 </div>
               ))}
             </div>
             
             {userTyping && (
-              <div className="mt-3 p-2 bg-gray-800/50 rounded-lg">
-                <p className="text-gray-400 text-sm italic">
+              <div className="mt-3 p-2 bg-[var(--surface)]/50 rounded-lg">
+                <p className="text-[var(--muted)] text-sm italic">
                   {userTyping} is typing...
                 </p>
               </div>
@@ -322,25 +322,25 @@ export default RealTimeCollaboration;`;
           </div>
 
           {/* Collaborative Documents */}
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Documents</h2>
+              <h2 className="text-2xl font-bold text-[var(--text)]">Documents</h2>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                <span className="text-purple-400 text-sm">Live editing</span>
+                <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                <span className="text-[var(--accent)] text-sm">Live editing</span>
               </div>
             </div>
             
             <div className="space-y-4">
               {documents.map(doc => (
-                <div key={doc.id} className="p-4 bg-purple-800/50 rounded-lg">
+                <div key={doc.id} className="p-4 bg-[var(--accent-soft)]/50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-white font-semibold">{doc.name}</h3>
-                    <span className="text-purple-200 text-sm">{doc.type}</span>
+                    <h3 className="text-[var(--text)] font-semibold">{doc.name}</h3>
+                    <span className="text-[var(--accent)] text-sm">{doc.type}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-purple-300">{doc.collaborators} collaborators</span>
-                    <span className="text-purple-300">{doc.lastEdited}</span>
+                    <span className="text-[var(--accent)]">{doc.collaborators} collaborators</span>
+                    <span className="text-[var(--accent)]">{doc.lastEdited}</span>
                   </div>
                 </div>
               ))}
@@ -349,12 +349,12 @@ export default RealTimeCollaboration;`;
         </div>
 
         {/* Advanced Features */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+          <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">WebSocket Integration</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">WebSocket Integration</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Real-time bidirectional communication</li>
                 <li>• Automatic reconnection handling</li>
                 <li>• Message queuing and delivery</li>
@@ -362,8 +362,8 @@ export default RealTimeCollaboration;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">WebRTC Implementation</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">WebRTC Implementation</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Peer-to-peer video/audio calls</li>
                 <li>• Screen sharing capabilities</li>
                 <li>• ICE candidate handling</li>
@@ -371,8 +371,8 @@ export default RealTimeCollaboration;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Operational Transform</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Operational Transform</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Conflict-free document editing</li>
                 <li>• Real-time cursor synchronization</li>
                 <li>• Version control integration</li>

@@ -43,8 +43,8 @@ const RelatedPosts = ({ currentPost, posts, setCurrentPage }) => {
   if (relatedPosts.length === 0) return null;
 
   return (
-    <div className="border-t border-gray-700 pt-8">
-      <h2 className="text-2xl font-bold text-white mb-6">Related Posts</h2>
+    <div className="border-t border-[var(--border)] pt-8">
+      <h2 className="text-2xl font-bold text-[var(--text)] mb-6">Related Posts</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {relatedPosts.map((post, index) => (
           <motion.div

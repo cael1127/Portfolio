@@ -646,14 +646,14 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🛒 E-commerce Platform Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🛒 E-commerce Platform Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Full-featured online store with product catalog, shopping cart, and secure payment processing powered by Stripe.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -673,35 +673,35 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
         <div className="space-y-6">
           {/* Search and Filters */}
           <motion.div
-            className="bg-gray-800 p-6 rounded-xl space-y-6"
+            className="bg-[var(--surface)] p-6 rounded-xl space-y-6"
             variants={itemVariants}
           >
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
               <div className="flex-1 min-w-0">
-                <label className="block text-sm text-gray-400 mb-2 uppercase tracking-wide">
+                <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wide">
                   Search catalog
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-lg">🔍</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)] text-lg">🔍</span>
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Find products, categories, or features"
-                    className="w-full pl-10 pr-4 py-3 bg-gray-700/80 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-emerald-400/60"
+                    className="w-full pl-10 pr-4 py-3 bg-[var(--surface-2)]/80 border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/60 focus:border-[var(--accent)]/60"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 lg:w-auto">
                 <div className="sm:w-44">
-                  <label className="block text-sm text-gray-400 mb-2 uppercase tracking-wide">
+                  <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wide">
                     Sort by
                   </label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-700/80 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-emerald-400/60"
+                    className="w-full px-3 py-3 bg-[var(--surface-2)]/80 border border-[var(--border-strong)] rounded-lg text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/60 focus:border-[var(--accent)]/60"
                   >
                     <option value="featured">Featured</option>
                     <option value="price-low">Price: Low to High</option>
@@ -711,17 +711,17 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                 </div>
 
                 <div className="sm:w-40">
-                  <label className="block text-sm text-gray-400 mb-2 uppercase tracking-wide">
+                  <label className="block text-sm text-[var(--muted)] mb-2 uppercase tracking-wide">
                     Layout
                   </label>
-                  <div className="flex rounded-lg overflow-hidden border border-gray-600">
+                  <div className="flex rounded-lg overflow-hidden border border-[var(--border-strong)]">
                     <button
                       type="button"
                       onClick={() => setViewMode('grid')}
                       className={`flex-1 px-3 py-2 text-sm transition-colors ${
                         isListView
-                          ? 'bg-gray-800 text-gray-400 hover:text-white'
-                          : 'bg-emerald-500/20 text-emerald-200'
+                          ? 'bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)]'
+                          : 'bg-[var(--accent)]/20 text-[var(--accent)]'
                       }`}
                     >
                       Grid
@@ -731,8 +731,8 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                       onClick={() => setViewMode('list')}
                       className={`flex-1 px-3 py-2 text-sm transition-colors ${
                         isListView
-                          ? 'bg-emerald-500/20 text-emerald-200'
-                          : 'bg-gray-800 text-gray-400 hover:text-white'
+                          ? 'bg-[var(--accent)]/20 text-[var(--accent)]'
+                          : 'bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)]'
                       }`}
                     >
                       List
@@ -753,38 +753,38 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                     onClick={() => setSelectedCategory(cat)}
                     className={`whitespace-nowrap px-4 py-2 rounded-full border text-sm transition-colors ${
                       isActive
-                        ? 'bg-emerald-500/20 border-emerald-300 text-emerald-200 shadow-inner'
-                        : 'bg-gray-700/60 border-gray-600 text-gray-300 hover:text-white hover:border-gray-500'
+                        ? 'bg-[var(--accent)]/20 border-[var(--accent)] text-[var(--accent)] shadow-inner'
+                        : 'bg-[var(--surface-2)]/60 border-[var(--border-strong)] text-[var(--text)] hover:text-[var(--text)] hover:border-[var(--border-strong)]'
                     }`}
                   >
                     {cat === 'all' ? 'All Products' : cat}
-                    <span className="ml-2 text-xs text-gray-400">{count}</span>
+                    <span className="ml-2 text-xs text-[var(--muted)]">{count}</span>
                   </button>
                 );
               })}
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3">
-              <div className="bg-gray-900/60 border border-gray-700 rounded-lg px-4 py-3">
-                <p className="text-xs uppercase tracking-wide text-gray-400">Showing</p>
-                <p className="text-lg font-semibold text-white">{totalVisibleProducts}</p>
-                <p className="text-xs text-gray-500">{displayedCategoryLabel}</p>
+              <div className="bg-[var(--bg)]/60 border border-[var(--border)] rounded-lg px-4 py-3">
+                <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Showing</p>
+                <p className="text-lg font-semibold text-[var(--text)]">{totalVisibleProducts}</p>
+                <p className="text-xs text-[var(--muted)]">{displayedCategoryLabel}</p>
               </div>
-              <div className="bg-gray-900/60 border border-gray-700 rounded-lg px-4 py-3">
-                <p className="text-xs uppercase tracking-wide text-gray-400">Sort mode</p>
-                <p className="text-lg font-semibold text-white">{sortDescription}</p>
-                <p className="text-xs text-gray-500">Tailored per preference</p>
+              <div className="bg-[var(--bg)]/60 border border-[var(--border)] rounded-lg px-4 py-3">
+                <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Sort mode</p>
+                <p className="text-lg font-semibold text-[var(--text)]">{sortDescription}</p>
+                <p className="text-xs text-[var(--muted)]">Tailored per preference</p>
               </div>
-              <div className="bg-gray-900/60 border border-gray-700 rounded-lg px-4 py-3">
-                <p className="text-xs uppercase tracking-wide text-gray-400">In cart</p>
-                <p className="text-lg font-semibold text-white">{cartItemCount} items</p>
-                <p className="text-xs text-gray-500">{formatCurrency(cartValue)}</p>
+              <div className="bg-[var(--bg)]/60 border border-[var(--border)] rounded-lg px-4 py-3">
+                <p className="text-xs uppercase tracking-wide text-[var(--muted)]">In cart</p>
+                <p className="text-lg font-semibold text-[var(--text)]">{cartItemCount} items</p>
+                <p className="text-xs text-[var(--muted)]">{formatCurrency(cartValue)}</p>
               </div>
             </div>
 
             {hasActiveFilters && (
               <div className="flex justify-between flex-col gap-3 sm:flex-row sm:items-center">
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-[var(--muted)]">
                   Filters active. Showing curated results for your selection.
                 </p>
                 <button
@@ -794,7 +794,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                     setSearchQuery('');
                     setSortBy('featured');
                   }}
-                  className="inline-flex items-center gap-2 text-sm text-emerald-300 hover:text-emerald-200"
+                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:text-[var(--accent)]"
                 >
                   Reset filters
                 </button>
@@ -804,25 +804,25 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
 
           {/* Products Grid */}
           <motion.div
-            className="bg-gray-800 p-6 rounded-xl space-y-6"
+            className="bg-[var(--surface)] p-6 rounded-xl space-y-6"
             variants={itemVariants}
           >
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-white">{displayedCategoryLabel}</h2>
-                <p className="text-sm text-gray-400">
+                <h2 className="text-2xl font-bold text-[var(--text)]">{displayedCategoryLabel}</h2>
+                <p className="text-sm text-[var(--muted)]">
                   {totalVisibleProducts} {totalVisibleProducts === 1 ? 'product' : 'products'} visible • {sortDescription}
                   {searchQuery.trim() ? ` • Matching “${searchQuery.trim()}”` : ''}
                 </p>
               </div>
               {filteredProducts.length > 0 && (
-                <div className="flex items-center gap-3 text-xs text-gray-500">
+                <div className="flex items-center gap-3 text-xs text-[var(--muted)]">
                   <span className="flex items-center gap-1">
-                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />
+                    <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent)]" />
                     In stock
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="inline-block w-2 h-2 rounded-full bg-yellow-400" />
+                    <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent)]" />
                     Featured
                   </span>
                 </div>
@@ -830,9 +830,9 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
             </div>
 
             {filteredProducts.length === 0 ? (
-              <div className="border border-dashed border-gray-600 rounded-xl py-16 text-center">
-                <p className="text-lg font-semibold text-gray-300 mb-2">No products found</p>
-                <p className="text-sm text-gray-500">
+              <div className="border border-dashed border-[var(--border-strong)] rounded-xl py-16 text-center">
+                <p className="text-lg font-semibold text-[var(--text)] mb-2">No products found</p>
+                <p className="text-sm text-[var(--muted)]">
                   Try adjusting your filters or search to explore more of the catalog.
                 </p>
               </div>
@@ -843,7 +843,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                   return (
                     <motion.div
                       key={product.id}
-                      className={`group relative border border-gray-700/70 bg-gray-900/70 rounded-xl p-5 transition-all duration-300 hover:border-emerald-400/70 hover:shadow-lg hover:shadow-emerald-500/10 ${
+                      className={`group relative border border-[var(--border)]/70 bg-[var(--bg)]/70 rounded-xl p-5 transition-all duration-300 hover:border-[var(--accent)]/70 hover:shadow-lg hover:shadow-emerald-500/10 ${
                         isListView ? 'flex flex-col gap-5 md:flex-row md:items-start' : 'flex flex-col gap-5'
                       }`}
                       initial={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -852,7 +852,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                       whileHover={{ translateY: -4 }}
                     >
                       <div
-                        className={`flex items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500/20 via-transparent to-emerald-500/10 text-4xl text-emerald-200 shadow-inner ${
+                        className={`flex items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 via-transparent to-[var(--accent)]/10 text-4xl text-[var(--accent)] shadow-inner ${
                           isListView ? 'w-20 h-20 md:w-24 md:h-24' : 'w-20 h-20 self-start'
                         }`}
                       >
@@ -862,11 +862,11 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                       <div className={`flex-1 space-y-4 ${isListView ? 'md:pr-6' : ''}`}>
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <h3 className="text-lg font-semibold text-white">{product.name}</h3>
-                            <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-wide text-gray-400">
+                            <h3 className="text-lg font-semibold text-[var(--text)]">{product.name}</h3>
+                            <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-wide text-[var(--muted)]">
                               <span>{product.category}</span>
                               {product.featured && (
-                                <span className="inline-flex items-center gap-1 bg-yellow-500/20 text-yellow-200 px-2 py-0.5 rounded-full">
+                                <span className="inline-flex items-center gap-1 bg-[var(--accent)]/20 text-[var(--accent)] px-2 py-0.5 rounded-full">
                                   <span>⭐</span>
                                   Featured
                                 </span>
@@ -875,18 +875,18 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                           </div>
                         </div>
 
-                        <p className="text-sm text-gray-300 leading-relaxed line-clamp-3">
+                        <p className="text-sm text-[var(--text)] leading-relaxed line-clamp-3">
                           {product.description}
                         </p>
 
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400">
-                          <span className="flex items-center gap-1 text-yellow-300 font-medium">
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--muted)]">
+                          <span className="flex items-center gap-1 text-[var(--accent)] font-medium">
                             ★ {product.rating.toFixed(1)}
                           </span>
                           <span>•</span>
                           <span>{product.reviews.toLocaleString()} reviews</span>
                           <span>•</span>
-                          <span className={product.stock === 0 ? 'text-red-300' : isLowStock ? 'text-yellow-300' : 'text-gray-400'}>
+                          <span className={product.stock === 0 ? 'text-[var(--accent)]' : isLowStock ? 'text-[var(--accent)]' : 'text-[var(--muted)]'}>
                             {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
                           </span>
                         </div>
@@ -895,16 +895,16 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                       <div className={`${isListView ? 'md:w-48' : 'w-full'} flex flex-col gap-3`}>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-emerald-400">
+                            <span className="text-2xl font-bold text-[var(--accent)]">
                               {formatCurrency(product.price)}
                             </span>
                             {product.originalPrice > product.price && (
-                              <span className="text-sm text-gray-500 line-through">
+                              <span className="text-sm text-[var(--muted)] line-through">
                                 {formatCurrency(product.originalPrice)}
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-[var(--muted)] mt-1">
                             {product.stock === 0
                               ? 'Currently unavailable'
                               : isLowStock
@@ -920,8 +920,8 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                             disabled={product.stock === 0}
                             className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                               product.stock === 0
-                                ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                                : 'bg-emerald-500 text-gray-900 hover:bg-emerald-400'
+                                ? 'bg-[var(--surface-2)] text-[var(--muted)] cursor-not-allowed'
+                                : 'bg-[var(--accent)] text-[var(--muted)] hover:bg-[var(--accent)]'
                             }`}
                             whileHover={product.stock === 0 ? undefined : { scale: 1.02 }}
                             whileTap={product.stock === 0 ? undefined : { scale: 0.97 }}
@@ -931,7 +931,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                           </motion.button>
                           <button
                             type="button"
-                            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-gray-600 text-sm text-gray-300 hover:text-white hover:border-emerald-400 transition-colors"
+                            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-[var(--border-strong)] text-sm text-[var(--text)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-colors"
                           >
                             Quick view
                           </button>
@@ -949,29 +949,29 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
         <div className="space-y-6">
           {/* Shopping Cart */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">
               🛒 Cart ({cartItemCount})
             </h3>
             
             {cart.length === 0 ? (
-              <p className="text-gray-400 text-sm text-center py-8">Your cart is empty</p>
+              <p className="text-[var(--muted)] text-sm text-center py-8">Your cart is empty</p>
             ) : (
               <>
                 <div className="space-y-3 mb-4 max-h-96 overflow-y-auto">
                   {cart.map(item => (
-                    <div key={item.id} className="bg-gray-700 p-3 rounded-lg">
+                    <div key={item.id} className="bg-[var(--surface-2)] p-3 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl">{item.image}</span>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold truncate">{item.name}</p>
-                          <p className="text-xs text-gray-400">{formatCurrency(item.price)}</p>
+                          <p className="text-xs text-[var(--muted)]">{formatCurrency(item.price)}</p>
         </div>
                         <button
                           onClick={() => handleRemoveFromCart(item.id)}
-                          className="text-red-400 hover:text-red-300 text-sm"
+                          className="text-[var(--accent)] hover:text-[var(--accent)] text-sm"
                         >
                           ✕
                         </button>
@@ -982,7 +982,7 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                     <button 
                             aria-label={`Decrease quantity of ${item.name}`}
                             onClick={() => handleUpdateQuantity(item.id, -1)}
-                            className="bg-gray-600 hover:bg-gray-500 w-6 h-6 rounded flex items-center justify-center text-sm"
+                            className="bg-[var(--border-strong)] hover:bg-[var(--border-strong)] w-6 h-6 rounded flex items-center justify-center text-sm"
                     >
                             −
                     </button>
@@ -990,12 +990,12 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                     <button 
                             aria-label={`Increase quantity of ${item.name}`}
                             onClick={() => handleUpdateQuantity(item.id, 1)}
-                            className="bg-gray-600 hover:bg-gray-500 w-6 h-6 rounded flex items-center justify-center text-sm"
+                            className="bg-[var(--border-strong)] hover:bg-[var(--border-strong)] w-6 h-6 rounded flex items-center justify-center text-sm"
                     >
                       +
                     </button>
                   </div>
-                        <span className="text-sm font-bold text-green-400">
+                        <span className="text-sm font-bold text-[var(--accent)]">
                           {formatCurrency(item.price * item.quantity)}
                         </span>
                 </div>
@@ -1003,14 +1003,14 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
                   ))}
             </div>
 
-                <div className="border-t border-gray-700 pt-4 space-y-3">
+                <div className="border-t border-[var(--border)] pt-4 space-y-3">
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total:</span>
-                    <span className="text-green-400">{formatCurrency(cartValue)}</span>
+                    <span className="text-[var(--accent)]">{formatCurrency(cartValue)}</span>
       </div>
 
                   <motion.button
-                    className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition-colors"
+                    className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] py-3 rounded-lg transition-colors"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -1023,29 +1023,29 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Secure Payments</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Inventory</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Product Reviews</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Order Tracking</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Wishlist</span>
               </li>
             </ul>
@@ -1053,26 +1053,26 @@ app.listen(3000, () => console.log('Server running on port 3000'));`,
 
           {/* Stats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📊 Store Stats</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 Store Stats</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Products:</span>
-                <span className="text-white font-semibold">{products.length}</span>
+                <span className="text-[var(--muted)]">Products:</span>
+                <span className="text-[var(--text)] font-semibold">{products.length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Categories:</span>
-                <span className="text-white font-semibold">{categories.length - 1}</span>
+                <span className="text-[var(--muted)]">Categories:</span>
+                <span className="text-[var(--text)] font-semibold">{categories.length - 1}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Cart Items:</span>
-                <span className="text-emerald-300 font-semibold">{cartItemCount}</span>
+                <span className="text-[var(--muted)]">Cart Items:</span>
+                <span className="text-[var(--accent)] font-semibold">{cartItemCount}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Cart Value:</span>
-                <span className="text-emerald-300 font-semibold">{formatCurrency(cartValue)}</span>
+                <span className="text-[var(--muted)]">Cart Value:</span>
+                <span className="text-[var(--accent)] font-semibold">{formatCurrency(cartValue)}</span>
               </div>
             </div>
           </motion.div>

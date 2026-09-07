@@ -363,14 +363,14 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🎨 Portfolio Builder Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🎨 Portfolio Builder Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Create beautiful, professional portfolios with no coding required. Choose a template, customize, and deploy instantly.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -390,23 +390,23 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
         <div className="space-y-6">
           {/* Progress Steps */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex justify-between items-center">
               {steps.map((step, index) => (
                 <div key={step.id} className="flex items-center">
-                  <div className={`flex flex-col items-center ${index === currentStep ? 'text-blue-400' : 'text-gray-500'}`}>
+                  <div className={`flex flex-col items-center ${index === currentStep ? 'text-[var(--accent)]' : 'text-[var(--muted)]'}`}>
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-2 ${
-                      index === currentStep ? 'bg-blue-600' : 
-                      index < currentStep ? 'bg-green-600' : 'bg-gray-700'
+                      index === currentStep ? 'bg-[var(--accent)]' : 
+                      index < currentStep ? 'bg-[var(--accent)]' : 'bg-[var(--surface-2)]'
                     }`}>
                       {step.icon}
                       </div>
                     <span className="text-xs font-medium">{step.title}</span>
                         </div>
                   {index < steps.length - 1 && (
-                    <div className={`h-0.5 w-12 mx-2 ${index < currentStep ? 'bg-green-600' : 'bg-gray-700'}`} />
+                    <div className={`h-0.5 w-12 mx-2 ${index < currentStep ? 'bg-[var(--accent)]' : 'bg-[var(--surface-2)]'}`} />
                   )}
                   </div>
                 ))}
@@ -416,7 +416,7 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
           {/* Template Selection */}
           {currentStep === 0 && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
@@ -430,7 +430,7 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
                     className={`p-6 rounded-lg transition-all ${
                       selectedTemplate === template.id
                         ? `bg-${template.color}-600 ring-2 ring-${template.color}-400`
-                        : 'bg-gray-700 hover:bg-gray-650'
+                        : 'bg-[var(--surface-2)] hover:bg-[var(--border-strong)]'
                     }`}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -439,7 +439,7 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
                   >
                     <div className="text-5xl mb-3">{template.icon}</div>
                     <h3 className="font-bold text-lg">{template.name}</h3>
-                    <p className="text-sm text-gray-300 mt-1">
+                    <p className="text-sm text-[var(--text)] mt-1">
                       {template.name} portfolio design
                     </p>
                   </motion.button>
@@ -451,7 +451,7 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
           {/* Personal Info Form */}
           {currentStep === 1 && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
@@ -459,36 +459,36 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                  <label className="block text-sm font-medium text-[var(--text)] mb-2">Full Name</label>
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   />
                     </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Professional Title</label>
+                  <label className="block text-sm font-medium text-[var(--text)] mb-2">Professional Title</label>
                   <input
                     type="text"
                     placeholder="Full-Stack Developer"
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   />
                     </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                    <label className="block text-sm font-medium text-[var(--text)] mb-2">Email</label>
                     <input
                       type="email"
                       placeholder="john@example.com"
-                      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                      className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                     />
                     </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+                    <label className="block text-sm font-medium text-[var(--text)] mb-2">Phone</label>
                     <input
                       type="tel"
                       placeholder="+1 (555) 123-4567"
-                      className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                      className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                     />
                     </div>
                   </div>
@@ -498,13 +498,13 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
 
           {/* Navigation */}
           <motion.div 
-            className="bg-gray-800 p-4 rounded-xl flex justify-between"
+            className="bg-[var(--surface)] p-4 rounded-xl flex justify-between"
             variants={itemVariants}
           >
             <motion.button
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className="bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 px-6 py-2 rounded-lg transition-colors"
+              className="bg-[var(--surface-2)] hover:bg-[var(--border-strong)] disabled:bg-[var(--surface)] disabled:text-[var(--muted)] px-6 py-2 rounded-lg transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -514,7 +514,7 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
             <motion.button
               onClick={handleNext}
               disabled={currentStep === steps.length - 1}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-800 disabled:text-gray-600 px-6 py-2 rounded-lg transition-colors"
+              className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--surface)] disabled:text-[var(--muted)] px-6 py-2 rounded-lg transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -527,12 +527,12 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
         <div className="space-y-6">
           {/* Preview */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">👁️ Live Preview</h3>
-            <div className="bg-gray-700 rounded-lg p-4 aspect-[3/4] flex items-center justify-center">
-              <p className="text-gray-400 text-sm text-center">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">👁️ Live Preview</h3>
+            <div className="bg-[var(--surface-2)] rounded-lg p-4 aspect-[3/4] flex items-center justify-center">
+              <p className="text-[var(--muted)] text-sm text-center">
                 Preview will appear here as you build
               </p>
                   </div>
@@ -540,27 +540,27 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
 
           {/* Actions */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">📥 Export</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📥 Export</h3>
             <div className="space-y-2">
               <motion.button
-                className="w-full bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 📄 Download PDF
               </motion.button>
               <motion.button
-                className="w-full bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 💾 Download HTML
               </motion.button>
               <motion.button
-                className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -571,29 +571,29 @@ export { PortfolioBuilder, exportToPDF, exportToHTML, deployPortfolio };`,
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>No Coding Required</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>10+ Templates</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Live Preview</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Export Options</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>One-Click Deploy</span>
               </li>
               </ul>

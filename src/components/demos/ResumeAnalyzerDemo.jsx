@@ -54,9 +54,9 @@ const ResumeAnalyzerDemo = () => {
   };
 
   const getScoreColor = (score) => {
-    if (score >= 80) return 'text-green-400';
-    if (score >= 60) return 'text-yellow-400';
-    return 'text-red-400';
+    if (score >= 80) return 'text-[var(--accent)]';
+    if (score >= 60) return 'text-[var(--accent)]';
+    return 'text-[var(--accent)]';
   };
 
   const codeData = {
@@ -474,14 +474,14 @@ Provide specific rewrites for key sections."""
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">📄 Resume Analyzer Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">📄 Resume Analyzer Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           AI-powered resume analysis with comprehensive scoring, ATS compatibility check, and actionable improvement suggestions.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -501,7 +501,7 @@ Provide specific rewrites for key sections."""
         <div className="space-y-6">
           {/* Upload Section */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Upload Resume</h2>
@@ -512,10 +512,10 @@ Provide specific rewrites for key sections."""
                   type="file"
                   accept=".pdf,.doc,.docx"
                   onChange={handleFileSelect}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[var(--accent)] file:text-[var(--text)] hover:file:bg-[var(--accent-deep)]"
                 />
                 {selectedFile && (
-                  <p className="text-sm text-gray-400 mt-2">
+                  <p className="text-sm text-[var(--muted)] mt-2">
                     Selected: {selectedFile.name}
                   </p>
                 )}
@@ -524,13 +524,13 @@ Provide specific rewrites for key sections."""
               <motion.button
                 onClick={handleAnalyze}
                 disabled={!selectedFile || isAnalyzing}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] text-[var(--text)] py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {isAnalyzing ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[var(--border-strong)]"></div>
                     <span>Analyzing...</span>
                   </>
                 ) : (
@@ -548,7 +548,7 @@ Provide specific rewrites for key sections."""
             <>
               {/* Overall Score */}
               <motion.div 
-                className="bg-gray-800 p-6 rounded-xl"
+                className="bg-[var(--surface)] p-6 rounded-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -564,7 +564,7 @@ Provide specific rewrites for key sections."""
                         stroke="currentColor"
                         strokeWidth="12"
                         fill="transparent"
-                        className="text-gray-700"
+                        className="text-[var(--muted)]"
                       />
                       <motion.circle
                         cx="80"
@@ -592,7 +592,7 @@ Provide specific rewrites for key sections."""
 
               {/* Section Scores */}
               <motion.div 
-                className="bg-gray-800 p-6 rounded-xl"
+                className="bg-[var(--surface)] p-6 rounded-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -612,19 +612,19 @@ Provide specific rewrites for key sections."""
                           {data.score}/100
                         </span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-[var(--surface-2)] rounded-full h-2">
                         <motion.div
                           className={`h-2 rounded-full ${
-                            data.score >= 80 ? 'bg-green-500' :
-                            data.score >= 60 ? 'bg-yellow-500' :
-                            'bg-red-500'
+                            data.score >= 80 ? 'bg-[var(--accent)]' :
+                            data.score >= 60 ? 'bg-[var(--accent)]' :
+                            'bg-[var(--accent)]'
                           }`}
                           initial={{ width: 0 }}
                           animate={{ width: `${data.score}%` }}
                           transition={{ duration: 0.5, delay: index * 0.1 }}
                         />
                       </div>
-                      <p className="text-sm text-gray-400 mt-1">{data.feedback}</p>
+                      <p className="text-sm text-[var(--muted)] mt-1">{data.feedback}</p>
                     </motion.div>
                 ))}
               </div>
@@ -636,36 +636,36 @@ Provide specific rewrites for key sections."""
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <div className="bg-gray-800 p-6 rounded-xl">
-                  <h3 className="text-xl font-bold mb-4 text-green-400">✓ Strengths</h3>
+                <div className="bg-[var(--surface)] p-6 rounded-xl">
+                  <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✓ Strengths</h3>
                   <ul className="space-y-2">
                     {analysisResults.strengths.map((strength, i) => (
                       <motion.li
                         key={i}
-                        className="text-sm text-gray-300 flex items-start gap-2"
+                        className="text-sm text-[var(--text)] flex items-start gap-2"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        <span className="text-green-400">•</span>
+                        <span className="text-[var(--accent)]">•</span>
                         <span>{strength}</span>
                       </motion.li>
                     ))}
                   </ul>
             </div>
 
-                <div className="bg-gray-800 p-6 rounded-xl">
-                  <h3 className="text-xl font-bold mb-4 text-yellow-400">⚠ Improvements</h3>
+                <div className="bg-[var(--surface)] p-6 rounded-xl">
+                  <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">⚠ Improvements</h3>
                   <ul className="space-y-2">
                     {analysisResults.improvements.map((improvement, i) => (
                       <motion.li
                         key={i}
-                        className="text-sm text-gray-300 flex items-start gap-2"
+                        className="text-sm text-[var(--text)] flex items-start gap-2"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        <span className="text-yellow-400">•</span>
+                        <span className="text-[var(--accent)]">•</span>
                         <span>{improvement}</span>
                       </motion.li>
                     ))}
@@ -681,15 +681,15 @@ Provide specific rewrites for key sections."""
           {/* ATS Score */}
           {analysisResults && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
             >
-              <h3 className="text-xl font-bold mb-4 text-purple-400">🤖 ATS Score</h3>
+              <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🤖 ATS Score</h3>
               <div className="text-center">
                 <div className={`text-5xl font-bold mb-2 ${getScoreColor(analysisResults.atsCompatibility)}`}>
                   {analysisResults.atsCompatibility}%
                     </div>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-[var(--muted)]">
                   {analysisResults.atsCompatibility >= 80 ? 'Excellent' :
                    analysisResults.atsCompatibility >= 60 ? 'Good' :
                    'Needs Improvement'}
@@ -701,16 +701,16 @@ Provide specific rewrites for key sections."""
           {/* Keywords */}
           {analysisResults && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
             >
-              <h3 className="text-xl font-bold mb-4 text-blue-400">🔑 Keywords</h3>
+              <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🔑 Keywords</h3>
               
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-green-400 mb-2">Matched</h4>
+                <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Matched</h4>
                   <div className="flex flex-wrap gap-2">
                   {analysisResults.matchedKeywords.map((keyword, i) => (
-                    <span key={i} className="text-xs bg-green-600 px-2 py-1 rounded">
+                    <span key={i} className="text-xs bg-[var(--accent)] px-2 py-1 rounded">
                       {keyword}
                       </span>
                     ))}
@@ -718,10 +718,10 @@ Provide specific rewrites for key sections."""
                   </div>
                   
               <div>
-                <h4 className="text-sm font-semibold text-red-400 mb-2">Missing</h4>
+                <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Missing</h4>
                   <div className="flex flex-wrap gap-2">
                   {analysisResults.missingKeywords.map((keyword, i) => (
-                    <span key={i} className="text-xs bg-red-600 px-2 py-1 rounded">
+                    <span key={i} className="text-xs bg-[var(--accent)] px-2 py-1 rounded">
                         {keyword}
                       </span>
                     ))}
@@ -732,25 +732,25 @@ Provide specific rewrites for key sections."""
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>AI-Powered Analysis</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>ATS Compatibility</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Keyword Matching</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Detailed Feedback</span>
               </li>
               </ul>

@@ -356,14 +356,14 @@ export default AudioTranscriptionService;`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🎙️ Audio Transcription Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🎙️ Audio Transcription Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Convert speech to text using advanced AI models. Upload audio files and get accurate transcriptions with timestamps and confidence scores.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -383,33 +383,33 @@ export default AudioTranscriptionService;`,
         <div className="space-y-6">
           {/* Upload Section */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Upload Audio</h2>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[var(--text)] mb-2">
                   Select Audio File
                 </label>
                 <input
                   type="file"
                   accept="audio/*"
                   onChange={handleFileSelect}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[var(--accent)] file:text-[var(--text)] hover:file:bg-[var(--accent-deep)]"
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-[var(--text)] mb-2">
                     Language
                   </label>
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   >
                     <option value="en-US">English (US)</option>
                     <option value="en-GB">English (UK)</option>
@@ -422,13 +422,13 @@ export default AudioTranscriptionService;`,
                 </div>
 
     <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-[var(--text)] mb-2">
                     Audio Format
                   </label>
                   <select
                     value={audioFormat}
                     onChange={(e) => setAudioFormat(e.target.value)}
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                   >
                     <option value="wav">WAV</option>
                     <option value="mp3">MP3</option>
@@ -441,13 +441,13 @@ export default AudioTranscriptionService;`,
               <motion.button
                 onClick={handleTranscribe}
                 disabled={!selectedFile || isTranscribing}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] text-[var(--text)] py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {isTranscribing ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[var(--border-strong)]"></div>
                     <span>Transcribing...</span>
                   </>
                 ) : (
@@ -463,29 +463,29 @@ export default AudioTranscriptionService;`,
           {/* Transcription Result */}
           {transcription && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Transcription Result</h2>
-                <div className="text-sm text-gray-400">
-                  Confidence: <span className="text-green-400 font-semibold">{(confidence * 100).toFixed(1)}%</span>
+                <div className="text-sm text-[var(--muted)]">
+                  Confidence: <span className="text-[var(--accent)] font-semibold">{(confidence * 100).toFixed(1)}%</span>
                 </div>
               </div>
               
-              <div className="bg-gray-700 p-4 rounded-lg">
-                <p className="text-gray-200 leading-relaxed">{transcription}</p>
+              <div className="bg-[var(--surface-2)] p-4 rounded-lg">
+                <p className="text-[var(--text)] leading-relaxed">{transcription}</p>
               </div>
 
               <div className="mt-4 flex gap-2">
-                <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors">
                   📄 Export as TXT
                 </button>
-                <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors">
                   📋 Copy to Clipboard
                 </button>
-                <button className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-[var(--border-strong)] hover:bg-[var(--surface-2)] px-4 py-2 rounded-lg transition-colors">
                   🎬 Export as SRT
                 </button>
               </div>
@@ -494,7 +494,7 @@ export default AudioTranscriptionService;`,
 
           {/* Processed Files */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Recent Transcriptions</h2>
@@ -502,23 +502,23 @@ export default AudioTranscriptionService;`,
               {processedFiles.map((file, index) => (
                 <motion.div
                   key={file.id}
-                  className="bg-gray-700 p-4 rounded-lg hover:bg-gray-650 transition-colors cursor-pointer"
+                  className="bg-[var(--surface-2)] p-4 rounded-lg hover:bg-[var(--border-strong)] transition-colors cursor-pointer"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <h3 className="font-semibold text-white">{file.filename}</h3>
-                      <p className="text-sm text-gray-400">
+                      <h3 className="font-semibold text-[var(--text)]">{file.filename}</h3>
+                      <p className="text-sm text-[var(--muted)]">
                         {file.language} • {file.duration} • {(file.confidence * 100).toFixed(0)}% confidence
                       </p>
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[var(--muted)]">
                       {new Date(file.timestamp).toLocaleDateString()}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-300 line-clamp-2">{file.transcription}</p>
+                  <p className="text-sm text-[var(--text)] line-clamp-2">{file.transcription}</p>
                 </motion.div>
               ))}
             </div>
@@ -529,33 +529,33 @@ export default AudioTranscriptionService;`,
         <div className="space-y-6">
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Multiple AI Models</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>50+ Languages</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>High Accuracy (90%+)</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Transcription</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Speaker Diarization</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Auto Punctuation</span>
               </li>
           </ul>
@@ -563,42 +563,42 @@ export default AudioTranscriptionService;`,
 
           {/* Supported Formats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📁 Supported Formats</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📁 Supported Formats</h3>
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <div className="bg-gray-700 p-2 rounded text-center">MP3</div>
-              <div className="bg-gray-700 p-2 rounded text-center">WAV</div>
-              <div className="bg-gray-700 p-2 rounded text-center">OGG</div>
-              <div className="bg-gray-700 p-2 rounded text-center">M4A</div>
-              <div className="bg-gray-700 p-2 rounded text-center">FLAC</div>
-              <div className="bg-gray-700 p-2 rounded text-center">AAC</div>
+              <div className="bg-[var(--surface-2)] p-2 rounded text-center">MP3</div>
+              <div className="bg-[var(--surface-2)] p-2 rounded text-center">WAV</div>
+              <div className="bg-[var(--surface-2)] p-2 rounded text-center">OGG</div>
+              <div className="bg-[var(--surface-2)] p-2 rounded text-center">M4A</div>
+              <div className="bg-[var(--surface-2)] p-2 rounded text-center">FLAC</div>
+              <div className="bg-[var(--surface-2)] p-2 rounded text-center">AAC</div>
             </div>
           </motion.div>
 
           {/* Stats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📊 Statistics</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 Statistics</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Files:</span>
-                <span className="text-white font-semibold">{processedFiles.length}</span>
+                <span className="text-[var(--muted)]">Total Files:</span>
+                <span className="text-[var(--text)] font-semibold">{processedFiles.length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Avg Confidence:</span>
-                <span className="text-green-400 font-semibold">
+                <span className="text-[var(--muted)]">Avg Confidence:</span>
+                <span className="text-[var(--accent)] font-semibold">
                   {processedFiles.length > 0 
                     ? (processedFiles.reduce((sum, f) => sum + f.confidence, 0) / processedFiles.length * 100).toFixed(1) + '%'
                     : 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Languages:</span>
-                <span className="text-white font-semibold">
+                <span className="text-[var(--muted)]">Languages:</span>
+                <span className="text-[var(--text)] font-semibold">
                   {new Set(processedFiles.map(f => f.language)).size}
                 </span>
               </div>

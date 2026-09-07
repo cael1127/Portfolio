@@ -46,10 +46,10 @@ const EventDrivenArchitectureDemo = () => {
   }, []);
 
   const getEventColor = (type) => {
-    if (type.includes('order')) return 'bg-blue-900/30 border-blue-500/50 text-blue-400';
-    if (type.includes('payment')) return 'bg-green-900/30 border-green-500/50 text-green-400';
-    if (type.includes('inventory')) return 'bg-yellow-900/30 border-yellow-500/50 text-yellow-400';
-    return 'bg-purple-900/30 border-purple-500/50 text-purple-400';
+    if (type.includes('order')) return 'bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 text-[var(--accent)]';
+    if (type.includes('payment')) return 'bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 text-[var(--accent)]';
+    if (type.includes('inventory')) return 'bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 text-[var(--accent)]';
+    return 'bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 text-[var(--accent)]';
   };
 
   const codeData = {
@@ -268,44 +268,44 @@ module.exports = EventDrivenArchitecture;`,
       {/* System State */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-gray-400 text-sm">Orders</div>
-          <div className="text-2xl font-bold text-white mt-1">{systemState.orders}</div>
+          <div className="text-[var(--muted)] text-sm">Orders</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{systemState.orders}</div>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="text-gray-400 text-sm">Payments</div>
-          <div className="text-2xl font-bold text-white mt-1">{systemState.payments}</div>
+          <div className="text-[var(--muted)] text-sm">Payments</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{systemState.payments}</div>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="text-gray-400 text-sm">Inventory</div>
-          <div className="text-2xl font-bold text-white mt-1">{systemState.inventory}</div>
+          <div className="text-[var(--muted)] text-sm">Inventory</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{systemState.inventory}</div>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="text-gray-400 text-sm">Notifications</div>
-          <div className="text-2xl font-bold text-white mt-1">{systemState.notifications}</div>
+          <div className="text-[var(--muted)] text-sm">Notifications</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{systemState.notifications}</div>
         </motion.div>
       </div>
 
       {/* Event Stream */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Event Stream</h3>
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {events.map((event) => (
@@ -319,12 +319,12 @@ module.exports = EventDrivenArchitecture;`,
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="font-semibold">{event.type}</span>
-                    <span className="text-xs text-gray-400">{event.timestamp}</span>
+                    <span className="text-xs text-[var(--muted)]">{event.timestamp}</span>
                   </div>
-                  <div className="text-sm text-gray-300 mb-1">
-                    Handler: <span className="text-blue-400">{event.handler}</span>
+                  <div className="text-sm text-[var(--text)] mb-1">
+                    Handler: <span className="text-[var(--accent)]">{event.handler}</span>
                   </div>
-                  <pre className="text-xs bg-gray-900/50 p-2 rounded mt-2 overflow-x-auto">
+                  <pre className="text-xs bg-[var(--bg)]/50 p-2 rounded mt-2 overflow-x-auto">
                     {JSON.stringify(event.data, null, 2)}
                   </pre>
                 </div>
@@ -335,34 +335,34 @@ module.exports = EventDrivenArchitecture;`,
       </div>
 
       {/* Architecture Diagram */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Event Flow</h3>
-        <div className="flex items-center justify-center p-8 bg-gray-900 rounded">
+        <div className="flex items-center justify-center p-8 bg-[var(--bg)] rounded">
           <div className="flex items-center gap-4">
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-600 rounded-lg flex items-center justify-center mb-2">
-                <span className="text-white text-xs text-center">Event<br/>Publisher</span>
+              <div className="w-20 h-20 bg-[var(--accent)] rounded-lg flex items-center justify-center mb-2">
+                <span className="text-[var(--text)] text-xs text-center">Event<br/>Publisher</span>
               </div>
             </div>
-            <div className="text-gray-400">→</div>
+            <div className="text-[var(--muted)]">→</div>
             <div className="text-center">
-              <div className="w-20 h-20 bg-green-600 rounded-lg flex items-center justify-center mb-2">
-                <span className="text-white text-xs text-center">Event<br/>Bus</span>
+              <div className="w-20 h-20 bg-[var(--accent)] rounded-lg flex items-center justify-center mb-2">
+                <span className="text-[var(--text)] text-xs text-center">Event<br/>Bus</span>
               </div>
             </div>
-            <div className="text-gray-400">→</div>
+            <div className="text-[var(--muted)]">→</div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="w-16 h-16 bg-yellow-600 rounded flex items-center justify-center">
-                <span className="text-white text-xs">Handler 1</span>
+              <div className="w-16 h-16 bg-[var(--accent)] rounded flex items-center justify-center">
+                <span className="text-[var(--text)] text-xs">Handler 1</span>
               </div>
-              <div className="w-16 h-16 bg-yellow-600 rounded flex items-center justify-center">
-                <span className="text-white text-xs">Handler 2</span>
+              <div className="w-16 h-16 bg-[var(--accent)] rounded flex items-center justify-center">
+                <span className="text-[var(--text)] text-xs">Handler 2</span>
               </div>
-              <div className="w-16 h-16 bg-yellow-600 rounded flex items-center justify-center">
-                <span className="text-white text-xs">Handler 3</span>
+              <div className="w-16 h-16 bg-[var(--accent)] rounded flex items-center justify-center">
+                <span className="text-[var(--text)] text-xs">Handler 3</span>
               </div>
-              <div className="w-16 h-16 bg-yellow-600 rounded flex items-center justify-center">
-                <span className="text-white text-xs">Handler 4</span>
+              <div className="w-16 h-16 bg-[var(--accent)] rounded flex items-center justify-center">
+                <span className="text-[var(--text)] text-xs">Handler 4</span>
               </div>
             </div>
           </div>
@@ -370,24 +370,24 @@ module.exports = EventDrivenArchitecture;`,
       </div>
 
       {/* Features */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Key Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Event Sourcing</div>
-            <div className="text-sm text-gray-400">Complete event history for state reconstruction</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Event Sourcing</div>
+            <div className="text-sm text-[var(--muted)]">Complete event history for state reconstruction</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">CQRS</div>
-            <div className="text-sm text-gray-400">Separate read and write models for optimization</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">CQRS</div>
+            <div className="text-sm text-[var(--muted)]">Separate read and write models for optimization</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Saga Pattern</div>
-            <div className="text-sm text-gray-400">Distributed transaction management</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Saga Pattern</div>
+            <div className="text-sm text-[var(--muted)]">Distributed transaction management</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Event Replay</div>
-            <div className="text-sm text-gray-400">Rebuild system state from events</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Event Replay</div>
+            <div className="text-sm text-[var(--muted)]">Rebuild system state from events</div>
           </div>
         </div>
       </div>
@@ -395,7 +395,7 @@ module.exports = EventDrivenArchitecture;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

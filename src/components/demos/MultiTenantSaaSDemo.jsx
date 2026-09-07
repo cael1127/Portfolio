@@ -285,15 +285,15 @@ module.exports = MultiTenantSaaS;`,
   return (
     <div className="space-y-6">
       {/* Tenant Selector */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Tenant Management</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Select Tenant</label>
+            <label className="block text-sm text-[var(--muted)] mb-2">Select Tenant</label>
             <select
               value={selectedTenant}
               onChange={(e) => setSelectedTenant(e.target.value)}
-              className="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white"
+              className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)]"
             >
               {tenants.map(tenant => (
                 <option key={tenant.id} value={tenant.id}>{tenant.name}</option>
@@ -306,23 +306,23 @@ module.exports = MultiTenantSaaS;`,
       {/* Current Tenant Info */}
       {currentTenant && (
         <motion.div
-          className="bg-gray-800 rounded-lg border border-gray-700 p-6"
+          className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <h3 className="text-lg font-semibold mb-4">Tenant Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <div className="text-gray-400 text-sm">Name</div>
-              <div className="text-white font-semibold mt-1">{currentTenant.name}</div>
+              <div className="text-[var(--muted)] text-sm">Name</div>
+              <div className="text-[var(--text)] font-semibold mt-1">{currentTenant.name}</div>
             </div>
             <div>
-              <div className="text-gray-400 text-sm">Plan</div>
-              <div className="text-blue-400 font-semibold mt-1">{currentTenant.plan}</div>
+              <div className="text-[var(--muted)] text-sm">Plan</div>
+              <div className="text-[var(--accent)] font-semibold mt-1">{currentTenant.plan}</div>
             </div>
             <div>
-              <div className="text-gray-400 text-sm">Users</div>
-              <div className="text-white font-semibold mt-1">{currentTenant.users}</div>
+              <div className="text-[var(--muted)] text-sm">Users</div>
+              <div className="text-[var(--text)] font-semibold mt-1">{currentTenant.users}</div>
             </div>
           </div>
         </motion.div>
@@ -330,13 +330,13 @@ module.exports = MultiTenantSaaS;`,
 
       {/* Tenant Data Isolation */}
       {currentTenant && (
-        <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+        <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
           <h3 className="text-lg font-semibold mb-4">Tenant Data (Isolated)</h3>
           <div className="space-y-2">
             {currentTenant.data.map((item, idx) => (
-              <div key={idx} className="p-3 bg-gray-900 rounded border border-gray-700">
-                <div className="text-white">{item}</div>
-                <div className="text-xs text-gray-400 mt-1">Tenant: {currentTenant.id}</div>
+              <div key={idx} className="p-3 bg-[var(--bg)] rounded border border-[var(--border)]">
+                <div className="text-[var(--text)]">{item}</div>
+                <div className="text-xs text-[var(--muted)] mt-1">Tenant: {currentTenant.id}</div>
               </div>
             ))}
           </div>
@@ -344,26 +344,26 @@ module.exports = MultiTenantSaaS;`,
       )}
 
       {/* All Tenants Overview */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">All Tenants</h3>
         <div className="space-y-3">
           {tenants.map((tenant) => (
-            <div key={tenant.id} className="flex items-center justify-between p-4 bg-gray-900 rounded border border-gray-700">
+            <div key={tenant.id} className="flex items-center justify-between p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
               <div>
-                <div className="font-semibold text-white">{tenant.name}</div>
-                <div className="text-sm text-gray-400 mt-1">
+                <div className="font-semibold text-[var(--text)]">{tenant.name}</div>
+                <div className="text-sm text-[var(--muted)] mt-1">
                   {tenant.users} users • {tenant.plan} plan
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <span className={`px-3 py-1 rounded text-xs ${
-                  tenant.plan === 'Enterprise' ? 'bg-purple-900/50 text-purple-400' :
-                  tenant.plan === 'Professional' ? 'bg-blue-900/50 text-blue-400' :
-                  'bg-gray-700 text-gray-400'
+                  tenant.plan === 'Enterprise' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' :
+                  tenant.plan === 'Professional' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' :
+                  'bg-[var(--surface-2)] text-[var(--muted)]'
                 }`}>
                   {tenant.plan}
                 </span>
-                <button className="text-blue-400 hover:text-blue-300 text-sm">Manage</button>
+                <button className="text-[var(--accent)] hover:text-[var(--accent)] text-sm">Manage</button>
               </div>
             </div>
           ))}
@@ -371,24 +371,24 @@ module.exports = MultiTenantSaaS;`,
       </div>
 
       {/* Features */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Platform Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Data Isolation</div>
-            <div className="text-sm text-gray-400">Row-level security ensures complete tenant isolation</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Data Isolation</div>
+            <div className="text-sm text-[var(--muted)]">Row-level security ensures complete tenant isolation</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Subscription Management</div>
-            <div className="text-sm text-gray-400">Flexible plans with usage-based billing</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Subscription Management</div>
+            <div className="text-sm text-[var(--muted)]">Flexible plans with usage-based billing</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Usage Tracking</div>
-            <div className="text-sm text-gray-400">Real-time usage monitoring and limits</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Usage Tracking</div>
+            <div className="text-sm text-[var(--muted)]">Real-time usage monitoring and limits</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Multi-tenancy</div>
-            <div className="text-sm text-gray-400">Support for unlimited tenants with isolation</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Multi-tenancy</div>
+            <div className="text-sm text-[var(--muted)]">Support for unlimited tenants with isolation</div>
           </div>
         </div>
       </div>
@@ -396,7 +396,7 @@ module.exports = MultiTenantSaaS;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

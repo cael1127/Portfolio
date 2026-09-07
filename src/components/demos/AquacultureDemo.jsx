@@ -119,21 +119,21 @@ const AquacultureDemo = () => {
     <div className="space-y-6">
       {/* System Overview */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-gray-800 p-4 rounded-lg text-center">
-          <div className="text-2xl font-bold text-blue-400">{systemStats.totalTanks}</div>
-          <div className="text-sm text-gray-400">Total Tanks</div>
+        <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.totalTanks}</div>
+          <div className="text-sm text-[var(--muted)]">Total Tanks</div>
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg text-center">
-          <div className="text-2xl font-bold text-green-400">{systemStats.activeSensors}</div>
-          <div className="text-sm text-gray-400">Active Sensors</div>
+        <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.activeSensors}</div>
+          <div className="text-sm text-[var(--muted)]">Active Sensors</div>
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg text-center">
-          <div className="text-2xl font-bold text-yellow-400">{systemStats.averageOxygen.toFixed(1)}</div>
-          <div className="text-sm text-gray-400">Avg Oxygen (mg/L)</div>
+        <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.averageOxygen.toFixed(1)}</div>
+          <div className="text-sm text-[var(--muted)]">Avg Oxygen (mg/L)</div>
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg text-center">
-          <div className="text-2xl font-bold text-purple-400">{systemStats.waterQuality.toFixed(1)}%</div>
-          <div className="text-sm text-gray-400">Water Quality</div>
+        <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.waterQuality.toFixed(1)}%</div>
+          <div className="text-sm text-[var(--muted)]">Water Quality</div>
         </div>
       </div>
 
@@ -142,19 +142,19 @@ const AquacultureDemo = () => {
         {tanks.map(tank => (
           <div 
             key={tank.id} 
-            className={\`bg-gray-800 p-6 rounded-lg border-2 cursor-pointer transition-all \${
+            className={\`bg-[var(--surface)] p-6 rounded-lg border-2 cursor-pointer transition-all \${
               selectedTank?.id === tank.id 
-                ? 'border-blue-500 bg-gray-700' 
-                : 'border-gray-700 hover:border-gray-600'
+                ? 'border-[var(--accent)] bg-[var(--surface-2)]' 
+                : 'border-[var(--border)] hover:border-[var(--border-strong)]'
             }\`}
             onClick={() => setSelectedTank(tank)}
           >
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold text-white">{tank.name}</h3>
+              <h3 className="text-lg font-semibold text-[var(--text)]">{tank.name}</h3>
               <span className={\`px-2 py-1 rounded text-xs \${
                 tank.status === 'healthy' 
-                  ? 'bg-green-900 text-green-400' 
-                  : 'bg-yellow-900 text-yellow-400'
+                  ? 'bg-[var(--accent-soft)] text-[var(--accent)]' 
+                  : 'bg-[var(--accent-soft)] text-[var(--accent)]'
               }\`}>
                 {tank.status}
               </span>
@@ -162,24 +162,24 @@ const AquacultureDemo = () => {
             
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-400">Fish Type:</span>
-                <span className="text-white">{tank.fishType}</span>
+                <span className="text-[var(--muted)]">Fish Type:</span>
+                <span className="text-[var(--text)]">{tank.fishType}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Stock:</span>
-                <span className="text-white">{tank.currentStock}/{tank.capacity}</span>
+                <span className="text-[var(--muted)]">Stock:</span>
+                <span className="text-[var(--text)]">{tank.currentStock}/{tank.capacity}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Oxygen:</span>
-                <span className="text-blue-400">{tank.oxygenLevel.toFixed(1)} mg/L</span>
+                <span className="text-[var(--muted)]">Oxygen:</span>
+                <span className="text-[var(--accent)]">{tank.oxygenLevel.toFixed(1)} mg/L</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Temperature:</span>
-                <span className="text-red-400">{tank.temperature.toFixed(1)}°C</span>
+                <span className="text-[var(--muted)]">Temperature:</span>
+                <span className="text-[var(--accent)]">{tank.temperature.toFixed(1)}°C</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">pH:</span>
-                <span className="text-green-400">{tank.phLevel.toFixed(1)}</span>
+                <span className="text-[var(--muted)]">pH:</span>
+                <span className="text-[var(--accent)]">{tank.phLevel.toFixed(1)}</span>
               </div>
             </div>
           </div>
@@ -187,13 +187,13 @@ const AquacultureDemo = () => {
       </div>
 
       {/* AI Insights */}
-      <div className="bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-xl font-semibold text-purple-400 mb-4">🤖 AI Insights</h3>
+      <div className="bg-[var(--surface)] p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-[var(--accent)] mb-4">🤖 AI Insights</h3>
         <div className="space-y-2">
           {aiInsights.map((insight, index) => (
-            <div key={index} className="flex items-start gap-3 p-3 bg-gray-700 rounded-lg">
-              <span className="text-purple-400 mt-1">•</span>
-              <span className="text-gray-300">{insight}</span>
+            <div key={index} className="flex items-start gap-3 p-3 bg-[var(--surface-2)] rounded-lg">
+              <span className="text-[var(--accent)] mt-1">•</span>
+              <span className="text-[var(--text)]">{insight}</span>
             </div>
           ))}
         </div>
@@ -361,14 +361,14 @@ const AquacultureDemo = () => {
     <div className="space-y-6">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🌊 Smart Aquaculture Monitoring Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🌊 Smart Aquaculture Monitoring Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           AI-powered aquaculture system with real-time sensor monitoring, predictive analytics, and automated insights using deterministic algorithms
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           >
             <span>💻</span>
             View Implementation
@@ -381,21 +381,21 @@ const AquacultureDemo = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* System Overview */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-blue-400">{systemStats.totalTanks}</div>
-              <div className="text-sm text-gray-400">Total Tanks</div>
+            <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+              <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.totalTanks}</div>
+              <div className="text-sm text-[var(--muted)]">Total Tanks</div>
             </div>
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-green-400">{systemStats.activeSensors}</div>
-              <div className="text-sm text-gray-400">Active Sensors</div>
+            <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+              <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.activeSensors}</div>
+              <div className="text-sm text-[var(--muted)]">Active Sensors</div>
             </div>
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-yellow-400">{systemStats.averageOxygen.toFixed(1)}</div>
-              <div className="text-sm text-gray-400">Avg Oxygen (mg/L)</div>
+            <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+              <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.averageOxygen.toFixed(1)}</div>
+              <div className="text-sm text-[var(--muted)]">Avg Oxygen (mg/L)</div>
             </div>
-            <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-purple-400">{systemStats.waterQuality.toFixed(1)}%</div>
-              <div className="text-sm text-gray-400">Water Quality</div>
+            <div className="bg-[var(--surface)] p-4 rounded-lg text-center">
+              <div className="text-2xl font-bold text-[var(--accent)]">{systemStats.waterQuality.toFixed(1)}%</div>
+              <div className="text-sm text-[var(--muted)]">Water Quality</div>
             </div>
           </div>
 
@@ -404,19 +404,19 @@ const AquacultureDemo = () => {
             {tanks.map(tank => (
               <div 
                 key={tank.id} 
-                className={`bg-gray-800 p-6 rounded-lg border-2 cursor-pointer transition-all ${
+                className={`bg-[var(--surface)] p-6 rounded-lg border-2 cursor-pointer transition-all ${
                   selectedTank?.id === tank.id 
-                    ? 'border-blue-500 bg-gray-700' 
-                    : 'border-gray-700 hover:border-gray-600'
+                    ? 'border-[var(--accent)] bg-[var(--surface-2)]' 
+                    : 'border-[var(--border)] hover:border-[var(--border-strong)]'
                 }`}
                 onClick={() => setSelectedTank(tank)}
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-semibold text-white">{tank.name}</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">{tank.name}</h3>
                   <span className={`px-2 py-1 rounded text-xs ${
                     tank.status === 'healthy' 
-                      ? 'bg-green-900 text-green-400' 
-                      : 'bg-yellow-900 text-yellow-400'
+                      ? 'bg-[var(--accent-soft)] text-[var(--accent)]' 
+                      : 'bg-[var(--accent-soft)] text-[var(--accent)]'
                   }`}>
                     {tank.status}
                   </span>
@@ -424,24 +424,24 @@ const AquacultureDemo = () => {
                 
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Fish Type:</span>
-                    <span className="text-white">{tank.fishType}</span>
+                    <span className="text-[var(--muted)]">Fish Type:</span>
+                    <span className="text-[var(--text)]">{tank.fishType}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Stock:</span>
-                    <span className="text-white">{tank.currentStock}/{tank.capacity}</span>
+                    <span className="text-[var(--muted)]">Stock:</span>
+                    <span className="text-[var(--text)]">{tank.currentStock}/{tank.capacity}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Oxygen:</span>
-                    <span className="text-blue-400">{tank.oxygenLevel.toFixed(1)} mg/L</span>
+                    <span className="text-[var(--muted)]">Oxygen:</span>
+                    <span className="text-[var(--accent)]">{tank.oxygenLevel.toFixed(1)} mg/L</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Temperature:</span>
-                    <span className="text-red-400">{tank.temperature.toFixed(1)}°C</span>
+                    <span className="text-[var(--muted)]">Temperature:</span>
+                    <span className="text-[var(--accent)]">{tank.temperature.toFixed(1)}°C</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">pH:</span>
-                    <span className="text-green-400">{tank.phLevel.toFixed(1)}</span>
+                    <span className="text-[var(--muted)]">pH:</span>
+                    <span className="text-[var(--accent)]">{tank.phLevel.toFixed(1)}</span>
                   </div>
                 </div>
               </div>
@@ -452,13 +452,13 @@ const AquacultureDemo = () => {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* AI Insights */}
-          <div className="bg-gray-800 p-6 rounded-lg">
-            <h3 className="text-xl font-semibold text-purple-400 mb-4">🤖 AI Insights</h3>
+          <div className="bg-[var(--surface)] p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-[var(--accent)] mb-4">🤖 AI Insights</h3>
             <div className="space-y-2">
               {aiInsights.map((insight, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-gray-700 rounded-lg">
-                  <span className="text-purple-400 mt-1">•</span>
-                  <span className="text-gray-300 text-sm">{insight}</span>
+                <div key={index} className="flex items-start gap-3 p-3 bg-[var(--surface-2)] rounded-lg">
+                  <span className="text-[var(--accent)] mt-1">•</span>
+                  <span className="text-[var(--text)] text-sm">{insight}</span>
                 </div>
               ))}
             </div>
@@ -466,28 +466,28 @@ const AquacultureDemo = () => {
 
           {/* Selected Tank Details */}
           {selectedTank && (
-            <div className="bg-gray-800 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-blue-400 mb-4">Tank Details</h3>
+            <div className="bg-[var(--surface)] p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-[var(--accent)] mb-4">Tank Details</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Name:</span>
-                  <span className="text-white">{selectedTank.name}</span>
+                  <span className="text-[var(--muted)]">Name:</span>
+                  <span className="text-[var(--text)]">{selectedTank.name}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Fish Type:</span>
-                  <span className="text-white">{selectedTank.fishType}</span>
+                  <span className="text-[var(--muted)]">Fish Type:</span>
+                  <span className="text-[var(--text)]">{selectedTank.fishType}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Age:</span>
-                  <span className="text-white">{selectedTank.age} days</span>
+                  <span className="text-[var(--muted)]">Age:</span>
+                  <span className="text-[var(--text)]">{selectedTank.age} days</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Turbidity:</span>
-                  <span className="text-yellow-400">{selectedTank.turbidity.toFixed(1)} NTU</span>
+                  <span className="text-[var(--muted)]">Turbidity:</span>
+                  <span className="text-[var(--accent)]">{selectedTank.turbidity.toFixed(1)} NTU</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Ammonia:</span>
-                  <span className="text-orange-400">{selectedTank.ammoniaLevel.toFixed(2)} mg/L</span>
+                  <span className="text-[var(--muted)]">Ammonia:</span>
+                  <span className="text-[var(--accent)]">{selectedTank.ammoniaLevel.toFixed(2)} mg/L</span>
                 </div>
               </div>
             </div>

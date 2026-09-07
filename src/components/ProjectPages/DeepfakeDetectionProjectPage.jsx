@@ -730,10 +730,10 @@ const DeepfakeDetectionDashboard = () => {
   };
 
   const getResultColor = (confidence, isDeepfake) => {
-    if (isDeepfake) return 'text-red-400';
-    if (confidence > 0.8) return 'text-green-400';
-    if (confidence > 0.6) return 'text-yellow-400';
-    return 'text-gray-400';
+    if (isDeepfake) return 'text-[var(--accent)]';
+    if (confidence > 0.8) return 'text-[var(--accent)]';
+    if (confidence > 0.6) return 'text-[var(--accent)]';
+    return 'text-[var(--muted)]';
   };
 
   const getResultIcon = (isDeepfake) => {
@@ -741,26 +741,26 @@ const DeepfakeDetectionDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           🔍 Deepfake Detection
         </h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Settings Panel */}
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-blue-400 mb-4">Detection Settings</h3>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Detection Settings</h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text)] mb-2">
                   AI Model
                 </label>
                 <select
                   value={selectedModel}
                   onChange={(e) => setSelectedModel(e.target.value)}
-                  className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  className="w-full p-2 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded text-[var(--text)]"
                 >
                   {models.map(model => (
                     <option key={model.id} value={model.id}>
@@ -771,7 +771,7 @@ const DeepfakeDetectionDashboard = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text)] mb-2">
                   Confidence Threshold: {confidenceThreshold}
                 </label>
                 <input
@@ -789,7 +789,7 @@ const DeepfakeDetectionDashboard = () => {
                 <button
                   onClick={triggerFileUpload}
                   disabled={isProcessing}
-                  className="w-full p-4 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                  className="w-full p-4 bg-[var(--accent)] text-[var(--text)] rounded hover:bg-[var(--accent-deep)] disabled:opacity-50"
                 >
                   {isProcessing ? 'Analyzing...' : 'Upload Image'}
                 </button>
@@ -805,18 +805,18 @@ const DeepfakeDetectionDashboard = () => {
           </div>
 
           {/* Results Panel */}
-          <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-green-400 mb-4">Detection Results</h3>
+          <div className="lg:col-span-2 bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Detection Results</h3>
             
             {!detectionResult ? (
-              <div className="text-center text-gray-400 py-8">
+              <div className="text-center text-[var(--muted)] py-8">
                 <div className="text-4xl mb-4">🔍</div>
                 <p>Upload an image to analyze for deepfake detection</p>
               </div>
             ) : (
               <div className="space-y-6">
                 {/* Main Result */}
-                <div className="bg-gray-700 p-6 rounded">
+                <div className="bg-[var(--surface-2)] p-6 rounded">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="text-xl font-semibold">Analysis Result</h4>
                     <div className="text-2xl">{getResultIcon(detectionResult.isDeepfake)}</div>
@@ -824,14 +824,14 @@ const DeepfakeDetectionDashboard = () => {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-300">Classification</p>
+                      <p className="text-sm text-[var(--text)]">Classification</p>
                       <p className={'text-xl font-bold ' + getResultColor(detectionResult.confidence, detectionResult.isDeepfake)}>
                         {detectionResult.isDeepfake ? 'DEEPFAKE' : 'REAL'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-300">Confidence</p>
-                      <p className="text-xl font-bold text-blue-400">
+                      <p className="text-sm text-[var(--text)]">Confidence</p>
+                      <p className="text-xl font-bold text-[var(--accent)]">
                         {Math.round(detectionResult.confidence * 100)}%
                       </p>
                     </div>
@@ -839,15 +839,15 @@ const DeepfakeDetectionDashboard = () => {
                 </div>
 
                 {/* Model Information */}
-                <div className="bg-gray-700 p-4 rounded">
-                  <h4 className="font-semibold text-purple-400 mb-2">Model Information</h4>
+                <div className="bg-[var(--surface-2)] p-4 rounded">
+                  <h4 className="font-semibold text-[var(--accent)] mb-2">Model Information</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-300">Model Used</p>
+                      <p className="text-sm text-[var(--text)]">Model Used</p>
                       <p className="font-semibold">{detectionResult.results.model}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-300">Analysis Time</p>
+                      <p className="text-sm text-[var(--text)]">Analysis Time</p>
                       <p className="font-semibold">{new Date(detectionResult.timestamp).toLocaleTimeString()}</p>
                     </div>
                   </div>
@@ -855,25 +855,25 @@ const DeepfakeDetectionDashboard = () => {
 
                 {/* Detailed Analysis */}
                 {detectionResult.analysis && (
-                  <div className="bg-gray-700 p-4 rounded">
-                    <h4 className="font-semibold text-yellow-400 mb-2">Detailed Analysis</h4>
+                  <div className="bg-[var(--surface-2)] p-4 rounded">
+                    <h4 className="font-semibold text-[var(--accent)] mb-2">Detailed Analysis</h4>
                     <div className="space-y-2">
                       {detectionResult.analysis.landmarks && (
                         <div className="flex justify-between">
                           <span>Facial Landmarks</span>
-                          <span className="text-green-400">✓ Detected</span>
+                          <span className="text-[var(--accent)]">✓ Detected</span>
                         </div>
                       )}
                       {detectionResult.analysis.texture && (
                         <div className="flex justify-between">
                           <span>Texture Analysis</span>
-                          <span className="text-green-400">✓ Completed</span>
+                          <span className="text-[var(--accent)]">✓ Completed</span>
                         </div>
                       )}
                       {detectionResult.analysis.compression && (
                         <div className="flex justify-between">
                           <span>Compression Analysis</span>
-                          <span className="text-green-400">✓ Completed</span>
+                          <span className="text-[var(--accent)]">✓ Completed</span>
                         </div>
                       )}
                     </div>
@@ -890,18 +890,18 @@ const DeepfakeDetectionDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🔍 Deepfake Detection</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🔍 Deepfake Detection</h1>
+          <p className="text-[var(--text)] text-lg">
             AI-powered deepfake detection system using advanced computer vision and machine learning
           </p>
         </div>
@@ -914,8 +914,8 @@ const DeepfakeDetectionDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={'px-4 py-2 rounded-lg transition-colors ' + (
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               )}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -925,12 +925,12 @@ const DeepfakeDetectionDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Deepfake Detection system is an advanced AI-powered solution that uses computer vision 
                   and machine learning to identify manipulated images and videos. It employs multiple detection 
                   models and analysis techniques to provide accurate deepfake identification with high confidence.
@@ -939,8 +939,8 @@ const DeepfakeDetectionDashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Accurate deepfake detection and classification</li>
                     <li>• Multi-model AI ensemble for reliability</li>
                     <li>• Real-time image and video analysis</li>
@@ -950,8 +950,8 @@ const DeepfakeDetectionDashboard = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for user interface</li>
                     <li>• Computer Vision and OpenCV</li>
                     <li>• Deep Learning models (CNN)</li>
@@ -966,12 +966,12 @@ const DeepfakeDetectionDashboard = () => {
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">🔍 Detection Models</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🔍 Detection Models</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• FaceForensics (96% accuracy)</li>
                     <li>• MesoNet (94% accuracy)</li>
                     <li>• XceptionNet (95% accuracy)</li>
@@ -980,9 +980,9 @@ const DeepfakeDetectionDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">🧠 AI Analysis</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🧠 AI Analysis</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Facial landmark detection</li>
                     <li>• Texture pattern analysis</li>
                     <li>• Compression artifact detection</li>
@@ -991,9 +991,9 @@ const DeepfakeDetectionDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">📊 Forensic Analysis</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📊 Forensic Analysis</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Detailed analysis reports</li>
                     <li>• Confidence scoring</li>
                     <li>• Artifact classification</li>
@@ -1002,9 +1002,9 @@ const DeepfakeDetectionDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">🎯 Detection Features</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🎯 Detection Features</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Image and video support</li>
                     <li>• Batch processing capability</li>
                     <li>• Custom confidence thresholds</li>
@@ -1018,40 +1018,40 @@ const DeepfakeDetectionDashboard = () => {
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Deepfake Detector</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Deepfake Detector</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.imageProcessor}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Face Detector</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Face Detector</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.faceDetector}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Texture Analyzer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Texture Analyzer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.textureAnalyzer}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -1062,13 +1062,13 @@ const DeepfakeDetectionDashboard = () => {
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js upload interface</li>
                       <li>• Real-time analysis display</li>
                       <li>• Model selection controls</li>
@@ -1079,9 +1079,9 @@ const DeepfakeDetectionDashboard = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">AI Processing Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">AI Processing Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• Multiple detection models</li>
                       <li>• Image preprocessing</li>
                       <li>• Feature extraction</li>
@@ -1092,28 +1092,28 @@ const DeepfakeDetectionDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Detection Pipeline</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Detection Pipeline</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">Image Preprocessing</p>
-                      <p className="text-gray-300 text-sm">Face detection and normalization</p>
+                      <p className="text-[var(--text)] font-semibold">Image Preprocessing</p>
+                      <p className="text-[var(--text)] text-sm">Face detection and normalization</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Feature Extraction</p>
-                      <p className="text-gray-300 text-sm">Texture, artifacts, and pattern analysis</p>
+                      <p className="text-[var(--text)] font-semibold">Feature Extraction</p>
+                      <p className="text-[var(--text)] text-sm">Texture, artifacts, and pattern analysis</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">Model Classification</p>
-                      <p className="text-gray-300 text-sm">Multi-model ensemble prediction</p>
+                      <p className="text-[var(--text)] font-semibold">Model Classification</p>
+                      <p className="text-[var(--text)] text-sm">Multi-model ensemble prediction</p>
                     </div>
                   </div>
                 </div>
@@ -1123,23 +1123,23 @@ const DeepfakeDetectionDashboard = () => {
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the deepfake detection system in action. The demo showcases image analysis, 
                 AI-powered detection, and detailed forensic reporting with confidence scoring.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Deepfake Detection Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Deepfake Detection Demo</h3>
                   <button
                     onClick={() => setCurrentPage('deepfake-detection')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full deepfake detection system with image analysis, 
                   AI-powered detection, and detailed forensic reporting.
                 </p>

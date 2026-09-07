@@ -175,9 +175,9 @@ const AIInterviewSimulator = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-green-400 mb-8">
+        <h1 className="text-4xl font-bold text-[var(--accent)] mb-8">
           AI Interview Simulator
         </h1>
         
@@ -185,31 +185,31 @@ const AIInterviewSimulator = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             {/* Current Question */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
-              <h2 className="text-xl font-bold text-white mb-4">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-xl font-bold text-[var(--text)] mb-4">
                 Question {currentQuestion + 1}/{questions.length}
               </h2>
-              <p className="text-lg text-white mb-4">
+              <p className="text-lg text-[var(--text)] mb-4">
                 {questions[currentQuestion]?.question}
               </p>
             </div>
             
             {/* Speech Recognition */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
-              <h3 className="text-lg font-bold text-white mb-4">Voice Recognition</h3>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h3 className="text-lg font-bold text-[var(--text)] mb-4">Voice Recognition</h3>
               <button
                 onClick={() => setIsRecording(!isRecording)}
                 className={\`px-4 py-2 rounded-lg transition-colors \${
                   isRecording 
-                    ? 'bg-red-600 text-white hover:bg-red-700' 
-                    : 'bg-gray-600 text-white hover:bg-gray-700'
+                    ? 'bg-[var(--accent)] text-[var(--text)] hover:bg-[var(--accent-deep)]' 
+                    : 'bg-[var(--border-strong)] text-[var(--text)] hover:bg-[var(--surface-2)]'
                 }\`}
               >
                 {isRecording ? 'Stop Recording' : 'Start Recording'}
               </button>
               
-              <div className="bg-gray-800 p-4 rounded-lg mt-4 min-h-[100px]">
-                <p className="text-gray-300">
+              <div className="bg-[var(--surface)] p-4 rounded-lg mt-4 min-h-[100px]">
+                <p className="text-[var(--text)]">
                   {transcript || "Your speech will appear here..."}
                 </p>
               </div>
@@ -217,22 +217,22 @@ const AIInterviewSimulator = () => {
           </div>
           
           {/* AI Analysis */}
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
-            <h3 className="text-lg font-bold text-white mb-4">🧠 AI Analysis</h3>
-            <div className="bg-gray-800 p-4 rounded-lg min-h-[300px]">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl">
+            <h3 className="text-lg font-bold text-[var(--text)] mb-4">🧠 AI Analysis</h3>
+            <div className="bg-[var(--surface)] p-4 rounded-lg min-h-[300px]">
               {isTyping ? (
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <span className="text-purple-400">AI is analyzing your response...</span>
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <span className="text-[var(--accent)]">AI is analyzing your response...</span>
                 </div>
               ) : aiResponse ? (
                 <div className="prose prose-invert max-w-none">
                   <div dangerouslySetInnerHTML={{ __html: aiResponse.replace(/\\n/g, '<br>') }} />
                 </div>
               ) : (
-                <p className="text-gray-400">AI analysis will appear here after you submit a response...</p>
+                <p className="text-[var(--muted)]">AI analysis will appear here after you submit a response...</p>
               )}
             </div>
           </div>
@@ -245,8 +245,8 @@ const AIInterviewSimulator = () => {
 export default AIInterviewSimulator;`;
 
   const containerClass = isEmbedded
-    ? 'space-y-8 text-white'
-    : 'min-h-screen bg-gray-900 text-white p-6';
+    ? 'space-y-8 text-[var(--text)]'
+    : 'min-h-screen bg-[var(--bg)] text-[var(--text)] p-6';
 
   const innerClass = isEmbedded ? 'space-y-8' : 'max-w-6xl mx-auto';
 
@@ -257,12 +257,12 @@ export default AIInterviewSimulator;`;
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-green-400 mb-2">AI Interview Simulator</h1>
-              <p className="text-gray-400">Advanced speech recognition and AI-powered interview coaching</p>
+              <h1 className="text-4xl font-bold text-[var(--accent)] mb-2">AI Interview Simulator</h1>
+              <p className="text-[var(--muted)]">Advanced speech recognition and AI-powered interview coaching</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
             >
               View Code
             </button>
@@ -273,20 +273,20 @@ export default AIInterviewSimulator;`;
           {/* Interview Interface */}
           <div className="space-y-6">
             {/* Current Question */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-white">Question {currentQuestion + 1}/{questions.length}</h2>
-                <span className="px-3 py-1 bg-blue-600 rounded-full text-sm">
+                <h2 className="text-xl font-bold text-[var(--text)]">Question {currentQuestion + 1}/{questions.length}</h2>
+                <span className="px-3 py-1 bg-[var(--accent)] rounded-full text-sm">
                   {questions[currentQuestion]?.category}
                 </span>
               </div>
-              <p className="text-lg text-white mb-4">
+              <p className="text-lg text-[var(--text)] mb-4">
                 {questions[currentQuestion]?.question}
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={startInterview}
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                  className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                 >
                   🎯 Start Interview
                 </button>
@@ -296,7 +296,7 @@ export default AIInterviewSimulator;`;
                     setTranscript(mockAnswer);
                     simulateAIResponse(mockAnswer);
                   }}
-                  className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                  className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                 >
                   🧪 Demo Answer
                 </button>
@@ -304,30 +304,30 @@ export default AIInterviewSimulator;`;
             </div>
 
             {/* Speech Recognition */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-              <h3 className="text-lg font-bold text-white mb-4">🎤 Voice Recognition</h3>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+              <h3 className="text-lg font-bold text-[var(--text)] mb-4">🎤 Voice Recognition</h3>
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
                   <button
                     onClick={() => setIsRecording(!isRecording)}
                     className={`px-4 py-2 rounded-lg transition-colors ${
                       isRecording 
-                        ? 'bg-red-600 text-white hover:bg-red-700' 
-                        : 'bg-gray-600 text-white hover:bg-gray-700'
+                        ? 'bg-[var(--accent)] text-[var(--text)] hover:bg-[var(--accent-deep)]' 
+                        : 'bg-[var(--border-strong)] text-[var(--text)] hover:bg-[var(--surface-2)]'
                     }`}
                   >
                     {isRecording ? 'Stop Recording' : 'Start Recording'}
                   </button>
                   {isRecording && (
                     <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                      <span className="text-red-400 text-sm">Recording...</span>
+                      <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                      <span className="text-[var(--accent)] text-sm">Recording...</span>
                     </div>
                   )}
                 </div>
                 
-                <div className="bg-gray-800 p-4 rounded-lg min-h-[100px]">
-                  <p className="text-gray-300">
+                <div className="bg-[var(--surface)] p-4 rounded-lg min-h-[100px]">
+                  <p className="text-[var(--text)]">
                     {transcript || "Your speech will appear here... (Click 'Demo Answer' to simulate)"}
                   </p>
                 </div>
@@ -339,7 +339,7 @@ export default AIInterviewSimulator;`;
                     }
                   }}
                   disabled={!transcript || isTyping}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Analyze Response
                 </button>
@@ -350,41 +350,41 @@ export default AIInterviewSimulator;`;
           {/* AI Analysis */}
           <div className="space-y-6">
             {/* AI Response */}
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h3 className="text-lg font-bold text-white mb-4">🧠 AI Analysis</h3>
-              <div className="bg-gray-800 p-4 rounded-lg min-h-[300px] max-h-[400px] overflow-y-auto">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+              <h3 className="text-lg font-bold text-[var(--text)] mb-4">🧠 AI Analysis</h3>
+              <div className="bg-[var(--surface)] p-4 rounded-lg min-h-[300px] max-h-[400px] overflow-y-auto">
                 {isTyping ? (
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    <span className="text-purple-400">AI is analyzing your response...</span>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <span className="text-[var(--accent)]">AI is analyzing your response...</span>
                   </div>
                 ) : aiResponse ? (
                   <div className="prose prose-invert max-w-none">
                     <div dangerouslySetInnerHTML={{ __html: aiResponse.replace(/\n/g, '<br>') }} />
                   </div>
                 ) : (
-                  <p className="text-gray-400">AI analysis will appear here after you submit a response...</p>
+                  <p className="text-[var(--muted)]">AI analysis will appear here after you submit a response...</p>
                 )}
               </div>
             </div>
 
             {/* Progress & Navigation */}
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
-                              <h3 className="text-lg font-bold text-white mb-4">Progress</h3>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-yellow-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+                              <h3 className="text-lg font-bold text-[var(--text)] mb-4">Progress</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-white">Current Score:</span>
-                  <span className="text-yellow-400 font-bold">{score}/10</span>
+                  <span className="text-[var(--text)]">Current Score:</span>
+                  <span className="text-[var(--accent)] font-bold">{score}/10</span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-[var(--surface-2)] rounded-full h-2">
                   <div 
-                    className="bg-yellow-500 h-2 rounded-full transition-all duration-300"
+                    className="bg-[var(--accent)] h-2 rounded-full transition-all duration-300"
                     style={{ width: `${(currentQuestion / questions.length) * 100}%` }}
                   ></div>
                 </div>
-                <div className="flex justify-between text-sm text-gray-300">
+                <div className="flex justify-between text-sm text-[var(--text)]">
                   <span>Question {currentQuestion + 1} of {questions.length}</span>
                   <span>{Math.round((currentQuestion / questions.length) * 100)}% Complete</span>
                 </div>
@@ -392,7 +392,7 @@ export default AIInterviewSimulator;`;
                 {aiResponse && currentQuestion < questions.length - 1 && (
                   <button
                     onClick={handleNextQuestion}
-                    className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
+                    className="w-full bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Next Question
                   </button>
@@ -403,12 +403,12 @@ export default AIInterviewSimulator;`;
         </div>
 
         {/* Advanced Features */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-                      <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+                      <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">Real-time Speech Recognition</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Real-time Speech Recognition</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Live voice-to-text conversion</li>
                 <li>• Multiple language support</li>
                 <li>• Noise cancellation</li>
@@ -416,8 +416,8 @@ export default AIInterviewSimulator;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">AI-Powered Analysis</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">AI-Powered Analysis</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Natural language processing</li>
                 <li>• Sentiment analysis</li>
                 <li>• Keyword extraction</li>
@@ -425,8 +425,8 @@ export default AIInterviewSimulator;`;
               </ul>
             </div>
             <div>
-                              <h3 className="text-lg font-semibold text-purple-400 mb-2">Performance Analytics</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+                              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Performance Analytics</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Real-time scoring</li>
                 <li>• Progress tracking</li>
                 <li>• Detailed analytics</li>

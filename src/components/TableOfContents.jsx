@@ -38,9 +38,9 @@ const TableOfContents = ({ content }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between text-left"
       >
-        <h3 className="text-lg font-semibold text-white">Table of Contents</h3>
+        <h3 className="text-lg font-semibold text-[var(--text)]">Table of Contents</h3>
         <svg
-          className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-[var(--muted)] transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -61,8 +61,8 @@ const TableOfContents = ({ content }) => {
             <button
               key={index}
               onClick={() => scrollToHeading(heading.id)}
-              className={`block w-full text-left px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors ${
-                heading.level === 2 ? 'text-white font-medium' : 'text-gray-300 text-sm ml-4'
+              className={`block w-full text-left px-3 py-2 rounded-lg hover:bg-[var(--surface)] transition-colors ${
+                heading.level === 2 ? 'text-[var(--text)] font-medium' : 'text-[var(--text)] text-sm ml-4'
               }`}
             >
               {heading.text}

@@ -460,14 +460,14 @@ const RAGChat = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 RAG Chatbot Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🤖 RAG Chatbot Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Retrieval-Augmented Generation chatbot that answers questions using your documents with source citations.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -487,7 +487,7 @@ const RAGChat = () => {
         <div className="space-y-6">
           {/* Chat Messages */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Chat</h2>
@@ -503,19 +503,19 @@ const RAGChat = () => {
                 >
                   <div className={`max-w-[80%] p-4 rounded-lg ${
                     message.role === 'user'
-                      ? 'bg-blue-600'
-                      : 'bg-gray-700'
+                      ? 'bg-[var(--accent)]'
+                      : 'bg-[var(--surface-2)]'
                   }`}>
-                    <p className="text-white">{message.content}</p>
+                    <p className="text-[var(--text)]">{message.content}</p>
                     
                     {message.sources && message.sources.length > 0 && (
-                      <div className="mt-3 pt-3 border-t border-gray-600">
-                        <p className="text-xs text-gray-400 mb-2">Sources:</p>
+                      <div className="mt-3 pt-3 border-t border-[var(--border-strong)]">
+                        <p className="text-xs text-[var(--muted)] mb-2">Sources:</p>
                         <div className="flex flex-wrap gap-2">
                           {message.sources.map((source, i) => (
                             <span
                               key={i}
-                              className="text-xs bg-gray-600 px-2 py-1 rounded cursor-pointer hover:bg-gray-500"
+                              className="text-xs bg-[var(--border-strong)] px-2 py-1 rounded cursor-pointer hover:bg-[var(--border-strong)]"
                               onClick={() => setSelectedDocument(source.docId)}
                             >
                               📄 {source.title} ({(source.relevance * 100).toFixed(0)}%)
@@ -525,7 +525,7 @@ const RAGChat = () => {
                     </div>
                   )}
                     
-                    <p className="text-xs text-gray-400 mt-2">
+                    <p className="text-xs text-[var(--muted)] mt-2">
                     {new Date(message.timestamp).toLocaleTimeString()}
                     </p>
                   </div>
@@ -538,11 +538,11 @@ const RAGChat = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  <div className="bg-gray-700 p-4 rounded-lg">
+                  <div className="bg-[var(--surface-2)] p-4 rounded-lg">
                     <div className="flex space-x-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
+                      <div className="w-2 h-2 bg-[var(--border-strong)] rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-[var(--border-strong)] rounded-full animate-bounce delay-100" />
+                      <div className="w-2 h-2 bg-[var(--border-strong)] rounded-full animate-bounce delay-200" />
                   </div>
                 </div>
                 </motion.div>
@@ -557,12 +557,12 @@ const RAGChat = () => {
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Ask a question..."
-                className="flex-1 p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400"
+                className="flex-1 p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)]"
               />
               <motion.button
                 onClick={handleSendMessage} 
                 disabled={!inputMessage.trim() || isTyping}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 px-6 py-3 rounded-lg transition-colors"
+                className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] px-6 py-3 rounded-lg transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -574,7 +574,7 @@ const RAGChat = () => {
           {/* Selected Document */}
           {selectedDocument && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -584,10 +584,10 @@ const RAGChat = () => {
                 return doc ? (
                   <div>
                     <h3 className="font-bold text-lg mb-2">{doc.title}</h3>
-                    <p className="text-sm text-gray-400 mb-3">
+                    <p className="text-sm text-[var(--muted)] mb-3">
                       Type: {doc.type} • Updated: {doc.lastUpdated}
                     </p>
-                    <p className="text-gray-300">{doc.content}</p>
+                    <p className="text-[var(--text)]">{doc.content}</p>
           </div>
                 ) : null;
               })()}
@@ -599,15 +599,15 @@ const RAGChat = () => {
         <div className="space-y-6">
           {/* Knowledge Base */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📚 Knowledge Base</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📚 Knowledge Base</h3>
             <div className="space-y-2">
               {documents.map((doc, index) => (
                 <motion.div
                   key={doc.id}
-                  className="bg-gray-700 p-3 rounded-lg cursor-pointer hover:bg-gray-650 transition-colors"
+                  className="bg-[var(--surface-2)] p-3 rounded-lg cursor-pointer hover:bg-[var(--border-strong)] transition-colors"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -615,7 +615,7 @@ const RAGChat = () => {
                   whileHover={{ scale: 1.02 }}
                 >
                   <h4 className="font-semibold text-sm">{doc.title}</h4>
-                  <p className="text-xs text-gray-400">{doc.type}</p>
+                  <p className="text-xs text-[var(--muted)]">{doc.type}</p>
                 </motion.div>
               ))}
             </div>
@@ -623,47 +623,47 @@ const RAGChat = () => {
 
           {/* Stats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📊 Stats</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 Stats</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Documents:</span>
+                <span className="text-[var(--muted)]">Documents:</span>
                 <span className="font-semibold">{documents.length}</span>
             </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Messages:</span>
+                <span className="text-[var(--muted)]">Messages:</span>
                 <span className="font-semibold">{messages.length}</span>
             </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Avg Response:</span>
-                <span className="text-green-400 font-semibold">1.2s</span>
+                <span className="text-[var(--muted)]">Avg Response:</span>
+                <span className="text-[var(--accent)] font-semibold">1.2s</span>
           </div>
         </div>
           </motion.div>
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Source Citations</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Semantic Search</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Context Aware</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Updates</span>
               </li>
             </ul>

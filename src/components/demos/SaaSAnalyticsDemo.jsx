@@ -460,14 +460,14 @@ const AnalyticsDashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">📊 SaaS Analytics Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">📊 SaaS Analytics Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Enterprise-grade analytics platform with real-time metrics, cohort analysis, and revenue insights for SaaS businesses.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -487,7 +487,7 @@ const AnalyticsDashboard = () => {
         <div className="space-y-6">
           {/* Time Range Selector */}
           <motion.div 
-            className="bg-gray-800 p-4 rounded-xl"
+            className="bg-[var(--surface)] p-4 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex gap-2">
@@ -497,8 +497,8 @@ const AnalyticsDashboard = () => {
                   onClick={() => setTimeRange(range)}
                   className={`px-4 py-2 rounded-lg transition-colors ${
                     timeRange === range
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-650'
+                      ? 'bg-[var(--accent)] text-[var(--text)]'
+                      : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                   }`}
                 >
                   {range}
@@ -520,19 +520,19 @@ const AnalyticsDashboard = () => {
             ].map((metric, index) => (
               <motion.div
                 key={metric.label}
-                className="bg-gray-800 p-6 rounded-xl"
+                className="bg-[var(--surface)] p-6 rounded-xl"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <p className="text-sm text-gray-400 mb-2">{metric.label}</p>
+                <p className="text-sm text-[var(--muted)] mb-2">{metric.label}</p>
                 <div className="flex items-end justify-between">
                   <span className={`text-3xl font-bold text-${metric.color}-400`}>
                     {metric.value}
                   </span>
                   <span className={`text-sm ${
-                    metric.trend.startsWith('+') ? 'text-green-400' : 'text-red-400'
+                    metric.trend.startsWith('+') ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
                   }`}>
                     {metric.trend}
                   </span>
@@ -543,7 +543,7 @@ const AnalyticsDashboard = () => {
 
           {/* Revenue Chart */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Revenue Trend</h2>
@@ -552,7 +552,7 @@ const AnalyticsDashboard = () => {
               {chartData.map((data, index) => (
                 <motion.div
                   key={data.date}
-                  className="flex-1 bg-blue-600 rounded-t"
+                  className="flex-1 bg-[var(--accent)] rounded-t"
                   style={{ 
                     height: `${(data.revenue / 25000) * 100}%`,
                     minHeight: '20px'
@@ -565,7 +565,7 @@ const AnalyticsDashboard = () => {
               ))}
             </div>
             
-            <div className="flex justify-between mt-2 text-xs text-gray-400">
+            <div className="flex justify-between mt-2 text-xs text-[var(--muted)]">
               {chartData.map(data => (
                 <span key={data.date}>{data.date.slice(5)}</span>
               ))}
@@ -574,7 +574,7 @@ const AnalyticsDashboard = () => {
 
           {/* Feature Usage */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Feature Usage</h2>
@@ -590,19 +590,19 @@ const AnalyticsDashboard = () => {
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-sm font-medium">{feature.name}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-400">{feature.usage}%</span>
+                      <span className="text-sm text-[var(--muted)]">{feature.usage}%</span>
                       <span className={`text-xs ${
-                        feature.trend === 'up' ? 'text-green-400' :
-                        feature.trend === 'down' ? 'text-red-400' :
-                        'text-gray-400'
+                        feature.trend === 'up' ? 'text-[var(--accent)]' :
+                        feature.trend === 'down' ? 'text-[var(--accent)]' :
+                        'text-[var(--muted)]'
                       }`}>
                         {feature.trend === 'up' ? '↑' : feature.trend === 'down' ? '↓' : '→'}
                       </span>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div className="w-full bg-[var(--surface-2)] rounded-full h-2">
                     <motion.div
-                      className="bg-blue-500 h-2 rounded-full"
+                      className="bg-[var(--accent)] h-2 rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: `${feature.usage}%` }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -618,25 +618,25 @@ const AnalyticsDashboard = () => {
         <div className="space-y-6">
           {/* Quick Stats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">⚡ Quick Stats</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">⚡ Quick Stats</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">LTV:</span>
+                <span className="text-[var(--muted)]">LTV:</span>
                 <span className="font-semibold">$2,840</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">CAC:</span>
+                <span className="text-[var(--muted)]">CAC:</span>
                 <span className="font-semibold">$420</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">LTV:CAC:</span>
-                <span className="text-green-400 font-semibold">6.8x</span>
+                <span className="text-[var(--muted)]">LTV:CAC:</span>
+                <span className="text-[var(--accent)] font-semibold">6.8x</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">ARR:</span>
+                <span className="text-[var(--muted)]">ARR:</span>
                 <span className="font-semibold">{formatCurrency(metrics.mrr * 12)}</span>
               </div>
             </div>
@@ -644,10 +644,10 @@ const AnalyticsDashboard = () => {
 
           {/* Top Plans */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">💎 Top Plans</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">💎 Top Plans</h3>
             <div className="space-y-3">
               {[
                 { name: 'Pro', percentage: 45 },
@@ -665,25 +665,25 @@ const AnalyticsDashboard = () => {
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Metrics</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Cohort Analysis</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Revenue Tracking</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>A/B Testing</span>
               </li>
             </ul>

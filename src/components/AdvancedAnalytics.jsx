@@ -158,15 +158,15 @@ const AdvancedAnalytics = () => {
   };
   
   const containerClass = isEmbedded
-    ? 'space-y-8 text-white'
-    : 'min-h-screen bg-gray-900 text-white p-6';
+    ? 'space-y-8 text-[var(--text)]'
+    : 'min-h-screen bg-[var(--bg)] text-[var(--text)] p-6';
 
   const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
 
   return (
     <div className={containerClass}>
       <div className={innerClass}>
-        <h1 className="text-4xl font-bold text-purple-400 mb-8">
+        <h1 className="text-4xl font-bold text-[var(--accent)] mb-8">
           Advanced Analytics Dashboard
         </h1>
         
@@ -174,40 +174,40 @@ const AdvancedAnalytics = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             {/* User Analytics */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">User Analytics</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">User Analytics</h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-blue-800/50 p-4 rounded-lg">
-                    <p className="text-blue-200 text-sm">Total Users</p>
-                    <p className="text-white text-2xl font-bold">{analyticsData.users.length}</p>
+                  <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                    <p className="text-[var(--accent)] text-sm">Total Users</p>
+                    <p className="text-[var(--text)] text-2xl font-bold">{analyticsData.users.length}</p>
                   </div>
-                  <div className="bg-blue-800/50 p-4 rounded-lg">
-                    <p className="text-blue-200 text-sm">Active Now</p>
-                    <p className="text-white text-2xl font-bold">{Math.floor(analyticsData.users.length * 0.3)}</p>
+                  <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                    <p className="text-[var(--accent)] text-sm">Active Now</p>
+                    <p className="text-[var(--text)] text-2xl font-bold">{Math.floor(analyticsData.users.length * 0.3)}</p>
                   </div>
                 </div>
               </div>
             </div>
             
             {/* Predictions */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">🔮 Predictions</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🔮 Predictions</h2>
               <div className="space-y-3">
                 {analyticsData.predictions.map((pred, index) => (
-                  <div key={index} className="bg-green-800/50 p-4 rounded-lg">
+                  <div key={index} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center">
-                      <p className="text-white font-semibold">{pred.metric}</p>
+                      <p className="text-[var(--text)] font-semibold">{pred.metric}</p>
                       <span className={\`text-sm \${
-                        pred.trend === 'up' ? 'text-green-400' : 'text-red-400'
+                        pred.trend === 'up' ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
                       }\`}>
                         {pred.trend === 'up' ? '↗' : '↘'}
                       </span>
                     </div>
-                    <p className="text-green-200 text-sm">
+                    <p className="text-[var(--accent)] text-sm">
                       {pred.current} → {pred.predicted}
                     </p>
-                    <p className="text-green-300 text-xs">
+                    <p className="text-[var(--accent)] text-xs">
                       Confidence: {(pred.confidence * 100).toFixed(1)}%
                     </p>
                   </div>
@@ -218,46 +218,46 @@ const AdvancedAnalytics = () => {
           
           {/* Trends and Anomalies */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">📈 Trends</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">📈 Trends</h2>
               <div className="space-y-3">
                 {analyticsData.trends.map((trend, index) => (
-                  <div key={index} className="bg-purple-800/50 p-4 rounded-lg">
+                  <div key={index} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center">
-                      <p className="text-white font-semibold">{trend.name}</p>
+                      <p className="text-[var(--text)] font-semibold">{trend.name}</p>
                       <span className={\`text-sm \${
-                        trend.direction === 'up' ? 'text-green-400' : 'text-red-400'
+                        trend.direction === 'up' ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
                       }\`}>
                         {trend.direction === 'up' ? '+' : ''}{trend.change}%
                       </span>
                     </div>
-                    <p className="text-purple-200 text-sm">{trend.value}%</p>
+                    <p className="text-[var(--accent)] text-sm">{trend.value}%</p>
                   </div>
                 ))}
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">Anomalies</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-red-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Anomalies</h2>
               <div className="space-y-3">
                 {analyticsData.anomalies.map((anomaly, index) => (
                   <div key={index} className={\`p-4 rounded-lg \${
-                    anomaly.severity === 'High' ? 'bg-red-800/50' :
-                    anomaly.severity === 'Medium' ? 'bg-yellow-800/50' :
-                    'bg-orange-800/50'
+                    anomaly.severity === 'High' ? 'bg-[var(--accent-soft)]/50' :
+                    anomaly.severity === 'Medium' ? 'bg-[var(--accent-soft)]/50' :
+                    'bg-[var(--accent-soft)]/50'
                   }\`}>
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{anomaly.metric}</p>
+                      <p className="text-[var(--text)] font-semibold">{anomaly.metric}</p>
                       <span className={\`text-xs px-2 py-1 rounded \${
-                        anomaly.severity === 'High' ? 'bg-red-600' :
-                        anomaly.severity === 'Medium' ? 'bg-yellow-600' :
-                        'bg-orange-600'
+                        anomaly.severity === 'High' ? 'bg-[var(--accent)]' :
+                        anomaly.severity === 'Medium' ? 'bg-[var(--accent)]' :
+                        'bg-[var(--accent)]'
                       }\`}>
                         {anomaly.severity}
                       </span>
                     </div>
-                    <p className="text-gray-200 text-sm">{anomaly.description}</p>
-                    <p className="text-gray-300 text-xs">{anomaly.timestamp}</p>
+                    <p className="text-[var(--text)] text-sm">{anomaly.description}</p>
+                    <p className="text-[var(--text)] text-xs">{anomaly.timestamp}</p>
                   </div>
                 ))}
               </div>
@@ -272,18 +272,18 @@ const AdvancedAnalytics = () => {
 export default AdvancedAnalytics;`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-purple-400 mb-2">Advanced Analytics Dashboard</h1>
-              <p className="text-gray-400">Real-time data visualization and business intelligence powered by ML</p>
+              <h1 className="text-4xl font-bold text-[var(--accent)] mb-2">Advanced Analytics Dashboard</h1>
+              <p className="text-[var(--muted)]">Real-time data visualization and business intelligence powered by ML</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
             >
               View Code
             </button>
@@ -293,36 +293,36 @@ export default AdvancedAnalytics;`;
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* User Analytics */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">User Analytics</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">User Analytics</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-blue-400 text-sm">Live data</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Live data</span>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-blue-800/50 p-4 rounded-lg">
-                  <p className="text-blue-200 text-sm">Total Users</p>
-                  <p className="text-white text-2xl font-bold">{analyticsData.users.length}</p>
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                  <p className="text-[var(--accent)] text-sm">Total Users</p>
+                  <p className="text-[var(--text)] text-2xl font-bold">{analyticsData.users.length}</p>
                 </div>
-                <div className="bg-blue-800/50 p-4 rounded-lg">
-                  <p className="text-blue-200 text-sm">Active Now</p>
-                  <p className="text-white text-2xl font-bold">{Math.floor(analyticsData.users.length * 0.3)}</p>
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                  <p className="text-[var(--accent)] text-sm">Active Now</p>
+                  <p className="text-[var(--text)] text-2xl font-bold">{Math.floor(analyticsData.users.length * 0.3)}</p>
                 </div>
               </div>
               
               <div className="space-y-3 max-h-48 overflow-y-auto">
                 {analyticsData.users.slice(0, 5).map(user => (
-                  <div key={user.id} className="flex items-center justify-between p-3 bg-blue-800/50 rounded-lg">
+                  <div key={user.id} className="flex items-center justify-between p-3 bg-[var(--accent-soft)]/50 rounded-lg">
                     <div>
-                      <p className="text-white font-semibold">{user.name}</p>
-                      <p className="text-blue-200 text-sm">{user.email}</p>
+                      <p className="text-[var(--text)] font-semibold">{user.name}</p>
+                      <p className="text-[var(--accent)] text-sm">{user.email}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-white text-sm">${user.revenue}</p>
-                      <p className="text-blue-200 text-xs">{user.sessionDuration}m</p>
+                      <p className="text-[var(--text)] text-sm">${user.revenue}</p>
+                      <p className="text-[var(--accent)] text-xs">{user.sessionDuration}m</p>
                     </div>
                   </div>
                 ))}
@@ -330,31 +330,31 @@ export default AdvancedAnalytics;`;
             </div>
 
             {/* Predictions */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">ML Predictions</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">ML Predictions</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 text-sm">AI powered</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">AI powered</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {analyticsData.predictions.map((pred, index) => (
-                  <div key={index} className="bg-green-800/50 p-4 rounded-lg">
+                  <div key={index} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{pred.metric}</p>
+                      <p className="text-[var(--text)] font-semibold">{pred.metric}</p>
                       <span className={`text-sm ${
-                        pred.trend === 'up' ? 'text-green-400' : 'text-red-400'
+                        pred.trend === 'up' ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
                       }`}>
                         {pred.trend === 'up' ? '↗' : '↘'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <p className="text-green-200 text-sm">
+                      <p className="text-[var(--accent)] text-sm">
                         ${pred.current.toLocaleString()} → ${pred.predicted.toLocaleString()}
                       </p>
-                      <p className="text-green-300 text-xs">
+                      <p className="text-[var(--accent)] text-xs">
                         {(pred.confidence * 100).toFixed(1)}% confidence
                       </p>
                     </div>
@@ -366,66 +366,66 @@ export default AdvancedAnalytics;`;
 
           {/* Trends and Anomalies */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Trends</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">Trends</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                  <span className="text-purple-400 text-sm">Real-time</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Real-time</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {analyticsData.trends.map((trend, index) => (
-                  <div key={index} className="bg-purple-800/50 p-4 rounded-lg">
+                  <div key={index} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{trend.name}</p>
+                      <p className="text-[var(--text)] font-semibold">{trend.name}</p>
                       <span className={`text-sm ${
-                        trend.direction === 'up' ? 'text-green-400' : 'text-red-400'
+                        trend.direction === 'up' ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
                       }`}>
                         {trend.direction === 'up' ? '+' : ''}{trend.change}%
                       </span>
                     </div>
-                    <div className="w-full bg-purple-700 rounded-full h-2">
+                    <div className="w-full bg-[var(--accent-deep)] rounded-full h-2">
                       <div 
-                        className="bg-purple-400 h-2 rounded-full transition-all duration-300"
+                        className="bg-[var(--accent)] h-2 rounded-full transition-all duration-300"
                         style={{ width: `${trend.value}%` }}
                       ></div>
                     </div>
-                    <p className="text-purple-200 text-sm mt-2">{trend.value}%</p>
+                    <p className="text-[var(--accent)] text-sm mt-2">{trend.value}%</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-red-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Anomaly Detection</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">Anomaly Detection</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="text-red-400 text-sm">AI monitoring</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">AI monitoring</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {analyticsData.anomalies.map((anomaly, index) => (
                   <div key={index} className={`p-4 rounded-lg ${
-                    anomaly.severity === 'High' ? 'bg-red-800/50' :
-                    anomaly.severity === 'Medium' ? 'bg-yellow-800/50' :
-                    'bg-orange-800/50'
+                    anomaly.severity === 'High' ? 'bg-[var(--accent-soft)]/50' :
+                    anomaly.severity === 'Medium' ? 'bg-[var(--accent-soft)]/50' :
+                    'bg-[var(--accent-soft)]/50'
                   }`}>
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{anomaly.metric}</p>
+                      <p className="text-[var(--text)] font-semibold">{anomaly.metric}</p>
                       <span className={`text-xs px-2 py-1 rounded ${
-                        anomaly.severity === 'High' ? 'bg-red-600' :
-                        anomaly.severity === 'Medium' ? 'bg-yellow-600' :
-                        'bg-orange-600'
+                        anomaly.severity === 'High' ? 'bg-[var(--accent)]' :
+                        anomaly.severity === 'Medium' ? 'bg-[var(--accent)]' :
+                        'bg-[var(--accent)]'
                       }`}>
                         {anomaly.severity}
                       </span>
                     </div>
-                    <p className="text-gray-200 text-sm mb-2">{anomaly.description}</p>
-                    <p className="text-gray-300 text-xs">{anomaly.timestamp}</p>
+                    <p className="text-[var(--text)] text-sm mb-2">{anomaly.description}</p>
+                    <p className="text-[var(--text)] text-xs">{anomaly.timestamp}</p>
                   </div>
                 ))}
               </div>
@@ -434,12 +434,12 @@ export default AdvancedAnalytics;`;
         </div>
 
         {/* Advanced Features */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-                      <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+                      <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-                              <h3 className="text-lg font-semibold text-purple-400 mb-2">Machine Learning</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+                              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Machine Learning</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Predictive analytics models</li>
                 <li>• Anomaly detection algorithms</li>
                 <li>• Real-time data processing</li>
@@ -447,8 +447,8 @@ export default AdvancedAnalytics;`;
               </ul>
             </div>
             <div>
-                              <h3 className="text-lg font-semibold text-blue-400 mb-2">Data Visualization</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+                              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Data Visualization</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Interactive charts and graphs</li>
                 <li>• Real-time dashboards</li>
                 <li>• Custom metric tracking</li>
@@ -456,8 +456,8 @@ export default AdvancedAnalytics;`;
               </ul>
             </div>
             <div>
-                              <h3 className="text-lg font-semibold text-green-400 mb-2">Business Intelligence</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+                              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Business Intelligence</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• KPI monitoring and alerts</li>
                 <li>• Trend analysis and forecasting</li>
                 <li>• User behavior analytics</li>

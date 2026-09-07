@@ -139,36 +139,36 @@ The dashboard uses log aggregation, pattern matching, anomaly detection, and aut
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Security Monitoring Dashboard</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">📊</div>
-            <div className="text-sm font-medium text-white">Threat Detection</div>
-            <div className="text-xs text-gray-400">Real-time</div>
+            <div className="text-sm font-medium text-[var(--text)]">Threat Detection</div>
+            <div className="text-xs text-[var(--muted)]">Real-time</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">📝</div>
-            <div className="text-sm font-medium text-white">Log Analysis</div>
-            <div className="text-xs text-gray-400">Aggregated</div>
+            <div className="text-sm font-medium text-[var(--text)]">Log Analysis</div>
+            <div className="text-xs text-[var(--muted)]">Aggregated</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">🚨</div>
-            <div className="text-sm font-medium text-white">Alerting</div>
-            <div className="text-xs text-gray-400">Automated</div>
+            <div className="text-sm font-medium text-[var(--text)]">Alerting</div>
+            <div className="text-xs text-[var(--muted)]">Automated</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">⚡</div>
-            <div className="text-sm font-medium text-white">Response</div>
-            <div className="text-xs text-gray-400">Incident</div>
+            <div className="text-sm font-medium text-[var(--text)]">Response</div>
+            <div className="text-xs text-[var(--muted)]">Incident</div>
           </div>
         </div>
       </div>

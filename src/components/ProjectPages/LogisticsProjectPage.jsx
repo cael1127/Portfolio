@@ -179,19 +179,19 @@ const LogisticsDashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           Smart Logistics Platform
         </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {fleet.map(vehicle => (
-            <div key={vehicle.id} className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-              <h3 className="text-lg font-semibold text-white">{vehicle.id}</h3>
-              <p className="text-gray-400">{vehicle.type}</p>
-              <p className="text-green-400">Capacity: {vehicle.capacity}kg</p>
-              <p className="text-blue-400">Status: {vehicle.status}</p>
+            <div key={vehicle.id} className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+              <h3 className="text-lg font-semibold text-[var(--text)]">{vehicle.id}</h3>
+              <p className="text-[var(--muted)]">{vehicle.type}</p>
+              <p className="text-[var(--accent)]">Capacity: {vehicle.capacity}kg</p>
+              <p className="text-[var(--accent)]">Status: {vehicle.status}</p>
             </div>
           ))}
         </div>
@@ -202,18 +202,18 @@ const LogisticsDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🚚 Smart Logistics Platform</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🚚 Smart Logistics Platform</h1>
+          <p className="text-[var(--text)] text-lg">
             AI-powered fleet management and route optimization with real-time tracking and predictive analytics
           </p>
         </div>
@@ -226,8 +226,8 @@ const LogisticsDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -237,12 +237,12 @@ const LogisticsDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Smart Logistics Platform is a comprehensive fleet management solution that combines AI-powered route optimization, 
                   real-time GPS tracking, and predictive analytics to streamline supply chain operations and reduce delivery costs.
                 </p>
@@ -250,8 +250,8 @@ const LogisticsDashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Optimize delivery routes</li>
                     <li>• Real-time fleet tracking</li>
                     <li>• Reduce fuel consumption</li>
@@ -261,8 +261,8 @@ const LogisticsDashboard = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for dashboard</li>
                     <li>• Node.js backend API</li>
                     <li>• GPS tracking integration</li>
@@ -277,12 +277,12 @@ const LogisticsDashboard = () => {
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">🚚 Fleet Management</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🚚 Fleet Management</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Vehicle tracking and monitoring</li>
                     <li>• Driver assignment and management</li>
                     <li>• Maintenance scheduling</li>
@@ -291,9 +291,9 @@ const LogisticsDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">🗺️ Route Optimization</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🗺️ Route Optimization</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• AI-powered route calculation</li>
                     <li>• Traffic-aware routing</li>
                     <li>• Multi-stop optimization</li>
@@ -302,9 +302,9 @@ const LogisticsDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">📊 Analytics Dashboard</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📊 Analytics Dashboard</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Real-time fleet overview</li>
                     <li>• Performance metrics</li>
                     <li>• Cost analysis</li>
@@ -313,9 +313,9 @@ const LogisticsDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">🔔 Alert System</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🔔 Alert System</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Geofence alerts</li>
                     <li>• Maintenance reminders</li>
                     <li>• Route deviation alerts</li>
@@ -329,40 +329,40 @@ const LogisticsDashboard = () => {
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Fleet Management System</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Fleet Management System</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.fleetManagement}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Route Optimization Engine</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Route Optimization Engine</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.routeOptimizer}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Real-time Tracking</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Real-time Tracking</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.realTimeTracking}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -373,13 +373,13 @@ const LogisticsDashboard = () => {
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js dashboard</li>
                       <li>• Real-time map visualization</li>
                       <li>• Interactive route planning</li>
@@ -390,9 +390,9 @@ const LogisticsDashboard = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Backend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Backend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• Node.js API server</li>
                       <li>• Route optimization engine</li>
                       <li>• GPS data processing</li>
@@ -403,28 +403,28 @@ const LogisticsDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Data Flow</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Data Flow</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">GPS Data Collection</p>
-                      <p className="text-gray-300 text-sm">Real-time GPS coordinates from vehicles</p>
+                      <p className="text-[var(--text)] font-semibold">GPS Data Collection</p>
+                      <p className="text-[var(--text)] text-sm">Real-time GPS coordinates from vehicles</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Route Optimization</p>
-                      <p className="text-gray-300 text-sm">AI algorithms calculate optimal routes</p>
+                      <p className="text-[var(--text)] font-semibold">Route Optimization</p>
+                      <p className="text-[var(--text)] text-sm">AI algorithms calculate optimal routes</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">Dashboard Updates</p>
-                      <p className="text-gray-300 text-sm">Real-time updates to the dashboard</p>
+                      <p className="text-[var(--text)] font-semibold">Dashboard Updates</p>
+                      <p className="text-[var(--text)] text-sm">Real-time updates to the dashboard</p>
                     </div>
                   </div>
                 </div>
@@ -434,23 +434,23 @@ const LogisticsDashboard = () => {
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the logistics platform in action. The demo showcases real-time fleet tracking, 
                 route optimization, and comprehensive logistics management.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Logistics Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Logistics Demo</h3>
                   <button
                     onClick={() => setCurrentPage('logistics')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full logistics platform with real-time fleet tracking, 
                   route optimization, and comprehensive logistics management.
                 </p>

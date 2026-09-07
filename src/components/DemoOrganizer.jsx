@@ -363,19 +363,19 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case 'Beginner': return 'text-green-400';
-      case 'Intermediate': return 'text-yellow-400';
-      case 'Advanced': return 'text-red-400';
-      default: return 'text-gray-400';
+      case 'Beginner': return 'text-[var(--accent)]';
+      case 'Intermediate': return 'text-[var(--accent)]';
+      case 'Advanced': return 'text-[var(--accent)]';
+      default: return 'text-[var(--muted)]';
     }
   };
 
   const getDifficultyBg = (difficulty) => {
     switch (difficulty) {
-      case 'Beginner': return 'bg-green-600';
-      case 'Intermediate': return 'bg-yellow-600';
-      case 'Advanced': return 'bg-red-600';
-      default: return 'bg-gray-600';
+      case 'Beginner': return 'bg-[var(--accent)]';
+      case 'Intermediate': return 'bg-[var(--accent)]';
+      case 'Advanced': return 'bg-[var(--accent)]';
+      default: return 'bg-[var(--border-strong)]';
     }
   };
 
@@ -428,30 +428,30 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 style={{ zIndex: 1 }}
               />
               <div className="flex items-center gap-2 sm:gap-4 relative" style={{ zIndex: 2 }}>
-                <div className="flex-shrink-0 text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
+                <div className="flex-shrink-0 text-[var(--accent)]">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 sm:gap-3 mb-1">
-                    <h3 className="text-sm sm:text-base font-semibold text-white truncate">{demo.name}</h3>
+                    <h3 className="text-sm sm:text-base font-semibold text-[var(--text)] truncate">{demo.name}</h3>
                     <div className={`px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium ${getDifficultyBg(demo.difficulty)}`}>
                       {demo.difficulty}
                     </div>
                   </div>
-                  <p className="text-gray-300 text-[11px] sm:text-sm mb-2 line-clamp-1">{demo.description}</p>
+                  <p className="text-[var(--text)] text-[11px] sm:text-sm mb-2 line-clamp-1">{demo.description}</p>
                   <div className="flex flex-wrap gap-1">
                     {demo.technologies.slice(0, 4).map((tech, idx) => (
                       <span
                         key={`${demo.id}-tech-${idx}`}
-                        className="bg-gray-700 text-gray-300 px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs"
+                        className="bg-[var(--surface-2)] text-[var(--text)] px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs"
                       >
                         {tech}
                       </span>
                     ))}
                     {demo.technologies.length > 4 && (
-                      <span className="text-gray-500 text-[10px] sm:text-xs">+{demo.technologies.length - 4}</span>
+                      <span className="text-[var(--muted)] text-[10px] sm:text-xs">+{demo.technologies.length - 4}</span>
                     )}
                   </div>
                 </div>
-                <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all hidden sm:block">
+                <div className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all hidden sm:block">
                   →
                 </div>
               </div>
@@ -497,24 +497,24 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               />
               <div className="relative" style={{ zIndex: 2 }}>
                 <div className="flex items-center gap-1.5 sm:gap-2 mb-1 sm:mb-2">
-                  <div className="text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 16)}</div>
-                  <h3 className="text-[11px] sm:text-sm font-semibold text-white truncate flex-1">{demo.name}</h3>
+                  <div className="text-[var(--accent)]">{renderIcon(demo.iconKey || demo.id, 'demo', 16)}</div>
+                  <h3 className="text-[11px] sm:text-sm font-semibold text-[var(--text)] truncate flex-1">{demo.name}</h3>
                 </div>
                 <div className={`inline-block px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium mb-1 sm:mb-2 ${getDifficultyBg(demo.difficulty)}`}>
                   {demo.difficulty}
                 </div>
-                <p className="text-gray-400 text-[10px] sm:text-xs line-clamp-2 mb-1 sm:mb-2">{demo.description}</p>
+                <p className="text-[var(--muted)] text-[10px] sm:text-xs line-clamp-2 mb-1 sm:mb-2">{demo.description}</p>
                 <div className="flex flex-wrap gap-1">
                   {demo.technologies.slice(0, 2).map((tech, idx) => (
                     <span
                       key={`${demo.id}-tech-${idx}`}
-                      className="bg-gray-700 text-gray-300 px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-xs"
+                      className="bg-[var(--surface-2)] text-[var(--text)] px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-xs"
                     >
                       {tech}
                     </span>
                   ))}
                   {demo.technologies.length > 2 && (
-                    <span className="text-gray-500 text-[9px] sm:text-xs">+{demo.technologies.length - 2}</span>
+                    <span className="text-[var(--muted)] text-[9px] sm:text-xs">+{demo.technologies.length - 2}</span>
                   )}
                 </div>
               </div>
@@ -561,9 +561,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
           <div className="flex items-start justify-between mb-2 sm:mb-4 relative" style={{ zIndex: 2 }}>
             <div className="flex items-center flex-1 min-w-0">
-              <div className="mr-2 sm:mr-3 transition-transform duration-300 group-hover:scale-110 text-green-400 flex-shrink-0">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
+              <div className="mr-2 sm:mr-3 transition-transform duration-300 group-hover:scale-110 text-[var(--accent)] flex-shrink-0">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</div>
               <div className="min-w-0 flex-1">
-                <h3 className="text-sm sm:text-lg font-semibold text-white transition-colors truncate">
+                <h3 className="text-sm sm:text-lg font-semibold text-[var(--text)] transition-colors truncate">
                   {demo.name}
                 </h3>
                 <div className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-medium transition-all duration-300 ${getDifficultyBg(demo.difficulty)}`}>
@@ -571,68 +571,68 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 </div>
               </div>
             </div>
-            <div className="text-green-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 flex-shrink-0 hidden sm:block">
+            <div className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 flex-shrink-0 hidden sm:block">
               →
             </div>
           </div>
 
-          <p className="text-gray-300 text-[11px] sm:text-sm mb-2 sm:mb-4 transition-colors line-clamp-2">{demo.description}</p>
+          <p className="text-[var(--text)] text-[11px] sm:text-sm mb-2 sm:mb-4 transition-colors line-clamp-2">{demo.description}</p>
 
           <div className="mb-2 sm:mb-4">
-            <h4 className="text-[10px] sm:text-sm font-semibold text-gray-400 mb-1 sm:mb-2 transition-colors">Technologies</h4>
+            <h4 className="text-[10px] sm:text-sm font-semibold text-[var(--muted)] mb-1 sm:mb-2 transition-colors">Technologies</h4>
             <div className="flex flex-wrap gap-1">
               {demo.technologies.slice(0, 3).map((tech, idx) => (
                 <span
                   key={`${demo.id}-tech-${idx}`}
-                  className="bg-gray-600 text-white px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs transition-all duration-300 hover:scale-105"
+                  className="bg-[var(--border-strong)] text-[var(--text)] px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs transition-all duration-300 hover:scale-105"
                   style={{ transitionDelay: `${idx * 50}ms` }}
                 >
                   {tech}
                 </span>
               ))}
               {demo.technologies.length > 3 && (
-                <span className="text-gray-400 text-[10px] sm:text-xs">+{demo.technologies.length - 3}</span>
+                <span className="text-[var(--muted)] text-[10px] sm:text-xs">+{demo.technologies.length - 3}</span>
               )}
             </div>
           </div>
 
           <div className="hidden sm:block">
-            <h4 className="text-sm font-semibold text-gray-400 mb-2 transition-colors">Key Features</h4>
+            <h4 className="text-sm font-semibold text-[var(--muted)] mb-2 transition-colors">Key Features</h4>
             <ul className="space-y-1">
               {demo.features.slice(0, 3).map((feature, idx) => (
                 <li
                   key={`${demo.id}-feature-${idx}`}
-                  className="text-gray-300 text-xs flex items-center transition-all duration-300"
+                  className="text-[var(--text)] text-xs flex items-center transition-all duration-300"
                   style={{ transitionDelay: `${idx * 100}ms` }}
                 >
-                  <span className="text-green-400 mr-1 transition-transform duration-300">•</span>
+                  <span className="text-[var(--accent)] mr-1 transition-transform duration-300">•</span>
                   {feature}
                 </li>
               ))}
               {demo.features.length > 3 && (
-                <li className="text-gray-400 text-xs transition-colors">+{demo.features.length - 3} more features</li>
+                <li className="text-[var(--muted)] text-xs transition-colors">+{demo.features.length - 3} more features</li>
               )}
             </ul>
           </div>
 
           {demo.hasProjectPage && (
-            <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-gray-600 transition-colors">
+            <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-[var(--border-strong)] transition-colors">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setCurrentPage(routeId);
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
-                className="text-green-400 hover:text-green-300 text-[10px] sm:text-xs font-semibold transition-transform duration-300"
+                className="text-[var(--accent)] hover:text-[var(--accent)] text-[10px] sm:text-xs font-semibold transition-transform duration-300"
               >
                 View Details →
               </button>
             </div>
           )}
 
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--surface-2)]">
             <motion.div 
-              className="h-full bg-gradient-to-r from-green-400 to-emerald-500 origin-left"
+              className="h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] origin-left"
               initial={{ scaleX: 0 }}
               whileHover={{ scaleX: 1 }}
               transition={{ duration: 0.5 }}
@@ -647,7 +647,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
   const showCategorySections = selectedCategory === 'all' && searchTerm.trim() === '';
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white px-4 py-6 sm:p-6 relative overflow-x-hidden overflow-y-auto">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] px-4 py-6 sm:p-6 relative overflow-x-hidden overflow-y-auto">
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <FloatingParticles />
       </div>
@@ -655,10 +655,10 @@ const DemoOrganizer = ({ setCurrentPage }) => {
         {/* Header */}
         <div className="mb-8 snap-section">
           <AnimatedCard delay={0} direction="down" className="mb-4">
-            <h1 className="text-4xl font-bold text-green-400">Demo Collection</h1>
+            <h1 className="text-4xl font-bold text-[var(--accent)]">Demo Collection</h1>
           </AnimatedCard>
           <AnimatedCard delay={100} direction="down" className="mb-4">
-            <p className="text-gray-300 text-lg">
+            <p className="text-[var(--text)] text-lg">
               Explore our comprehensive collection of interactive demos organized by category
             </p>
           </AnimatedCard>
@@ -684,9 +684,9 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   }}
                   onFocus={() => setShowSearchSuggestions(searchTerm.length > 0)}
                   onBlur={() => setTimeout(() => setShowSearchSuggestions(false), 200)}
-                  className="w-full p-3 pl-10 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none transition-all duration-300 focus:ring-2 focus:ring-green-500/20"
+                  className="w-full p-3 pl-10 rounded-lg bg-[var(--surface)] border border-[var(--border-strong)] text-[var(--text)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-all duration-300 focus:ring-2 focus:ring-[var(--accent)]/20"
                 />
-                <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 {searchTerm && (
@@ -695,7 +695,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       setSearchTerm('');
                       setShowSearchSuggestions(false);
                     }}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--muted)] hover:text-[var(--text)] transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -705,17 +705,17 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 
                 {/* Search Suggestions */}
                 {showSearchSuggestions && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50 max-h-64 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--surface)] border border-[var(--border-strong)] rounded-lg shadow-xl z-50 max-h-64 overflow-y-auto">
                     {isLoading ? (
-                      <div className="p-4 text-center text-gray-400">
-                        <div className="animate-spin inline-block w-4 h-4 border-2 border-green-400 border-t-transparent rounded-full"></div>
+                      <div className="p-4 text-center text-[var(--muted)]">
+                        <div className="animate-spin inline-block w-4 h-4 border-2 border-[var(--accent)] border-t-transparent rounded-full"></div>
                         <span className="ml-2">Searching...</span>
                       </div>
                     ) : (
                       <>
                         {/* Quick Filters */}
-                        <div className="p-3 border-b border-gray-600">
-                          <div className="text-xs text-gray-400 mb-2">Quick Filters:</div>
+                        <div className="p-3 border-b border-[var(--border-strong)]">
+                          <div className="text-xs text-[var(--muted)] mb-2">Quick Filters:</div>
                           <div className="flex flex-wrap gap-2">
                             {['AI/ML', 'Blockchain', 'React', 'Python', 'Node.js'].map((filter) => (
                               <button
@@ -724,7 +724,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                                   setSearchTerm(filter);
                                   setShowSearchSuggestions(false);
                                 }}
-                                className="px-2 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 rounded transition-colors"
+                                className="px-2 py-1 text-xs bg-[var(--surface-2)] hover:bg-[var(--border-strong)] text-[var(--text)] rounded transition-colors"
                               >
                                 {filter}
                               </button>
@@ -734,7 +734,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                         
                         {/* Search Results Preview */}
                         <div className="p-3">
-                          <div className="text-xs text-gray-400 mb-2">Found {filteredDemos.length} results:</div>
+                          <div className="text-xs text-[var(--muted)] mb-2">Found {filteredDemos.length} results:</div>
                           {filteredDemos.slice(0, 3).map((demo) => {
                             const routeId = getDemoRouteId(demo);
                             return (
@@ -746,13 +746,13 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                                   setCurrentPage(routeId);
                                   window.scrollTo({ top: 0, behavior: 'instant' });
                                 }}
-                                className="w-full text-left p-2 hover:bg-gray-700 rounded transition-colors"
+                                className="w-full text-left p-2 hover:bg-[var(--surface-2)] rounded transition-colors"
                               >
                               <div className="flex items-center">
-                                <span className="mr-2 text-green-400">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</span>
+                                <span className="mr-2 text-[var(--accent)]">{renderIcon(demo.iconKey || demo.id, 'demo', 20)}</span>
                                   <div>
-                                    <div className="text-sm text-white font-medium">{demo.name}</div>
-                                    <div className="text-xs text-gray-400">{demo.description}</div>
+                                    <div className="text-sm text-[var(--text)] font-medium">{demo.name}</div>
+                                    <div className="text-xs text-[var(--muted)]">{demo.description}</div>
                                   </div>
                                 </div>
                               </button>
@@ -774,8 +774,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   onClick={() => setCategoryMenuOpen(!categoryMenuOpen)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
                     selectedCategory !== 'all'
-                      ? 'bg-green-600 text-white shadow-lg shadow-green-500/30'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      ? 'bg-[var(--accent)] text-[var(--text)] shadow-lg shadow-green-500/30'
+                      : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                   }`}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -804,7 +804,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-2 w-64 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto"
+                      className="absolute top-full left-0 mt-2 w-64 bg-[var(--surface)] border border-[var(--border-strong)] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto"
                     >
                     <div className="p-2">
                       <button
@@ -814,8 +814,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                         }}
                         className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-300 mb-1 ${
                           selectedCategory === 'all'
-                            ? 'bg-green-600 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                            ? 'bg-[var(--accent)] text-[var(--text)]'
+                            : 'text-[var(--text)] hover:bg-[var(--surface-2)] hover:text-[var(--text)]'
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -836,13 +836,13 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                           }}
                           className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-300 mb-1 ${
                             selectedCategory === key
-                              ? 'bg-green-600 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                              ? 'bg-[var(--accent)] text-[var(--text)]'
+                              : 'text-[var(--text)] hover:bg-[var(--surface-2)] hover:text-[var(--text)]'
                           }`}
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <span className="text-green-400">{renderIcon(category.iconKey || key, 'category', 16)}</span>
+                              <span className="text-[var(--accent)]">{renderIcon(category.iconKey || key, 'category', 16)}</span>
                               <span>{category.name}</span>
                             </div>
                             {selectedCategory === key && (
@@ -851,7 +851,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                               </svg>
                             )}
                           </div>
-                          <p className="text-xs text-gray-400 mt-1 ml-6">{category.demos.length} demos</p>
+                          <p className="text-xs text-[var(--muted)] mt-1 ml-6">{category.demos.length} demos</p>
                         </button>
                       ))}
                     </div>
@@ -866,7 +866,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 <select
                   value={selectedDifficulty}
                   onChange={(e) => setSelectedDifficulty(e.target.value)}
-                  className="px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white text-sm focus:border-green-400 focus:outline-none"
+                  className="px-3 py-2 rounded-lg bg-[var(--surface)] border border-[var(--border-strong)] text-[var(--text)] text-sm focus:border-[var(--accent)] focus:outline-none"
                 >
                   <option value="all">All Difficulties</option>
                   <option value="Beginner">Beginner</option>
@@ -878,7 +878,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white text-sm focus:border-green-400 focus:outline-none"
+                  className="px-3 py-2 rounded-lg bg-[var(--surface)] border border-[var(--border-strong)] text-[var(--text)] text-sm focus:border-[var(--accent)] focus:outline-none"
                 >
                   <option value="default">Default</option>
                   <option value="name">Name</option>
@@ -887,11 +887,11 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 </select>
 
                 {/* View Mode Switcher */}
-                <div className="flex gap-1 bg-gray-800 p-1 rounded-lg border border-gray-600">
+                <div className="flex gap-1 bg-[var(--surface)] p-1 rounded-lg border border-[var(--border-strong)]">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded transition-colors ${
-                      viewMode === 'grid' ? 'bg-green-600 text-white' : 'text-gray-400 hover:text-white'
+                      viewMode === 'grid' ? 'bg-[var(--accent)] text-[var(--text)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
                     }`}
                     title="Grid View"
                   >
@@ -902,7 +902,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   <button
                     onClick={() => setViewMode('list')}
                     className={`p-2 rounded transition-colors ${
-                      viewMode === 'list' ? 'bg-green-600 text-white' : 'text-gray-400 hover:text-white'
+                      viewMode === 'list' ? 'bg-[var(--accent)] text-[var(--text)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
                     }`}
                     title="List View"
                   >
@@ -913,7 +913,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                   <button
                     onClick={() => setViewMode('compact')}
                     className={`p-2 rounded transition-colors ${
-                      viewMode === 'compact' ? 'bg-green-600 text-white' : 'text-gray-400 hover:text-white'
+                      viewMode === 'compact' ? 'bg-[var(--accent)] text-[var(--text)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
                     }`}
                     title="Compact View"
                   >
@@ -928,12 +928,12 @@ const DemoOrganizer = ({ setCurrentPage }) => {
             {/* Technology Filter Chips */}
             {selectedTechnologies.length > 0 && (
               <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-sm text-gray-400">Filtered by:</span>
+                <span className="text-sm text-[var(--muted)]">Filtered by:</span>
                 {selectedTechnologies.map((tech) => (
                   <button
                     key={tech}
                     onClick={() => setSelectedTechnologies(prev => prev.filter(t => t !== tech))}
-                    className="px-3 py-1 bg-green-600 text-white rounded-full text-sm flex items-center gap-2 hover:bg-green-700 transition-colors"
+                    className="px-3 py-1 bg-[var(--accent)] text-[var(--text)] rounded-full text-sm flex items-center gap-2 hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     {tech}
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -943,7 +943,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 ))}
                 <button
                   onClick={() => setSelectedTechnologies([])}
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  className="text-sm text-[var(--muted)] hover:text-[var(--text)] transition-colors"
                 >
                   Clear all
                 </button>
@@ -952,8 +952,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
             {/* Popular Technologies */}
             {selectedCategory === 'all' && searchTerm === '' && (
-              <div className="pt-4 border-t border-gray-700">
-                <div className="text-sm text-gray-400 mb-3">Popular Technologies:</div>
+              <div className="pt-4 border-t border-[var(--border)]">
+                <div className="text-sm text-[var(--muted)] mb-3">Popular Technologies:</div>
                 <div className="flex flex-wrap gap-2">
                   {['React', 'Python', 'Node.js', 'TypeScript', 'TensorFlow', 'Docker', 'MongoDB', 'AWS'].map((tech) => {
                     const isSelected = selectedTechnologies.includes(tech);
@@ -969,8 +969,8 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                         }}
                         className={`px-3 py-1 rounded-full text-sm transition-colors ${
                           isSelected
-                            ? 'bg-green-600 text-white'
-                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            ? 'bg-[var(--accent)] text-[var(--text)]'
+                            : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                         }`}
                       >
                         {tech}
@@ -986,7 +986,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
          {/* Category Overview */}
          {selectedCategory === 'all' && searchTerm.trim() === '' && (
            <div className="mb-8 snap-section">
-             <h2 className="text-2xl font-bold text-white mb-6">Categories</h2>
+             <h2 className="text-2xl font-bold text-[var(--text)] mb-6">Categories</h2>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                {Object.entries(demoCategories).map(([key, category], index) => (
                  <BounceCard
@@ -996,15 +996,15 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                    onClick={() => setSelectedCategory(key)}
                  >
                    <GlareHover intensity={0.6}>
-                     <GlassCard className="p-6 hover:border-green-400 transition-all" glow>
+                     <GlassCard className="p-6 hover:border-[var(--accent)] transition-all" glow>
                       <div className="flex items-center mb-4">
-                        <div className="mr-3 text-green-400">{renderIcon(category.iconKey || key, 'category', 32)}</div>
+                        <div className="mr-3 text-[var(--accent)]">{renderIcon(category.iconKey || key, 'category', 32)}</div>
                          <div>
-                           <h3 className="text-lg font-semibold text-white">{category.name}</h3>
-                           <p className="text-gray-400 text-sm">{category.demos.length} demos</p>
+                           <h3 className="text-lg font-semibold text-[var(--text)]">{category.name}</h3>
+                           <p className="text-[var(--muted)] text-sm">{category.demos.length} demos</p>
                          </div>
                        </div>
-                       <p className="text-gray-300 text-sm">{category.description}</p>
+                       <p className="text-[var(--text)] text-sm">{category.description}</p>
                      </GlassCard>
                    </GlareHover>
                  </BounceCard>
@@ -1017,13 +1017,13 @@ const DemoOrganizer = ({ setCurrentPage }) => {
         <div className="mb-8 snap-section">
           <AnimatedCard delay={100} direction="up">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl font-bold text-[var(--text)]">
                 {selectedCategory === 'all' ? 'All Demos' : demoCategories[selectedCategory]?.name}
               </h2>
               <div className="flex items-center gap-4">
-                <p className="text-gray-400">{filteredDemos.length} {filteredDemos.length === 1 ? 'demo' : 'demos'} found</p>
+                <p className="text-[var(--muted)]">{filteredDemos.length} {filteredDemos.length === 1 ? 'demo' : 'demos'} found</p>
                 {searchTerm && (
-                  <span className="text-sm text-green-400 bg-green-900/20 px-2 py-1 rounded">
+                  <span className="text-sm text-[var(--accent)] bg-[var(--accent-soft)]/20 px-2 py-1 rounded">
                     Searching: "{searchTerm}"
                   </span>
                 )}
@@ -1033,11 +1033,11 @@ const DemoOrganizer = ({ setCurrentPage }) => {
 
           {filteredDemos.length === 0 ? (
             <div className="text-center py-16">
-              <svg className="w-16 h-16 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 mx-auto mb-4 text-[var(--muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <h3 className="text-2xl font-bold text-white mb-2">No demos found</h3>
-              <p className="text-gray-400 mb-4">
+              <h3 className="text-2xl font-bold text-[var(--text)] mb-2">No demos found</h3>
+              <p className="text-[var(--muted)] mb-4">
                 {searchTerm
                   ? `No demos match "${searchTerm}". Try adjusting your search terms.`
                   : 'No demos available in this category.'
@@ -1046,7 +1046,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg transition-colors"
+                  className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-6 py-2 rounded-lg transition-colors"
                 >
                   Clear Search
                 </button>
@@ -1058,16 +1058,16 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                 <section key={key} className="space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
-                      <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                        <span className="text-green-400">{renderIcon(category.iconKey || key, 'category', 24)}</span>
+                      <h3 className="text-xl font-semibold text-[var(--text)] flex items-center gap-2">
+                        <span className="text-[var(--accent)]">{renderIcon(category.iconKey || key, 'category', 24)}</span>
                         <span>{category.name}</span>
-                        <span className="text-sm text-gray-400">{category.demos.length} demos</span>
+                        <span className="text-sm text-[var(--muted)]">{category.demos.length} demos</span>
                       </h3>
-                      <p className="text-gray-400 text-sm max-w-2xl">{category.description}</p>
+                      <p className="text-[var(--muted)] text-sm max-w-2xl">{category.description}</p>
                     </div>
                     <button
                       onClick={() => setSelectedCategory(key)}
-                      className="self-start px-4 py-2 rounded-lg border border-gray-600 text-sm text-gray-300 hover:text-white hover:border-green-400 transition-colors"
+                      className="self-start px-4 py-2 rounded-lg border border-[var(--border-strong)] text-sm text-[var(--text)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-colors"
                     >
                       View all demos
                     </button>
@@ -1087,7 +1087,7 @@ const DemoOrganizer = ({ setCurrentPage }) => {
                     <div className="text-right">
                       <button
                         onClick={() => setSelectedCategory(key)}
-                        className="inline-flex items-center gap-2 text-sm text-green-400 hover:text-green-300"
+                        className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:text-[var(--accent)]"
                       >
                         Explore {category.demos.length - (viewMode === 'compact' ? 5 : 3)} more →
                       </button>
@@ -1112,28 +1112,28 @@ const DemoOrganizer = ({ setCurrentPage }) => {
          {/* Quick Stats */}
          <ScrollReveal delay={0.2} direction="up" className="snap-section">
            <GlareHover intensity={0.4}>
-             <GlassCard className="bg-gradient-to-br from-purple-900/50 via-purple-800/50 to-purple-700/50 p-6 border-purple-800 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 transition-all" glow>
-               <h2 className="text-2xl font-bold text-white mb-4">Demo Statistics</h2>
+             <GlassCard className="bg-gradient-to-br from-[var(--accent-soft)]/50 via-purple-800/50 to-[var(--accent-deep)]/50 p-6 border-[var(--accent)] hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 transition-all" glow>
+               <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Demo Statistics</h2>
                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                  <div className="text-center">
-                   <div className="text-3xl font-bold text-purple-400">{allDemos.length}</div>
-                   <div className="text-gray-300 text-sm">Total Demos</div>
+                   <div className="text-3xl font-bold text-[var(--accent)]">{allDemos.length}</div>
+                   <div className="text-[var(--text)] text-sm">Total Demos</div>
                  </div>
                  <div className="text-center">
-                   <div className="text-3xl font-bold text-purple-400">{Object.keys(demoCategories).length}</div>
-                   <div className="text-gray-300 text-sm">Categories</div>
+                   <div className="text-3xl font-bold text-[var(--accent)]">{Object.keys(demoCategories).length}</div>
+                   <div className="text-[var(--text)] text-sm">Categories</div>
                  </div>
                  <div className="text-center">
-                   <div className="text-3xl font-bold text-purple-400">
+                   <div className="text-3xl font-bold text-[var(--accent)]">
                      {allDemos.filter(demo => demo.difficulty === 'Advanced').length}
                    </div>
-                   <div className="text-gray-300 text-sm">Advanced Projects</div>
+                   <div className="text-[var(--text)] text-sm">Advanced Projects</div>
                  </div>
                  <div className="text-center">
-                   <div className="text-3xl font-bold text-purple-400">
+                   <div className="text-3xl font-bold text-[var(--accent)]">
                      {new Set(allDemos.flatMap(demo => demo.technologies)).size}
                    </div>
-                   <div className="text-gray-300 text-sm">Technologies Used</div>
+                   <div className="text-[var(--text)] text-sm">Technologies Used</div>
                  </div>
                </div>
              </GlassCard>

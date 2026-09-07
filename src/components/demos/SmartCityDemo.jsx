@@ -543,14 +543,14 @@ async def optimize_waste_routes():
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🏙️ Smart City Platform</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🏙️ Smart City Platform</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           IoT-powered smart city management with real-time monitoring, AI optimization, and predictive analytics for urban infrastructure.
         </p>
         <div className="mt-4 flex justify-center gap-4">
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -570,7 +570,7 @@ async def optimize_waste_routes():
         <div className="space-y-6">
           {/* System Selection */}
         <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">City Systems</h2>
@@ -583,7 +583,7 @@ async def optimize_waste_routes():
                   className={`p-4 rounded-lg transition-all ${
                     selectedSystem === key
                       ? `bg-${system.color}-600`
-                      : 'bg-gray-700 hover:bg-gray-600'
+                      : 'bg-[var(--surface-2)] hover:bg-[var(--border-strong)]'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -598,7 +598,7 @@ async def optimize_waste_routes():
           {/* Selected System Details */}
           {selectedSystem && (
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               key={selectedSystem}
@@ -612,27 +612,27 @@ async def optimize_waste_routes():
                 {systems[selectedSystem].metrics.map((metric, index) => (
             <motion.div 
                     key={index}
-              className="bg-gray-700 p-4 rounded-lg"
+              className="bg-[var(--surface-2)] p-4 rounded-lg"
               initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <div className="text-sm text-gray-400 mb-1">{metric.label}</div>
+                    <div className="text-sm text-[var(--muted)] mb-1">{metric.label}</div>
                     <div className="text-2xl font-bold">{metric.value}</div>
                   </motion.div>
                 ))}
               </div>
 
               {selectedSystem === 'traffic' && trafficData.length > 0 && (
-                <div className="bg-gray-700 p-4 rounded-lg">
+                <div className="bg-[var(--surface-2)] p-4 rounded-lg">
                   <h3 className="font-semibold mb-3">Real-time Traffic Flow</h3>
                   <div className="space-y-2">
                     {trafficData.slice(-5).map((data, index) => (
                       <div key={index} className="flex items-center gap-3">
-                        <span className="text-xs text-gray-400 w-20">{data.time}</span>
-                        <div className="flex-1 bg-gray-600 rounded-full h-2">
+                        <span className="text-xs text-[var(--muted)] w-20">{data.time}</span>
+                        <div className="flex-1 bg-[var(--border-strong)] rounded-full h-2">
                           <motion.div
-                            className="bg-green-500 h-2 rounded-full"
+                            className="bg-[var(--accent)] h-2 rounded-full"
                             initial={{ width: 0 }}
                             animate={{ width: `${data.flow}%` }}
                             transition={{ duration: 0.5 }}
@@ -650,7 +650,7 @@ async def optimize_waste_routes():
           {/* Alerts */}
           {alerts.length > 0 && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
             >
               <h2 className="text-2xl font-bold mb-4">🚨 Active Alerts</h2>
@@ -661,17 +661,17 @@ async def optimize_waste_routes():
                     key={index}
                     className={`p-3 rounded-lg ${
                       alert.severity === 'warning'
-                        ? 'bg-yellow-900 border border-yellow-600'
-                        : 'bg-blue-900 border border-blue-600'
+                        ? 'bg-[var(--accent-soft)] border border-[var(--accent)]'
+                        : 'bg-[var(--accent-soft)] border border-[var(--accent)]'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                   >
                     <div className="flex justify-between items-start mb-1">
                       <span className="font-semibold text-sm">{alert.type}</span>
-                      <span className="text-xs text-gray-400">{alert.time}</span>
+                      <span className="text-xs text-[var(--muted)]">{alert.time}</span>
               </div>
-                    <p className="text-sm text-gray-300">{alert.message}</p>
+                    <p className="text-sm text-[var(--text)]">{alert.message}</p>
             </motion.div>
           ))}
         </div>
@@ -680,16 +680,16 @@ async def optimize_waste_routes():
 
           {/* City Map Visualization */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">🗺️ City Map</h2>
             
-            <div className="relative bg-gray-700 rounded-lg p-8 aspect-video flex items-center justify-center">
+            <div className="relative bg-[var(--surface-2)] rounded-lg p-8 aspect-video flex items-center justify-center">
               <div className="text-center">
                 <div className="text-4xl mb-2">🗺️</div>
-                <p className="text-gray-400">Interactive city map visualization</p>
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-[var(--muted)]">Interactive city map visualization</p>
+                <p className="text-sm text-[var(--muted)] mt-2">
                   Real-time sensor locations and status
                 </p>
               </div>
@@ -701,14 +701,14 @@ async def optimize_waste_routes():
         <div className="space-y-6">
           {/* Overall Status */}
             <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✓ City Status</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✓ City Status</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between items-center">
                 <span>Overall Health</span>
-                <span className="font-semibold text-green-400">Excellent</span>
+                <span className="font-semibold text-[var(--accent)]">Excellent</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Active Sensors</span>
@@ -716,7 +716,7 @@ async def optimize_waste_routes():
               </div>
               <div className="flex justify-between items-center">
                 <span>Systems Online</span>
-                <span className="font-semibold text-green-400">100%</span>
+                <span className="font-semibold text-[var(--accent)]">100%</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>Data Points/sec</span>
@@ -727,10 +727,10 @@ async def optimize_waste_routes():
 
           {/* IoT Devices */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📡 IoT Network</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📡 IoT Network</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Traffic Sensors</span>
@@ -757,25 +757,25 @@ async def optimize_waste_routes():
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Monitoring</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>AI Optimization</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Predictive Analytics</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Smart Routing</span>
               </li>
             </ul>

@@ -15,9 +15,9 @@ const AuthorBio = ({ author }) => {
           />
         )}
         <div className="flex-1">
-          <h3 className="text-xl font-semibold text-white mb-2">{author.name}</h3>
+          <h3 className="text-xl font-semibold text-[var(--text)] mb-2">{author.name}</h3>
           {author.bio && (
-            <p className="text-gray-300 text-sm mb-4">{author.bio}</p>
+            <p className="text-[var(--text)] text-sm mb-4">{author.bio}</p>
           )}
           {author.social && (
             <div className="flex gap-4">
@@ -26,7 +26,7 @@ const AuthorBio = ({ author }) => {
                   href={author.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-[var(--muted)] hover:text-[var(--text)] transition-colors"
                   aria-label="GitHub"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@ const AuthorBio = ({ author }) => {
                   href={author.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-[var(--muted)] hover:text-[var(--text)] transition-colors"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -52,7 +52,7 @@ const AuthorBio = ({ author }) => {
                   href={author.social.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-[var(--muted)] hover:text-[var(--text)] transition-colors"
                   aria-label="Twitter"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

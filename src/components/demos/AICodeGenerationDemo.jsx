@@ -287,12 +287,12 @@ The system uses REST APIs to communicate with AI services, maintains a history o
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">AI Code Generation Assistant</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
@@ -300,7 +300,7 @@ The system uses REST APIs to communicate with AI services, maintains a history o
 
         {/* Model Selection */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">
             Select AI Model
           </label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -310,12 +310,12 @@ The system uses REST APIs to communicate with AI services, maintains a history o
                 onClick={() => setSelectedModel(model.id)}
                 className={`p-3 rounded-lg border transition-all ${
                   selectedModel === model.id
-                    ? 'border-blue-500 bg-blue-900/20 text-white'
-                    : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
+                    ? 'border-[var(--accent)] bg-[var(--accent-soft)]/20 text-[var(--text)]'
+                    : 'border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--text)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="font-medium text-sm">{model.name}</div>
-                <div className="text-xs text-gray-400 mt-1">{model.description}</div>
+                <div className="text-xs text-[var(--muted)] mt-1">{model.description}</div>
               </button>
             ))}
           </div>
@@ -323,14 +323,14 @@ The system uses REST APIs to communicate with AI services, maintains a history o
 
         {/* Prompt Input */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">
             Code Generation Prompt
           </label>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Describe the code you want to generate..."
-            className="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+            className="w-full p-3 bg-[var(--bg)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
             rows="4"
           />
           <div className="mt-2 flex flex-wrap gap-2">
@@ -338,7 +338,7 @@ The system uses REST APIs to communicate with AI services, maintains a history o
               <button
                 key={index}
                 onClick={() => setPrompt(sample)}
-                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded text-xs transition-colors"
+                className="px-3 py-1 bg-[var(--surface-2)] hover:bg-[var(--border-strong)] text-[var(--text)] rounded text-xs transition-colors"
               >
                 {sample.substring(0, 30)}...
               </button>
@@ -350,7 +350,7 @@ The system uses REST APIs to communicate with AI services, maintains a history o
         <button
           onClick={handleGenerate}
           disabled={isGenerating || !prompt.trim()}
-          className="w-full py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors mb-4"
+          className="w-full py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg font-medium transition-colors mb-4"
         >
           {isGenerating ? (
             <span className="flex items-center justify-center gap-2">
@@ -369,17 +369,17 @@ The system uses REST APIs to communicate with AI services, maintains a history o
             animate={{ opacity: 1, y: 0 }}
             className="mt-4"
           >
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-300">Generated Code</span>
+                <span className="text-sm font-medium text-[var(--text)]">Generated Code</span>
                 <button
                   onClick={() => navigator.clipboard.writeText(generatedCode)}
-                  className="text-xs text-blue-400 hover:text-blue-300"
+                  className="text-xs text-[var(--accent)] hover:text-[var(--accent)]"
                 >
                   Copy
                 </button>
               </div>
-              <pre className="text-sm text-gray-300 overflow-x-auto">
+              <pre className="text-sm text-[var(--text)] overflow-x-auto">
                 <code>{generatedCode}</code>
               </pre>
             </div>
@@ -389,20 +389,20 @@ The system uses REST APIs to communicate with AI services, maintains a history o
         {/* Generation History */}
         {generationHistory.length > 0 && (
           <div className="mt-4">
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Recent Generations</h4>
+            <h4 className="text-sm font-medium text-[var(--text)] mb-2">Recent Generations</h4>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {generationHistory.slice(0, 5).map((item, index) => (
                 <div
                   key={index}
-                  className="bg-gray-900 p-3 rounded border border-gray-700 cursor-pointer hover:border-blue-500 transition-colors"
+                  className="bg-[var(--bg)] p-3 rounded border border-[var(--border)] cursor-pointer hover:border-[var(--accent)] transition-colors"
                   onClick={() => {
                     setPrompt(item.prompt);
                     setGeneratedCode(item.code);
                     setSelectedModel(item.model);
                   }}
                 >
-                  <div className="text-xs text-gray-400 mb-1">{item.prompt.substring(0, 50)}...</div>
-                  <div className="text-xs text-blue-400">Model: {item.model}</div>
+                  <div className="text-xs text-[var(--muted)] mb-1">{item.prompt.substring(0, 50)}...</div>
+                  <div className="text-xs text-[var(--accent)]">Model: {item.model}</div>
                 </div>
               ))}
             </div>

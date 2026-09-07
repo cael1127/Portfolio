@@ -169,37 +169,37 @@ Terraform uses HCL (HashiCorp Configuration Language) to define infrastructure, 
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Infrastructure as Code (Terraform)</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
         </div>
         <div className="space-y-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">☁️</div>
-              <div className="text-sm font-medium text-white">VPC</div>
-              <div className="text-xs text-gray-400 mt-1">Networking</div>
+              <div className="text-sm font-medium text-[var(--text)]">VPC</div>
+              <div className="text-xs text-[var(--muted)] mt-1">Networking</div>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">🖥️</div>
-              <div className="text-sm font-medium text-white">EC2</div>
-              <div className="text-xs text-gray-400 mt-1">Compute</div>
+              <div className="text-sm font-medium text-[var(--text)]">EC2</div>
+              <div className="text-xs text-[var(--muted)] mt-1">Compute</div>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">🔒</div>
-              <div className="text-sm font-medium text-white">Security</div>
-              <div className="text-xs text-gray-400 mt-1">Groups</div>
+              <div className="text-sm font-medium text-[var(--text)]">Security</div>
+              <div className="text-xs text-[var(--muted)] mt-1">Groups</div>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">📦</div>
-              <div className="text-sm font-medium text-white">Modules</div>
-              <div className="text-xs text-gray-400 mt-1">Reusable</div>
+              <div className="text-sm font-medium text-[var(--text)]">Modules</div>
+              <div className="text-xs text-[var(--muted)] mt-1">Reusable</div>
             </div>
           </div>
         </div>

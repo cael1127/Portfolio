@@ -155,12 +155,12 @@ The platform uses multi-stage Dockerfiles for optimized builds, Docker Compose f
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Docker Containerization Platform</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
@@ -168,7 +168,7 @@ The platform uses multi-stage Dockerfiles for optimized builds, Docker Compose f
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Base Images</label>
+            <label className="block text-sm font-medium text-[var(--text)] mb-2">Base Images</label>
             <div className="grid grid-cols-2 gap-2">
               {images.map(img => (
                 <button
@@ -176,20 +176,20 @@ The platform uses multi-stage Dockerfiles for optimized builds, Docker Compose f
                   onClick={() => setSelectedImage(img.name)}
                   className={`p-3 rounded-lg border text-left transition-all ${
                     selectedImage === img.name
-                      ? 'border-blue-500 bg-blue-900/20'
-                      : 'border-gray-600 bg-gray-700 hover:border-gray-500'
+                      ? 'border-[var(--accent)] bg-[var(--accent-soft)]/20'
+                      : 'border-[var(--border-strong)] bg-[var(--surface-2)] hover:border-[var(--border-strong)]'
                   }`}
                 >
-                  <div className="text-white font-medium text-sm">{img.name}</div>
-                  <div className="text-gray-400 text-xs mt-1">{img.description}</div>
+                  <div className="text-[var(--text)] font-medium text-sm">{img.name}</div>
+                  <div className="text-[var(--muted)] text-xs mt-1">{img.description}</div>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Container Features</h4>
-            <ul className="space-y-1 text-sm text-gray-300">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+            <h4 className="text-sm font-medium text-[var(--text)] mb-2">Container Features</h4>
+            <ul className="space-y-1 text-sm text-[var(--text)]">
               <li>• Multi-stage builds for optimized images</li>
               <li>• Health checks and monitoring</li>
               <li>• Volume management for data persistence</li>

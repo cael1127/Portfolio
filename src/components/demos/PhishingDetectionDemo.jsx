@@ -49,9 +49,9 @@ const PhishingDetectionDemo = () => {
 
   const getRiskColor = (risk) => {
     switch (risk) {
-      case 'High': return 'text-red-400 bg-red-900/30 border-red-500/50';
-      case 'Medium': return 'text-yellow-400 bg-yellow-900/30 border-yellow-500/50';
-      default: return 'text-green-400 bg-green-900/30 border-green-500/50';
+      case 'High': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      case 'Medium': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      default: return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
     }
   };
 
@@ -235,32 +235,32 @@ print(f"Risk: {result['risk']}, Score: {result['score']}")`,
   return (
     <div className="space-y-6">
       {/* Input Form */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Phishing Detection</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Email Content</label>
+            <label className="block text-sm text-[var(--muted)] mb-2">Email Content</label>
             <textarea
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Paste email content here..."
-              className="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white h-32"
+              className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] h-32"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-2">URL (optional)</label>
+            <label className="block text-sm text-[var(--muted)] mb-2">URL (optional)</label>
             <input
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://example.com"
-              className="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white"
+              className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)]"
             />
           </div>
           <button
             onClick={analyzeEmail}
             disabled={isAnalyzing || (!email && !url)}
-            className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+            className="w-full px-4 py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--surface-2)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg transition-colors"
           >
             {isAnalyzing ? 'Analyzing...' : 'Analyze'}
           </button>
@@ -270,26 +270,26 @@ print(f"Risk: {result['risk']}, Score: {result['score']}")`,
       {/* Analysis Results */}
       {analysis && (
         <motion.div
-          className={`bg-gray-800 rounded-lg border p-6 ${getRiskColor(analysis.risk)}`}
+          className={`bg-[var(--surface)] rounded-lg border p-6 ${getRiskColor(analysis.risk)}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <h3 className="text-lg font-semibold mb-4">Analysis Results</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-gray-300">Risk Level:</span>
+              <span className="text-[var(--text)]">Risk Level:</span>
               <span className="font-bold text-lg">{analysis.risk}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-300">Threat Score:</span>
+              <span className="text-[var(--text)]">Threat Score:</span>
               <span className="font-bold text-lg">{analysis.score}/100</span>
             </div>
             <div>
-              <div className="w-full bg-gray-900 rounded-full h-3 mb-2">
+              <div className="w-full bg-[var(--bg)] rounded-full h-3 mb-2">
                 <motion.div
                   className={`h-3 rounded-full ${
-                    analysis.score >= 70 ? 'bg-red-500' : 
-                    analysis.score >= 40 ? 'bg-yellow-500' : 'bg-green-500'
+                    analysis.score >= 70 ? 'bg-[var(--accent)]' : 
+                    analysis.score >= 40 ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'
                   }`}
                   initial={{ width: 0 }}
                   animate={{ width: `${analysis.score}%` }}
@@ -297,20 +297,20 @@ print(f"Risk: {result['risk']}, Score: {result['score']}")`,
               </div>
             </div>
             <div>
-              <div className="text-gray-300 mb-2">Recommendation:</div>
+              <div className="text-[var(--text)] mb-2">Recommendation:</div>
               <div className="font-semibold">{analysis.recommendation}</div>
             </div>
             <div>
-              <div className="text-gray-300 mb-2">Indicators Found:</div>
+              <div className="text-[var(--text)] mb-2">Indicators Found:</div>
               <div className="space-y-2">
                 {analysis.indicators.map((indicator, idx) => (
-                  <div key={idx} className="text-sm bg-gray-900 p-2 rounded">
-                    <span className="text-blue-400">{indicator.type}:</span>{' '}
-                    <span className="text-gray-300">{indicator.value}</span>
+                  <div key={idx} className="text-sm bg-[var(--bg)] p-2 rounded">
+                    <span className="text-[var(--accent)]">{indicator.type}:</span>{' '}
+                    <span className="text-[var(--text)]">{indicator.value}</span>
                     <span className={`ml-2 px-2 py-1 rounded text-xs ${
-                      indicator.severity === 'high' ? 'bg-red-900/50 text-red-400' :
-                      indicator.severity === 'medium' ? 'bg-yellow-900/50 text-yellow-400' :
-                      'bg-blue-900/50 text-blue-400'
+                      indicator.severity === 'high' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' :
+                      indicator.severity === 'medium' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' :
+                      'bg-[var(--accent-soft)]/50 text-[var(--accent)]'
                     }`}>
                       {indicator.severity}
                     </span>
@@ -325,7 +325,7 @@ print(f"Risk: {result['risk']}, Score: {result['score']}")`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

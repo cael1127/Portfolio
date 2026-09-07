@@ -183,7 +183,7 @@ const AnimatedHeroBackground = () => {
       
       {/* Floating geometric shapes */}
       <motion.div
-        className="absolute top-20 left-10 w-20 h-20 border border-teal-400/20 rounded-lg"
+        className="absolute top-20 left-10 w-20 h-20 border border-[var(--accent)]/20 rounded-lg"
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.2, 0.4, 0.2]
@@ -196,7 +196,7 @@ const AnimatedHeroBackground = () => {
       />
       
       <motion.div
-        className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-teal-400/20 to-emerald-400/20 rounded-full"
+        className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent)]/20 rounded-full"
         animate={{
           y: [-20, 20, -20],
           x: [-10, 10, -10],
@@ -210,7 +210,7 @@ const AnimatedHeroBackground = () => {
       />
       
       <motion.div
-        className="absolute bottom-40 left-1/4 w-12 h-12 border-2 border-emerald-400/30 transform rotate-45"
+        className="absolute bottom-40 left-1/4 w-12 h-12 border-2 border-[var(--accent)]/30 transform rotate-45"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3]
@@ -223,7 +223,7 @@ const AnimatedHeroBackground = () => {
       />
       
       <motion.div
-        className="absolute top-1/2 right-1/3 w-8 h-8 bg-teal-400/20 rounded-full"
+        className="absolute top-1/2 right-1/3 w-8 h-8 bg-[var(--accent)]/20 rounded-full"
         animate={{
           y: [0, -30, 0],
           x: [0, 15, 0],

@@ -84,7 +84,7 @@ export const SectionProgress = ({ className = '' }) => {
   return (
     <div ref={ref} className={className}>
       <motion.div
-        className="h-1 bg-gradient-to-r from-teal-500 to-emerald-500 origin-left"
+        className="h-1 bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] origin-left"
         style={{ scaleX: scrollYProgress }}
       />
     </div>

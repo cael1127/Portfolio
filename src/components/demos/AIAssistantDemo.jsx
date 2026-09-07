@@ -495,26 +495,26 @@ const AdvancedLLM = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-green-400 mb-8">
+        <h1 className="text-4xl font-bold text-[var(--accent)] mb-8">
           🤖 Advanced LLM Assistant
         </h1>
         
         {/* Chat Interface */}
-        <div className="bg-gray-800 rounded-xl p-6 mb-6">
+        <div className="bg-[var(--surface)] rounded-xl p-6 mb-6">
           <div className="space-y-4 max-h-96 overflow-y-auto">
             {messages.map(message => (
-              <div key={message.id} className={\`p-4 rounded-lg \${message.role === 'user' ? 'bg-blue-600' : 'bg-gray-700'}\`}>
+              <div key={message.id} className={\`p-4 rounded-lg \${message.role === 'user' ? 'bg-[var(--accent)]' : 'bg-[var(--surface-2)]'}\`}>
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-semibold">
                     {message.role === 'user' ? 'You' : 'AI Assistant'}
                   </span>
-                  <span className="text-sm text-gray-400">{message.timestamp}</span>
+                  <span className="text-sm text-[var(--muted)]">{message.timestamp}</span>
                 </div>
-                <p className="text-white">{message.content}</p>
+                <p className="text-[var(--text)]">{message.content}</p>
                 {message.confidence && (
-                  <div className="mt-2 text-sm text-gray-400">
+                  <div className="mt-2 text-sm text-[var(--muted)]">
                     Confidence: {(message.confidence * 100).toFixed(1)}%
                   </div>
                 )}
@@ -522,12 +522,12 @@ const AdvancedLLM = () => {
             ))}
             
             {isTyping && (
-              <div className="p-4 rounded-lg bg-gray-700">
+              <div className="p-4 rounded-lg bg-[var(--surface-2)]">
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <span className="text-gray-400">AI is thinking...</span>
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <span className="text-[var(--muted)]">AI is thinking...</span>
                 </div>
               </div>
             )}
@@ -540,13 +540,13 @@ const AdvancedLLM = () => {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask me anything..."
-              className="flex-1 bg-gray-700 text-white p-3 rounded-lg resize-none"
+              className="flex-1 bg-[var(--surface-2)] text-[var(--text)] p-3 rounded-lg resize-none"
               rows={3}
             />
             <button
               onClick={handleSendMessage}
               disabled={!inputMessage.trim() || isTyping}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="bg-[var(--accent)] text-[var(--text)] px-6 py-3 rounded-lg hover:bg-[var(--accent-deep)] disabled:opacity-50"
             >
               Send
             </button>
@@ -554,19 +554,19 @@ const AdvancedLLM = () => {
         </div>
         
         {/* Context Information */}
-        <div className="bg-gray-800 rounded-xl p-6">
+        <div className="bg-[var(--surface)] rounded-xl p-6">
           <h2 className="text-xl font-bold mb-4">🧠 Context & Memory</h2>
               <div className="space-y-6">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🤖 AIAssistant Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🤖 AIAssistant Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Intelligent AI assistant with natural language processing, task automation, and conversational interface.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <button
             onClick={() => setOpenCode(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           >
             <span>💻</span>
             View Implementation
@@ -576,20 +576,20 @@ const AdvancedLLM = () => {
 
       <div className="grid md:grid-cols-[1fr,320px] gap-6">
             <div>
-              <p className="text-gray-400">Current Topic</p>
-              <p className="text-white font-semibold">{context.currentTopic || 'General'}</p>
+              <p className="text-[var(--muted)]">Current Topic</p>
+              <p className="text-[var(--text)] font-semibold">{context.currentTopic || 'General'}</p>
             </div>
             <div>
-              <p className="text-gray-400">Sentiment</p>
-              <p className="text-white font-semibold">{context.sentiment}</p>
+              <p className="text-[var(--muted)]">Sentiment</p>
+              <p className="text-[var(--text)] font-semibold">{context.sentiment}</p>
             </div>
             <div>
-              <p className="text-gray-400">Conversation Length</p>
-              <p className="text-white font-semibold">{context.conversationHistory.length} exchanges</p>
+              <p className="text-[var(--muted)]">Conversation Length</p>
+              <p className="text-[var(--text)] font-semibold">{context.conversationHistory.length} exchanges</p>
             </div>
             <div>
-              <p className="text-gray-400">Memory Tokens</p>
-              <p className="text-white font-semibold">{context.conversationHistory.length * 50}/4096</p>
+              <p className="text-[var(--muted)]">Memory Tokens</p>
+              <p className="text-[var(--text)] font-semibold">{context.conversationHistory.length * 50}/4096</p>
             </div>
           </div>
         </div>
@@ -691,18 +691,18 @@ export default AdvancedLLM;`;
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-green-400 mb-2">🤖 Advanced LLM Assistant</h1>
-              <p className="text-gray-400">GPT-4 powered AI with context awareness, memory, and sophisticated responses</p>
+              <h1 className="text-4xl font-bold text-[var(--accent)] mb-2">🤖 Advanced LLM Assistant</h1>
+              <p className="text-[var(--muted)]">GPT-4 powered AI with context awareness, memory, and sophisticated responses</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
             >
               View Code
             </button>
@@ -712,33 +712,33 @@ export default AdvancedLLM;`;
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Chat Interface */}
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-              <h2 className="text-2xl font-bold text-white mb-6">💬 Interactive Chat</h2>
+            <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-6">💬 Interactive Chat</h2>
               
               {/* Messages */}
               <div className="space-y-4 max-h-96 overflow-y-auto mb-6">
                 {messages.map((message) => (
                   <div key={message.id} className={`p-4 rounded-lg ${
                     message.role === 'user' 
-                      ? 'bg-blue-600/20 border border-blue-500/30' 
-                      : 'bg-gray-800/50 border border-gray-600'
+                      ? 'bg-[var(--accent)]/20 border border-[var(--accent)]/30' 
+                      : 'bg-[var(--surface)]/50 border border-[var(--border-strong)]'
                   }`}>
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center space-x-2">
-                        <span className="font-semibold text-white">
+                        <span className="font-semibold text-[var(--text)]">
                           {message.role === 'user' ? 'You' : 'AI Assistant'}
                         </span>
                         {message.confidence && (
-                          <span className="text-xs bg-green-600 px-2 py-1 rounded">
+                          <span className="text-xs bg-[var(--accent)] px-2 py-1 rounded">
                             {(message.confidence * 100).toFixed(0)}% confidence
                           </span>
                         )}
                       </div>
-                      <span className="text-gray-400 text-sm">{message.timestamp}</span>
+                      <span className="text-[var(--muted)] text-sm">{message.timestamp}</span>
                     </div>
-                    <div className="text-white whitespace-pre-wrap">{message.content}</div>
+                    <div className="text-[var(--text)] whitespace-pre-wrap">{message.content}</div>
                     {message.tokens && (
-                      <div className="mt-2 text-xs text-gray-400">
+                      <div className="mt-2 text-xs text-[var(--muted)]">
                         Tokens: {message.tokens} • Context: {message.contextUsed?.join(', ')}
                       </div>
                     )}
@@ -746,12 +746,12 @@ export default AdvancedLLM;`;
                 ))}
                 
                 {isTyping && (
-                  <div className="p-4 rounded-lg bg-gray-800/50 border border-gray-600">
+                  <div className="p-4 rounded-lg bg-[var(--surface)]/50 border border-[var(--border-strong)]">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                      <span className="text-gray-400">AI is thinking...</span>
+                      <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <span className="text-[var(--muted)]">AI is thinking...</span>
                     </div>
                   </div>
                 )}
@@ -765,13 +765,13 @@ export default AdvancedLLM;`;
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything - programming, analysis, writing, or general questions..."
-                  className="flex-1 bg-gray-800 text-white p-4 rounded-lg resize-none border border-gray-600 focus:border-blue-500 focus:outline-none"
+                  className="flex-1 bg-[var(--surface)] text-[var(--text)] p-4 rounded-lg resize-none border border-[var(--border-strong)] focus:border-[var(--accent)] focus:outline-none"
                   rows={3}
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputMessage.trim() || isTyping}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed self-end"
+                  className="bg-[var(--accent)] text-[var(--text)] px-6 py-3 rounded-lg hover:bg-[var(--accent-deep)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed self-end"
                 >
                   Send
                 </button>
@@ -782,74 +782,74 @@ export default AdvancedLLM;`;
           {/* AI Capabilities & Context */}
           <div className="space-y-6">
             {/* AI Model Info */}
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
-              <h3 className="text-lg font-bold text-white mb-4">🧠 AI Model</h3>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+              <h3 className="text-lg font-bold text-[var(--text)] mb-4">🧠 AI Model</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Model</span>
-                  <span className="text-white font-semibold">{aiCapabilities.modelVersion}</span>
+                  <span className="text-[var(--text)]">Model</span>
+                  <span className="text-[var(--text)] font-semibold">{aiCapabilities.modelVersion}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Context Window</span>
-                  <span className="text-white font-semibold">{aiCapabilities.contextWindow.toLocaleString()}</span>
+                  <span className="text-[var(--text)]">Context Window</span>
+                  <span className="text-[var(--text)] font-semibold">{aiCapabilities.contextWindow.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Memory Tokens</span>
-                  <span className="text-white font-semibold">{aiCapabilities.memoryTokens.toLocaleString()}</span>
+                  <span className="text-[var(--text)]">Memory Tokens</span>
+                  <span className="text-[var(--text)] font-semibold">{aiCapabilities.memoryTokens.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Temperature</span>
-                  <span className="text-white font-semibold">{aiCapabilities.temperature}</span>
+                  <span className="text-[var(--text)]">Temperature</span>
+                  <span className="text-[var(--text)] font-semibold">{aiCapabilities.temperature}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Max Tokens</span>
-                  <span className="text-white font-semibold">{aiCapabilities.maxTokens.toLocaleString()}</span>
+                  <span className="text-[var(--text)]">Max Tokens</span>
+                  <span className="text-[var(--text)] font-semibold">{aiCapabilities.maxTokens.toLocaleString()}</span>
                 </div>
               </div>
             </div>
 
             {/* Conversation Context */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-              <h3 className="text-lg font-bold text-white mb-4">📝 Context</h3>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+              <h3 className="text-lg font-bold text-[var(--text)] mb-4">📝 Context</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Current Topic</span>
-                  <span className="text-white font-semibold">{conversationContext.currentTopic || 'General'}</span>
+                  <span className="text-[var(--text)]">Current Topic</span>
+                  <span className="text-[var(--text)] font-semibold">{conversationContext.currentTopic || 'General'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Sentiment</span>
-                  <span className="text-white font-semibold">{conversationContext.sentiment}</span>
+                  <span className="text-[var(--text)]">Sentiment</span>
+                  <span className="text-[var(--text)] font-semibold">{conversationContext.sentiment}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Complexity</span>
-                  <span className="text-white font-semibold">{conversationContext.complexity}</span>
+                  <span className="text-[var(--text)]">Complexity</span>
+                  <span className="text-[var(--text)] font-semibold">{conversationContext.complexity}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">History Length</span>
-                  <span className="text-white font-semibold">{conversationContext.conversationHistory.length}</span>
+                  <span className="text-[var(--text)]">History Length</span>
+                  <span className="text-[var(--text)] font-semibold">{conversationContext.conversationHistory.length}</span>
                 </div>
               </div>
             </div>
 
             {/* System Stats */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
-              <h3 className="text-lg font-bold text-white mb-4">Stats</h3>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+              <h3 className="text-lg font-bold text-[var(--text)] mb-4">Stats</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Total Tokens</span>
-                  <span className="text-white font-semibold">{systemStats.totalTokens.toLocaleString()}</span>
+                  <span className="text-[var(--text)]">Total Tokens</span>
+                  <span className="text-[var(--text)] font-semibold">{systemStats.totalTokens.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Conversations</span>
-                  <span className="text-white font-semibold">{systemStats.conversations}</span>
+                  <span className="text-[var(--text)]">Conversations</span>
+                  <span className="text-[var(--text)] font-semibold">{systemStats.conversations}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Avg Response</span>
-                  <span className="text-white font-semibold">{systemStats.averageResponseTime}s</span>
+                  <span className="text-[var(--text)]">Avg Response</span>
+                  <span className="text-[var(--text)] font-semibold">{systemStats.averageResponseTime}s</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">Satisfaction</span>
-                  <span className="text-white font-semibold">{systemStats.satisfactionRate}/5.0</span>
+                  <span className="text-[var(--text)]">Satisfaction</span>
+                  <span className="text-[var(--text)] font-semibold">{systemStats.satisfactionRate}/5.0</span>
                 </div>
               </div>
             </div>
@@ -857,12 +857,12 @@ export default AdvancedLLM;`;
         </div>
 
         {/* Advanced Features */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">Advanced LLM Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+          <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Advanced LLM Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">Context Awareness</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Context Awareness</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Conversation memory</li>
                 <li>• Topic tracking</li>
                 <li>• Sentiment analysis</li>
@@ -870,8 +870,8 @@ export default AdvancedLLM;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Intelligent Responses</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Intelligent Responses</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Contextual generation</li>
                 <li>• Multi-domain expertise</li>
                 <li>• Adaptive responses</li>
@@ -879,8 +879,8 @@ export default AdvancedLLM;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Advanced Analysis</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Advanced Analysis</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• NLP processing</li>
                 <li>• Entity recognition</li>
                 <li>• Keyword extraction</li>
@@ -888,8 +888,8 @@ export default AdvancedLLM;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-2">Real-time Processing</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Real-time Processing</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Streaming responses</li>
                 <li>• Token management</li>
                 <li>• Memory optimization</li>

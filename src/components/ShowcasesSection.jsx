@@ -12,7 +12,7 @@ const items = [
 
 const ShowcasesSection = ({ onOpen }) => {
   return (
-    <div className="container mx-auto px-4 py-12 border-t border-gray-800">
+    <div className="container mx-auto px-4 py-12 border-t border-[var(--border)]">
       <h2 className="text-2xl md:text-3xl font-bold mb-6">Showcases</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((it) => {
@@ -21,16 +21,16 @@ const ShowcasesSection = ({ onOpen }) => {
             console.warn('Icon not found for:', it.iconKey);
           }
           return (
-          <div key={it.id} className="bg-gray-900 border border-gray-800 hover:border-gray-700 rounded-xl p-6 transition-colors">
+          <div key={it.id} className="bg-[var(--bg)] border border-[var(--border)] hover:border-[var(--border)] rounded-xl p-6 transition-colors">
             <div className="flex items-center justify-between mb-8">
-              <div className="text-green-400">{IconComponent && <IconComponent size={32} />}</div>
-              <div className="text-gray-500">→</div>
+              <div className="text-[var(--accent)]">{IconComponent && <IconComponent size={32} />}</div>
+              <div className="text-[var(--muted)]">→</div>
             </div>
             <h3 className="text-lg font-semibold mb-1">{it.title}</h3>
-            <p className="text-gray-400 text-sm mb-4">{it.blurb}</p>
+            <p className="text-[var(--muted)] text-sm mb-4">{it.blurb}</p>
             <button
               onClick={() => onOpen && onOpen(it.id)}
-              className="text-primary hover:text-emerald-300 text-sm font-semibold"
+              className="text-primary hover:text-[var(--accent)] text-sm font-semibold"
             >
               View case →
             </button>

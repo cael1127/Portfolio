@@ -456,14 +456,14 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">📄 Interactive Resume Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">📄 Interactive Resume Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Modern, interactive digital resume with smooth animations, skill visualizations, and professional presentation.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -483,14 +483,14 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
         <div className="space-y-6">
           {/* Personal Info */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-3xl font-bold text-white mb-2">{resumeData.personal.name}</h2>
-                <p className="text-xl text-blue-400 mb-4">{resumeData.personal.title}</p>
-                <p className="text-gray-300 leading-relaxed">{resumeData.personal.summary}</p>
+                <h2 className="text-3xl font-bold text-[var(--text)] mb-2">{resumeData.personal.name}</h2>
+                <p className="text-xl text-[var(--accent)] mb-4">{resumeData.personal.title}</p>
+                <p className="text-[var(--text)] leading-relaxed">{resumeData.personal.summary}</p>
           </div>
               <div className="text-6xl">👨‍💻</div>
         </div>
@@ -529,7 +529,7 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
 
           {/* Experience */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h3 className="text-2xl font-bold mb-6">💼 Experience</h3>
@@ -538,35 +538,35 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
                 {resumeData.experience.map((exp, index) => (
                 <motion.div
                   key={exp.id}
-                  className="border-l-2 border-blue-600 pl-4 relative"
+                  className="border-l-2 border-[var(--accent)] pl-4 relative"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-600 rounded-full" />
+                  <div className="absolute -left-2 top-0 w-4 h-4 bg-[var(--accent)] rounded-full" />
                   
                   <div className="flex justify-between items-start mb-2">
                         <div>
-                      <h4 className="text-xl font-bold text-white">{exp.position}</h4>
-                      <p className="text-blue-400">{exp.company} • {exp.location}</p>
+                      <h4 className="text-xl font-bold text-[var(--text)]">{exp.position}</h4>
+                      <p className="text-[var(--accent)]">{exp.company} • {exp.location}</p>
                         </div>
-                    <span className="text-sm text-gray-400">{exp.period}</span>
+                    <span className="text-sm text-[var(--muted)]">{exp.period}</span>
                         </div>
                   
-                  <p className="text-gray-300 mb-3">{exp.description}</p>
+                  <p className="text-[var(--text)] mb-3">{exp.description}</p>
                   
                   <ul className="space-y-2 mb-3">
                     {exp.achievements.map((achievement, i) => (
                       <motion.li
                         key={i}
-                        className="text-sm text-gray-300 flex items-start gap-2"
+                        className="text-sm text-[var(--text)] flex items-start gap-2"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        <span className="text-green-400 mt-0.5">✓</span>
+                        <span className="text-[var(--accent)] mt-0.5">✓</span>
                         <span>{achievement}</span>
                       </motion.li>
                     ))}
@@ -574,7 +574,7 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
                   
                   <div className="flex flex-wrap gap-2">
                     {exp.technologies.map(tech => (
-                      <span key={tech} className="text-xs bg-gray-700 px-2 py-1 rounded">
+                      <span key={tech} className="text-xs bg-[var(--surface-2)] px-2 py-1 rounded">
                         {tech}
                       </span>
                     ))}
@@ -586,7 +586,7 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
 
           {/* Skills */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h3 className="text-2xl font-bold mb-6">🛠️ Skills</h3>
@@ -594,7 +594,7 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
               <div className="space-y-6">
               {Object.entries(resumeData.skills).map(([category, skills], catIndex) => (
                 <div key={category}>
-                  <h4 className="text-lg font-semibold text-blue-400 mb-3 capitalize">{category}</h4>
+                  <h4 className="text-lg font-semibold text-[var(--accent)] mb-3 capitalize">{category}</h4>
                   <div className="space-y-3">
                     {skills.map((skill, index) => (
                       <motion.div
@@ -608,11 +608,11 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
                       >
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-sm font-medium">{skill.name}</span>
-                          <span className="text-xs text-gray-400">{skill.years} years</span>
+                          <span className="text-xs text-[var(--muted)]">{skill.years} years</span>
                         </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div className="w-full bg-[var(--surface-2)] rounded-full h-2">
                           <motion.div
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full"
+                            className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] h-2 rounded-full"
                             initial={{ width: 0 }}
                             whileInView={{ width: `${skill.level}%` }}
                             viewport={{ once: true }}
@@ -632,7 +632,7 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
             className="grid md:grid-cols-2 gap-6"
             variants={itemVariants}
           >
-            <div className="bg-gray-800 p-6 rounded-xl">
+            <div className="bg-[var(--surface)] p-6 rounded-xl">
               <h3 className="text-2xl font-bold mb-4">🎓 Education</h3>
               {resumeData.education.map((edu, index) => (
                 <motion.div
@@ -641,34 +641,34 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                 >
-                  <h4 className="font-bold text-white">{edu.degree}</h4>
-                  <p className="text-blue-400">{edu.school}</p>
-                  <p className="text-sm text-gray-400">{edu.period}</p>
-                  <p className="text-sm text-gray-300 mt-2">GPA: {edu.gpa}</p>
+                  <h4 className="font-bold text-[var(--text)]">{edu.degree}</h4>
+                  <p className="text-[var(--accent)]">{edu.school}</p>
+                  <p className="text-sm text-[var(--muted)]">{edu.period}</p>
+                  <p className="text-sm text-[var(--text)] mt-2">GPA: {edu.gpa}</p>
                   <div className="mt-2 space-y-1">
                     {edu.achievements.map((achievement, i) => (
-                      <p key={i} className="text-sm text-gray-300">• {achievement}</p>
+                      <p key={i} className="text-sm text-[var(--text)]">• {achievement}</p>
                     ))}
                   </div>
                 </motion.div>
                 ))}
                   </div>
 
-            <div className="bg-gray-800 p-6 rounded-xl">
+            <div className="bg-[var(--surface)] p-6 rounded-xl">
               <h3 className="text-2xl font-bold mb-4">🚀 Projects</h3>
               <div className="space-y-4">
                 {resumeData.projects.map((project, index) => (
                   <motion.div
                     key={index}
-                    className="bg-gray-700 p-4 rounded-lg"
+                    className="bg-[var(--surface-2)] p-4 rounded-lg"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.02 }}
                   >
-                    <h4 className="font-bold text-white mb-1">{project.name}</h4>
-                    <p className="text-sm text-gray-300 mb-2">{project.description}</p>
-                    <p className="text-xs text-blue-400">{project.stats}</p>
+                    <h4 className="font-bold text-[var(--text)] mb-1">{project.name}</h4>
+                    <p className="text-sm text-[var(--text)] mb-2">{project.description}</p>
+                    <p className="text-xs text-[var(--accent)]">{project.stats}</p>
                   </motion.div>
                 ))}
               </div>
@@ -680,27 +680,27 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
         <div className="space-y-6">
           {/* Actions */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📥 Export</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📥 Export</h3>
             <div className="space-y-2">
               <motion.button
-                className="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 📄 Download PDF
               </motion.button>
               <motion.button
-                className="w-full bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 📋 Copy Link
               </motion.button>
               <motion.button
-                className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -712,22 +712,22 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
           {/* Skill Detail */}
           {selectedSkill && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h3 className="text-xl font-bold mb-4 text-blue-400">Skill Detail</h3>
+              <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">Skill Detail</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Name:</span>
+                  <span className="text-[var(--muted)]">Name:</span>
                   <span className="font-semibold">{selectedSkill.name}</span>
             </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Proficiency:</span>
-                  <span className="font-semibold text-green-400">{selectedSkill.level}%</span>
+                  <span className="text-[var(--muted)]">Proficiency:</span>
+                  <span className="font-semibold text-[var(--accent)]">{selectedSkill.level}%</span>
             </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Experience:</span>
+                  <span className="text-[var(--muted)]">Experience:</span>
                   <span className="font-semibold">{selectedSkill.years} years</span>
           </div>
         </div>
@@ -736,29 +736,29 @@ export { InteractiveResume, generatePDF, exportResumeJSON };`,
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Smooth Animations</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Interactive Skills</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>PDF Export</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Mobile Responsive</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Print Optimized</span>
               </li>
             </ul>

@@ -40,10 +40,10 @@ const MicroservicesDemo = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'healthy': return 'bg-green-500';
-      case 'degraded': return 'bg-yellow-500';
-      case 'down': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      case 'healthy': return 'bg-[var(--accent)]';
+      case 'degraded': return 'bg-[var(--accent)]';
+      case 'down': return 'bg-[var(--accent)]';
+      default: return 'bg-[var(--border-strong)]';
     }
   };
 
@@ -234,34 +234,34 @@ module.exports = MicroservicesPlatform;`,
   return (
     <div className="space-y-6">
       {/* Service Health Dashboard */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Service Health Dashboard</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.map((service) => (
             <motion.div
               key={service.id}
-              className="bg-gray-900 p-4 rounded-lg border border-gray-700"
+              className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="font-semibold text-white">{service.name}</div>
+                <div className="font-semibold text-[var(--text)]">{service.name}</div>
                 <div className={`w-3 h-3 rounded-full ${getStatusColor(service.status)}`}></div>
               </div>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between text-gray-400">
+                <div className="flex justify-between text-[var(--muted)]">
                   <span>Requests:</span>
-                  <span className="text-white">{service.requests}</span>
+                  <span className="text-[var(--text)]">{service.requests}</span>
                 </div>
-                <div className="flex justify-between text-gray-400">
+                <div className="flex justify-between text-[var(--muted)]">
                   <span>Latency:</span>
-                  <span className="text-white">{service.latency}ms</span>
+                  <span className="text-[var(--text)]">{service.latency}ms</span>
                 </div>
-                <div className="flex justify-between text-gray-400">
+                <div className="flex justify-between text-[var(--muted)]">
                   <span>Status:</span>
                   <span className={`${
-                    service.status === 'healthy' ? 'text-green-400' :
-                    service.status === 'degraded' ? 'text-yellow-400' : 'text-red-400'
+                    service.status === 'healthy' ? 'text-[var(--accent)]' :
+                    service.status === 'degraded' ? 'text-[var(--accent)]' : 'text-[var(--accent)]'
                   }`}>
                     {service.status}
                   </span>
@@ -273,22 +273,22 @@ module.exports = MicroservicesPlatform;`,
       </div>
 
       {/* Service Topology */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Service Topology</h3>
-        <div className="flex items-center justify-center p-8 bg-gray-900 rounded">
+        <div className="flex items-center justify-center p-8 bg-[var(--bg)] rounded">
           <div className="grid grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <span className="text-white text-xs">API Gateway</span>
+              <div className="w-16 h-16 bg-[var(--accent)] rounded-lg flex items-center justify-center mx-auto mb-2">
+                <span className="text-[var(--text)] text-xs">API Gateway</span>
               </div>
             </div>
             <div className="col-span-2 grid grid-cols-2 gap-4">
               {services.slice(0, 4).map((service) => (
                 <div key={service.id} className="text-center">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2 ${
-                    service.status === 'healthy' ? 'bg-green-600' : 'bg-yellow-600'
+                    service.status === 'healthy' ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'
                   }`}>
-                    <span className="text-white text-xs">{service.name.split(' ')[0]}</span>
+                    <span className="text-[var(--text)] text-xs">{service.name.split(' ')[0]}</span>
                   </div>
                 </div>
               ))}
@@ -298,7 +298,7 @@ module.exports = MicroservicesPlatform;`,
       </div>
 
       {/* Request Log */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">API Gateway Request Log</h3>
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {requests.map((request) => (
@@ -306,21 +306,21 @@ module.exports = MicroservicesPlatform;`,
               key={request.id}
               className={`flex items-center gap-4 p-3 rounded border ${
                 request.status === 200 
-                  ? 'bg-gray-900 border-gray-700' 
-                  : 'bg-red-900/20 border-red-500/50'
+                  ? 'bg-[var(--bg)] border-[var(--border)]' 
+                  : 'bg-[var(--accent-soft)]/20 border-[var(--accent)]/50'
               }`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <span className="text-gray-500 text-xs w-20">{request.timestamp}</span>
-              <span className="text-blue-400 font-mono text-xs w-16">{request.method}</span>
-              <span className="text-gray-300 text-sm">/api/{request.service}</span>
+              <span className="text-[var(--muted)] text-xs w-20">{request.timestamp}</span>
+              <span className="text-[var(--accent)] font-mono text-xs w-16">{request.method}</span>
+              <span className="text-[var(--text)] text-sm">/api/{request.service}</span>
               <span className={`px-2 py-1 rounded text-xs ${
-                request.status === 200 ? 'bg-green-900/50 text-green-400' : 'bg-red-900/50 text-red-400'
+                request.status === 200 ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' : 'bg-[var(--accent-soft)]/50 text-[var(--accent)]'
               }`}>
                 {request.status}
               </span>
-              <span className="text-gray-400 text-xs ml-auto">{request.latency}ms</span>
+              <span className="text-[var(--muted)] text-xs ml-auto">{request.latency}ms</span>
             </motion.div>
           ))}
         </div>
@@ -329,7 +329,7 @@ module.exports = MicroservicesPlatform;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

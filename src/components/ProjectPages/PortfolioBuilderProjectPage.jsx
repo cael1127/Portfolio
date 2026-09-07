@@ -565,16 +565,16 @@ const PortfolioBuilderDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           Portfolio Builder
         </h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Template Selection */}
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-blue-400 mb-4">Templates</h3>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Templates</h3>
             <div className="space-y-2">
               {templates.map(template => (
                 <button
@@ -582,26 +582,26 @@ const PortfolioBuilderDashboard = () => {
                   onClick={() => setSelectedTemplate(template.id)}
                   className={'w-full p-3 rounded border text-left ' + (
                     selectedTemplate === template.id
-                      ? 'bg-green-600 border-green-400'
-                      : 'bg-gray-700 border-gray-600 hover:bg-gray-600'
+                      ? 'bg-[var(--accent)] border-[var(--accent)]'
+                      : 'bg-[var(--surface-2)] border-[var(--border-strong)] hover:bg-[var(--border-strong)]'
                   )}
                 >
                   <div className="font-semibold">{template.name}</div>
-                  <div className="text-sm text-gray-400">{template.description}</div>
+                  <div className="text-sm text-[var(--muted)]">{template.description}</div>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Component Library */}
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-purple-400 mb-4">Components</h3>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Components</h3>
             <div className="space-y-2">
               {componentTypes.map(component => (
                 <div
                   key={component.type}
                   draggable
-                  className="p-3 bg-gray-700 border border-gray-600 rounded cursor-move hover:bg-gray-600"
+                  className="p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded cursor-move hover:bg-[var(--border-strong)]"
                 >
                   <span className="mr-2">{component.icon}</span>
                   {component.name}
@@ -611,13 +611,13 @@ const PortfolioBuilderDashboard = () => {
           </div>
 
           {/* Portfolio Preview */}
-          <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-green-400 mb-4">Preview</h3>
-            <div className="bg-white text-black p-4 rounded min-h-96">
+          <div className="lg:col-span-2 bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Preview</h3>
+            <div className="bg-[var(--surface)] text-[var(--text)] p-4 rounded min-h-96">
               <div className="text-center">
                 <h1 className="text-3xl font-bold">Your Name</h1>
-                <p className="text-xl text-gray-600">Software Developer</p>
-                <p className="mt-4 text-gray-700">Drag components here to build your portfolio</p>
+                <p className="text-xl text-[var(--muted)]">Software Developer</p>
+                <p className="mt-4 text-[var(--muted)]">Drag components here to build your portfolio</p>
               </div>
             </div>
           </div>
@@ -629,18 +629,18 @@ const PortfolioBuilderDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🌐 Portfolio Builder</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🌐 Portfolio Builder</h1>
+          <p className="text-[var(--text)] text-lg">
             Drag-and-drop website builder for creating professional portfolios with customizable templates
           </p>
         </div>
@@ -653,8 +653,8 @@ const PortfolioBuilderDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={'px-4 py-2 rounded-lg transition-colors ' + (
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               )}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -664,12 +664,12 @@ const PortfolioBuilderDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Portfolio Builder is a comprehensive drag-and-drop website creation platform that enables 
                   users to build professional portfolios using pre-designed templates and customizable components. 
                   It features an intuitive visual editor with real-time preview and export capabilities.
@@ -678,8 +678,8 @@ const PortfolioBuilderDashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Visual drag-and-drop editing</li>
                     <li>• Pre-designed portfolio templates</li>
                     <li>• Customizable component library</li>
@@ -689,8 +689,8 @@ const PortfolioBuilderDashboard = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for user interface</li>
                     <li>• HTML5 Drag and Drop API</li>
                     <li>• CSS Grid and Flexbox</li>
@@ -705,12 +705,12 @@ const PortfolioBuilderDashboard = () => {
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">🎨 Visual Editor</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🎨 Visual Editor</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Drag-and-drop interface</li>
                     <li>• Real-time preview</li>
                     <li>• Component customization</li>
@@ -719,9 +719,9 @@ const PortfolioBuilderDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">📋 Component Library</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📋 Component Library</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Header components</li>
                     <li>• About sections</li>
                     <li>• Project showcases</li>
@@ -730,9 +730,9 @@ const PortfolioBuilderDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">🎯 Template System</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🎯 Template System</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Pre-designed templates</li>
                     <li>• Customizable layouts</li>
                     <li>• Color scheme options</li>
@@ -741,9 +741,9 @@ const PortfolioBuilderDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">📤 Export & Deploy</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📤 Export & Deploy</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• HTML/CSS export</li>
                     <li>• GitHub Pages integration</li>
                     <li>• Custom domain support</li>
@@ -757,40 +757,40 @@ const PortfolioBuilderDashboard = () => {
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Drag and Drop Manager</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Drag and Drop Manager</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dragDropManager}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Template Manager</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Template Manager</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.templateManager}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Component Library</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Component Library</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.componentLibrary}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -801,13 +801,13 @@ const PortfolioBuilderDashboard = () => {
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js editor interface</li>
                       <li>• Drag and drop functionality</li>
                       <li>• Real-time preview</li>
@@ -818,9 +818,9 @@ const PortfolioBuilderDashboard = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Backend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Backend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• Template management</li>
                       <li>• Component rendering</li>
                       <li>• Export generation</li>
@@ -831,28 +831,28 @@ const PortfolioBuilderDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Data Flow</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Data Flow</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">Template Selection</p>
-                      <p className="text-gray-300 text-sm">User selects base template</p>
+                      <p className="text-[var(--text)] font-semibold">Template Selection</p>
+                      <p className="text-[var(--text)] text-sm">User selects base template</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Component Assembly</p>
-                      <p className="text-gray-300 text-sm">Drag and drop components</p>
+                      <p className="text-[var(--text)] font-semibold">Component Assembly</p>
+                      <p className="text-[var(--text)] text-sm">Drag and drop components</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">Export & Deploy</p>
-                      <p className="text-gray-300 text-sm">Generate and deploy portfolio</p>
+                      <p className="text-[var(--text)] font-semibold">Export & Deploy</p>
+                      <p className="text-[var(--text)] text-sm">Generate and deploy portfolio</p>
                     </div>
                   </div>
                 </div>
@@ -862,23 +862,23 @@ const PortfolioBuilderDashboard = () => {
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the portfolio builder in action. The demo showcases drag-and-drop editing, 
                 template selection, component customization, and real-time preview functionality.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Portfolio Builder Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Portfolio Builder Demo</h3>
                   <button
                     onClick={() => setCurrentPage('portfoliobuilder')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full portfolio builder with drag-and-drop editing, 
                   template selection, component customization, and real-time preview.
                 </p>

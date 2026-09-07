@@ -611,14 +611,14 @@ const BookstoreApp = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">📚 Bookstore API Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">📚 Bookstore API Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           RESTful API for an online bookstore with complete CRUD operations, order management, and inventory tracking.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -638,14 +638,14 @@ const BookstoreApp = () => {
         <div className="space-y-6">
           {/* Search and Filter */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Search & Filter</h2>
             
             <div className="grid md:grid-cols-2 gap-4">
             <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[var(--text)] mb-2">
                   Search Books
                 </label>
               <input
@@ -653,18 +653,18 @@ const BookstoreApp = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by title or author..."
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)]"
                 />
         </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[var(--text)] mb-2">
                   Filter by Genre
                 </label>
               <select
                 value={filterGenre}
                 onChange={(e) => setFilterGenre(e.target.value)}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full p-3 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)]"
                 >
                   {genres.map(genre => (
                     <option key={genre} value={genre}>
@@ -678,19 +678,19 @@ const BookstoreApp = () => {
 
           {/* Books Grid */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Books Catalog</h2>
-              <span className="text-sm text-gray-400">{filteredBooks.length} books found</span>
+              <span className="text-sm text-[var(--muted)]">{filteredBooks.length} books found</span>
         </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               {filteredBooks.map((book, index) => (
                 <motion.div
                   key={book.id}
-                  className="bg-gray-700 p-4 rounded-lg hover:bg-gray-650 transition-colors"
+                  className="bg-[var(--surface-2)] p-4 rounded-lg hover:bg-[var(--border-strong)] transition-colors"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.05 }}
@@ -699,26 +699,26 @@ const BookstoreApp = () => {
                   <div className="flex gap-4">
                     <div className="text-5xl">{book.cover}</div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg text-white mb-1">{book.title}</h3>
-                      <p className="text-sm text-gray-400 mb-2">by {book.author}</p>
+                      <h3 className="font-bold text-lg text-[var(--text)] mb-1">{book.title}</h3>
+                      <p className="text-sm text-[var(--muted)] mb-2">by {book.author}</p>
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs bg-blue-600 px-2 py-1 rounded">{book.genre}</span>
-                        <span className="text-xs text-gray-400">⭐ {book.rating}</span>
-                        <span className="text-xs text-gray-400">📅 {book.publishedYear}</span>
+                        <span className="text-xs bg-[var(--accent)] px-2 py-1 rounded">{book.genre}</span>
+                        <span className="text-xs text-[var(--muted)]">⭐ {book.rating}</span>
+                        <span className="text-xs text-[var(--muted)]">📅 {book.publishedYear}</span>
                       </div>
-                      <p className="text-xs text-gray-300 mb-3 line-clamp-2">{book.description}</p>
+                      <p className="text-xs text-[var(--text)] mb-3 line-clamp-2">{book.description}</p>
                       <div className="flex justify-between items-center">
-                        <span className="text-lg font-bold text-green-400">${book.price}</span>
+                        <span className="text-lg font-bold text-[var(--accent)]">${book.price}</span>
                         <motion.button
                           onClick={() => handleAddToCart(book)}
-                          className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors"
+                          className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-3 py-1 rounded text-sm transition-colors"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
                           Add to Cart
                         </motion.button>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-[var(--muted)] mt-1">
                         {book.stock > 0 ? `${book.stock} in stock` : 'Out of stock'}
                       </p>
                     </div>
@@ -731,7 +731,7 @@ const BookstoreApp = () => {
           {/* Shopping Cart */}
           {cart.length > 0 && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -739,19 +739,19 @@ const BookstoreApp = () => {
               
               <div className="space-y-3 mb-4">
                 {cart.map(item => (
-                  <div key={item.id} className="flex justify-between items-center bg-gray-700 p-3 rounded-lg">
+                  <div key={item.id} className="flex justify-between items-center bg-[var(--surface-2)] p-3 rounded-lg">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{item.cover}</span>
                       <div>
                         <p className="font-semibold">{item.title}</p>
-                        <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
+                        <p className="text-sm text-[var(--muted)]">Qty: {item.quantity}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-green-400 font-bold">${(item.price * item.quantity).toFixed(2)}</span>
+                      <span className="text-[var(--accent)] font-bold">${(item.price * item.quantity).toFixed(2)}</span>
                 <button
                         onClick={() => handleRemoveFromCart(item.id)}
-                        className="text-red-400 hover:text-red-300 transition-colors"
+                        className="text-[var(--accent)] hover:text-[var(--accent)] transition-colors"
                 >
                         ✕
                 </button>
@@ -760,13 +760,13 @@ const BookstoreApp = () => {
           ))}
         </div>
 
-              <div className="border-t border-gray-700 pt-4">
+              <div className="border-t border-[var(--border)] pt-4">
                 <div className="flex justify-between items-center text-xl font-bold mb-4">
                   <span>Total:</span>
-                  <span className="text-green-400">${getTotalPrice()}</span>
+                  <span className="text-[var(--accent)]">${getTotalPrice()}</span>
                 </div>
                 <motion.button
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg transition-colors"
+                  className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] py-3 px-4 rounded-lg transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -781,84 +781,84 @@ const BookstoreApp = () => {
         <div className="space-y-6">
           {/* API Stats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📊 API Statistics</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 API Statistics</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Books:</span>
-                <span className="text-white font-semibold">{apiStats.totalBooks}</span>
+                <span className="text-[var(--muted)]">Total Books:</span>
+                <span className="text-[var(--text)] font-semibold">{apiStats.totalBooks}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Authors:</span>
-                <span className="text-white font-semibold">{apiStats.totalAuthors}</span>
+                <span className="text-[var(--muted)]">Authors:</span>
+                <span className="text-[var(--text)] font-semibold">{apiStats.totalAuthors}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Genres:</span>
-                <span className="text-white font-semibold">{apiStats.totalGenres}</span>
+                <span className="text-[var(--muted)]">Genres:</span>
+                <span className="text-[var(--text)] font-semibold">{apiStats.totalGenres}</span>
             </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">API Calls:</span>
-                <span className="text-green-400 font-semibold">{apiStats.apiCalls}</span>
+                <span className="text-[var(--muted)]">API Calls:</span>
+                <span className="text-[var(--accent)] font-semibold">{apiStats.apiCalls}</span>
             </div>
           </div>
           </motion.div>
 
           {/* API Endpoints */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">🔌 API Endpoints</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🔌 API Endpoints</h3>
             <div className="space-y-2 text-xs font-mono">
-              <div className="bg-gray-700 p-2 rounded">
-                <span className="text-green-400">GET</span> /api/books
+              <div className="bg-[var(--surface-2)] p-2 rounded">
+                <span className="text-[var(--accent)]">GET</span> /api/books
               </div>
-              <div className="bg-gray-700 p-2 rounded">
-                <span className="text-blue-400">POST</span> /api/books
+              <div className="bg-[var(--surface-2)] p-2 rounded">
+                <span className="text-[var(--accent)]">POST</span> /api/books
               </div>
-              <div className="bg-gray-700 p-2 rounded">
-                <span className="text-yellow-400">PUT</span> /api/books/:id
+              <div className="bg-[var(--surface-2)] p-2 rounded">
+                <span className="text-[var(--accent)]">PUT</span> /api/books/:id
               </div>
-              <div className="bg-gray-700 p-2 rounded">
-                <span className="text-red-400">DEL</span> /api/books/:id
+              <div className="bg-[var(--surface-2)] p-2 rounded">
+                <span className="text-[var(--accent)]">DEL</span> /api/books/:id
               </div>
-              <div className="bg-gray-700 p-2 rounded">
-                <span className="text-blue-400">POST</span> /api/orders
+              <div className="bg-[var(--surface-2)] p-2 rounded">
+                <span className="text-[var(--accent)]">POST</span> /api/orders
         </div>
       </div>
           </motion.div>
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Complete CRUD</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Search & Filter</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Order Management</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Stock Tracking</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Rate Limiting</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>RESTful Design</span>
               </li>
             </ul>

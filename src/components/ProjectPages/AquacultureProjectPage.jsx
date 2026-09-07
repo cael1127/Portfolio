@@ -522,53 +522,53 @@ const AquacultureDashboard = () => {
   }, []);
 
   const TankCard = ({ tank }) => (
-    <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+    <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-white">{tank.name}</h3>
-          <p className="text-gray-400 text-sm">{tank.status}</p>
+          <h3 className="text-lg font-semibold text-[var(--text)]">{tank.name}</h3>
+          <p className="text-[var(--muted)] text-sm">{tank.status}</p>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-green-400">
+          <div className="text-2xl font-bold text-[var(--accent)]">
             {tank.waterQuality}%
           </div>
-          <div className="text-xs text-gray-400">Water Quality</div>
+          <div className="text-xs text-[var(--muted)]">Water Quality</div>
         </div>
       </div>
       
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <p className="text-gray-400">Temperature</p>
-          <p className="text-white font-semibold">{tank.temperature?.toFixed(1)}°C</p>
+          <p className="text-[var(--muted)]">Temperature</p>
+          <p className="text-[var(--text)] font-semibold">{tank.temperature?.toFixed(1)}°C</p>
         </div>
         <div>
-          <p className="text-gray-400">Oxygen</p>
-          <p className="text-white">{tank.oxygen?.toFixed(1)} mg/L</p>
+          <p className="text-[var(--muted)]">Oxygen</p>
+          <p className="text-[var(--text)]">{tank.oxygen?.toFixed(1)} mg/L</p>
         </div>
         <div>
-          <p className="text-gray-400">pH</p>
-          <p className="text-white">{tank.ph?.toFixed(1)}</p>
+          <p className="text-[var(--muted)]">pH</p>
+          <p className="text-[var(--text)]">{tank.ph?.toFixed(1)}</p>
         </div>
         <div>
-          <p className="text-gray-400">Ammonia</p>
-          <p className="text-white">{tank.ammonia?.toFixed(3)} mg/L</p>
+          <p className="text-[var(--muted)]">Ammonia</p>
+          <p className="text-[var(--text)]">{tank.ammonia?.toFixed(3)} mg/L</p>
         </div>
       </div>
       
       {analytics[tank.id] && (
-        <div className="mt-4 pt-4 border-t border-gray-600">
+        <div className="mt-4 pt-4 border-t border-[var(--border-strong)]">
           <div className="grid grid-cols-3 gap-2 text-xs">
             <div>
-              <p className="text-gray-400">Growth Rate</p>
-              <p className="text-green-400">{(analytics[tank.id].growthRate * 100).toFixed(1)}%</p>
+              <p className="text-[var(--muted)]">Growth Rate</p>
+              <p className="text-[var(--accent)]">{(analytics[tank.id].growthRate * 100).toFixed(1)}%</p>
             </div>
             <div>
-              <p className="text-gray-400">Mortality</p>
-              <p className="text-red-400">{(analytics[tank.id].mortalityRate * 100).toFixed(1)}%</p>
+              <p className="text-[var(--muted)]">Mortality</p>
+              <p className="text-[var(--accent)]">{(analytics[tank.id].mortalityRate * 100).toFixed(1)}%</p>
             </div>
             <div>
-              <p className="text-gray-400">Feed Efficiency</p>
-              <p className="text-blue-400">{(analytics[tank.id].feedEfficiency * 100).toFixed(0)}%</p>
+              <p className="text-[var(--muted)]">Feed Efficiency</p>
+              <p className="text-[var(--accent)]">{(analytics[tank.id].feedEfficiency * 100).toFixed(0)}%</p>
             </div>
           </div>
         </div>
@@ -577,9 +577,9 @@ const AquacultureDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           Aquaculture Monitoring Dashboard
         </h1>
         
@@ -590,17 +590,17 @@ const AquacultureDashboard = () => {
         </div>
         
         {alerts.length > 0 && (
-          <div className="mt-8 bg-red-900 p-6 rounded-lg border border-red-600">
-            <h2 className="text-xl font-bold text-white mb-4">Active Alerts</h2>
+          <div className="mt-8 bg-[var(--accent-soft)] p-6 rounded-lg border border-[var(--accent)]">
+            <h2 className="text-xl font-bold text-[var(--text)] mb-4">Active Alerts</h2>
             <div className="space-y-2">
               {alerts.map((alert, index) => (
-                <div key={index} className="bg-red-800 p-3 rounded border border-red-600">
+                <div key={index} className="bg-[var(--accent-soft)] p-3 rounded border border-[var(--accent)]">
                   <div className="flex justify-between items-center">
                     <div>
-                      <p className="text-white font-semibold">{alert.message}</p>
-                      <p className="text-red-200 text-sm">Tank: {alert.tankId}</p>
+                      <p className="text-[var(--text)] font-semibold">{alert.message}</p>
+                      <p className="text-[var(--accent)] text-sm">Tank: {alert.tankId}</p>
                     </div>
-                    <div className="text-red-300 text-sm">{alert.value}</div>
+                    <div className="text-[var(--accent)] text-sm">{alert.value}</div>
                   </div>
                 </div>
               ))}
@@ -616,18 +616,18 @@ export default AquacultureDashboard;`
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🌊 Smart Aquaculture Monitoring System</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🌊 Smart Aquaculture Monitoring System</h1>
+          <p className="text-[var(--text)] text-lg">
             AI-powered aquaculture monitoring with real-time sensor data, predictive analytics, and automated insights
           </p>
         </div>
@@ -640,8 +640,8 @@ export default AquacultureDashboard;`
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -651,12 +651,12 @@ export default AquacultureDashboard;`
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Smart Aquaculture Monitoring System is a comprehensive IoT solution designed for modern fish farming operations. 
                   It combines real-time sensor monitoring, AI-powered predictive analytics, and automated alert systems to optimize 
                   aquaculture production and ensure fish health.
@@ -665,8 +665,8 @@ export default AquacultureDashboard;`
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Real-time water quality monitoring</li>
                     <li>• Predictive analytics for growth optimization</li>
                     <li>• Automated alert system for critical conditions</li>
@@ -676,8 +676,8 @@ export default AquacultureDashboard;`
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for frontend dashboard</li>
                     <li>• Node.js for backend API</li>
                     <li>• IoT sensors for data collection</li>
@@ -689,19 +689,19 @@ export default AquacultureDashboard;`
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Real-World Applications</h3>
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Real-World Applications</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <h4 className="font-semibold text-white mb-2">Commercial Fish Farms</h4>
-                    <p className="text-gray-300 text-sm">Large-scale aquaculture operations with multiple tanks and automated systems</p>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Commercial Fish Farms</h4>
+                    <p className="text-[var(--text)] text-sm">Large-scale aquaculture operations with multiple tanks and automated systems</p>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <h4 className="font-semibold text-white mb-2">Research Facilities</h4>
-                    <p className="text-gray-300 text-sm">Scientific research with precise environmental control and data collection</p>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Research Facilities</h4>
+                    <p className="text-[var(--text)] text-sm">Scientific research with precise environmental control and data collection</p>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <h4 className="font-semibold text-white mb-2">Hatcheries</h4>
-                    <p className="text-gray-300 text-sm">Specialized facilities for breeding and early-stage fish development</p>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Hatcheries</h4>
+                    <p className="text-[var(--text)] text-sm">Specialized facilities for breeding and early-stage fish development</p>
                   </div>
                 </div>
               </div>
@@ -710,12 +710,12 @@ export default AquacultureDashboard;`
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">📡 IoT Sensor Network</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📡 IoT Sensor Network</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Multi-parameter water quality sensors</li>
                     <li>• Real-time data collection</li>
                     <li>• Wireless sensor communication</li>
@@ -724,9 +724,9 @@ export default AquacultureDashboard;`
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">🤖 AI Analytics</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🤖 AI Analytics</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Growth rate prediction</li>
                     <li>• Mortality risk assessment</li>
                     <li>• Feed efficiency optimization</li>
@@ -735,9 +735,9 @@ export default AquacultureDashboard;`
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">📊 Real-time Dashboard</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📊 Real-time Dashboard</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Live sensor data visualization</li>
                     <li>• Historical trend analysis</li>
                     <li>• Performance metrics tracking</li>
@@ -746,9 +746,9 @@ export default AquacultureDashboard;`
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">🚨 Alert System</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🚨 Alert System</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Automated critical condition alerts</li>
                     <li>• Multi-channel notifications</li>
                     <li>• Escalation protocols</li>
@@ -758,28 +758,28 @@ export default AquacultureDashboard;`
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-red-400 mb-3">🔒 Security & Compliance</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🔒 Security & Compliance</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <h4 className="font-semibold text-white mb-2">Data Security</h4>
-                    <ul className="text-gray-300 text-sm space-y-1">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Data Security</h4>
+                    <ul className="text-[var(--text)] text-sm space-y-1">
                       <li>• Encrypted data transmission</li>
                       <li>• Secure API endpoints</li>
                       <li>• User authentication</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-2">Compliance</h4>
-                    <ul className="text-gray-300 text-sm space-y-1">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Compliance</h4>
+                    <ul className="text-[var(--text)] text-sm space-y-1">
                       <li>• Industry standards compliance</li>
                       <li>• Data retention policies</li>
                       <li>• Audit trail logging</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-2">Reliability</h4>
-                    <ul className="text-gray-300 text-sm space-y-1">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Reliability</h4>
+                    <ul className="text-[var(--text)] text-sm space-y-1">
                       <li>• 99.9% uptime guarantee</li>
                       <li>• Backup and recovery</li>
                       <li>• Disaster recovery plans</li>
@@ -792,49 +792,49 @@ export default AquacultureDashboard;`
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Sensor Data Management</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Sensor Data Management</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.sensorData}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Water Quality Calculator</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Water Quality Calculator</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.waterQualityCalculator}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Predictive Analytics</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Predictive Analytics</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.predictiveAnalytics}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Real-time Monitoring</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Real-time Monitoring</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.realTimeMonitoring}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-red-400 mb-3">React Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">React Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -845,13 +845,13 @@ export default AquacultureDashboard;`
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js dashboard components</li>
                       <li>• Real-time data visualization</li>
                       <li>• Interactive charts and graphs</li>
@@ -862,9 +862,9 @@ export default AquacultureDashboard;`
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Backend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Backend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• Node.js API server</li>
                       <li>• Real-time data processing</li>
                       <li>• Machine learning models</li>
@@ -875,12 +875,12 @@ export default AquacultureDashboard;`
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">IoT Components</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">IoT Components</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <h4 className="font-semibold text-white mb-2">Sensor Network</h4>
-                    <ul className="text-gray-300 text-sm space-y-1">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Sensor Network</h4>
+                    <ul className="text-[var(--text)] text-sm space-y-1">
                       <li>• Temperature sensors</li>
                       <li>• Dissolved oxygen probes</li>
                       <li>• pH level sensors</li>
@@ -888,8 +888,8 @@ export default AquacultureDashboard;`
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-2">Communication</h4>
-                    <ul className="text-gray-300 text-sm space-y-1">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Communication</h4>
+                    <ul className="text-[var(--text)] text-sm space-y-1">
                       <li>• Wireless sensor networks</li>
                       <li>• LoRaWAN connectivity</li>
                       <li>• Cellular backup</li>
@@ -897,8 +897,8 @@ export default AquacultureDashboard;`
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-2">Data Processing</h4>
-                    <ul className="text-gray-300 text-sm space-y-1">
+                    <h4 className="font-semibold text-[var(--text)] mb-2">Data Processing</h4>
+                    <ul className="text-[var(--text)] text-sm space-y-1">
                       <li>• Edge computing</li>
                       <li>• Data validation</li>
                       <li>• Calibration management</li>
@@ -908,35 +908,35 @@ export default AquacultureDashboard;`
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-green-400 mb-3">Data Flow</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Data Flow</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">Sensor Data Collection</p>
-                      <p className="text-gray-300 text-sm">IoT sensors continuously monitor water parameters</p>
+                      <p className="text-[var(--text)] font-semibold">Sensor Data Collection</p>
+                      <p className="text-[var(--text)] text-sm">IoT sensors continuously monitor water parameters</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Data Processing</p>
-                      <p className="text-gray-300 text-sm">Raw data is validated, calibrated, and processed</p>
+                      <p className="text-[var(--text)] font-semibold">Data Processing</p>
+                      <p className="text-[var(--text)] text-sm">Raw data is validated, calibrated, and processed</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">Analytics & Predictions</p>
-                      <p className="text-gray-300 text-sm">ML models analyze data and generate predictions</p>
+                      <p className="text-[var(--text)] font-semibold">Analytics & Predictions</p>
+                      <p className="text-[var(--text)] text-sm">ML models analyze data and generate predictions</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">4</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">4</div>
                     <div>
-                      <p className="text-white font-semibold">Dashboard Updates</p>
-                      <p className="text-gray-300 text-sm">Real-time updates are pushed to the dashboard</p>
+                      <p className="text-[var(--text)] font-semibold">Dashboard Updates</p>
+                      <p className="text-[var(--text)] text-sm">Real-time updates are pushed to the dashboard</p>
                     </div>
                   </div>
                 </div>
@@ -946,40 +946,40 @@ export default AquacultureDashboard;`
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the aquaculture monitoring system in action. The demo showcases real-time sensor data, 
                 predictive analytics, and automated alert systems for optimal fish farming operations.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Aquaculture Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Aquaculture Demo</h3>
                   <button
                     onClick={() => setCurrentPage('aquaculture')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full aquaculture monitoring system with real-time sensor data, 
                   predictive analytics, and comprehensive water quality management.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <h4 className="font-semibold text-blue-400 mb-2">Real-time Monitoring</h4>
-                  <p className="text-gray-300 text-sm">Watch live sensor data updates with water quality parameters</p>
+                <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                  <h4 className="font-semibold text-[var(--accent)] mb-2">Real-time Monitoring</h4>
+                  <p className="text-[var(--text)] text-sm">Watch live sensor data updates with water quality parameters</p>
                 </div>
-                <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <h4 className="font-semibold text-purple-400 mb-2">Predictive Analytics</h4>
-                  <p className="text-gray-300 text-sm">See AI-powered growth and mortality predictions</p>
+                <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                  <h4 className="font-semibold text-[var(--accent)] mb-2">Predictive Analytics</h4>
+                  <p className="text-[var(--text)] text-sm">See AI-powered growth and mortality predictions</p>
                 </div>
-                <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                  <h4 className="font-semibold text-green-400 mb-2">Alert System</h4>
-                  <p className="text-gray-300 text-sm">Experience automated alerts for critical conditions</p>
+                <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                  <h4 className="font-semibold text-[var(--accent)] mb-2">Alert System</h4>
+                  <p className="text-[var(--text)] text-sm">Experience automated alerts for critical conditions</p>
                 </div>
               </div>
             </div>

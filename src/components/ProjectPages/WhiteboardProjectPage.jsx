@@ -521,20 +521,20 @@ const WhiteboardDashboard = () => {
   const sizes = [1, 2, 4, 8, 16, 32];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           Collaborative Whiteboard
         </h1>
         
         <div className="flex gap-6">
           {/* Toolbar */}
-          <div className="bg-gray-800 p-4 rounded-lg border border-gray-600 w-64">
-            <h3 className="text-lg font-semibold text-white mb-4">Tools</h3>
+          <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)] w-64">
+            <h3 className="text-lg font-semibold text-[var(--text)] mb-4">Tools</h3>
             
             <div className="space-y-4">
               <div>
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Drawing Tools</h4>
+                <h4 className="text-sm font-semibold text-[var(--text)] mb-2">Drawing Tools</h4>
                 <div className="grid grid-cols-3 gap-2">
                   {tools.map(tool => (
                     <button
@@ -542,8 +542,8 @@ const WhiteboardDashboard = () => {
                       onClick={() => setActiveTool(tool.id)}
                       className={'p-2 rounded border ' + (
                         activeTool === tool.id
-                          ? 'bg-green-600 border-green-400'
-                          : 'bg-gray-700 border-gray-600 hover:bg-gray-600'
+                          ? 'bg-[var(--accent)] border-[var(--accent)]'
+                          : 'bg-[var(--surface-2)] border-[var(--border-strong)] hover:bg-[var(--border-strong)]'
                       )}
                     >
                       <span className="text-lg">{tool.icon}</span>
@@ -553,13 +553,13 @@ const WhiteboardDashboard = () => {
               </div>
 
               <div>
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Colors</h4>
+                <h4 className="text-sm font-semibold text-[var(--text)] mb-2">Colors</h4>
                 <div className="grid grid-cols-4 gap-2">
                   {colors.map(color => (
                     <button
                       key={color}
                       onClick={() => setBrushColor(color)}
-                      className="w-8 h-8 rounded border-2 border-gray-600 hover:border-white"
+                      className="w-8 h-8 rounded border-2 border-[var(--border-strong)] hover:border-[var(--border-strong)]"
                       style={{ backgroundColor: color }}
                     />
                   ))}
@@ -567,11 +567,11 @@ const WhiteboardDashboard = () => {
               </div>
 
               <div>
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Size</h4>
+                <h4 className="text-sm font-semibold text-[var(--text)] mb-2">Size</h4>
                 <select
                   value={brushSize}
                   onChange={(e) => setBrushSize(Number(e.target.value))}
-                  className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  className="w-full p-2 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded text-[var(--text)]"
                 >
                   {sizes.map(size => (
                     <option key={size} value={size}>{size}px</option>
@@ -587,13 +587,13 @@ const WhiteboardDashboard = () => {
               ref={canvasRef}
               width={800}
               height={600}
-              className="border border-gray-600 rounded-lg bg-white"
+              className="border border-[var(--border-strong)] rounded-lg bg-[var(--surface)]"
             />
           </div>
 
           {/* Collaborators */}
-          <div className="bg-gray-800 p-4 rounded-lg border border-gray-600 w-48">
-            <h3 className="text-lg font-semibold text-white mb-4">Collaborators</h3>
+          <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)] w-48">
+            <h3 className="text-lg font-semibold text-[var(--text)] mb-4">Collaborators</h3>
             <div className="space-y-2">
               {collaborators.map(collaborator => (
                 <div key={collaborator.id} className="flex items-center space-x-2">
@@ -601,7 +601,7 @@ const WhiteboardDashboard = () => {
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: collaborator.color }}
                   />
-                  <span className="text-sm text-gray-300">{collaborator.name}</span>
+                  <span className="text-sm text-[var(--text)]">{collaborator.name}</span>
                 </div>
               ))}
             </div>
@@ -614,18 +614,18 @@ const WhiteboardDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🎨 Collaborative Whiteboard</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🎨 Collaborative Whiteboard</h1>
+          <p className="text-[var(--text)] text-lg">
             Real-time collaborative drawing platform with advanced tools and multi-user synchronization
           </p>
         </div>
@@ -638,8 +638,8 @@ const WhiteboardDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={'px-4 py-2 rounded-lg transition-colors ' + (
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               )}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -649,12 +649,12 @@ const WhiteboardDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Collaborative Whiteboard is a real-time drawing platform that enables multiple users 
                   to collaborate on digital canvases simultaneously. It features advanced drawing tools, 
                   real-time synchronization, and seamless collaboration across different devices.
@@ -663,8 +663,8 @@ const WhiteboardDashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Real-time collaborative drawing</li>
                     <li>• Advanced drawing tools and shapes</li>
                     <li>• Multi-user synchronization</li>
@@ -674,8 +674,8 @@ const WhiteboardDashboard = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for user interface</li>
                     <li>• HTML5 Canvas for drawing</li>
                     <li>• WebSocket for real-time sync</li>
@@ -690,12 +690,12 @@ const WhiteboardDashboard = () => {
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">🎨 Drawing Tools</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🎨 Drawing Tools</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Pen and brush tools</li>
                     <li>• Shape drawing (rectangles, circles)</li>
                     <li>• Text tool with custom fonts</li>
@@ -704,9 +704,9 @@ const WhiteboardDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">👥 Collaboration</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">👥 Collaboration</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Real-time multi-user drawing</li>
                     <li>• Live cursor tracking</li>
                     <li>• User presence indicators</li>
@@ -715,9 +715,9 @@ const WhiteboardDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">💾 History & Sync</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">💾 History & Sync</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Drawing history management</li>
                     <li>• Undo/redo functionality</li>
                     <li>• Canvas state synchronization</li>
@@ -726,9 +726,9 @@ const WhiteboardDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">📤 Export & Share</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📤 Export & Share</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• PNG/JPEG export</li>
                     <li>• PDF generation</li>
                     <li>• Share via links</li>
@@ -742,40 +742,40 @@ const WhiteboardDashboard = () => {
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Canvas Manager</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Canvas Manager</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.canvasManager}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Sync Manager</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Sync Manager</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.syncManager}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Tool Manager</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Tool Manager</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.toolManager}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -786,13 +786,13 @@ const WhiteboardDashboard = () => {
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js interface</li>
                       <li>• HTML5 Canvas rendering</li>
                       <li>• Real-time drawing tools</li>
@@ -803,9 +803,9 @@ const WhiteboardDashboard = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Backend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Backend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• WebSocket server</li>
                       <li>• Real-time synchronization</li>
                       <li>• Room management</li>
@@ -816,28 +816,28 @@ const WhiteboardDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Data Flow</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Data Flow</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">User Input</p>
-                      <p className="text-gray-300 text-sm">Drawing actions from user interface</p>
+                      <p className="text-[var(--text)] font-semibold">User Input</p>
+                      <p className="text-[var(--text)] text-sm">Drawing actions from user interface</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Action Processing</p>
-                      <p className="text-gray-300 text-sm">Canvas updates and history management</p>
+                      <p className="text-[var(--text)] font-semibold">Action Processing</p>
+                      <p className="text-[var(--text)] text-sm">Canvas updates and history management</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">Real-time Sync</p>
-                      <p className="text-gray-300 text-sm">Broadcast to all connected users</p>
+                      <p className="text-[var(--text)] font-semibold">Real-time Sync</p>
+                      <p className="text-[var(--text)] text-sm">Broadcast to all connected users</p>
                     </div>
                   </div>
                 </div>
@@ -847,23 +847,23 @@ const WhiteboardDashboard = () => {
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the collaborative whiteboard in action. The demo showcases real-time drawing, 
                 multi-user collaboration, and advanced drawing tools with seamless synchronization.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Whiteboard Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Whiteboard Demo</h3>
                   <button
                     onClick={() => setCurrentPage('whiteboard')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full collaborative whiteboard with real-time drawing, 
                   multi-user collaboration, and advanced drawing tools.
                 </p>

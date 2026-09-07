@@ -267,75 +267,75 @@ module.exports = { handler, autoScalingConfig, ServerlessCostOptimizer, Serverle
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-gray-400 text-sm">Total Functions</div>
-          <div className="text-2xl font-bold text-white mt-1">{functions.length}</div>
+          <div className="text-[var(--muted)] text-sm">Total Functions</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{functions.length}</div>
         </motion.div>
         <motion.div 
-          className="bg-blue-900/30 border-blue-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="text-blue-400 text-sm">Total Invocations</div>
-          <div className="text-2xl font-bold text-blue-400 mt-1">{totalInvocations}</div>
+          <div className="text-[var(--accent)] text-sm">Total Invocations</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{totalInvocations}</div>
         </motion.div>
         <motion.div 
-          className="bg-green-900/30 border-green-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="text-green-400 text-sm">Total Cost</div>
-          <div className="text-2xl font-bold text-green-400 mt-1">${totalCost.toFixed(4)}</div>
+          <div className="text-[var(--accent)] text-sm">Total Cost</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">${totalCost.toFixed(4)}</div>
         </motion.div>
         <motion.div 
-          className="bg-yellow-900/30 border-yellow-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="text-yellow-400 text-sm">Avg Duration</div>
-          <div className="text-2xl font-bold text-yellow-400 mt-1">
+          <div className="text-[var(--accent)] text-sm">Avg Duration</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">
             {Math.floor(functions.reduce((sum, f) => sum + f.avgDuration, 0) / functions.length)}ms
           </div>
         </motion.div>
       </div>
 
       {/* Functions List */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Serverless Functions</h3>
         <div className="space-y-3">
           {functions.map((func) => (
-            <div key={func.id} className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div key={func.id} className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className={`w-3 h-3 rounded-full ${
-                    func.status === 'active' ? 'bg-green-500' : 'bg-gray-500'
+                    func.status === 'active' ? 'bg-[var(--accent)]' : 'bg-[var(--border-strong)]'
                   }`}></div>
-                  <span className="font-semibold text-white">{func.name}</span>
+                  <span className="font-semibold text-[var(--text)]">{func.name}</span>
                 </div>
-                <span className="text-sm text-gray-400">{func.status}</span>
+                <span className="text-sm text-[var(--muted)]">{func.status}</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
-                  <div className="text-gray-400">Invocations</div>
-                  <div className="text-white font-semibold">{func.invocations}</div>
+                  <div className="text-[var(--muted)]">Invocations</div>
+                  <div className="text-[var(--text)] font-semibold">{func.invocations}</div>
                 </div>
                 <div>
-                  <div className="text-gray-400">Errors</div>
-                  <div className="text-red-400 font-semibold">{func.errors}</div>
+                  <div className="text-[var(--muted)]">Errors</div>
+                  <div className="text-[var(--accent)] font-semibold">{func.errors}</div>
                 </div>
                 <div>
-                  <div className="text-gray-400">Avg Duration</div>
-                  <div className="text-white font-semibold">{func.avgDuration}ms</div>
+                  <div className="text-[var(--muted)]">Avg Duration</div>
+                  <div className="text-[var(--text)] font-semibold">{func.avgDuration}ms</div>
                 </div>
                 <div>
-                  <div className="text-gray-400">Cost</div>
-                  <div className="text-green-400 font-semibold">${func.cost.toFixed(4)}</div>
+                  <div className="text-[var(--muted)]">Cost</div>
+                  <div className="text-[var(--accent)] font-semibold">${func.cost.toFixed(4)}</div>
                 </div>
               </div>
             </div>
@@ -344,7 +344,7 @@ module.exports = { handler, autoScalingConfig, ServerlessCostOptimizer, Serverle
       </div>
 
       {/* Invocation Log */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Invocation Log</h3>
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {invocations.map((invocation) => (
@@ -352,41 +352,41 @@ module.exports = { handler, autoScalingConfig, ServerlessCostOptimizer, Serverle
               key={invocation.id}
               className={`flex items-center gap-4 p-3 rounded border ${
                 invocation.status === 'success' 
-                  ? 'bg-gray-900 border-gray-700' 
-                  : 'bg-red-900/20 border-red-500/50'
+                  ? 'bg-[var(--bg)] border-[var(--border)]' 
+                  : 'bg-[var(--accent-soft)]/20 border-[var(--accent)]/50'
               }`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <span className="text-gray-500 text-xs w-20">{invocation.timestamp}</span>
-              <span className="text-blue-400 font-mono text-sm">{invocation.functionName}</span>
+              <span className="text-[var(--muted)] text-xs w-20">{invocation.timestamp}</span>
+              <span className="text-[var(--accent)] font-mono text-sm">{invocation.functionName}</span>
               <span className={`px-2 py-1 rounded text-xs ${
-                invocation.status === 'success' ? 'bg-green-900/50 text-green-400' : 'bg-red-900/50 text-red-400'
+                invocation.status === 'success' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' : 'bg-[var(--accent-soft)]/50 text-[var(--accent)]'
               }`}>
                 {invocation.status}
               </span>
-              <span className="text-gray-400 text-sm">{invocation.duration}ms</span>
-              <span className="text-gray-400 text-xs ml-auto">${invocation.cost.toFixed(6)}</span>
+              <span className="text-[var(--muted)] text-sm">{invocation.duration}ms</span>
+              <span className="text-[var(--muted)] text-xs ml-auto">${invocation.cost.toFixed(6)}</span>
             </motion.div>
           ))}
         </div>
       </div>
 
       {/* Features */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Platform Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Auto-scaling</div>
-            <div className="text-sm text-gray-400">Automatic scaling based on demand</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Auto-scaling</div>
+            <div className="text-sm text-[var(--muted)]">Automatic scaling based on demand</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Pay-per-use</div>
-            <div className="text-sm text-gray-400">Only pay for actual execution time</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Pay-per-use</div>
+            <div className="text-sm text-[var(--muted)]">Only pay for actual execution time</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-blue-400 font-semibold mb-2">Zero Maintenance</div>
-            <div className="text-sm text-gray-400">No server management required</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Zero Maintenance</div>
+            <div className="text-sm text-[var(--muted)]">No server management required</div>
           </div>
         </div>
       </div>
@@ -394,7 +394,7 @@ module.exports = { handler, autoScalingConfig, ServerlessCostOptimizer, Serverle
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

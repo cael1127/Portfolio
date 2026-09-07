@@ -450,14 +450,14 @@ class SocialMediaMonitor:
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">😊 Sentiment Analysis Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">😊 Sentiment Analysis Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Advanced sentiment analysis using transformer models to detect emotions, extract entities, and analyze text sentiment in real-time.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -477,7 +477,7 @@ class SocialMediaMonitor:
         <div className="space-y-6">
         {/* Input Section */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Analyze Text</h2>
@@ -487,7 +487,7 @@ class SocialMediaMonitor:
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Enter text to analyze sentiment..."
-                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 resize-none"
+                className="w-full p-4 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)] resize-none"
                 rows={6}
           />
           
@@ -496,7 +496,7 @@ class SocialMediaMonitor:
             <button 
                     key={index}
                     onClick={() => setInputText(text)}
-                    className="text-xs bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded transition-colors"
+                    className="text-xs bg-[var(--surface-2)] hover:bg-[var(--border-strong)] px-3 py-1 rounded transition-colors"
             >
                     Sample {index + 1}
             </button>
@@ -506,13 +506,13 @@ class SocialMediaMonitor:
               <motion.button
                 onClick={handleAnalyze}
               disabled={!inputText.trim() || isAnalyzing}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] text-[var(--text)] py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {isAnalyzing ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[var(--border-strong)]"></div>
                     <span>Analyzing...</span>
                   </>
                 ) : (
@@ -530,7 +530,7 @@ class SocialMediaMonitor:
             <>
               {/* Sentiment Result */}
               <motion.div 
-                className="bg-gray-800 p-6 rounded-xl"
+                className="bg-[var(--surface)] p-6 rounded-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -541,13 +541,13 @@ class SocialMediaMonitor:
                     <div className={`text-6xl font-bold mb-2 text-${analysisResult.sentiment.color}-400`}>
                       {analysisResult.sentiment.label}
                   </div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-[var(--muted)]">
                       Confidence: {(analysisResult.confidence * 100).toFixed(1)}%
                   </div>
                 </div>
               </div>
 
-                <div className="w-full bg-gray-700 rounded-full h-3">
+                <div className="w-full bg-[var(--surface-2)] rounded-full h-3">
                   <motion.div
                     className={`bg-${analysisResult.sentiment.color}-500 h-3 rounded-full`}
                     initial={{ width: 0 }}
@@ -559,7 +559,7 @@ class SocialMediaMonitor:
 
               {/* Emotions */}
               <motion.div 
-                className="bg-gray-800 p-6 rounded-xl"
+                className="bg-[var(--surface)] p-6 rounded-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -575,13 +575,13 @@ class SocialMediaMonitor:
                     >
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-medium">{emotion.emotion}</span>
-                        <span className="text-sm text-gray-400">
+                        <span className="text-sm text-[var(--muted)]">
                           {(emotion.score * 100).toFixed(1)}%
                         </span>
                     </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-[var(--surface-2)] rounded-full h-2">
                         <motion.div
-                          className="bg-purple-500 h-2 rounded-full"
+                          className="bg-[var(--accent)] h-2 rounded-full"
                           initial={{ width: 0 }}
                           animate={{ width: `${emotion.score * 100}%` }}
                           transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -595,7 +595,7 @@ class SocialMediaMonitor:
               {/* Entities */}
               {analysisResult.entities.length > 0 && (
                 <motion.div 
-                  className="bg-gray-800 p-6 rounded-xl"
+                  className="bg-[var(--surface)] p-6 rounded-xl"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
@@ -605,7 +605,7 @@ class SocialMediaMonitor:
                     {analysisResult.entities.map((entity, index) => (
                       <motion.span
                         key={index}
-                        className="bg-blue-600 px-3 py-1 rounded-full text-sm"
+                        className="bg-[var(--accent)] px-3 py-1 rounded-full text-sm"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.1 }}
@@ -622,7 +622,7 @@ class SocialMediaMonitor:
         {/* History */}
           {history.length > 0 && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
             >
               <h2 className="text-2xl font-bold mb-4">Recent Analyses</h2>
@@ -631,20 +631,20 @@ class SocialMediaMonitor:
                 {history.map((item, index) => (
                   <motion.div
                     key={index}
-                    className="bg-gray-700 p-3 rounded-lg"
+                    className="bg-[var(--surface-2)] p-3 rounded-lg"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
                   <div className="flex justify-between items-start mb-2">
-                      <p className="text-sm text-gray-300 line-clamp-2 flex-1">
+                      <p className="text-sm text-[var(--text)] line-clamp-2 flex-1">
                         {item.text}
                       </p>
                       <span className={`text-xs font-semibold ml-3 text-${item.sentiment.color}-400`}>
                         {item.sentiment.label}
                         </span>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-[var(--muted)]">
                       {new Date(item.timestamp).toLocaleString()}
                     </p>
                   </motion.div>
@@ -658,35 +658,35 @@ class SocialMediaMonitor:
         <div className="space-y-6">
           {/* Model Info */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">🤖 AI Model</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🤖 AI Model</h3>
             <div className="space-y-3 text-sm">
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Model</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Model</div>
                 <div className="font-semibold">DistilBERT</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Accuracy</div>
-                <div className="font-semibold text-green-400">95.2%</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Accuracy</div>
+                <div className="font-semibold text-[var(--accent)]">95.2%</div>
                       </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Speed</div>
-                <div className="font-semibold text-blue-400">~50ms</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Speed</div>
+                <div className="font-semibold text-[var(--accent)]">~50ms</div>
                     </div>
                   </div>
           </motion.div>
 
           {/* Emotion Categories */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">😊 Emotions</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">😊 Emotions</h3>
             <div className="grid grid-cols-2 gap-2 text-xs">
               {['Joy', 'Trust', 'Fear', 'Surprise', 'Sadness', 'Disgust', 'Anger', 'Anticipation'].map(emotion => (
-                <div key={emotion} className="bg-gray-700 p-2 rounded text-center">
+                <div key={emotion} className="bg-[var(--surface-2)] p-2 rounded text-center">
                   {emotion}
                 </div>
               ))}
@@ -695,25 +695,25 @@ class SocialMediaMonitor:
 
         {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>BERT Models</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>7 Emotions</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Entity Extraction</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>95%+ Accuracy</span>
               </li>
               </ul>

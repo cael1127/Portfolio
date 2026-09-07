@@ -152,21 +152,21 @@ const LogisticsDemo = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      pending: 'bg-gray-600',
-      in_transit: 'bg-blue-600',
-      delivered: 'bg-green-600',
-      delayed: 'bg-red-600'
+      pending: 'bg-[var(--border-strong)]',
+      in_transit: 'bg-[var(--accent)]',
+      delivered: 'bg-[var(--accent)]',
+      delayed: 'bg-[var(--accent)]'
     };
-    return colors[status] || 'bg-gray-600';
+    return colors[status] || 'bg-[var(--border-strong)]';
   };
 
   const getPriorityColor = (priority) => {
     const colors = {
-      normal: 'text-gray-400',
-      high: 'text-yellow-400',
-      urgent: 'text-red-400'
+      normal: 'text-[var(--muted)]',
+      high: 'text-[var(--accent)]',
+      urgent: 'text-[var(--accent)]'
     };
-    return colors[priority] || 'text-gray-400';
+    return colors[priority] || 'text-[var(--muted)]';
   };
 
   const codeData = {
@@ -534,14 +534,14 @@ app.listen(5000, () => console.log('Logistics API running'));`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🚚 Logistics Management Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🚚 Logistics Management Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Real-time logistics and supply chain management system with GPS tracking, route optimization, and fleet management.
         </p>
         <div className="mt-4 flex justify-center gap-4">
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -561,14 +561,14 @@ app.listen(5000, () => console.log('Logistics API running'));`,
         <div className="space-y-6">
           {/* View Tabs */}
           <motion.div 
-            className="bg-gray-800 p-4 rounded-xl"
+            className="bg-[var(--surface)] p-4 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex gap-2">
               <button
                 onClick={() => setActiveView('shipments')}
                 className={`px-4 py-2 rounded-lg transition-colors ${
-                  activeView === 'shipments' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                  activeView === 'shipments' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--surface-2)] text-[var(--text)]'
                 }`}
               >
                 📦 Shipments
@@ -576,7 +576,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
               <button
                 onClick={() => setActiveView('vehicles')}
                 className={`px-4 py-2 rounded-lg transition-colors ${
-                  activeView === 'vehicles' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                  activeView === 'vehicles' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--surface-2)] text-[var(--text)]'
                 }`}
               >
                 🚛 Fleet
@@ -587,7 +587,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
           {/* Shipments View */}
           {activeView === 'shipments' && (
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
       >
               <h2 className="text-2xl font-bold mb-4">Active Shipments</h2>
@@ -596,7 +596,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
           {shipments.map((shipment, index) => (
             <motion.div 
               key={shipment.id}
-                    className="bg-gray-700 p-4 rounded-lg hover:bg-gray-650 transition-colors cursor-pointer"
+                    className="bg-[var(--surface-2)] p-4 rounded-lg hover:bg-[var(--border-strong)] transition-colors cursor-pointer"
               initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -606,7 +606,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
                     <div className="flex justify-between items-start mb-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-white">{shipment.id}</h3>
+                          <h3 className="font-bold text-[var(--text)]">{shipment.id}</h3>
                           <span className={`text-xs px-2 py-1 rounded ${getStatusColor(shipment.status)}`}>
                             {shipment.status.replace('_', ' ').toUpperCase()}
                           </span>
@@ -614,29 +614,29 @@ app.listen(5000, () => console.log('Logistics API running'));`,
                             {shipment.priority.toUpperCase()}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-400">{shipment.cargo} • {shipment.weight}</p>
+                        <p className="text-sm text-[var(--muted)]">{shipment.cargo} • {shipment.weight}</p>
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3 mb-3 text-sm">
                       <div>
-                        <p className="text-gray-400 text-xs">From</p>
-                        <p className="text-white">📍 {shipment.origin}</p>
+                        <p className="text-[var(--muted)] text-xs">From</p>
+                        <p className="text-[var(--text)]">📍 {shipment.origin}</p>
                       </div>
                 <div>
-                        <p className="text-gray-400 text-xs">To</p>
-                        <p className="text-white">📍 {shipment.destination}</p>
+                        <p className="text-[var(--muted)] text-xs">To</p>
+                        <p className="text-[var(--text)]">📍 {shipment.destination}</p>
                       </div>
                     </div>
 
                     <div className="mb-2">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-gray-400">Progress</span>
-                        <span className="text-white font-semibold">{shipment.progress}%</span>
+                        <span className="text-[var(--muted)]">Progress</span>
+                        <span className="text-[var(--text)] font-semibold">{shipment.progress}%</span>
                 </div>
-                      <div className="w-full bg-gray-600 rounded-full h-2">
+                      <div className="w-full bg-[var(--border-strong)] rounded-full h-2">
                         <motion.div
-                          className="bg-blue-500 h-2 rounded-full"
+                          className="bg-[var(--accent)] h-2 rounded-full"
                           initial={{ width: 0 }}
                           animate={{ width: `${shipment.progress}%` }}
                           transition={{ duration: 0.5 }}
@@ -644,7 +644,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
                 </div>
               </div>
 
-                    <div className="flex justify-between text-xs text-gray-400">
+                    <div className="flex justify-between text-xs text-[var(--muted)]">
                       <span>Current: {shipment.currentLocation}</span>
                       <span>ETA: {new Date(shipment.estimatedDelivery).toLocaleString()}</span>
                     </div>
@@ -657,7 +657,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
           {/* Vehicles View */}
           {activeView === 'vehicles' && (
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
       >
               <h2 className="text-2xl font-bold mb-4">Fleet Status</h2>
@@ -666,7 +666,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
           {vehicles.map((vehicle, index) => (
             <motion.div 
               key={vehicle.id}
-              className="bg-gray-700 p-4 rounded-lg"
+              className="bg-[var(--surface-2)] p-4 rounded-lg"
               initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
@@ -674,11 +674,11 @@ app.listen(5000, () => console.log('Logistics API running'));`,
                   >
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <h3 className="font-bold text-white">{vehicle.id}</h3>
-                        <p className="text-sm text-gray-400">{vehicle.type} • {vehicle.driver}</p>
+                        <h3 className="font-bold text-[var(--text)]">{vehicle.id}</h3>
+                        <p className="text-sm text-[var(--muted)]">{vehicle.type} • {vehicle.driver}</p>
                       </div>
                 <span className={`text-xs px-2 py-1 rounded ${
-                        vehicle.status === 'active' ? 'bg-green-600' : 'bg-gray-600'
+                        vehicle.status === 'active' ? 'bg-[var(--accent)]' : 'bg-[var(--border-strong)]'
                 }`}>
                         {vehicle.status.toUpperCase()}
                 </span>
@@ -686,25 +686,25 @@ app.listen(5000, () => console.log('Logistics API running'));`,
 
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Location:</span>
-                        <span className="text-white">{vehicle.location}</span>
+                        <span className="text-[var(--muted)]">Location:</span>
+                        <span className="text-[var(--text)]">{vehicle.location}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Capacity:</span>
-                        <span className="text-white">{vehicle.capacity}</span>
+                        <span className="text-[var(--muted)]">Capacity:</span>
+                        <span className="text-[var(--text)]">{vehicle.capacity}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Fuel:</span>
-                        <span className="text-white">{vehicle.fuel}%</span>
+                        <span className="text-[var(--muted)]">Fuel:</span>
+                        <span className="text-[var(--text)]">{vehicle.fuel}%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Maintenance:</span>
-                        <span className="text-white">{vehicle.nextMaintenance}</span>
+                        <span className="text-[var(--muted)]">Maintenance:</span>
+                        <span className="text-[var(--text)]">{vehicle.nextMaintenance}</span>
                       </div>
                       {vehicle.currentShipment && (
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Shipment:</span>
-                          <span className="text-blue-400">{vehicle.currentShipment}</span>
+                          <span className="text-[var(--muted)]">Shipment:</span>
+                          <span className="text-[var(--accent)]">{vehicle.currentShipment}</span>
                         </div>
                       )}
                     </div>
@@ -717,7 +717,7 @@ app.listen(5000, () => console.log('Logistics API running'));`,
           {/* Selected Shipment Detail */}
           {selectedShipment && (
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -725,22 +725,22 @@ app.listen(5000, () => console.log('Logistics API running'));`,
               
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-blue-400">Shipment Information</h4>
+                  <h4 className="font-semibold text-[var(--accent)]">Shipment Information</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Tracking ID:</span>
+                      <span className="text-[var(--muted)]">Tracking ID:</span>
                       <span className="font-mono">{selectedShipment.id}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Cargo:</span>
+                      <span className="text-[var(--muted)]">Cargo:</span>
                       <span>{selectedShipment.cargo}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Weight:</span>
+                      <span className="text-[var(--muted)]">Weight:</span>
                       <span>{selectedShipment.weight}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Priority:</span>
+                      <span className="text-[var(--muted)]">Priority:</span>
                       <span className={getPriorityColor(selectedShipment.priority)}>
                         {selectedShipment.priority.toUpperCase()}
                       </span>
@@ -749,24 +749,24 @@ app.listen(5000, () => console.log('Logistics API running'));`,
                 </div>
 
         <div className="space-y-3">
-                  <h4 className="font-semibold text-green-400">Delivery Information</h4>
+                  <h4 className="font-semibold text-[var(--accent)]">Delivery Information</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Status:</span>
+                      <span className="text-[var(--muted)]">Status:</span>
                       <span>{selectedShipment.status.replace('_', ' ').toUpperCase()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Progress:</span>
-                      <span className="text-green-400">{selectedShipment.progress}%</span>
+                      <span className="text-[var(--muted)]">Progress:</span>
+                      <span className="text-[var(--accent)]">{selectedShipment.progress}%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Est. Delivery:</span>
+                      <span className="text-[var(--muted)]">Est. Delivery:</span>
                       <span>{new Date(selectedShipment.estimatedDelivery).toLocaleString()}</span>
                     </div>
                     {selectedShipment.actualDelivery && (
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Delivered:</span>
-                        <span className="text-green-400">
+                        <span className="text-[var(--muted)]">Delivered:</span>
+                        <span className="text-[var(--accent)]">
                           {new Date(selectedShipment.actualDelivery).toLocaleString()}
                         </span>
                       </div>
@@ -782,50 +782,50 @@ app.listen(5000, () => console.log('Logistics API running'));`,
         <div className="space-y-6">
           {/* Statistics */}
             <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📊 Statistics</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 Statistics</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Shipments:</span>
-                <span className="text-white font-semibold">{stats.totalShipments}</span>
+                <span className="text-[var(--muted)]">Total Shipments:</span>
+                <span className="text-[var(--text)] font-semibold">{stats.totalShipments}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">In Transit:</span>
-                <span className="text-blue-400 font-semibold">{stats.inTransit}</span>
+                <span className="text-[var(--muted)]">In Transit:</span>
+                <span className="text-[var(--accent)] font-semibold">{stats.inTransit}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Delivered:</span>
-                <span className="text-green-400 font-semibold">{stats.delivered}</span>
+                <span className="text-[var(--muted)]">Delivered:</span>
+                <span className="text-[var(--accent)] font-semibold">{stats.delivered}</span>
                 </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">On-Time Rate:</span>
-                <span className="text-green-400 font-semibold">{stats.onTime}%</span>
+                <span className="text-[var(--muted)]">On-Time Rate:</span>
+                <span className="text-[var(--accent)] font-semibold">{stats.onTime}%</span>
                 </div>
               </div>
           </motion.div>
 
           {/* Fleet Overview */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">🚛 Fleet Overview</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🚛 Fleet Overview</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Vehicles:</span>
-                <span className="text-white font-semibold">{vehicles.length}</span>
+                <span className="text-[var(--muted)]">Total Vehicles:</span>
+                <span className="text-[var(--text)] font-semibold">{vehicles.length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Active:</span>
-                <span className="text-green-400 font-semibold">
+                <span className="text-[var(--muted)]">Active:</span>
+                <span className="text-[var(--accent)] font-semibold">
                   {vehicles.filter(v => v.status === 'active').length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Available:</span>
-                <span className="text-blue-400 font-semibold">
+                <span className="text-[var(--muted)]">Available:</span>
+                <span className="text-[var(--accent)] font-semibold">
                   {vehicles.filter(v => v.status === 'available').length}
                 </span>
               </div>
@@ -834,29 +834,29 @@ app.listen(5000, () => console.log('Logistics API running'));`,
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time GPS Tracking</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Route Optimization</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Fleet Management</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>ETA Predictions</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Proof of Delivery</span>
               </li>
             </ul>

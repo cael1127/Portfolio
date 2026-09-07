@@ -735,14 +735,14 @@ if __name__ == '__main__':
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🐍 Snake AI Game</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🐍 Snake AI Game</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Play Snake with AI assistance using Deep Q-Learning, A* pathfinding, and genetic algorithms for autonomous gameplay.
         </p>
         <div className="mt-4 flex justify-center gap-4">
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -762,20 +762,20 @@ if __name__ == '__main__':
         <div className="space-y-6">
           {/* Game Canvas */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Game Board</h2>
               <div className="flex gap-4 text-sm">
-                <div>Score: <span className="font-bold text-green-400">{score}</span></div>
-                <div>High: <span className="font-bold text-yellow-400">{highScore}</span></div>
+                <div>Score: <span className="font-bold text-[var(--accent)]">{score}</span></div>
+                <div>High: <span className="font-bold text-[var(--accent)]">{highScore}</span></div>
               </div>
             </div>
 
             {/* Game Grid */}
             <div 
-              className="relative bg-gray-900 rounded-lg mx-auto"
+              className="relative bg-[var(--bg)] rounded-lg mx-auto"
               style={{ 
                 width: GRID_SIZE * CELL_SIZE,
                 height: GRID_SIZE * CELL_SIZE 
@@ -785,7 +785,7 @@ if __name__ == '__main__':
               {snake.map((segment, index) => (
           <motion.div 
                   key={index}
-                  className={`absolute ${index === 0 ? 'bg-green-400' : 'bg-green-600'} rounded-sm`}
+                  className={`absolute ${index === 0 ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'} rounded-sm`}
                   style={{
                     left: segment.x * CELL_SIZE,
                     top: segment.y * CELL_SIZE,
@@ -800,7 +800,7 @@ if __name__ == '__main__':
 
               {/* Food */}
           <motion.div 
-                className="absolute bg-red-500 rounded-full"
+                className="absolute bg-[var(--accent)] rounded-full"
                 style={{
                   left: food.x * CELL_SIZE,
                   top: food.y * CELL_SIZE,
@@ -814,17 +814,17 @@ if __name__ == '__main__':
               {/* Game Over Overlay */}
               {gameOver && (
       <motion.div 
-                  className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-lg"
+                  className="absolute inset-0 bg-[var(--bg)] bg-opacity-75 flex items-center justify-center rounded-lg"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   <div className="text-center">
-                    <h3 className="text-3xl font-bold text-red-400 mb-4">Game Over!</h3>
+                    <h3 className="text-3xl font-bold text-[var(--accent)] mb-4">Game Over!</h3>
                     <p className="text-xl mb-2">Score: {score}</p>
-                    <p className="text-sm text-gray-400 mb-6">High Score: {highScore}</p>
+                    <p className="text-sm text-[var(--muted)] mb-6">High Score: {highScore}</p>
           <motion.button
                       onClick={resetGame}
-                      className="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg"
+                      className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -844,7 +844,7 @@ if __name__ == '__main__':
                     resetGame();
                   }}
                   className={`px-6 py-2 rounded-lg transition-colors ${
-                    isAI ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-600 hover:bg-gray-700'
+                    isAI ? 'bg-[var(--accent)] hover:bg-[var(--accent-deep)]' : 'bg-[var(--border-strong)] hover:bg-[var(--surface-2)]'
                   }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -854,7 +854,7 @@ if __name__ == '__main__':
 
           <motion.button
                   onClick={resetGame}
-                  className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg"
+                  className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -876,7 +876,7 @@ if __name__ == '__main__':
               </div>
 
               {!isAI && (
-                <p className="text-sm text-center text-gray-400">
+                <p className="text-sm text-center text-[var(--muted)]">
                   Use arrow keys to control the snake
                 </p>
               )}
@@ -885,23 +885,23 @@ if __name__ == '__main__':
 
           {/* Statistics */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Statistics</h2>
             
             <div className="grid grid-cols-3 gap-4">
-              <div className="bg-gray-700 p-4 rounded-lg text-center">
-                <div className="text-2xl font-bold text-blue-400">{stats.gamesPlayed}</div>
-                <div className="text-sm text-gray-400">Games Played</div>
+              <div className="bg-[var(--surface-2)] p-4 rounded-lg text-center">
+                <div className="text-2xl font-bold text-[var(--accent)]">{stats.gamesPlayed}</div>
+                <div className="text-sm text-[var(--muted)]">Games Played</div>
               </div>
-              <div className="bg-gray-700 p-4 rounded-lg text-center">
-                <div className="text-2xl font-bold text-green-400">{stats.avgScore}</div>
-                <div className="text-sm text-gray-400">Avg Score</div>
+              <div className="bg-[var(--surface-2)] p-4 rounded-lg text-center">
+                <div className="text-2xl font-bold text-[var(--accent)]">{stats.avgScore}</div>
+                <div className="text-sm text-[var(--muted)]">Avg Score</div>
               </div>
-              <div className="bg-gray-700 p-4 rounded-lg text-center">
-                <div className="text-2xl font-bold text-purple-400">{stats.aiWinRate}%</div>
-                <div className="text-sm text-gray-400">AI Win Rate</div>
+              <div className="bg-[var(--surface-2)] p-4 rounded-lg text-center">
+                <div className="text-2xl font-bold text-[var(--accent)]">{stats.aiWinRate}%</div>
+                <div className="text-sm text-[var(--muted)]">AI Win Rate</div>
               </div>
             </div>
           </motion.div>
@@ -911,21 +911,21 @@ if __name__ == '__main__':
         <div className="space-y-6">
           {/* AI Info */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">🤖 AI Info</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🤖 AI Info</h3>
             <div className="space-y-3 text-sm">
               <div>
-                <div className="text-gray-400 text-xs mb-1">Algorithm</div>
+                <div className="text-[var(--muted)] text-xs mb-1">Algorithm</div>
                 <div className="font-semibold">A* Pathfinding</div>
               </div>
               <div>
-                <div className="text-gray-400 text-xs mb-1">Strategy</div>
+                <div className="text-[var(--muted)] text-xs mb-1">Strategy</div>
                 <div className="font-semibold">Shortest Path + Safety</div>
               </div>
               <div>
-                <div className="text-gray-400 text-xs mb-1">Learning</div>
+                <div className="text-[var(--muted)] text-xs mb-1">Learning</div>
                 <div className="font-semibold">Deep Q-Learning</div>
               </div>
             </div>
@@ -933,25 +933,25 @@ if __name__ == '__main__':
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>A* Pathfinding</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Deep Q-Learning</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Genetic Algorithm</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Manual Control</span>
               </li>
             </ul>
@@ -959,11 +959,11 @@ if __name__ == '__main__':
 
           {/* Instructions */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">ℹ️ How to Play</h3>
-            <div className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">ℹ️ How to Play</h3>
+            <div className="space-y-2 text-sm text-[var(--text)]">
               <p>🎮 Use arrow keys to move</p>
               <p>🍎 Eat red food to grow</p>
               <p>⚠️ Don't hit walls or yourself</p>

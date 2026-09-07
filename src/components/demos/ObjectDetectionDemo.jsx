@@ -71,9 +71,9 @@ const sampleDetections = [
   };
 
   const getConfidenceColor = (confidence) => {
-    if (confidence >= 0.9) return 'text-green-400';
-    if (confidence >= 0.8) return 'text-yellow-400';
-    return 'text-orange-400';
+    if (confidence >= 0.9) return 'text-[var(--accent)]';
+    if (confidence >= 0.8) return 'text-[var(--accent)]';
+    return 'text-[var(--accent)]';
   };
 
   const codeData = {
@@ -439,14 +439,14 @@ const ObjectDetectionApp = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">👁️ Object Detection Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">👁️ Object Detection Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Real-time object detection using YOLO v8 to identify and classify objects in images with bounding boxes and confidence scores.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -466,7 +466,7 @@ const ObjectDetectionApp = () => {
         <div className="space-y-6">
           {/* Image Selection */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Select Sample Image</h2>
@@ -478,8 +478,8 @@ const ObjectDetectionApp = () => {
                   onClick={() => setSelectedImage(detection.id)}
                   className={`p-6 rounded-lg transition-all ${
                     selectedImage === detection.id
-                      ? 'bg-blue-600 ring-2 ring-blue-400'
-                      : 'bg-gray-700 hover:bg-gray-650'
+                      ? 'bg-[var(--accent)] ring-2 ring-[var(--accent)]'
+                      : 'bg-[var(--surface-2)] hover:bg-[var(--border-strong)]'
                   }`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -489,7 +489,7 @@ const ObjectDetectionApp = () => {
                 >
                   <div className="text-6xl mb-3">{detection.image}</div>
                   <p className="text-sm font-semibold">{detection.name}</p>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-[var(--muted)] mt-1">
                     {detection.objects.length} objects
                   </p>
                 </motion.button>
@@ -499,13 +499,13 @@ const ObjectDetectionApp = () => {
             <motion.button
               onClick={handleDetectObjects}
               disabled={!selectedImage || isProcessing}
-              className="mt-6 w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="mt-6 w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] text-[var(--text)] py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               {isProcessing ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[var(--border-strong)]"></div>
                   <span>Processing...</span>
                 </>
               ) : (
@@ -520,13 +520,13 @@ const ObjectDetectionApp = () => {
           {/* Detection Results */}
           {detectedObjects.length > 0 && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Detection Results</h2>
-                <span className="text-sm text-gray-400">
+                <span className="text-sm text-[var(--muted)]">
                   Found {detectedObjects.length} objects
                 </span>
               </div>
@@ -535,20 +535,20 @@ const ObjectDetectionApp = () => {
                 {detectedObjects.map((obj, index) => (
                   <motion.div
                     key={index}
-                    className="bg-gray-700 p-4 rounded-lg"
+                    className="bg-[var(--surface-2)] p-4 rounded-lg"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-bold text-white capitalize">{obj.label}</h3>
+                      <h3 className="font-bold text-[var(--text)] capitalize">{obj.label}</h3>
                       <span className={`text-sm font-semibold ${getConfidenceColor(obj.confidence)}`}>
                         {(obj.confidence * 100).toFixed(1)}%
                       </span>
                     </div>
                     
-                    <div className="text-xs text-gray-400 space-y-1">
+                    <div className="text-xs text-[var(--muted)] space-y-1">
                       <div className="flex justify-between">
                         <span>Bounding Box:</span>
                         <span className="font-mono">
@@ -561,12 +561,12 @@ const ObjectDetectionApp = () => {
                       </div>
                     </div>
 
-                    <div className="mt-3 w-full bg-gray-600 rounded-full h-2">
+                    <div className="mt-3 w-full bg-[var(--border-strong)] rounded-full h-2">
                       <motion.div
                         className={`h-2 rounded-full ${
-                          obj.confidence >= 0.9 ? 'bg-green-500' :
-                          obj.confidence >= 0.8 ? 'bg-yellow-500' :
-                          'bg-orange-500'
+                          obj.confidence >= 0.9 ? 'bg-[var(--accent)]' :
+                          obj.confidence >= 0.8 ? 'bg-[var(--accent)]' :
+                          'bg-[var(--accent)]'
                         }`}
                         initial={{ width: 0 }}
                         animate={{ width: `${obj.confidence * 100}%` }}
@@ -584,25 +584,25 @@ const ObjectDetectionApp = () => {
         <div className="space-y-6">
           {/* Model Stats */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">🤖 Model Info</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🤖 Model Info</h3>
             <div className="space-y-3 text-sm">
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Model</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Model</div>
                 <div className="font-semibold">{modelStats.model}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Accuracy</div>
-                <div className="font-semibold text-green-400">{modelStats.accuracy}% mAP</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Accuracy</div>
+                <div className="font-semibold text-[var(--accent)]">{modelStats.accuracy}% mAP</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Speed</div>
-                <div className="font-semibold text-blue-400">{modelStats.speed}</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Speed</div>
+                <div className="font-semibold text-[var(--accent)]">{modelStats.speed}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Classes</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Classes</div>
                 <div className="font-semibold">{modelStats.classes} objects</div>
               </div>
             </div>
@@ -610,18 +610,18 @@ const ObjectDetectionApp = () => {
 
           {/* Supported Classes */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">📋 Object Classes</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📋 Object Classes</h3>
             <div className="flex flex-wrap gap-2 text-xs">
               {['person', 'car', 'dog', 'cat', 'bicycle', 'bus', 'truck', 'bird', 
                 'chair', 'table', 'laptop', 'phone', 'book', 'clock', 'bottle'].map(cls => (
-                <span key={cls} className="bg-gray-700 px-2 py-1 rounded">
+                <span key={cls} className="bg-[var(--surface-2)] px-2 py-1 rounded">
                   {cls}
                 </span>
               ))}
-              <span className="bg-gray-700 px-2 py-1 rounded text-gray-400">
+              <span className="bg-[var(--surface-2)] px-2 py-1 rounded text-[var(--muted)]">
                 +65 more
               </span>
             </div>
@@ -629,29 +629,29 @@ const ObjectDetectionApp = () => {
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Detection</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>80 Object Classes</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>95%+ Accuracy</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Video Support</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>GPU Acceleration</span>
               </li>
             </ul>

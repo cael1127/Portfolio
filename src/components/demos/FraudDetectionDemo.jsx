@@ -112,18 +112,18 @@ const FraudDetectionDemo = () => {
   };
 
   const getRiskColor = (riskScore) => {
-    if (riskScore >= 0.7) return 'text-red-400';
-    if (riskScore >= 0.4) return 'text-yellow-400';
-    return 'text-green-400';
+    if (riskScore >= 0.7) return 'text-[var(--accent)]';
+    if (riskScore >= 0.4) return 'text-[var(--accent)]';
+    return 'text-[var(--accent)]';
   };
 
   const getStatusBadge = (status) => {
     const styles = {
-      approved: 'bg-green-600',
-      flagged: 'bg-yellow-600',
-      blocked: 'bg-red-600'
+      approved: 'bg-[var(--accent)]',
+      flagged: 'bg-[var(--accent)]',
+      blocked: 'bg-[var(--accent)]'
     };
-    return styles[status] || 'bg-gray-600';
+    return styles[status] || 'bg-[var(--border-strong)]';
   };
 
   const codeData = {
@@ -501,14 +501,14 @@ const FraudDetection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🔒 Fraud Detection System Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🔒 Fraud Detection System Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Machine learning-powered fraud detection system that analyzes transactions in real-time to identify suspicious activity and prevent fraud.
         </p>
         <div className="mt-4 flex justify-center gap-4">
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -528,7 +528,7 @@ const FraudDetection = () => {
         <div className="space-y-6">
           {/* Transactions List */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
       >
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
@@ -537,7 +537,7 @@ const FraudDetection = () => {
           {transactions.map((transaction, index) => (
             <motion.div 
               key={transaction.id}
-                  className="bg-gray-700 p-4 rounded-lg hover:bg-gray-650 transition-colors cursor-pointer"
+                  className="bg-[var(--surface-2)] p-4 rounded-lg hover:bg-[var(--border-strong)] transition-colors cursor-pointer"
               initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -547,22 +547,22 @@ const FraudDetection = () => {
                   <div className="flex justify-between items-start mb-3">
                 <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-white">{transaction.merchant}</h3>
+                        <h3 className="font-bold text-[var(--text)]">{transaction.merchant}</h3>
                         <span className={`text-xs px-2 py-1 rounded ${getStatusBadge(transaction.status)}`}>
                           {transaction.status.toUpperCase()}
                         </span>
                 </div>
-                      <p className="text-sm text-gray-400">{transaction.id} • Card •••• {transaction.cardLast4}</p>
+                      <p className="text-sm text-[var(--muted)]">{transaction.id} • Card •••• {transaction.cardLast4}</p>
               </div>
               <div className="text-right">
-                <p className="text-xl font-bold text-white">${transaction.amount.toFixed(2)}</p>
+                <p className="text-xl font-bold text-[var(--text)]">${transaction.amount.toFixed(2)}</p>
                       <p className={`text-sm font-semibold ${getRiskColor(transaction.riskScore)}`}>
                         Risk: {(transaction.riskScore * 100).toFixed(0)}%
                 </p>
               </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 text-xs text-gray-400 mb-2">
+                  <div className="flex items-center gap-4 text-xs text-[var(--muted)] mb-2">
                     <span>📍 {transaction.location}</span>
                     <span>🕐 {transaction.timestamp}</span>
                   </div>
@@ -570,7 +570,7 @@ const FraudDetection = () => {
                   {transaction.fraudIndicators.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-2">
                       {transaction.fraudIndicators.map((indicator, i) => (
-                        <span key={i} className="text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded">
+                        <span key={i} className="text-xs bg-[var(--accent-soft)]/30 text-[var(--accent)] px-2 py-1 rounded">
                           ⚠️ {indicator}
                         </span>
                       ))}
@@ -584,7 +584,7 @@ const FraudDetection = () => {
           {/* Transaction Analysis */}
           {selectedTransaction && (
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -592,14 +592,14 @@ const FraudDetection = () => {
               
               {isAnalyzing ? (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mb-4"></div>
-                  <p className="text-gray-400">Analyzing transaction with ML model...</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)] mb-4"></div>
+                  <p className="text-[var(--muted)]">Analyzing transaction with ML model...</p>
                 </div>
               ) : (
         <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Transaction Details</h4>
+                    <div className="bg-[var(--surface-2)] p-4 rounded-lg">
+                      <h4 className="text-sm font-semibold text-[var(--muted)] mb-2">Transaction Details</h4>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span>ID:</span>
@@ -620,8 +620,8 @@ const FraudDetection = () => {
                       </div>
                     </div>
 
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Risk Assessment</h4>
+                    <div className="bg-[var(--surface-2)] p-4 rounded-lg">
+                      <h4 className="text-sm font-semibold text-[var(--muted)] mb-2">Risk Assessment</h4>
                       <div className="space-y-2">
                         <div>
                           <div className="flex justify-between text-sm mb-1">
@@ -630,12 +630,12 @@ const FraudDetection = () => {
                               {(selectedTransaction.riskScore * 100).toFixed(1)}%
                             </span>
                           </div>
-                          <div className="w-full bg-gray-600 rounded-full h-2">
+                          <div className="w-full bg-[var(--border-strong)] rounded-full h-2">
                             <motion.div
                               className={`h-2 rounded-full ${
-                                selectedTransaction.riskScore >= 0.7 ? 'bg-red-500' :
-                                selectedTransaction.riskScore >= 0.4 ? 'bg-yellow-500' :
-                                'bg-green-500'
+                                selectedTransaction.riskScore >= 0.7 ? 'bg-[var(--accent)]' :
+                                selectedTransaction.riskScore >= 0.4 ? 'bg-[var(--accent)]' :
+                                'bg-[var(--accent)]'
                               }`}
                               initial={{ width: 0 }}
                               animate={{ width: `${selectedTransaction.riskScore * 100}%` }}
@@ -644,7 +644,7 @@ const FraudDetection = () => {
                           </div>
                         </div>
                         <div className="text-sm">
-                          <span className="text-gray-400">Customer History:</span>
+                          <span className="text-[var(--muted)]">Customer History:</span>
                           <div className="mt-1 space-y-1">
                             <div>Avg Transaction: ${selectedTransaction.customerHistory.avgTransaction}</div>
                             <div>Total Transactions: {selectedTransaction.customerHistory.totalTransactions}</div>
@@ -655,9 +655,9 @@ const FraudDetection = () => {
                   </div>
 
                   {selectedTransaction.fraudIndicators.length > 0 && (
-                    <div className="bg-red-900/20 border border-red-800 p-4 rounded-lg">
-                      <h4 className="text-sm font-semibold text-red-300 mb-2">⚠️ Fraud Indicators</h4>
-                      <ul className="space-y-1 text-sm text-red-200">
+                    <div className="bg-[var(--accent-soft)]/20 border border-[var(--accent)] p-4 rounded-lg">
+                      <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">⚠️ Fraud Indicators</h4>
+                      <ul className="space-y-1 text-sm text-[var(--accent)]">
                         {selectedTransaction.fraudIndicators.map((indicator, i) => (
                           <li key={i}>• {indicator}</li>
                         ))}
@@ -674,51 +674,51 @@ const FraudDetection = () => {
         <div className="space-y-6">
           {/* Statistics */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">📊 Statistics</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">📊 Statistics</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total Transactions:</span>
-                <span className="text-white font-semibold">{statistics.totalTransactions}</span>
+                <span className="text-[var(--muted)]">Total Transactions:</span>
+                <span className="text-[var(--text)] font-semibold">{statistics.totalTransactions}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Fraud Detected:</span>
-                <span className="text-red-400 font-semibold">{statistics.fraudDetected}</span>
+                <span className="text-[var(--muted)]">Fraud Detected:</span>
+                <span className="text-[var(--accent)] font-semibold">{statistics.fraudDetected}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">False Positives:</span>
-                <span className="text-yellow-400 font-semibold">{statistics.falsePositives}</span>
+                <span className="text-[var(--muted)]">False Positives:</span>
+                <span className="text-[var(--accent)] font-semibold">{statistics.falsePositives}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Accuracy:</span>
-                <span className="text-green-400 font-semibold">{statistics.accuracy}%</span>
+                <span className="text-[var(--muted)]">Accuracy:</span>
+                <span className="text-[var(--accent)] font-semibold">{statistics.accuracy}%</span>
               </div>
             </div>
           </motion.div>
 
           {/* ML Model Info */}
             <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-blue-400">🤖 ML Model</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">🤖 ML Model</h3>
             <div className="space-y-2 text-sm">
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Model Type</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Model Type</div>
                 <div className="font-semibold">Neural Network</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Framework</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Framework</div>
                 <div className="font-semibold">TensorFlow</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Training Data</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Training Data</div>
                 <div className="font-semibold">2M+ Transactions</div>
                 </div>
-              <div className="bg-gray-700 p-3 rounded">
-                <div className="text-gray-400 text-xs mb-1">Last Updated</div>
+              <div className="bg-[var(--surface-2)] p-3 rounded">
+                <div className="text-[var(--muted)] text-xs mb-1">Last Updated</div>
                 <div className="font-semibold">2 hours ago</div>
                 </div>
               </div>
@@ -726,29 +726,29 @@ const FraudDetection = () => {
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Detection</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>95%+ Accuracy</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Behavioral Analysis</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Geographic Tracking</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Velocity Monitoring</span>
               </li>
             </ul>

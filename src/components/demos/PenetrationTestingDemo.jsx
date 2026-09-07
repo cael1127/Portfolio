@@ -112,32 +112,32 @@ The framework uses tools like Nmap, SQLMap, and custom scripts for comprehensive
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Penetration Testing Framework</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">🔍</div>
-            <div className="text-sm font-medium text-white">Recon</div>
+            <div className="text-sm font-medium text-[var(--text)]">Recon</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">🎯</div>
-            <div className="text-sm font-medium text-white">Exploitation</div>
+            <div className="text-sm font-medium text-[var(--text)]">Exploitation</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">📝</div>
-            <div className="text-sm font-medium text-white">Reporting</div>
+            <div className="text-sm font-medium text-[var(--text)]">Reporting</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
             <div className="text-2xl mb-2">🔒</div>
-            <div className="text-sm font-medium text-white">Remediation</div>
+            <div className="text-sm font-medium text-[var(--text)]">Remediation</div>
           </div>
         </div>
       </div>

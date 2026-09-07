@@ -279,22 +279,22 @@ module.exports = { server, typeDefs, resolvers };`,
   return (
     <div className="space-y-6">
       {/* GraphQL Playground */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">GraphQL Playground</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Query</label>
+            <label className="block text-sm text-[var(--muted)] mb-2">Query</label>
             <textarea
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full p-4 bg-gray-900 border border-gray-700 rounded text-white font-mono text-sm h-48"
+              className="w-full p-4 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm h-48"
               placeholder="Enter your GraphQL query..."
             />
           </div>
           <button
             onClick={handleExecute}
             disabled={executing}
-            className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+            className="w-full px-4 py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--surface-2)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg transition-colors"
           >
             {executing ? 'Executing...' : 'Execute Query'}
           </button>
@@ -304,27 +304,27 @@ module.exports = { server, typeDefs, resolvers };`,
       {/* Response */}
       {response && (
         <motion.div
-          className="bg-gray-800 rounded-lg border border-green-500/50 p-6"
+          className="bg-[var(--surface)] rounded-lg border border-[var(--accent)]/50 p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Response</h3>
-            <span className="text-sm text-gray-400">Execution time: {response.executionTime}ms</span>
+            <span className="text-sm text-[var(--muted)]">Execution time: {response.executionTime}ms</span>
           </div>
-          <pre className="bg-gray-900 p-4 rounded text-green-400 text-sm overflow-x-auto">
+          <pre className="bg-[var(--bg)] p-4 rounded text-[var(--accent)] text-sm overflow-x-auto">
             {JSON.stringify(response.data, null, 2)}
           </pre>
         </motion.div>
       )}
 
       {/* Schema Documentation */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Schema Documentation</h3>
         <div className="space-y-4">
           <div>
-            <div className="text-blue-400 font-semibold mb-2">Query</div>
-            <div className="text-sm text-gray-300 space-y-1 ml-4">
+            <div className="text-[var(--accent)] font-semibold mb-2">Query</div>
+            <div className="text-sm text-[var(--text)] space-y-1 ml-4">
               <div>users: [User!]!</div>
               <div>user(id: ID!): User</div>
               <div>posts: [Post!]!</div>
@@ -332,8 +332,8 @@ module.exports = { server, typeDefs, resolvers };`,
             </div>
           </div>
           <div>
-            <div className="text-green-400 font-semibold mb-2">Mutation</div>
-            <div className="text-sm text-gray-300 space-y-1 ml-4">
+            <div className="text-[var(--accent)] font-semibold mb-2">Mutation</div>
+            <div className="text-sm text-[var(--text)] space-y-1 ml-4">
               <div>createUser(name: String!, email: String!): User!</div>
               <div>createPost(title: String!, content: String!, authorId: ID!): Post!</div>
               <div>updateUser(id: ID!, name: String, email: String): User!</div>
@@ -341,8 +341,8 @@ module.exports = { server, typeDefs, resolvers };`,
             </div>
           </div>
           <div>
-            <div className="text-purple-400 font-semibold mb-2">Subscription</div>
-            <div className="text-sm text-gray-300 space-y-1 ml-4">
+            <div className="text-[var(--accent)] font-semibold mb-2">Subscription</div>
+            <div className="text-sm text-[var(--text)] space-y-1 ml-4">
               <div>postCreated: Post!</div>
               <div>userUpdated: User!</div>
             </div>
@@ -353,7 +353,7 @@ module.exports = { server, typeDefs, resolvers };`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

@@ -190,12 +190,12 @@ The API uses Hugging Face Transformers library with pre-trained models (DistilBE
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">NLP Sentiment Analysis API</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
@@ -203,7 +203,7 @@ The API uses Hugging Face Transformers library with pre-trained models (DistilBE
 
         {/* Language Selection */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Language</label>
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">Language</label>
           <div className="flex gap-2">
             {languages.map(lang => (
               <button
@@ -211,8 +211,8 @@ The API uses Hugging Face Transformers library with pre-trained models (DistilBE
                 onClick={() => setSelectedLanguage(lang.code)}
                 className={`px-4 py-2 rounded-lg border transition-all ${
                   selectedLanguage === lang.code
-                    ? 'border-blue-500 bg-blue-900/20 text-white'
-                    : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
+                    ? 'border-[var(--accent)] bg-[var(--accent-soft)]/20 text-[var(--text)]'
+                    : 'border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--text)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 {lang.name}
@@ -223,12 +223,12 @@ The API uses Hugging Face Transformers library with pre-trained models (DistilBE
 
         {/* Text Input */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Input Text</label>
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">Input Text</label>
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Enter text to analyze sentiment..."
-            className="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+            className="w-full p-3 bg-[var(--bg)] border border-[var(--border-strong)] rounded-lg text-[var(--text)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
             rows="4"
           />
         </div>
@@ -237,7 +237,7 @@ The API uses Hugging Face Transformers library with pre-trained models (DistilBE
         <button
           onClick={handleAnalyze}
           disabled={isProcessing || !inputText.trim()}
-          className="w-full py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors mb-4"
+          className="w-full py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg font-medium transition-colors mb-4"
         >
           {isProcessing ? 'Analyzing...' : 'Analyze Sentiment'}
         </button>
@@ -247,26 +247,26 @@ The API uses Hugging Face Transformers library with pre-trained models (DistilBE
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-900 p-4 rounded-lg border border-gray-700"
+            className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]"
           >
-            <h4 className="text-sm font-medium text-gray-300 mb-3">API Response</h4>
-            <pre className="text-sm text-gray-300 overflow-x-auto">
+            <h4 className="text-sm font-medium text-[var(--text)] mb-3">API Response</h4>
+            <pre className="text-sm text-[var(--text)] overflow-x-auto">
               {JSON.stringify(apiResponse, null, 2)}
             </pre>
-            <div className="mt-4 p-3 bg-gray-800 rounded">
+            <div className="mt-4 p-3 bg-[var(--surface)] rounded">
               <div className="flex items-center justify-between">
-                <span className="text-gray-300">Sentiment:</span>
+                <span className="text-[var(--text)]">Sentiment:</span>
                 <span className={`font-bold ${
-                  apiResponse.sentiment === 'positive' ? 'text-green-400' :
-                  apiResponse.sentiment === 'negative' ? 'text-red-400' :
-                  'text-yellow-400'
+                  apiResponse.sentiment === 'positive' ? 'text-[var(--accent)]' :
+                  apiResponse.sentiment === 'negative' ? 'text-[var(--accent)]' :
+                  'text-[var(--accent)]'
                 }`}>
                   {apiResponse.sentiment.toUpperCase()}
                 </span>
               </div>
               <div className="flex items-center justify-between mt-2">
-                <span className="text-gray-300">Confidence:</span>
-                <span className="text-blue-400 font-medium">{(apiResponse.confidence * 100).toFixed(1)}%</span>
+                <span className="text-[var(--text)]">Confidence:</span>
+                <span className="text-[var(--accent)] font-medium">{(apiResponse.confidence * 100).toFixed(1)}%</span>
               </div>
             </div>
           </motion.div>

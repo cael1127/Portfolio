@@ -248,15 +248,15 @@ const QuantumComputingDemo = () => {
   };
   
   const containerClass = isEmbedded
-    ? 'space-y-8 text-white'
-    : 'min-h-screen bg-gray-900 text-white p-6';
+    ? 'space-y-8 text-[var(--text)]'
+    : 'min-h-screen bg-[var(--bg)] text-[var(--text)] p-6';
 
   const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
 
   return (
     <div className={containerClass}>
       <div className={innerClass}>
-        <h1 className="text-4xl font-bold text-purple-400 mb-8">
+        <h1 className="text-4xl font-bold text-[var(--accent)] mb-8">
           Quantum Computing Platform
         </h1>
         
@@ -264,61 +264,61 @@ const QuantumComputingDemo = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             {/* Quantum State */}
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">🔬 Quantum State</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🔬 Quantum State</h2>
               <div className="space-y-4">
-                <div className="bg-purple-800/50 p-4 rounded-lg">
-                  <p className="text-white font-semibold">Qubits: {qubits}</p>
-                  <p className="text-purple-200 text-sm">Superposition: Active</p>
-                  <p className="text-purple-200 text-sm">Entanglement: Active</p>
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                  <p className="text-[var(--text)] font-semibold">Qubits: {qubits}</p>
+                  <p className="text-[var(--accent)] text-sm">Superposition: Active</p>
+                  <p className="text-[var(--accent)] text-sm">Entanglement: Active</p>
                 </div>
               </div>
             </div>
             
             {/* Quantum Algorithms */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">🧮 Algorithms</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🧮 Algorithms</h2>
               <div className="space-y-3">
-                <div className="bg-blue-800/50 p-4 rounded-lg">
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="text-white font-semibold">Grover's Algorithm</p>
-                    <span className="text-blue-200 text-sm">O(√N)</span>
+                    <p className="text-[var(--text)] font-semibold">Grover's Algorithm</p>
+                    <span className="text-[var(--accent)] text-sm">O(√N)</span>
                   </div>
-                  <p className="text-blue-200 text-sm mb-2">Quantum search algorithm for unstructured databases</p>
-                  <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                  <p className="text-[var(--accent)] text-sm mb-2">Quantum search algorithm for unstructured databases</p>
+                  <button className="bg-[var(--accent)] text-[var(--text)] px-3 py-1 rounded text-sm hover:bg-[var(--accent-deep)]">
                     Execute
                   </button>
                 </div>
                 
-                <div className="bg-blue-800/50 p-4 rounded-lg">
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="text-white font-semibold">Shor's Algorithm</p>
-                    <span className="text-blue-200 text-sm">O((log N)³)</span>
+                    <p className="text-[var(--text)] font-semibold">Shor's Algorithm</p>
+                    <span className="text-[var(--accent)] text-sm">O((log N)³)</span>
                   </div>
-                  <p className="text-blue-200 text-sm mb-2">Quantum factoring algorithm for cryptography</p>
-                  <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                  <p className="text-[var(--accent)] text-sm mb-2">Quantum factoring algorithm for cryptography</p>
+                  <button className="bg-[var(--accent)] text-[var(--text)] px-3 py-1 rounded text-sm hover:bg-[var(--accent-deep)]">
                     Execute
                   </button>
                 </div>
                 
-                <div className="bg-blue-800/50 p-4 rounded-lg">
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="text-white font-semibold">Quantum Fourier Transform</p>
-                    <span className="text-blue-200 text-sm">O(n²)</span>
+                    <p className="text-[var(--text)] font-semibold">Quantum Fourier Transform</p>
+                    <span className="text-[var(--accent)] text-sm">O(n²)</span>
                   </div>
-                  <p className="text-blue-200 text-sm mb-2">Quantum version of discrete Fourier transform</p>
-                  <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                  <p className="text-[var(--accent)] text-sm mb-2">Quantum version of discrete Fourier transform</p>
+                  <button className="bg-[var(--accent)] text-[var(--text)] px-3 py-1 rounded text-sm hover:bg-[var(--accent-deep)]">
                     Execute
                   </button>
                 </div>
                 
-                <div className="bg-blue-800/50 p-4 rounded-lg">
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="text-white font-semibold">Quantum Teleportation</p>
-                    <span className="text-blue-200 text-sm">O(1)</span>
+                    <p className="text-[var(--text)] font-semibold">Quantum Teleportation</p>
+                    <span className="text-[var(--accent)] text-sm">O(1)</span>
                   </div>
-                  <p className="text-blue-200 text-sm mb-2">Transfer quantum state between qubits</p>
-                  <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                  <p className="text-[var(--accent)] text-sm mb-2">Transfer quantum state between qubits</p>
+                  <button className="bg-[var(--accent)] text-[var(--text)] px-3 py-1 rounded text-sm hover:bg-[var(--accent-deep)]">
                     Execute
                   </button>
                 </div>
@@ -328,49 +328,49 @@ const QuantumComputingDemo = () => {
           
           {/* Results and Circuit */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">📊 Results</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">📊 Results</h2>
               <div className="space-y-3">
-                <div className="bg-green-800/50 p-4 rounded-lg">
-                  <p className="text-white font-semibold">Grover's Algorithm</p>
-                  <p className="text-green-200 text-sm">Success Rate: 85.2%</p>
-                  <p className="text-green-200 text-sm">Coherence Time: 75.3 μs</p>
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                  <p className="text-[var(--text)] font-semibold">Grover's Algorithm</p>
+                  <p className="text-[var(--accent)] text-sm">Success Rate: 85.2%</p>
+                  <p className="text-[var(--accent)] text-sm">Coherence Time: 75.3 μs</p>
                 </div>
                 <div className="space-y-2">
-                  <div className="bg-green-800/50 p-2 rounded">
-                    <p className="text-white text-sm">State: |101⟩</p>
-                    <p className="text-green-200 text-xs">Probability: 85.2%</p>
+                  <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                    <p className="text-[var(--text)] text-sm">State: |101⟩</p>
+                    <p className="text-[var(--accent)] text-xs">Probability: 85.2%</p>
                   </div>
-                  <div className="bg-green-800/50 p-2 rounded">
-                    <p className="text-white text-sm">State: |010⟩</p>
-                    <p className="text-green-200 text-xs">Probability: 12.1%</p>
+                  <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                    <p className="text-[var(--text)] text-sm">State: |010⟩</p>
+                    <p className="text-[var(--accent)] text-xs">Probability: 12.1%</p>
                   </div>
-                  <div className="bg-green-800/50 p-2 rounded">
-                    <p className="text-white text-sm">State: |111⟩</p>
-                    <p className="text-green-200 text-xs">Probability: 2.7%</p>
+                  <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                    <p className="text-[var(--text)] text-sm">State: |111⟩</p>
+                    <p className="text-[var(--accent)] text-xs">Probability: 2.7%</p>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">⚡ Circuit</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-yellow-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">⚡ Circuit</h2>
               <div className="space-y-2">
-                <div className="bg-yellow-800/50 p-2 rounded">
-                  <p className="text-white text-sm">Gate: H</p>
-                  <p className="text-yellow-200 text-xs">Qubit: 0</p>
+                <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                  <p className="text-[var(--text)] text-sm">Gate: H</p>
+                  <p className="text-[var(--accent)] text-xs">Qubit: 0</p>
                 </div>
-                <div className="bg-yellow-800/50 p-2 rounded">
-                  <p className="text-white text-sm">Gate: CNOT</p>
-                  <p className="text-yellow-200 text-xs">Qubit: 0,1</p>
+                <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                  <p className="text-[var(--text)] text-sm">Gate: CNOT</p>
+                  <p className="text-[var(--accent)] text-xs">Qubit: 0,1</p>
                 </div>
-                <div className="bg-yellow-800/50 p-2 rounded">
-                  <p className="text-white text-sm">Gate: H</p>
-                  <p className="text-yellow-200 text-xs">Qubit: 1</p>
+                <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                  <p className="text-[var(--text)] text-sm">Gate: H</p>
+                  <p className="text-[var(--accent)] text-xs">Qubit: 1</p>
                 </div>
-                <div className="bg-yellow-800/50 p-2 rounded">
-                  <p className="text-white text-sm">Gate: X</p>
-                  <p className="text-yellow-200 text-xs">Qubit: 2</p>
+                <div className="bg-[var(--accent-soft)]/50 p-2 rounded">
+                  <p className="text-[var(--text)] text-sm">Gate: X</p>
+                  <p className="text-[var(--accent)] text-xs">Qubit: 2</p>
                 </div>
               </div>
             </div>
@@ -384,18 +384,18 @@ const QuantumComputingDemo = () => {
 export default QuantumComputingDemo;`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-purple-400 mb-2">Quantum Computing Platform</h1>
-              <p className="text-gray-400">Quantum algorithms and quantum simulation for advanced computing</p>
+              <h1 className="text-4xl font-bold text-[var(--accent)] mb-2">Quantum Computing Platform</h1>
+              <p className="text-[var(--muted)]">Quantum algorithms and quantum simulation for advanced computing</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
             >
               View Code
             </button>
@@ -405,34 +405,34 @@ export default QuantumComputingDemo;`;
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Quantum State */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">🔬 Quantum State</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">🔬 Quantum State</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                  <span className="text-purple-400 text-sm">Live</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Live</span>
                 </div>
               </div>
               
               <div className="space-y-4">
-                <div className="bg-purple-800/50 p-4 rounded-lg">
+                <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-3">
-                    <p className="text-white font-semibold">Qubits</p>
-                    <span className="text-purple-200 text-lg font-bold">{quantumState.qubits}</span>
+                    <p className="text-[var(--text)] font-semibold">Qubits</p>
+                    <span className="text-[var(--accent)] text-lg font-bold">{quantumState.qubits}</span>
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-purple-200 text-sm">Superposition</span>
+                      <span className="text-[var(--accent)] text-sm">Superposition</span>
                       <span className={`text-xs px-2 py-1 rounded ${
-                        quantumState.superposition ? 'bg-green-600' : 'bg-red-600'
+                        quantumState.superposition ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'
                       }`}>
                         {quantumState.superposition ? 'Active' : 'Inactive'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-purple-200 text-sm">Entanglement</span>
+                      <span className="text-[var(--accent)] text-sm">Entanglement</span>
                       <span className={`text-xs px-2 py-1 rounded ${
-                        quantumState.entanglement ? 'bg-green-600' : 'bg-red-600'
+                        quantumState.entanglement ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'
                       }`}>
                         {quantumState.entanglement ? 'Active' : 'Inactive'}
                       </span>
@@ -443,29 +443,29 @@ export default QuantumComputingDemo;`;
             </div>
 
             {/* Quantum Algorithms */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">🧮 Quantum Algorithms</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">🧮 Quantum Algorithms</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-blue-400 text-sm">{algorithms.length} available</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">{algorithms.length} available</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {algorithms.map(algorithm => (
-                  <div key={algorithm.name} className="bg-blue-800/50 p-4 rounded-lg">
+                  <div key={algorithm.name} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-3">
-                      <p className="text-white font-semibold">{algorithm.name}</p>
-                      <span className="text-blue-200 text-sm">{algorithm.complexity}</span>
+                      <p className="text-[var(--text)] font-semibold">{algorithm.name}</p>
+                      <span className="text-[var(--accent)] text-sm">{algorithm.complexity}</span>
                     </div>
-                    <p className="text-blue-200 text-sm mb-3">{algorithm.description}</p>
+                    <p className="text-[var(--accent)] text-sm mb-3">{algorithm.description}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-blue-300 text-xs">{algorithm.qubits} qubits</span>
+                      <span className="text-[var(--accent)] text-xs">{algorithm.qubits} qubits</span>
                       <button
                         onClick={() => executeAlgorithm(algorithm)}
                         disabled={isRunning}
-                        className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                        className="bg-[var(--accent)] text-[var(--text)] px-3 py-1 rounded text-sm hover:bg-[var(--accent-deep)] disabled:opacity-50 transition-colors"
                       >
                         {isRunning ? 'Running...' : 'Execute'}
                       </button>
@@ -478,46 +478,46 @@ export default QuantumComputingDemo;`;
 
           {/* Results and Circuit */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Quantum Results</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">Quantum Results</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 text-sm">Measurement</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Measurement</span>
                 </div>
               </div>
               
               {results.measurements ? (
                 <div className="space-y-4">
-                  <div className="bg-green-800/50 p-4 rounded-lg">
-                    <p className="text-white font-semibold mb-2">{results.algorithm}</p>
+                  <div className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
+                    <p className="text-[var(--text)] font-semibold mb-2">{results.algorithm}</p>
                     <div className="grid grid-cols-3 gap-3 text-sm">
                       <div>
-                        <p className="text-green-200">Success Rate</p>
-                        <p className="text-white font-semibold">{(results.successRate * 100).toFixed(1)}%</p>
+                        <p className="text-[var(--accent)]">Success Rate</p>
+                        <p className="text-[var(--text)] font-semibold">{(results.successRate * 100).toFixed(1)}%</p>
                       </div>
                       <div>
-                        <p className="text-green-200">Coherence</p>
-                        <p className="text-white font-semibold">{results.coherenceTime.toFixed(1)} μs</p>
+                        <p className="text-[var(--accent)]">Coherence</p>
+                        <p className="text-[var(--text)] font-semibold">{results.coherenceTime.toFixed(1)} μs</p>
                       </div>
                       <div>
-                        <p className="text-green-200">Fidelity</p>
-                        <p className="text-white font-semibold">{(results.entanglementFidelity * 100).toFixed(1)}%</p>
+                        <p className="text-[var(--accent)]">Fidelity</p>
+                        <p className="text-[var(--text)] font-semibold">{(results.entanglementFidelity * 100).toFixed(1)}%</p>
                       </div>
                     </div>
                   </div>
                   
                   <div className="space-y-2 max-h-48 overflow-y-auto">
-                    <p className="text-green-200 text-sm font-semibold">Measurement Results:</p>
+                    <p className="text-[var(--accent)] text-sm font-semibold">Measurement Results:</p>
                     {results.measurements.slice(0, 8).map((measurement, index) => (
-                      <div key={index} className="bg-green-800/50 p-2 rounded">
+                      <div key={index} className="bg-[var(--accent-soft)]/50 p-2 rounded">
                         <div className="flex justify-between items-center">
-                          <p className="text-white text-sm">|{measurement.state}⟩</p>
-                          <p className="text-green-200 text-xs">{(measurement.probability * 100).toFixed(1)}%</p>
+                          <p className="text-[var(--text)] text-sm">|{measurement.state}⟩</p>
+                          <p className="text-[var(--accent)] text-xs">{(measurement.probability * 100).toFixed(1)}%</p>
                         </div>
-                        <div className="w-full bg-green-700 rounded-full h-1 mt-1">
+                        <div className="w-full bg-[var(--accent-deep)] rounded-full h-1 mt-1">
                           <div 
-                            className="bg-green-400 h-1 rounded-full transition-all duration-300"
+                            className="bg-[var(--accent)] h-1 rounded-full transition-all duration-300"
                             style={{ width: `${measurement.probability * 100}%` }}
                           ></div>
                         </div>
@@ -527,34 +527,34 @@ export default QuantumComputingDemo;`;
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-green-200">Execute an algorithm to see quantum results...</p>
+                  <p className="text-[var(--accent)]">Execute an algorithm to see quantum results...</p>
                 </div>
               )}
             </div>
 
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-yellow-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Quantum Circuit</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">Quantum Circuit</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
-                  <span className="text-yellow-400 text-sm">{circuit.length} gates</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">{circuit.length} gates</span>
                 </div>
               </div>
               
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {circuit.length > 0 ? (
                   circuit.map(gate => (
-                    <div key={gate.id} className="bg-yellow-800/50 p-3 rounded-lg">
+                    <div key={gate.id} className="bg-[var(--accent-soft)]/50 p-3 rounded-lg">
                       <div className="flex justify-between items-center">
-                        <p className="text-white font-semibold">{gate.gate}</p>
-                        <span className="text-yellow-200 text-sm">Qubit {gate.qubit}</span>
+                        <p className="text-[var(--text)] font-semibold">{gate.gate}</p>
+                        <span className="text-[var(--accent)] text-sm">Qubit {gate.qubit}</span>
                       </div>
-                      <p className="text-yellow-300 text-xs">Time: {gate.time}</p>
+                      <p className="text-[var(--accent)] text-xs">Time: {gate.time}</p>
                     </div>
                   ))
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-yellow-200">Circuit will appear when algorithm is executed...</p>
+                    <p className="text-[var(--accent)]">Circuit will appear when algorithm is executed...</p>
                   </div>
                 )}
               </div>
@@ -563,12 +563,12 @@ export default QuantumComputingDemo;`;
         </div>
 
         {/* Advanced Features */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+          <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">Quantum Algorithms</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Quantum Algorithms</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Grover's search algorithm</li>
                 <li>• Shor's factoring algorithm</li>
                 <li>• Quantum Fourier Transform</li>
@@ -576,8 +576,8 @@ export default QuantumComputingDemo;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Quantum Gates</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Quantum Gates</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Hadamard (H) gate</li>
                 <li>• CNOT gate operations</li>
                 <li>• Phase shift gates</li>
@@ -585,8 +585,8 @@ export default QuantumComputingDemo;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">Quantum Measurement</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Quantum Measurement</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• State vector simulation</li>
                 <li>• Probability distribution</li>
                 <li>• Quantum error correction</li>

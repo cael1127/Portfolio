@@ -123,12 +123,12 @@ const GamePlatformDemo = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Game Platform</h1>
-          <p className="text-gray-400">Multiplayer gaming platform with real-time features</p>
+          <h1 className="text-3xl font-bold text-[var(--text)]">Game Platform</h1>
+          <p className="text-[var(--muted)]">Multiplayer gaming platform with real-time features</p>
         </div>
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
+          className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded-lg transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -145,42 +145,42 @@ const GamePlatformDemo = () => {
         transition={{ duration: 0.6 }}
       >
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg text-center"
+          className="bg-[var(--surface)] p-6 rounded-lg text-center"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Total Games</h3>
-          <p className="text-3xl font-bold text-blue-400">{gameStats.totalGames}</p>
+          <h3 className="text-[var(--muted)] text-sm">Total Games</h3>
+          <p className="text-3xl font-bold text-[var(--accent)]">{gameStats.totalGames}</p>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg text-center"
+          className="bg-[var(--surface)] p-6 rounded-lg text-center"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Active Players</h3>
-          <p className="text-3xl font-bold text-green-400">{gameStats.activePlayers?.toLocaleString()}</p>
+          <h3 className="text-[var(--muted)] text-sm">Active Players</h3>
+          <p className="text-3xl font-bold text-[var(--accent)]">{gameStats.activePlayers?.toLocaleString()}</p>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg text-center"
+          className="bg-[var(--surface)] p-6 rounded-lg text-center"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Revenue</h3>
-          <p className="text-3xl font-bold text-yellow-400">${gameStats.totalRevenue?.toLocaleString()}</p>
+          <h3 className="text-[var(--muted)] text-sm">Revenue</h3>
+          <p className="text-3xl font-bold text-[var(--accent)]">${gameStats.totalRevenue?.toLocaleString()}</p>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg text-center"
+          className="bg-[var(--surface)] p-6 rounded-lg text-center"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Avg Session</h3>
-          <p className="text-3xl font-bold text-purple-400">{gameStats.averageSessionTime}m</p>
+          <h3 className="text-[var(--muted)] text-sm">Avg Session</h3>
+          <p className="text-3xl font-bold text-[var(--accent)]">{gameStats.averageSessionTime}m</p>
         </motion.div>
       </motion.div>
 
       {/* Games Grid */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -191,7 +191,7 @@ const GamePlatformDemo = () => {
           {games.map((game, index) => (
             <motion.div 
               key={game.id}
-              className="bg-gray-700 p-4 rounded-lg"
+              className="bg-[var(--surface-2)] p-4 rounded-lg"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -199,16 +199,16 @@ const GamePlatformDemo = () => {
               whileHover={{ scale: 1.05, y: -5 }}
             >
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-white">{game.name}</h3>
+                <h3 className="font-semibold text-[var(--text)]">{game.name}</h3>
                 <span className={`text-xs px-2 py-1 rounded ${
-                  game.status === 'Active' ? 'bg-green-600 text-green-100' : 'bg-yellow-600 text-yellow-100'
+                  game.status === 'Active' ? 'bg-[var(--accent)] text-[var(--accent)]' : 'bg-[var(--accent)] text-[var(--accent)]'
                 }`}>
                   {game.status}
                 </span>
               </div>
-              <p className="text-2xl font-bold text-blue-400">{game.players}</p>
-              <p className="text-sm text-gray-400">Players Online</p>
-              <p className="text-xs text-gray-500 mt-1">{game.genre}</p>
+              <p className="text-2xl font-bold text-[var(--accent)]">{game.players}</p>
+              <p className="text-sm text-[var(--muted)]">Players Online</p>
+              <p className="text-xs text-[var(--muted)] mt-1">{game.genre}</p>
             </motion.div>
           ))}
         </div>
@@ -216,7 +216,7 @@ const GamePlatformDemo = () => {
 
       {/* Leaderboard */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -227,7 +227,7 @@ const GamePlatformDemo = () => {
           {leaderboard.map((player, index) => (
             <motion.div 
               key={player.id}
-              className="bg-gray-700 p-4 rounded-lg flex justify-between items-center"
+              className="bg-[var(--surface-2)] p-4 rounded-lg flex justify-between items-center"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -235,17 +235,17 @@ const GamePlatformDemo = () => {
               whileHover={{ scale: 1.02, x: 5 }}
             >
               <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">{index + 1}</span>
+                <div className="w-8 h-8 bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] rounded-full flex items-center justify-center">
+                  <span className="text-[var(--text)] font-bold text-sm">{index + 1}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">{player.username}</h3>
-                  <p className="text-sm text-gray-400">Level {player.level}</p>
+                  <h3 className="font-semibold text-[var(--text)]">{player.username}</h3>
+                  <p className="text-sm text-[var(--muted)]">Level {player.level}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold text-green-400">{player.winRate}%</p>
-                <p className="text-sm text-gray-400">Win Rate</p>
+                <p className="text-lg font-bold text-[var(--accent)]">{player.winRate}%</p>
+                <p className="text-sm text-[var(--muted)]">Win Rate</p>
               </div>
             </motion.div>
           ))}

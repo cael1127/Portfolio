@@ -248,15 +248,15 @@ const BlockchainAdvanced = () => {
   };
   
   const containerClass = isEmbedded
-    ? 'space-y-8 text-white'
-    : 'min-h-screen bg-gray-900 text-white p-6';
+    ? 'space-y-8 text-[var(--text)]'
+    : 'min-h-screen bg-[var(--bg)] text-[var(--text)] p-6';
 
   const innerClass = isEmbedded ? 'space-y-8' : 'max-w-7xl mx-auto';
 
   return (
     <div className={containerClass}>
       <div className={innerClass}>
-        <h1 className="text-4xl font-bold text-green-400 mb-8">
+        <h1 className="text-4xl font-bold text-[var(--accent)] mb-8">
           Advanced Blockchain Platform
         </h1>
         
@@ -264,38 +264,38 @@ const BlockchainAdvanced = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             {/* Blockchain Explorer */}
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl">
-                              <h2 className="text-2xl font-bold text-white mb-4">Blockchain Explorer</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl">
+                              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Blockchain Explorer</h2>
               <div className="space-y-4">
                 {blocks.map(block => (
-                  <div key={block.id} className="bg-green-800/50 p-4 rounded-lg">
+                  <div key={block.id} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">Block #{block.id}</p>
-                      <span className="text-green-200 text-sm">{block.transactions} txs</span>
+                      <p className="text-[var(--text)] font-semibold">Block #{block.id}</p>
+                      <span className="text-[var(--accent)] text-sm">{block.transactions} txs</span>
                     </div>
-                    <p className="text-green-300 text-xs break-all">{block.hash}</p>
-                    <p className="text-green-200 text-xs">{new Date(block.timestamp).toLocaleString()}</p>
+                    <p className="text-[var(--accent)] text-xs break-all">{block.hash}</p>
+                    <p className="text-[var(--accent)] text-xs">{new Date(block.timestamp).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
             </div>
             
             {/* Smart Contracts */}
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl">
-                              <h2 className="text-2xl font-bold text-white mb-4">Smart Contracts</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl">
+                              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Smart Contracts</h2>
               <div className="space-y-3">
                 {smartContracts.map(contract => (
-                  <div key={contract.address} className="bg-blue-800/50 p-4 rounded-lg">
+                  <div key={contract.address} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{contract.name}</p>
+                      <p className="text-[var(--text)] font-semibold">{contract.name}</p>
                       <span className={\`text-xs px-2 py-1 rounded \${
-                        contract.verified ? 'bg-green-600' : 'bg-red-600'
+                        contract.verified ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'
                       }\`}>
                         {contract.verified ? 'Verified' : 'Unverified'}
                       </span>
                     </div>
-                    <p className="text-blue-200 text-sm">{contract.type}</p>
-                    <p className="text-blue-300 text-xs break-all">{contract.address}</p>
+                    <p className="text-[var(--accent)] text-sm">{contract.type}</p>
+                    <p className="text-[var(--accent)] text-xs break-all">{contract.address}</p>
                   </div>
                 ))}
               </div>
@@ -304,27 +304,27 @@ const BlockchainAdvanced = () => {
           
           {/* DeFi and NFTs */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">🏦 DeFi Protocols</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🏦 DeFi Protocols</h2>
               <div className="space-y-3">
                 {defiProtocols.map(protocol => (
-                  <div key={protocol.name} className="bg-purple-800/50 p-4 rounded-lg">
+                  <div key={protocol.name} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{protocol.name}</p>
-                      <span className="text-purple-200 text-sm">{protocol.type}</span>
+                      <p className="text-[var(--text)] font-semibold">{protocol.name}</p>
+                      <span className="text-[var(--accent)] text-sm">{protocol.type}</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-sm">
                       <div>
-                        <p className="text-purple-200">TVL</p>
-                        <p className="text-white font-semibold">{protocol.tvl}</p>
+                        <p className="text-[var(--accent)]">TVL</p>
+                        <p className="text-[var(--text)] font-semibold">{protocol.tvl}</p>
                       </div>
                       <div>
-                        <p className="text-purple-200">Volume</p>
-                        <p className="text-white font-semibold">{protocol.volume24h}</p>
+                        <p className="text-[var(--accent)]">Volume</p>
+                        <p className="text-[var(--text)] font-semibold">{protocol.volume24h}</p>
                       </div>
                       <div>
-                        <p className="text-purple-200">APY</p>
-                        <p className="text-white font-semibold">{protocol.apy}</p>
+                        <p className="text-[var(--accent)]">APY</p>
+                        <p className="text-[var(--text)] font-semibold">{protocol.apy}</p>
                       </div>
                     </div>
                   </div>
@@ -332,15 +332,15 @@ const BlockchainAdvanced = () => {
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl">
-                              <h2 className="text-2xl font-bold text-white mb-4">NFT Marketplace</h2>
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-yellow-800 to-[var(--accent-deep)] p-6 rounded-xl">
+                              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">NFT Marketplace</h2>
               <div className="grid grid-cols-2 gap-4">
                 {nfts.slice(0, 6).map(nft => (
-                  <div key={nft.id} className="bg-yellow-800/50 p-3 rounded-lg">
+                  <div key={nft.id} className="bg-[var(--accent-soft)]/50 p-3 rounded-lg">
                     <img src={nft.image} alt={nft.name} className="w-full h-24 object-cover rounded mb-2" />
-                    <p className="text-white font-semibold text-sm">{nft.name}</p>
-                    <p className="text-yellow-200 text-xs">{nft.collection}</p>
-                    <p className="text-yellow-300 text-xs">{nft.price} ETH</p>
+                    <p className="text-[var(--text)] font-semibold text-sm">{nft.name}</p>
+                    <p className="text-[var(--accent)] text-xs">{nft.collection}</p>
+                    <p className="text-[var(--accent)] text-xs">{nft.price} ETH</p>
                   </div>
                 ))}
               </div>
@@ -355,18 +355,18 @@ const BlockchainAdvanced = () => {
 export default BlockchainAdvanced;`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold text-green-400 mb-2">Advanced Blockchain Platform</h1>
-              <p className="text-gray-400">Smart contracts, DeFi protocols, and NFT marketplace integration</p>
+              <h1 className="text-4xl font-bold text-[var(--accent)] mb-2">Advanced Blockchain Platform</h1>
+              <p className="text-[var(--muted)]">Smart contracts, DeFi protocols, and NFT marketplace integration</p>
             </div>
             <button
               onClick={() => setShowCodeViewer(true)}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
             >
               View Code
             </button>
@@ -375,7 +375,7 @@ export default BlockchainAdvanced;`;
 
         {/* Tab Navigation */}
         <div className="mb-6">
-          <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
+          <div className="flex space-x-1 bg-[var(--surface)] p-1 rounded-lg">
             {[
               { id: 'blocks', label: 'Blocks', icon: '' },
               { id: 'transactions', label: 'Transactions', icon: '' },
@@ -388,8 +388,8 @@ export default BlockchainAdvanced;`;
                 onClick={() => setSelectedTab(tab.id)}
                 className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
                   selectedTab === tab.id
-                    ? 'bg-green-600 text-white'
-                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                    ? 'bg-[var(--accent)] text-[var(--text)]'
+                    : 'text-[var(--text)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]'
                 }`}
               >
                 {tab.label}
@@ -401,26 +401,26 @@ export default BlockchainAdvanced;`;
         {/* Content based on selected tab */}
         <div className="space-y-6">
           {selectedTab === 'blocks' && (
-            <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Blockchain Explorer</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">Blockchain Explorer</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 text-sm">Live chain</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Live chain</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {blockchainData.blocks.map(block => (
-                  <div key={block.id} className="bg-green-800/50 p-4 rounded-lg">
+                  <div key={block.id} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">Block #{block.id}</p>
-                      <span className="text-green-200 text-sm">{block.transactions} txs</span>
+                      <p className="text-[var(--text)] font-semibold">Block #{block.id}</p>
+                      <span className="text-[var(--accent)] text-sm">{block.transactions} txs</span>
                     </div>
-                    <p className="text-green-300 text-xs break-all mb-2">{block.hash}</p>
+                    <p className="text-[var(--accent)] text-xs break-all mb-2">{block.hash}</p>
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-green-200">Miner: {block.miner.slice(0, 10)}...</span>
-                      <span className="text-green-200">{new Date(block.timestamp).toLocaleString()}</span>
+                      <span className="text-[var(--accent)]">Miner: {block.miner.slice(0, 10)}...</span>
+                      <span className="text-[var(--accent)]">{new Date(block.timestamp).toLocaleString()}</span>
                     </div>
                   </div>
                 ))}
@@ -429,35 +429,35 @@ export default BlockchainAdvanced;`;
           )}
 
           {selectedTab === 'transactions' && (
-            <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">Recent Transactions</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">Recent Transactions</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-blue-400 text-sm">Real-time</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Real-time</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {blockchainData.transactions.slice(0, 10).map(tx => (
                   <div key={tx.id} className={`p-4 rounded-lg ${
-                    tx.status === 'confirmed' ? 'bg-green-800/50' :
-                    tx.status === 'pending' ? 'bg-yellow-800/50' :
-                    'bg-red-800/50'
+                    tx.status === 'confirmed' ? 'bg-[var(--accent-soft)]/50' :
+                    tx.status === 'pending' ? 'bg-[var(--accent-soft)]/50' :
+                    'bg-[var(--accent-soft)]/50'
                   }`}>
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{tx.type.replace('_', ' ').toUpperCase()}</p>
+                      <p className="text-[var(--text)] font-semibold">{tx.type.replace('_', ' ').toUpperCase()}</p>
                       <span className={`text-xs px-2 py-1 rounded ${
-                        tx.status === 'confirmed' ? 'bg-green-600' :
-                        tx.status === 'pending' ? 'bg-yellow-600' :
-                        'bg-red-600'
+                        tx.status === 'confirmed' ? 'bg-[var(--accent)]' :
+                        tx.status === 'pending' ? 'bg-[var(--accent)]' :
+                        'bg-[var(--accent)]'
                       }`}>
                         {tx.status}
                       </span>
                     </div>
-                    <p className="text-blue-200 text-sm mb-2">{tx.value} ETH</p>
-                    <p className="text-blue-300 text-xs break-all">From: {tx.from.slice(0, 10)}...</p>
-                    <p className="text-blue-300 text-xs break-all">To: {tx.to.slice(0, 10)}...</p>
+                    <p className="text-[var(--accent)] text-sm mb-2">{tx.value} ETH</p>
+                    <p className="text-[var(--accent)] text-xs break-all">From: {tx.from.slice(0, 10)}...</p>
+                    <p className="text-[var(--accent)] text-xs break-all">To: {tx.to.slice(0, 10)}...</p>
                   </div>
                 ))}
               </div>
@@ -465,31 +465,31 @@ export default BlockchainAdvanced;`;
           )}
 
           {selectedTab === 'contracts' && (
-            <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">📄 Smart Contracts</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">📄 Smart Contracts</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                  <span className="text-purple-400 text-sm">Verified</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Verified</span>
                 </div>
               </div>
               
               <div className="space-y-4">
                 {blockchainData.smartContracts.map(contract => (
-                  <div key={contract.address} className="bg-purple-800/50 p-4 rounded-lg">
+                  <div key={contract.address} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-white font-semibold">{contract.name}</p>
+                      <p className="text-[var(--text)] font-semibold">{contract.name}</p>
                       <span className={`text-xs px-2 py-1 rounded ${
-                        contract.verified ? 'bg-green-600' : 'bg-red-600'
+                        contract.verified ? 'bg-[var(--accent)]' : 'bg-[var(--accent)]'
                       }`}>
                         {contract.verified ? 'Verified' : 'Unverified'}
                       </span>
                     </div>
-                    <p className="text-purple-200 text-sm mb-2">{contract.type}</p>
-                    <p className="text-purple-300 text-xs break-all mb-2">{contract.address}</p>
+                    <p className="text-[var(--accent)] text-sm mb-2">{contract.type}</p>
+                    <p className="text-[var(--accent)] text-xs break-all mb-2">{contract.address}</p>
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-purple-200">Balance: {contract.balance}</span>
-                      <span className="text-purple-200">{contract.transactions} txs</span>
+                      <span className="text-[var(--accent)]">Balance: {contract.balance}</span>
+                      <span className="text-[var(--accent)]">{contract.transactions} txs</span>
                     </div>
                   </div>
                 ))}
@@ -498,22 +498,22 @@ export default BlockchainAdvanced;`;
           )}
 
           {selectedTab === 'nfts' && (
-            <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 p-6 rounded-xl border border-yellow-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-yellow-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">🎨 NFT Marketplace</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">🎨 NFT Marketplace</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
-                  <span className="text-yellow-400 text-sm">Live trading</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Live trading</span>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {blockchainData.nfts.map(nft => (
-                  <div key={nft.id} className="bg-yellow-800/50 p-3 rounded-lg">
+                  <div key={nft.id} className="bg-[var(--accent-soft)]/50 p-3 rounded-lg">
                     <img src={nft.image} alt={nft.name} className="w-full h-24 object-cover rounded mb-2" />
-                    <p className="text-white font-semibold text-sm mb-1">{nft.name}</p>
-                    <p className="text-yellow-200 text-xs mb-1">{nft.collection}</p>
-                    <p className="text-yellow-300 text-xs">{nft.price} ETH</p>
+                    <p className="text-[var(--text)] font-semibold text-sm mb-1">{nft.name}</p>
+                    <p className="text-[var(--accent)] text-xs mb-1">{nft.collection}</p>
+                    <p className="text-[var(--accent)] text-xs">{nft.price} ETH</p>
                   </div>
                 ))}
               </div>
@@ -521,34 +521,34 @@ export default BlockchainAdvanced;`;
           )}
 
           {selectedTab === 'defi' && (
-            <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 p-6 rounded-xl border border-indigo-800">
+            <div className="bg-gradient-to-br from-[var(--accent-soft)] via-indigo-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">DeFi Protocols</h2>
+                <h2 className="text-2xl font-bold text-[var(--text)]">DeFi Protocols</h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse"></div>
-                  <span className="text-indigo-400 text-sm">Live yields</span>
+                  <div className="w-3 h-3 bg-[var(--accent)] rounded-full animate-pulse"></div>
+                  <span className="text-[var(--accent)] text-sm">Live yields</span>
                 </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {blockchainData.defiProtocols.map(protocol => (
-                  <div key={protocol.name} className="bg-indigo-800/50 p-4 rounded-lg">
+                  <div key={protocol.name} className="bg-[var(--accent-soft)]/50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-3">
-                      <p className="text-white font-semibold">{protocol.name}</p>
-                      <span className="text-indigo-200 text-sm">{protocol.type}</span>
+                      <p className="text-[var(--text)] font-semibold">{protocol.name}</p>
+                      <span className="text-[var(--accent)] text-sm">{protocol.type}</span>
                     </div>
                     <div className="grid grid-cols-3 gap-3 text-sm">
                       <div>
-                        <p className="text-indigo-200">TVL</p>
-                        <p className="text-white font-semibold">{protocol.tvl}</p>
+                        <p className="text-[var(--accent)]">TVL</p>
+                        <p className="text-[var(--text)] font-semibold">{protocol.tvl}</p>
                       </div>
                       <div>
-                        <p className="text-indigo-200">Volume</p>
-                        <p className="text-white font-semibold">{protocol.volume24h}</p>
+                        <p className="text-[var(--accent)]">Volume</p>
+                        <p className="text-[var(--text)] font-semibold">{protocol.volume24h}</p>
                       </div>
                       <div>
-                        <p className="text-indigo-200">APY</p>
-                        <p className="text-white font-semibold">{protocol.apy}</p>
+                        <p className="text-[var(--accent)]">APY</p>
+                        <p className="text-[var(--text)] font-semibold">{protocol.apy}</p>
                       </div>
                     </div>
                   </div>
@@ -559,12 +559,12 @@ export default BlockchainAdvanced;`;
         </div>
 
         {/* Advanced Features */}
-        <div className="mt-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-4">Advanced Features</h2>
+        <div className="mt-8 bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+          <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Advanced Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-green-400 mb-2">Smart Contracts</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Smart Contracts</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Solidity contract development</li>
                 <li>• Automated contract deployment</li>
                 <li>• Gas optimization techniques</li>
@@ -572,8 +572,8 @@ export default BlockchainAdvanced;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">DeFi Integration</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">DeFi Integration</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• DEX protocol integration</li>
                 <li>• Yield farming strategies</li>
                 <li>• Liquidity pool management</li>
@@ -581,8 +581,8 @@ export default BlockchainAdvanced;`;
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-2">NFT Marketplace</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">NFT Marketplace</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• ERC-721/ERC-1155 standards</li>
                 <li>• Metadata storage solutions</li>
                 <li>• Royalty distribution systems</li>

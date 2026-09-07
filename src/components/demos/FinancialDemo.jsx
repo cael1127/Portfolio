@@ -76,16 +76,16 @@ const FinancialDemo = () => {
         {cryptoData.map((crypto, index) => (
           <motion.div 
             key={crypto.symbol}
-            className="bg-gray-800 p-6 rounded-lg"
+            className="bg-[var(--surface)] p-6 rounded-lg"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ scale: 1.05 }}
           >
-            <h3 className="text-gray-400 text-sm">{crypto.name}</h3>
-            <p className="text-2xl font-bold text-white">${crypto.price.toLocaleString()}</p>
-            <p className={\`text-sm \${crypto.change >= 0 ? 'text-green-400' : 'text-red-400'}\`}>
+            <h3 className="text-[var(--muted)] text-sm">{crypto.name}</h3>
+            <p className="text-2xl font-bold text-[var(--text)]">${crypto.price.toLocaleString()}</p>
+            <p className={\`text-sm \${crypto.change >= 0 ? 'text-[var(--accent)]' : 'text-[var(--accent)]'}\`}>
               {crypto.change >= 0 ? '+' : ''}{crypto.change}%
             </p>
           </motion.div>
@@ -133,7 +133,7 @@ Key features:
       {
         name: 'Conditional Rendering',
         description: 'Dynamic content based on data conditions',
-        example: '{crypto.change >= 0 ? "text-green-400" : "text-red-400"}'
+        example: '{crypto.change >= 0 ? "text-[var(--accent)]" : "text-[var(--accent)]"}'
       }
     ],
     features: [
@@ -151,12 +151,12 @@ Key features:
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Financial Dashboard</h1>
-          <p className="text-gray-400">Real-time cryptocurrency portfolio tracking</p>
+          <h1 className="text-3xl font-bold text-[var(--text)]">Financial Dashboard</h1>
+          <p className="text-[var(--muted)]">Real-time cryptocurrency portfolio tracking</p>
         </div>
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors"
+          className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-4 py-2 rounded-lg transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -173,46 +173,46 @@ Key features:
         transition={{ duration: 0.6 }}
       >
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg"
+          className="bg-[var(--surface)] p-6 rounded-lg"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Total Value</h3>
-          <p className="text-2xl font-bold text-white">${portfolio.totalValue.toLocaleString()}</p>
+          <h3 className="text-[var(--muted)] text-sm">Total Value</h3>
+          <p className="text-2xl font-bold text-[var(--text)]">${portfolio.totalValue.toLocaleString()}</p>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg"
+          className="bg-[var(--surface)] p-6 rounded-lg"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Daily Change</h3>
-          <p className={`text-2xl font-bold ${portfolio.dailyChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <h3 className="text-[var(--muted)] text-sm">Daily Change</h3>
+          <p className={`text-2xl font-bold ${portfolio.dailyChange >= 0 ? 'text-[var(--accent)]' : 'text-[var(--accent)]'}`}>
             {portfolio.dailyChange >= 0 ? '+' : ''}${portfolio.dailyChange.toLocaleString()}
           </p>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg"
+          className="bg-[var(--surface)] p-6 rounded-lg"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Total Return</h3>
-          <p className={`text-2xl font-bold ${portfolio.totalReturn >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <h3 className="text-[var(--muted)] text-sm">Total Return</h3>
+          <p className={`text-2xl font-bold ${portfolio.totalReturn >= 0 ? 'text-[var(--accent)]' : 'text-[var(--accent)]'}`}>
             {portfolio.totalReturn >= 0 ? '+' : ''}{portfolio.totalReturn.toFixed(2)}%
           </p>
         </motion.div>
         <motion.div 
-          className="bg-gray-800 p-6 rounded-lg"
+          className="bg-[var(--surface)] p-6 rounded-lg"
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.2 }}
         >
-          <h3 className="text-gray-400 text-sm">Holdings</h3>
-          <p className="text-2xl font-bold text-white">{portfolio.holdings.length}</p>
+          <h3 className="text-[var(--muted)] text-sm">Holdings</h3>
+          <p className="text-2xl font-bold text-[var(--text)]">{portfolio.holdings.length}</p>
         </motion.div>
       </motion.div>
 
       {/* Crypto Market */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -223,7 +223,7 @@ Key features:
           {cryptoData.map((crypto, index) => (
             <motion.div 
               key={crypto.symbol}
-              className="bg-gray-700 p-4 rounded-lg flex justify-between items-center"
+              className="bg-[var(--surface-2)] p-4 rounded-lg flex justify-between items-center"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -231,17 +231,17 @@ Key features:
               whileHover={{ scale: 1.02, x: 5 }}
             >
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">{crypto.symbol[0]}</span>
+                <div className="w-10 h-10 bg-gradient-to-r from-[var(--accent)] to-[var(--accent)] rounded-full flex items-center justify-center">
+                  <span className="text-[var(--text)] font-bold">{crypto.symbol[0]}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">{crypto.name}</h3>
-                  <p className="text-sm text-gray-400">{crypto.symbol}</p>
+                  <h3 className="font-semibold text-[var(--text)]">{crypto.name}</h3>
+                  <p className="text-sm text-[var(--muted)]">{crypto.symbol}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xl font-bold text-white">${crypto.price.toLocaleString()}</p>
-                <p className={`text-sm ${crypto.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <p className="text-xl font-bold text-[var(--text)]">${crypto.price.toLocaleString()}</p>
+                <p className={`text-sm ${crypto.change >= 0 ? 'text-[var(--accent)]' : 'text-[var(--accent)]'}`}>
                   {crypto.change >= 0 ? '+' : ''}{crypto.change}%
                 </p>
               </div>
@@ -252,7 +252,7 @@ Key features:
 
       {/* Portfolio Holdings */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -263,7 +263,7 @@ Key features:
           {portfolio.holdings.map((holding, index) => (
             <motion.div 
               key={holding.symbol}
-              className="bg-gray-700 p-4 rounded-lg"
+              className="bg-[var(--surface-2)] p-4 rounded-lg"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -271,10 +271,10 @@ Key features:
               whileHover={{ scale: 1.05, y: -5 }}
             >
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-white">{holding.symbol}</h3>
-                <span className="text-sm text-gray-400">{holding.amount} coins</span>
+                <h3 className="font-semibold text-[var(--text)]">{holding.symbol}</h3>
+                <span className="text-sm text-[var(--muted)]">{holding.amount} coins</span>
               </div>
-              <p className="text-xl font-bold text-green-400">${holding.value.toLocaleString()}</p>
+              <p className="text-xl font-bold text-[var(--accent)]">${holding.value.toLocaleString()}</p>
             </motion.div>
           ))}
         </div>

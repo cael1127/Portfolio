@@ -17,13 +17,13 @@ const BlogPost = ({ slug, setCurrentPage }) => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white pt-16 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] pt-16 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-          <p className="text-gray-400 mb-6">The blog post you're looking for doesn't exist.</p>
+          <p className="text-[var(--muted)] mb-6">The blog post you're looking for doesn't exist.</p>
           <button
             onClick={() => setCurrentPage('blog')}
-            className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg transition-colors"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] px-6 py-2 rounded-lg transition-colors"
           >
             Back to Blog
           </button>
@@ -33,7 +33,7 @@ const BlogPost = ({ slug, setCurrentPage }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white pt-16">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] pt-16">
       <article className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -45,18 +45,18 @@ const BlogPost = ({ slug, setCurrentPage }) => {
           >
             {/* Category */}
             <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-green-600/20 text-green-400 text-sm font-semibold rounded-full">
+              <span className="inline-block px-3 py-1 bg-[var(--accent)]/20 text-[var(--accent)] text-sm font-semibold rounded-full">
                 {post.category}
               </span>
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-[var(--text)] mb-4">
               {post.title}
             </h1>
 
             {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm mb-6">
+            <div className="flex flex-wrap items-center gap-4 text-[var(--muted)] text-sm mb-6">
               <span>{new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
               <span>•</span>
               <ReadingTime content={post.content} />
@@ -74,7 +74,7 @@ const BlogPost = ({ slug, setCurrentPage }) => {
                 {post.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-gray-800 text-gray-300 text-sm rounded-full border border-gray-700"
+                    className="px-3 py-1 bg-[var(--surface)] text-[var(--text)] text-sm rounded-full border border-[var(--border)]"
                   >
                     {tag}
                   </span>
@@ -84,7 +84,7 @@ const BlogPost = ({ slug, setCurrentPage }) => {
 
             {/* Cover Image */}
             {post.coverImage && (
-              <div className="w-full h-64 md:h-96 mb-8 rounded-lg overflow-hidden bg-gray-800">
+              <div className="w-full h-64 md:h-96 mb-8 rounded-lg overflow-hidden bg-[var(--surface)]">
                 <img
                   src={post.coverImage}
                   alt={post.title}
@@ -139,8 +139,8 @@ const BlogPost = ({ slug, setCurrentPage }) => {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="mb-12"
               >
-                <div className="border-t border-gray-700 pt-8">
-                  <h3 className="text-xl font-semibold text-white mb-4">Share this post</h3>
+                <div className="border-t border-[var(--border)] pt-8">
+                  <h3 className="text-xl font-semibold text-[var(--text)] mb-4">Share this post</h3>
                   <SocialShare post={post} />
                 </div>
               </motion.div>

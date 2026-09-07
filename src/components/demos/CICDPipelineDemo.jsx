@@ -178,12 +178,12 @@ The pipeline uses GitHub Actions workflows with conditional deployment, artifact
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">CI/CD Pipeline</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
@@ -192,11 +192,11 @@ The pipeline uses GitHub Actions workflows with conditional deployment, artifact
         {/* Pipeline Stages */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium text-gray-300">Pipeline Stages</h4>
+            <h4 className="text-sm font-medium text-[var(--text)]">Pipeline Stages</h4>
             <span className={`text-xs px-2 py-1 rounded ${
-              pipelineStatus === 'success' ? 'bg-green-900/20 text-green-400' :
-              pipelineStatus === 'running' ? 'bg-blue-900/20 text-blue-400' :
-              'bg-gray-700 text-gray-400'
+              pipelineStatus === 'success' ? 'bg-[var(--accent-soft)]/20 text-[var(--accent)]' :
+              pipelineStatus === 'running' ? 'bg-[var(--accent-soft)]/20 text-[var(--accent)]' :
+              'bg-[var(--surface-2)] text-[var(--muted)]'
             }`}>
               {pipelineStatus.toUpperCase()}
             </span>
@@ -205,16 +205,16 @@ The pipeline uses GitHub Actions workflows with conditional deployment, artifact
             {stages.map((stage, index) => (
               <div key={stage.id} className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                  currentStage === stage.id ? 'bg-blue-600 text-white animate-pulse' :
-                  pipelineStatus === 'success' ? 'bg-green-600 text-white' :
-                  'bg-gray-700 text-gray-400'
+                  currentStage === stage.id ? 'bg-[var(--accent)] text-[var(--text)] animate-pulse' :
+                  pipelineStatus === 'success' ? 'bg-[var(--accent)] text-[var(--text)]' :
+                  'bg-[var(--surface-2)] text-[var(--muted)]'
                 }`}>
                   {index + 1}
                 </div>
-                <div className="flex-1 bg-gray-900 p-3 rounded border border-gray-700">
+                <div className="flex-1 bg-[var(--bg)] p-3 rounded border border-[var(--border)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-white font-medium">{stage.name}</span>
-                    <span className="text-xs text-gray-400">{stage.duration}</span>
+                    <span className="text-[var(--text)] font-medium">{stage.name}</span>
+                    <span className="text-xs text-[var(--muted)]">{stage.duration}</span>
                   </div>
                 </div>
               </div>
@@ -226,18 +226,18 @@ The pipeline uses GitHub Actions workflows with conditional deployment, artifact
         <button
           onClick={runPipeline}
           disabled={pipelineStatus === 'running'}
-          className="w-full py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors mb-4"
+          className="w-full py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg font-medium transition-colors mb-4"
         >
           {pipelineStatus === 'running' ? 'Pipeline Running...' : 'Run CI/CD Pipeline'}
         </button>
 
         {/* Build Logs */}
         {buildLogs.length > 0 && (
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Build Logs</h4>
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+            <h4 className="text-sm font-medium text-[var(--text)] mb-2">Build Logs</h4>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {buildLogs.map((log, index) => (
-                <div key={index} className="text-xs text-gray-400 font-mono">
+                <div key={index} className="text-xs text-[var(--muted)] font-mono">
                   {log}
                 </div>
               ))}

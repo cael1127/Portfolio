@@ -54,10 +54,10 @@ const OWASPScannerDemo = () => {
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'critical': return 'text-red-400 bg-red-900/30 border-red-500/50';
-      case 'high': return 'text-orange-400 bg-orange-900/30 border-orange-500/50';
-      case 'medium': return 'text-yellow-400 bg-yellow-900/30 border-yellow-500/50';
-      default: return 'text-blue-400 bg-blue-900/30 border-blue-500/50';
+      case 'critical': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      case 'high': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      case 'medium': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      default: return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
     }
   };
 
@@ -274,7 +274,7 @@ print(f"Found {report['total_vulnerabilities']} vulnerabilities")`,
   return (
     <div className="space-y-6">
       {/* Scan Input */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">OWASP Top 10 Scanner</h3>
         <div className="flex gap-4">
           <input
@@ -282,12 +282,12 @@ print(f"Found {report['total_vulnerabilities']} vulnerabilities")`,
             value={target}
             onChange={(e) => setTarget(e.target.value)}
             placeholder="https://example.com"
-            className="flex-1 p-3 bg-gray-900 border border-gray-700 rounded text-white"
+            className="flex-1 p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)]"
           />
           <button
             onClick={handleScan}
             disabled={scanning || !target}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+            className="px-6 py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--surface-2)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg transition-colors"
           >
             {scanning ? 'Scanning...' : 'Scan'}
           </button>
@@ -295,20 +295,20 @@ print(f"Found {report['total_vulnerabilities']} vulnerabilities")`,
       </div>
 
       {/* OWASP Top 10 Reference */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">OWASP Top 10 (2021)</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {owaspTop10.map((item) => (
-            <div key={item.id} className="p-3 bg-gray-900 rounded border border-gray-700">
+            <div key={item.id} className="p-3 bg-[var(--bg)] rounded border border-[var(--border)]">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-blue-400 font-mono text-sm">{item.id}</span>
-                  <div className="text-white text-sm mt-1">{item.name}</div>
+                  <span className="text-[var(--accent)] font-mono text-sm">{item.id}</span>
+                  <div className="text-[var(--text)] text-sm mt-1">{item.name}</div>
                 </div>
                 <span className={`px-2 py-1 rounded text-xs ${
-                  item.severity === 'critical' ? 'bg-red-900/50 text-red-400' :
-                  item.severity === 'high' ? 'bg-orange-900/50 text-orange-400' :
-                  'bg-yellow-900/50 text-yellow-400'
+                  item.severity === 'critical' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' :
+                  item.severity === 'high' ? 'bg-[var(--accent-soft)]/50 text-[var(--accent)]' :
+                  'bg-[var(--accent-soft)]/50 text-[var(--accent)]'
                 }`}>
                   {item.severity}
                 </span>
@@ -321,47 +321,47 @@ print(f"Found {report['total_vulnerabilities']} vulnerabilities")`,
       {/* Scan Results */}
       {results && (
         <motion.div
-          className="bg-gray-800 rounded-lg border border-gray-700 p-6"
+          className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <h3 className="text-lg font-semibold mb-4">Scan Results</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-            <div className="text-center p-4 bg-gray-900 rounded border border-gray-700">
-              <div className="text-2xl font-bold text-white">{results.totalVulnerabilities}</div>
-              <div className="text-sm text-gray-400 mt-1">Total</div>
+            <div className="text-center p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+              <div className="text-2xl font-bold text-[var(--text)]">{results.totalVulnerabilities}</div>
+              <div className="text-sm text-[var(--muted)] mt-1">Total</div>
             </div>
-            <div className="text-center p-4 bg-red-900/30 rounded border border-red-500/50">
-              <div className="text-2xl font-bold text-red-400">{results.critical}</div>
-              <div className="text-sm text-red-400 mt-1">Critical</div>
+            <div className="text-center p-4 bg-[var(--accent-soft)]/30 rounded border border-[var(--accent)]/50">
+              <div className="text-2xl font-bold text-[var(--accent)]">{results.critical}</div>
+              <div className="text-sm text-[var(--accent)] mt-1">Critical</div>
             </div>
-            <div className="text-center p-4 bg-orange-900/30 rounded border border-orange-500/50">
-              <div className="text-2xl font-bold text-orange-400">{results.high}</div>
-              <div className="text-sm text-orange-400 mt-1">High</div>
+            <div className="text-center p-4 bg-[var(--accent-soft)]/30 rounded border border-[var(--accent)]/50">
+              <div className="text-2xl font-bold text-[var(--accent)]">{results.high}</div>
+              <div className="text-sm text-[var(--accent)] mt-1">High</div>
             </div>
-            <div className="text-center p-4 bg-yellow-900/30 rounded border border-yellow-500/50">
-              <div className="text-2xl font-bold text-yellow-400">{results.medium}</div>
-              <div className="text-sm text-yellow-400 mt-1">Medium</div>
+            <div className="text-center p-4 bg-[var(--accent-soft)]/30 rounded border border-[var(--accent)]/50">
+              <div className="text-2xl font-bold text-[var(--accent)]">{results.medium}</div>
+              <div className="text-sm text-[var(--accent)] mt-1">Medium</div>
             </div>
-            <div className="text-center p-4 bg-blue-900/30 rounded border border-blue-500/50">
-              <div className="text-2xl font-bold text-blue-400">{results.low}</div>
-              <div className="text-sm text-blue-400 mt-1">Low</div>
+            <div className="text-center p-4 bg-[var(--accent-soft)]/30 rounded border border-[var(--accent)]/50">
+              <div className="text-2xl font-bold text-[var(--accent)]">{results.low}</div>
+              <div className="text-sm text-[var(--accent)] mt-1">Low</div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-semibold text-gray-300">Vulnerabilities Found:</h4>
+            <h4 className="font-semibold text-[var(--text)]">Vulnerabilities Found:</h4>
             {results.vulnerabilities.map((vuln, idx) => (
               <div key={idx} className={`p-4 rounded border ${getSeverityColor(vuln.severity)}`}>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="font-mono text-sm text-blue-400">{vuln.id}</span>
+                      <span className="font-mono text-sm text-[var(--accent)]">{vuln.id}</span>
                       <span className="font-semibold">{vuln.name}</span>
                     </div>
-                    <div className="text-sm text-gray-300 mb-1">{vuln.description}</div>
-                    <div className="text-xs text-gray-400">Location: {vuln.location}</div>
-                    <div className="text-xs text-gray-400 mt-1">Recommendation: {vuln.recommendation}</div>
+                    <div className="text-sm text-[var(--text)] mb-1">{vuln.description}</div>
+                    <div className="text-xs text-[var(--muted)]">Location: {vuln.location}</div>
+                    <div className="text-xs text-[var(--muted)] mt-1">Recommendation: {vuln.recommendation}</div>
                   </div>
                 </div>
               </div>
@@ -373,7 +373,7 @@ print(f"Found {report['total_vulnerabilities']} vulnerabilities")`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

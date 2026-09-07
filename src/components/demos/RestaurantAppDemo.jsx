@@ -525,14 +525,14 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">🍽️ Restaurant App Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">🍽️ Restaurant App Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Complete restaurant ordering system with menu management, online ordering, real-time tracking, and payment processing.
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <motion.button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -552,14 +552,14 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
         <div className="space-y-6">
           {/* Tabs */}
           <motion.div 
-            className="bg-gray-800 p-4 rounded-xl"
+            className="bg-[var(--surface)] p-4 rounded-xl"
             variants={itemVariants}
           >
             <div className="flex gap-2">
           <button
                 onClick={() => setActiveTab('menu')}
                 className={`px-4 py-2 rounded-lg transition-colors ${
-                  activeTab === 'menu' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                  activeTab === 'menu' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--surface-2)] text-[var(--text)]'
                 }`}
               >
                 🍽️ Menu
@@ -567,7 +567,7 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
               <button
                 onClick={() => setActiveTab('orders')}
                 className={`px-4 py-2 rounded-lg transition-colors ${
-                  activeTab === 'orders' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                  activeTab === 'orders' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--surface-2)] text-[var(--text)]'
                 }`}
               >
                 📦 Orders
@@ -580,7 +580,7 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
             <>
               {/* Categories */}
               <motion.div 
-                className="bg-gray-800 p-4 rounded-xl"
+                className="bg-[var(--surface)] p-4 rounded-xl"
                 variants={itemVariants}
               >
                 <div className="flex flex-wrap gap-2">
@@ -590,8 +590,8 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                       onClick={() => setSelectedCategory(category)}
                       className={`px-4 py-2 rounded-lg transition-colors ${
                         selectedCategory === category
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-650'
+                          ? 'bg-[var(--accent)] text-[var(--text)]'
+                          : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                       }`}
                     >
                       {category === 'all' ? 'All' : category}
@@ -602,7 +602,7 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
 
               {/* Menu Items */}
               <motion.div 
-                className="bg-gray-800 p-6 rounded-xl"
+                className="bg-[var(--surface)] p-6 rounded-xl"
                 variants={itemVariants}
               >
                 <h2 className="text-2xl font-bold mb-4">Menu</h2>
@@ -611,7 +611,7 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                   {filteredMenu.map((item, index) => (
                     <motion.div
                       key={item.id}
-                      className="bg-gray-700 p-4 rounded-lg"
+                      className="bg-[var(--surface-2)] p-4 rounded-lg"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.05 }}
@@ -620,17 +620,17 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                       <div className="flex gap-4">
                         <div className="text-5xl">{item.image}</div>
                         <div className="flex-1">
-                          <h3 className="font-bold text-white mb-1">{item.name}</h3>
-                          <p className="text-xs text-gray-400 mb-2">{item.description}</p>
+                          <h3 className="font-bold text-[var(--text)] mb-1">{item.name}</h3>
+                          <p className="text-xs text-[var(--muted)] mb-2">{item.description}</p>
                           <div className="flex items-center gap-2 mb-2 text-xs">
-                            <span className="bg-gray-600 px-2 py-1 rounded">⏱️ {item.preparationTime}min</span>
-                            <span className="bg-gray-600 px-2 py-1 rounded">🔥 {item.calories}cal</span>
+                            <span className="bg-[var(--border-strong)] px-2 py-1 rounded">⏱️ {item.preparationTime}min</span>
+                            <span className="bg-[var(--border-strong)] px-2 py-1 rounded">🔥 {item.calories}cal</span>
                       </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-xl font-bold text-green-400">${item.price}</span>
+                            <span className="text-xl font-bold text-[var(--accent)]">${item.price}</span>
                             <motion.button
                               onClick={() => handleAddToCart(item)}
-                              className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors"
+                              className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-3 py-1 rounded text-sm transition-colors"
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
@@ -649,7 +649,7 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
           {/* Orders View */}
           {activeTab === 'orders' && (
             <motion.div 
-              className="bg-gray-800 p-6 rounded-xl"
+              className="bg-[var(--surface)] p-6 rounded-xl"
               variants={itemVariants}
             >
               <h2 className="text-2xl font-bold mb-4">Order History</h2>
@@ -658,7 +658,7 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                 {orderHistory.map((order, index) => (
                   <motion.div
                     key={order.id}
-                    className="bg-gray-700 p-4 rounded-lg"
+                    className="bg-[var(--surface-2)] p-4 rounded-lg"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -666,11 +666,11 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-bold">Order #{order.id}</h3>
-                        <p className="text-sm text-gray-400">{order.date} • {order.items} items</p>
+                        <p className="text-sm text-[var(--muted)]">{order.date} • {order.items} items</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-green-400">${order.total}</p>
-                        <span className="text-xs bg-green-600 px-2 py-1 rounded">{order.status}</span>
+                        <p className="font-bold text-[var(--accent)]">${order.total}</p>
+                        <span className="text-xs bg-[var(--accent)] px-2 py-1 rounded">{order.status}</span>
                         </div>
                       </div>
                   </motion.div>
@@ -683,29 +683,29 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
         {/* Sidebar - Cart */}
         <div className="space-y-6">
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl sticky top-6"
+            className="bg-[var(--surface)] p-6 rounded-xl sticky top-6"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">
               🛒 Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
             </h3>
             
             {cart.length === 0 ? (
-              <p className="text-gray-400 text-sm text-center py-8">Your cart is empty</p>
+              <p className="text-[var(--muted)] text-sm text-center py-8">Your cart is empty</p>
             ) : (
               <>
                 <div className="space-y-3 mb-4 max-h-96 overflow-y-auto">
                   {cart.map(item => (
-                    <div key={item.id} className="bg-gray-700 p-3 rounded-lg">
+                    <div key={item.id} className="bg-[var(--surface-2)] p-3 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl">{item.image}</span>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold truncate">{item.name}</p>
-                          <p className="text-xs text-gray-400">${item.price}</p>
+                          <p className="text-xs text-[var(--muted)]">${item.price}</p>
                         </div>
                 <button
                           onClick={() => handleRemoveFromCart(item.id)}
-                          className="text-red-400 hover:text-red-300 text-sm"
+                          className="text-[var(--accent)] hover:text-[var(--accent)] text-sm"
                 >
                   ✕
                 </button>
@@ -715,19 +715,19 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleUpdateQuantity(item.id, -1)}
-                            className="bg-gray-600 hover:bg-gray-500 w-6 h-6 rounded flex items-center justify-center text-sm"
+                            className="bg-[var(--border-strong)] hover:bg-[var(--border-strong)] w-6 h-6 rounded flex items-center justify-center text-sm"
                           >
                             −
                           </button>
                           <span className="text-sm w-8 text-center">{item.quantity}</span>
                           <button
                             onClick={() => handleUpdateQuantity(item.id, 1)}
-                            className="bg-gray-600 hover:bg-gray-500 w-6 h-6 rounded flex items-center justify-center text-sm"
+                            className="bg-[var(--border-strong)] hover:bg-[var(--border-strong)] w-6 h-6 rounded flex items-center justify-center text-sm"
                           >
                             +
                           </button>
                     </div>
-                        <span className="text-sm font-bold text-green-400">
+                        <span className="text-sm font-bold text-[var(--accent)]">
                           ${(item.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
@@ -735,23 +735,23 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
                   ))}
                 </div>
                 
-                <div className="border-t border-gray-700 pt-4 space-y-2 mb-4 text-sm">
+                <div className="border-t border-[var(--border)] pt-4 space-y-2 mb-4 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Subtotal:</span>
+                    <span className="text-[var(--muted)]">Subtotal:</span>
                     <span>${getTotalPrice()}</span>
                         </div>
                       <div className="flex justify-between">
-                    <span className="text-gray-400">Delivery:</span>
+                    <span className="text-[var(--muted)]">Delivery:</span>
                     <span>$4.99</span>
                       </div>
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total:</span>
-                    <span className="text-green-400">${(parseFloat(getTotalPrice()) + 4.99).toFixed(2)}</span>
+                    <span className="text-[var(--accent)]">${(parseFloat(getTotalPrice()) + 4.99).toFixed(2)}</span>
                     </div>
                   </div>
                   
                 <motion.button
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition-colors"
+                  className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] py-3 rounded-lg transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -763,25 +763,25 @@ app.listen(3000, () => console.log('Restaurant API running'));`,
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Online Ordering</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Tracking</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Secure Payments</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>SMS Notifications</span>
               </li>
               </ul>

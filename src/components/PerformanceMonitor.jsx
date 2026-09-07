@@ -90,27 +90,27 @@ const PerformanceMonitor = () => {
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'critical': return 'text-red-400';
-      case 'high': return 'text-orange-400';
-      case 'medium': return 'text-yellow-400';
-      case 'low': return 'text-green-400';
-      default: return 'text-gray-400';
+      case 'critical': return 'text-[var(--accent)]';
+      case 'high': return 'text-[var(--accent)]';
+      case 'medium': return 'text-[var(--accent)]';
+      case 'low': return 'text-[var(--accent)]';
+      default: return 'text-[var(--muted)]';
     }
   };
 
   const getPerformanceColor = (loadTime) => {
-    if (loadTime < 1) return 'text-green-400';
-    if (loadTime < 2) return 'text-yellow-400';
-    return 'text-red-400';
+    if (loadTime < 1) return 'text-[var(--accent)]';
+    if (loadTime < 2) return 'text-[var(--accent)]';
+    return 'text-[var(--accent)]';
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">⚡ Performance Monitor</h1>
-          <p className="text-gray-400">Real-time performance tracking and optimization insights</p>
+          <h1 className="text-4xl font-bold text-[var(--text)] mb-2">⚡ Performance Monitor</h1>
+          <p className="text-[var(--muted)]">Real-time performance tracking and optimization insights</p>
         </div>
 
         {/* Timeframe Selector */}
@@ -122,8 +122,8 @@ const PerformanceMonitor = () => {
                 onClick={() => setSelectedTimeframe(timeframe)}
                 className={`px-4 py-2 rounded-lg transition-colors ${
                   selectedTimeframe === timeframe
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    ? 'bg-[var(--accent)] text-[var(--text)]'
+                    : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
                 }`}
               >
                 {timeframe}
@@ -134,45 +134,45 @@ const PerformanceMonitor = () => {
 
         {/* Real-time Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 p-6 rounded-xl border border-green-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-green-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">Current Users</p>
-                <p className="text-3xl font-bold text-white">{realTimeMetrics.currentUsers}</p>
-                <p className="text-green-400 text-sm">+2 from last hour</p>
+                <p className="text-[var(--text)] text-sm">Current Users</p>
+                <p className="text-3xl font-bold text-[var(--text)]">{realTimeMetrics.currentUsers}</p>
+                <p className="text-[var(--accent)] text-sm">+2 from last hour</p>
               </div>
               <div className="text-4xl">👥</div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">Active Sessions</p>
-                <p className="text-3xl font-bold text-white">{realTimeMetrics.activeSessions}</p>
-                <p className="text-blue-400 text-sm">+1 from last hour</p>
+                <p className="text-[var(--text)] text-sm">Active Sessions</p>
+                <p className="text-3xl font-bold text-[var(--text)]">{realTimeMetrics.activeSessions}</p>
+                <p className="text-[var(--accent)] text-sm">+1 from last hour</p>
               </div>
               <div className="text-4xl">💻</div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">Avg Response Time</p>
-                <p className="text-3xl font-bold text-white">{realTimeMetrics.averageResponseTime.toFixed(1)}s</p>
-                <p className="text-purple-400 text-sm">-0.2s from last hour</p>
+                <p className="text-[var(--text)] text-sm">Avg Response Time</p>
+                <p className="text-3xl font-bold text-[var(--text)]">{realTimeMetrics.averageResponseTime.toFixed(1)}s</p>
+                <p className="text-[var(--accent)] text-sm">-0.2s from last hour</p>
               </div>
               <div className="text-4xl">⚡</div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-red-900 via-red-800 to-red-700 p-6 rounded-xl border border-red-800">
+          <div className="bg-gradient-to-br from-[var(--accent-soft)] via-red-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">Error Rate</p>
-                <p className="text-3xl font-bold text-white">{realTimeMetrics.errorRate.toFixed(1)}%</p>
-                <p className="text-red-400 text-sm">-0.1% from last hour</p>
+                <p className="text-[var(--text)] text-sm">Error Rate</p>
+                <p className="text-3xl font-bold text-[var(--text)]">{realTimeMetrics.errorRate.toFixed(1)}%</p>
+                <p className="text-[var(--accent)] text-sm">-0.1% from last hour</p>
               </div>
               <div className="text-4xl">⚠️</div>
             </div>
@@ -181,14 +181,14 @@ const PerformanceMonitor = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Page Load Times */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">📊 Page Load Times</h2>
+          <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-4">📊 Page Load Times</h2>
             <div className="space-y-4">
               {performanceData.pageLoadTimes.map((page, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-[var(--surface)] rounded-lg">
                   <div>
-                    <h3 className="font-semibold text-white">{page.page}</h3>
-                    <p className="text-gray-400 text-sm">{page.timestamp}</p>
+                    <h3 className="font-semibold text-[var(--text)]">{page.page}</h3>
+                    <p className="text-[var(--muted)] text-sm">{page.timestamp}</p>
                   </div>
                   <div className="text-right">
                     <span className={`font-semibold ${getPerformanceColor(page.loadTime)}`}>
@@ -201,18 +201,18 @@ const PerformanceMonitor = () => {
           </div>
 
           {/* User Interactions */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">🖱️ User Interactions</h2>
+          <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🖱️ User Interactions</h2>
             <div className="space-y-4">
               {performanceData.userInteractions.map((interaction, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-[var(--surface)] rounded-lg">
                   <div>
-                    <h3 className="font-semibold text-white">{interaction.type}</h3>
-                    <p className="text-gray-400 text-sm">{interaction.element}</p>
+                    <h3 className="font-semibold text-[var(--text)]">{interaction.type}</h3>
+                    <p className="text-[var(--muted)] text-sm">{interaction.element}</p>
                   </div>
                   <div className="text-right">
-                    <span className="font-semibold text-blue-400">{interaction.count}</span>
-                    <p className="text-gray-400 text-xs">{interaction.timestamp}</p>
+                    <span className="font-semibold text-[var(--accent)]">{interaction.count}</span>
+                    <p className="text-[var(--muted)] text-xs">{interaction.timestamp}</p>
                   </div>
                 </div>
               ))}
@@ -222,33 +222,33 @@ const PerformanceMonitor = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Errors */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">🚨 Errors & Warnings</h2>
+          <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🚨 Errors & Warnings</h2>
             <div className="space-y-4">
               {performanceData.errors.map((error, index) => (
-                <div key={index} className="p-3 bg-gray-800 rounded-lg border-l-4 border-red-500">
+                <div key={index} className="p-3 bg-[var(--surface)] rounded-lg border-l-4 border-[var(--accent)]">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-semibold text-white">{error.type}</h3>
+                    <h3 className="font-semibold text-[var(--text)]">{error.type}</h3>
                     <span className={`px-2 py-1 rounded text-xs ${getSeverityColor(error.severity)}`}>
                       {error.severity}
                     </span>
                   </div>
-                  <p className="text-gray-300 text-sm mb-2">{error.message}</p>
-                  <p className="text-gray-400 text-xs">Occurrences: {error.count}</p>
+                  <p className="text-[var(--text)] text-sm mb-2">{error.message}</p>
+                  <p className="text-[var(--muted)] text-xs">Occurrences: {error.count}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Resource Loading */}
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-2xl font-bold text-white mb-4">📦 Resource Loading</h2>
+          <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-4">📦 Resource Loading</h2>
             <div className="space-y-4">
               {performanceData.resources.map((resource, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-[var(--surface)] rounded-lg">
                   <div>
-                    <h3 className="font-semibold text-white">{resource.name}</h3>
-                    <p className="text-gray-400 text-sm">{resource.type} • {resource.size}</p>
+                    <h3 className="font-semibold text-[var(--text)]">{resource.name}</h3>
+                    <p className="text-[var(--muted)] text-sm">{resource.type} • {resource.size}</p>
                   </div>
                   <div className="text-right">
                     <span className={`font-semibold ${getPerformanceColor(resource.loadTime)}`}>
@@ -262,21 +262,21 @@ const PerformanceMonitor = () => {
         </div>
 
         {/* Optimization Score */}
-        <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 p-6 rounded-xl border border-purple-800 mb-8">
+        <div className="bg-gradient-to-br from-[var(--accent-soft)] via-purple-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)] mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">🎯 Performance Score</h2>
+            <h2 className="text-2xl font-bold text-[var(--text)]">🎯 Performance Score</h2>
             <div className="text-right">
-              <span className="text-4xl font-bold text-white">{performanceData.optimization.score}/100</span>
-              <p className="text-purple-300 text-sm">Optimization Score</p>
+              <span className="text-4xl font-bold text-[var(--text)]">{performanceData.optimization.score}/100</span>
+              <p className="text-[var(--accent)] text-sm">Optimization Score</p>
             </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-purple-400 mb-3">💡 Optimization Suggestions</h3>
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">💡 Optimization Suggestions</h3>
               <ul className="space-y-2">
                 {performanceData.optimization.suggestions.map((suggestion, index) => (
-                  <li key={index} className="text-gray-300 text-sm flex items-start">
+                  <li key={index} className="text-[var(--text)] text-sm flex items-start">
                     <span className="mr-2">•</span>
                     {suggestion}
                   </li>
@@ -284,10 +284,10 @@ const PerformanceMonitor = () => {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-red-400 mb-3">⚠️ Critical Issues</h3>
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">⚠️ Critical Issues</h3>
               <ul className="space-y-2">
                 {performanceData.optimization.criticalIssues.map((issue, index) => (
-                  <li key={index} className="text-gray-300 text-sm flex items-start">
+                  <li key={index} className="text-[var(--text)] text-sm flex items-start">
                     <span className="mr-2">•</span>
                     {issue}
                   </li>
@@ -298,19 +298,19 @@ const PerformanceMonitor = () => {
           
           <button
             onClick={() => setShowOptimizationModal(true)}
-            className="mt-6 w-full p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="mt-6 w-full p-3 bg-[var(--accent)] text-[var(--text)] rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
           >
             🔧 Run Performance Audit
           </button>
         </div>
 
         {/* Advanced Features */}
-        <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 p-6 rounded-xl border border-blue-800">
-          <h2 className="text-2xl font-bold text-white mb-4">🔧 Advanced Performance Features</h2>
+        <div className="bg-gradient-to-br from-[var(--accent-soft)] via-blue-800 to-[var(--accent-deep)] p-6 rounded-xl border border-[var(--accent)]">
+          <h2 className="text-2xl font-bold text-[var(--text)] mb-4">🔧 Advanced Performance Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Real-time Monitoring</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Real-time Monitoring</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Live performance metrics</li>
                 <li>• User behavior tracking</li>
                 <li>• Error monitoring</li>
@@ -319,8 +319,8 @@ const PerformanceMonitor = () => {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Optimization Tools</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Optimization Tools</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• Performance scoring</li>
                 <li>• Optimization suggestions</li>
                 <li>• Critical issue detection</li>
@@ -329,8 +329,8 @@ const PerformanceMonitor = () => {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-blue-400 mb-2">Analytics & Insights</h3>
-              <ul className="space-y-1 text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-[var(--accent)] mb-2">Analytics & Insights</h3>
+              <ul className="space-y-1 text-[var(--text)] text-sm">
                 <li>• User interaction patterns</li>
                 <li>• Performance trends</li>
                 <li>• Error rate analysis</li>
@@ -343,13 +343,13 @@ const PerformanceMonitor = () => {
 
         {/* Optimization Modal */}
         {showOptimizationModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-md w-full mx-4">
-              <h3 className="text-xl font-bold text-white mb-4">🔧 Performance Audit</h3>
+          <div className="fixed inset-0 bg-[var(--bg)] bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-[var(--surface)] p-6 rounded-xl max-w-md w-full mx-4">
+              <h3 className="text-xl font-bold text-[var(--text)] mb-4">🔧 Performance Audit</h3>
               <div className="space-y-4">
-                <div className="p-4 bg-gray-700 rounded-lg">
-                  <h4 className="font-semibold text-white mb-2">Audit Results</h4>
-                  <div className="space-y-2 text-sm text-gray-300">
+                <div className="p-4 bg-[var(--surface-2)] rounded-lg">
+                  <h4 className="font-semibold text-[var(--text)] mb-2">Audit Results</h4>
+                  <div className="space-y-2 text-sm text-[var(--text)]">
                     <p>✅ Image optimization: 15% improvement</p>
                     <p>✅ JavaScript minification: 8% improvement</p>
                     <p>⚠️ CSS optimization needed</p>
@@ -357,12 +357,12 @@ const PerformanceMonitor = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <button className="flex-1 p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                  <button className="flex-1 p-3 bg-[var(--accent)] text-[var(--text)] rounded-lg hover:bg-[var(--accent-deep)] transition-colors">
                     Apply Fixes
                   </button>
                   <button
                     onClick={() => setShowOptimizationModal(false)}
-                    className="flex-1 p-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                    className="flex-1 p-3 bg-[var(--border-strong)] text-[var(--text)] rounded-lg hover:bg-[var(--surface-2)] transition-colors"
                   >
                     Close
                   </button>

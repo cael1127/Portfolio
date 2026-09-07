@@ -364,40 +364,40 @@ const GamePlatformDashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-400 mb-8">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-8">
           Multiplayer Game Platform
         </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-blue-400">Active Rooms</h3>
-            <p className="text-2xl font-bold text-white">{gameData.activeRooms}</p>
-            <p className="text-sm text-gray-400">Currently running</p>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)]">Active Rooms</h3>
+            <p className="text-2xl font-bold text-[var(--text)]">{gameData.activeRooms}</p>
+            <p className="text-sm text-[var(--muted)]">Currently running</p>
           </div>
           
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-green-400">Online Players</h3>
-            <p className="text-2xl font-bold text-white">{gameData.onlinePlayers}</p>
-            <p className="text-sm text-gray-400">Currently playing</p>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)]">Online Players</h3>
+            <p className="text-2xl font-bold text-[var(--text)]">{gameData.onlinePlayers}</p>
+            <p className="text-sm text-[var(--muted)]">Currently playing</p>
           </div>
           
-          <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-            <h3 className="text-lg font-semibold text-purple-400">Game Types</h3>
-            <p className="text-2xl font-bold text-white">{gameData.gameTypes.length}</p>
-            <p className="text-sm text-gray-400">Available games</p>
+          <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+            <h3 className="text-lg font-semibold text-[var(--accent)]">Game Types</h3>
+            <p className="text-2xl font-bold text-[var(--text)]">{gameData.gameTypes.length}</p>
+            <p className="text-sm text-[var(--muted)]">Available games</p>
           </div>
         </div>
 
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-          <h3 className="text-lg font-semibold text-yellow-400 mb-4">Leaderboard</h3>
+        <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+          <h3 className="text-lg font-semibold text-[var(--accent)] mb-4">Leaderboard</h3>
           <div className="space-y-2">
             {gameData.leaderboard.map((entry, index) => (
               <div key={index} className="flex justify-between items-center">
-                <span className="text-white">{entry.player}</span>
-                <span className="text-green-400">{entry.score}</span>
-                <span className="text-gray-400 text-sm">{entry.gameType}</span>
+                <span className="text-[var(--text)]">{entry.player}</span>
+                <span className="text-[var(--accent)]">{entry.score}</span>
+                <span className="text-[var(--muted)] text-sm">{entry.gameType}</span>
               </div>
             ))}
           </div>
@@ -409,18 +409,18 @@ const GamePlatformDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => setCurrentPage('projects')}
-            className="text-green-400 hover:text-green-300 mb-4 flex items-center"
+            className="text-[var(--accent)] hover:text-[var(--accent)] mb-4 flex items-center"
           >
             ← Back to Projects
           </button>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🎮 Multiplayer Game Platform</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🎮 Multiplayer Game Platform</h1>
+          <p className="text-[var(--text)] text-lg">
             Real-time multiplayer gaming platform with advanced physics engine and network management
           </p>
         </div>
@@ -433,8 +433,8 @@ const GamePlatformDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-[var(--accent)] text-[var(--text)]'
+                  : 'bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--border-strong)]'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -444,12 +444,12 @@ const GamePlatformDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gradient-to-br from-[var(--bg)] via-gray-800 to-[var(--surface-2)] p-6 rounded-xl border border-[var(--border)]">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-green-400 mb-4">Project Overview</h2>
-                <p className="text-gray-300 leading-relaxed">
+                <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Project Overview</h2>
+                <p className="text-[var(--text)] leading-relaxed">
                   The Multiplayer Game Platform is a comprehensive gaming system that provides real-time multiplayer 
                   experiences with advanced physics simulation, network management, and scalable architecture for 
                   multiple game types and concurrent players.
@@ -458,8 +458,8 @@ const GamePlatformDashboard = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Key Objectives</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Key Objectives</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Real-time multiplayer gaming</li>
                     <li>• Advanced physics simulation</li>
                     <li>• Scalable network architecture</li>
@@ -469,8 +469,8 @@ const GamePlatformDashboard = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Technical Stack</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Technical Stack</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• React.js for game UI</li>
                     <li>• WebSocket for real-time communication</li>
                     <li>• Custom physics engine</li>
@@ -485,12 +485,12 @@ const GamePlatformDashboard = () => {
 
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Core Features</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Core Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">🎮 Game Engine</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🎮 Game Engine</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Multiplayer room management</li>
                     <li>• Real-time game state synchronization</li>
                     <li>• Multiple game type support</li>
@@ -499,9 +499,9 @@ const GamePlatformDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">🌐 Network Management</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">🌐 Network Management</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• WebSocket real-time communication</li>
                     <li>• Low-latency data transmission</li>
                     <li>• Connection state management</li>
@@ -510,9 +510,9 @@ const GamePlatformDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">⚡ Physics Engine</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">⚡ Physics Engine</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Real-time physics simulation</li>
                     <li>• Collision detection and response</li>
                     <li>• Gravity and force calculations</li>
@@ -521,9 +521,9 @@ const GamePlatformDashboard = () => {
                   </ul>
                 </div>
                 
-                <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">📊 Analytics</h3>
-                  <ul className="space-y-2 text-gray-300">
+                <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">📊 Analytics</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Player statistics tracking</li>
                     <li>• Game performance metrics</li>
                     <li>• Leaderboard system</li>
@@ -537,40 +537,40 @@ const GamePlatformDashboard = () => {
 
           {activeTab === 'code' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Code Implementation</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Code Implementation</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Game Engine</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Game Engine</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.gameEngine}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Network Manager</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Network Manager</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.networkManager}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3">Physics Engine</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Physics Engine</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.physicsEngine}</code>
                     </pre>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-3">Dashboard Component</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <pre className="text-green-400 text-sm overflow-x-auto">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Dashboard Component</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <pre className="text-[var(--accent)] text-sm overflow-x-auto">
                       <code>{codeExamples.dashboardComponent}</code>
                     </pre>
                   </div>
@@ -581,13 +581,13 @@ const GamePlatformDashboard = () => {
 
           {activeTab === 'architecture' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">System Architecture</h2>
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">System Architecture</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-3">Frontend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Frontend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• React.js game interface</li>
                       <li>• WebGL graphics rendering</li>
                       <li>• Real-time input handling</li>
@@ -598,9 +598,9 @@ const GamePlatformDashboard = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-purple-400 mb-3">Backend Layer</h3>
-                  <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
-                    <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Backend Layer</h3>
+                  <div className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
+                    <ul className="space-y-2 text-[var(--text)]">
                       <li>• Node.js game server</li>
                       <li>• WebSocket communication</li>
                       <li>• Physics engine processing</li>
@@ -611,28 +611,28 @@ const GamePlatformDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">Data Flow</h3>
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
+                <h3 className="text-lg font-semibold text-[var(--accent)] mb-3">Data Flow</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">1</div>
                     <div>
-                      <p className="text-white font-semibold">Player Input</p>
-                      <p className="text-gray-300 text-sm">Real-time input from connected players</p>
+                      <p className="text-[var(--text)] font-semibold">Player Input</p>
+                      <p className="text-[var(--text)] text-sm">Real-time input from connected players</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">2</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">2</div>
                     <div>
-                      <p className="text-white font-semibold">Game Processing</p>
-                      <p className="text-gray-300 text-sm">Physics simulation and game logic</p>
+                      <p className="text-[var(--text)] font-semibold">Game Processing</p>
+                      <p className="text-[var(--text)] text-sm">Physics simulation and game logic</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">3</div>
+                    <div className="w-8 h-8 bg-[var(--accent)] rounded-full flex items-center justify-center text-[var(--text)] text-sm">3</div>
                     <div>
-                      <p className="text-white font-semibold">State Synchronization</p>
-                      <p className="text-gray-300 text-sm">Real-time updates to all players</p>
+                      <p className="text-[var(--text)] font-semibold">State Synchronization</p>
+                      <p className="text-[var(--text)] text-sm">Real-time updates to all players</p>
                     </div>
                   </div>
                 </div>
@@ -642,23 +642,23 @@ const GamePlatformDashboard = () => {
 
           {activeTab === 'demo' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">Live Demo</h2>
-              <p className="text-gray-300 mb-6">
+              <h2 className="text-2xl font-bold text-[var(--accent)] mb-4">Live Demo</h2>
+              <p className="text-[var(--text)] mb-6">
                 Experience the multiplayer game platform in action. The demo showcases real-time multiplayer gaming, 
                 advanced physics simulation, and comprehensive game management features.
               </p>
               
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-white">Interactive Game Platform Demo</h3>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">Interactive Game Platform Demo</h3>
                   <button
                     onClick={() => setCurrentPage('gameplatform')}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg hover:bg-[var(--accent-deep)] transition-colors"
                   >
                     Launch Demo
                   </button>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-[var(--text)] text-sm">
                   Click "Launch Demo" to experience the full multiplayer game platform with real-time gaming, 
                   physics simulation, and comprehensive game management.
                 </p>

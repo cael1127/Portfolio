@@ -38,7 +38,7 @@ const GlassCard = ({ children, className = '', glow = false, tilt = true, ...pro
   return (
     <motion.div
       ref={ref}
-      className={`relative backdrop-blur-md bg-gray-800/40 border border-gray-700/50 rounded-xl ${className} ${
+      className={`relative backdrop-blur-md bg-[var(--surface)]/40 border border-[var(--border)]/50 rounded-xl ${className} ${
         glow && isHovered ? 'shadow-2xl shadow-teal-500/20' : 'shadow-lg'
       }`}
       onMouseMove={handleMouseMove}

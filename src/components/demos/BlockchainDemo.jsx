@@ -500,14 +500,14 @@ class BlockchainSystem {
     <div className="space-y-6">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">⛓️ Blockchain System Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">⛓️ Blockchain System Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Interactive blockchain implementation showcasing proof-of-work consensus, smart contracts, and transaction validation using deterministic algorithms
         </p>
         <div className="mt-4 flex justify-center gap-4">
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           >
             <span>💻</span>
             View Implementation
@@ -520,7 +520,7 @@ class BlockchainSystem {
         <div className="lg:col-span-2 space-y-6">
           {/* Network Statistics */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl border border-gray-600"
+            className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -537,7 +537,7 @@ class BlockchainSystem {
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div 
-                  className="text-2xl font-bold text-blue-400"
+                  className="text-2xl font-bold text-[var(--accent)]"
                   key={networkStats.totalBlocks}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
@@ -545,7 +545,7 @@ class BlockchainSystem {
                 >
                   {networkStats.totalBlocks}
                 </motion.div>
-                <div className="text-sm text-gray-400">Total Blocks</div>
+                <div className="text-sm text-[var(--muted)]">Total Blocks</div>
               </motion.div>
               <motion.div 
                 className="text-center"
@@ -556,7 +556,7 @@ class BlockchainSystem {
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div 
-                  className="text-2xl font-bold text-green-400"
+                  className="text-2xl font-bold text-[var(--accent)]"
                   key={networkStats.totalTransactions}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
@@ -564,7 +564,7 @@ class BlockchainSystem {
                 >
                   {networkStats.totalTransactions}
                 </motion.div>
-                <div className="text-sm text-gray-400">Total Transactions</div>
+                <div className="text-sm text-[var(--muted)]">Total Transactions</div>
               </motion.div>
               <motion.div 
                 className="text-center"
@@ -575,7 +575,7 @@ class BlockchainSystem {
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div 
-                  className="text-2xl font-bold text-yellow-400"
+                  className="text-2xl font-bold text-[var(--accent)]"
                   key={networkStats.pendingTransactions}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
@@ -583,7 +583,7 @@ class BlockchainSystem {
                 >
                   {networkStats.pendingTransactions}
                 </motion.div>
-                <div className="text-sm text-gray-400">Pending</div>
+                <div className="text-sm text-[var(--muted)]">Pending</div>
               </motion.div>
               <motion.div 
                 className="text-center"
@@ -594,7 +594,7 @@ class BlockchainSystem {
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div 
-                  className="text-2xl font-bold text-purple-400"
+                  className="text-2xl font-bold text-[var(--accent)]"
                   key={networkStats.activeMiners}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
@@ -602,7 +602,7 @@ class BlockchainSystem {
                 >
                   {networkStats.activeMiners}
                 </motion.div>
-                <div className="text-sm text-gray-400">Active Miners</div>
+                <div className="text-sm text-[var(--muted)]">Active Miners</div>
               </motion.div>
             </div>
             
@@ -616,7 +616,7 @@ class BlockchainSystem {
 
           {/* Latest Blocks */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl border border-gray-600"
+            className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -627,7 +627,7 @@ class BlockchainSystem {
               {blocks.slice(-5).reverse().map((block, index) => (
                 <motion.div 
                   key={block.number} 
-                  className="bg-gray-700 p-4 rounded-lg"
+                  className="bg-[var(--surface-2)] p-4 rounded-lg"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -636,15 +636,15 @@ class BlockchainSystem {
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="font-semibold text-blue-400">Block #{block.number}</div>
-                      <div className="text-sm text-gray-300">Hash: {block.hash.substring(0, 16)}...</div>
-                      <div className="text-xs text-gray-400">
+                      <div className="font-semibold text-[var(--accent)]">Block #{block.number}</div>
+                      <div className="text-sm text-[var(--text)]">Hash: {block.hash.substring(0, 16)}...</div>
+                      <div className="text-xs text-[var(--muted)]">
                         {block.transactionsCount} transactions | {block.gasUsed} gas used
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-300">{block.miner}</div>
-                      <div className="text-xs text-gray-400">{new Date(block.timestamp).toLocaleTimeString()}</div>
+                      <div className="text-sm text-[var(--text)]">{block.miner}</div>
+                      <div className="text-xs text-[var(--muted)]">{new Date(block.timestamp).toLocaleTimeString()}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -654,7 +654,7 @@ class BlockchainSystem {
 
           {/* Smart Contracts */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl border border-gray-600"
+            className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -665,7 +665,7 @@ class BlockchainSystem {
               {smartContracts.map((contract, index) => (
                 <motion.div 
                   key={contract.address} 
-                  className="bg-gray-700 p-4 rounded-lg"
+                  className="bg-[var(--surface-2)] p-4 rounded-lg"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
@@ -674,13 +674,13 @@ class BlockchainSystem {
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="font-semibold text-green-400">{contract.name}</div>
-                      <div className="text-sm text-gray-300">{contract.type}</div>
-                      <div className="text-xs text-gray-400">Address: {contract.address.substring(0, 16)}...</div>
+                      <div className="font-semibold text-[var(--accent)]">{contract.name}</div>
+                      <div className="text-sm text-[var(--text)]">{contract.type}</div>
+                      <div className="text-xs text-[var(--muted)]">Address: {contract.address.substring(0, 16)}...</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-300">{contract.gasUsed} gas</div>
-                      <div className="text-xs text-green-400">{contract.status}</div>
+                      <div className="text-sm text-[var(--text)]">{contract.gasUsed} gas</div>
+                      <div className="text-xs text-[var(--accent)]">{contract.status}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -692,14 +692,14 @@ class BlockchainSystem {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Consensus Results */}
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+          <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
             <h3 className="text-xl font-bold mb-4">Consensus Results</h3>
             <div className="space-y-2">
               {blockchainAlgorithms.consensusResults.slice(-3).map((result, index) => (
                 <div key={index} className="flex justify-between items-center">
                   <span className="text-sm">Block #{result.blockNumber}</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    result.isValid ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
+                    result.isValid ? 'bg-[var(--accent-soft)] text-[var(--accent)]' : 'bg-[var(--accent-soft)] text-[var(--accent)]'
                   }`}>
                     {result.consensus}
                   </span>
@@ -709,14 +709,14 @@ class BlockchainSystem {
           </div>
 
           {/* Transaction Validation */}
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+          <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
             <h3 className="text-xl font-bold mb-4">Transaction Validation</h3>
             <div className="space-y-2">
               {blockchainAlgorithms.transactionValidation.map((validation, index) => (
                 <div key={index} className="flex justify-between items-center">
                   <span className="text-sm">{validation.type}</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    validation.isValid ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
+                    validation.isValid ? 'bg-[var(--accent-soft)] text-[var(--accent)]' : 'bg-[var(--accent-soft)] text-[var(--accent)]'
                   }`}>
                     {validation.isValid ? 'Valid' : 'Invalid'}
                   </span>
@@ -726,13 +726,13 @@ class BlockchainSystem {
           </div>
 
           {/* Active Miners */}
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+          <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
             <h3 className="text-xl font-bold mb-4">Active Miners</h3>
             <div className="space-y-2">
               {miners.map(miner => (
                 <div key={miner.address} className="flex justify-between items-center">
                   <span className="text-sm">{miner.address}</span>
-                  <span className="text-xs text-blue-400">{miner.hashRate} H/s</span>
+                  <span className="text-xs text-[var(--accent)]">{miner.hashRate} H/s</span>
                 </div>
               ))}
             </div>

@@ -394,11 +394,11 @@ const AIAgentsDemo = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-400 mb-4">🤖 AI Agents Simulation</h1>
-          <p className="text-gray-300 text-lg">
+          <h1 className="text-4xl font-bold text-[var(--accent)] mb-4">🤖 AI Agents Simulation</h1>
+          <p className="text-[var(--text)] text-lg">
             Multi-agent system with deterministic behaviors for exploration, collection, defense, and coordination
           </p>
         </div>
@@ -407,27 +407,27 @@ const AIAgentsDemo = () => {
           <div className="grid md:grid-cols-[1fr,320px] gap-6">
             {/* Simulation Canvas */}
             <div className="lg:col-span-2">
-              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Simulation Environment</h2>
                 <div className="flex gap-2">
                   <button
                     onClick={startSimulation}
                     disabled={simulationRunning}
-                    className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 px-4 py-2 rounded-lg transition-colors"
+                    className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] px-4 py-2 rounded-lg transition-colors"
                   >
                     ▶️ Start
                   </button>
                   <button
                     onClick={stopSimulation}
                     disabled={!simulationRunning}
-                    className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 px-4 py-2 rounded-lg transition-colors"
+                    className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] px-4 py-2 rounded-lg transition-colors"
                   >
                     ⏸️ Stop
                   </button>
                   <button
                     onClick={resetSimulation}
-                    className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors"
+                    className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors"
                   >
                     🔄 Reset
                   </button>
@@ -437,12 +437,12 @@ const AIAgentsDemo = () => {
               <div className="flex justify-center">
                 <canvas
                   ref={canvasRef}
-                  className="border border-gray-600 rounded-lg"
+                  className="border border-[var(--border-strong)] rounded-lg"
                   style={{ maxWidth: '100%', height: 'auto' }}
                 />
               </div>
               
-              <div className="mt-4 text-center text-sm text-gray-400">
+              <div className="mt-4 text-center text-sm text-[var(--muted)]">
                 <p>🟡 Resources | 🟣 Base | 🟢 Collected | 🤖 Agents</p>
                 <p>Step: {step} | Running: {simulationRunning ? 'Yes' : 'No'}</p>
               </div>
@@ -452,57 +452,57 @@ const AIAgentsDemo = () => {
             {/* Controls and Stats */}
             <div className="space-y-6">
               {/* Agent Types */}
-              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
               <h3 className="text-xl font-bold mb-4">Agent Types</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-green-400">🔍 Explorer</span>
-                  <span className="text-gray-300">{agents.filter(a => a.type === 'explorer').length}</span>
+                  <span className="text-[var(--accent)]">🔍 Explorer</span>
+                  <span className="text-[var(--text)]">{agents.filter(a => a.type === 'explorer').length}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-blue-400">📦 Collector</span>
-                  <span className="text-gray-300">{agents.filter(a => a.type === 'collector').length}</span>
+                  <span className="text-[var(--accent)]">📦 Collector</span>
+                  <span className="text-[var(--text)]">{agents.filter(a => a.type === 'collector').length}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-red-400">🛡️ Defender</span>
-                  <span className="text-gray-300">{agents.filter(a => a.type === 'defender').length}</span>
+                  <span className="text-[var(--accent)]">🛡️ Defender</span>
+                  <span className="text-[var(--text)]">{agents.filter(a => a.type === 'defender').length}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-purple-400">🧠 Coordinator</span>
-                  <span className="text-gray-300">{agents.filter(a => a.type === 'coordinator').length}</span>
+                  <span className="text-[var(--accent)]">🧠 Coordinator</span>
+                  <span className="text-[var(--text)]">{agents.filter(a => a.type === 'coordinator').length}</span>
                 </div>
               </div>
               </div>
 
               {/* Statistics */}
-              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
               <h3 className="text-xl font-bold mb-4">Statistics</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span>Total Resources:</span>
-                  <span className="text-yellow-400">{stats.totalResources}</span>
+                  <span className="text-[var(--accent)]">{stats.totalResources}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Collected:</span>
-                  <span className="text-green-400">{stats.collectedResources}</span>
+                  <span className="text-[var(--accent)]">{stats.collectedResources}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Exploration:</span>
-                  <span className="text-blue-400">{stats.explorationCoverage}%</span>
+                  <span className="text-[var(--accent)]">{stats.explorationCoverage}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Efficiency:</span>
-                  <span className="text-purple-400">{stats.agentEfficiency}%</span>
+                  <span className="text-[var(--accent)]">{stats.agentEfficiency}%</span>
                 </div>
               </div>
               </div>
 
               {/* Code Viewer */}
-              <div className="bg-gray-800 p-6 rounded-xl border border-gray-600">
+              <div className="bg-[var(--surface)] p-6 rounded-xl border border-[var(--border-strong)]">
               <h3 className="text-xl font-bold mb-4">Implementation</h3>
               <button
                 onClick={() => setShowCodeViewer(true)}
-                className="w-full bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-colors"
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-4 py-2 rounded-lg transition-colors"
               >
                 📖 View Code
               </button>
@@ -515,10 +515,10 @@ const AIAgentsDemo = () => {
             <h2 className="text-2xl font-bold mb-4">Agent Details</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {agents.map(agent => (
-              <div key={agent.id} className="bg-gray-800 p-4 rounded-lg border border-gray-600">
+              <div key={agent.id} className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border-strong)]">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-sm">{agent.type}</span>
-                  <span className="text-xs text-gray-400">#{agent.id}</span>
+                  <span className="text-xs text-[var(--muted)]">#{agent.id}</span>
                 </div>
                 <div className="text-xs space-y-1">
                   <div>Position: ({agent.x}, {agent.y})</div>

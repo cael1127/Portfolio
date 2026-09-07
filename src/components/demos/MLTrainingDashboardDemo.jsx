@@ -213,12 +213,12 @@ The dashboard integrates with TensorFlow/Keras to track training metrics, uses c
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">ML Training Dashboard</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
@@ -226,7 +226,7 @@ The dashboard integrates with TensorFlow/Keras to track training metrics, uses c
 
         {/* Model Selection */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Select Model Architecture</label>
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">Select Model Architecture</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {models.map(model => (
               <button
@@ -234,40 +234,40 @@ The dashboard integrates with TensorFlow/Keras to track training metrics, uses c
                 onClick={() => setSelectedModel(model.id)}
                 className={`p-3 rounded-lg border transition-all ${
                   selectedModel === model.id
-                    ? 'border-blue-500 bg-blue-900/20 text-white'
-                    : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
+                    ? 'border-[var(--accent)] bg-[var(--accent-soft)]/20 text-[var(--text)]'
+                    : 'border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--text)] hover:border-[var(--border-strong)]'
                 }`}
               >
                 <div className="font-medium text-sm">{model.name}</div>
-                <div className="text-xs text-gray-400">{model.params} params</div>
+                <div className="text-xs text-[var(--muted)]">{model.params} params</div>
               </button>
             ))}
           </div>
         </div>
 
         {/* Hyperparameters */}
-        <div className="mb-4 p-4 bg-gray-900 rounded-lg border border-gray-700">
-          <h4 className="text-sm font-medium text-gray-300 mb-3">Hyperparameters</h4>
+        <div className="mb-4 p-4 bg-[var(--bg)] rounded-lg border border-[var(--border)]">
+          <h4 className="text-sm font-medium text-[var(--text)] mb-3">Hyperparameters</h4>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
             <div>
-              <div className="text-gray-400 text-xs">Learning Rate</div>
-              <div className="text-white font-medium">{hyperparameters.learningRate}</div>
+              <div className="text-[var(--muted)] text-xs">Learning Rate</div>
+              <div className="text-[var(--text)] font-medium">{hyperparameters.learningRate}</div>
             </div>
             <div>
-              <div className="text-gray-400 text-xs">Batch Size</div>
-              <div className="text-white font-medium">{hyperparameters.batchSize}</div>
+              <div className="text-[var(--muted)] text-xs">Batch Size</div>
+              <div className="text-[var(--text)] font-medium">{hyperparameters.batchSize}</div>
             </div>
             <div>
-              <div className="text-gray-400 text-xs">Epochs</div>
-              <div className="text-white font-medium">{hyperparameters.epochs}</div>
+              <div className="text-[var(--muted)] text-xs">Epochs</div>
+              <div className="text-[var(--text)] font-medium">{hyperparameters.epochs}</div>
             </div>
             <div>
-              <div className="text-gray-400 text-xs">Optimizer</div>
-              <div className="text-white font-medium">{hyperparameters.optimizer}</div>
+              <div className="text-[var(--muted)] text-xs">Optimizer</div>
+              <div className="text-[var(--text)] font-medium">{hyperparameters.optimizer}</div>
             </div>
             <div>
-              <div className="text-gray-400 text-xs">Loss Function</div>
-              <div className="text-white font-medium text-xs">{hyperparameters.lossFunction}</div>
+              <div className="text-[var(--muted)] text-xs">Loss Function</div>
+              <div className="text-[var(--text)] font-medium text-xs">{hyperparameters.lossFunction}</div>
             </div>
           </div>
         </div>
@@ -277,7 +277,7 @@ The dashboard integrates with TensorFlow/Keras to track training metrics, uses c
           <button
             onClick={startTraining}
             disabled={isTraining}
-            className="w-full py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
+            className="w-full py-3 bg-[var(--accent)] hover:bg-[var(--accent-deep)] disabled:bg-[var(--border-strong)] disabled:cursor-not-allowed text-[var(--text)] rounded-lg font-medium transition-colors"
           >
             {isTraining ? `Training... Epoch ${epoch}/50` : 'Start Training'}
           </button>
@@ -285,35 +285,35 @@ The dashboard integrates with TensorFlow/Keras to track training metrics, uses c
 
         {/* Metrics Display */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-gray-400 text-xs mb-1">Training Loss</div>
-            <div className="text-2xl font-bold text-red-400">{metrics.loss.toFixed(4)}</div>
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+            <div className="text-[var(--muted)] text-xs mb-1">Training Loss</div>
+            <div className="text-2xl font-bold text-[var(--accent)]">{metrics.loss.toFixed(4)}</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-gray-400 text-xs mb-1">Training Accuracy</div>
-            <div className="text-2xl font-bold text-green-400">{(metrics.accuracy * 100).toFixed(2)}%</div>
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+            <div className="text-[var(--muted)] text-xs mb-1">Training Accuracy</div>
+            <div className="text-2xl font-bold text-[var(--accent)]">{(metrics.accuracy * 100).toFixed(2)}%</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-gray-400 text-xs mb-1">Validation Loss</div>
-            <div className="text-2xl font-bold text-yellow-400">{metrics.valLoss.toFixed(4)}</div>
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+            <div className="text-[var(--muted)] text-xs mb-1">Validation Loss</div>
+            <div className="text-2xl font-bold text-[var(--accent)]">{metrics.valLoss.toFixed(4)}</div>
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <div className="text-gray-400 text-xs mb-1">Val Accuracy</div>
-            <div className="text-2xl font-bold text-blue-400">{(metrics.valAccuracy * 100).toFixed(2)}%</div>
+          <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+            <div className="text-[var(--muted)] text-xs mb-1">Val Accuracy</div>
+            <div className="text-2xl font-bold text-[var(--accent)]">{(metrics.valAccuracy * 100).toFixed(2)}%</div>
           </div>
         </div>
 
         {/* Training Progress Visualization */}
-        <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-          <h4 className="text-sm font-medium text-gray-300 mb-3">Training Progress</h4>
+        <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
+          <h4 className="text-sm font-medium text-[var(--text)] mb-3">Training Progress</h4>
           <div className="space-y-4">
             {/* Loss Chart */}
             <div>
-              <div className="flex justify-between text-xs text-gray-400 mb-2">
+              <div className="flex justify-between text-xs text-[var(--muted)] mb-2">
                 <span>Loss</span>
                 <span>Epoch {epoch}/50</span>
               </div>
-              <div className="relative h-32 bg-gray-800 rounded">
+              <div className="relative h-32 bg-[var(--surface)] rounded">
                 <svg className="w-full h-full">
                   {trainingData.length > 1 && trainingData.map((point, idx) => {
                     if (idx === 0) return null;
@@ -338,10 +338,10 @@ The dashboard integrates with TensorFlow/Keras to track training metrics, uses c
             </div>
             {/* Accuracy Chart */}
             <div>
-              <div className="flex justify-between text-xs text-gray-400 mb-2">
+              <div className="flex justify-between text-xs text-[var(--muted)] mb-2">
                 <span>Accuracy</span>
               </div>
-              <div className="relative h-32 bg-gray-800 rounded">
+              <div className="relative h-32 bg-[var(--surface)] rounded">
                 <svg className="w-full h-full">
                   {trainingData.length > 1 && trainingData.map((point, idx) => {
                     if (idx === 0) return null;

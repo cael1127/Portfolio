@@ -38,10 +38,10 @@ const SIEMDemo = () => {
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'critical': return 'text-red-400 bg-red-900/30 border-red-500/50';
-      case 'high': return 'text-orange-400 bg-orange-900/30 border-orange-500/50';
-      case 'medium': return 'text-yellow-400 bg-yellow-900/30 border-yellow-500/50';
-      default: return 'text-green-400 bg-green-900/30 border-green-500/50';
+      case 'critical': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      case 'high': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      case 'medium': return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
+      default: return 'text-[var(--accent)] bg-[var(--accent-soft)]/30 border-[var(--accent)]/50';
     }
   };
 
@@ -163,35 +163,35 @@ module.exports = SIEMSystem;`,
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-gray-400 text-sm">Total Logs</div>
-          <div className="text-2xl font-bold text-white mt-1">{logs.length}</div>
+          <div className="text-[var(--muted)] text-sm">Total Logs</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{logs.length}</div>
         </motion.div>
         <motion.div 
-          className="bg-red-900/30 border-red-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="text-red-400 text-sm">Active Alerts</div>
-          <div className="text-2xl font-bold text-red-400 mt-1">{alerts.length}</div>
+          <div className="text-[var(--accent)] text-sm">Active Alerts</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{alerts.length}</div>
         </motion.div>
         <motion.div 
-          className="bg-orange-900/30 border-orange-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="text-orange-400 text-sm">Threats Detected</div>
-          <div className="text-2xl font-bold text-orange-400 mt-1">{threats}</div>
+          <div className="text-[var(--accent)] text-sm">Threats Detected</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{threats}</div>
         </motion.div>
       </div>
 
       {/* Alerts */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Security Alerts</h3>
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {alerts.map((alert) => (
@@ -205,12 +205,12 @@ module.exports = SIEMSystem;`,
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">{alert.severity.toUpperCase()}</span>
-                    <span className="text-sm text-gray-400">{alert.timestamp}</span>
+                    <span className="text-sm text-[var(--muted)]">{alert.timestamp}</span>
                   </div>
                   <div className="text-sm mt-1">{alert.message}</div>
-                  <div className="text-xs text-gray-400 mt-1">Source: {alert.source}</div>
+                  <div className="text-xs text-[var(--muted)] mt-1">Source: {alert.source}</div>
                 </div>
-                <button className="text-blue-400 hover:text-blue-300 text-sm">Investigate</button>
+                <button className="text-[var(--accent)] hover:text-[var(--accent)] text-sm">Investigate</button>
               </div>
             </motion.div>
           ))}
@@ -218,22 +218,22 @@ module.exports = SIEMSystem;`,
       </div>
 
       {/* Log Stream */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Live Log Stream</h3>
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {logs.map((log) => (
             <motion.div
               key={log.id}
-              className="flex items-center gap-3 p-2 bg-gray-900 rounded border border-gray-700"
+              className="flex items-center gap-3 p-2 bg-[var(--bg)] rounded border border-[var(--border)]"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <span className="text-gray-500 text-xs w-20">{log.timestamp}</span>
+              <span className="text-[var(--muted)] text-xs w-20">{log.timestamp}</span>
               <span className={`px-2 py-1 rounded text-xs ${getSeverityColor(log.severity)}`}>
                 {log.severity}
               </span>
-              <span className="text-gray-400 text-sm">{log.source}</span>
-              <span className="text-gray-300 text-sm flex-1">{log.message}</span>
+              <span className="text-[var(--muted)] text-sm">{log.source}</span>
+              <span className="text-[var(--text)] text-sm flex-1">{log.message}</span>
             </motion.div>
           ))}
         </div>
@@ -242,7 +242,7 @@ module.exports = SIEMSystem;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

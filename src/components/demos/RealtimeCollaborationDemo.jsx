@@ -282,75 +282,75 @@ module.exports = RealtimeCollaborationPlatform;`,
   return (
     <div className="space-y-6">
       {/* Active Users */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Active Collaborators</h3>
         <div className="flex gap-4">
           {users.map((user) => (
             <div key={user.id} className="flex items-center gap-2">
               <div 
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-[var(--text)] font-semibold"
                 style={{ backgroundColor: user.color }}
               >
                 {user.name[0]}
               </div>
-              <span className="text-gray-300">{user.name}</span>
+              <span className="text-[var(--text)]">{user.name}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Collaborative Editor */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Collaborative Document</h3>
         <textarea
           value={document}
           onChange={handleDocumentChange}
-          className="w-full p-4 bg-gray-900 border border-gray-700 rounded text-white h-64 font-mono"
+          className="w-full p-4 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] h-64 font-mono"
           placeholder="Start typing to collaborate in real-time..."
         />
-        <div className="mt-2 text-sm text-gray-400">
+        <div className="mt-2 text-sm text-[var(--muted)]">
           {document.length} characters • {users.length} collaborator{users.length !== 1 ? 's' : ''} online
         </div>
       </div>
 
       {/* Change History */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Recent Changes</h3>
         <div className="space-y-2 max-h-48 overflow-y-auto">
           {changes.map((change) => (
             <motion.div
               key={change.id}
-              className="flex items-center gap-3 p-2 bg-gray-900 rounded border border-gray-700"
+              className="flex items-center gap-3 p-2 bg-[var(--bg)] rounded border border-[var(--border)]"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <span className="text-gray-500 text-xs w-20">{change.timestamp}</span>
-              <span className="text-blue-400 text-sm">{change.user}</span>
-              <span className="text-gray-300 text-sm">{change.change}</span>
+              <span className="text-[var(--muted)] text-xs w-20">{change.timestamp}</span>
+              <span className="text-[var(--accent)] text-sm">{change.user}</span>
+              <span className="text-[var(--text)] text-sm">{change.change}</span>
             </motion.div>
           ))}
         </div>
       </div>
 
       {/* Features */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-green-400 font-semibold mb-2">Real-time Sync</div>
-            <div className="text-sm text-gray-400">Changes sync instantly across all users</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Real-time Sync</div>
+            <div className="text-sm text-[var(--muted)]">Changes sync instantly across all users</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-green-400 font-semibold mb-2">Conflict Resolution</div>
-            <div className="text-sm text-gray-400">Operational transform for conflict-free editing</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Conflict Resolution</div>
+            <div className="text-sm text-[var(--muted)]">Operational transform for conflict-free editing</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-green-400 font-semibold mb-2">Presence Indicators</div>
-            <div className="text-sm text-gray-400">See who's online and where they're editing</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Presence Indicators</div>
+            <div className="text-sm text-[var(--muted)]">See who's online and where they're editing</div>
           </div>
-          <div className="p-4 bg-gray-900 rounded border border-gray-700">
-            <div className="text-green-400 font-semibold mb-2">Version History</div>
-            <div className="text-sm text-gray-400">Track all changes with full history</div>
+          <div className="p-4 bg-[var(--bg)] rounded border border-[var(--border)]">
+            <div className="text-[var(--accent)] font-semibold mb-2">Version History</div>
+            <div className="text-sm text-[var(--muted)]">Track all changes with full history</div>
           </div>
         </div>
       </div>
@@ -358,7 +358,7 @@ module.exports = RealtimeCollaborationPlatform;`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

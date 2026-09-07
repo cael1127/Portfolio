@@ -249,9 +249,9 @@ const TrendingProjects = ({ setCurrentPage }) => {
   ];
 
   return (
-    <div className="bg-gray-800/60 p-8 rounded-xl mb-12">
-      <h2 className="text-3xl font-bold text-white mb-8">Trending Computer Science Projects 2025</h2>
-      <p className="text-gray-300 mb-8 text-lg">
+    <div className="bg-[var(--surface)]/60 p-8 rounded-xl mb-12">
+      <h2 className="text-3xl font-bold text-[var(--text)] mb-8">Trending Computer Science Projects 2025</h2>
+      <p className="text-[var(--text)] mb-8 text-lg">
         Explore the most sought-after computer science projects that combine cutting-edge technologies 
         with real-world applications. Perfect for students looking to build impressive portfolios.
       </p>
@@ -260,51 +260,51 @@ const TrendingProjects = ({ setCurrentPage }) => {
         {trendingProjects.map((project) => (
           <div
             key={project.id}
-            className="bg-gradient-to-br from-green-900 via-teal-800 to-cyan-800 p-6 rounded-lg border border-green-800 hover:border-green-700 transition-all duration-300 cursor-pointer group"
+            className="bg-gradient-to-br from-[var(--accent-soft)] via-teal-800 to-[var(--accent-soft)] p-6 rounded-lg border border-[var(--accent)] hover:border-[var(--accent)] transition-all duration-300 cursor-pointer group"
             onClick={() => setSelectedProject(project)}
           >
             <div className="flex items-start justify-between mb-4">
-              <div className="text-green-400">{(() => {
+              <div className="text-[var(--accent)]">{(() => {
                 const IconComponent = getIcon(project.iconKey, 'demo');
                 return IconComponent ? <IconComponent size={40} /> : null;
               })()}</div>
                               <span className={'px-2 py-1 rounded text-xs font-medium ' + (
-                project.difficulty === 'Advanced' ? 'bg-red-600 text-white' :
-                project.difficulty === 'Intermediate' ? 'bg-yellow-600 text-white' :
-                'bg-green-600 text-white'
+                project.difficulty === 'Advanced' ? 'bg-[var(--accent)] text-[var(--text)]' :
+                project.difficulty === 'Intermediate' ? 'bg-[var(--accent)] text-[var(--text)]' :
+                'bg-[var(--accent)] text-[var(--text)]'
               )}>
                 {project.difficulty}
               </span>
             </div>
             
-            <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-green-400 transition-colors">
+            <h3 className="text-xl font-semibold text-[var(--text)] mb-3 group-hover:text-[var(--accent)] transition-colors">
               {project.title}
             </h3>
             
-            <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+            <p className="text-[var(--text)] text-sm mb-4 leading-relaxed">
               {project.description}
             </p>
             
             <div className="mb-4">
-              <h4 className="text-green-400 font-semibold text-sm mb-2">Key Features:</h4>
-              <ul className="space-y-1 text-xs text-gray-300">
+              <h4 className="text-[var(--accent)] font-semibold text-sm mb-2">Key Features:</h4>
+              <ul className="space-y-1 text-xs text-[var(--text)]">
                 {project.features.slice(0, 3).map((feature, index) => (
                   <li key={index} className="flex items-center">
-                    <span className="text-green-400 mr-2">•</span>
+                    <span className="text-[var(--accent)] mr-2">•</span>
                     {feature}
                   </li>
                 ))}
                 {project.features.length > 3 && (
-                  <li className="text-green-400 text-xs">+{project.features.length - 3} more features</li>
+                  <li className="text-[var(--accent)] text-xs">+{project.features.length - 3} more features</li>
                 )}
               </ul>
             </div>
             
             <div className="mb-4">
-              <h4 className="text-green-400 font-semibold text-sm mb-2">Technologies:</h4>
+              <h4 className="text-[var(--accent)] font-semibold text-sm mb-2">Technologies:</h4>
               <div className="flex flex-wrap gap-1">
                 {project.technologies.map((tech, index) => (
-                  <span key={index} className="bg-green-600 text-white px-2 py-1 rounded text-xs">
+                  <span key={index} className="bg-[var(--accent)] text-[var(--text)] px-2 py-1 rounded text-xs">
                     {tech}
                   </span>
                 ))}
@@ -317,7 +317,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
                   e.stopPropagation();
                   setCurrentPage(project.demoPage);
                 }}
-                className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition-colors"
+                className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded text-sm hover:bg-[var(--accent-deep)] transition-colors"
               >
                 Try Demo
               </button>
@@ -326,7 +326,7 @@ const TrendingProjects = ({ setCurrentPage }) => {
                   e.stopPropagation();
                   setSelectedProject(project);
                 }}
-                className="text-green-400 text-sm hover:text-green-300 transition-colors"
+                className="text-[var(--accent)] text-sm hover:text-[var(--accent)] transition-colors"
               >
                 Learn More
               </button>
@@ -337,21 +337,21 @@ const TrendingProjects = ({ setCurrentPage }) => {
 
       {/* Project Details Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-[var(--bg)] bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[var(--bg)] rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-8">
               <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
-                <div className="text-green-400">{(() => {
+                <div className="text-[var(--accent)]">{(() => {
                   const IconComponent = getIcon(selectedProject.iconKey, 'demo');
                   return IconComponent ? <IconComponent size={48} /> : null;
                 })()}</div>
                   <div>
-                    <h2 className="text-3xl font-bold text-white mb-2">{selectedProject.title}</h2>
+                    <h2 className="text-3xl font-bold text-[var(--text)] mb-2">{selectedProject.title}</h2>
                     <span className={'px-3 py-1 rounded text-sm font-medium ' + (
-                      selectedProject.difficulty === 'Advanced' ? 'bg-red-600 text-white' :
-                      selectedProject.difficulty === 'Intermediate' ? 'bg-yellow-600 text-white' :
-                      'bg-green-600 text-white'
+                      selectedProject.difficulty === 'Advanced' ? 'bg-[var(--accent)] text-[var(--text)]' :
+                      selectedProject.difficulty === 'Intermediate' ? 'bg-[var(--accent)] text-[var(--text)]' :
+                      'bg-[var(--accent)] text-[var(--text)]'
                     )}>
                       {selectedProject.difficulty} Level
                     </span>
@@ -359,41 +359,41 @@ const TrendingProjects = ({ setCurrentPage }) => {
                 </div>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="text-gray-400 hover:text-white text-2xl"
+                  className="text-[var(--muted)] hover:text-[var(--text)] text-2xl"
                 >
                   ✕
                 </button>
               </div>
               
-              <p className="text-gray-300 text-lg mb-6 leading-relaxed">
+              <p className="text-[var(--text)] text-lg mb-6 leading-relaxed">
                 {selectedProject.description}
               </p>
               
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-semibold text-white mb-4">Key Features</h3>
+                  <h3 className="text-xl font-semibold text-[var(--text)] mb-4">Key Features</h3>
                   <ul className="space-y-2">
                     {selectedProject.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="text-green-400 mr-3 mt-1">•</span>
-                        <span className="text-gray-300">{feature}</span>
+                        <span className="text-[var(--accent)] mr-3 mt-1">•</span>
+                        <span className="text-[var(--text)]">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-semibold text-white mb-4">Technologies Used</h3>
+                  <h3 className="text-xl font-semibold text-[var(--text)] mb-4">Technologies Used</h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.technologies.map((tech, index) => (
-                      <span key={index} className="bg-green-600 text-white px-3 py-2 rounded text-sm">
+                      <span key={index} className="bg-[var(--accent)] text-[var(--text)] px-3 py-2 rounded text-sm">
                         {tech}
                       </span>
                     ))}
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-white mb-4 mt-6">Learning Outcomes</h3>
-                  <ul className="space-y-2 text-gray-300">
+                  <h3 className="text-xl font-semibold text-[var(--text)] mb-4 mt-6">Learning Outcomes</h3>
+                  <ul className="space-y-2 text-[var(--text)]">
                     <li>• Machine Learning and AI concepts</li>
                     <li>• Data preprocessing and analysis</li>
                     <li>• Model training and evaluation</li>
@@ -409,13 +409,13 @@ const TrendingProjects = ({ setCurrentPage }) => {
                     setCurrentPage(selectedProject.demoPage);
                     setSelectedProject(null);
                   }}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                  className="bg-[var(--accent)] text-[var(--text)] px-6 py-3 rounded-lg font-medium hover:bg-[var(--accent-deep)] transition-colors"
                 >
                   Try Live Demo
                 </button>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="bg-gray-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+                  className="bg-[var(--surface-2)] text-[var(--text)] px-6 py-3 rounded-lg font-medium hover:bg-[var(--border-strong)] transition-colors"
                 >
                   Close
                 </button>

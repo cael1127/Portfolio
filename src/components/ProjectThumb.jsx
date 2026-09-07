@@ -7,7 +7,7 @@ const ProjectThumb = ({ iconKey = 'product-configurator', Icon, accent = '#10B98
   
   return (
     <div className="mb-6">
-      <div className="relative overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
+      <div className="relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg)]">
         <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-[140px] block">
           <defs>
             <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -22,7 +22,7 @@ const ProjectThumb = ({ iconKey = 'product-configurator', Icon, accent = '#10B98
             <circle cx="520" cy="60" r="30" fill="url(#g)" />
           </g>
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center select-none text-green-400">
+        <div className="absolute inset-0 flex items-center justify-center select-none text-[var(--accent)]">
           <IconComponent size={48} />
         </div>
       </div>

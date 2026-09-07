@@ -545,13 +545,13 @@ const AIAssistantDashboard = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex justify-between items-center p-4 border-b border-gray-700">
+      <div className="flex justify-between items-center p-4 border-b border-[var(--border)]">
         <h2 className="text-xl font-semibold">AI Assistant</h2>
         <div className="flex gap-2">
           <select
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
-            className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm"
+            className="px-3 py-1 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded text-sm"
           >
             <option value="gpt-3.5">GPT-3.5</option>
             <option value="gpt-4">GPT-4</option>
@@ -559,13 +559,13 @@ const AIAssistantDashboard = () => {
           </select>
           <button
             onClick={clearConversation}
-            className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
+            className="px-3 py-1 bg-[var(--accent)] hover:bg-[var(--accent-deep)] rounded text-sm"
           >
             Clear
           </button>
           <button
             onClick={exportConversation}
-            className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm"
+            className="px-3 py-1 bg-[var(--accent)] hover:bg-[var(--accent-deep)] rounded text-sm"
           >
             Export
           </button>
@@ -579,7 +579,7 @@ const AIAssistantDashboard = () => {
             className={'flex ' + (message.role === 'user' ? 'justify-end' : 'justify-start')}
           >
             <div
-              className={'max-w-xs lg:max-w-md px-4 py-2 rounded-lg ' + (message.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-white')}
+              className={'max-w-xs lg:max-w-md px-4 py-2 rounded-lg ' + (message.role === 'user' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--surface-2)] text-[var(--text)]')}
             >
               <div className="text-sm opacity-75 mb-1">
                 {message.role === 'assistant' && message.model && message.model}
@@ -590,9 +590,9 @@ const AIAssistantDashboard = () => {
         ))}
         {isProcessing && (
           <div className="flex justify-start">
-            <div className="bg-gray-700 text-white px-4 py-2 rounded-lg">
+            <div className="bg-[var(--surface-2)] text-[var(--text)] px-4 py-2 rounded-lg">
               <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[var(--border-strong)]"></div>
                 <span>Processing...</span>
               </div>
             </div>
@@ -601,20 +601,20 @@ const AIAssistantDashboard = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-4 border-t border-gray-700">
+      <div className="p-4 border-t border-[var(--border)]">
         <div className="flex gap-2">
           <textarea
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
-            className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded resize-none"
+            className="flex-1 px-3 py-2 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded resize-none"
             rows={3}
           />
           <button
             onClick={handleSendMessage}
             disabled={isProcessing || !inputMessage.trim()}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] rounded"
           >
             Send
           </button>
@@ -628,25 +628,25 @@ export default AIAssistantDashboard;`
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 p-6">
+      <div className="bg-gradient-to-r from-[var(--accent-soft)] via-purple-900 to-[var(--accent-soft)] p-6">
         <div className="max-w-7xl mx-auto">
           <button
             onClick={() => setCurrentPage('work')}
-            className="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            className="mb-4 px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] rounded-lg transition-colors"
           >
             ← Back to Demos
           </button>
           <h1 className="text-4xl font-bold mb-4">AI Assistant Project</h1>
-          <p className="text-xl text-gray-300 max-w-4xl">
+          <p className="text-xl text-[var(--text)] max-w-4xl">
             Advanced conversational AI with natural language processing, multi-model support, and intelligent response generation.
           </p>
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="bg-gray-800 border-b border-gray-700">
+      <div className="bg-[var(--surface)] border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex space-x-8 overflow-x-auto">
             {tabs.map((tab) => (
@@ -655,8 +655,8 @@ export default AIAssistantDashboard;`
                 onClick={() => setActiveTab(tab.id)}
                 className={'py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap ' + (
                   activeTab === tab.id
-                    ? 'border-blue-500 text-blue-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-300'
+                    ? 'border-[var(--accent)] text-[var(--accent)]'
+                    : 'border-transparent text-[var(--muted)] hover:text-[var(--text)]'
                 )}
               >
                 <span className="mr-2">{tab.icon}</span>
@@ -674,55 +674,55 @@ export default AIAssistantDashboard;`
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
-                <p className="text-gray-300 mb-4">
+                <p className="text-[var(--text)] mb-4">
                   The AI Assistant is a sophisticated conversational AI system that combines natural language processing, 
                   multi-model AI integration, and intelligent response generation to provide human-like interactions.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
                     <span>Real-time conversation management</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
                     <span>Multi-model AI support (GPT-3.5, GPT-4, Claude)</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
                     <span>Advanced NLP with intent classification</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
                     <span>Intelligent response generation</span>
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Key Features</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span>Conversation History</span>
-                    <span className="text-green-400">✓</span>
+                    <span className="text-[var(--accent)]">✓</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Intent Classification</span>
-                    <span className="text-green-400">✓</span>
+                    <span className="text-[var(--accent)]">✓</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Entity Extraction</span>
-                    <span className="text-green-400">✓</span>
+                    <span className="text-[var(--accent)]">✓</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Sentiment Analysis</span>
-                    <span className="text-green-400">✓</span>
+                    <span className="text-[var(--accent)]">✓</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Multi-Model Support</span>
-                    <span className="text-green-400">✓</span>
+                    <span className="text-[var(--accent)]">✓</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Response Templates</span>
-                    <span className="text-green-400">✓</span>
+                    <span className="text-[var(--accent)]">✓</span>
                   </div>
                 </div>
               </div>
@@ -733,45 +733,45 @@ export default AIAssistantDashboard;`
         {activeTab === 'features' && (
           <div className="space-y-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <div className="text-3xl mb-4">🤖</div>
                 <h3 className="text-xl font-semibold mb-2">Multi-Model AI</h3>
-                <p className="text-gray-300">
+                <p className="text-[var(--text)]">
                   Support for multiple AI models including GPT-3.5, GPT-4, and Claude, with automatic model selection based on task complexity.
                 </p>
               </div>
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <div className="text-3xl mb-4">🧠</div>
                 <h3 className="text-xl font-semibold mb-2">NLP Processing</h3>
-                <p className="text-gray-300">
+                <p className="text-[var(--text)]">
                   Advanced natural language processing with intent classification, entity extraction, sentiment analysis, and context understanding.
                 </p>
               </div>
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <div className="text-3xl mb-4">💬</div>
                 <h3 className="text-xl font-semibold mb-2">Conversation Management</h3>
-                <p className="text-gray-300">
+                <p className="text-[var(--text)]">
                   Intelligent conversation history management with context window optimization and conversation export capabilities.
                 </p>
               </div>
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <div className="text-3xl mb-4">🎯</div>
                 <h3 className="text-xl font-semibold mb-2">Intent Recognition</h3>
-                <p className="text-gray-300">
+                <p className="text-[var(--text)]">
                   Automatic detection of user intent including code requests, explanations, analysis, and general conversation.
                 </p>
               </div>
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <div className="text-3xl mb-4">📊</div>
                 <h3 className="text-xl font-semibold mb-2">Response Generation</h3>
-                <p className="text-gray-300">
+                <p className="text-[var(--text)]">
                   Dynamic response generation with code examples, explanations, analysis, and conversational responses based on user intent.
                 </p>
               </div>
-              <div className="bg-gray-800 p-6 rounded-lg">
+              <div className="bg-[var(--surface)] p-6 rounded-lg">
                 <div className="text-3xl mb-4">🔧</div>
                 <h3 className="text-xl font-semibold mb-2">Real-time Processing</h3>
-                <p className="text-gray-300">
+                <p className="text-[var(--text)]">
                   Real-time message processing with loading states, error handling, and smooth user experience.
                 </p>
               </div>
@@ -784,25 +784,25 @@ export default AIAssistantDashboard;`
             <div className="grid gap-6">
               <div>
                 <h3 className="text-xl font-semibold mb-4">Conversation Manager</h3>
-                <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre className="bg-[var(--surface)] p-4 rounded-lg overflow-x-auto text-sm">
                   <code>{codeExamples.conversationManager}</code>
                 </pre>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">Natural Language Processor</h3>
-                <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre className="bg-[var(--surface)] p-4 rounded-lg overflow-x-auto text-sm">
                   <code>{codeExamples.naturalLanguageProcessor}</code>
                 </pre>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">Response Generator</h3>
-                <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre className="bg-[var(--surface)] p-4 rounded-lg overflow-x-auto text-sm">
                   <code>{codeExamples.responseGenerator}</code>
                 </pre>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">React Dashboard Component</h3>
-                <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre className="bg-[var(--surface)] p-4 rounded-lg overflow-x-auto text-sm">
                   <code>{codeExamples.dashboardComponent}</code>
                 </pre>
               </div>
@@ -816,27 +816,27 @@ export default AIAssistantDashboard;`
               <div>
                 <h2 className="text-2xl font-bold mb-4">System Architecture</h2>
                 <div className="space-y-4">
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">Frontend Layer</h3>
-                    <ul className="text-sm text-gray-300 space-y-1">
+                    <ul className="text-sm text-[var(--text)] space-y-1">
                       <li>• React.js for UI components</li>
                       <li>• Real-time message handling</li>
                       <li>• Model selection interface</li>
                       <li>• Conversation export functionality</li>
                     </ul>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">Processing Layer</h3>
-                    <ul className="text-sm text-gray-300 space-y-1">
+                    <ul className="text-sm text-[var(--text)] space-y-1">
                       <li>• NLP Processor for text analysis</li>
                       <li>• Intent Classifier for understanding user goals</li>
                       <li>• Entity Extractor for identifying key information</li>
                       <li>• Sentiment Analyzer for emotional context</li>
                     </ul>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">AI Layer</h3>
-                    <ul className="text-sm text-gray-300 space-y-1">
+                    <ul className="text-sm text-[var(--text)] space-y-1">
                       <li>• Multi-model AI integration</li>
                       <li>• Response generation engine</li>
                       <li>• Template-based response system</li>
@@ -848,25 +848,25 @@ export default AIAssistantDashboard;`
               <div>
                 <h2 className="text-2xl font-bold mb-4">Data Flow</h2>
                 <div className="space-y-4">
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">1. User Input</h3>
-                    <p className="text-sm text-gray-300">User sends message through React interface</p>
+                    <p className="text-sm text-[var(--text)]">User sends message through React interface</p>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">2. NLP Processing</h3>
-                    <p className="text-sm text-gray-300">Text analyzed for intent, entities, sentiment, and context</p>
+                    <p className="text-sm text-[var(--text)]">Text analyzed for intent, entities, sentiment, and context</p>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">3. AI Model Selection</h3>
-                    <p className="text-sm text-gray-300">Appropriate AI model selected based on task complexity</p>
+                    <p className="text-sm text-[var(--text)]">Appropriate AI model selected based on task complexity</p>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">4. Response Generation</h3>
-                    <p className="text-sm text-gray-300">AI generates appropriate response using templates and context</p>
+                    <p className="text-sm text-[var(--text)]">AI generates appropriate response using templates and context</p>
                   </div>
-                  <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="bg-[var(--surface)] p-4 rounded-lg">
                     <h3 className="font-semibold mb-2">5. History Update</h3>
-                    <p className="text-sm text-gray-300">Conversation history updated and context maintained</p>
+                    <p className="text-sm text-[var(--text)]">Conversation history updated and context maintained</p>
                   </div>
                 </div>
               </div>
@@ -875,20 +875,20 @@ export default AIAssistantDashboard;`
         )}
 
         {activeTab === 'demo' && (
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-[var(--surface)] rounded-lg p-6">
             <h2 className="text-2xl font-bold mb-6">Live AI Assistant Demo</h2>
-            <div className="h-96 border border-gray-600 rounded-lg overflow-hidden">
-              <div className="h-full bg-gray-900 p-4">
+            <div className="h-96 border border-[var(--border-strong)] rounded-lg overflow-hidden">
+              <div className="h-full bg-[var(--bg)] p-4">
                 <div className="flex flex-col h-full">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-semibold">AI Assistant</h3>
                     <div className="flex gap-2">
-                      <select className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm">
+                      <select className="px-3 py-1 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded text-sm">
                         <option>GPT-3.5</option>
                         <option>GPT-4</option>
                         <option>Claude</option>
                       </select>
-                      <button className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">
+                      <button className="px-3 py-1 bg-[var(--accent)] hover:bg-[var(--accent-deep)] rounded text-sm">
                         Clear
                       </button>
                     </div>
@@ -896,18 +896,18 @@ export default AIAssistantDashboard;`
                   
                   <div className="flex-1 overflow-y-auto space-y-4 mb-4">
                     <div className="flex justify-start">
-                      <div className="bg-gray-700 text-white px-4 py-2 rounded-lg max-w-xs">
+                      <div className="bg-[var(--surface-2)] text-[var(--text)] px-4 py-2 rounded-lg max-w-xs">
                         <div className="text-sm opacity-75 mb-1">GPT-3.5</div>
                         <div>Hello! I'm your AI assistant. How can I help you today?</div>
                       </div>
                     </div>
                     <div className="flex justify-end">
-                      <div className="bg-blue-600 text-white px-4 py-2 rounded-lg max-w-xs">
+                      <div className="bg-[var(--accent)] text-[var(--text)] px-4 py-2 rounded-lg max-w-xs">
                         <div>Can you help me write a JavaScript function?</div>
                       </div>
                     </div>
                     <div className="flex justify-start">
-                      <div className="bg-gray-700 text-white px-4 py-2 rounded-lg max-w-xs">
+                      <div className="bg-[var(--surface-2)] text-[var(--text)] px-4 py-2 rounded-lg max-w-xs">
                         <div className="text-sm opacity-75 mb-1">GPT-3.5</div>
                         <div>Of course! I'd be happy to help you write a JavaScript function. What kind of function do you need?</div>
                       </div>
@@ -917,10 +917,10 @@ export default AIAssistantDashboard;`
                   <div className="flex gap-2">
                     <textarea
                       placeholder="Type your message..."
-                      className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded resize-none"
+                      className="flex-1 px-3 py-2 bg-[var(--surface-2)] border border-[var(--border-strong)] rounded resize-none"
                       rows={3}
                     />
-                    <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">
+                    <button className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] rounded">
                       Send
                     </button>
                   </div>

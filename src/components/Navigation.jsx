@@ -6,7 +6,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
 
   return (
     <motion.nav 
-      className="bg-gray-800 border-b border-gray-700 sticky top-0 z-50"
+      className="bg-[var(--surface)] border-b border-[var(--border)] sticky top-0 z-50"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -21,7 +21,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           >
             <motion.button 
               onClick={() => { setCurrentPage('home'); setMobileNavOpen(false); }}
-              className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
+              className="flex items-center gap-2 text-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -46,8 +46,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               onClick={() => setCurrentPage('home')}
               className={'transition-colors ' + (
                 currentPage === 'home' 
-                  ? 'text-green-400 border-b-2 border-green-400' 
-                  : 'text-gray-300 hover:text-green-400'
+                  ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]' 
+                  : 'text-[var(--text)] hover:text-[var(--accent)]'
               )}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -61,8 +61,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               onClick={() => setCurrentPage('experience')}
               className={'transition-colors ' + (
                 currentPage === 'experience' 
-                  ? 'text-green-400 border-b-2 border-green-400' 
-                  : 'text-gray-300 hover:text-green-400'
+                  ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]' 
+                  : 'text-[var(--text)] hover:text-[var(--accent)]'
               )}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -76,8 +76,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               onClick={() => setCurrentPage('projects')}
               className={'transition-colors ' + (
                 currentPage === 'projects' 
-                  ? 'text-green-400 border-b-2 border-green-400' 
-                  : 'text-gray-300 hover:text-green-400'
+                  ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]' 
+                  : 'text-[var(--text)] hover:text-[var(--accent)]'
               )}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -91,8 +91,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               onClick={() => setCurrentPage('freelancing')}
               className={'transition-colors ' + (
                 currentPage === 'freelancing' 
-                  ? 'text-green-400 border-b-2 border-green-400' 
-                  : 'text-gray-300 hover:text-green-400'
+                  ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]' 
+                  : 'text-[var(--text)] hover:text-[var(--accent)]'
               )}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -106,8 +106,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               onClick={() => setCurrentPage('freelancing')}
               className={'transition-colors ' + (
                 currentPage === 'freelancing' 
-                  ? 'text-green-400 border-b-2 border-green-400' 
-                  : 'text-gray-300 hover:text-green-400'
+                  ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]' 
+                  : 'text-[var(--text)] hover:text-[var(--accent)]'
               )}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
@@ -127,7 +127,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           >
             <motion.button
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
-              className="text-gray-300 hover:text-green-400 focus:outline-none"
+              className="text-[var(--text)] hover:text-[var(--accent)] focus:outline-none"
               aria-label="Open navigation menu"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -155,7 +155,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
         <AnimatePresence>
           {mobileNavOpen && (
             <motion.div 
-              className="md:hidden bg-gray-800 border-t border-gray-700 px-2 pt-2 pb-3 space-y-1"
+              className="md:hidden bg-[var(--surface)] border-t border-[var(--border)] px-2 pt-2 pb-3 space-y-1"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -163,7 +163,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
             >
               <motion.button
                 onClick={() => { setCurrentPage('home'); setMobileNavOpen(false); }}
-                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'home' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
+                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'home' ? 'text-[var(--accent)] bg-[var(--bg)]' : 'text-[var(--text)] hover:text-[var(--accent)]')}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
@@ -174,7 +174,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               </motion.button>
               <motion.button
                 onClick={() => { setCurrentPage('experience'); setMobileNavOpen(false); }}
-                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'experience' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
+                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'experience' ? 'text-[var(--accent)] bg-[var(--bg)]' : 'text-[var(--text)] hover:text-[var(--accent)]')}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
@@ -185,7 +185,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               </motion.button>
               <motion.button
                 onClick={() => { setCurrentPage('projects'); setMobileNavOpen(false); }}
-                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'projects' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
+                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'projects' ? 'text-[var(--accent)] bg-[var(--bg)]' : 'text-[var(--text)] hover:text-[var(--accent)]')}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 }}
@@ -197,7 +197,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               <motion.button
               <motion.button
                 onClick={() => { setCurrentPage('freelancing'); setMobileNavOpen(false); }}
-                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'freelancing' ? 'text-green-400 bg-gray-900' : 'text-gray-300 hover:text-green-400')}
+                className={'block w-full text-left px-3 py-2 rounded-md text-base font-medium ' + (currentPage === 'freelancing' ? 'text-[var(--accent)] bg-[var(--bg)]' : 'text-[var(--text)] hover:text-[var(--accent)]')}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.4 }}

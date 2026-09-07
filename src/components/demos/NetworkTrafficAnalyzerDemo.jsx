@@ -201,57 +201,57 @@ print(json.dumps(report, indent=2))`,
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <motion.div 
-          className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+          className="bg-[var(--surface)] p-4 rounded-lg border border-[var(--border)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-gray-400 text-sm">Total Packets</div>
-          <div className="text-2xl font-bold text-white mt-1">{packets.length}</div>
+          <div className="text-[var(--muted)] text-sm">Total Packets</div>
+          <div className="text-2xl font-bold text-[var(--text)] mt-1">{packets.length}</div>
         </motion.div>
         <motion.div 
-          className="bg-blue-900/30 border-blue-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="text-blue-400 text-sm">Protocols</div>
-          <div className="text-2xl font-bold text-blue-400 mt-1">{Object.keys(protocols).length}</div>
+          <div className="text-[var(--accent)] text-sm">Protocols</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{Object.keys(protocols).length}</div>
         </motion.div>
         <motion.div 
-          className="bg-red-900/30 border-red-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="text-red-400 text-sm">Anomalies</div>
-          <div className="text-2xl font-bold text-red-400 mt-1">{anomalies.length}</div>
+          <div className="text-[var(--accent)] text-sm">Anomalies</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{anomalies.length}</div>
         </motion.div>
         <motion.div 
-          className="bg-green-900/30 border-green-500/50 p-4 rounded-lg border"
+          className="bg-[var(--accent-soft)]/30 border-[var(--accent)]/50 p-4 rounded-lg border"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="text-green-400 text-sm">Normal</div>
-          <div className="text-2xl font-bold text-green-400 mt-1">{packets.length - anomalies.length}</div>
+          <div className="text-[var(--accent)] text-sm">Normal</div>
+          <div className="text-2xl font-bold text-[var(--accent)] mt-1">{packets.length - anomalies.length}</div>
         </motion.div>
       </div>
 
       {/* Protocol Distribution */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Protocol Distribution</h3>
         <div className="space-y-2">
           {Object.entries(protocols).map(([protocol, count]) => (
             <div key={protocol} className="flex items-center gap-4">
-              <span className="text-gray-300 w-20">{protocol}</span>
-              <div className="flex-1 bg-gray-900 rounded-full h-4">
+              <span className="text-[var(--text)] w-20">{protocol}</span>
+              <div className="flex-1 bg-[var(--bg)] rounded-full h-4">
                 <motion.div
-                  className="bg-blue-500 h-4 rounded-full"
+                  className="bg-[var(--accent)] h-4 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${(count / packets.length) * 100}%` }}
                 />
               </div>
-              <span className="text-gray-400 text-sm w-16 text-right">{count}</span>
+              <span className="text-[var(--muted)] text-sm w-16 text-right">{count}</span>
             </div>
           ))}
         </div>
@@ -259,24 +259,24 @@ print(json.dumps(report, indent=2))`,
 
       {/* Anomalies */}
       {anomalies.length > 0 && (
-        <div className="bg-gray-800 rounded-lg border border-red-500/50 p-6">
-          <h3 className="text-lg font-semibold mb-4 text-red-400">Anomalies Detected</h3>
+        <div className="bg-[var(--surface)] rounded-lg border border-[var(--accent)]/50 p-6">
+          <h3 className="text-lg font-semibold mb-4 text-[var(--accent)]">Anomalies Detected</h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {anomalies.map((anomaly, idx) => (
               <motion.div
                 key={idx}
-                className="p-3 bg-red-900/20 rounded border border-red-500/50"
+                className="p-3 bg-[var(--accent-soft)]/20 rounded border border-[var(--accent)]/50"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-red-400 font-semibold">{anomaly.reason}</div>
-                    <div className="text-sm text-gray-400 mt-1">
+                    <div className="text-[var(--accent)] font-semibold">{anomaly.reason}</div>
+                    <div className="text-sm text-[var(--muted)] mt-1">
                       {anomaly.protocol} | {anomaly.sourceIP} → {anomaly.destIP}
                     </div>
                   </div>
-                  <span className="px-2 py-1 bg-red-900/50 text-red-400 rounded text-xs">
+                  <span className="px-2 py-1 bg-[var(--accent-soft)]/50 text-[var(--accent)] rounded text-xs">
                     {anomaly.severity}
                   </span>
                 </div>
@@ -287,7 +287,7 @@ print(json.dumps(report, indent=2))`,
       )}
 
       {/* Packet Stream */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
         <h3 className="text-lg font-semibold mb-4">Live Packet Stream</h3>
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {packets.map((packet) => (
@@ -295,19 +295,19 @@ print(json.dumps(report, indent=2))`,
               key={packet.id}
               className={`flex items-center gap-4 p-2 rounded border ${
                 packet.isAnomaly 
-                  ? 'bg-red-900/20 border-red-500/50' 
-                  : 'bg-gray-900 border-gray-700'
+                  ? 'bg-[var(--accent-soft)]/20 border-[var(--accent)]/50' 
+                  : 'bg-[var(--bg)] border-[var(--border)]'
               }`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <span className="text-gray-500 text-xs w-20">{packet.timestamp}</span>
-              <span className="text-blue-400 font-mono text-xs w-16">{packet.protocol}</span>
-              <span className="text-gray-300 font-mono text-xs w-32">{packet.sourceIP}</span>
-              <span className="text-gray-400">→</span>
-              <span className="text-gray-300 font-mono text-xs w-32">{packet.destIP}</span>
-              <span className="text-gray-400 text-xs">:{packet.port}</span>
-              <span className="text-gray-500 text-xs ml-auto">{packet.size} bytes</span>
+              <span className="text-[var(--muted)] text-xs w-20">{packet.timestamp}</span>
+              <span className="text-[var(--accent)] font-mono text-xs w-16">{packet.protocol}</span>
+              <span className="text-[var(--text)] font-mono text-xs w-32">{packet.sourceIP}</span>
+              <span className="text-[var(--muted)]">→</span>
+              <span className="text-[var(--text)] font-mono text-xs w-32">{packet.destIP}</span>
+              <span className="text-[var(--muted)] text-xs">:{packet.port}</span>
+              <span className="text-[var(--muted)] text-xs ml-auto">{packet.size} bytes</span>
             </motion.div>
           ))}
         </div>
@@ -316,7 +316,7 @@ print(json.dumps(report, indent=2))`,
       <div className="flex justify-end">
         <button
           onClick={() => setShowCodeViewer(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors"
         >
           View Code
         </button>

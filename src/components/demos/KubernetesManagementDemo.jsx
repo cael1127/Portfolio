@@ -154,37 +154,37 @@ The platform uses Kubernetes manifests for declarative configuration, implements
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+      <div className="bg-[var(--surface)] p-6 rounded-lg border border-[var(--border)]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Kubernetes Cluster Management</h3>
           <button
             onClick={() => setShowCodeViewer(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] rounded-lg transition-colors text-sm"
           >
             View Code
           </button>
         </div>
         <div className="space-y-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">📦</div>
-              <div className="text-sm font-medium text-white">Deployments</div>
-              <div className="text-xs text-gray-400 mt-1">3 replicas</div>
+              <div className="text-sm font-medium text-[var(--text)]">Deployments</div>
+              <div className="text-xs text-[var(--muted)] mt-1">3 replicas</div>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">🌐</div>
-              <div className="text-sm font-medium text-white">Services</div>
-              <div className="text-xs text-gray-400 mt-1">LoadBalancer</div>
+              <div className="text-sm font-medium text-[var(--text)]">Services</div>
+              <div className="text-xs text-[var(--muted)] mt-1">LoadBalancer</div>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">📈</div>
-              <div className="text-sm font-medium text-white">Auto-scaling</div>
-              <div className="text-xs text-gray-400 mt-1">3-10 pods</div>
+              <div className="text-sm font-medium text-[var(--text)]">Auto-scaling</div>
+              <div className="text-xs text-[var(--muted)] mt-1">3-10 pods</div>
             </div>
-            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)]">
               <div className="text-2xl mb-2">⚙️</div>
-              <div className="text-sm font-medium text-white">ConfigMaps</div>
-              <div className="text-xs text-gray-400 mt-1">App config</div>
+              <div className="text-sm font-medium text-[var(--text)]">ConfigMaps</div>
+              <div className="text-xs text-[var(--muted)] mt-1">App config</div>
             </div>
           </div>
         </div>

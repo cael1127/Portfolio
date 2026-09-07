@@ -414,14 +414,14 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">⚙️ Product Configurator Demo</h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-[var(--accent)] mb-4">⚙️ Product Configurator Demo</h1>
+        <p className="text-[var(--text)] text-lg max-w-3xl mx-auto">
           Interactive product configuration system with real-time 3D preview, dynamic pricing, and customization options.
         </p>
         <div className="mt-4 flex justify-center gap-4">
         <motion.button
           onClick={() => setShowCodeViewer(true)}
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-[var(--accent)] hover:bg-[var(--accent-deep)] px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -441,12 +441,12 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
         <div className="space-y-6">
           {/* 3D Preview */}
       <motion.div 
-        className="bg-gray-800 p-6 rounded-xl"
+        className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Product Preview</h2>
             
-            <div className="bg-gray-700 rounded-lg aspect-square flex items-center justify-center relative">
+            <div className="bg-[var(--surface-2)] rounded-lg aspect-square flex items-center justify-center relative">
               <div className="text-9xl">
                 {options.model.find(m => m.id === configuration.model)?.icon}
               </div>
@@ -461,7 +461,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
 
           {/* Model Selection */}
             <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Select Model</h2>
@@ -473,8 +473,8 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                   onClick={() => handleOptionChange('model', model.id)}
                   className={`p-4 rounded-lg transition-all ${
                     configuration.model === model.id
-                      ? 'bg-blue-600 ring-2 ring-blue-400'
-                      : 'bg-gray-700 hover:bg-gray-650'
+                      ? 'bg-[var(--accent)] ring-2 ring-[var(--accent)]'
+                      : 'bg-[var(--surface-2)] hover:bg-[var(--border-strong)]'
               }`}
               initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -483,7 +483,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                 >
                   <div className="text-4xl mb-2">{model.icon}</div>
                   <h3 className="font-bold text-sm">{model.name}</h3>
-                  <p className="text-xs text-gray-400">${model.price}</p>
+                  <p className="text-xs text-[var(--muted)]">${model.price}</p>
                 </motion.button>
           ))}
         </div>
@@ -491,7 +491,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
 
           {/* Color Selection */}
         <motion.div 
-          className="bg-gray-800 p-6 rounded-xl"
+          className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Choose Color</h2>
@@ -514,7 +514,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                     style={{ backgroundColor: color.hex }}
                   />
                   {color.price > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-yellow-500 text-xs px-1 rounded-full">
+                    <span className="absolute -top-1 -right-1 bg-[var(--accent)] text-xs px-1 rounded-full">
                       +${color.price}
                     </span>
                   )}
@@ -525,7 +525,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
 
           {/* Storage Selection */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold mb-4">Storage Capacity</h2>
@@ -537,8 +537,8 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                   onClick={() => handleOptionChange('storage', storage.id)}
                   className={`p-3 rounded-lg transition-all ${
                     configuration.storage === storage.id
-                      ? 'bg-blue-600 ring-2 ring-blue-400'
-                      : 'bg-gray-700 hover:bg-gray-650'
+                      ? 'bg-[var(--accent)] ring-2 ring-[var(--accent)]'
+                      : 'bg-[var(--surface-2)] hover:bg-[var(--border-strong)]'
                   }`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -547,7 +547,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                 >
                   <div className="font-bold">{storage.name}</div>
                   {storage.price > 0 && (
-                    <div className="text-xs text-gray-400">+${storage.price}</div>
+                    <div className="text-xs text-[var(--muted)]">+${storage.price}</div>
                   )}
                 </motion.button>
             ))}
@@ -556,7 +556,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
 
           {/* Extras */}
         <motion.div 
-          className="bg-gray-800 p-6 rounded-xl"
+          className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
         >
             <h2 className="text-2xl font-bold mb-4">Add Extras</h2>
@@ -567,8 +567,8 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                   key={extra.id}
                   className={`p-4 rounded-lg cursor-pointer transition-all ${
                     configuration.extras.includes(extra.id)
-                      ? 'bg-green-600'
-                      : 'bg-gray-700 hover:bg-gray-650'
+                      ? 'bg-[var(--accent)]'
+                      : 'bg-[var(--surface-2)] hover:bg-[var(--border-strong)]'
                   }`}
                   onClick={() => handleExtraToggle(extra.id)}
                   initial={{ opacity: 0, x: -20 }}
@@ -584,11 +584,11 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
                       <span className="font-bold">${extra.price}</span>
                       <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
                         configuration.extras.includes(extra.id)
-                          ? 'bg-white border-white'
-                          : 'border-gray-500'
+                          ? 'bg-[var(--surface)] border-[var(--border-strong)]'
+                          : 'border-[var(--border-strong)]'
                       }`}>
                         {configuration.extras.includes(extra.id) && (
-                          <span className="text-green-600">✓</span>
+                          <span className="text-[var(--accent)]">✓</span>
                         )}
               </div>
             </div>
@@ -603,41 +603,41 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
         <div className="space-y-6">
           {/* Price Summary */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl sticky top-6"
+            className="bg-[var(--surface)] p-6 rounded-xl sticky top-6"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-400">💰 Price Summary</h3>
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">💰 Price Summary</h3>
             
             <div className="space-y-3 text-sm mb-4">
               <div className="flex justify-between">
-                <span className="text-gray-400">Base Model:</span>
+                <span className="text-[var(--muted)]">Base Model:</span>
                 <span>${options.model.find(m => m.id === configuration.model)?.price}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Storage:</span>
+                <span className="text-[var(--muted)]">Storage:</span>
                 <span>+${options.storage.find(s => s.id === configuration.storage)?.price}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Color:</span>
+                <span className="text-[var(--muted)]">Color:</span>
                 <span>+${options.color.find(c => c.id === configuration.color)?.price}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Extras:</span>
+                <span className="text-[var(--muted)]">Extras:</span>
                 <span>+${configuration.extras.reduce((sum, extraId) => 
                   sum + (options.extras.find(e => e.id === extraId)?.price || 0), 0
                 )}</span>
               </div>
             </div>
 
-            <div className="border-t border-gray-700 pt-3 mb-4">
+            <div className="border-t border-[var(--border)] pt-3 mb-4">
               <div className="flex justify-between text-2xl font-bold">
                 <span>Total:</span>
-                <span className="text-green-400">${price}</span>
+                <span className="text-[var(--accent)]">${price}</span>
               </div>
             </div>
 
             <motion.button
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg transition-colors"
+              className="w-full bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] py-3 rounded-lg transition-colors"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -645,7 +645,7 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
             </motion.button>
 
             <motion.button
-              className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors text-sm"
+              className="w-full mt-2 bg-[var(--accent)] hover:bg-[var(--accent-deep)] text-[var(--text)] py-2 rounded-lg transition-colors text-sm"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -655,25 +655,25 @@ export { ProductConfigurator, ConfigurationManager, saveConfiguration };`,
 
           {/* Features */}
           <motion.div 
-            className="bg-gray-800 p-6 rounded-xl"
+            className="bg-[var(--surface)] p-6 rounded-xl"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold mb-4 text-green-400">✨ Features</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h3 className="text-xl font-bold mb-4 text-[var(--accent)]">✨ Features</h3>
+            <ul className="space-y-2 text-sm text-[var(--text)]">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>3D Visualization</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Real-time Pricing</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Save & Share</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
+                <span className="text-[var(--accent)] mt-0.5">✓</span>
                 <span>Bundle Discounts</span>
               </li>
             </ul>
