@@ -4,7 +4,7 @@ import WordReveal from '../components/motion/WordReveal';
 import Reveal from '../components/motion/Reveal';
 import usePageMeta from '../hooks/usePageMeta';
 
-const RESUME_URL = '/Cael_Findley_Resume_NSWC.pdf';
+const RESUME_URL = '/Cael_Findley_Resume.pdf';
 
 export default function ResumePage({ setCurrentPage }) {
   usePageMeta({

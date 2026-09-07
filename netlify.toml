@@ -40,7 +40,7 @@
 # Allow embedding the resume PDF within the site (used by /resume).
 # The global X-Frame-Options=DENY would otherwise block <object>/<iframe> embeds.
 [[headers]]
-  for = "/Cael_Findley_Resume_NSWC.pdf"
+  for = "/Cael_Findley_Resume.pdf"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     Content-Type = "application/pdf"
