@@ -22,6 +22,45 @@ const focusAreas = [
   },
 ];
 
+const experience = [
+  {
+    role: 'AI Software Engineering Contributor',
+    company: 'Handshake AI',
+    location: 'Project Dynamo · Remote',
+    period: '2026',
+    highlights: [
+      'Completed software engineering and code evaluation tasks across real-world codebases and programming problems.',
+      'Designed, implemented, debugged, and reviewed solutions in TypeScript, JavaScript, Python, Java, C, C++, React, and SQL.',
+      'Used AI coding agents as part of an engineering workflow while independently validating generated code and improving implementation quality.',
+    ],
+  },
+  {
+    role: 'IT Specialist / Full-Stack Developer',
+    company: 'Three Sisters Oyster Co.',
+    location: 'Port Lavaca, TX',
+    period: 'Jun 2025 – Jan 2026',
+    highlights: [
+      'Built and maintained production software spanning a React web platform, Expo mobile app, Supabase backend, and Stripe payments.',
+      'Developed an end-to-end oyster growth tracking platform for field data collection and operational workflows.',
+      'Designed database schemas, APIs, and deployment infrastructure across the full stack.',
+    ],
+  },
+];
+
+const competitions = [
+  '4th place, UIL Computer Science State Competition (2026)',
+  '4th place nationally, BPA Python Programming — BPA Nationals qualifier',
+  'FIRST Robotics (Fiddlerbots 7788) state qualifier — Head Technician, Academics Team Lead',
+  'Four 2nd-place finishes, UIL Computer Science regionals (team)',
+];
+
+const certifications = [
+  'Information Technology Specialist — Artificial Intelligence',
+  'Information Technology Specialist — Cloud Computing',
+  'Information Technology Specialist — Python',
+  'Information Technology Specialist — Java',
+];
+
 const About = ({ setCurrentPage }) => {
   usePageMeta({
     title: 'About',
@@ -129,6 +168,70 @@ const About = ({ setCurrentPage }) => {
               </motion.li>
             ))}
           </ul>
+        </section>
+
+        {/* ── Experience ─────────────────────────────── */}
+        <section className="border-b border-[var(--border)] py-16 md:py-20">
+          <Reveal className="flex items-baseline gap-4">
+            <span className="font-mono text-xs text-[var(--accent)]">04</span>
+            <h2 className="display text-section text-[var(--text)]">Experience</h2>
+          </Reveal>
+          <div className="mt-12 space-y-10">
+            {experience.map((job, i) => (
+              <Reveal key={job.company} delay={i * 0.08}>
+                <div className="border-l-2 border-[var(--accent)] pl-6">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h3 className="display text-xl text-[var(--text)]">{job.role}</h3>
+                    <span className="font-mono text-xs text-[var(--muted)]">{job.period}</span>
+                  </div>
+                  <p className="mt-1 text-sm text-[var(--accent)]">
+                    {job.company} · {job.location}
+                  </p>
+                  <ul className="mt-4 space-y-2 text-sm text-[var(--muted)]">
+                    {job.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Achievements ───────────────────────────── */}
+        <section className="border-b border-[var(--border)] py-16 md:py-20">
+          <Reveal className="flex items-baseline gap-4">
+            <span className="font-mono text-xs text-[var(--accent)]">05</span>
+            <h2 className="display text-section text-[var(--text)]">Achievements</h2>
+          </Reveal>
+          <div className="mt-12 grid gap-10 md:grid-cols-2">
+            <Reveal delay={0.05}>
+              <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+                Competition
+              </p>
+              <ul className="mt-4 space-y-3 text-sm text-[var(--text)]">
+                {competitions.map((c) => (
+                  <li key={c} className="flex gap-3">
+                    <span className="text-[var(--accent)]">✦</span>
+                    <span>{c}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+                Certifications
+              </p>
+              <ul className="mt-4 space-y-3 text-sm text-[var(--text)]">
+                {certifications.map((c) => (
+                  <li key={c} className="flex gap-3">
+                    <span className="text-[var(--accent)]">✦</span>
+                    <span>{c}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
         </section>
 
         {/* ── CTA ────────────────────────────────────── */}
