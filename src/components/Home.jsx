@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Button from './ui/Button';
 import ContactModal from './ContactModal';
@@ -9,6 +9,9 @@ import Reveal from './motion/Reveal';
 import { featuredWork } from '../data/work';
 import { easeOut } from '../utils/motion';
 import usePageMeta from '../hooks/usePageMeta';
+import { prefersReducedMotion } from '../utils/heroScene';
+
+const HeroScene = lazy(() => import('./HeroScene'));
 
 const INTERNAL_WORK_IDS = new Set([
   'three-sisters-oyster-project',
@@ -43,6 +46,10 @@ const Home = ({ setCurrentPage }) => {
     description:
       'Cael Findley — software engineer shipping production systems for real businesses. Studying Computer Science at Texas A&M Engineering.',
   });
+  const [show3DScene, setShow3DScene] = useState(false);
+  useEffect(() => {
+    setShow3DScene(!prefersReducedMotion());
+  }, []);
   const [showContactModal, setShowContactModal] = useState(false);
   const spotlight = featuredWork.slice(0, 5);
 
@@ -80,6 +87,12 @@ const Home = ({ setCurrentPage }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.9, ease: easeOut }}
         />
+
+        {show3DScene && (
+          <Suspense fallback={null}>
+            <HeroScene />
+          </Suspense>
+        )}
 
         <div className="page-shell relative pt-20 pb-10 md:pt-28">
           <motion.div
