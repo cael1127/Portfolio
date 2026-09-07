@@ -82,13 +82,14 @@ function ConstellationGroup({ color }) {
   );
 }
 
-export default function HeroScene() {
+export default function HeroScene({ isVisible = true }) {
   const { theme } = useTheme();
   const color = getAccentColor(theme);
 
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden>
       <Canvas
+        frameloop={isVisible ? 'always' : 'never'}
         camera={{ position: [0, 0, 6], fov: 50 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}

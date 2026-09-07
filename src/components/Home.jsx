@@ -10,6 +10,7 @@ import { featuredWork } from '../data/work';
 import { easeOut } from '../utils/motion';
 import usePageMeta from '../hooks/usePageMeta';
 import { prefersReducedMotion } from '../utils/heroScene';
+import SceneErrorBoundary from './SceneErrorBoundary';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
@@ -54,6 +55,18 @@ const Home = ({ setCurrentPage }) => {
   const spotlight = featuredWork.slice(0, 5);
 
   const heroRef = useRef(null);
+  const [heroVisible, setHeroVisible] = useState(true);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.IntersectionObserver || !heroRef.current) {
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, []);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -89,9 +102,11 @@ const Home = ({ setCurrentPage }) => {
         />
 
         {show3DScene && (
-          <Suspense fallback={null}>
-            <HeroScene />
-          </Suspense>
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
+              <HeroScene isVisible={heroVisible} />
+            </Suspense>
+          </SceneErrorBoundary>
         )}
 
         <div className="page-shell relative pt-20 pb-10 md:pt-28">
