@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectLayout from '../ProjectLayout';
+import ProjectHeroVideo from '../ProjectHeroVideo';
 
 const UILAcademyProjectPage = ({ setCurrentPage }) => (
   <ProjectLayout
@@ -8,6 +9,7 @@ const UILAcademyProjectPage = ({ setCurrentPage }) => (
     accent="#A31F34"
     onBack={() => setCurrentPage('work')}
     next={{ label: 'MinBod', onClick: () => setCurrentPage('minbod-project') }}
+    heroVisual={<ProjectHeroVideo src="/videos/projects/uil-academy.mp4" />}
     demo={
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectLayout from '../ProjectLayout';
+import ProjectHeroVideo from '../ProjectHeroVideo';
 import { getSystemsCaseStudy, systemsOrder } from '../../data/systemsCaseStudies';
 
 const GitHubSurface = ({ github, title, subtitle }) => (
@@ -55,6 +56,7 @@ const SystemProjectPage = ({ id, setCurrentPage }) => {
           ? { label: nextData.title, onClick: () => setCurrentPage(nextId) }
           : { label: 'Back to work', onClick: () => setCurrentPage('work') }
       }
+      heroVisual={data.heroVideo ? <ProjectHeroVideo src={data.heroVideo} /> : undefined}
       demo={<GitHubSurface github={data.github} title={data.title} subtitle={data.subtitle} />}
       problem={data.problem}
       approach={data.approach}

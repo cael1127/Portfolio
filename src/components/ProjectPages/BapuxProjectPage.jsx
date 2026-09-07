@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectLayout from '../ProjectLayout';
+import ProjectHeroVideo from '../ProjectHeroVideo';
 
 const BapuxProjectPage = ({ setCurrentPage }) => {
   return (
@@ -9,6 +10,7 @@ const BapuxProjectPage = ({ setCurrentPage }) => {
       accent="#A31F34"
       onBack={() => setCurrentPage('work')}
       next={{ label: 'BPAWD', onClick: () => setCurrentPage('bpawd-project') }}
+      heroVisual={<ProjectHeroVideo src="/videos/projects/bapux.mp4" />}
       demo={
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

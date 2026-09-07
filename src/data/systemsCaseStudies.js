@@ -10,6 +10,7 @@ export const systemsCaseStudies = {
     subtitle: 'Aquaculture monitoring and ops tooling',
     github: 'cael1127/aquaFarm',
     accent: '#A31F34',
+    heroVideo: '/videos/projects/aquafarm.mp4',
     problem:
       'Aquaculture operations generate constant environmental and inventory signals — water quality, stock counts, harvest timing — but the data usually lives in spreadsheets and memory. The goal was a monitoring surface that turns that noise into something an operator can act on.',
     approach:
@@ -50,6 +51,7 @@ export const systemsCaseStudies = {
     subtitle: 'Planning tooling for clarity and speed',
     github: 'cael1127/boltPlanner',
     accent: '#A31F34',
+    heroVideo: '/videos/projects/boltplanner.mp4',
     problem:
       'Most planning tools optimize for feature checklists instead of the actual loop of capturing a thought, organizing it, and executing. Friction in that loop is where planning apps quietly fail.',
     approach:
@@ -90,6 +92,7 @@ export const systemsCaseStudies = {
     subtitle: 'Practical capture and workflow utility',
     github: 'cael1127/grabby',
     accent: '#A31F34',
+    heroVideo: '/videos/projects/grabby.mp4',
     problem:
       'Small, repetitive capture-and-transform tasks add up. Grabby explores building a lightweight utility that handles those workflows without reaching for a heavy tool.',
     approach:
@@ -127,6 +130,7 @@ export const systemsCaseStudies = {
     subtitle: 'Systems-level neural building blocks in Rust',
     github: 'cael1127/neurals',
     accent: '#A31F34',
+    heroVideo: '/videos/projects/neurals.mp4',
     problem:
       'Using a neural framework is different from understanding one. Neurals is a from-first-principles exploration of the compute primitives underneath, in Rust, prioritizing depth over polish.',
     approach:
@@ -166,6 +170,7 @@ export const systemsCaseStudies = {
     subtitle: 'End-to-end product exploration',
     github: 'cael1127/AtlusPersonal',
     accent: '#A31F34',
+    heroVideo: '/videos/projects/atlus.mp4',
     problem:
       'It is easy to build a feature; it is harder to own a whole product — design, implementation, and the decisions in between. Atlus is that end-to-end exercise.',
     approach:

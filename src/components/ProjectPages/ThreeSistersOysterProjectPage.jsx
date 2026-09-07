@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectLayout from '../ProjectLayout';
+import ProjectHeroVideo from '../ProjectHeroVideo';
 
 const ThreeSistersOysterProjectPage = ({ setCurrentPage }) => {
   return (
@@ -10,17 +11,19 @@ const ThreeSistersOysterProjectPage = ({ setCurrentPage }) => {
       onBack={() => setCurrentPage('work')}
       next={{ label: 'Bapux', onClick: () => setCurrentPage('bapux-project') }}
       heroVisual={
-        <div className="flex h-full min-h-[180px] flex-col justify-between p-6 md:p-8">
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
-            Live product
-          </p>
-          <div>
-            <p className="display text-3xl text-[var(--text)]">threesistersoyster.com</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Catalog · inventory · checkout · orders
+        <ProjectHeroVideo src="/videos/projects/three-sisters-oyster.mp4">
+          <div className="flex h-full min-h-[180px] flex-col justify-between p-6 md:p-8">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+              Live product
             </p>
+            <div>
+              <p className="display text-3xl text-[var(--text)]">threesistersoyster.com</p>
+              <p className="mt-2 text-sm text-[var(--muted)]">
+                Catalog · inventory · checkout · orders
+              </p>
+            </div>
           </div>
-        </div>
+        </ProjectHeroVideo>
       }
       demo={
         <div>
